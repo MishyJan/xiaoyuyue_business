@@ -1,0 +1,56 @@
+.booking-about {
+    width: 100%;
+    padding: 20px;
+    .btn {
+        line-height: 1;
+        padding: 0;
+    }
+    .about-item+.about-item {
+        margin-top: 20px;
+    }
+    .about-header {
+        width: 100%;
+        .intro-wrap {
+            text-indent: 2em;
+            font-size: 14px;
+        }
+    }
+    .about-body {
+        width: 100%;
+        .item+.item {
+            margin-top: 20px;
+        }
+        .banner-wrap {
+            width: 100%;
+            height: 184px;
+            background-color: #CCC;
+        }
+        .video-wrap {
+            width: 100%;
+            height: 184px;
+            background-color: #CCC;
+        }
+    }
+    .about-footer {
+        width: 100%;
+        position: relative;
+        padding-bottom: 85px;
+        .btn {
+            font-size: 26px;
+        }
+        .item+.item {
+            margin-top: 10px;
+        }
+        .item {
+            line-height: 26px;
+        }
+        .ad-wrap {
+            width: 100%;
+            height: 75px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: #CCC;
+        }
+    }
+}

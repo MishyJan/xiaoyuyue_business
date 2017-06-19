@@ -1,0 +1,39 @@
+﻿<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+    <i class="vapps-icon-app-message"></i>
+    <span class="badge badge-danger">{{notificationsTEST}}</span>
+</a>
+<ul class="dropdown-menu" id="UserNotificationDropdown">
+    <li class="external notifications-header">
+        <div class="clearfix">
+            <!--TODO: 需要翻译-->
+            <a class="pull-left">您有<span class="notification-num">{{notificationsTEST}}</span>条新消息</a>
+            <a class="pull-right">{{l("Notifications.ViewAll")}}</a>
+        </div>
+    </li>
+    <li>
+        <ul *ngFor="let notification of notifications" class="dropdown-menu-list">
+            <li>
+                <div class="top-info clearfix">
+                    <a class="pull-left">
+                        <span class="avatar"></span>
+                        <span class="text">发消息者</span>
+                    </a>
+                    <a class="pull-right time">刚刚</a>
+                </div>
+                <div class="message-content">
+                    <ul>
+                        <li>{{notification}}·测试消息</li>
+                        <li>{{notification}}·测试消息</li>
+                        <li>{{notification}}·测试消息</li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <!--<div class="notification-empty-text" *ngIf="!notifications.length">
+            {{l("ThereIsNoNotification")}}
+        </div>-->
+    </li>
+    <!--<li class="external notifications-footer">
+        <div class="text-center"><a routerLink="notifications">{{l("SeeAllNotifications")}}</a></div>
+    </li>-->
+</ul>

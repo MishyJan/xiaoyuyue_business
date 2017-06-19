@@ -1,0 +1,31 @@
+﻿<div bsModal #linkedAccountsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" [config]="{keyboard: false}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("LinkedAccounts")}}</span>
+                    <button class="btn btn-primary blue pull-right" (click)="manageLinkedAccounts()"><i class="fa fa-plus"></i>{{l("LinkNewAccount")}}</button>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="LinkedAccountsTable"></div>
+
+                <kendo-grid [data]="LinkedAccountsData | async" [pageSize]="pageSize" [skip]="skip" [pageable]="{ buttonCount: buttonCount,info: info,type: type,pageSizes: pageSizes, previousNext: previousNext}" [sortable]="true" [sort]="sort" [scrollable]="'none'" (dataStateChange)="dataStateChange($event)">
+                    <kendo-grid-column field="username" title="{{l('UserName')}}"></kendo-grid-column>
+                    <kendo-grid-command-column title="{{l('Actions')}}">
+                        <ng-template let-dataItem kendoGridCellTemplate>
+                            <button (click)="login(dataItem)" class="btn btn-xs btn-primary"><i class="fa fa-user"></i></button>
+                            <button (click)="remove(dataItem)" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                        </ng-template>
+                    </kendo-grid-command-column>
+                    <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
+                        pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+                </kendo-grid>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default pull-right" (click)="close()">{{l("Close")}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<linkAccountModal #linkAccountModal (modalSave)="getLinkedUsers()"></linkAccountModal>

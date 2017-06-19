@@ -1,0 +1,304 @@
+/* You can add global styles to this file, and also import other style files */
+
+a:hover {
+    text-decoration: none;
+}
+
+.bas-reset {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.bootstrap-select .dropdown-toggle {
+    box-shadow: none !important;
+    outline: none;
+}
+
+
+/*.bootstrap-select.open .dropdown-toggle {
+    background-color: #FFF !important;
+    border-color: #FFF !important;
+}*/
+
+
+/* 覆盖bootstrap样式 */
+
+.bootstrap-select .dropdown-toggle:focus {
+    outline: none !important;
+}
+
+.btn {
+    font-weight: normal !important;
+}
+
+.btn:hover,
+.btn:focus,
+.btn.focus {
+    color: #FFF;
+}
+
+.k-textbox::selection {
+    background-color: #3598dc;
+    color: #fff;
+}
+
+.k-dialog-titlebar {
+    background-color: #3598dc;
+}
+
+.k-dialog-buttongroup .k-button.k-primary {
+    color: #3598dc;
+}
+
+.k-action-buttons .k-primary:hover,
+.k-button.k-primary.k-flat.k-state-hover,
+.k-button.k-primary.k-flat:hover,
+.k-button.k-primary.k-state-hover,
+.k-button.k-primary:hover,
+.k-dialog-buttongroup .k-button.k-primary.k-state-hover,
+.k-dialog-buttongroup .k-button.k-primary:hover,
+.k-slider .k-draghandle:hover,
+.k-switch-on:hover .k-switch-handle {
+    transition: all .6s;
+    background-color: #3598dc;
+}
+
+
+/* 覆盖kendo-datepicker样式*/
+
+.k-dateinput-wrap,
+.k-dropdown-wrap,
+.k-multiselect-wrap,
+.k-numeric-wrap,
+.k-picker-wrap {
+    cursor: pointer;
+}
+
+.k-animation-container-shown,
+.k-animation-container-shown .k-list-container {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2);
+}
+
+.k-dropdown-wrap .k-input {
+    height: auto;
+}
+
+.k-list .k-item.k-state-focused,
+.k-list .k-item:focus {
+    box-shadow: none;
+}
+
+.k-list .k-item.k-state-selected {
+    background-color: #ff9742;
+}
+
+.k-state-selected {
+    background-color: #ff9742;
+}
+
+.k-list .k-item:hover.k-state-selected {
+    background-color: #fbaa69;
+}
+
+.k-dropdown-wrap {
+    border: 1px solid #c2cad8 !important;
+    background-image: none !important;
+    background-color: #FFF !important;
+}
+
+.k-dateinput-wrap,
+.k-dropdown-wrap,
+.k-multiselect-wrap,
+.k-numeric-wrap,
+.k-picker-wrap {
+    border: 0;
+}
+
+.k-autocomplete,
+.k-combobox,
+.k-dateinput,
+.k-datepicker,
+.k-datetimepicker,
+.k-dropdown,
+.k-maskedtextbox,
+.k-multiselect,
+.k-numerictextbox,
+.k-timepicker,
+.k-datepicker .k-dateinput {
+    width: 100%;
+    height: 34px;
+}
+
+.k-datepicker .k-select,
+.k-datetimepicker .k-select,
+.k-timepicker .k-select {
+    width: auto;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+}
+
+.k-dateinput-wrap .k-input {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #c2cad8;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+
+/*重写覆盖kendo-date-picker样式*/
+
+.x-multiple-date-wrap {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    top: -50px;
+    right: 0;
+    padding-right: 40px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #ff9742;
+    text-align: right;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.x-multiple-date-wrap .x-multiple-date-check {}
+
+.k-calendar-monthview .k-calendar-weekdays span+span {
+    margin-left: 3px;
+}
+
+.k-calendar-monthview .k-calendar-weekdays span {
+    width: 30px;
+    display: inline-block;
+    border: 1px solid #ff9742;
+    border-radius: 4px;
+    transition: all .6s;
+    text-align: center;
+    font-size: 10px;
+}
+
+.k-calendar-monthview .k-calendar-weekdays span:hover {
+    cursor: pointer;
+    background-color: #ff9742;
+}
+
+.common-max-width {
+    display: block;
+    max-width: 480px;
+}
+
+.common-min-width {
+    display: block;
+    min-width: 150px;
+}
+
+.common-input-line-width {
+    width: 60%;
+}
+
+
+/* 覆盖metronicUI样式*/
+
+.form-group.form-md-line-input {
+    margin-bottom: 15px;
+}
+
+.pagination>li>a,
+.pagination>li>span {
+    border: 0;
+    border-radius: 30px !important;
+    transition: all .3s;
+    padding: 0px 11px;
+    margin: 0 3px;
+    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #999999;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: transparent;
+}
+
+.pagination>li>a:hover,
+.pagination>li>a:focus,
+.pagination>li>span:hover,
+.pagination>li>span:focus {
+    color: #999999;
+}
+
+.pagination>.active>a,
+.pagination>.active>span {
+    color: #999999;
+}
+
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+    background-color: #ff9742;
+    border-color: #ff9742;
+    color: #FFFFFF;
+    box-shadow: 0 4px 5px 0 rgba(156, 39, 176, 0.14), 0 1px 10px 0 rgba(156, 39, 176, 0.12), 0 2px 4px -1px rgba(156, 39, 176, 0.2);
+}
+
+.pagination.pagination-info>.active>a,
+.pagination.pagination-info>.active>a:focus,
+.pagination.pagination-info>.active>a:hover,
+.pagination.pagination-info>.active>span,
+.pagination.pagination-info>.active>span:focus,
+.pagination.pagination-info>.active>span:hover {
+    background-color: #ff9742;
+    border-color: #ff9742;
+    box-shadow: 0 4px 5px 0 rgba(0, 188, 212, 0.14), 0 1px 10px 0 rgba(0, 188, 212, 0.12), 0 2px 4px -1px rgba(0, 188, 212, 0.2);
+}
+
+.pagination.pagination-success>.active>a,
+.pagination.pagination-success>.active>a:focus,
+.pagination.pagination-success>.active>a:hover,
+.pagination.pagination-success>.active>span,
+.pagination.pagination-success>.active>span:focus,
+.pagination.pagination-success>.active>span:hover {
+    background-color: #4caf50;
+    border-color: #4caf50;
+    box-shadow: 0 4px 5px 0 rgba(76, 175, 80, 0.14), 0 1px 10px 0 rgba(76, 175, 80, 0.12), 0 2px 4px -1px rgba(76, 175, 80, 0.2);
+}
+
+.pagination.pagination-warning>.active>a,
+.pagination.pagination-warning>.active>a:focus,
+.pagination.pagination-warning>.active>a:hover,
+.pagination.pagination-warning>.active>span,
+.pagination.pagination-warning>.active>span:focus,
+.pagination.pagination-warning>.active>span:hover {
+    background-color: #ff9800;
+    border-color: #ff9800;
+    box-shadow: 0 4px 5px 0 rgba(255, 152, 0, 0.14), 0 1px 10px 0 rgba(255, 152, 0, 0.12), 0 2px 4px -1px rgba(255, 152, 0, 0.2);
+}
+
+.pagination.pagination-danger>.active>a,
+.pagination.pagination-danger>.active>a:focus,
+.pagination.pagination-danger>.active>a:hover,
+.pagination.pagination-danger>.active>span,
+.pagination.pagination-danger>.active>span:focus,
+.pagination.pagination-danger>.active>span:hover {
+    background-color: #f44336;
+    border-color: #f44336;
+    box-shadow: 0 4px 5px 0 rgba(244, 67, 54, 0.14), 0 1px 10px 0 rgba(244, 67, 54, 0.12), 0 2px 4px -1px rgba(244, 67, 54, 0.2);
+}

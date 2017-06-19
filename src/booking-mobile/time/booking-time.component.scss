@@ -1,0 +1,31 @@
+.booking-time {
+    width: 100%;
+    padding: 20px;
+    /* 覆盖flatpickr样式*/
+    .flatpickr-calendar {
+        width: 100%;
+        .flatpickr-rContainer {
+            margin: 0 auto;
+        }
+    }
+    .valid-time-wrap {
+        width: 100%;
+        min-height: 40px;
+        margin-top: 20px;
+        background-color: #FFF;
+        box-shadow: 1px 0 0 #e6e6e6, -1px 0 0 #e6e6e6, 0 1px 0 #e6e6e6, 0 -1px 0 #e6e6e6, 0 3px 13px rgba(0, 0, 0, 0.08);
+        .time-field-time {
+            line-height: 20px;
+            margin: 10px 0;
+            text-align: center;
+            color: #333;
+        }
+        .time-field-time.disabled {
+            color: #CCC;
+            cursor: not-allowed;
+        }
+        .time-field-time.active {
+            color: #ff9742;
+        }
+    }
+}

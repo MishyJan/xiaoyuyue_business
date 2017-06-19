@@ -1,0 +1,24 @@
+/***
+微信扫码登陆样式覆盖
+***/
+
+.impowerBox .qrcode {
+    width: 160px;
+}
+
+.impowerBox .title {
+    display: none;
+}
+
+.impowerBox .info {
+    width: 200px;
+    color: #fff;
+}
+
+.impowerBox .status_icon {
+    display: none;
+}
+
+.impowerBox .status {
+    text-align: center;
+}
