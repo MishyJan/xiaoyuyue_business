@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { appModuleAnimation } from "shared/animations/routerTransition";
 
 @Component({
   selector: 'xiaoyuyue-booking-rating',
   templateUrl: './booking-rating.component.html',
-  styleUrls: ['./booking-rating.component.scss'],
-  animations: [appModuleAnimation()]
+  styleUrls: ['./booking-rating.component.scss']
 })
 export class BookingRatingComponent implements OnInit {
 

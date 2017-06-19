@@ -1,0 +1,60 @@
+<div *ngIf="hostSettings" class="common-input-line-width">
+    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+        <input type="email" name="DefaultFromAddress" class="form-control" [ngClass]="{'edited':hostSettings.email.defaultFromAddress}" [(ngModel)]="hostSettings.email.defaultFromAddress" maxlength="@Xiaoyuyue.Authorization.Users.User.MaxEmailAddressLength">
+        <label>{{l("DefaultFromAddress")}}</label>
+    </div>
+    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+        <input type="text" name="DefaultFromDisplayName" class="form-control" [ngClass]="{'edited':hostSettings.email.defaultFromDisplayName}" [(ngModel)]="hostSettings.email.defaultFromDisplayName" maxlength="128">
+        <label>{{l("DefaultFromDisplayName")}}</label>
+    </div>
+    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+        <input type="text" name="SmtpHost" class="form-control input-ltr" [ngClass]="{'edited':hostSettings.email.smtpHost}" [(ngModel)]="hostSettings.email.smtpHost" maxlength="64">
+        <label>{{l("SmtpHost")}}</label>
+    </div>
+    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+        <input type="number" name="SmtpPort" class="form-control edited" [ngClass]="{'edited':hostSettings.email.smtpPort}" [(ngModel)]="hostSettings.email.smtpPort" maxlength="5">
+        <label>{{l("SmtpPort")}}</label>
+    </div>
+    <div class="md-checkbox-list">
+        <div class="md-checkbox">
+            <input id="Settings_SmtpEnableSsl" class="md-check" type="checkbox" name="SmtpEnableSsl" [(ngModel)]="hostSettings.email.smtpEnableSsl">
+            <label for="Settings_SmtpEnableSsl">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+                {{l("UseSsl")}}
+            </label>
+        </div>
+        <div class="md-checkbox">
+            <input id="Settings_SmtpUseDefaultCredentials" class="md-check" type="checkbox" name="SmtpUseDefaultCredentials" [(ngModel)]="hostSettings.email.smtpUseDefaultCredentials">
+            <label for="Settings_SmtpUseDefaultCredentials">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+                {{l("UseDefaultCredentials")}}
+            </label>
+        </div>
+    </div>
+    <div class="form-group form-md-line-input form-md-floating-label no-hint" [hidden]="hostSettings.email.smtpUseDefaultCredentials">
+        <input type="text" name="SmtpDomainName" class="form-control input-ltr" [ngClass]="{'edited':hostSettings.email.smtpDomain}" [(ngModel)]="hostSettings.email.smtpDomain" maxlength="128">
+        <label>{{l("DomainName")}}</label>
+    </div>
+    <div class="form-group form-md-line-input form-md-floating-label no-hint" [hidden]="hostSettings.email.smtpUseDefaultCredentials">
+        <input type="text" name="SmtpUserName" class="form-control input-ltr" [ngClass]="{'edited':hostSettings.email.smtpUserName}" [(ngModel)]="hostSettings.email.smtpUserName" maxlength="128">
+        <label>{{l("UserName")}}</label>
+    </div>
+    <div class="form-group form-md-line-input form-md-floating-label no-hint" [hidden]="hostSettings.email.smtpUseDefaultCredentials">
+        <input type="password" name="SmtpPassword" class="form-control" [ngClass]="{'edited':hostSettings.email.smtpPassword}" [(ngModel)]="hostSettings.email.smtpPassword" maxlength="128">
+        <label>{{l("Password")}}</label>
+    </div>
+    <hr />
+    <h4>{{l("TestEmailSettingsHeader")}}</h4>
+    <div class="row">
+        <div class="form-group form-md-line-input has-info form-md-floating-label col-md-4">
+            <input type="text" class="form-control input-sm" [(ngModel)]="testEmailAddress">
+        </div>
+        <div class="form-group form-md-line-input col-md-2">
+            <button class="btn green-haze" type="button" (click)="_hostSettingService.sendTestEmail(testEmailAddress);">{{l("SendTestEmail")}}</button>
+        </div>
+    </div>
+</div>

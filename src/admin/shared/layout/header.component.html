@@ -1,0 +1,87 @@
+<div class="page-header navbar navbar-fixed-top md-shadow-zero-light">
+    <div class="page-header-inner">
+        <div class="page-logo" title="小预约">
+            <a routerLink="/" target="_blank" class="logo-wrap">
+                <span class="vapps-icon-app-logo logo"></span>
+                <span class="vapps-icon-app-logo-text logo"></span>
+            </a>
+            <!--<a routerLink="/" target="_blank">
+                <img *ngIf="!appSession.tenant || !appSession.tenant.logoId" src="/assets/common/images/app-logo-on-light.png" alt="logo" class="logo-default" width="150" />
+                <img *ngIf="appSession.tenant && appSession.tenant.logoId" [src]="remoteServiceBaseUrl + '/TenantCustomization/GetLogo?id=' + appSession.tenant.logoId" alt="logo" class="logo-default" width="168" height="33" />
+            </a>-->
+            <div class="menu-toggler sidebar-toggler"></div>
+        </div>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+        </a>
+        <div class="page-top clearfix">
+            <div class="create-bespeak btn" routerLink="/app/admin/booking/create">
+                <span class="vapps-icon-cb-menu"></span>
+                <span class="text">创建预约</span>
+            </div>
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li headerNotifications class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar"></li>
+                    <li class="separator hide"> </li>
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <span class="username username-hide-on-mobile">
+                                <i *ngIf="isImpersonatedLogin" class="icon-action-undo font-red-sunglo"></i>
+                                {{shownLoginName}}
+                            </span>
+                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="" class="img-circle" [src]="profilePicture" />
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default clearfix">
+                            <li class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-profile"></span>
+                                    <div>基本信息</div>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-auth"></span>
+                                    <div>实名认证</div>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-security"></span>
+                                    <div>账户安全</div>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-feedback"></span>
+                                    <div>意见反馈</div>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-center"></span>
+                                    <div>会员中心</div>
+                                </div>
+                            </li>
+                            <li class="item" (click)="logout()">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-logout"></span>
+                                    <div>退出账户</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-extended quick-sidebar-toggler" *ngIf="chatEnabled && chatConnected">
+                        <span class="sr-only">Toggle Quick Sidebar</span>
+                        <i class="icon-speech"></i>
+                        <span id="UnreadChatMessageCount" class="badge badge-danger" [ngClass]="{'hidden': !unreadChatMessageCount}">{{unreadChatMessageCount}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
+<linkedAccountsModal #linkedAccountsModal (modalClose)="getRecentlyLinkedUsers()"></linkedAccountsModal>
+<changePasswordModal #changePasswordModal></changePasswordModal>
+<changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
+<mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
+<notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>

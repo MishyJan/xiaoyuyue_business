@@ -1,0 +1,24 @@
+<div class="phone-vaildate">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <input id="registerPhoneNumber" class="form-control" [class.edited]="phoneNumber && phoneNumber.length > 0" [(ngModel)]="phoneNumber" type="phone" name="phoneNumber" required maxlength="11" pattern="^1[0-9]{10}$" />
+                <label for="registerPhoneNumber">{{l("PhoneNumber")}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="validate-code col-xs-6">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <input id="validateCode" class="form-control" [class.edited]="validateCode && validateCode.length > 0" [(ngModel)]="validateCode" type="text" name="validateCode" required maxlength="6" />
+                <label for="validateCode">{{l("VerifySecurityCode_Information")}}</label>
+            </div>
+            <div class="get-sms-btn form-group form-md-line-input">
+                <button type="button" class="btn green-haze" (click)="send()" #smsBtn>{{ l('Send')}}</button>
+            </div>
+        </div>
+        <div class="col-xs-6 luosimao">
+            <LuosimaoCaptcha></LuosimaoCaptcha>
+        </div>
+    </div>
+</div>

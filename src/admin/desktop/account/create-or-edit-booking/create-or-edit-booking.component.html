@@ -1,0 +1,165 @@
+<div class="create-booking" [@routerTransition]>
+    <form #createBookingForm="ngForm">
+        <div class="row margin-bottom-5">
+            <div class="col-xs-6">
+                <div class="page-head">
+                    <div class="page-title">
+                        <h1>
+                            <span *ngIf="!this.bookingId">{{l("UserCenter.Menu.CreateYuyue")}}</span>
+                            <span *ngIf="this.bookingId">编辑预约</span>
+                            <small routerLink="/app/admin/booking"><span class="fa fa-arrow-circle-left"></span><a >返回</a></small>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button type="submit" (click)="save()" class="btn btn-submit" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"><span class="vapps-icon vapps-icon-app-submit"></span>{{l("Save")}}</button>
+                <button type="botton" (click)="saveAndEdit()" class="btn btn-submit">{{l("UserCenter.SavingAndEditing")}}</button>
+                <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- 基本信息 -->
+                <div class="base-info">
+                    <div class="portlet light portlet-fit">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <span class="caption-subject">{{l("General")}}</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <!-- 项目名称 -->
+                            <div class="info-row row">
+                                <div class="project-name name col-md-3 text-right"><span>项目名称</span></div>
+                                <div class="col-md-9 input-box row">
+                                    <div class="col-md-12 project-name">
+                                        <input class="form-control common-max-width" type="text" name="projectName" [(ngModel)]="baseInfo.name" placeholder="项目名称" required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--项目简介-->
+                            <div class="intro-row row">
+                                <div class="project-intro name col-md-3 text-right"><span>项目简介</span></div>
+                                <div class="col-md-9">
+                                    <textarea class="form-control common-max-width" name="projectIntro" [(ngModel)]="baseInfo.description" placeholder="项目简介" required></textarea>
+                                </div>
+                            </div>
+                            <!--选择联系人-->
+                            <div class="choose-contact-row row">
+                                <div class="choose-contact name col-md-3 text-right"><span>选择联系人</span></div>
+                                <div class="col-md-9 row input-box">
+                                    <div class="col-md-6">
+                                        <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--应约人所需信息选项-->
+                            <div class="info-checkbox-row row">
+                                <div class="info-checkbox name col-md-3 text-right"><span>应约人所需信息选项</span></div>
+                                <div class="col-md-9 row content">
+                                    <div class="col-md-10 row margin-top-20">
+
+                                        <div class="col-md-4 item">
+                                            <div class="md-checkbox-list">
+                                                <div class="md-checkbox">
+                                                    <input id="name" class="md-check" type="checkbox" name="name">
+                                                    <label for="name">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        姓名
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 item">
+                                            <div class="md-checkbox-list">
+                                                <div class="md-checkbox">
+                                                    <input id="phone" class="md-check" type="checkbox" name="phone">
+                                                    <label for="phone">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        手机
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 item">
+                                            <div class="md-checkbox-list">
+                                                <div class="md-checkbox">
+                                                    <input id="sex" class="md-check" type="checkbox" name="name">
+                                                    <label for="sex">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        性别
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 item">
+                                            <div class="md-checkbox-list">
+                                                <div class="md-checkbox">
+                                                    <input id="age" class="md-check" type="checkbox" name="age">
+                                                    <label for="age">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        年龄
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 item">
+                                            <div class="md-checkbox-list">
+                                                <div class="md-checkbox">
+                                                    <input id="email" class="md-check" type="checkbox" name="email">
+                                                    <label for="email">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        邮箱
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 item">
+                                            <div class="md-checkbox-list">
+                                                <div class="md-checkbox">
+                                                    <input id="address" class="md-check" type="checkbox" name="address">
+                                                    <label for="address">
+                                                        <span class="inc"></span>
+                                                        <span class="check"></span>
+                                                        <span class="box"></span>
+                                                        地址
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <app-picture-manage (sendPictureForEdit)="getPictureForEdit($event)" [pictureInfo]="pictureInfo"></app-picture-manage>
+            </div>
+            <div class="col-lg-12">
+                <app-time-info (changeInput)="getTimeInfoInput($event)" (timeInfoFormDisabled)="getInfoFormValid($event)" [timeInfo]="timeInfo"></app-time-info>
+            </div>
+        </div>
+    </form>
+</div>

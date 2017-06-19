@@ -1,0 +1,73 @@
+<div [@routerTransition]>
+    <form #registerForm="ngForm" method="post">
+        <div class="register-wrap portlet">
+            <div class="register-title">
+                <div class="title">{{l("CreateAnAccount")}}</div>
+            </div>
+            <div class="register-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input id="tenancyName" class="form-control" type="text" autocomplete="off" name="tenancyName" required autofocus [(ngModel)]="model.tenancyName" [ngClass]="{'edited': model.tenancyName}">
+                            <label for="tenancyName">机构名称</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input id="phoneNumber" class="form-control" type="text" autocomplete="off" name="phoneNumber" required [(ngModel)]="model.phoneNumber" [ngClass]="{'edited': model.phoneNumber}">
+                            <label for="phoneNumber">手机号</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="validate-code-wrap form-group form-md-line-input form-md-floating-label">
+                            <input id="registerCode" class="form-control" type="text" autocomplete="off" name="registerCode" required [(ngModel)]="model.registerCode" [ngClass]="{'edited': model.registerCode}">
+                            <label for="registerCode">验证码</label>
+                            <div class="get-sms-btn form-group form-md-line-input">
+                                <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">获取验证码</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input id="password" class="form-control" type="password" autocomplete="off" name="password" required [(ngModel)]="model.password" [ngClass]="{'edited': model.password}">
+                            <label for="password">设置密码</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <input id="confirmPasswd" class="form-control" type="password" autocomplete="off" name="confirmPasswd" required [(ngModel)]="confirmPasswd" [ngClass]="{'edited': confirmPasswd, 'ng-touched ng-invalid': model.password !== confirmPasswd}">
+                            <label for="confirmPasswd">确认密码</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-5 col-xs-6">
+                            <label class="mt-checkbox mt-checkbox-outline">
+                                <input class="form-control" type="checkbox" name="aboutTerms" value="true" />阅读并同意
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="register-btn-wrap">
+                    <button class="btn btn-register" type="button" [disabled]="!registerForm.form.valid" (click)="register()">{{l("CreateAnAccount")}}</button>
+                </div>
+            </div>
+            <div class="register-footer"></div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,37 @@
+<div class="upload-picture">
+    <div bsModal #uploadPictureModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true" [config]="{backdrop: 'static'}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" (click)="close()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>-->
+                    <h4 class="modal-title row">
+                        <span class="col-md-6 title-item picture-gallery" [ngClass]="{'active': tabToggle}" (click)="isShowPictureGallery()">{{l("UserCenter.PictureGallery")}}</span>
+                        <span class="col-md-6 title-item local-upload" [ngClass]="{'active': !tabToggle}" (click)="isShowLocalUpload()">{{l("UserCenter.LocalUpload")}}</span>
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="content-item" *ngIf="tabToggle">图片库</div>
+                    <div class="content-item" *ngIf="!tabToggle">
+                        <div class="form-group">
+                            <div id="pictureGallery">
+                                <a class="btn btn-border-radius btn-file-wrap" id="pictureGalleryPickfiles">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>选择文件</span>
+                                </a>
+                            </div>
+                            <span class="help-block m-b-none">{{l("ProfilePicture_Change_Info")}}</span>
+                        </div>
+                        <img id="profilePicture" [hidden]="!temporaryPictureUrl" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-submit" id="confirmUpload"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l("Upload")}}</button>
+                    <button type="button" class="btn btn-cancel" (click)="close()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
