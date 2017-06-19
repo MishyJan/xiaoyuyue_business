@@ -51,7 +51,6 @@
 
             "../src/app/shared/core.less",
             "../src/app/shared/skin.less",
-            "../src/app/shared/layout/layout.scss",
 
             "assets/common/styles/xiaoyuyue-icon.css",
             "../node_modules/flatpickr/dist/flatpickr.css",

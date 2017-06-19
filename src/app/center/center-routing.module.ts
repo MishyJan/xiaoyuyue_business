@@ -2,7 +2,7 @@ import { AdminPermissions } from '@shared/AdminPermissions';
 import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CenterComponent } from "app/center/center.component";
-import { BookingManageComponent } from "app/center/booking-manage/booking-manage.component";
+import { MainUserComponent } from "app/center/main-user/main-user.component";
 
 @NgModule({
     imports: [
@@ -12,7 +12,7 @@ import { BookingManageComponent } from "app/center/booking-manage/booking-manage
                 component: CenterComponent,
                 children: [
                     {
-                        path: 'manage', component: BookingManageComponent
+                        path: 'index', component: MainUserComponent
                     },
                 ]
             }

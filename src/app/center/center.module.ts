@@ -21,8 +21,7 @@ import { DatePickerModule, DateInputsModule } from '@progress/kendo-angular-date
 import { AppCommonModule } from "app/shared/common/app-common.module";
 import { AdminRoutingModule } from "app/center/center-routing.module";
 import { CenterComponent } from "app/center/center.component";
-import { BookingManageComponent } from "app/center/booking-manage/booking-manage.component";
-import { BookingEditComponent } from "app/center/booking-edit/booking-edit.component";
+import { MainUserComponent } from "app/center/main-user/main-user.component";
 
 
 
@@ -52,8 +51,7 @@ import { BookingEditComponent } from "app/center/booking-edit/booking-edit.compo
     ],
     declarations: [
         CenterComponent,
-        BookingManageComponent,
-        BookingEditComponent
+        MainUserComponent
     ],
     providers: [
         AppStorageService,
