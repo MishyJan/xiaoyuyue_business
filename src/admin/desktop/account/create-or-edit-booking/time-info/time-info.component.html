@@ -3,7 +3,7 @@
         <div class="portlet light portlet-fit">
             <div class="portlet-title clearfix">
                 <div class="caption pull-left">
-                    <span class="caption-subject">{{l("UserCenter.Booking.TimeInfo")}}</span>
+                    <span class="caption-subject">{{l("BusinessCenter.Booking.TimeInfo")}}</span>
                 </div>
                 <div class="caption pull-right add-time">
                     <span (click)="createTimeField()" class="btn btn-border-radius"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加时段</span>
@@ -16,7 +16,7 @@
                     <div class="col-md-6 time-info-wrap create-time-info box-shadow border-radius-14 pull-left paddingTop-32 no-lr-padding">
                         <div class="xiaoyuyue-title-box"></div>
                         <div class="time-item clearfix">
-                            <div class="bookingPeopleOfNumber-name name col-md-3 text-right"><span>{{l("UserCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                            <div class="bookingPeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required autofocus>
@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="time-item">
-                            <div class="queuePeopleOfNumber-name name col-md-3 text-right"><span>{{l("UserCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                            <div class="queuePeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <input class="form-control" type="number" name="maxQueueNum" [(ngModel)]="localSingleBookingItem.maxQueueNum" required>
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="time-item booking-date-item">
-                            <div class=" name col-md-3 text-right"><span>{{l("UserCenter.Booking.BookingDate")}}</span></div>
+                            <div class=" name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <!--<kendo-datepicker [(value)]="bookingDate" [format]="'yyyy/MM/dd'"></kendo-datepicker>-->
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="time-item booking-time-item clearfix" style="height: 100%">
-                            <div class="booking-time-name name col-md-3 text-right" [style.line-height]="getBookingTimeItemHeight()"><span>{{l("UserCenter.Booking.BookingTime")}}</span></div>
+                            <div class="booking-time-name name col-md-3 text-right" [style.line-height]="getBookingTimeItemHeight()"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
                             <div class="col-md-9 row input-box clearfix">
                                 <div *ngFor="let bookingTimeItem of allBookingTime; let index = index;" class="item">
                                     <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
@@ -83,25 +83,25 @@
                                 </div>
                             </div>
                             <div class="time-item">
-                                <div class="bookingPeopleOfNumber-name name col-md-3 text-right"><span>{{l("UserCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                                <div class="bookingPeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
                                 <div class="col-md-9 view-box">
                                     {{bookingItem.maxBookingNum}}
                                 </div>
                             </div>
                             <div class="time-item">
-                                <div class="queuePeopleOfNumber-name name col-md-3 text-right"><span>{{l("UserCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                                <div class="queuePeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
                                 <div class="col-md-9 view-box">
                                     {{bookingItem.maxQueueNum}}
                                 </div>
                             </div>
                             <div class="time-item">
-                                <div class="bookingDate-name name col-md-3 text-right"><span>{{l("UserCenter.Booking.BookingDate")}}</span></div>
+                                <div class="bookingDate-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
                                 <div class="col-md-9 view-box">
                                     {{bookingItem.availableDates}}
                                 </div>
                             </div>
                             <div class="time-item">
-                                <div class="bookingTime-name name col-md-3 text-right"><span>{{l("UserCenter.Booking.BookingTime")}}</span></div>
+                                <div class="bookingTime-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
                                 <div class="col-md-9 view-box">
                                     {{bookingItem.hourOfDay}}
                                 </div>
@@ -121,25 +121,25 @@
                             </div>
                         </div>
                         <div class="time-item clearfix">
-                            <div class="bookingPeopleOfNumber-name name col-md-4 text-right"><span>{{l("UserCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                            <div class="bookingPeopleOfNumber-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
                             <div class="col-md-8 view-box">
                                 {{timeInfoItem.maxBookingNum}}
                             </div>
                         </div>
                         <div class="time-item">
-                            <div class="queuePeopleOfNumber-name name col-md-4 text-right"><span>{{l("UserCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                            <div class="queuePeopleOfNumber-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
                             <div class="col-md-8 view-box">
                                 {{timeInfoItem.maxQueueNum}}
                             </div>
                         </div>
                         <div class="time-item">
-                            <div class="bookingDate-name name col-md-4 text-right"><span>{{l("UserCenter.Booking.BookingDate")}}</span></div>
+                            <div class="bookingDate-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
                             <div class="col-md-8 view-box">
                                 {{timeInfoItem.availableDates}}
                             </div>
                         </div>
                         <div class="time-item">
-                            <div class="bookingTime-name name col-md-4 text-right"><span>{{l("UserCenter.Booking.BookingTime")}}</span></div>
+                            <div class="bookingTime-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
                             <div class="col-md-8 view-box">
                                 {{timeInfoItem.hourOfDay}}
                             </div>

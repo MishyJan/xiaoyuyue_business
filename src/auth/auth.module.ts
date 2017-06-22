@@ -25,7 +25,7 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
 import { LanguageSwitchComponent } from './language-switch.component';
 import { LoginService } from "shared/services/login.service";
 import { TooltipModule } from "ngx-bootstrap";
-import { SMSServiceProxy } from "shared/service-proxies/service-proxies";
+import { SMSServiceProxy, BookingServiceProxy } from "shared/service-proxies/service-proxies";
 import { AuthComponent } from "auth/auth.component";
 import { AuthRoutingModule } from "auth/auth-routing.module";
 import { PhoneValidateComponent } from "auth/shared/phone-validate/phone-validate.component";
@@ -78,7 +78,8 @@ import { BackgroundImgComponent } from "auth/layout/background-img/background-im
         LoginService,
         TenantRegistrationHelperService,
         SMSServiceProxy,
-        TooltipModule
+        TooltipModule,
+        BookingServiceProxy
     ]
 })
 export class AuthModule {

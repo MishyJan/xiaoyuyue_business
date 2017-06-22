@@ -1,7 +1,8 @@
 import { Component, Injector, OnInit, AfterViewInit, Output, ElementRef } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Http, Headers } from '@angular/http';
-import { TokenAuthServiceProxy, AuthenticateModel, AuthenticateResultModel } from '@shared/service-proxies/service-proxies';
+import { TokenAuthServiceProxy, AuthenticateModel, AuthenticateResultModel, ExternalLoginProviderInfoModel } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -9,7 +10,7 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
 import { LoginService, ExternalLoginProvider } from "shared/services/login.service";
 import { TooltipConfig } from "ngx-bootstrap";
 import { NgxAni } from "ngxani";
-
+import * as _ from 'lodash';
 
 @Component({
     templateUrl: './login.component.html',
@@ -18,6 +19,7 @@ import { NgxAni } from "ngxani";
     providers: [{ provide: TooltipConfig, useFactory: getAlertConfig }]
 })
 export class LoginComponent extends AppComponentBase implements AfterViewInit {
+    externalLoginProviders: ExternalLoginProvider[];
 
     submitting: boolean = false;
     flag: boolean = true;
@@ -28,8 +30,10 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         injector: Injector,
         public loginService: LoginService,
         private _router: Router,
+        private _location: Location,
         private _activatedRoute: ActivatedRoute,
         private _sessionService: AbpSessionService,
+        private _tokenAuthService: TokenAuthServiceProxy,
         private _ngxAni: NgxAni
     ) {
         super(injector);
@@ -40,7 +44,30 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         //     this.loginService.externalLoginCallback(params);
         // });
 
-        
+        if (this.is_weixn()) {
+            this._tokenAuthService
+                .getExternalAuthenticationProviders()
+                .subscribe((providers: ExternalLoginProviderInfoModel[]) => {
+                    this.externalLoginProviders = _.map(providers, p => {
+                        return new ExternalLoginProvider(p);
+                    });
+
+                    console.log(this.externalLoginProviders);
+                    for (let i = 0; i <this.externalLoginProviders.length; i++) {
+                        if (this.externalLoginProviders[i].name == "WeChatMP") {
+                            let authBaseUrl = "https://open.weixin.qq.com/connect/oauth2/authorize";
+                            let appid = this.externalLoginProviders[i].clientId;
+                            let redirect_url = AppConsts.appBaseUrl + '/auth/login'+ '?providerName=' + ExternalLoginProvider.WECHAT;
+                            let response_type = "code";
+                            let scope = "snsapi_userinfo";
+
+                            let authUrl = `${authBaseUrl}?appid=${appid}&redirect_uri=${encodeURI(redirect_url)}&response_type=${response_type}&scope=${scope}#wechat_redirect`;
+                            console.log(redirect_url);
+                            window.location.href  = authUrl;
+                        }
+                    }
+                });
+        }
     }
 
     ngAfterViewInit(): void {
@@ -85,6 +112,15 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         this.loginService.authenticate(
             () => this.submitting = false
         );
+    }
+
+    is_weixn() {
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) + "" == "micromessenger") {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     externalLogin(provider: ExternalLoginProvider, elementRef: object, externalContent: object, $event) {

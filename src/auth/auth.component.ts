@@ -4,6 +4,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 
 import * as moment from 'moment';
 import { LoginService } from "shared/services/login.service";
+import { BookingServiceProxy } from "shared/service-proxies/service-proxies";
 
 @Component({
     templateUrl: './auth.component.html',
@@ -22,7 +23,8 @@ export class AuthComponent extends AppComponentBase implements OnInit {
     public constructor(
         injector: Injector,
         private _loginService: LoginService,
-        viewContainerRef: ViewContainerRef
+        viewContainerRef: ViewContainerRef,
+        private _bookingServiceProxy: BookingServiceProxy
     ) {
         super(injector);
 
@@ -41,4 +43,6 @@ export class AuthComponent extends AppComponentBase implements OnInit {
     private supportsTenancyNameInUrl() {
         return (AppConsts.appBaseUrlFormat && AppConsts.appBaseUrlFormat.indexOf(AppConsts.tenancyNamePlaceHolderInUrl) >= 0);
     }
+
+    
 }
