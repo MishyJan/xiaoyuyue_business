@@ -22,16 +22,16 @@ export class SideBarComponent extends AppComponentBase {
     }
 
     menu: SideBarMenu = new SideBarMenu("MainMenu", "MainMenu", [
-        new SideBarMenuItem("UserCenter.Menu.UserData", this.adminPermissions.tenantDashboard, "vapps-icon-dc-menu", "/app/main/dashboard"),
-        new SideBarMenuItem("UserCenter.Menu.ManageBooking", this.adminPermissions.userManage, "vapps-icon-bm-menu", "", [
-            new SideBarMenuItem("UserCenter.Menu.ManageBooking.List", "", "", "/app/admin/booking"),
-            // new SideBarMenuItem("UserCenter.Menu.ManageYuyue.ResponderList", this.adminPermissions.userManage_Tenants, "", "/app/admin/tenants"),
+        new SideBarMenuItem("BusinessCenter.Menu.UserData", this.adminPermissions.tenantDashboard, "vapps-icon-dc-menu", "/app/main/dashboard"),
+        new SideBarMenuItem("BusinessCenter.Menu.ManageBooking", this.adminPermissions.userManage, "vapps-icon-bm-menu", "", [
+            new SideBarMenuItem("BusinessCenter.Menu.ManageBooking.List", "", "", "/app/admin/booking"),
+            // new SideBarMenuItem("BusinessCenter.Menu.ManageYuyue.ResponderList", this.adminPermissions.userManage_Tenants, "", "/app/admin/tenants"),
             // new SideBarMenuItem("Roles", this.adminPermissions.userManage_Roles, "icon-briefcase", "/app/admin/roles"),
             // new SideBarMenuItem("Users", this.adminPermissions.userManage_Users, "icon-people", "/app/admin/users"),
         ]),
-        // new SideBarMenuItem("UserCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu", "", [
-        //     new SideBarMenuItem("UserCenter.Menu.Org.BaseInfo", this.adminPermissions.configuration_Languages, "", "/app/admin/languages"),
-        //     new SideBarMenuItem("UserCenter.Menu.Org.TenantManage", this.adminPermissions.configuration_HostSettings, "", "/app/admin/hostSettings"),
+        // new SideBarMenuItem("BusinessCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu", "", [
+        //     new SideBarMenuItem("BusinessCenter.Menu.Org.BaseInfo", this.adminPermissions.configuration_Languages, "", "/app/admin/languages"),
+        //     new SideBarMenuItem("BusinessCenter.Menu.Org.TenantManage", this.adminPermissions.configuration_HostSettings, "", "/app/admin/hostSettings"),
         //     // new SideBarMenuItem("Settings", this.adminPermissions.configuration_TenantSettings, "icon-settings", "/app/admin/tenantSettings")
         // ])
         // new SideBarMenuItem("Admin.System", this.adminPermissions.system, "icon-settings", "", [

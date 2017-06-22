@@ -692,6 +692,126 @@ export class AuditLogServiceProxy {
 }
 
 @Injectable()
+export class BookingServiceProxy {
+    private http: Http = null; 
+    private baseUrl: string = undefined; 
+    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http; 
+        this.baseUrl = baseUrl ? baseUrl : ""; 
+    }
+
+    /**
+     * 获取预约详情
+     * @source 来源
+     * @return Success
+     */
+    getJoinBookingInfo(source: string, id: number): Observable<JoinBookingOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/GetJoinBookingInfo?";
+        if (source !== undefined)
+            url_ += "Source=" + encodeURIComponent("" + source) + "&"; 
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processGetJoinBookingInfo(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processGetJoinBookingInfo(response));
+                } catch (e) {
+                    return <Observable<JoinBookingOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<JoinBookingOutput>><any>Observable.throw(response);
+        });
+    }
+
+    protected processGetJoinBookingInfo(response: Response): JoinBookingOutput {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            let result200: JoinBookingOutput = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? JoinBookingOutput.fromJS(resultData200) : new JoinBookingOutput();
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
+     * 应约
+     * @return Success
+     */
+    joinBooking(input: JoinBookingInput): Observable<JoinBookingResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/JoinBooking";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input ? input.toJS() : null);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processJoinBooking(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processJoinBooking(response));
+                } catch (e) {
+                    return <Observable<JoinBookingResultDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<JoinBookingResultDto>><any>Observable.throw(response);
+        });
+    }
+
+    protected processJoinBooking(response: Response): JoinBookingResultDto {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            let result200: JoinBookingResultDto = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? JoinBookingResultDto.fromJS(resultData200) : new JoinBookingResultDto();
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
+@Injectable()
 export class CachingServiceProxy {
     private http: Http = null; 
     private baseUrl: string = undefined; 
@@ -3095,7 +3215,7 @@ export class OrganizationBookingServiceProxy {
      * 获取时间
      * @return Success
      */
-    getItemDatetime(tenantId: number, name: string, description: string, templateId: number, contactorId: number, contactor_Name: string, contactor_Telephone: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
+    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNumber: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
         let url_ = this.baseUrl + "/api/services/app/OrganizationBooking/GetItemDatetime?";
         if (tenantId !== undefined)
             url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&"; 
@@ -3103,14 +3223,16 @@ export class OrganizationBookingServiceProxy {
             url_ += "Name=" + encodeURIComponent("" + name) + "&"; 
         if (description !== undefined)
             url_ += "Description=" + encodeURIComponent("" + description) + "&"; 
+        if (hint !== undefined)
+            url_ += "Hint=" + encodeURIComponent("" + hint) + "&"; 
         if (templateId !== undefined)
             url_ += "TemplateId=" + encodeURIComponent("" + templateId) + "&"; 
         if (contactorId !== undefined)
             url_ += "ContactorId=" + encodeURIComponent("" + contactorId) + "&"; 
         if (contactor_Name !== undefined)
             url_ += "Contactor.Name=" + encodeURIComponent("" + contactor_Name) + "&"; 
-        if (contactor_Telephone !== undefined)
-            url_ += "Contactor.Telephone=" + encodeURIComponent("" + contactor_Telephone) + "&"; 
+        if (contactor_PhoneNumber !== undefined)
+            url_ += "Contactor.PhoneNumber=" + encodeURIComponent("" + contactor_PhoneNumber) + "&"; 
         if (contactor_WechatQrcodeUrl !== undefined)
             url_ += "Contactor.WechatQrcodeUrl=" + encodeURIComponent("" + contactor_WechatQrcodeUrl) + "&"; 
         if (contactor_TenantId !== undefined)
@@ -4382,6 +4504,179 @@ export class PermissionServiceProxy {
             let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
             result200 = resultData200 ? ListResultDtoOfFlatPermissionWithLevelDto.fromJS(resultData200) : new ListResultDtoOfFlatPermissionWithLevelDto();
             return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
+@Injectable()
+export class PersonBookingServiceProxy {
+    private http: Http = null; 
+    private baseUrl: string = undefined; 
+    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http; 
+        this.baseUrl = baseUrl ? baseUrl : ""; 
+    }
+
+    /**
+     * 获取所有预约
+     * @sorting 排序字段 (eg:Id DESC)
+     * @maxResultCount 最大结果数量(等同:PageSize)
+     * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
+     * @return Success
+     */
+    getBookingOrders(bookingName: string, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfPersonBookingOrderListDto> {
+        let url_ = this.baseUrl + "/api/services/app/PersonBooking/GetBookingOrders?";
+        if (bookingName !== undefined)
+            url_ += "BookingName=" + encodeURIComponent("" + bookingName) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processGetBookingOrders(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processGetBookingOrders(response));
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfPersonBookingOrderListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfPersonBookingOrderListDto>><any>Observable.throw(response);
+        });
+    }
+
+    protected processGetBookingOrders(response: Response): PagedResultDtoOfPersonBookingOrderListDto {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            let result200: PagedResultDtoOfPersonBookingOrderListDto = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfPersonBookingOrderListDto.fromJS(resultData200) : new PagedResultDtoOfPersonBookingOrderListDto();
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
+     * 获取预约订单
+     * @return Success
+     */
+    getBookingOrderForEdit(id: number): Observable<GetPersonBookingOrderOutput> {
+        let url_ = this.baseUrl + "/api/services/app/PersonBooking/GetBookingOrderForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processGetBookingOrderForEdit(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processGetBookingOrderForEdit(response));
+                } catch (e) {
+                    return <Observable<GetPersonBookingOrderOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetPersonBookingOrderOutput>><any>Observable.throw(response);
+        });
+    }
+
+    protected processGetBookingOrderForEdit(response: Response): GetPersonBookingOrderOutput {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            let result200: GetPersonBookingOrderOutput = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetPersonBookingOrderOutput.fromJS(resultData200) : new GetPersonBookingOrderOutput();
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
+     * 取消订单
+     * @return Success
+     */
+    cancelBookingOrder(input: CancelBookingOrderInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PersonBooking/CancelBookingOrder";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input ? input.toJS() : null);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processCancelBookingOrder(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processCancelBookingOrder(response));
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response);
+        });
+    }
+
+    protected processCancelBookingOrder(response: Response): void {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            return null;
         } else if (status !== 200 && status !== 204) {
             this.throwException("An unexpected server error occurred.", status, responseText);
         }
@@ -9483,6 +9778,350 @@ export class FileDto {
     }
 }
 
+export class JoinBookingOutput {
+    /** 机构信息 */
+    organizationInfo: OrganizationInfoDto;
+    /** 预约信息 */
+    bookingInfo: JoinBookingInfoDto;
+    /** 可预约时间 */
+    availableDatetiem: JoinBookingDataInfo[];
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.organizationInfo = data["organizationInfo"] ? OrganizationInfoDto.fromJS(data["organizationInfo"]) : undefined;
+            this.bookingInfo = data["bookingInfo"] ? JoinBookingInfoDto.fromJS(data["bookingInfo"]) : undefined;
+            if (data["availableDatetiem"] && data["availableDatetiem"].constructor === Array) {
+                this.availableDatetiem = [];
+                for (let item of data["availableDatetiem"])
+                    this.availableDatetiem.push(JoinBookingDataInfo.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): JoinBookingOutput {
+        return new JoinBookingOutput(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["organizationInfo"] = this.organizationInfo ? this.organizationInfo.toJS() : undefined;
+        data["bookingInfo"] = this.bookingInfo ? this.bookingInfo.toJS() : undefined;
+        if (this.availableDatetiem && this.availableDatetiem.constructor === Array) {
+            data["availableDatetiem"] = [];
+            for (let item of this.availableDatetiem)
+                data["availableDatetiem"].push(item.toJS());
+        }
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new JoinBookingOutput(JSON.parse(json));
+    }
+}
+
+/** 机构信息 */
+export class OrganizationInfoDto {
+    /** 机构名称 */
+    name: string;
+    /** 描述/机构宣传语 */
+    description: string;
+    /** logo */
+    logoUrl: string;
+    /** 门店图片地址 */
+    outletPictureUrl: string;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.name = data["name"] !== undefined ? data["name"] : undefined;
+            this.description = data["description"] !== undefined ? data["description"] : undefined;
+            this.logoUrl = data["logoUrl"] !== undefined ? data["logoUrl"] : undefined;
+            this.outletPictureUrl = data["outletPictureUrl"] !== undefined ? data["outletPictureUrl"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): OrganizationInfoDto {
+        return new OrganizationInfoDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["name"] = this.name !== undefined ? this.name : undefined;
+        data["description"] = this.description !== undefined ? this.description : undefined;
+        data["logoUrl"] = this.logoUrl !== undefined ? this.logoUrl : undefined;
+        data["outletPictureUrl"] = this.outletPictureUrl !== undefined ? this.outletPictureUrl : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new OrganizationInfoDto(JSON.parse(json));
+    }
+}
+
+export class JoinBookingInfoDto {
+    /** 项目名称 */
+    name: string;
+    /** 项目描述 */
+    description: string;
+    /** 图片集合 */
+    pictures: string[];
+    /** 视频Url */
+    videoUrl: string;
+    /** 联系人名称 */
+    contactorName: string;
+    /** 联系人电话 */
+    contactorPhoneNum: string;
+    /** 联系人微信 */
+    contactorWechatUrl: string;
+    /** 门店地址 */
+    outletAddress: string;
+    /** 门店经纬度 */
+    outletLongitude: string;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.name = data["name"] !== undefined ? data["name"] : undefined;
+            this.description = data["description"] !== undefined ? data["description"] : undefined;
+            if (data["pictures"] && data["pictures"].constructor === Array) {
+                this.pictures = [];
+                for (let item of data["pictures"])
+                    this.pictures.push(item);
+            }
+            this.videoUrl = data["videoUrl"] !== undefined ? data["videoUrl"] : undefined;
+            this.contactorName = data["contactorName"] !== undefined ? data["contactorName"] : undefined;
+            this.contactorPhoneNum = data["contactorPhoneNum"] !== undefined ? data["contactorPhoneNum"] : undefined;
+            this.contactorWechatUrl = data["contactorWechatUrl"] !== undefined ? data["contactorWechatUrl"] : undefined;
+            this.outletAddress = data["outletAddress"] !== undefined ? data["outletAddress"] : undefined;
+            this.outletLongitude = data["outletLongitude"] !== undefined ? data["outletLongitude"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): JoinBookingInfoDto {
+        return new JoinBookingInfoDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["name"] = this.name !== undefined ? this.name : undefined;
+        data["description"] = this.description !== undefined ? this.description : undefined;
+        if (this.pictures && this.pictures.constructor === Array) {
+            data["pictures"] = [];
+            for (let item of this.pictures)
+                data["pictures"].push(item);
+        }
+        data["videoUrl"] = this.videoUrl !== undefined ? this.videoUrl : undefined;
+        data["contactorName"] = this.contactorName !== undefined ? this.contactorName : undefined;
+        data["contactorPhoneNum"] = this.contactorPhoneNum !== undefined ? this.contactorPhoneNum : undefined;
+        data["contactorWechatUrl"] = this.contactorWechatUrl !== undefined ? this.contactorWechatUrl : undefined;
+        data["outletAddress"] = this.outletAddress !== undefined ? this.outletAddress : undefined;
+        data["outletLongitude"] = this.outletLongitude !== undefined ? this.outletLongitude : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new JoinBookingInfoDto(JSON.parse(json));
+    }
+}
+
+/** 日期信息 */
+export class JoinBookingDataInfo {
+    /** 日期 */
+    date: moment.Moment;
+    /** 可预约时间 */
+    times: JoinBookingTimeInfo[];
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.date = data["date"] ? moment(data["date"].toString()) : undefined;
+            if (data["times"] && data["times"].constructor === Array) {
+                this.times = [];
+                for (let item of data["times"])
+                    this.times.push(JoinBookingTimeInfo.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): JoinBookingDataInfo {
+        return new JoinBookingDataInfo(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["date"] = this.date ? this.date.toISOString() : undefined;
+        if (this.times && this.times.constructor === Array) {
+            data["times"] = [];
+            for (let item of this.times)
+                data["times"].push(item.toJS());
+        }
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new JoinBookingDataInfo(JSON.parse(json));
+    }
+}
+
+/** 时间信息 */
+export class JoinBookingTimeInfo {
+    /** 时间 */
+    hourOfDay: string;
+    /** 最大可预约人数 */
+    maxBookingNum: string;
+    /** 最大可排队人数 */
+    maxQueueNum: string;
+    id: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.hourOfDay = data["hourOfDay"] !== undefined ? data["hourOfDay"] : undefined;
+            this.maxBookingNum = data["maxBookingNum"] !== undefined ? data["maxBookingNum"] : undefined;
+            this.maxQueueNum = data["maxQueueNum"] !== undefined ? data["maxQueueNum"] : undefined;
+            this.id = data["id"] !== undefined ? data["id"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): JoinBookingTimeInfo {
+        return new JoinBookingTimeInfo(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["hourOfDay"] = this.hourOfDay !== undefined ? this.hourOfDay : undefined;
+        data["maxBookingNum"] = this.maxBookingNum !== undefined ? this.maxBookingNum : undefined;
+        data["maxQueueNum"] = this.maxQueueNum !== undefined ? this.maxQueueNum : undefined;
+        data["id"] = this.id !== undefined ? this.id : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new JoinBookingTimeInfo(JSON.parse(json));
+    }
+}
+
+export class JoinBookingInput {
+    /** 日期 */
+    date: moment.Moment;
+    /** 时间项Id */
+    bookingItemId: number;
+    /** 姓名 */
+    name: string;
+    /** 手机号码 */
+    phoneNumber: string;
+    /** 邮箱地址 */
+    emailAddress: string;
+    /** 性别 */
+    gender: JoinBookingInputGender;
+    /** 年龄 */
+    age: number;
+    /** 预约人数 */
+    subscriberNum: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.date = data["date"] ? moment(data["date"].toString()) : undefined;
+            this.bookingItemId = data["bookingItemId"] !== undefined ? data["bookingItemId"] : undefined;
+            this.name = data["name"] !== undefined ? data["name"] : undefined;
+            this.phoneNumber = data["phoneNumber"] !== undefined ? data["phoneNumber"] : undefined;
+            this.emailAddress = data["emailAddress"] !== undefined ? data["emailAddress"] : undefined;
+            this.gender = data["gender"] !== undefined ? data["gender"] : undefined;
+            this.age = data["age"] !== undefined ? data["age"] : undefined;
+            this.subscriberNum = data["subscriberNum"] !== undefined ? data["subscriberNum"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): JoinBookingInput {
+        return new JoinBookingInput(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["date"] = this.date ? this.date.toISOString() : undefined;
+        data["bookingItemId"] = this.bookingItemId !== undefined ? this.bookingItemId : undefined;
+        data["name"] = this.name !== undefined ? this.name : undefined;
+        data["phoneNumber"] = this.phoneNumber !== undefined ? this.phoneNumber : undefined;
+        data["emailAddress"] = this.emailAddress !== undefined ? this.emailAddress : undefined;
+        data["gender"] = this.gender !== undefined ? this.gender : undefined;
+        data["age"] = this.age !== undefined ? this.age : undefined;
+        data["subscriberNum"] = this.subscriberNum !== undefined ? this.subscriberNum : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new JoinBookingInput(JSON.parse(json));
+    }
+}
+
+export class JoinBookingResultDto {
+    /** 预约项目名称 */
+    bookingName: string;
+    /** 预约客户 */
+    bookingCustomer: string;
+    /** 预约日期 */
+    bookingDate: moment.Moment;
+    /** 预约时间 */
+    hourOfDay: string;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.bookingName = data["bookingName"] !== undefined ? data["bookingName"] : undefined;
+            this.bookingCustomer = data["bookingCustomer"] !== undefined ? data["bookingCustomer"] : undefined;
+            this.bookingDate = data["bookingDate"] ? moment(data["bookingDate"].toString()) : undefined;
+            this.hourOfDay = data["hourOfDay"] !== undefined ? data["hourOfDay"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): JoinBookingResultDto {
+        return new JoinBookingResultDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["bookingName"] = this.bookingName !== undefined ? this.bookingName : undefined;
+        data["bookingCustomer"] = this.bookingCustomer !== undefined ? this.bookingCustomer : undefined;
+        data["bookingDate"] = this.bookingDate ? this.bookingDate.toISOString() : undefined;
+        data["hourOfDay"] = this.hourOfDay !== undefined ? this.hourOfDay : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new JoinBookingResultDto(JSON.parse(json));
+    }
+}
+
 export class ListResultDtoOfCacheDto {
     items: CacheDto[];
 
@@ -12072,7 +12711,7 @@ export class BookingListDto {
     /** 联系人 */
     contactor: string;
     /** 联系人电话 */
-    contactorTelephone: string;
+    contactorPhoneNum: string;
     /** 门店 */
     outlet: string;
     /** 门店 */
@@ -12101,7 +12740,7 @@ export class BookingListDto {
         if (data !== undefined) {
             this.name = data["name"] !== undefined ? data["name"] : undefined;
             this.contactor = data["contactor"] !== undefined ? data["contactor"] : undefined;
-            this.contactorTelephone = data["contactorTelephone"] !== undefined ? data["contactorTelephone"] : undefined;
+            this.contactorPhoneNum = data["contactorPhoneNum"] !== undefined ? data["contactorPhoneNum"] : undefined;
             this.outlet = data["outlet"] !== undefined ? data["outlet"] : undefined;
             this.outletAddress = data["outletAddress"] !== undefined ? data["outletAddress"] : undefined;
             this.sticked = data["sticked"] !== undefined ? data["sticked"] : undefined;
@@ -12129,7 +12768,7 @@ export class BookingListDto {
         data = data === undefined ? {} : data;
         data["name"] = this.name !== undefined ? this.name : undefined;
         data["contactor"] = this.contactor !== undefined ? this.contactor : undefined;
-        data["contactorTelephone"] = this.contactorTelephone !== undefined ? this.contactorTelephone : undefined;
+        data["contactorPhoneNum"] = this.contactorPhoneNum !== undefined ? this.contactorPhoneNum : undefined;
         data["outlet"] = this.outlet !== undefined ? this.outlet : undefined;
         data["outletAddress"] = this.outletAddress !== undefined ? this.outletAddress : undefined;
         data["sticked"] = this.sticked !== undefined ? this.sticked : undefined;
@@ -12489,7 +13128,7 @@ export class ActiveOrDisableInput {
 
 export class Contactor {
     name: string;
-    telephone: string;
+    phoneNumber: string;
     wechatQrcodeUrl: string;
     tenantId: number;
     outletId: number;
@@ -12501,7 +13140,7 @@ export class Contactor {
     constructor(data?: any) {
         if (data !== undefined) {
             this.name = data["name"] !== undefined ? data["name"] : undefined;
-            this.telephone = data["telephone"] !== undefined ? data["telephone"] : undefined;
+            this.phoneNumber = data["phoneNumber"] !== undefined ? data["phoneNumber"] : undefined;
             this.wechatQrcodeUrl = data["wechatQrcodeUrl"] !== undefined ? data["wechatQrcodeUrl"] : undefined;
             this.tenantId = data["tenantId"] !== undefined ? data["tenantId"] : undefined;
             this.outletId = data["outletId"] !== undefined ? data["outletId"] : undefined;
@@ -12519,7 +13158,7 @@ export class Contactor {
     toJS(data?: any) {
         data = data === undefined ? {} : data;
         data["name"] = this.name !== undefined ? this.name : undefined;
-        data["telephone"] = this.telephone !== undefined ? this.telephone : undefined;
+        data["phoneNumber"] = this.phoneNumber !== undefined ? this.phoneNumber : undefined;
         data["wechatQrcodeUrl"] = this.wechatQrcodeUrl !== undefined ? this.wechatQrcodeUrl : undefined;
         data["tenantId"] = this.tenantId !== undefined ? this.tenantId : undefined;
         data["outletId"] = this.outletId !== undefined ? this.outletId : undefined;
@@ -12612,6 +13251,7 @@ export class Booking {
     tenantId: number;
     name: string;
     description: string;
+    hint: string;
     templateId: number;
     contactorId: number;
     contactor: Contactor;
@@ -12640,6 +13280,7 @@ export class Booking {
             this.tenantId = data["tenantId"] !== undefined ? data["tenantId"] : undefined;
             this.name = data["name"] !== undefined ? data["name"] : undefined;
             this.description = data["description"] !== undefined ? data["description"] : undefined;
+            this.hint = data["hint"] !== undefined ? data["hint"] : undefined;
             this.templateId = data["templateId"] !== undefined ? data["templateId"] : undefined;
             this.contactorId = data["contactorId"] !== undefined ? data["contactorId"] : undefined;
             this.contactor = data["contactor"] ? Contactor.fromJS(data["contactor"]) : undefined;
@@ -12682,6 +13323,7 @@ export class Booking {
         data["tenantId"] = this.tenantId !== undefined ? this.tenantId : undefined;
         data["name"] = this.name !== undefined ? this.name : undefined;
         data["description"] = this.description !== undefined ? this.description : undefined;
+        data["hint"] = this.hint !== undefined ? this.hint : undefined;
         data["templateId"] = this.templateId !== undefined ? this.templateId : undefined;
         data["contactorId"] = this.contactorId !== undefined ? this.contactorId : undefined;
         data["contactor"] = this.contactor ? this.contactor.toJS() : undefined;
@@ -13294,7 +13936,7 @@ export class ContactorEditDto {
     /** 姓名 */
     name: string;
     /** 电话号码 */
-    telephone: string;
+    phoneNum: string;
     /** 联系人二维码 */
     wechatQrcodeUrl: string;
     /** 门店Id */
@@ -13306,7 +13948,7 @@ export class ContactorEditDto {
         if (data !== undefined) {
             this.id = data["id"] !== undefined ? data["id"] : undefined;
             this.name = data["name"] !== undefined ? data["name"] : undefined;
-            this.telephone = data["telephone"] !== undefined ? data["telephone"] : undefined;
+            this.phoneNum = data["phoneNum"] !== undefined ? data["phoneNum"] : undefined;
             this.wechatQrcodeUrl = data["wechatQrcodeUrl"] !== undefined ? data["wechatQrcodeUrl"] : undefined;
             this.outletId = data["outletId"] !== undefined ? data["outletId"] : undefined;
             this.isDefault = data["isDefault"] !== undefined ? data["isDefault"] : undefined;
@@ -13321,7 +13963,7 @@ export class ContactorEditDto {
         data = data === undefined ? {} : data;
         data["id"] = this.id !== undefined ? this.id : undefined;
         data["name"] = this.name !== undefined ? this.name : undefined;
-        data["telephone"] = this.telephone !== undefined ? this.telephone : undefined;
+        data["phoneNum"] = this.phoneNum !== undefined ? this.phoneNum : undefined;
         data["wechatQrcodeUrl"] = this.wechatQrcodeUrl !== undefined ? this.wechatQrcodeUrl : undefined;
         data["outletId"] = this.outletId !== undefined ? this.outletId : undefined;
         data["isDefault"] = this.isDefault !== undefined ? this.isDefault : undefined;
@@ -13612,6 +14254,295 @@ export class FlatPermissionWithLevelDto {
     clone() {
         const json = this.toJSON();
         return new FlatPermissionWithLevelDto(JSON.parse(json));
+    }
+}
+
+export class PagedResultDtoOfPersonBookingOrderListDto {
+    totalCount: number;
+    items: PersonBookingOrderListDto[];
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.totalCount = data["totalCount"] !== undefined ? data["totalCount"] : undefined;
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PersonBookingOrderListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfPersonBookingOrderListDto {
+        return new PagedResultDtoOfPersonBookingOrderListDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["totalCount"] = this.totalCount !== undefined ? this.totalCount : undefined;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJS());
+        }
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new PagedResultDtoOfPersonBookingOrderListDto(JSON.parse(json));
+    }
+}
+
+/** 预约列表 */
+export class PersonBookingOrderListDto {
+    /** 预约名称 */
+    bookingName: string;
+    /** 门店名称 */
+    outletName: string;
+    /** 预约时间 */
+    bookingDate: moment.Moment;
+    /** 预约人数 */
+    bookingNum: number;
+    /** 订单状态 */
+    status: PersonBookingOrderListDtoStatus;
+    /** 手机号码 */
+    phoneNum: string;
+    id: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.bookingName = data["bookingName"] !== undefined ? data["bookingName"] : undefined;
+            this.outletName = data["outletName"] !== undefined ? data["outletName"] : undefined;
+            this.bookingDate = data["bookingDate"] ? moment(data["bookingDate"].toString()) : undefined;
+            this.bookingNum = data["bookingNum"] !== undefined ? data["bookingNum"] : undefined;
+            this.status = data["status"] !== undefined ? data["status"] : undefined;
+            this.phoneNum = data["phoneNum"] !== undefined ? data["phoneNum"] : undefined;
+            this.id = data["id"] !== undefined ? data["id"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): PersonBookingOrderListDto {
+        return new PersonBookingOrderListDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["bookingName"] = this.bookingName !== undefined ? this.bookingName : undefined;
+        data["outletName"] = this.outletName !== undefined ? this.outletName : undefined;
+        data["bookingDate"] = this.bookingDate ? this.bookingDate.toISOString() : undefined;
+        data["bookingNum"] = this.bookingNum !== undefined ? this.bookingNum : undefined;
+        data["status"] = this.status !== undefined ? this.status : undefined;
+        data["phoneNum"] = this.phoneNum !== undefined ? this.phoneNum : undefined;
+        data["id"] = this.id !== undefined ? this.id : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new PersonBookingOrderListDto(JSON.parse(json));
+    }
+}
+
+export class GetPersonBookingOrderOutput {
+    /** 预约信息 */
+    bookingInfo: BookingInfoDto;
+    /** 预约订单信息 */
+    orderInfo: BookingOrderInfo;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.bookingInfo = data["bookingInfo"] ? BookingInfoDto.fromJS(data["bookingInfo"]) : undefined;
+            this.orderInfo = data["orderInfo"] ? BookingOrderInfo.fromJS(data["orderInfo"]) : undefined;
+        }
+    }
+
+    static fromJS(data: any): GetPersonBookingOrderOutput {
+        return new GetPersonBookingOrderOutput(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["bookingInfo"] = this.bookingInfo ? this.bookingInfo.toJS() : undefined;
+        data["orderInfo"] = this.orderInfo ? this.orderInfo.toJS() : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new GetPersonBookingOrderOutput(JSON.parse(json));
+    }
+}
+
+export class BookingInfoDto {
+    /** 预约名称 */
+    bookingName: string;
+    /** 门店名称 */
+    outletName: string;
+    /** 机构名称 */
+    tenantName: string;
+    /** 门店地址 */
+    outletAddress: string;
+    /** 联系人 */
+    contactor: string;
+    /** 联系人电话 */
+    contactorPhoneNum: string;
+    /** 联系人二维码 */
+    contactorQrcode: string;
+    /** 门店图片 */
+    outletPictureUrl: string;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.bookingName = data["bookingName"] !== undefined ? data["bookingName"] : undefined;
+            this.outletName = data["outletName"] !== undefined ? data["outletName"] : undefined;
+            this.tenantName = data["tenantName"] !== undefined ? data["tenantName"] : undefined;
+            this.outletAddress = data["outletAddress"] !== undefined ? data["outletAddress"] : undefined;
+            this.contactor = data["contactor"] !== undefined ? data["contactor"] : undefined;
+            this.contactorPhoneNum = data["contactorPhoneNum"] !== undefined ? data["contactorPhoneNum"] : undefined;
+            this.contactorQrcode = data["contactorQrcode"] !== undefined ? data["contactorQrcode"] : undefined;
+            this.outletPictureUrl = data["outletPictureUrl"] !== undefined ? data["outletPictureUrl"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): BookingInfoDto {
+        return new BookingInfoDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["bookingName"] = this.bookingName !== undefined ? this.bookingName : undefined;
+        data["outletName"] = this.outletName !== undefined ? this.outletName : undefined;
+        data["tenantName"] = this.tenantName !== undefined ? this.tenantName : undefined;
+        data["outletAddress"] = this.outletAddress !== undefined ? this.outletAddress : undefined;
+        data["contactor"] = this.contactor !== undefined ? this.contactor : undefined;
+        data["contactorPhoneNum"] = this.contactorPhoneNum !== undefined ? this.contactorPhoneNum : undefined;
+        data["contactorQrcode"] = this.contactorQrcode !== undefined ? this.contactorQrcode : undefined;
+        data["outletPictureUrl"] = this.outletPictureUrl !== undefined ? this.outletPictureUrl : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new BookingInfoDto(JSON.parse(json));
+    }
+}
+
+/** 预约订单详情 */
+export class BookingOrderInfo {
+    /** 预约日期 */
+    bookingData: moment.Moment;
+    /** 预约人数 */
+    bookingNum: number;
+    /** 温馨提示 */
+    hit: string;
+    /** 客户名称 */
+    customerName: string;
+    /** 电话号码 */
+    phoneNum: string;
+    /** 邮箱地址 */
+    emailAddress: string;
+    /** 性别 */
+    gender: BookingOrderInfoGender;
+    /** 年龄 */
+    age: number;
+    /** 取消理由 */
+    refuseReason: string;
+    /** 创建时间 */
+    creationTime: moment.Moment;
+    id: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.bookingData = data["bookingData"] ? moment(data["bookingData"].toString()) : undefined;
+            this.bookingNum = data["bookingNum"] !== undefined ? data["bookingNum"] : undefined;
+            this.hit = data["hit"] !== undefined ? data["hit"] : undefined;
+            this.customerName = data["customerName"] !== undefined ? data["customerName"] : undefined;
+            this.phoneNum = data["phoneNum"] !== undefined ? data["phoneNum"] : undefined;
+            this.emailAddress = data["emailAddress"] !== undefined ? data["emailAddress"] : undefined;
+            this.gender = data["gender"] !== undefined ? data["gender"] : undefined;
+            this.age = data["age"] !== undefined ? data["age"] : undefined;
+            this.refuseReason = data["refuseReason"] !== undefined ? data["refuseReason"] : undefined;
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : undefined;
+            this.id = data["id"] !== undefined ? data["id"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): BookingOrderInfo {
+        return new BookingOrderInfo(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["bookingData"] = this.bookingData ? this.bookingData.toISOString() : undefined;
+        data["bookingNum"] = this.bookingNum !== undefined ? this.bookingNum : undefined;
+        data["hit"] = this.hit !== undefined ? this.hit : undefined;
+        data["customerName"] = this.customerName !== undefined ? this.customerName : undefined;
+        data["phoneNum"] = this.phoneNum !== undefined ? this.phoneNum : undefined;
+        data["emailAddress"] = this.emailAddress !== undefined ? this.emailAddress : undefined;
+        data["gender"] = this.gender !== undefined ? this.gender : undefined;
+        data["age"] = this.age !== undefined ? this.age : undefined;
+        data["refuseReason"] = this.refuseReason !== undefined ? this.refuseReason : undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : undefined;
+        data["id"] = this.id !== undefined ? this.id : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new BookingOrderInfo(JSON.parse(json));
+    }
+}
+
+export class CancelBookingOrderInput {
+    /** 取消理由 */
+    refuseReason: string;
+    id: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.refuseReason = data["refuseReason"] !== undefined ? data["refuseReason"] : undefined;
+            this.id = data["id"] !== undefined ? data["id"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): CancelBookingOrderInput {
+        return new CancelBookingOrderInput(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["refuseReason"] = this.refuseReason !== undefined ? this.refuseReason : undefined;
+        data["id"] = this.id !== undefined ? this.id : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new CancelBookingOrderInput(JSON.parse(json));
     }
 }
 
@@ -17394,6 +18325,12 @@ export enum IsTenantAvailableOutputState {
     _3 = 3, 
 }
 
+export enum JoinBookingInputGender {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
+
 export enum FriendDtoState {
     _1 = 1, 
     _2 = 2, 
@@ -17420,6 +18357,19 @@ export enum TenantNotificationSeverity {
     _2 = 2, 
     _3 = 3, 
     _4 = 4, 
+}
+
+export enum PersonBookingOrderListDtoStatus {
+    _1 = 1, 
+    _2 = 2, 
+    _4 = 4, 
+    _5 = 5, 
+}
+
+export enum BookingOrderInfoGender {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
 }
 
 export enum CodeSendInputCodeType {

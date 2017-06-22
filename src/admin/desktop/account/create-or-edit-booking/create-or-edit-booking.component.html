@@ -5,7 +5,7 @@
                 <div class="page-head">
                     <div class="page-title">
                         <h1>
-                            <span *ngIf="!this.bookingId">{{l("UserCenter.Menu.CreateYuyue")}}</span>
+                            <span *ngIf="!this.bookingId">{{l("BusinessCenter.Menu.CreateYuyue")}}</span>
                             <span *ngIf="this.bookingId">编辑预约</span>
                             <small routerLink="/app/admin/booking"><span class="fa fa-arrow-circle-left"></span><a >返回</a></small>
                         </h1>
@@ -14,7 +14,7 @@
             </div>
             <div class="col-xs-6 text-right">
                 <button type="submit" (click)="save()" class="btn btn-submit" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"><span class="vapps-icon vapps-icon-app-submit"></span>{{l("Save")}}</button>
-                <button type="botton" (click)="saveAndEdit()" class="btn btn-submit">{{l("UserCenter.SavingAndEditing")}}</button>
+                <button type="botton" (click)="saveAndEdit()" class="btn btn-submit">{{l("BusinessCenter.SavingAndEditing")}}</button>
                 <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>
             </div>
         </div>

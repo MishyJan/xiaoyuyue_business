@@ -111,6 +111,10 @@ export class LoginService {
         });
     }
 
+    wechatAuth() {
+         
+    }
+
     init(): void {
         this.initExternalLoginProviders();
     }
@@ -203,7 +207,6 @@ export class LoginService {
             .getExternalAuthenticationProviders()
             .subscribe((providers: ExternalLoginProviderInfoModel[]) => {
                 this.externalLoginProviders = _.map(providers, p => {
-                    console.log(p);
                     return new ExternalLoginProvider(p);
                 });
             });

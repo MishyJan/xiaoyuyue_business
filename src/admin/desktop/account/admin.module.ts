@@ -20,7 +20,7 @@ import { TenantService } from "shared/services/tenant.service";
 import { SmsSettingComponent } from './settings/host-settings/sms-setting/sms-setting.component';
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
-import { SMSTemplateServiceProxy, OrganizationBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy } from "shared/service-proxies/service-proxies";
+import { SMSTemplateServiceProxy, OrganizationBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy } from "shared/service-proxies/service-proxies";
 import { DatePickerModule, DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ManageBookingComponent } from './manage-booking/manage-booking.component';
 import { UploadPictureModelComponent } from './create-or-edit-booking/picture-manage/upload-picture-model/upload-picture-model.component';
@@ -88,7 +88,8 @@ import { TenantSettingsComponent } from "admin/desktop/account/settings/tenant-s
         SMSTemplateServiceProxy,
         OrganizationBookingServiceProxy,
         PictureServiceProxy,
-        OutletServiceServiceProxy
+        OutletServiceServiceProxy,
+        BookingServiceProxy
     ]
 })
 export class AdminModule { }
