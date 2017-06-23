@@ -4,4 +4,4 @@
 
 本地启动: `http://localhost:5202`
 
-测试主机外网入口: `http://localhost:5202`
+测试主机外网入口: `http://vapps.oicp.net`
