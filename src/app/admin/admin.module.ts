@@ -21,7 +21,6 @@ import { SmsSettingComponent } from './settings/host-settings/sms-setting/sms-se
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { SMSTemplateServiceProxy, OrganizationBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy } from "shared/service-proxies/service-proxies";
-import { DatePickerModule, DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ManageBookingComponent } from './manage-booking/manage-booking.component';
 import { UploadPictureModelComponent } from './create-or-edit-booking/picture-manage/upload-picture-model/upload-picture-model.component';
 
@@ -60,9 +59,6 @@ import { ShareBookingModelComponent } from './create-or-edit-booking/share-booki
         ButtonsModule,
         SharedModule,
         DialogModule,
-
-        DatePickerModule,
-        DateInputsModule,
 
         QRCodeModule
     ],
