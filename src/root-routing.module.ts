@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoadingComponent } from './auth/loading/loading.component';
+import { ExternalLoginGuard } from 'app/shared/common/auth/external-login-guard';
 
 const routes: Routes = [
     { path: '', redirectTo: '/app/main/dashboard', pathMatch: 'full' },
     {
+        path: 'loading',
+        component: LoadingComponent,
+        canActivate: [ExternalLoginGuard]
+    },
+    {
         path: 'auth',
         loadChildren: 'auth/auth.module#AuthModule', //Lazy load account module
         data: { preload: true }
-    },
-    {
-    path: 'mobile',
-    loadChildren: 'booking-mobile/booking.module#BookingModule', //Lazy load account module
-    data: { preload: true }
-    }    
+    }
 ];
 
 @NgModule({

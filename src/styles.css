@@ -24,6 +24,19 @@ a:hover {
 
 /* 覆盖bootstrap样式 */
 
+.modal {
+    width: 100%;
+    max-width: 480px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: visible !important;
+}
+
+.modal-dialog {
+    width: 80%;
+}
+
 .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
 }

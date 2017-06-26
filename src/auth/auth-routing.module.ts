@@ -10,9 +10,10 @@ import { EmailActivationComponent } from './email-activation/email-activation.co
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
 import { SendTwoFactorCodeComponent } from './login/send-two-factor-code.component';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
-import { AppRouteGuard } from "admin/shared/common/auth/auth-route-guard";
-import { ExternalLoginGuard } from "admin/shared/common/auth/external-login-guard";
+import { AppRouteGuard } from "app/shared/common/auth/auth-route-guard";
+import { ExternalLoginGuard } from "app/shared/common/auth/external-login-guard";
 import { AuthComponent } from "auth/auth.component";
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { AuthComponent } from "auth/auth.component";
                 path: '',
                 component: AuthComponent,
                 children: [
-                    { path: 'login', component: LoginComponent, canActivate: [ExternalLoginGuard]},
+                    { path: 'login', component: LoginComponent},
+                    // { path: 'loading', component: LoadingComponent, canActivate: [ExternalLoginGuard] },
                     { path: 'register', component: RegisterComponent },
                     { path: 'register-tenant', component: RegisterTenantComponent },
                     { path: 'register-tenant-result', component: RegisterTenantResultComponent },

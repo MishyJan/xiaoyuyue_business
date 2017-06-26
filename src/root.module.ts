@@ -4,7 +4,7 @@ import { NgModule, Injector, APP_INITIALIZER } from '@angular/core';
 
 import { AbpModule, ABP_HTTP_PROVIDER } from '@abp/abp.module';
 
-import { AppModule } from './admin/app.module';
+import { AppModule } from './app/app.module';
 import { CommonModule } from '@shared/common/common.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { RootRoutingModule } from './root-routing.module';
@@ -18,6 +18,7 @@ import { AppPreBootstrap } from './AppPreBootstrap';
 import { AbpHttpConfiguration, IErrorInfo } from "abp-ng2-module/src/abpHttp";
 
 import { NgxAniModule } from 'ngxani';
+import { LoadingComponent } from './auth/loading/loading.component';
 
 export function appInitializerFactory(injector: Injector) {
     return () => {
@@ -71,7 +72,8 @@ export function getRemoteServiceBaseUrl(): string {
         NgxAniModule
     ],
     declarations: [
-        RootComponent
+        RootComponent,
+        LoadingComponent
     ],
     providers: [
         ABP_HTTP_PROVIDER,

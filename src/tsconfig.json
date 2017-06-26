@@ -17,7 +17,7 @@
         "baseUrl": ".",
         "paths": {
             "@abp/*": ["../node_modules/abp-ng2-module/src/*"],
-            "@admin/*": ["./admin/*"],
+            "@app/*": ["./app/*"],
             "@shared/*": ["./shared/*"],
             "@node_modules/*": ["../node_modules/*"]
         }
