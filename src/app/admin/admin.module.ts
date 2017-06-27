@@ -37,7 +37,7 @@ import { TimeInfoComponent } from "app/admin/create-or-edit-booking/time-info/ti
 import { TenantSettingsComponent } from "app/admin/settings/tenant-settings.component";
 import { QRCodeModule } from 'angular2-qrcode';
 import { ShareBookingModelComponent } from './create-or-edit-booking/share-booking-model/share-booking-model.component';
-
+import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 
 @NgModule({
     imports: [
@@ -59,7 +59,7 @@ import { ShareBookingModelComponent } from './create-or-edit-booking/share-booki
         ButtonsModule,
         SharedModule,
         DialogModule,
-
+DateInputModule,
         QRCodeModule
     ],
     declarations: [
