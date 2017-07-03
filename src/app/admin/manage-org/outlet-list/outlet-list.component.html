@@ -1,3 +1,133 @@
-<p>
-  outlet-list works!
-</p>
+<div class="manage-org" [@routerTransition]>
+    <div class="row margin-bottom-5">
+        <div class="col-xs-6">
+            <div class="page-head">
+                <div class="page-title">
+                    <h1>
+                        <span>{{l("BusinessCenter.Menu.OrgInfo")}}</span>
+                    </h1>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button (click)="createOutlet()" class="btn btn-submit"><i class="vapps-icon-add-outlet"></i>新增门店</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet light portlet-fit">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject">{{l("Search")}}</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body clearfix">
+                    <div class="inputs inputs-full-width">
+                        <div class="portlet-input">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">门店名称</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="outletName" placeholder="门店名称">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">营业时间</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="shopHours" placeholder="营业时间">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">地址</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="outletAddress" placeholder="地址">
+                                                <!--<kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">联系人</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="outletAddress" placeholder="联系人">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-10">
+                                    <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
+                                        <div class="text-center filter-action">
+                                            <button class="btn btn-block btn-submit"><i class="fa fa-search"></i> {{l("Search")}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-12 outlet-list-wrap">
+            <div class="col-lg-3 col-md-3 col-sm-4 outlet-item box-shadow">
+                <div class="top-wrap box-shadow">
+                    <img src="/assets/common/images/booking/booking-bg.png" width="100%" alt="">
+                </div>
+
+
+                <div class="content-wrap">
+                    <div class="content-item">
+                        <span class="flex-right">机构名称</span>
+                        <span class="vapps-icon-app-edit flex-left orange-icon"></span>
+                    </div>
+
+                    <div class="content-item">
+                        <span class="flex-right">
+                            <span class="vapps-icon-app-shop-hours flex-right"></span><span class="flex-left">09:00 - 23:00</span>
+                        </span>
+                        <span class="flex-left"></span>
+                    </div>
+
+                    <div class="content-item">
+                        <span class="flex-right">
+                            <span class="vapps-icon-app-location flex-right"></span><span class="flex-left">广东省广州市番禺区番禺大道555号节能科技园</span>
+                        </span>
+                        <span class="vapps-icon-app-phone flex-left orange-icon"></span>
+                    </div>
+
+                    <div class="content-item">
+                        <span class="flex-right">
+                            <span class="vapps-icon-app-contact flex-right"></span><span class="flex-left">李先生 15800158000</span>
+                        </span>
+                        <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="col-lg-12">
+            <div class="pull-right">
+                <ul class="pagination pagination-info">
+                    <li><a href="javascript:void(0);" (click)="firstPage()"><span class="vapps-icon-app-first-page"></span></a></li>
+                    <li><a href="javascript:void(0);" (click)="prevPage(currentPage)"><span class="fa fa-angle-left"></span></a></li>
+                    <li *ngFor="let pages of pagesTotal; let index = index;" [ngClass]="{'active': index == currentPage}" (click)="changePage(index)"><a href="javascript:void(0);">{{pages}}</a></li>
+                    <li><a href="javascript:void(0);" (click)="nextPage(currentPage)"><span class="vapps-icon-app-next-page"></span></a></li>
+                    <li><a href="javascript:void(0);" (click)="lastPage()"><span class="vapps-icon-app-last-page"></span></a></li>
+                </ul>
+            </div>
+        </div>-->
+    </div>
+</div>

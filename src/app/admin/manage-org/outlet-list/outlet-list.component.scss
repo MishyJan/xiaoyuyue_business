@@ -1,0 +1,44 @@
+.manage-org {
+    .orange-icon {
+        color: #FF9641;
+    }
+    .outlet-list-wrap {
+        margin-top: 30px;
+        .outlet-item {
+            border-radius: 4px;
+            background-color: #FFF;
+            .top-wrap {
+                margin-top: -30px;
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            .content-wrap {
+                padding: 26px 0;
+                .content-item+.content-item {
+                    margin-top: 10px;
+                }
+                .content-item {
+                    display: flex;
+                    >.flex-right {
+                        display: flex;
+                        flex: 1;
+                        .flex-right {
+                            width: 18px;
+                            flex: 0 0 18px;
+                            margin-right: 20px;
+                            font-size: 18px;
+                        }
+                        .flex-left {
+                            flex: 1;
+                        }
+                    }
+                    >.flex-left {
+                        width: 18px;
+                        flex: 0 0 18px;
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+}

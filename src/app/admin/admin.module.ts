@@ -18,7 +18,7 @@ import { GetUserForEdit } from "shared/services/get-user-info.service";
 import { TenantService } from "shared/services/tenant.service";
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
-import { SMSTemplateServiceProxy, OrganizationBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy } from "shared/service-proxies/service-proxies";
+import { SMSTemplateServiceProxy, OrganizationBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 import { QRCodeModule } from 'angular2-qrcode';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { CreateOrEditBookingComponent } from './manage-booking/create-or-edit-booking/create-or-edit-booking.component';
@@ -31,6 +31,8 @@ import { ShareBookingModelComponent } from './manage-booking/create-or-edit-book
 import { CreateOrEditOutletComponent } from './manage-org/create-or-edit-outlet/create-or-edit-outlet.component';
 import { OutletListComponent } from './manage-org/outlet-list/outlet-list.component';
 import { OrgInfoComponent } from './manage-org/org-info/org-info.component';
+import { OutletImageComponent } from './manage-org/create-or-edit-outlet/outlet-image/outlet-image.component';
+import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact-info/contact-info.component';
 
 @NgModule({
     imports: [
@@ -65,7 +67,9 @@ import { OrgInfoComponent } from './manage-org/org-info/org-info.component';
         ShareBookingModelComponent,
         CreateOrEditOutletComponent,
         OutletListComponent,
-        OrgInfoComponent
+        OrgInfoComponent,
+        OutletImageComponent,
+        ContactInfoComponent
     ],
     providers: [
         AppStorageService,
@@ -76,7 +80,8 @@ import { OrgInfoComponent } from './manage-org/org-info/org-info.component';
         OrganizationBookingServiceProxy,
         PictureServiceProxy,
         OutletServiceServiceProxy,
-        BookingServiceProxy
+        BookingServiceProxy,
+        StateServiceServiceProxy
     ]
 })
 export class AdminModule { }

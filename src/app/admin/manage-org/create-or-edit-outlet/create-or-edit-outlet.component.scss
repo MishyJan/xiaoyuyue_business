@@ -1,0 +1,76 @@
+.create-outlet {
+    .outlet-info {
+        .portlet-title {
+            margin-bottom: 0;
+        }
+        .portlet-body {
+            padding-top: 0;
+            padding-bottom: 0;
+            .row {
+                .name {
+                    border-right: 1px solid #EEE;
+                }
+            }
+            .row+.row {
+                border-top: 1px solid #EEE;
+            }
+            .info-row,
+            .landline-phone-row,
+            .shop-hours-row {
+                height: 64px;
+                line-height: 64px;
+                .input-box {
+                    .input-form {
+                        margin-top: 15px;
+                    }
+                    .common-max-width {
+                        max-width: 240px;
+                        height: 34px;
+                    }
+                }
+            }
+            .outlet-address-row {
+                .outlet-address {
+                    height: 152px;
+                    line-height: 152px;
+                }
+                .input-box {
+                    .select-address-wrap {
+                        margin-left: 15px;
+                        .item {
+                            padding: 0 7px;
+                        }
+                        .item:first-child {
+                            padding: 0 7px 0 0;
+                        }
+                        .item:last-child {
+                            padding: 0 0 0 7px;
+                        }
+                    }
+                    .detailed-address-wrap {
+                        textarea {
+                            height: 72px;
+                            resize: none;
+                        }
+                    }
+                    .select-address-wrap,
+                    .detailed-address-wrap {
+                        margin-top: 15px;
+                    }
+                    .common-max-width {
+                        max-width: 240px;
+                        height: 34px;
+                    }
+                }
+            }
+            .intro-row {
+                .name {
+                    >span {
+                        display: inline-block;
+                        margin-top: 15px;
+                    }
+                }
+            }
+        }
+    }
+}
