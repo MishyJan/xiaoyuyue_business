@@ -13,8 +13,6 @@ import { TenantChangeComponent } from './shared/tenant-change.component';
 import { TenantChangeModalComponent } from './shared/tenant-change-modal.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { RegisterTenantComponent } from './register/register-tenant.component';
-import { RegisterTenantResultComponent } from './register/register-tenant-result.component';
 import { TenantRegistrationHelperService } from './register/tenant-registration-helper.service';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { ResetPasswordComponent } from './password/reset-password.component';
@@ -58,8 +56,6 @@ import { BackgroundImgComponent } from "auth/layout/background-img/background-im
         TenantChangeModalComponent,
         LoginComponent,
         RegisterComponent,
-        RegisterTenantComponent,
-        RegisterTenantResultComponent,
         ForgotPasswordComponent,
         ResetPasswordComponent,
         EmailActivationComponent,

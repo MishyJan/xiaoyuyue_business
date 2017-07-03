@@ -1,0 +1,180 @@
+.manage-booking {
+    .portlet-body {
+        padding-top: 0;
+        padding-bottom: 0;
+        .filter-action {
+            .btn {
+                background-color: #ff9742;
+            }
+        }
+    }
+    .xiaoyuyue-title-box {
+        width: calc(100% - 40px);
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+    }
+    .booking-list-wrap {
+        padding: 0;
+        transform-style: preserve-3d;
+        min-height: 470px;
+        .booking-item.flip {
+            transform-style: preserve-3d;
+        } // 禁用预约的样式
+        .disabledBooking {
+            filter: grayscale(100%);
+        }
+        .booking-item {
+            position: relative;
+            height: 440px;
+            padding: 0;
+            cursor: pointer;
+            margin-bottom: 30px;
+            .back-wrap,
+            .front-wrap {
+                width: calc(100% - 30px);
+                height: 440px;
+                position: absolute;
+                top: 0;
+                left: 15px;
+                background-color: #FFF;
+                backface-visibility: hidden;
+            }
+            .back-wrap {
+                // left: 480px;
+                transform: rotateY(-180deg);
+                .portlet {
+                    height: 100%;
+                }
+                .content-wrap {
+                    .content-item {
+                        display: flex;
+                        padding: 12px 0;
+                        .name {
+                            flex: 0 0 96px;
+                        }
+                        .desc {
+                            flex: 1;
+                        }
+                    }
+                    .back {
+                        .vapps-icon-app-back {
+                            width: 34px;
+                            height: 34px;
+                            line-height: 34px;
+                            font-size: 34px;
+                            color: #AAA;
+                            padding: 0;
+                            font-weight: normal;
+                        }
+                    }
+                }
+            }
+            .front-wrap {
+                z-index: 2;
+                &:hover .booking-item-cover {
+                    display: block;
+                }
+                .top-banner-wrap {
+                    overflow: hidden;
+                    border-radius: 4px;
+                    .org-bg {}
+                }
+                .booking-details {
+                    width: 100%;
+                    position: relative;
+                    padding: 30px 20px 48px;
+                    border-radius: 4px;
+                    .content {
+                        margin-top: 45px;
+                        .booking-overbrim {}
+                        .booking-info {
+                            .info-row-item {
+                                display: flex;
+                                .key {
+                                    width: 100px;
+                                    flex: 0 0 100px;
+                                    line-height: 34px;
+                                    display: inline-block;
+                                    padding-right: 10px;
+                                    text-align: right;
+                                }
+                                .value {
+                                    flex: 1;
+                                    line-height: 34px;
+                                    display: inline-block;
+                                    padding-left: 10px;
+                                    text-align: left;
+                                    color: #ff9742;
+                                }
+                            }
+                        }
+                    }
+                }
+                .booking-item-cover {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    color: #FFF;
+                    background-color: rgba(0, 0, 0, .8);
+                    display: none;
+                    .qr-code-wrap {
+                        width: 180px;
+                        height: 180px;
+                        border: 1px solid #ccc;
+                        margin: 60px auto 0;
+                    }
+                    .handle-wrap {
+                        .handle-item-1 {
+                            width: 180px;
+                            margin: 30px auto 0;
+                            .item {
+                                text-align: center;
+                                >i {
+                                    display: block;
+                                    width: 60px;
+                                    height: 60px;
+                                    line-height: 60px;
+                                    border-radius: 50%;
+                                    background-color: #AAA;
+                                    font-size: 56px;
+                                }
+                            }
+                            .item:hover>i {
+                                background-color: #ff9742;
+                            }
+                            .item.active {
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                .vapps-icon-app-active {
+                                    display: block;
+                                    margin: 0 auto;
+                                }
+                            }
+                        }
+                        .handle-item-2 {
+                            width: 120px;
+                            position: absolute;
+                            right: 10px;
+                            bottom: 14px;
+                            span {
+                                width: 34px;
+                                height: 34px;
+                                line-height: 34px;
+                                display: inline-block;
+                                font-size: 34px;
+                                color: #AAA;
+                                padding: 0;
+                                font-weight: normal;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

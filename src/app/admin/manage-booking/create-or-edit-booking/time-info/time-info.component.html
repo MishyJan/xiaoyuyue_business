@@ -1,0 +1,153 @@
+<div class="time-info">
+    <form #timeInfoForm="ngForm">
+        <div class="portlet light portlet-fit">
+            <div class="portlet-title clearfix">
+                <div class="caption pull-left">
+                    <span class="caption-subject">{{l("BusinessCenter.Booking.TimeInfo")}}</span>
+                </div>
+                <div class="caption pull-right add-time">
+                    <span (click)="createTimeField()" class="btn btn-border-radius"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加时段</span>
+                </div>
+            </div>
+
+            <div class="portlet-body clearfix">
+                <!-- 创建时间段 -->
+                <div style="width: 100%;" *ngIf="isCreateTimeField" class="clearfix">
+                    <div class="col-md-6 time-info-wrap create-time-info box-shadow border-radius-14 pull-left paddingTop-32 no-lr-padding">
+                        <div class="xiaoyuyue-title-box"></div>
+                        <div class="time-item clearfix">
+                            <div class="bookingPeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                            <div class="col-md-9 row input-box">
+                                <div class="col-md-9">
+                                    <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required autofocus>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-item">
+                            <div class="queuePeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                            <div class="col-md-9 row input-box">
+                                <div class="col-md-9">
+                                    <input class="form-control" type="number" name="maxQueueNum" [(ngModel)]="localSingleBookingItem.maxQueueNum" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-item booking-date-item">
+                            <div class=" name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
+                            <div class="col-md-9 row input-box">
+                                <div class="col-md-9">
+                                    <!--<kendo-datepicker [(value)]="bookingDate" [format]="'yyyy/MM/dd'"></kendo-datepicker>-->
+                                    <div id="timeInfoFlatpickr" class="flatpickr-wrap">
+                                        <input class="form-control" type="text" name="bookingDate" placeholder="请选择日期" [(ngModel)]="localSingleBookingItem.availableDates" data-input required>
+
+                                        <a class="input-button flatpickr-toggle" title="切换" data-toggle>
+                                            <i class="icon-calendar"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-item booking-time-item clearfix" style="height: 100%">
+                            <div class="booking-time-name name col-md-3 text-right" [style.line-height]="getBookingTimeItemHeight()"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
+                            <div class="col-md-9 row input-box clearfix">
+                                <div *ngFor="let bookingTimeItem of allBookingTime; let index = index;" class="item">
+                                    <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
+                                        <div class="col-md-6">
+                                            <kendo-dateinput [format]="'HH:mm'" [(value)]="bookingTimeItem[0]"></kendo-dateinput>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <kendo-dateinput [format]="'HH:mm'" [(value)]="bookingTimeItem[1]"></kendo-dateinput>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="showAddTimeIcon(index)" class="add-time-btn-wrap pull-right box-shadow" (click)="addTimeField()"><span class="vapps-icon-cb-add-time"></span></div>
+                                    <div *ngIf="!showAddTimeIcon(index)" class="add-time-btn-wrap pull-right box-shadow" (click)="removeTimeField(index)"><span class="vapps-icon-dc-customer-vip"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="time-item submit-item">
+                            <button class="btn btn-submit" (click)="save()" [(disabled)]="!timeInfoForm.form.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
+                            <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 创建状态的展示时间段 -->
+                <div *ngIf="!isCreateOrEdit; else hasTimeInfo">
+                    <div *ngIf="isShowTimeField">
+                        <div *ngFor="let bookingItem of localAllBookingItem; let index = index;" class="col-md-6 time-info-wrap view-time-info box-shadow border-radius-14 pull-left paddingTop-32 no-lr-padding">
+                            <div class="xiaoyuyue-title-box">
+                                {{bookingItem.hourOfDay}}
+                                <div class="btn-action-wrap">
+                                    <span class="icon vapps-icon-app-copy-2" (click)="copyBookingItem(index)"></span>
+                                    <span class="icon vapps-icon-app-edit" (click)="editBookingItem(index)"></span>
+                                    <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)" style="margin: 0;"></span>
+                                </div>
+                            </div>
+                            <div class="time-item">
+                                <div class="bookingPeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                                <div class="col-md-9 view-box">
+                                    {{bookingItem.maxBookingNum}}
+                                </div>
+                            </div>
+                            <div class="time-item">
+                                <div class="queuePeopleOfNumber-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                                <div class="col-md-9 view-box">
+                                    {{bookingItem.maxQueueNum}}
+                                </div>
+                            </div>
+                            <div class="time-item">
+                                <div class="bookingDate-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
+                                <div class="col-md-9 view-box">
+                                    {{bookingItem.availableDates}}
+                                </div>
+                            </div>
+                            <div class="time-item">
+                                <div class="bookingTime-name name col-md-3 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
+                                <div class="col-md-9 view-box">
+                                    {{bookingItem.hourOfDay}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 编辑状态的展示时间段 -->
+                <ng-template #hasTimeInfo>
+                    <div *ngFor="let timeInfoItem of timeInfo; let index = index;" class="col-lg-4 time-info-wrap view-time-info box-shadow border-radius-14 pull-left paddingTop-32 no-lr-padding">
+                        <div class="xiaoyuyue-title-box">
+                            {{timeInfoItem.hourOfDay}}
+                            <div class="btn-action-wrap">
+                                <span class="icon vapps-icon-app-copy-2" (click)="copyBookingItem(index)"></span>
+                                <span class="icon vapps-icon-app-edit" (click)="editBookingItem(index)"></span>
+                                <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)" style="margin: 0;"></span>
+                            </div>
+                        </div>
+                        <div class="time-item clearfix">
+                            <div class="bookingPeopleOfNumber-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                            <div class="col-md-8 view-box">
+                                {{timeInfoItem.maxBookingNum}}
+                            </div>
+                        </div>
+                        <div class="time-item">
+                            <div class="queuePeopleOfNumber-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                            <div class="col-md-8 view-box">
+                                {{timeInfoItem.maxQueueNum}}
+                            </div>
+                        </div>
+                        <div class="time-item">
+                            <div class="bookingDate-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
+                            <div class="col-md-8 view-box">
+                                {{timeInfoItem.availableDates}}
+                            </div>
+                        </div>
+                        <div class="time-item">
+                            <div class="bookingTime-name name col-md-4 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
+                            <div class="col-md-8 view-box">
+                                {{timeInfoItem.hourOfDay}}
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <!--<div (click)="createTimeField()" class="add-time-btn-wrap pull-left box-shadow"><span class="vapps-icon-cb-add-time"></span></div>-->
+            </div>
+        </div>
+    </form>
+</div>

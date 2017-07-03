@@ -25,15 +25,11 @@ export class SideBarComponent extends AppComponentBase {
         new SideBarMenuItem("BusinessCenter.Menu.UserData", this.adminPermissions.tenantDashboard, "vapps-icon-dc-menu", "/app/main/dashboard"),
         new SideBarMenuItem("BusinessCenter.Menu.ManageBooking", this.adminPermissions.userManage, "vapps-icon-bm-menu", "", [
             new SideBarMenuItem("BusinessCenter.Menu.ManageBooking.List", "", "", "/app/admin/booking"),
-            // new SideBarMenuItem("BusinessCenter.Menu.ManageYuyue.ResponderList", this.adminPermissions.userManage_Tenants, "", "/app/admin/tenants"),
-            // new SideBarMenuItem("Roles", this.adminPermissions.userManage_Roles, "icon-briefcase", "/app/admin/roles"),
-            // new SideBarMenuItem("Users", this.adminPermissions.userManage_Users, "icon-people", "/app/admin/users"),
         ]),
-        // new SideBarMenuItem("BusinessCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu", "", [
-        //     new SideBarMenuItem("BusinessCenter.Menu.Org.BaseInfo", this.adminPermissions.configuration_Languages, "", "/app/admin/languages"),
-        //     new SideBarMenuItem("BusinessCenter.Menu.Org.TenantManage", this.adminPermissions.configuration_HostSettings, "", "/app/admin/hostSettings"),
-        //     // new SideBarMenuItem("Settings", this.adminPermissions.configuration_TenantSettings, "icon-settings", "/app/admin/tenantSettings")
-        // ])
+        new SideBarMenuItem("BusinessCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu", "", [
+            new SideBarMenuItem("BusinessCenter.Menu.Org.BaseInfo", "", "", "/app/admin/org/info"),
+            new SideBarMenuItem("BusinessCenter.Menu.Org.TenantManage", "", "", "/app/admin/org/list"),
+        ])
         // new SideBarMenuItem("Admin.System", this.adminPermissions.system, "icon-settings", "", [
         //     new SideBarMenuItem("AuditLogs", this.adminPermissions.system_AuditLogs, "icon-lock", "/app/admin/auditLogs"),
         //     new SideBarMenuItem("Editions", this.adminPermissions.system_Editions, "icon-grid", "/app/admin/editions"),

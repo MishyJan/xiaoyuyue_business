@@ -1,10 +1,11 @@
 import { AdminPermissions } from '@shared/AdminPermissions';
 import { NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { ManageBookingComponent } from "app/admin/manage-booking/manage-booking.component";
-import { CreateOrEditBookingComponent } from "app/admin/create-or-edit-booking/create-or-edit-booking.component";
-import { HostSettingsComponent } from "app/admin/settings/host-settings.component";
-import { TenantSettingsComponent } from "app/admin/settings/tenant-settings.component";
+import { BookingListComponent } from './manage-booking/booking-list/booking-list.component';
+import { CreateOrEditBookingComponent } from './manage-booking/create-or-edit-booking/create-or-edit-booking.component';
+import { OutletListComponent } from './manage-org/outlet-list/outlet-list.component';
+import { OrgInfoComponent } from './manage-org/org-info/org-info.component';
+import { CreateOrEditOutletComponent } from './manage-org/create-or-edit-outlet/create-or-edit-outlet.component';
 
 @NgModule({
     imports: [
@@ -17,13 +18,21 @@ import { TenantSettingsComponent } from "app/admin/settings/tenant-settings.comp
                         path: 'booking',
                         children: [
                             { path: '', redirectTo: 'list' },
-                            { path: "list", component: ManageBookingComponent },
+                            { path: "list", component: BookingListComponent },
                             { path: "create", component: CreateOrEditBookingComponent },
                             { path: "edit/:id", component: CreateOrEditBookingComponent }
                         ]
                     },
-                    { path: 'hostSettings', component: HostSettingsComponent, data: { permission: AdminPermissions.configuration_HostSettings } },
-                    { path: 'tenantSettings', component: TenantSettingsComponent, data: { permission: AdminPermissions.configuration_TenantSettings } },
+                    {
+                        path: 'org',
+                        children: [
+                            { path: '', redirectTo: 'list' },
+                            { path: "list", component: OutletListComponent },
+                            { path: "info", component: OrgInfoComponent },
+                            { path: "create", component: CreateOrEditOutletComponent },
+                            { path: "edit/:id", component: CreateOrEditOutletComponent }
+                        ]
+                    }
                 ]
             }
         ])
