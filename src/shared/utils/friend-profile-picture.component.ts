@@ -8,7 +8,7 @@ import { ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
 })
 export class FriendProfilePictureComponent implements AfterViewInit {
 
-    @Input() profilePictureId: string;
+    @Input() profilePictureId: number;
     @Input() userId: number;
     @Input() tenantId: number;
     @Input() cssClass: string = 'media-object';

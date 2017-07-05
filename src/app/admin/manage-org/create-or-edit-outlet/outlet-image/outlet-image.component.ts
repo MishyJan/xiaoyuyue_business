@@ -1,6 +1,7 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { UploadPictureNoneGalleryComponent } from 'app/admin/shared/upload-picture-none-gallery/upload-picture-none-gallery.component';
+import { UploadPictureDto } from "app/admin/shared/utils/upload-picture.dto";
 
 @Component({
   selector: 'xiaoyuyue-outlet-image',
@@ -8,8 +9,11 @@ import { UploadPictureNoneGalleryComponent } from 'app/admin/shared/upload-pictu
   styleUrls: ['./outlet-image.component.scss']
 })
 export class OutletImageComponent extends AppComponentBase implements OnInit {
-  outletPicUrl: string;
+  uploadPicInfo: UploadPictureDto = new UploadPictureDto();
+
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
+  @Output() pictureInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
+
   constructor(
     injector: Injector
   ) {
@@ -25,8 +29,9 @@ export class OutletImageComponent extends AppComponentBase implements OnInit {
   }
 
     // 获取图片上传URL
-  getPicUrlHandler(picUrl: string) {
-    this.outletPicUrl = picUrl;
+  getPicUploadInfoHandler(uploadPicInfo: UploadPictureDto): void {
+    this.uploadPicInfo = uploadPicInfo;
+    this.pictureInfoHandler.emit(uploadPicInfo);
   }
 
 }

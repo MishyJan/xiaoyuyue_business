@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="gallery-wrap col-md-12">
                     <div class="img-wrap">
-                        <img alt="outletPicUrl" *ngIf="outletPicUrl" [src]="outletPicUrl" height="100%">
+                        <img alt="outletPicUrl" *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" height="100%">
                     </div>
                 </div>
                 <div class="gallery-action col-md-12">
@@ -22,6 +22,6 @@
         </div>
     </div>
 
-    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (getPicUrlHandler)="getPicUrlHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
+    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
 
 </div>

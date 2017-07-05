@@ -18,7 +18,7 @@ import { GetUserForEdit } from "shared/services/get-user-info.service";
 import { TenantService } from "shared/services/tenant.service";
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
-import { SMSTemplateServiceProxy, OrgBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
+import { SMSTemplateServiceProxy, OrgBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy, StateServiceServiceProxy, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { QRCodeModule } from 'angular2-qrcode';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { CreateOrEditBookingComponent } from './manage-booking/create-or-edit-booking/create-or-edit-booking.component';
@@ -34,6 +34,8 @@ import { OrgInfoComponent } from './manage-org/org-info/org-info.component';
 import { OutletImageComponent } from './manage-org/create-or-edit-outlet/outlet-image/outlet-image.component';
 import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact-info/contact-info.component';
 import { UploadPictureNoneGalleryComponent } from './shared/upload-picture-none-gallery/upload-picture-none-gallery.component';
+import { UploadOrgLogoComponent } from './manage-org/org-info/upload-org-logo/upload-org-logo.component';
+import { UploadOrgBgComponent } from './manage-org/org-info/upload-org-bg/upload-org-bg.component';
 
 @NgModule({
     imports: [
@@ -71,7 +73,9 @@ import { UploadPictureNoneGalleryComponent } from './shared/upload-picture-none-
         OrgInfoComponent,
         OutletImageComponent,
         ContactInfoComponent,
-        UploadPictureNoneGalleryComponent
+        UploadPictureNoneGalleryComponent,
+        UploadOrgLogoComponent,
+        UploadOrgBgComponent
     ],
     providers: [
         AppStorageService,
@@ -83,7 +87,8 @@ import { UploadPictureNoneGalleryComponent } from './shared/upload-picture-none-
         PictureServiceProxy,
         OutletServiceServiceProxy,
         BookingServiceProxy,
-        StateServiceServiceProxy
+        StateServiceServiceProxy,
+        TenantInfoServiceProxy
     ]
 })
 export class AdminModule { }

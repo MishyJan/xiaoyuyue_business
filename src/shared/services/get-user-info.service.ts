@@ -65,7 +65,7 @@ export class GetUserForEdit extends AppServiceBase implements OnInit {
      * 获取用户头像
      * @param 
      */
-    getProfilePicture(profilePictureId: string): string {
+    getProfilePicture(profilePictureId: number): string {
 
         if (profilePictureId == null) {
             return this.profilePicture;

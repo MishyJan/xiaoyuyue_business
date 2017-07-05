@@ -1,7 +1,8 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 import { OutletServiceServiceProxy, CreateOrUpdateOutletInput, ContactorEditDto } from 'shared/service-proxies/service-proxies';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { UploadPictureNoneGalleryComponent } from "app/admin/shared/upload-picture-none-gallery/upload-picture-none-gallery.component";
+import { UploadPictureDto } from "app/admin/shared/utils/upload-picture.dto";
 
 @Component({
   selector: 'xiaoyuyue-contact-info',
@@ -9,7 +10,9 @@ import { UploadPictureNoneGalleryComponent } from "app/admin/shared/upload-pictu
   styleUrls: ['./contact-info.component.scss']
 })
 export class ContactInfoComponent extends AppComponentBase implements OnInit {
-  weChatPicUrl: string;
+  uploadPicInfo: UploadPictureDto = new UploadPictureDto();
+  currentIndex: number;
+  editingContact: boolean = false;
   hideContactIndex: number;
   contactName: string = "";
 
@@ -30,7 +33,9 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
   isCreateContact: boolean = false;
 
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
-
+  @Output() contactorEditHandler: EventEmitter<ContactorEditDto[]> = new EventEmitter();
+  @Input() onlineAllContactors:ContactorEditDto[];
+  
   constructor(
     injector: Injector,
     private _outletServiceServiceProxy: OutletServiceServiceProxy
@@ -54,6 +59,12 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.localSingleContact.isDefault = this.localSingleContact.isDefault || false;
+    this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+    if (this.editingContact) {
+      this.insertContact(this.currentIndex, this.localSingleContact);
+      this.closeCreateContact();
+      return;
+    }
     this.localAllContact.push(this.localSingleContact);
     this.closeCreateContact();
 
@@ -61,11 +72,15 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
     if (this.localAllContact.length == 1) {
       this.localAllContact[0].isDefault = true;
     }
+
+  this.contactorEditHandler.emit(this.localAllContact)
   }
 
   // 打开创建面板
   openCreateContact(): void {
     this.isCreateContact = true;
+    this.contactName = "";
+    this.uploadPicInfo.pictureUrl = "";
   }
 
   // 关闭创建面板
@@ -76,18 +91,31 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
 
   // 编辑联系人
   editContact(index: number): void {
+    this.currentIndex = index;
     this.openCreateContact();
-    this.hideContact(index);
     this.localSingleContact.isDefault = this.localAllContact[index].isDefault;
     this.localSingleContact.name = this.localAllContact[index].name;
     this.localSingleContact.phoneNum = this.localAllContact[index].phoneNum;
+    this.localSingleContact.wechatQrcodeUrl = this.localAllContact[index].wechatQrcodeUrl;
+    console.log(this.localAllContact);
+    // 正在编辑联系人
+    this.editingContact = true;
     // 把联系人名传给创建面板
     this.contactName = this.localSingleContact.name;
+    // 把微信二维码传给创建面板
+    this.uploadPicInfo.pictureUrl = this.localSingleContact.wechatQrcodeUrl;
+
+    this.removeContact(index);
   }
 
-  // 隐藏联系人面板
-  hideContact(index: number): void {
-    this.hideContactIndex = index;
+  // 删除指定位置联系人
+  removeContact(index: number): void {
+    this.localAllContact.splice(index, 1);
+  }
+
+  // 插入联系人到指定位置
+  insertContact(index: number, contact: ContactorEditDto): void {
+    this.localAllContact.splice(index, 0, contact)
   }
 
   // 选择默认联系人
@@ -104,9 +132,9 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
     this.uploadPictureNoneGalleryModel.show();
   }
 
-  // 获取图片上传URL
-  getPicUrlHandler(picUrl: string) {
-    this.weChatPicUrl = picUrl;
+    // 获取图片上传URL
+  getPicUploadInfoHandler(uploadPicInfo: UploadPictureDto) {
+    this.uploadPicInfo = uploadPicInfo;
   }
 
 }

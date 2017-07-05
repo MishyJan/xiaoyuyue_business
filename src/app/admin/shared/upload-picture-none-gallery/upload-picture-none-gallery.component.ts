@@ -3,23 +3,26 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { UploadPictureDto } from "app/admin/shared/utils/upload-picture.dto";
 
 @Component({
   selector: 'xiaoyuyue-upload-picture-none-gallery',
   templateUrl: './upload-picture-none-gallery.component.html',
   styleUrls: ['./upload-picture-none-gallery.component.scss']
 })
+
+
 export class UploadPictureNoneGalleryComponent extends AppComponentBase implements OnInit {
 
   private _$profilePicture: JQuery;
 
   public temporaryPictureUrl: string;
-  public safeTemporaryPictureUrl: SafeUrl;
+  public uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
 
   // BSModel唯一标识
   @Input() uniqueUid: string;
 
-  @Output() getPicUrlHandler: EventEmitter<SafeUrl> = new EventEmitter();
+  @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
   @ViewChild('uploadPictureNoneGalleryModel') modal: ModalDirective;
 
   constructor(
@@ -119,9 +122,11 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
 
 
               var res = JSON.parse(info).result;
-              var currentPicUrl = "http://" + res.originalUrl;
-              self.safeTemporaryPictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
-              self.getPicUrlHandler.emit(self.safeTemporaryPictureUrl);
+              var currentPicUrl = res.originalUrl;
+              var currentPicId = res.pictureId;
+              self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
+              self.uploadPictureInfo.pictureId = currentPicId;
+              self.picUploadInfoHandler.emit(self.uploadPictureInfo);
               console.log("上传成功");
             },
             'Error': function (up, err, errTip) {

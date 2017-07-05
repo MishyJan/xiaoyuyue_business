@@ -36,10 +36,6 @@ export function appInitializerFactory(injector: Injector) {
                             $('body').attr('class', 'page-md login');
                         }
 
-                        //tenant specific custom css
-                        if (appSessionService.tenant && appSessionService.tenant.customCssId) {
-                            $('head').append('<link id="TenantCustomCss" href="' + AppConsts.remoteServiceBaseUrl + '/TenantCustomization/GetCustomCss?id=' + appSessionService.tenant.customCssId + '" rel="stylesheet"/>');
-                        }
 
                         abp.ui.clearBusy();
                         resolve(result);

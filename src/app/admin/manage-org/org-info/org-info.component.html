@@ -1,3 +1,79 @@
-<p>
-  org-info works!
-</p>
+<div class="org-info" [@routerTransition]>
+    <form #createBookingForm="ngForm">
+        <div class="row margin-bottom-5">
+            <div class="col-xs-6">
+                <div class="page-head">
+                    <div class="page-title">
+                        <h1>
+                            <span>基本信息</span>
+                            <!--<span>编辑预约</span>-->
+                            <small routerLink="/app/admin/org"><span class="fa fa-arrow-circle-left"></span><a >返回</a></small>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button type="submit" (click)="save()" class="btn btn-submit"><span class="vapps-icon vapps-icon-app-submit"></span>{{l("Save")}}</button>
+                <button type="botton" (click)="saveAndEdit()" class="btn btn-submit">{{l("BusinessCenter.SavingAndEditing")}}</button>
+                <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row col-lg-7">
+                <!-- 基本信息 -->
+                <div class="base-info col-lg-12">
+                    <div class="portlet light portlet-fit">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <span class="caption-subject">{{l("General")}}</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <!-- 门店名称 -->
+                            <div class="info-row row">
+                                <div class="outlet-name name col-md-3 text-right"><span>机构名称</span></div>
+                                <div class="col-md-9 input-box row">
+                                    <div class="col-md-12 input-form">
+                                        <input class="form-control common-max-width" type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 机构宣传语 -->
+                            <div class="shop-hours-row row">
+                                <div class="project-intro name col-md-3 text-right"><span>机构宣传语</span></div>
+                                <div class="col-md-9 input-box row">
+                                    <div class="col-md-12 input-form">
+                                        <div class="common-max-width">
+                                            <input class="form-control" type="text" [(ngModel)]="input.tagline" name="tagline" placeholder="机构宣传语" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 机构简介 -->
+                            <div class="outlet-address-row row">
+                                <div class="outlet-address name col-md-3 text-right"><span>机构简介</span></div>
+                                <div class="col-md-9 row input-box">
+                                    <div class="col-md-12 detailed-address-wrap">
+                                        <textarea class="form-control common-max-width" [(ngModel)]="input.description" name="description" placeholder="机构简介..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 机构logo -->
+                <div class="col-lg-6 org-logo-wrap">
+                    <xiaoyuyue-upload-org-logo [orgLogoUrl]="sendOrgLogoInfo.pictureUrl" (orgLogoIngoHandler)="orgLogoInfo($event)"></xiaoyuyue-upload-org-logo>
+                </div>
+
+                <div class="col-lg-6 org-bg-wrap">
+                    <xiaoyuyue-upload-org-bg [orgBgUrl]="sendOrgBgInfo.pictureUrl" (orgBgInfoHandler)="orgBgInfo($event)"></xiaoyuyue-upload-org-bg>
+                </div>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+                <img src="/assets/common/images/admin/phone-model.png" width="100%" alt="">
+            </div>
+        </div>
+    </form>
+</div>
