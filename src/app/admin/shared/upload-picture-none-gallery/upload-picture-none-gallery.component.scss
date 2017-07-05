@@ -1,0 +1,48 @@
+.upload-picture {
+    .modal-dialog {
+        .modal-content {
+            .modal-header {
+                .modal-title {
+                    .title-item {
+                        text-align: center;
+                    }
+                    .picture-gallery,
+                    .local-upload {
+                        font-size: 18px;
+                        color: #FF9641;
+                        cursor: pointer;
+                    }
+                }
+            }
+            .modal-body {
+                .btn-wrap {
+                    position: relative;
+                    cursor: pointer;
+                    .btn-file-wrap {
+                        color: #FF9641;
+                    }
+                }
+                .upload-tips-wrap {
+                    position: relative;
+                    padding-top: 40px;
+                    color: #808080;
+                    .tips-item+.tips-item {
+                        margin-top: 12px;
+                    }
+                    .tip-item {
+                        display: flex;
+                        .head {
+                            width: 28px;
+                            flex: 0 0 28px;
+                            text-align: center;
+                        }
+                        .content {
+                            flex: 1;
+                        }
+                    }
+                }
+            }
+            .modal-footer {}
+        }
+    }
+}

@@ -293,12 +293,12 @@
     content: "\e939";
 }
 
-.vapps-icon-默认联系人:before {
+.vapps-icon-default:before {
     content: "\e93a";
     color: #fff;
 }
 
-.vapps-icon-设为默认联系人:before {
+.vapps-icon-not-default:before {
     content: "\e93b";
     color: #fff;
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, Injector, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { AppComponentBase } from "shared/common/app-component-base";
 import { appModuleAnimation } from "shared/animations/routerTransition";
-import { OrganizationBookingServiceProxy, PagedResultDtoOfBookingListDto, CreateOrUpdateBookingInput, BookingEditDto, BookingItemEditDto, GetBookingForEditOutput, OutletServiceServiceProxy, SelectListItemDto, BookingPictureEditDto } from "shared/service-proxies/service-proxies";
+import { OrgBookingServiceProxy, PagedResultDtoOfBookingListDto, CreateOrUpdateBookingInput, BookingEditDto, BookingItemEditDto, GetBookingForEditOutput, OutletServiceServiceProxy, SelectListItemDto, BookingPictureEditDto } from "shared/service-proxies/service-proxies";
 
 import * as moment from 'moment';
 import { AppConsts } from "shared/AppConsts";
@@ -50,7 +50,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     private _locaition: Location,
     private _router: Router,
     private _outletServiceServiceProxy: OutletServiceServiceProxy,
-    private _organizationBookingServiceProxy: OrganizationBookingServiceProxy
+    private _organizationBookingServiceProxy: OrgBookingServiceProxy
   ) {
     super(injector);
   }

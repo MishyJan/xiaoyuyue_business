@@ -17,26 +17,18 @@
             }
             .gallery-wrap {
                 height: 100%;
-                padding: 0;
                 padding: 10px;
-                .content {
-                    position: relative;
+                .img-wrap {
                     width: 100%;
-                    height: 100%;
-                    .img-wrap {
-                        width: 100%;
-                        height: 100%;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        background-color: #CCC;
-                    }
+                    height: 300px;
+                    overflow: hidden;
+                    text-align: center;
                 }
             }
             .gallery-action {
                 height: 100%;
                 position: relative;
-                padding: 40px 40px 80px;
+                margin: 10px 0;
                 color: #808080;
                 .tip-text {
                     .tips-item+.tips-item {
@@ -52,11 +44,10 @@
                     }
                 }
                 .upload-wrap {
-                    position: absolute;
-                    left: 0;
-                    bottom: 20px;
+                    width: 100px;
+                    height: 34px;
+                    margin: 0 auto;
                     .upload {
-                        margin-right: 20px;
                         color: #ff9641;
                         border: 1px solid #ff9641;
                     }

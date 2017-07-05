@@ -5,7 +5,7 @@
                 <div class="page-head">
                     <div class="page-title">
                         <h1>
-                            <span>{{l("BusinessCenter.Menu.CreateYuyue")}}</span>
+                            <span>新增门店</span>
                             <!--<span>编辑预约</span>-->
                             <small routerLink="/app/admin/org"><span class="fa fa-arrow-circle-left"></span><a >返回</a></small>
                         </h1>
@@ -44,7 +44,14 @@
                                 <div class="project-intro name col-md-3 text-right"><span>营业时间</span></div>
                                 <div class="col-md-9 input-box row">
                                     <div class="col-md-12 input-form">
-                                        <input class="form-control common-max-width" type="text" name="shopHours" placeholder="营业时间" required autofocus>
+                                        <div class="common-max-width">
+                                            <span class="col-md-6 shop-hours-start">
+                                                <input class="form-control" type="time" name="shopHoursStart" placeholder="起始时间" required>
+                                            </span>
+                                            <span class="col-md-6 shop-hours-end">
+                                                <input class="form-control col-md-6" type="time" name="shopHoursEnd" placeholder="结束时间" required>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +80,7 @@
                                 <div class="info-checkbox name col-md-3 text-right"><span>固定电话</span></div>
                                 <div class="col-md-9 input-box row">
                                     <div class="col-md-12 input-form">
-                                        <input class="form-control common-max-width" type="text" name="landlinePhone" placeholder="固定电话" required autofocus>
+                                        <input class="form-control common-max-width" type="text" name="landlinePhone" placeholder="固定电话" required>
                                     </div>
                                 </div>
                             </div>
@@ -89,5 +96,5 @@
             </div>
         </div>
     </form>
-    <!--<xiaoyuyue-share-booking-model #shareBookingModel [bookingId]="bookingId"></xiaoyuyue-share-booking-model>-->
+    <xiaoyuyue-share-booking-model #shareBookingModel [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
 </div>

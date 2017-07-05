@@ -1,3 +1,92 @@
-<p>
-    contact-info works!
-</p>
+<div class="contact-info">
+    <form #timeInfoForm="ngForm">
+        <div class="portlet light portlet-fit">
+            <div class="portlet-title clearfix">
+                <div class="caption pull-left">
+                    <span class="caption-subject">联系人</span>
+                </div>
+                <div class="caption pull-right add-time">
+                    <span (click)="openCreateContact()" class="btn btn-border-radius"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加</span>
+                </div>
+            </div>
+
+            <div class="portlet-body clearfix">
+                <!-- 创建时间段 -->
+                <div style="width: 100%;" *ngIf="isCreateContact" class="clearfix">
+                    <div class="col-md-4 contact-info-wrap box-shadow border-radius-14 pull-left paddingTop-32 no-lr-padding">
+                        <div class="xiaoyuyue-title-box">{{ contactName }}</div>
+                        <div class="contact-item clearfix">
+                            <div class="name col-md-4 text-right"><span>姓名</span></div>
+                            <div class="col-md-8 row input-box">
+                                <div class="col-md-12">
+                                    <input class="form-control" type="text" [(ngModel)]="localSingleContact.name" name="name" required autofocus>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="name col-md-4 text-right"><span>电话</span></div>
+                            <div class="col-md-8 row input-box">
+                                <div class="col-md-12">
+                                    <input class="form-control" type="text" [(ngModel)]="localSingleContact.phoneNum" name="phoneNumber" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-item wechat-item">
+                            <div class="name col-md-4 text-right"><span>微信二维码</span></div>
+                            <div class="col-md-8 row input-box">
+                                <div class="col-md-12 flex-item">
+                                    <span class="qr-code-wrap">
+                                        <img *ngIf="weChatPicUrl" [src]="weChatPicUrl" width="100%" alt="qr-code">
+                                    </span>
+                                    <button class="upload btn btn-border-radius" (click)="uploadPicModel()"><span class="vapps-icon vapps-icon-app-upload"></span>上传</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-item submit-item">
+                            <button class="btn btn-submit" (click)="save()"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
+                            <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 创建状态的展示段 -->
+                <!-- 本地数据 -->
+                <div *ngIf="!isLocalOrOnline; else hasOnline">
+                    <div *ngFor="let contactItem of localAllContact, let index = index">
+                        <div class="col-md-4 create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
+                            <div class="xiaoyuyue-title-box">
+                                {{ contactItem.name }}
+                                <div class="btn-action-wrap">
+                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-default': contactItem.isDefault, 'vapps-icon-not-default': !contactItem.isDefault }"></span>
+                                    <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
+                                </div>
+                            </div>
+                            <div class="wechat-img-wrap">
+                                <img src="/assets/common/images/qr-code.png" width="100px" alt="qr-code">
+                            </div>
+                            <div class="contact-wrap">
+                                <span><span class="vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 编辑状态的展示段 -->
+                <!-- 线上数据 -->
+                <ng-template #hasOnline>
+                    <div class="col-md-4 create-local-wrap box-shadow">
+                        <div class="xiaoyuyue-title-box">联系人名</div>
+                        <div class="wechat-img-wrap">
+                            <img src="/assets/common/images/qr-code.png" width="100px" alt="qr-code">
+                        </div>
+                        <div class="contact-wrap">
+                            <span><span class="vapps-icon-app-phone"></span>15800158000</span>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+    </form>
+    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel [uniqueUid]="uniqueUid" (getPicUrlHandler)="getPicUrlHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
+</div>

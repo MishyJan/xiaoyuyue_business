@@ -18,7 +18,7 @@ import { GetUserForEdit } from "shared/services/get-user-info.service";
 import { TenantService } from "shared/services/tenant.service";
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
-import { SMSTemplateServiceProxy, OrganizationBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
+import { SMSTemplateServiceProxy, OrgBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 import { QRCodeModule } from 'angular2-qrcode';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { CreateOrEditBookingComponent } from './manage-booking/create-or-edit-booking/create-or-edit-booking.component';
@@ -33,6 +33,7 @@ import { OutletListComponent } from './manage-org/outlet-list/outlet-list.compon
 import { OrgInfoComponent } from './manage-org/org-info/org-info.component';
 import { OutletImageComponent } from './manage-org/create-or-edit-outlet/outlet-image/outlet-image.component';
 import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact-info/contact-info.component';
+import { UploadPictureNoneGalleryComponent } from './shared/upload-picture-none-gallery/upload-picture-none-gallery.component';
 
 @NgModule({
     imports: [
@@ -69,7 +70,8 @@ import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact
         OutletListComponent,
         OrgInfoComponent,
         OutletImageComponent,
-        ContactInfoComponent
+        ContactInfoComponent,
+        UploadPictureNoneGalleryComponent
     ],
     providers: [
         AppStorageService,
@@ -77,7 +79,7 @@ import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact
         GetUserForEdit,
         TenantService,
         SMSTemplateServiceProxy,
-        OrganizationBookingServiceProxy,
+        OrgBookingServiceProxy,
         PictureServiceProxy,
         OutletServiceServiceProxy,
         BookingServiceProxy,

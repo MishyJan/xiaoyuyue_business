@@ -1,0 +1,53 @@
+<div class="upload-picture">
+    <div bsModal #uploadPictureNoneGalleryModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true" [config]="{backdrop: 'static'}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span class="col-md-12 title-item local-upload">{{l("BusinessCenter.LocalUpload")}}</span>
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-md-6">
+                        <img [id]="'profilePicture'+uniqueUid" width="100%" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="btn-wrap" [id]="'pictureGallery'+uniqueUid">
+                                <a class="btn btn-border-radius btn-file-wrap" [id]="'pictureGalleryPickfiles'+uniqueUid">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>选择文件</span>
+                                </a>
+                            </div>
+                            <div class="upload-tips-wrap">
+                                <div class="tips-item">
+                                    <span class="head"></span>
+                                    <span class="content">提个醒</span>
+                                </div>
+                                <div class="tips-item">
+                                    <span class="head">1</span>
+                                    <span class="content">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
+                                </div>
+                                <div class="tips-item">
+                                    <span class="head">2</span>
+                                    <span class="content">所有图片皆有自动添加水印；</span>
+                                </div>
+                                <div class="tips-item">
+                                    <span class="head">3</span>
+                                    <span class="content">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-submit" [id]="'confirmUpload'+uniqueUid"><span class="vapps-icon vapps-icon-app-confirm"></span>确认</button>
+                    <button type="button" class="btn btn-cancel" (click)="close()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
