@@ -46,19 +46,16 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
         });
 
         // 注释螺丝帽
-        /*jQuery.getScript('//captcha.luosimao.com/static/js/api.js', () => {
-        });*/
+        jQuery.getScript('//captcha.luosimao.com/static/js/api.js', () => {
+        });
     }
 
-    // get useCaptcha(): boolean {
-    //     return this.setting.getBoolean('App.UserManagement.UseCaptchaOnRegistration');
-    // }
+    get useCaptcha(): boolean {
+        return this.setting.getBoolean('App.UserManagement.UseCaptchaOnRegistration');
+    }
 
     register(): void {
-
         this.saving = true;
-        this.model.phoneNumber = "18599926114";
-        this.model.registerCode = "123";
         this._tenantRegistrationServiceProxy.registerTenant(this.model)
             .finally(() => { this.saving = false; })
             .subscribe((result) => {
@@ -78,18 +75,17 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     }
 
     // 注释掉螺丝帽验证码
-    // captchaResolved(): void {
-    //     let captchaResponse = $('#lc-captcha-response').val();
-    //     this.model.captchaResponse = captchaResponse;
-    // }
+    captchaResolved(): void {
+        let captchaResponse = $('#lc-captcha-response').val();
+        this.model.captchaResponse = captchaResponse;
+    }
 
     // 发送验证码
     send() {
         let input: CodeSendInput = new CodeSendInput();
         input.targetNumber = this.model.phoneNumber;
         input.codeType = VerificationCodeType.Register;
-        input.captchaResponse = "";
-        // input.captchaResponse = this.captchaResolved();
+        this.captchaResolved();
 
         this._SMSServiceProxy
             .sendCodeAsync(input)
