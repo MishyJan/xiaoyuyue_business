@@ -21,7 +21,6 @@ import { LoadingComponent } from './loading/loading.component';
                 component: AuthComponent,
                 children: [
                     { path: 'login', component: LoginComponent},
-                    // { path: 'loading', component: LoadingComponent, canActivate: [ExternalLoginGuard] },
                     { path: 'register', component: RegisterComponent },
                     { path: 'forgot-password', component: ForgotPasswordComponent },
                     { path: 'reset-password', component: ResetPasswordComponent },

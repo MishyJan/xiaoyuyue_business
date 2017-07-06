@@ -36,11 +36,6 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        if (this.appSession.tenant == null) {
-            this._router.navigate(['auth/login']);
-            return;
-        }
-
         this._profileService.getPasswordComplexitySetting().subscribe(result => {
             this.passwordComplexitySetting = result.setting;
         });
