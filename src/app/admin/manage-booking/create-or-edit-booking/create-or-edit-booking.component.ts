@@ -117,6 +117,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
   }
 
   save() {
+    this.input.booking.id = this.bookingId ? this.bookingId : 0;
     this.input.booking = this.baseInfo;
     this.input.booking.outletId = this.selectOutletId;
     this.input.booking.contactorId = this.selectContactorId;
@@ -128,9 +129,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
       this.allPictureForEdit.push(this.pictureForEdit);
       this.input.bookingPictures = this.allPictureForEdit;
     }
+    this.input.bookingPictures = this.pictureInfo;
     this._organizationBookingServiceProxy
       .createOrUpdateBooking(this.input)
-      .subscribe(() => {
+      .subscribe((result) => {
+        console.log(result);
         this.shareBookingModel.show();
       });
   }

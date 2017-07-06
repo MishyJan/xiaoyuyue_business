@@ -11,7 +11,7 @@ import { AppConsts } from 'shared/AppConsts';
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
   shareUrl: string = "";
-  shareBaseUrl: string = "http://vapps.oicp.io/booking/about/";
+  shareBaseUrl: string = "http://vapps.iok.la/booking/about/";
 
   @ViewChild("shareBookingModel") model: ModalDirective;
   @Input() bookingId: number;
