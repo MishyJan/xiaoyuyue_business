@@ -2,7 +2,7 @@
     <form #loginForm="ngForm" method="post">
         <div class="login-wrap portlet">
             <div class="login-title">
-                <div class="title"><img src="/assets/common/images/login/logo X2.png" alt=""></div>
+                <div class="title"><img class="logo" src="/assets/common/images/login/logo X2.png" alt=""></div>
                 <div class="toggle-wrap clearfix">
                     <span class="ordinary-login col-md-6" (click)="isOrdinaryLogin()">
                         账号登录
@@ -19,16 +19,14 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input id="userName" class="form-control" type="text" autocomplete="off" [(ngModel)]="loginService.authenticateModel.loginCertificate" name="UserName" required maxlength="256" maxlength="32" [class.edited]="loginService.authenticateModel.loginCertificate && loginService.authenticateModel.loginCertificate.length > 0">
-                                <label for="userName">{{l("UserName")}}/手机号/邮箱</label>
+                                <input class="form-control" type="text" placeholder="用户名/手机号/邮箱" autofocus [(ngModel)]="loginService.authenticateModel.loginCertificate" name="UserName" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input id="password" class="form-control" type="password" [(ngModel)]="loginService.authenticateModel.password" name="EmailAddress" required autofocus maxlength="256" [class.edited]="loginService.authenticateModel.password && loginService.authenticateModel.password.length > 0">
-                                <label for="password">{{l("Password")}}</label>
+                                <input class="form-control" type="password" placeholder="密码" [(ngModel)]="loginService.authenticateModel.password" name="EmailAddress" required>
                             </div>
                         </div>
                     </div>
@@ -53,15 +51,15 @@
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <div class="col-md-5 col-xs-6">
+                        <div class="col-md-6 col-xs-6">
                             <label class="mt-checkbox mt-checkbox-outline">
-                                <input class="form-control" [(ngModel)]="loginService.rememberMe" type="checkbox" name="rememberMe" value="true" />{{l("RememberMe")}}
+                                <input class="form-control" [(ngModel)]="loginService.rememberMe" type="checkbox" name="rememberMe" value="true" />自动登录
                                 <span></span>
                             </label>
                         </div>
-                        <div class="col-md-5 col-xs-6">
+                        <div class="col-md-6 col-xs-6">
                             <span class="forgot-password pull-right">
-                                <a routerLink="/account/forgot-password" id="forget-password" class="forget-password">{{l("ForgotPassword")}}</a>
+                                <a routerLink="/account/forgot-password" id="forget-password">忘记密码</a>
                             </span>
                         </div>
                     </div>

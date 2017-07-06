@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, AfterViewInit, Output, ElementRef } from '@angular/core';
+import { Component, Injector, OnInit, AfterViewInit, Output, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Http, Headers } from '@angular/http';
@@ -16,6 +16,7 @@ import * as _ from 'lodash';
     templateUrl: './login.component.html',
     animations: [accountModuleAnimation()],
     styleUrls: ['./login.component.scss'],
+    encapsulation: ViewEncapsulation.None,
     providers: [{ provide: TooltipConfig, useFactory: getAlertConfig }]
 })
 export class LoginComponent extends AppComponentBase implements AfterViewInit {
@@ -172,7 +173,9 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     }
     //是否手机验证登录
     isPhoneLogin() {
-        this.ordinaryLogin = false;
+        // 暂未实现
+        // this.ordinaryLogin = false;
+        this.ordinaryLogin = true;
     }
 
 }

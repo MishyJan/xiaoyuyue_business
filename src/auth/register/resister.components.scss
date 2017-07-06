@@ -4,6 +4,19 @@
     margin: 130px auto 0;
     padding: 80px 20px 20px;
     background-color: #FFF;
+    .mt-checkbox {
+        padding-left: 20px;
+        font-size: 12px;
+        color: #808080;
+        &>span {
+            width: 14px;
+            height: 14px;
+        }
+        &>span:after {
+            top: 0;
+            left: 4px;
+        }
+    }
     .register-title {
         width: 340px;
         position: absolute;
@@ -18,8 +31,10 @@
         .title {
             height: 100px;
             line-height: 100px;
-            font-size: 40px;
-            font-weight: 100;
+            .logo {
+                width: 46px;
+                margin-right: 8px;
+            }
         }
     }
     .register-body {
@@ -27,7 +42,7 @@
             position: relative;
             .get-sms-btn {
                 position: absolute;
-                top: 0;
+                top: -4px;
                 right: 0;
                 .btn {
                     background-color: #ff9742;
@@ -38,6 +53,10 @@
             width: 100%;
             height: 44px;
             text-align: center;
+            .btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
             .btn-register {
                 width: 100%;
                 height: 44px;
