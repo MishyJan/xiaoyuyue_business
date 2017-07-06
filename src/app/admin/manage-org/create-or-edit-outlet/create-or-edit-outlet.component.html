@@ -14,7 +14,7 @@
             </div>
             <div class="col-xs-6 text-right">
                 <button type="submit" (click)="save()" class="btn btn-submit"><span class="vapps-icon vapps-icon-app-submit"></span>{{l("Save")}}</button>
-                <button type="botton" (click)="saveAndEdit()" class="btn btn-submit">{{l("BusinessCenter.SavingAndEditing")}}</button>
+                <button type="botton" class="btn btn-submit">{{l("BusinessCenter.SavingAndEditing")}}</button>
                 <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
             </div>
         </div>
@@ -96,5 +96,5 @@
             </div>
         </div>
     </form>
-    <xiaoyuyue-share-booking-model #shareBookingModel [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
+    <xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>
 </div>
