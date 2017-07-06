@@ -71,7 +71,7 @@
 
 .vapps-icon-app-delete:before {
     content: "\e90a";
-    color: #808080;
+    color: #fff;
 }
 
 .vapps-icon-app-delete-time-field:before {
@@ -229,7 +229,7 @@
 
 .vapps-icon-cb-add-time:before {
     content: "\e92c";
-    color: #fff;
+    color: #FF9641;
 }
 
 .vapps-icon-cb-calendar:before {
