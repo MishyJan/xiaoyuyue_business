@@ -3,6 +3,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { UploadPictureDto } from 'app/admin/shared/utils/upload-picture.dto';
 import { TenantInfoServiceProxy, TenantInfoEditDto } from "shared/service-proxies/service-proxies";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xiaoyuyue-org-info',
@@ -24,6 +25,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
   sendOrgLogoInfo: UploadPictureDto = new UploadPictureDto();
   constructor(
     injector: Injector,
+    private _router: Router,
     private _tenantInfoServiceProxy: TenantInfoServiceProxy
   ) {
     super(
@@ -37,8 +39,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
 
   ngAfterViewInit() {
     let self = this;
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     this.getUploadOrgWrap();
 
     window.addEventListener("resize", function () {
@@ -86,6 +86,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
       .updateTenantInfo(this.input).
       subscribe(result => {
         this.notify.success("信息已完善");
+        this._router.navigate(['/app/admin/org/list']);
       })
   }
 

@@ -44,7 +44,7 @@
                         </div>
                         <div class="contact-item submit-item">
                             <button class="btn btn-submit" (click)="save()"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
-                            <button class="btn btn-cancel" (click)="showContact()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
+                            <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                 <!-- 编辑状态的展示段 -->
                 <!-- 线上数据 -->
                 <ng-template #hasOnline>
-                    <div *ngFor="let contactItem of onlineAllContactors, let index = index">
+                    <div *ngFor="let contactItem of localAllContact, let index = index">
                         <div class="col-md-4 create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
                             <div class="xiaoyuyue-title-box">
                                 {{ contactItem.name }}

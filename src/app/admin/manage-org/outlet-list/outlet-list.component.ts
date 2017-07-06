@@ -14,6 +14,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
   animations: [accountModuleAnimation()],
 })
 export class OutletListComponent extends AppComponentBase implements OnInit {
+  outletName: string;
   allOutlets: OutletListDto[];
   contactInfo: ContactorEditDto;
 
@@ -38,7 +39,8 @@ export class OutletListComponent extends AppComponentBase implements OnInit {
 
     let maxResultCount, skipCount, sorting;
     if (state) {
-      maxResultCount = state.take;
+      // maxResultCount = state.take;
+      maxResultCount = 8;
       skipCount = state.skip
       if (state.sort.length > 0 && state.sort[0].dir) {
         sorting = state.sort[0].field + " " + state.sort[0].dir;
@@ -46,7 +48,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit {
     }
 
     this._outletServiceServiceProxy
-      .getOutlets(name, sorting, maxResultCount, skipCount)
+      .getOutlets(this.outletName, sorting, maxResultCount, skipCount)
       .subscribe(result => {
         this.allOutlets = result.items;
       });

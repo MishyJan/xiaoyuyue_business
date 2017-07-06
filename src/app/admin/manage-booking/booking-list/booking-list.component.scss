@@ -26,14 +26,12 @@
         }
         .booking-item {
             position: relative;
-            height: 440px;
             padding: 0;
             cursor: pointer;
             margin-bottom: 30px;
             .back-wrap,
             .front-wrap {
                 width: calc(100% - 30px);
-                height: 440px;
                 position: absolute;
                 top: 0;
                 left: 15px;
@@ -45,6 +43,7 @@
                 transform: rotateY(-180deg);
                 .portlet {
                     height: 100%;
+                    box-shadow: none;
                 }
                 .content-wrap {
                     .content-item {
@@ -55,6 +54,9 @@
                         }
                         .desc {
                             flex: 1;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
                     }
                     .back {
@@ -121,8 +123,8 @@
                     background-color: rgba(0, 0, 0, .8);
                     display: none;
                     .qr-code-wrap {
-                        width: 180px;
-                        height: 180px;
+                        width: 120px;
+                        height: 120px;
                         border: 1px solid #ccc;
                         margin: 60px auto 0;
                     }

@@ -36,6 +36,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
   startShopHours: any;
   endShopHours: any;
 
+  pictureInfo: UploadPictureDto = new UploadPictureDto();
+
   href: string = document.location.href;
   outletId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
   constructor(
@@ -65,14 +67,40 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this._outletServiceServiceProxy
     .getOutletForEdit(this.outletId)
     .subscribe(result => {
-      this.onlineAllContactors = result.contactors;
+      this.contactorEdit = this.onlineAllContactors = result.contactors;
+
+      this.outetInfo.pictureId = this.pictureInfo.pictureId = result.outlet.pictureId;
+      this.outetInfo.pictureUrl = this.pictureInfo.pictureUrl = result.outlet.pictureUrl;
+
       this.outetInfo.name = result.outlet.name;
       this.outetInfo.detailAddress = result.outlet.detailAddress;
       this.outetInfo.phoneNum = result.outlet.phoneNum;
+
+      this.startShopHours = result.outlet.businessHours.split(" ")[0];
+      this.endShopHours = result.outlet.businessHours.split(" ")[1];
+
+      this.provinceSelectListData = result.availableProvinces;
+      this.provinceSelectDefaultItem = result.outlet.provinceId+"";
+      this.provinceId = parseInt(this.provinceSelectDefaultItem);
+
+      this.citysSelectListData = result.availableCitys;
+      this.citySelectDefaultItem = result.outlet.cityId+"";
+      this.cityId = parseInt(this.citySelectDefaultItem);
+
+      this.districtSelectListData = result.availableDistricts;
+      this.districtSelectDefaultItem = result.outlet.districtId+"";
+      this.districtId = parseInt(this.districtSelectDefaultItem);
+
+      if (parseInt(this.provinceSelectDefaultItem) >= 0) {
+        this.isCitySelect = true;
+        this.isDistrictSelect = true;
+      }
     })
   }
 
   save(): void {
+
+    this.outetInfo.id = this.outletId ?  this.outletId : 0;
 
     this.outetInfo.businessHours = this.startShopHours + " " + this.endShopHours;
     this.outetInfo.provinceId = this.provinceId;
@@ -86,8 +114,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     this._outletServiceServiceProxy
       .createOrUpdateOutlet(this.input)
       .subscribe(result => {
-        this.notify.success("创建门店成功");
-        this._router.navigate(['admin/org']);
+        this.notify.success("保存成功");
+        this._router.navigate(['/app/admin/org/list']);
       })
   }
 

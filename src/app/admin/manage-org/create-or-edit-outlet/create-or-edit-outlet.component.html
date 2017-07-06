@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <xiaoyuyue-outlet-image (pictureInfoHandler)="getPictureInfo($event)"></xiaoyuyue-outlet-image>
+                <xiaoyuyue-outlet-image [pictureInfo]="pictureInfo" (pictureInfoHandler)="getPictureInfo($event)"></xiaoyuyue-outlet-image>
             </div>
             <div class="col-lg-12">
                 <xiaoyuyue-contact-info [onlineAllContactors]="onlineAllContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>

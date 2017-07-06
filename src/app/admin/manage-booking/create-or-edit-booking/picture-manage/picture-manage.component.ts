@@ -23,7 +23,6 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.pictureInfo);
   }
 
   ngAfterViewInit() {

@@ -36,11 +36,11 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
   }
 
   ngOnInit() {
-    this.initFileUploader();
   }
 
   show(): void {
     this.modal.show();
+    this.initFileUploader();
   }
   close(): void {
     this.modal.hide();

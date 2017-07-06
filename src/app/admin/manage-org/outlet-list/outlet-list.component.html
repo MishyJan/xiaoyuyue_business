@@ -33,35 +33,7 @@
                                         <div class="form-group common-max-width">
                                             <label class="col-md-3 control-label">门店名称</label>
                                             <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="outletName" placeholder="门店名称">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xs-6">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">营业时间</label>
-                                            <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="shopHours" placeholder="营业时间">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xs-6">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">地址</label>
-                                            <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="outletAddress" placeholder="地址">
-                                                <!--<kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>-->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xs-6">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">联系人</label>
-                                            <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="outletAddress" placeholder="联系人">
+                                                <input class="form-control common-max-width" [(ngModel)]="outletName" type="text" name="outletName" placeholder="门店名称">
                                             </div>
                                         </div>
                                     </div>

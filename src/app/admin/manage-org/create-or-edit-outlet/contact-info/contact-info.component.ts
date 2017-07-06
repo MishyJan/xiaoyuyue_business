@@ -19,7 +19,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
   input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
 
   href: string = document.location.href;
-  bookingId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
+  outletId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
 
   uniqueUid: string = "ContactInfo";
 
@@ -29,13 +29,13 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
   localSingleContact: ContactorEditDto = new ContactorEditDto();
 
   // 是否是新增，新增显示空数据；否则显示用户数据
-  isLocalOrOnline: boolean = this.bookingId;
+  isLocalOrOnline: boolean = this.outletId;
   isCreateContact: boolean = false;
 
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
   @Output() contactorEditHandler: EventEmitter<ContactorEditDto[]> = new EventEmitter();
-  @Input() onlineAllContactors:ContactorEditDto[];
-  
+  @Input() onlineAllContactors: ContactorEditDto[];
+
   constructor(
     injector: Injector,
     private _outletServiceServiceProxy: OutletServiceServiceProxy
@@ -46,21 +46,30 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.localAllContact);
+    console.log(this.onlineAllContactors);
     this.loadData();
   }
 
-  loadData(): void {
-    if (!this.bookingId) {
-
+  ngAfterViewInit() {
+    let self = this;
+    if (!this.outletId) {
       return;
     }
+    setTimeout(function () {
+      self.localAllContact = self.onlineAllContactors;
+      console.log(self.localAllContact);
+    }, 1000)
+  }
 
+  loadData(): void {
   }
 
   save(): void {
     this.localSingleContact.isDefault = this.localSingleContact.isDefault || false;
     this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
     if (this.editingContact) {
+      this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
       this.insertContact(this.currentIndex, this.localSingleContact);
       this.closeCreateContact();
       return;
@@ -73,7 +82,15 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
       this.localAllContact[0].isDefault = true;
     }
 
-  this.contactorEditHandler.emit(this.localAllContact)
+    this.contactorEditHandler.emit(this.localAllContact)
+  }
+
+  cancel(): void {
+    if (this.editingContact) {
+      this.save();
+      return;
+    }
+    this.closeCreateContact();
   }
 
   // 打开创建面板
@@ -97,7 +114,6 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
     this.localSingleContact.name = this.localAllContact[index].name;
     this.localSingleContact.phoneNum = this.localAllContact[index].phoneNum;
     this.localSingleContact.wechatQrcodeUrl = this.localAllContact[index].wechatQrcodeUrl;
-    console.log(this.localAllContact);
     // 正在编辑联系人
     this.editingContact = true;
     // 把联系人名传给创建面板
@@ -132,7 +148,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
     this.uploadPictureNoneGalleryModel.show();
   }
 
-    // 获取图片上传URL
+  // 获取图片上传URL
   getPicUploadInfoHandler(uploadPicInfo: UploadPictureDto) {
     this.uploadPicInfo = uploadPicInfo;
   }

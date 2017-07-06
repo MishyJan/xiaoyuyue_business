@@ -151,15 +151,15 @@
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderTenant")}}</div>
-                                <div class="desc">{{bookingResultItem.outlet}}</div>
+                                <div class="desc" [title]="bookingResultItem.outlet">{{bookingResultItem.outlet}}</div>
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderTime")}}</div>
-                                <div class="desc">{{bookingResultItem.time}}</div>
+                                <div class="desc" [title]="bookingResultItem.availableBookingTime">{{bookingResultItem.availableBookingTime}}</div>
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderPlace")}}</div>
-                                <div class="desc">{{bookingResultItem.outletAddress}}</div>
+                                <div class="desc" [title]="bookingResultItem.outletAddress">{{bookingResultItem.outletAddress}}</div>
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderName")}}</div>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderPhone")}}</div>
-                                <div class="desc">{{bookingResultItem.contactorTelephone}}</div>
+                                <div class="desc">{{bookingResultItem.contactorPhoneNum}}</div>
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderNumber")}}</div>
