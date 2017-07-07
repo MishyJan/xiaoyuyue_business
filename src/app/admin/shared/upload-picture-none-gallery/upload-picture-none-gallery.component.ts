@@ -14,6 +14,7 @@ import { UploadPictureDto } from "app/admin/shared/utils/upload-picture.dto";
 
 export class UploadPictureNoneGalleryComponent extends AppComponentBase implements OnInit {
 
+  loading: boolean = false;
   private _$profilePicture: JQuery;
 
   public temporaryPictureUrl: string;
@@ -48,7 +49,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
 
   initFileUploader(): void {
     let self = this;
-    this._$profilePicture = $('#profilePicture'+this.uniqueUid);
+    this._$profilePicture = $('#profilePicture' + this.uniqueUid);
     this.temporaryPictureUrl = "";
 
     let token: string = '';
@@ -56,7 +57,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
       .getPictureUploadToken()
       .subscribe(result => {
         token = result.token;
-        self._$profilePicture = $('#profilePicture'+this.uniqueUid);
+        self._$profilePicture = $('#profilePicture' + this.uniqueUid);
 
         //引入Plupload 、qiniu.js后
         var Q1 = new QiniuJsSDK();
@@ -76,6 +77,11 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
           dragdrop: true,                   //开启可拖曳上传
           drop_element: 'pictureGallery' + self.uniqueUid,        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
           chunk_size: '4mb',                //分块上传时，每片的体积
+          resize: {
+            crop: false,
+            quality: 60,
+            preserve_headers: false
+          },
           auto_start: false,                 //选择文件后自动上传，若关闭需要自己绑定事件触发上传
           x_vars: {
             groupid: function (up, file) {
@@ -105,10 +111,10 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
             'BeforeUpload': function (up, file) {
               // 每个文件上传前,处理相关的事情
               console.log('上传之前');
-              self.modal.hide();
             },
             'UploadProgress': function (up, file) {
               // 每个文件上传时,处理相关的事情
+              self.loading = true;
               console.log('正在上传');
             },
             'FileUploaded': function (up, file, info) {
@@ -120,6 +126,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               //  }
               // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
 
+              console.log("上传成功");
 
               var res = JSON.parse(info).result;
               var currentPicUrl = res.originalUrl;
@@ -127,7 +134,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
               self.uploadPictureInfo.pictureId = currentPicId;
               self.picUploadInfoHandler.emit(self.uploadPictureInfo);
-              console.log("上传成功");
+              self.modal.hide();
             },
             'Error': function (up, err, errTip) {
               //上传出错时,处理相关的事情
@@ -135,6 +142,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
             },
             'UploadComplete': function () {
               //队列文件处理完毕后,处理相关的事情
+              self.loading = true;
               console.log('完成流程');
             },
             'Key': function (up, file) {
@@ -152,7 +160,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
             }
           }
         });
-        $('#confirmUpload'+self.uniqueUid).on("click", function () {
+        $('#confirmUpload' + self.uniqueUid).on("click", function () {
           uploader.start();
         })
       });
