@@ -8,7 +8,7 @@ export class AppSessionService {
     private _user: UserLoginInfoDto;
     private _tenant: TenantLoginInfoDto;
     private _application: ApplicationInfoDto;
-    private _activeMenu:string;
+    private _activeMenu: string;
 
     constructor(
         private _sessionService: SessionServiceProxy,
@@ -37,11 +37,7 @@ export class AppSessionService {
 
     getShownLoginName(): string {
         let userName = this._user.name !== "" ? this._user.name : this._user.userName;
-        if (!this._abpMultiTenancyService.isEnabled) { 
-            return userName;
-        }
-
-        return (this._tenant ? this._tenant.tenancyName : ".") + "\\" + userName;
+        return userName;
     }
 
     init(): Promise<boolean> {
@@ -77,11 +73,11 @@ export class AppSessionService {
         return true;
     }
 
-    changeActiveMenu(menuName:string){
+    changeActiveMenu(menuName: string) {
         this._activeMenu = menuName;
     }
-    
-    get activeMenu():string{
+
+    get activeMenu(): string {
         return this._activeMenu;
     }
 }

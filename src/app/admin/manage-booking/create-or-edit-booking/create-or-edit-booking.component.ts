@@ -133,8 +133,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     this._organizationBookingServiceProxy
       .createOrUpdateBooking(this.input)
       .subscribe((result) => {
-        console.log(result);
-        this.shareBookingModel.show();
+        this.shareBookingModel.show(result.id);
       });
   }
 

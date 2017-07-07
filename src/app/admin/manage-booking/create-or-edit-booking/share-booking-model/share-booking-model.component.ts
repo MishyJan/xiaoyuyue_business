@@ -22,10 +22,14 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   }
 
   ngOnInit() {
-    this.getShareUrl();
   }
 
-  show(): void {
+  show(bookingId?: number): void {
+    if (bookingId) {
+      this.shareUrl = this.shareBaseUrl + bookingId;
+    } else {
+      this.shareUrl = this.shareBaseUrl + this.bookingId;
+    }
     this.model.show();
   }
 
@@ -33,8 +37,4 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
     this.model.hide();
   }
 
-  getShareUrl() {
-    this.shareUrl = this.shareBaseUrl + this.bookingId;
-  }
-  
 }

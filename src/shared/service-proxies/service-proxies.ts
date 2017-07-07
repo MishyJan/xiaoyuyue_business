@@ -3590,7 +3590,7 @@ export class OrgBookingServiceProxy {
      * 创建或更新预约
      * @return Success
      */
-    createOrUpdateBooking(input: CreateOrUpdateBookingInput): Observable<void> {
+    createOrUpdateBooking(input: CreateOrUpdateBookingInput): Observable<EntityDtoOfInt64> {
         let url_ = this.baseUrl + "/api/services/app/OrgBooking/CreateOrUpdateBooking";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3612,19 +3612,22 @@ export class OrgBookingServiceProxy {
                 try {
                     return Observable.of(this.processCreateOrUpdateBooking(response));
                 } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
+                    return <Observable<EntityDtoOfInt64>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<void>><any>Observable.throw(response);
+                return <Observable<EntityDtoOfInt64>><any>Observable.throw(response);
         });
     }
 
-    protected processCreateOrUpdateBooking(response: Response): void {
+    protected processCreateOrUpdateBooking(response: Response): EntityDtoOfInt64 {
         const responseText = response.text();
         const status = response.status; 
 
         if (status === 200) {
-            return null;
+            let result200: EntityDtoOfInt64 = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? EntityDtoOfInt64.fromJS(resultData200) : new EntityDtoOfInt64();
+            return result200;
         } else if (status !== 200 && status !== 204) {
             this.throwException("An unexpected server error occurred.", status, responseText);
         }
@@ -3727,7 +3730,7 @@ export class OrgBookingServiceProxy {
      * 获取时间
      * @return Success
      */
-    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNumber: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
+    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNum: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
         let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetItemDatetime?";
         if (tenantId !== undefined)
             url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&"; 
@@ -3743,8 +3746,8 @@ export class OrgBookingServiceProxy {
             url_ += "ContactorId=" + encodeURIComponent("" + contactorId) + "&"; 
         if (contactor_Name !== undefined)
             url_ += "Contactor.Name=" + encodeURIComponent("" + contactor_Name) + "&"; 
-        if (contactor_PhoneNumber !== undefined)
-            url_ += "Contactor.PhoneNumber=" + encodeURIComponent("" + contactor_PhoneNumber) + "&"; 
+        if (contactor_PhoneNum !== undefined)
+            url_ += "Contactor.PhoneNum=" + encodeURIComponent("" + contactor_PhoneNum) + "&"; 
         if (contactor_WechatQrcodeUrl !== undefined)
             url_ += "Contactor.WechatQrcodeUrl=" + encodeURIComponent("" + contactor_WechatQrcodeUrl) + "&"; 
         if (contactor_TenantId !== undefined)
@@ -6728,19 +6731,19 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
-     * @sorting 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
+     * @sorting 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -8439,7 +8442,7 @@ export class TokenAuthServiceProxy {
     }
 
     /**
-     * 认证
+     * 认证登陆
      * @return Success
      */
     authenticate(model: AuthenticateModel): Observable<AuthenticateResultModel> {
@@ -8472,6 +8475,54 @@ export class TokenAuthServiceProxy {
     }
 
     protected processAuthenticate(response: Response): AuthenticateResultModel {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            let result200: AuthenticateResultModel = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AuthenticateResultModel.fromJS(resultData200) : new AuthenticateResultModel();
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
+     * 手机验证码认证登陆
+     * @return Success
+     */
+    phoneNumAuthenticate(model: PhoneAuthenticateModel): Observable<AuthenticateResultModel> {
+        let url_ = this.baseUrl + "/api/TokenAuth/PhoneNumAuthenticate";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model ? model.toJS() : null);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processPhoneNumAuthenticate(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processPhoneNumAuthenticate(response));
+                } catch (e) {
+                    return <Observable<AuthenticateResultModel>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<AuthenticateResultModel>><any>Observable.throw(response);
+        });
+    }
+
+    protected processPhoneNumAuthenticate(response: Response): AuthenticateResultModel {
         const responseText = response.text();
         const status = response.status; 
 
@@ -13968,6 +14019,35 @@ export class CreateOrUpdateBookingInput {
     }
 }
 
+export class EntityDtoOfInt64 {
+    id: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.id = data["id"] !== undefined ? data["id"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): EntityDtoOfInt64 {
+        return new EntityDtoOfInt64(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["id"] = this.id !== undefined ? this.id : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new EntityDtoOfInt64(JSON.parse(json));
+    }
+}
+
 export class ActiveOrDisableInput {
     isActive: boolean;
     id: number;
@@ -14002,7 +14082,7 @@ export class ActiveOrDisableInput {
 
 export class Contactor {
     name: string;
-    phoneNumber: string;
+    phoneNum: string;
     wechatQrcodeUrl: string;
     tenantId: number;
     outletId: number;
@@ -14014,7 +14094,7 @@ export class Contactor {
     constructor(data?: any) {
         if (data !== undefined) {
             this.name = data["name"] !== undefined ? data["name"] : undefined;
-            this.phoneNumber = data["phoneNumber"] !== undefined ? data["phoneNumber"] : undefined;
+            this.phoneNum = data["phoneNum"] !== undefined ? data["phoneNum"] : undefined;
             this.wechatQrcodeUrl = data["wechatQrcodeUrl"] !== undefined ? data["wechatQrcodeUrl"] : undefined;
             this.tenantId = data["tenantId"] !== undefined ? data["tenantId"] : undefined;
             this.outletId = data["outletId"] !== undefined ? data["outletId"] : undefined;
@@ -14032,7 +14112,7 @@ export class Contactor {
     toJS(data?: any) {
         data = data === undefined ? {} : data;
         data["name"] = this.name !== undefined ? this.name : undefined;
-        data["phoneNumber"] = this.phoneNumber !== undefined ? this.phoneNumber : undefined;
+        data["phoneNum"] = this.phoneNum !== undefined ? this.phoneNum : undefined;
         data["wechatQrcodeUrl"] = this.wechatQrcodeUrl !== undefined ? this.wechatQrcodeUrl : undefined;
         data["tenantId"] = this.tenantId !== undefined ? this.tenantId : undefined;
         data["outletId"] = this.outletId !== undefined ? this.outletId : undefined;
@@ -14062,6 +14142,7 @@ export class BookingItem {
     maxQueueNum: number;
     bookedNum: number;
     queueNum: number;
+    wait4ConfirmNum: number;
     isActive: boolean;
     isDeleted: boolean;
     deleterUserId: number;
@@ -14079,6 +14160,7 @@ export class BookingItem {
             this.maxQueueNum = data["maxQueueNum"] !== undefined ? data["maxQueueNum"] : undefined;
             this.bookedNum = data["bookedNum"] !== undefined ? data["bookedNum"] : undefined;
             this.queueNum = data["queueNum"] !== undefined ? data["queueNum"] : undefined;
+            this.wait4ConfirmNum = data["wait4ConfirmNum"] !== undefined ? data["wait4ConfirmNum"] : undefined;
             this.isActive = data["isActive"] !== undefined ? data["isActive"] : undefined;
             this.isDeleted = data["isDeleted"] !== undefined ? data["isDeleted"] : undefined;
             this.deleterUserId = data["deleterUserId"] !== undefined ? data["deleterUserId"] : undefined;
@@ -14102,6 +14184,7 @@ export class BookingItem {
         data["maxQueueNum"] = this.maxQueueNum !== undefined ? this.maxQueueNum : undefined;
         data["bookedNum"] = this.bookedNum !== undefined ? this.bookedNum : undefined;
         data["queueNum"] = this.queueNum !== undefined ? this.queueNum : undefined;
+        data["wait4ConfirmNum"] = this.wait4ConfirmNum !== undefined ? this.wait4ConfirmNum : undefined;
         data["isActive"] = this.isActive !== undefined ? this.isActive : undefined;
         data["isDeleted"] = this.isDeleted !== undefined ? this.isDeleted : undefined;
         data["deleterUserId"] = this.deleterUserId !== undefined ? this.deleterUserId : undefined;
@@ -14570,35 +14653,6 @@ export class BatchComfirmInput {
     clone() {
         const json = this.toJSON();
         return new BatchComfirmInput(JSON.parse(json));
-    }
-}
-
-export class EntityDtoOfInt64 {
-    id: number;
-
-    constructor(data?: any) {
-        if (data !== undefined) {
-            this.id = data["id"] !== undefined ? data["id"] : undefined;
-        }
-    }
-
-    static fromJS(data: any): EntityDtoOfInt64 {
-        return new EntityDtoOfInt64(data);
-    }
-
-    toJS(data?: any) {
-        data = data === undefined ? {} : data;
-        data["id"] = this.id !== undefined ? this.id : undefined;
-        return data; 
-    }
-
-    toJSON() {
-        return JSON.stringify(this.toJS());
-    }
-
-    clone() {
-        const json = this.toJSON();
-        return new EntityDtoOfInt64(JSON.parse(json));
     }
 }
 
@@ -17892,6 +17946,44 @@ export class AuthenticateResultModel {
     clone() {
         const json = this.toJSON();
         return new AuthenticateResultModel(JSON.parse(json));
+    }
+}
+
+export class PhoneAuthenticateModel {
+    /** 手机 */
+    phoneNum: string;
+    /** 登陆验证码 */
+    loginCode: string;
+    /** 在客户端记住 */
+    rememberClient: boolean;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.phoneNum = data["phoneNum"] !== undefined ? data["phoneNum"] : undefined;
+            this.loginCode = data["loginCode"] !== undefined ? data["loginCode"] : undefined;
+            this.rememberClient = data["rememberClient"] !== undefined ? data["rememberClient"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): PhoneAuthenticateModel {
+        return new PhoneAuthenticateModel(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["phoneNum"] = this.phoneNum !== undefined ? this.phoneNum : undefined;
+        data["loginCode"] = this.loginCode !== undefined ? this.loginCode : undefined;
+        data["rememberClient"] = this.rememberClient !== undefined ? this.rememberClient : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new PhoneAuthenticateModel(JSON.parse(json));
     }
 }
 
