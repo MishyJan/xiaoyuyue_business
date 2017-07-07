@@ -143,6 +143,7 @@ export class UploadPictureModelComponent extends AppComponentBase implements OnI
               // console.log(domain);
               // console.log(self.allPictureId);
               self.sendPictureForEdit.emit(self.pictureForEdit);
+              self.sendPictureForEdit.emit(self.pictureForEdit);
             },
             'Error': function (up, err, errTip) {
               //上传出错时,处理相关的事情
@@ -170,7 +171,7 @@ export class UploadPictureModelComponent extends AppComponentBase implements OnI
         });
         $("#confirmUpload").on("click", function () {
           uploader.start();
-          self.getAllPictureUrl.emit(self.allPictureUrl);
+          
         })
       });
   }

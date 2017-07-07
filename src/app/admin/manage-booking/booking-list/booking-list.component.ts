@@ -169,41 +169,50 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   copyBooking(index) {
     let bookingId = this.organizationBookingResultData[index].id;
     let input = new CreateOrUpdateBookingInput();
-    this._organizationBookingServiceProxy
-      .getBookingForEdit(bookingId)
-      .subscribe(result => {
 
-        input.booking = result.booking;
-        input.booking.id = 0;
-        input.bookingPictures = result.bookingPictures;
-        input.items = result.items;
-        if (input.items) {
-          for (let i = 0; i < input.items.length; i++) {
-            input.items[i].id = 0;
-            input.items[i].bookingId = 0;
-          }
-        }
-
-        // 创建预约
+    this.message.confirm("是否要复制当前预约", (isCopy) => {
+      if (isCopy) {
         this._organizationBookingServiceProxy
-          .createOrUpdateBooking(input)
-          .subscribe(() => {
-            this.loadData();
-            this.notify.success("复制成功！");
-          })
-      });
+          .getBookingForEdit(bookingId)
+          .subscribe(result => {
+
+            input.booking = result.booking;
+            input.booking.id = 0;
+            input.bookingPictures = result.bookingPictures;
+            input.items = result.items;
+            if (input.items) {
+              for (let i = 0; i < input.items.length; i++) {
+                input.items[i].id = 0;
+                input.items[i].bookingId = 0;
+              }
+            }
+
+            // 创建预约
+            this._organizationBookingServiceProxy
+              .createOrUpdateBooking(input)
+              .subscribe(() => {
+                this.loadData();
+                this.notify.success("复制成功！");
+              })
+          });
+      }
+    });
 
   }
 
   // 删除预约
   removeBooking(index) {
     let bookingId = this.organizationBookingResultData[index].id;
-    this._organizationBookingServiceProxy
-      .deleteBooking(bookingId)
-      .subscribe(() => {
-        this.loadData();
-        this.notify.success("删除成功！");
-      });
+    this.message.confirm("是否要删除当前预约", (isDelete) => {
+      if (isDelete) {
+        this._organizationBookingServiceProxy
+          .deleteBooking(bookingId)
+          .subscribe(() => {
+            this.loadData();
+            this.notify.success("删除成功！");
+          });
+      }
+    });
   }
 
   // 门店搜索下拉框值改变时

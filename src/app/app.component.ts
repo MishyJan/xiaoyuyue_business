@@ -1,6 +1,5 @@
 import { Component, ViewContainerRef, OnInit, AfterViewInit } from '@angular/core';
 import { AppConsts } from '@shared/AppConsts';
-// import { SignalRHelper } from 'shared/helpers/SignalRHelper';
 
 @Component({
     templateUrl: './app.component.html'
@@ -17,7 +16,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        // SignalRHelper.initSignalR(() => { this._chatSignalrService.init(); });
     }
 
     ngAfterViewInit(): void {

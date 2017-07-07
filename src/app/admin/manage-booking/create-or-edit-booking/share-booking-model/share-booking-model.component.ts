@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, Inject, Injector, ViewEncapsulatio
 import { ModalDirective } from 'ngx-bootstrap';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'xiaoyuyue-share-booking-model',
@@ -16,7 +17,8 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   @ViewChild("shareBookingModel") model: ModalDirective;
   @Input() bookingId: number;
   constructor(
-    injector: Injector
+    injector: Injector,
+    private _router: Router
   ) {
     super(injector);
   }
@@ -35,6 +37,7 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
 
   close(): void {
     this.model.hide();
+    this._router.navigate(['/app/admin/booking/list']);
   }
 
 }

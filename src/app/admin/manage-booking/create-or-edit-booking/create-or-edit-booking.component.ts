@@ -128,8 +128,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     if (this.pictureForEdit) {
       this.allPictureForEdit.push(this.pictureForEdit);
       this.input.bookingPictures = this.allPictureForEdit;
+    } else {
+      this.input.bookingPictures = this.pictureInfo;
     }
-    this.input.bookingPictures = this.pictureInfo;
     this._organizationBookingServiceProxy
       .createOrUpdateBooking(this.input)
       .subscribe((result) => {
