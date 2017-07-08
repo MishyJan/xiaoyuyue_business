@@ -89,5 +89,5 @@ build_and_deploy_test:
     - copy 'dist\*' -Destination 'C:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
     - Start-Sleep -Seconds 3
     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程
-   tags:
+  tags:
     - deploy_xiaoyuyue_business_center_207
