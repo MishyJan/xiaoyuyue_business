@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
   shareUrl: string = "";
-  shareBaseUrl: string = "http://vapps.iok.la/booking/about/";
+  shareBaseUrl: string = "http://business.xiaoyuyue.com/booking/about/";
 
   @ViewChild("shareBookingModel") model: ModalDirective;
   @Input() bookingId: number;
