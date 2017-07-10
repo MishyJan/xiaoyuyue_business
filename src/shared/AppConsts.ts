@@ -21,7 +21,7 @@
     };
 
     static readonly grid = {
-        defaultPageSize: 1,
+        defaultPageSize: 4,
         pageSizes: [5, 10, 20, 50, 100],
         maxPageSize:1000,
     }

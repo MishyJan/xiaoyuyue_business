@@ -98,12 +98,10 @@
 
 .vapps-icon-app-first-page:before {
     content: "\e910";
-    color: #808080;
 }
 
 .vapps-icon-app-last-page:before {
     content: "\e911";
-    color: #808080;
 }
 
 .vapps-icon-app-location:before {
@@ -142,7 +140,6 @@
 
 .vapps-icon-app-next-page:before {
     content: "\e919";
-    color: #ccc;
 }
 
 .vapps-icon-app-phone:before {
@@ -156,7 +153,6 @@
 
 .vapps-icon-app-prev-page:before {
     content: "\e91c";
-    color: #ccc;
 }
 
 .vapps-icon-app-qr-code:before {

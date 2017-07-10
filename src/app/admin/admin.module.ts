@@ -36,6 +36,7 @@ import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact
 import { UploadPictureNoneGalleryComponent } from './shared/upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UploadOrgLogoComponent } from './manage-org/org-info/upload-org-logo/upload-org-logo.component';
 import { UploadOrgBgComponent } from './manage-org/org-info/upload-org-bg/upload-org-bg.component';
+import { PaginationComponent } from './shared/pagination/pagination.component';
 
 @NgModule({
     imports: [
@@ -75,7 +76,8 @@ import { UploadOrgBgComponent } from './manage-org/org-info/upload-org-bg/upload
         ContactInfoComponent,
         UploadPictureNoneGalleryComponent,
         UploadOrgLogoComponent,
-        UploadOrgBgComponent
+        UploadOrgBgComponent,
+        PaginationComponent
     ],
     providers: [
         AppStorageService,
