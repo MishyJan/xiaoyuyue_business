@@ -86,7 +86,7 @@
 
         <div class="col-lg-12 booking-list-wrap">
             <!-- 翻转最外层，包含翻转前front-wrap / 翻转后back-wrap -->
-            <div *ngFor="let bookingResultItem of organizationBookingResultData;let index = index" class="col-lg-3 col-md-3 col-sm-4 booking-item flip" #flipAni>
+            <div *ngFor="let bookingResultItem of organizationBookingResultData;let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
                 <!--翻转前-->
                 <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-banner-wrap">

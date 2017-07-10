@@ -4,10 +4,15 @@
     }
     .outlet-list-wrap {
         margin-top: 30px;
+        padding: 0;
         .outlet-item {
             border-radius: 4px;
-            background-color: #FFF;
             margin-top: 60px;
+            .item {
+                float: left;
+                background-color: #FFF;
+                padding: 0 15px;
+            }
             .top-wrap {
                 margin-top: -30px;
                 border-radius: 4px;
@@ -31,6 +36,9 @@
                         }
                         .flex-left {
                             flex: 1;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
                     }
                     >.flex-left {
