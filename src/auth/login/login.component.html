@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="login-btn-wrap">
-                    <button class="btn btn-login" type="submit" (click)="login()">{{l("LogIn")}}</button>
+                    <button class="btn btn-login" type="submit" (click)="login()" [buttonBusy]="saving" [busyText]="'登录中...'"><i></i><span>{{l("LogIn")}}</span></button>
                 </div>
                 <!--                <div class="form-group form-md-line-input">
                     <div *ngIf="loginService.externalLoginProviders.length > 0">

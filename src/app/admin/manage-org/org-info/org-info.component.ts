@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   animations: [accountModuleAnimation()],
 })
 export class OrgInfoComponent extends AppComponentBase implements OnInit {
+  saving: boolean = false;
   updatedOrgBgPicture: boolean = false;
   updatedOrgLogoPicture: boolean = false;
   input: TenantInfoEditDto = new TenantInfoEditDto();
@@ -82,9 +83,12 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
       this.input.logoId = this.sendOrgLogoInfo.pictureId;
       this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
     }
+
+    this.saving = true;
     this._tenantInfoServiceProxy
-      .updateTenantInfo(this.input).
-      subscribe(result => {
+      .updateTenantInfo(this.input)
+      .finally( () => { this.saving = false})
+      .subscribe(result => {
         this.notify.success("信息已完善");
         this._router.navigate(['/app/admin/org/list']);
       })

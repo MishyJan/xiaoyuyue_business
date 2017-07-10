@@ -40,6 +40,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
   selectOutletId: number;
   selectContactorId: number;
+  saving: boolean = false;
+  savingAndEditing: boolean = false;
 
   @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
 
@@ -131,8 +133,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     } else {
       this.input.bookingPictures = this.pictureInfo;
     }
+    this.saving = true;
     this._organizationBookingServiceProxy
       .createOrUpdateBooking(this.input)
+      .finally( () => { this.saving = false })
       .subscribe((result) => {
         this.shareBookingModel.show(result.id);
       });
@@ -141,8 +145,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
   saveAndEdit() {
     this.input.booking = this.baseInfo;
     this.input.items = this.allBookingTime;
+    this.savingAndEditing = true;
     this._organizationBookingServiceProxy
       .createOrUpdateBooking(this.input)
+      .finally( () => { this.savingAndEditing = false})
       .subscribe(() => {
         this.notify.success("创建成功!");
       });
