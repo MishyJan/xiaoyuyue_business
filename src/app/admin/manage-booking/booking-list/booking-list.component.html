@@ -84,9 +84,9 @@
             </div>
         </div>
 
-        <div class="col-lg-12 booking-list-wrap">
+        <div class="col-lg-12 booking-list-wrap" *ngIf="organizationBookingResultData">
             <!-- 翻转最外层，包含翻转前front-wrap / 翻转后back-wrap -->
-            <div *ngFor="let bookingResultItem of organizationBookingResultData;let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
+            <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
                 <!--翻转前-->
                 <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-banner-wrap">
@@ -184,10 +184,11 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-12">
+        <div class="col-lg-12" *ngIf="organizationBookingResultData">
             <div class="pull-right">
-                <xiaoyuyue-pagination #PaginationModel (paginationHandler)="getPaginationResult($event)"></xiaoyuyue-pagination>
+                <div class="has-text-centered">
+                    <pagination-controls (pageChange)="currentPage = $event" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
+                </div>
             </div>
         </div>
     </div>

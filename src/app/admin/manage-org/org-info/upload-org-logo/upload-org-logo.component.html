@@ -9,5 +9,5 @@
             <img width="100%" *ngIf="orgLogoUrl" [src]="orgLogoUrl">
         </div>
     </div>
-    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel [uniqueUid]="uniqueUid" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
+    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
 </div>

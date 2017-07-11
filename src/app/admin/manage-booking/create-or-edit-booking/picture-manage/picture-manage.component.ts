@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { AppComponentBase } from "shared/common/app-component-base";
 import { BookingPictureEditDto } from "shared/service-proxies/service-proxies";
-import { UploadPictureModelComponent } from './upload-picture-model/upload-picture-model.component';
+import { UploadPictureGalleryComponent } from 'app/admin/shared/upload-picture-gallery/upload-picture-gallery.component';
 
 @Component({
   selector: 'app-picture-manage',
@@ -14,7 +14,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
   allPictureEdit: BookingPictureEditDto[] = [];
   @Input() pictureInfo: BookingPictureEditDto[];
 
-  @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureModelComponent;
+  @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureGalleryComponent;
 
 
   constructor(
@@ -28,11 +28,11 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
 
   ngAfterViewInit() {
     let self = this;
-    if (this.pictureInfo) {
-      setTimeout(function () {
+    setTimeout(function () {
+      if (self.pictureInfo) {
         self.allPictureEdit = self.pictureInfo;
-      }, 1000)
-    }
+      }
+    }, 1000)
   }
 
   show(): void {

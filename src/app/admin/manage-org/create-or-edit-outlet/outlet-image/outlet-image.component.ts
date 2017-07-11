@@ -10,7 +10,7 @@ import { UploadPictureDto } from "app/admin/shared/utils/upload-picture.dto";
 })
 export class OutletImageComponent extends AppComponentBase implements OnInit {
   uploadPicInfo: UploadPictureDto = new UploadPictureDto();
-
+  uploadUid: number = new Date().valueOf();
   href: string = document.location.href;
   outletId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
 
@@ -25,7 +25,7 @@ export class OutletImageComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    if(this.outletId) {
+    if (this.outletId) {
       this.loadData();
     }
 

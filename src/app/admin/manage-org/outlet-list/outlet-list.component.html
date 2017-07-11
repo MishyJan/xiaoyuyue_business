@@ -54,7 +54,7 @@
         </div>
 
         <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
-            <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets">
+            <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                 <div class="item  box-shadow">
                     <div class="top-wrap box-shadow">
                         <img [src]="outletItem.pictureUrl" width="100%" alt="">
@@ -90,16 +90,12 @@
             </div>
         </div>
 
-        <!--<div class="col-lg-12">
+        <div class="col-lg-12" *ngIf="allOutlets">
             <div class="pull-right">
-                <ul class="pagination pagination-info">
-                    <li><a href="javascript:void(0);" (click)="firstPage()"><span class="vapps-icon-app-first-page"></span></a></li>
-                    <li><a href="javascript:void(0);" (click)="prevPage(currentPage)"><span class="fa fa-angle-left"></span></a></li>
-                    <li *ngFor="let pages of pagesTotal; let index = index;" [ngClass]="{'active': index == currentPage}" (click)="changePage(index)"><a href="javascript:void(0);">{{pages}}</a></li>
-                    <li><a href="javascript:void(0);" (click)="nextPage(currentPage)"><span class="vapps-icon-app-next-page"></span></a></li>
-                    <li><a href="javascript:void(0);" (click)="lastPage()"><span class="vapps-icon-app-last-page"></span></a></li>
-                </ul>
+                <div class="has-text-centered">
+                    <pagination-controls (pageChange)="currentPage = $event" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
+                </div>
             </div>
-        </div>-->
+        </div>
     </div>
 </div>

@@ -26,7 +26,6 @@ import { BaseInfoComponent } from './manage-booking/create-or-edit-booking/base-
 import { PictureManageComponent } from './manage-booking/create-or-edit-booking/picture-manage/picture-manage.component';
 import { TimeInfoComponent } from './manage-booking/create-or-edit-booking/time-info/time-info.component';
 import { BookingListComponent } from './manage-booking/booking-list/booking-list.component';
-import { UploadPictureModelComponent } from './manage-booking/create-or-edit-booking/picture-manage/upload-picture-model/upload-picture-model.component';
 import { ShareBookingModelComponent } from './manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component';
 import { CreateOrEditOutletComponent } from './manage-org/create-or-edit-outlet/create-or-edit-outlet.component';
 import { OutletListComponent } from './manage-org/outlet-list/outlet-list.component';
@@ -36,7 +35,8 @@ import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact
 import { UploadPictureNoneGalleryComponent } from './shared/upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UploadOrgLogoComponent } from './manage-org/org-info/upload-org-logo/upload-org-logo.component';
 import { UploadOrgBgComponent } from './manage-org/org-info/upload-org-bg/upload-org-bg.component';
-import { PaginationComponent } from './shared/pagination/pagination.component';
+import { UploadPictureGalleryComponent } from "app/admin/shared/upload-picture-gallery/upload-picture-gallery.component";
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
     imports: [
@@ -59,7 +59,8 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
         SharedModule,
         DialogModule,
         DateInputModule,
-        QRCodeModule
+        QRCodeModule,
+        NgxPaginationModule
     ],
     declarations: [
         CreateOrEditBookingComponent,
@@ -67,17 +68,17 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
         PictureManageComponent,
         TimeInfoComponent,
         BookingListComponent,
-        UploadPictureModelComponent,
         ShareBookingModelComponent,
         CreateOrEditOutletComponent,
         OutletListComponent,
         OrgInfoComponent,
         OutletImageComponent,
         ContactInfoComponent,
+        UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
         UploadOrgLogoComponent,
         UploadOrgBgComponent,
-        PaginationComponent
+        // PaginationComponent
     ],
     providers: [
         AppStorageService,

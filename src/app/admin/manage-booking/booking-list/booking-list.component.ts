@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { appModuleAnimation } from "shared/animations/routerTransition";
 import { AppComponentBase } from "shared/common/app-component-base";
 import { NgxAni } from "ngxani";
@@ -9,20 +9,19 @@ import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descript
 import * as moment from 'moment';
 import { Router } from "@angular/router";
 import { SelectHelper } from "shared/helpers/SelectHelper";
-import { PaginationBaseDto } from 'app/admin/shared/utils/pagination.dto';
-import { PaginationComponent } from "app/admin/shared/pagination/pagination.component";
+// import { PaginationBaseDto } from 'app/admin/shared/utils/pagination.dto';
+// import { PaginationComponent } from "app/admin/shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-manage-booking',
   templateUrl: './booking-list.component.html',
   styleUrls: ['./booking-list.component.scss'],
-  animations: [appModuleAnimation()]
+  animations: [appModuleAnimation()],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
-  totalCount: number;
-  pagesTotal: number[] = [];
-  pagesNum: number = 1;
+  itemsPerPage: number = AppConsts.grid.defaultPageSize;
   currentPage: number = 0;
 
   activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
@@ -45,7 +44,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   sorting: string;
 
   shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
-  @ViewChild("PaginationModel")PaginationModel: PaginationComponent;
+  // @ViewChild("PaginationModel")PaginationModel: PaginationComponent;
 
   constructor(
     injector: Injector,
@@ -60,6 +59,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
     // this.bookingActiveSelectDefaultItem = this.bookingActiveSelectListData[0];
     // console.log(this.bookingActiveSelectDefaultItem.displayText)
+    this.loadData();
     this.bookingActiveSelectDefaultItem = {
       value: "",
       displayText: "请选择"
@@ -93,7 +93,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
       .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
       .subscribe(result => {
         let pagesCount = [];
-        this.PaginationModel.countPagesTotal(result.totalCount,);
+        // this.PaginationModel.countPagesTotal(result.totalCount,);
         if (typeof this.startCreationTime === "object") {
           this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
           this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
@@ -213,11 +213,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     this.isActive = bookingActive;
   }
 
-  // 获取分页组件的结果
-  getPaginationResult(pagingResult: PaginationBaseDto) {
-    this.skipCount = pagingResult.skipCount;
-    this.maxResultCount = pagingResult.maxResultCount;
-    this.sorting = pagingResult.sorting;
-    this.loadData();
-  }
+  // // 获取分页组件的结果
+  // getPaginationResult(pagingResult: PaginationBaseDto) {
+  //   this.skipCount = pagingResult.skipCount;
+  //   this.maxResultCount = pagingResult.maxResultCount;
+  //   this.sorting = pagingResult.sorting;
+  //   this.loadData();
+  // }
 }

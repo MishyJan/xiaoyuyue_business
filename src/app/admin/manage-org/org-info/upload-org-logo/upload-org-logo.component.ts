@@ -9,7 +9,7 @@ import { UploadPictureDto } from 'app/admin/shared/utils/upload-picture.dto';
 })
 export class UploadOrgLogoComponent implements OnInit {
   picUrl: string;
-  uniqueUid: string = "uploadOrgLogo";
+  uploadUid: number = new Date().valueOf();
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
   @Output() orgLogoIngoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
   @Input() orgLogoUrl: string;

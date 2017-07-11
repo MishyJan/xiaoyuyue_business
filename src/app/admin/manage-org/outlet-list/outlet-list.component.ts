@@ -17,6 +17,8 @@ export class OutletListComponent extends AppComponentBase implements OnInit {
   outletName: string;
   allOutlets: OutletListDto[];
   contactInfo: ContactorEditDto;
+  itemsPerPage: number = AppConsts.grid.defaultPageSize;
+  currentPage: number = 0;
 
   pageSize: number = AppConsts.grid.defaultPageSize;
   skip: number = 0;
