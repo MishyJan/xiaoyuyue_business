@@ -27,9 +27,9 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
 
   show(bookingId?: number): void {
     if (bookingId) {
-      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about" + bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about/" + bookingId;
     } else {
-      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about" + this.bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about/" + this.bookingId;
     }
     this.model.show();
   }
@@ -37,6 +37,12 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   close(): void {
     this.model.hide();
     this._router.navigate(['/app/admin/booking/list']);
+  }
+
+  // 单击复制文本
+  copyText(text: string): void {
+    window.clipboardData.setData("Text",text);
+    this.notify.info("复制成功，Ctrl+V粘贴");
   }
 
 }

@@ -1,5 +1,5 @@
 ﻿{
-    "remoteServiceBaseUrl": "http://vappshk.oicp.net:9090",
+    "remoteServiceBaseUrl": "http://vappshk.oicp.net:9090/",
     "appBaseUrl": "http://vapps.imwork.net/",
     "shareBaseUrl": "http://user.xiaoyuyue.com"
 }

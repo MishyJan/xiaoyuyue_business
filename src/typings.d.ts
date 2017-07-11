@@ -117,6 +117,7 @@ interface Window {
     FileReader: any;
     webkitURL: any;
     mozURL: any;
+    clipboardData: any;
 }
 
 interface HTMLInputEvent extends Event {
