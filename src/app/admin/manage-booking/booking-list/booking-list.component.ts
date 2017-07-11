@@ -44,7 +44,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   skipCount: number;
   sorting: string;
 
-  shareBaseUrl: string = "http://vapps.iok.la/booking/about/";
+  shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
   @ViewChild("PaginationModel")PaginationModel: PaginationComponent;
 
   constructor(

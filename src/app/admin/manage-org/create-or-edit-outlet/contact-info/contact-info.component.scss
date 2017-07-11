@@ -64,16 +64,12 @@
                         .qr-code-wrap {
                             width: 92px;
                             height: 92px;
+                            border: 1px dashed #CCC;
                             flex: 0 0 92px;
                             display: inline-block;
                             overflow: hidden;
                             margin-right: 10px;
-                        }
-                        .upload {
-                            flex: 1;
-                            color: #ff9641;
-                            border: 1px solid #ff9641;
-                            margin-top: 56px;
+                            cursor: pointer;
                         }
                     }
                 }
