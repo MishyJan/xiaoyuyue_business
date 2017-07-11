@@ -155,7 +155,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <app-picture-manage (sendPictureForEdit)="getPictureForEdit($event)" [pictureInfo]="pictureInfo"></app-picture-manage>
+                <app-picture-manage (sendAllPictureForEdit)="getAllPictureForEdit($event)" [pictureInfo]="pictureInfo"></app-picture-manage>
             </div>
             <div class="col-lg-12">
                 <app-time-info (changeInput)="getTimeInfoInput($event)" (timeInfoFormDisabled)="getInfoFormValid($event)" [timeInfo]="timeInfo"></app-time-info>

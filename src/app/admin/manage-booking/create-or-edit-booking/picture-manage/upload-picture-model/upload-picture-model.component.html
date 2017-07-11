@@ -14,17 +14,31 @@
 
                 <div class="modal-body">
                     <div class="content-item" *ngIf="tabToggle">图片库</div>
-                    <div class="content-item" *ngIf="!tabToggle">
-                        <div class="form-group">
-                            <div id="pictureGallery">
-                                <a class="btn btn-border-radius btn-file-wrap" id="pictureGalleryPickfiles">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                    <span>选择文件</span>
-                                </a>
+                    <div class="content-item row" *ngIf="!tabToggle">
+                        <div class="col-lg-6 col-md-6" id="dropArea">
+                            <div class="upload-area-wrap" id="uploadAreaWrap">
+                                <div class="upload-area" id="uploadArea"></div>
+                                <div class="img-area"><img width="100%" id="profilePicture"></div>
                             </div>
-                            <span class="help-block m-b-none">{{l("ProfilePicture_Change_Info")}}</span>
                         </div>
-                        <img id="profilePicture" [hidden]="!temporaryPictureUrl" />
+                        <div class="upload-tips col-lg-6 col-md-6">
+                            <div class="tips-item">
+                                <span class="char"></span>
+                                <span class="content">提个醒</span>
+                            </div>
+                            <div class="tips-item">
+                                <span class="char">1、</span>
+                                <span class="content">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
+                            </div>
+                            <div class="tips-item clearfix">
+                                <span class="char">2、</span>
+                                <span class="content">所有图片皆有自动添加水印；</span>
+                            </div>
+                            <div class="tips-item clearfix">
+                                <span class="char">3、</span>
+                                <span class="content">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -35,3 +49,9 @@
         </div>
     </div>
 </div>
+<!--<div id="pictureGallery">
+                                <a class="btn btn-border-radius btn-file-wrap" id="pictureGalleryPickfiles">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>选择文件</span>
+                                </a>
+                            </div>-->
