@@ -7,10 +7,11 @@ import { UploadPictureModelComponent } from './upload-picture-model/upload-pictu
   selector: 'app-picture-manage',
   templateUrl: './picture-manage.component.html',
   styleUrls: ['./picture-manage.component.scss']
-}) 
+})
 export class PictureManageComponent extends AppComponentBase implements OnInit {
-  @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
-  allPictureUrl: string[];
+  displayOrder: number = 0;
+  @Output() sendAllPictureForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
+  allPictureEdit: BookingPictureEditDto[] = [];
   @Input() pictureInfo: BookingPictureEditDto[];
 
   @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureModelComponent;
@@ -26,20 +27,22 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
   }
 
   ngAfterViewInit() {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    console.log(this.pictureInfo);
+    let self = this;
+    if (this.pictureInfo) {
+      setTimeout(function () {
+        self.allPictureEdit = self.pictureInfo;
+      }, 1000)
+    }
   }
 
-  createUser(): void {
+  show(): void {
     this.uploadPictureModel.show();
   }
 
-  getAllPictureUrl(allPictureUrl: string[]) {
-    this.allPictureUrl = allPictureUrl;
-  }
   getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
-    this.sendPictureForEdit.emit(pictureForEdit);
+    pictureForEdit.displayOrder = this.displayOrder++; //暂时测试
+    this.allPictureEdit.push(pictureForEdit);
+    this.sendAllPictureForEdit.emit(this.allPictureEdit);
   }
 
 }

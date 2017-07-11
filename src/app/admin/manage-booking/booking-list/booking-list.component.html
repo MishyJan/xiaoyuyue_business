@@ -86,7 +86,7 @@
 
         <div class="col-lg-12 booking-list-wrap">
             <!-- 翻转最外层，包含翻转前front-wrap / 翻转后back-wrap -->
-            <div *ngFor="let bookingResultItem of organizationBookingResultData;let index = index" class="col-lg-3 col-md-3 col-sm-4 booking-item flip" #flipAni>
+            <div *ngFor="let bookingResultItem of organizationBookingResultData;let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
                 <!--翻转前-->
                 <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-banner-wrap">
@@ -187,13 +187,7 @@
 
         <div class="col-lg-12">
             <div class="pull-right">
-                <ul class="pagination pagination-info">
-                    <li><a href="javascript:void(0);" (click)="firstPage()"><span class="vapps-icon-app-first-page"></span></a></li>
-                    <li><a href="javascript:void(0);" (click)="prevPage(currentPage)"><span class="fa fa-angle-left"></span></a></li>
-                    <li *ngFor="let pages of pagesTotal; let index = index;" [ngClass]="{'active': index == currentPage}" (click)="changePage(index)"><a href="javascript:void(0);">{{pages}}</a></li>
-                    <li><a href="javascript:void(0);" (click)="nextPage(currentPage)"><span class="vapps-icon-app-next-page"></span></a></li>
-                    <li><a href="javascript:void(0);" (click)="lastPage()"><span class="vapps-icon-app-last-page"></span></a></li>
-                </ul>
+                <xiaoyuyue-pagination #PaginationModel (paginationHandler)="getPaginationResult($event)"></xiaoyuyue-pagination>
             </div>
         </div>
     </div>

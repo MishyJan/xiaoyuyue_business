@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
   shareUrl: string = "";
-  shareBaseUrl: string = "http://business.xiaoyuyue.com/booking/about/";
 
   @ViewChild("shareBookingModel") model: ModalDirective;
   @Input() bookingId: number;
@@ -28,9 +27,9 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
 
   show(bookingId?: number): void {
     if (bookingId) {
-      this.shareUrl = this.shareBaseUrl + bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about" + bookingId;
     } else {
-      this.shareUrl = this.shareBaseUrl + this.bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about" + this.bookingId;
     }
     this.model.show();
   }

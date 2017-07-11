@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { appModuleAnimation } from "shared/animations/routerTransition";
 import { AppComponentBase } from "shared/common/app-component-base";
 import { NgxAni } from "ngxani";
@@ -9,6 +9,8 @@ import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descript
 import * as moment from 'moment';
 import { Router } from "@angular/router";
 import { SelectHelper } from "shared/helpers/SelectHelper";
+import { PaginationBaseDto } from 'app/admin/shared/utils/pagination.dto';
+import { PaginationComponent } from "app/admin/shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-manage-booking',
@@ -34,17 +36,16 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   endCreationTime: any;
   startCreationTime: any;
 
-  // endCreationTime: string;
-  // startCreationTime: string;
   isActive: boolean;
   outletId: number;
   bookingName: string;
 
-  pageSize: number = AppConsts.grid.defaultPageSize;
-  skip: number = 0;
-  sort: Array<SortDescriptor> = [];
+  maxResultCount: number;
+  skipCount: number;
+  sorting: string;
 
-  shareBaseUrl: string = "http://business.xiaoyuyue.com/booking/about/";
+  shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
+  @ViewChild("PaginationModel")PaginationModel: PaginationComponent;
 
   constructor(
     injector: Injector,
@@ -57,7 +58,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    this.loadData();
     // this.bookingActiveSelectDefaultItem = this.bookingActiveSelectListData[0];
     // console.log(this.bookingActiveSelectDefaultItem.displayText)
     this.bookingActiveSelectDefaultItem = {
@@ -73,16 +73,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
 
 
   loadData() {
-    let state = { skip: this.skip, take: this.pageSize, sort: this.sort };
-
-    let maxResultCount, skipCount, sorting;
-    if (state) {
-      maxResultCount = state.take;
-      skipCount = state.skip
-      if (state.sort.length > 0 && state.sort[0].dir) {
-        sorting = state.sort[0].field + " " + state.sort[0].dir;
-      }
-    }
     this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
     this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
 
@@ -100,11 +90,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
       })
 
     this._organizationBookingServiceProxy
-      .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, sorting, maxResultCount, skipCount)
+      .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
       .subscribe(result => {
-        this.pagesTotal = [];
-        this.totalCount = result.totalCount;
-        this.pagesCount(result.totalCount, maxResultCount);
+        let pagesCount = [];
+        this.PaginationModel.countPagesTotal(result.totalCount,);
         if (typeof this.startCreationTime === "object") {
           this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
           this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
@@ -224,64 +213,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     this.isActive = bookingActive;
   }
 
-  // 计算分页数量
-  pagesCount(totalCount: number, skipCount: number) {
-    let temp = totalCount - skipCount;
-
-    this.pagesTotal.push(this.pagesNum++);
-
-    if (temp < skipCount) {
-      this.pagesNum = 1;
-      return;
-    } else {
-      return this.pagesCount(temp, skipCount);
-    }
-  }
-
-  // 改变页码事件
-  changePage(index: number) {
-    this.pagesTotal = [];
-    this.skip = index;
-    this.currentPage = index;
-    // this.pagesNum = index+1;
-    this.loadData();
-  }
-
-  // 上一页
-  prevPage(index: number) {
-    this.pagesTotal = [];
-    this.skip = --index;
-    this.currentPage = index--;
-    if (this.currentPage < 0) {
-      this.currentPage = 0;
-      this.skip = 0;
-    }
-    this.loadData();
-  }
-  // 下一页
-  nextPage(index: number) {
-    this.pagesTotal = [];
-    this.skip = ++index;
-    this.currentPage = index++;
-    if (this.currentPage > this.totalCount - 1) {
-      this.currentPage = this.totalCount - 1;
-      this.skip = this.totalCount - 1
-    }
-    this.loadData();
-  }
-
-  // 第一页
-  firstPage() {
-    this.pagesTotal = [];
-    this.skip = 0;
-    this.currentPage = 0;
-    this.loadData();
-  }
-  // 最后一页
-  lastPage() {
-    this.pagesTotal = [];
-    this.skip = this.totalCount - 1;
-    this.currentPage = this.totalCount - 1;
+  // 获取分页组件的结果
+  getPaginationResult(pagingResult: PaginationBaseDto) {
+    this.skipCount = pagingResult.skipCount;
+    this.maxResultCount = pagingResult.maxResultCount;
+    this.sorting = pagingResult.sorting;
     this.loadData();
   }
 }

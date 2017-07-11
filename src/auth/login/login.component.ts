@@ -26,6 +26,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     flag: boolean = true;
     // 普通登录或者手机验证登录，默认普通登录
     ordinaryLogin: boolean = true;
+    saving: boolean = false;
 
     constructor(
         injector: Injector,
@@ -109,9 +110,9 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
             return;
         }
 
-        this.submitting = true;
+        this.saving = true;
         this.loginService.authenticate(
-            () => this.submitting = false
+            () => this.saving = false
         );
     }
 

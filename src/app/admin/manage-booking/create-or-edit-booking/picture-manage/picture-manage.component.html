@@ -1,55 +1,54 @@
 <div class="picture-manage">
     <div class="portlet light portlet-fit">
-        <div class="portlet-title">
-            <div class="caption">
+        <div class="portlet-title clearfix">
+            <div class="caption pull-left">
                 <span class="caption-subject">{{l("BusinessCenter.Booking.PictureManage")}}</span>
             </div>
+            <button class="btn btn-border-radius upload-btn pull-right" (click)="show() "><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
         </div>
 
         <div class="portlet-body">
             <div class="row">
-                <div *ngIf="pictureInfo; else hasPictureInfo">
-                    <div class="gallery-wrap col-md-6">
-                        <div class="picture-item" *ngFor="let pictureUrlItem of pictureInfo">
-                            <div class="content">
-                                <img [src]="pictureUrlItem.pictureUrl" alt=" " width=100% height=100%></div>
+                <div class="gallery-wrap">
+                    <div class="picture-item" *ngFor="let item of allPictureEdit">
+                        <div class="content">
+                            <!--<div class="area-wrap"></div>-->
+                            <div class="img-wrap">
+                                <img width=100% [src]="item.pictureUrl">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <ng-template #hasPictureInfo>
-                    <div class="gallery-wrap col-md-6 ">
-                        <div class="picture-item " *ngFor="let pictureUrlItem of allPictureUrl ">
-                            <div class="content "><img *ngIf="allPictureUrl " [src]="pictureUrlItem " alt=" " width=100% height=100%></div>
+
+                    <!--<div class="picture-item">
+                        <div class="content">
+                            <div class="area-wrap"></div>
+                            <div class="img-wrap">
+                                <img width=100%>
+                            </div>
                         </div>
                     </div>
-                </ng-template>
-                <div class="gallery-action col-md-6 ">
-                    <div class="tip-text ">
-                        <div class="tips-item clearfix ">
-                            <span class="pull-left head ">icon</span>
-                            <span class="pull-left content ">提个醒</span>
-                        </div>
-                        <div class="tips-item clearfix ">
-                            <span class="pull-left head ">1</span>
-                            <span class="pull-left content ">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
-                        </div>
-                        <div class="tips-item clearfix ">
-                            <span class="pull-left head ">2</span>
-                            <span class="pull-left content ">所有图片皆有自动添加水印；</span>
-                        </div>
-                        <div class="tips-item clearfix ">
-                            <span class="pull-left head ">3</span>
-                            <span class="pull-left content ">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
+
+                    <div class="picture-item">
+                        <div class="content">
+                            <div class="area-wrap"></div>
+                            <div class="img-wrap">
+                                <img width=100%>
+                            </div>
                         </div>
                     </div>
-                    <div class="upload-wrap ">
-                        <button class="upload btn btn-border-radius " (click)="createUser() "><span class="vapps-icon vapps-icon-app-upload "></span>本地上传</button>
-                    </div>
+
+                    <div class="picture-item">
+                        <div class="content">
+                            <div class="area-wrap"></div>
+                            <div class="img-wrap">
+                                <img width=100%>
+                            </div>
+                        </div>
+                    </div>-->
                 </div>
             </div>
         </div>
+
+        <uploadPictureModel #uploadPictureModel (sendPictureForEdit)="getPictureForEdit($event) "></uploadPictureModel>
+
     </div>
-
-    <uploadPictureModel #uploadPictureModel (getAllPictureUrl)="getAllPictureUrl($event) " (sendPictureForEdit)="getPictureForEdit($event) "></uploadPictureModel>
-
-</div>
