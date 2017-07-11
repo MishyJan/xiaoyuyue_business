@@ -44,7 +44,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   skip: number = 0;
   sort: Array<SortDescriptor> = [];
 
-  shareBaseUrl: string = "http://vapps.iok.la/booking/about/";
+  shareBaseUrl: string = "http://business.xiaoyuyue.com/booking/about/";
 
   constructor(
     injector: Injector,
