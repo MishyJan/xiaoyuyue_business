@@ -69,8 +69,12 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
   ngAfterViewInit() {
-    $(".startCreationTime").flatpickr();
-    $(".endCreationTime").flatpickr();
+    $(".startCreationTime").flatpickr({
+       "locale": "zh"
+    });
+    $(".endCreationTime").flatpickr({
+       "locale": "zh"
+    });
   }
 
 

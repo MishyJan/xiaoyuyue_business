@@ -57,6 +57,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     defaultDate = defaultD ? defaultD : defaultDate;
     $("#timeInfoFlatpickr").flatpickr({
       wrap: true,
+      "locale": "zh",
       defaultDate: defaultDate
     })
   }
