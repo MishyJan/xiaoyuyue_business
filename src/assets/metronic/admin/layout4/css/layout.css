@@ -692,8 +692,8 @@
     }
     .page-header.navbar .page-top {
         padding: 0;
-        display: block;
-        clear: both;
+        /* display: block; */
+        /* clear: both; */
         width: 100%
     }
     .page-header.navbar .top-menu .navbar-nav>li.dropdown-language .dropdown-toggle .langname,

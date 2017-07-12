@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, ChangeDetectionStrategy, ElementRef } from '@angular/core';
 import { appModuleAnimation } from "shared/animations/routerTransition";
 import { AppComponentBase } from "shared/common/app-component-base";
 import { NgxAni } from "ngxani";
@@ -22,8 +22,12 @@ import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-e
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
-  itemsPerPage: number = AppConsts.grid.defaultPageSize;
+  totalItems: number = 1;
   currentPage: number = 0;
+
+  // 保存预约列表背景图的比例
+  bookingBgW: number = 384;
+  bookingBgH: number = 214;
 
   activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
   outletSelectDefaultItem: string;
@@ -32,6 +36,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   bookingActiveSelectDefaultItem: object;
 
   organizationBookingResultData: BookingListDto[];
+  pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
 
   endCreationTime: any;
   startCreationTime: any;
@@ -40,12 +45,13 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   outletId: number;
   bookingName: string;
 
-  maxResultCount: number;
+  maxResultCount: number = AppConsts.grid.defaultPageSize;
   skipCount: number;
   sorting: string;
 
   shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
   @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
+  @ViewChild("bookingBg") bookingBgElement: ElementRef;
   // @ViewChild("PaginationModel")PaginationModel: PaginationComponent;
 
   constructor(
@@ -69,11 +75,19 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
   ngAfterViewInit() {
+    let self = this;
+    setTimeout(function () {
+      self.renderDOM();
+    }, 600);
+
+    window.addEventListener("resize", function () {
+      self.renderDOM();
+    })
     $(".startCreationTime").flatpickr({
-       "locale": "zh"
+      "locale": "zh"
     });
     $(".endCreationTime").flatpickr({
-       "locale": "zh"
+      "locale": "zh"
     });
   }
 
@@ -99,12 +113,17 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
       .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
       .subscribe(result => {
         let pagesCount = [];
+        let self = this;
+        this.totalItems = result.totalCount - this.maxResultCount;
         // this.PaginationModel.countPagesTotal(result.totalCount,);
         if (typeof this.startCreationTime === "object") {
           this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
           this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
         }
         this.organizationBookingResultData = result.items;
+        setTimeout(function () {
+          self.renderDOM();
+        }, 10);
       })
   }
   getMoment(arg: string) {
@@ -219,16 +238,35 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     this.isActive = bookingActive;
   }
 
-  分享按钮弹出分享model
+  // 分享按钮弹出分享model
   shareHandler(bookingId: number): void {
     this.shareBookingModel.show(bookingId);
   }
 
-  // // 获取分页组件的结果
-  // getPaginationResult(pagingResult: PaginationBaseDto) {
-  //   this.skipCount = pagingResult.skipCount;
-  //   this.maxResultCount = pagingResult.maxResultCount;
-  //   this.sorting = pagingResult.sorting;
-  //   this.loadData();
+  onPageChange(index: number): void {
+    this.currentPage = index;
+    this.skipCount = this.maxResultCount * this.currentPage;
+    this.loadData();
+  }
+
+  // 渲染DOM，获取DOM元素的宽高
+  renderDOM(): void {
+    let bookingBgRatio = this.bookingBgH / this.bookingBgW;
+    // 获取预约item的宽度，得出背景图的高度
+    let bookingBgH = Math.round($(".top-banner-wrap .org-bg img").innerWidth() * bookingBgRatio);
+    $(".top-banner-wrap .org-bg img").height(bookingBgH);
+
+    $(".booking-item").height($(".front-wrap").innerHeight());
+
+  }
+
+  // // 获取分页的数量
+  // getPaginationItems(totalItems: number) {
+  //   let temp = totalItems - this.maxResultCount;
+  //   this.totalItems++;
+  //   if (temp < 0) {
+  //     return;
+  //   }
+  //   this.getPaginationItems(temp);
   // }
 }

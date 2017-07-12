@@ -86,11 +86,11 @@
 
         <div class="col-lg-12 booking-list-wrap" *ngIf="organizationBookingResultData">
             <!-- 翻转最外层，包含翻转前front-wrap / 翻转后back-wrap -->
-            <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
+            <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems };let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
                 <!--翻转前-->
                 <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-banner-wrap">
-                        <div class="org-bg"><img src="/assets/common/images/admin/booking-bg.jpg" alt="org-bg" width="100%"></div>
+                        <div class="org-bg"><img #bookingBg [src]="bookingResultItem.pictureUrl == '' ? pictureDefaultBgUrl : bookingResultItem.pictureUrl" alt="org-bg" width="100%"></div>
                     </div>
                     <div class="booking-details">
                         <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
@@ -187,7 +187,7 @@
         <div class="col-lg-12" *ngIf="organizationBookingResultData">
             <div class="pull-right">
                 <div class="has-text-centered">
-                    <pagination-controls (pageChange)="currentPage = $event" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
                 </div>
             </div>
         </div>

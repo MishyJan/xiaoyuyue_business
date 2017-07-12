@@ -4840,6 +4840,62 @@ export class PerBookingOrderServiceProxy {
     }
 
     /**
+     * 获取预约时间线
+     * @maxResultCount 最大结果数量(等同:PageSize)
+     * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
+     * @return Success
+     */
+    getBookingTimeline(startDataTime: moment.Moment, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingTimelineDto> {
+        let url_ = this.baseUrl + "/api/services/app/PerBookingOrder/GetBookingTimeline?";
+        if (startDataTime !== undefined)
+            url_ += "StartDataTime=" + encodeURIComponent("" + startDataTime.toJSON()) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processGetBookingTimeline(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processGetBookingTimeline(response));
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfBookingTimelineDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfBookingTimelineDto>><any>Observable.throw(response);
+        });
+    }
+
+    protected processGetBookingTimeline(response: Response): PagedResultDtoOfBookingTimelineDto {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            let result200: PagedResultDtoOfBookingTimelineDto = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfBookingTimelineDto.fromJS(resultData200) : new PagedResultDtoOfBookingTimelineDto();
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
      * 获取所有预约订单
      * @bookingName 预约名称
      * @status 预约状态
@@ -5677,6 +5733,98 @@ export class ProfileServiceProxy {
     }
 
     /**
+     * 绑定手机
+     * @return Success
+     */
+    bindingPhoneNum(input: BindingPhoneNumInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Profile/BindingPhoneNum";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input ? input.toJS() : null);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processBindingPhoneNum(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processBindingPhoneNum(response));
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response);
+        });
+    }
+
+    protected processBindingPhoneNum(response: Response): void {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            return null;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
+     * 解绑手机
+     * @return Success
+     */
+    unBindingPhoneNum(code: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Profile/UnBindingPhoneNum?";
+        if (code !== undefined)
+            url_ += "code=" + encodeURIComponent("" + code) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processUnBindingPhoneNum(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processUnBindingPhoneNum(response));
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response);
+        });
+    }
+
+    protected processUnBindingPhoneNum(response: Response): void {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            return null;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
      * 更新头像
      * @return Success
      */
@@ -6314,6 +6462,54 @@ export class SMSServiceProxy {
     }
 
     protected processBatchSendAsync(response: Response): SendResult {
+        const responseText = response.text();
+        const status = response.status; 
+
+        if (status === 200) {
+            let result200: SendResult = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SendResult.fromJS(resultData200) : new SendResult();
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            this.throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return null;
+    }
+
+    /**
+     * 给当前用户发送验证码
+     * @return Success
+     */
+    sendCodeByCurrentUserAsync(input: UserCodeSendInput): Observable<SendResult> {
+        let url_ = this.baseUrl + "/api/services/app/SMS/SendCodeByCurrentUserAsync";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input ? input.toJS() : null);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).map((response) => {
+            return this.processSendCodeByCurrentUserAsync(response);
+        }).catch((response: any) => {
+            if (response instanceof Response) {
+                try {
+                    return Observable.of(this.processSendCodeByCurrentUserAsync(response));
+                } catch (e) {
+                    return <Observable<SendResult>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<SendResult>><any>Observable.throw(response);
+        });
+    }
+
+    protected processSendCodeByCurrentUserAsync(response: Response): SendResult {
         const responseText = response.text();
         const status = response.status; 
 
@@ -13659,6 +13855,8 @@ export class BookingListDto {
     wait4ConfirmNum: number;
     /** 可用预约时间 */
     availableBookingTime: string[];
+    /** 预约图片 */
+    pictureUrl: string;
     id: number;
 
     constructor(data?: any) {
@@ -13681,6 +13879,7 @@ export class BookingListDto {
                 for (let item of data["availableBookingTime"])
                     this.availableBookingTime.push(item);
             }
+            this.pictureUrl = data["pictureUrl"] !== undefined ? data["pictureUrl"] : undefined;
             this.id = data["id"] !== undefined ? data["id"] : undefined;
         }
     }
@@ -13709,6 +13908,7 @@ export class BookingListDto {
             for (let item of this.availableBookingTime)
                 data["availableBookingTime"].push(item);
         }
+        data["pictureUrl"] = this.pictureUrl !== undefined ? this.pictureUrl : undefined;
         data["id"] = this.id !== undefined ? this.id : undefined;
         return data; 
     }
@@ -15042,6 +15242,91 @@ export class CreateOrUpdateOutletInput {
     }
 }
 
+export class PagedResultDtoOfBookingTimelineDto {
+    totalCount: number;
+    items: BookingTimelineDto[];
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.totalCount = data["totalCount"] !== undefined ? data["totalCount"] : undefined;
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(BookingTimelineDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfBookingTimelineDto {
+        return new PagedResultDtoOfBookingTimelineDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["totalCount"] = this.totalCount !== undefined ? this.totalCount : undefined;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJS());
+        }
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new PagedResultDtoOfBookingTimelineDto(JSON.parse(json));
+    }
+}
+
+export class BookingTimelineDto {
+    /** 预约名称 */
+    bookingName: string;
+    /** 预约时间 */
+    bookingDateTime: string;
+    /** 门店 */
+    outlet: string;
+    /** 机构logo */
+    orgLogoUrl: string;
+    id: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.bookingName = data["bookingName"] !== undefined ? data["bookingName"] : undefined;
+            this.bookingDateTime = data["bookingDateTime"] !== undefined ? data["bookingDateTime"] : undefined;
+            this.outlet = data["outlet"] !== undefined ? data["outlet"] : undefined;
+            this.orgLogoUrl = data["orgLogoUrl"] !== undefined ? data["orgLogoUrl"] : undefined;
+            this.id = data["id"] !== undefined ? data["id"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): BookingTimelineDto {
+        return new BookingTimelineDto(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["bookingName"] = this.bookingName !== undefined ? this.bookingName : undefined;
+        data["bookingDateTime"] = this.bookingDateTime !== undefined ? this.bookingDateTime : undefined;
+        data["outlet"] = this.outlet !== undefined ? this.outlet : undefined;
+        data["orgLogoUrl"] = this.orgLogoUrl !== undefined ? this.orgLogoUrl : undefined;
+        data["id"] = this.id !== undefined ? this.id : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new BookingTimelineDto(JSON.parse(json));
+    }
+}
+
 export class GetPersonBookingOrderOutput {
     /** 预约信息 */
     bookingInfo: BookingInfoDto;
@@ -15615,25 +15900,31 @@ export class CreateOrUpdatePictureGroupInput {
 export class CurrentUserProfileEditDto {
     /** 名字 */
     name: string;
-    /** 姓 */
-    surname: string;
+    /** 昵称 */
+    nickName: string;
     /** 用户名 */
     userName: string;
     /** 邮箱地址 */
     emailAddress: string;
-    /** 电话号码 */
-    phoneNumber: string;
     /** 时区 */
     timezone: string;
+    /** 性别 */
+    gender: CurrentUserProfileEditDtoGender;
+    /** 头像Url */
+    profilePictureUrl: string;
+    /** 图片Id */
+    profilePictureId: number;
 
     constructor(data?: any) {
         if (data !== undefined) {
             this.name = data["name"] !== undefined ? data["name"] : undefined;
-            this.surname = data["surname"] !== undefined ? data["surname"] : undefined;
+            this.nickName = data["nickName"] !== undefined ? data["nickName"] : undefined;
             this.userName = data["userName"] !== undefined ? data["userName"] : undefined;
             this.emailAddress = data["emailAddress"] !== undefined ? data["emailAddress"] : undefined;
-            this.phoneNumber = data["phoneNumber"] !== undefined ? data["phoneNumber"] : undefined;
             this.timezone = data["timezone"] !== undefined ? data["timezone"] : undefined;
+            this.gender = data["gender"] !== undefined ? data["gender"] : undefined;
+            this.profilePictureUrl = data["profilePictureUrl"] !== undefined ? data["profilePictureUrl"] : undefined;
+            this.profilePictureId = data["profilePictureId"] !== undefined ? data["profilePictureId"] : undefined;
         }
     }
 
@@ -15644,11 +15935,13 @@ export class CurrentUserProfileEditDto {
     toJS(data?: any) {
         data = data === undefined ? {} : data;
         data["name"] = this.name !== undefined ? this.name : undefined;
-        data["surname"] = this.surname !== undefined ? this.surname : undefined;
+        data["nickName"] = this.nickName !== undefined ? this.nickName : undefined;
         data["userName"] = this.userName !== undefined ? this.userName : undefined;
         data["emailAddress"] = this.emailAddress !== undefined ? this.emailAddress : undefined;
-        data["phoneNumber"] = this.phoneNumber !== undefined ? this.phoneNumber : undefined;
         data["timezone"] = this.timezone !== undefined ? this.timezone : undefined;
+        data["gender"] = this.gender !== undefined ? this.gender : undefined;
+        data["profilePictureUrl"] = this.profilePictureUrl !== undefined ? this.profilePictureUrl : undefined;
+        data["profilePictureId"] = this.profilePictureId !== undefined ? this.profilePictureId : undefined;
         return data; 
     }
 
@@ -15696,13 +15989,47 @@ export class ChangePasswordInput {
     }
 }
 
-export class UpdateProfilePictureInput {
-    /** ͼƬId */
-    pictureId: number;
+export class BindingPhoneNumInput {
+    /** 手机号码 */
+    phoneNum: string;
+    /** 手机验证码 */
+    code: string;
 
     constructor(data?: any) {
         if (data !== undefined) {
-            this.pictureId = data["pictureId"] !== undefined ? data["pictureId"] : undefined;
+            this.phoneNum = data["phoneNum"] !== undefined ? data["phoneNum"] : undefined;
+            this.code = data["code"] !== undefined ? data["code"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): BindingPhoneNumInput {
+        return new BindingPhoneNumInput(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["phoneNum"] = this.phoneNum !== undefined ? this.phoneNum : undefined;
+        data["code"] = this.code !== undefined ? this.code : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new BindingPhoneNumInput(JSON.parse(json));
+    }
+}
+
+export class UpdateProfilePictureInput {
+    /** 图片Id */
+    profilePictureId: number;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.profilePictureId = data["profilePictureId"] !== undefined ? data["profilePictureId"] : undefined;
         }
     }
 
@@ -15712,7 +16039,7 @@ export class UpdateProfilePictureInput {
 
     toJS(data?: any) {
         data = data === undefined ? {} : data;
-        data["pictureId"] = this.pictureId !== undefined ? this.pictureId : undefined;
+        data["profilePictureId"] = this.profilePictureId !== undefined ? this.profilePictureId : undefined;
         return data; 
     }
 
@@ -16332,6 +16659,40 @@ export class SendResult {
     clone() {
         const json = this.toJSON();
         return new SendResult(JSON.parse(json));
+    }
+}
+
+export class UserCodeSendInput {
+    /** 验证码类型 */
+    codeType: UserCodeSendInputCodeType;
+    /** 验证码结果字符串 */
+    captchaResponse: string;
+
+    constructor(data?: any) {
+        if (data !== undefined) {
+            this.codeType = data["codeType"] !== undefined ? data["codeType"] : undefined;
+            this.captchaResponse = data["captchaResponse"] !== undefined ? data["captchaResponse"] : undefined;
+        }
+    }
+
+    static fromJS(data: any): UserCodeSendInput {
+        return new UserCodeSendInput(data);
+    }
+
+    toJS(data?: any) {
+        data = data === undefined ? {} : data;
+        data["codeType"] = this.codeType !== undefined ? this.codeType : undefined;
+        data["captchaResponse"] = this.captchaResponse !== undefined ? this.captchaResponse : undefined;
+        return data; 
+    }
+
+    toJSON() {
+        return JSON.stringify(this.toJS());
+    }
+
+    clone() {
+        const json = this.toJSON();
+        return new UserCodeSendInput(JSON.parse(json));
     }
 }
 
@@ -19274,6 +19635,21 @@ export enum BookingOrderInfoGender {
     _0 = 0, 
     _1 = 1, 
     _2 = 2, 
+}
+
+export enum CurrentUserProfileEditDtoGender {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
+
+export enum UserCodeSendInputCodeType {
+    _10 = 10, 
+    _20 = 20, 
+    _30 = 30, 
+    _40 = 40, 
+    _50 = 50, 
+    _60 = 60, 
 }
 
 export enum CodeSendInputCodeType {

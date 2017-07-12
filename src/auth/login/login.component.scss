@@ -17,10 +17,6 @@
             left: 4px;
         }
     }
-    .btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
-        padding: 10px 14px;
-        font-size: 14px;
-    }
     .login-title {
         width: 340px;
         position: absolute;
@@ -31,6 +27,7 @@
         background-color: #ff9742;
         text-align: center;
         border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
         .title {
             height: 100px;
             line-height: 100px;
@@ -60,7 +57,7 @@
             .phone-login {
                 position: relative;
                 line-height: 30px;
-                cursor: no-drop;
+                cursor: pointer;
                 .line {
                     width: 60%;
                     height: 2px;
@@ -75,9 +72,27 @@
         }
     }
     .login-body {
+        .phone-login-wrap {
+            .validate-code-wrap {
+                position: relative;
+                .get-sms-btn {
+                    position: absolute;
+                    top: -4px;
+                    right: 0;
+                    .btn {
+                        font-size: 12px;
+                        background-color: #ff9742;
+                    }
+                }
+            }
+        }
         .login-btn-wrap {
             width: 100%;
             text-align: center;
+            .btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
             .btn-login {
                 margin-bottom: 20px;
                 width: 100%;
