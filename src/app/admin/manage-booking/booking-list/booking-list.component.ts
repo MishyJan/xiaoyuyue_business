@@ -9,6 +9,7 @@ import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descript
 import * as moment from 'moment';
 import { Router } from "@angular/router";
 import { SelectHelper } from "shared/helpers/SelectHelper";
+import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component";
 // import { PaginationBaseDto } from 'app/admin/shared/utils/pagination.dto';
 // import { PaginationComponent } from "app/admin/shared/pagination/pagination.component";
 
@@ -44,6 +45,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   sorting: string;
 
   shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
+  @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
   // @ViewChild("PaginationModel")PaginationModel: PaginationComponent;
 
   constructor(
@@ -205,12 +207,17 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
   // 门店搜索下拉框值改变时
-  public outletChangeHandler(outlet: any): void {
+  outletChangeHandler(outlet: any): void {
     this.outletId = outlet;
   }
   // 预约状态搜索下拉框值改变时
-  public bookingActiveChangeHandler(bookingActive: any): void {
+  bookingActiveChangeHandler(bookingActive: any): void {
     this.isActive = bookingActive;
+  }
+
+  分享按钮弹出分享model
+  shareHandler(bookingId: number): void {
+    this.shareBookingModel.show(bookingId);
   }
 
   // // 获取分页组件的结果

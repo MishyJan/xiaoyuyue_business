@@ -24,6 +24,23 @@ a:hover {
 
 /* 覆盖bootstrap样式 */
 
+.modal-dialog {
+    margin: 160px auto;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        margin: 160px auto;
+    }
+}
+
+
+/* .modal-open .modal {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+} */
+
 .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
 }

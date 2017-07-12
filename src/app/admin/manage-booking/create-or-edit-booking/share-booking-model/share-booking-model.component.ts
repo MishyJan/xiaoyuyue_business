@@ -40,9 +40,11 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   }
 
   // 单击复制文本
-  copyText(text: string): void {
-    window.clipboardData.setData("Text",text);
-    this.notify.info("复制成功，Ctrl+V粘贴");
-  }
+  // copyText(text: string): void {
+  //   var Url2 = document.getElementById("biao1");
+  //   Url2.select(); // 选择对象
+  //   document.execCommand("Copy"); // 执行浏览器复制命令
+  //   alert("已复制好，可贴粘。");
+  // }
 
 }
