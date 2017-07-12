@@ -42,6 +42,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
   }
   close(): void {
     this.modal.hide();
+    this.picturyDestroy();
   }
 
   picturyDestroy(): void {

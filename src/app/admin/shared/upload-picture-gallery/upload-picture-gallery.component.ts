@@ -135,14 +135,14 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
               self.pictureForEdit.pictureUrl = result.originalUrl;
               self.sendPictureForEdit.emit(self.pictureForEdit);
               self.loading = false;
-              uploader.destroy();
+              // uploader.destroy();
               self.close();
             },
             'Error': function (up, err, errTip) {
               //上传出错时,处理相关的事情
               self.loading = false;
               self.picturyDestroy();
-              uploader.destroy();
+              // uploader.destroy();
               self.notify.error("上传失败，请重新上传");
               console.log('上传出错');
             },

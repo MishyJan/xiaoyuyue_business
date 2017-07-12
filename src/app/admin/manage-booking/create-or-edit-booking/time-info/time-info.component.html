@@ -73,8 +73,8 @@
                 <!-- 创建状态的展示时间段 -->
                 <div *ngIf="!isCreateOrEdit; else hasTimeInfo">
                     <div *ngIf="isShowTimeField">
-                        <div *ngFor="let bookingItem of localAllBookingItem; let index = index;" class="col-lg-4 col-md-6 col-sm-12 time-info-wrap view-time-info pull-left paddingTop-32">
-                            <div class="box-shadow  border-radius-14">
+                        <div *ngFor="let bookingItem of localAllBookingItem; let index = index;" class="col-lg-4 col-md-6 col-sm-12 view-time-info pull-left">
+                            <div class="box-shadow  border-radius-14 paddingTop-32 time-info-wrap">
                                 <div class="xiaoyuyue-title-box">
                                     {{bookingItem.hourOfDay}}
                                     <div class="btn-action-wrap">
@@ -97,13 +97,13 @@
                                 </div>
                                 <div class="time-item">
                                     <div class="bookingDate-name name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
-                                    <div class="col-lg-6 col-md-7 col-sm-8 view-box">
+                                    <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                         {{bookingItem.availableDates}}
                                     </div>
                                 </div>
                                 <div class="time-item">
                                     <div class="bookingTime-name name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
-                                    <div class="col-lg-6 col-md-7 col-sm-8 view-box">
+                                    <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                         {{bookingItem.hourOfDay}}
                                     </div>
                                 </div>
@@ -113,8 +113,8 @@
                 </div>
                 <!-- 编辑状态的展示时间段 -->
                 <ng-template #hasTimeInfo>
-                    <div *ngFor="let timeInfoItem of timeInfo; let index = index;" class="col-lg-4 col-md-6 col-sm-12 time-info-wrap view-time-info pull-left paddingTop-32">
-                        <div class="box-shadow border-radius-14">
+                    <div *ngFor="let timeInfoItem of timeInfo; let index = index;" class="col-lg-4 col-md-6 col-sm-12 view-time-info pull-left">
+                        <div class="box-shadow border-radius-14 time-info-wrap paddingTop-32">
                             <div class="xiaoyuyue-title-box">
                                 {{timeInfoItem.hourOfDay}}
                                 <div class="btn-action-wrap">
@@ -137,13 +137,13 @@
                             </div>
                             <div class="time-item">
                                 <div class="bookingDate-name name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
-                                <div class="col-lg-6 col-md-7 col-sm-8 view-box">
+                                <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                     {{timeInfoItem.availableDates}}
                                 </div>
                             </div>
                             <div class="time-item">
                                 <div class="bookingTime-name name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
-                                <div class="col-lg-6 col-md-7 col-sm-8 view-box">
+                                <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                     {{timeInfoItem.hourOfDay}}
                                 </div>
                             </div>
