@@ -54,34 +54,34 @@
         </div>
 
         <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
-            <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+            <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }">
                 <div class="item  box-shadow">
                     <div class="top-wrap box-shadow">
-                        <img [src]="outletItem.pictureUrl" width="100%" alt="">
+                        <img [src]="outletItem.pictureUrl == '' ? pictureDefaultBgUrl : outletItem.pictureUrl" width="100%" alt="背景图加载失败">
                     </div>
                     <div class="content-wrap">
-                        <div class="content-item">
-                            <span class="flex-right">{{ outletItem.name }}</span>
-                            <span class="vapps-icon-app-edit flex-left orange-icon" (click)="editHandler(outletItem.id)"></span>
+                        <div class="content-item clearfix">
+                            <span class="flex-right" [title]="outletItem.name">{{ outletItem.name }}</span>
+                            <span class="vapps-icon-app-edit flex-left orange-icon" (click)="editHandler(outletItem.id)" title="编辑"></span>
                         </div>
 
-                        <div class="content-item">
+                        <div class="content-item clearfix">
                             <span class="flex-right">
-                            <span class="vapps-icon-app-shop-hours flex-right"></span><span class="flex-left text-overflow">{{ outletItem.businessHours }}</span>
+                                <span class="vapps-icon-app-shop-hours flex-right"></span><span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
                             </span>
                             <span class="flex-left"></span>
                         </div>
 
-                        <div class="content-item">
+                        <div class="content-item clearfix">
                             <span class="flex-right">
-                            <span class="vapps-icon-app-location flex-right"></span><span class="flex-left text-overflow">{{ outletItem.provinceId }}{{ outletItem.cityId }}{{ outletItem.districtId }}{{ outletItem.detailAddress }}</span>
+                                <span class="vapps-icon-app-location flex-right"></span><span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress }}</span>
                             </span>
                             <span class="vapps-icon-app-phone flex-left orange-icon"></span>
                         </div>
 
-                        <div class="content-item">
+                        <div class="content-item clearfix">
                             <span class="flex-right">
-                            <span class="vapps-icon-app-contact flex-right"></span><span class="flex-left text-overflow">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
+                                <span class="vapps-icon-app-contact flex-right"></span><span class="flex-left text-overflow" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
                             </span>
                             <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
                         </div>
@@ -93,7 +93,7 @@
         <div class="col-lg-12" *ngIf="allOutlets">
             <div class="pull-right">
                 <div class="has-text-centered">
-                    <pagination-controls (pageChange)="currentPage = $event" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="上一页" nextLabel="下一页" autoHide="true"></pagination-controls>
                 </div>
             </div>
         </div>

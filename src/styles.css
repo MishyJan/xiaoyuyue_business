@@ -42,6 +42,10 @@ a:focus {
     }
 }
 
+.ngx-pagination .current {
+    background: #FF9641!important;
+}
+
 
 /* .modal-open .modal {
     display: flex !important;

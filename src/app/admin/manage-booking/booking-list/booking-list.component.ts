@@ -10,15 +10,13 @@ import * as moment from 'moment';
 import { Router } from "@angular/router";
 import { SelectHelper } from "shared/helpers/SelectHelper";
 import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component";
-// import { PaginationBaseDto } from 'app/admin/shared/utils/pagination.dto';
-// import { PaginationComponent } from "app/admin/shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-manage-booking',
   templateUrl: './booking-list.component.html',
   styleUrls: ['./booking-list.component.scss'],
   animations: [appModuleAnimation()],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
@@ -36,7 +34,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   bookingActiveSelectDefaultItem: object;
 
   organizationBookingResultData: BookingListDto[];
-  pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
+  pictureDefaultBgUrl: string = "/assets/common/images/login/bg1.jpg";
+  // pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
 
   endCreationTime: any;
   startCreationTime: any;
@@ -52,7 +51,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
   @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
   @ViewChild("bookingBg") bookingBgElement: ElementRef;
-  // @ViewChild("PaginationModel")PaginationModel: PaginationComponent;
 
   constructor(
     injector: Injector,
@@ -65,8 +63,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    // this.bookingActiveSelectDefaultItem = this.bookingActiveSelectListData[0];
-    // console.log(this.bookingActiveSelectDefaultItem.displayText)
     this.loadData();
     this.bookingActiveSelectDefaultItem = {
       value: "",
@@ -254,19 +250,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     let bookingBgRatio = this.bookingBgH / this.bookingBgW;
     // 获取预约item的宽度，得出背景图的高度
     let bookingBgH = Math.round($(".top-banner-wrap .org-bg img").innerWidth() * bookingBgRatio);
-    $(".top-banner-wrap .org-bg img").height(bookingBgH);
+    $(".top-banner-wrap").height(bookingBgH);
 
     $(".booking-item").height($(".front-wrap").innerHeight());
 
   }
-
-  // // 获取分页的数量
-  // getPaginationItems(totalItems: number) {
-  //   let temp = totalItems - this.maxResultCount;
-  //   this.totalItems++;
-  //   if (temp < 0) {
-  //     return;
-  //   }
-  //   this.getPaginationItems(temp);
-  // }
 }

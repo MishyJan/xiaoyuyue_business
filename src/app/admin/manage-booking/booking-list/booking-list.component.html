@@ -90,7 +90,7 @@
                 <!--翻转前-->
                 <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-banner-wrap">
-                        <div class="org-bg"><img #bookingBg [src]="bookingResultItem.pictureUrl == '' ? pictureDefaultBgUrl : bookingResultItem.pictureUrl" alt="org-bg" width="100%"></div>
+                        <div class="org-bg"><img #bookingBg [src]="bookingResultItem.pictureUrl == '' ? pictureDefaultBgUrl : bookingResultItem.pictureUrl" alt="图片加载失败" width="100%"></div>
                     </div>
                     <div class="booking-details">
                         <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <!-- 蒙版遮罩 -->
-                    <div class="booking-item-cover clearfix" *ngIf="bookingResultItem.isActive">
+                    <div class="booking-item-cover unselectable clearfix" *ngIf="bookingResultItem.isActive">
                         <div class="qr-code-wrap">
                             <qr-code [value]="shareBaseUrl+bookingResultItem.id" [size]="118"></qr-code>
                         </div>
@@ -120,20 +120,35 @@
                                 <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)"><i class="vapps-icon-app-share"></i>分享</span>
                             </div>
                             <div class="handle-item-2 pull-right">
-                                <span class="btn btn-default vapps-icon-app-delete" (click)="removeBooking(index)" title="删除预约"></span>
-                                <span class="btn btn-default vapps-icon-app-copy-1" (click)="copyBooking(index)" title="复制预约"></span>
-                                <span class="btn btn-default vapps-icon-app-detail" (click)="flipToBack(flipAni, $event)" title="查看详情"></span>
+                                <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
+                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
+                                </span>
+
+                                <span class="btn item-wrap" (click)="copyBooking(index)" title="复制预约">
+                                    <span class="show-icon vapps-icon-app-copy-1"></span><span class="show-text">复制</span>
+                                </span>
+
+                                <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="查看详情">
+                                    <span class="show-icon vapps-icon-app-detail"></span><span class="show-text">详情</span>
+                                </span>
                             </div>
                         </div>
                     </div>
                     <div class="booking-item-cover clearfix" *ngIf="!bookingResultItem.isActive">
                         <div class="handle-wrap">
                             <div class="handle-item-1 row">
-                                <span class="item col-md-6 active" (click)="beforeBookingClass(disabledAni, index)"><i class="vapps-icon-app-active"></i>激活</span>
+                                <span class="item col-md-6 active" (click)="beforeBookingClass(disabledAni, index)">
+                                    <i class="vapps-icon-app-active"></i>激活
+                                </span>
                             </div>
                             <div class="handle-item-2 pull-right">
-                                <span class="btn btn-default vapps-icon-app-delete"></span>
-                                <span class="btn btn-default vapps-icon-app-detail" (click)="flipToBack(flipAni, $event)"></span>
+                                <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
+                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
+                                </span>
+
+                                <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="查看详情">
+                                    <span class="show-icon vapps-icon-app-detail"></span><span class="show-text">详情</span>
+                                </span>
                             </div>
                         </div>
                     </div>

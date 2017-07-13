@@ -60,7 +60,7 @@ export class MySettingsModalComponent extends AppComponentBase {
             .finally(() => { this.saving = false; })
             .subscribe(() => {
                 this._appSessionService.user.name = this.user.name;
-                this._appSessionService.user.surname = this.user.surname;
+                this._appSessionService.user.surname = this.user.nickName;
                 this._appSessionService.user.userName = this.user.userName;
                 this._appSessionService.user.emailAddress = this.user.emailAddress;
 

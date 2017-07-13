@@ -72,7 +72,7 @@
             .front-wrap {
                 z-index: 2;
                 &:hover .booking-item-cover {
-                    display: block;
+                    opacity: 1;
                 }
                 .top-banner-wrap {
                     overflow: hidden;
@@ -118,7 +118,8 @@
                     left: 0;
                     color: #FFF;
                     background-color: rgba(0, 0, 0, .8);
-                    display: none;
+                    opacity: 0;
+                    transition: opacity .6s;
                     .qr-code-wrap {
                         width: 120px;
                         height: 120px;
@@ -159,15 +160,29 @@
                             position: absolute;
                             right: 10px;
                             bottom: 14px;
-                            span {
-                                width: 34px;
-                                height: 34px;
-                                line-height: 34px;
-                                display: inline-block;
-                                font-size: 34px;
-                                color: #AAA;
+                            .item-wrap {
+                                transition: all .3s;
                                 padding: 0;
-                                font-weight: normal;
+                                width: 32px;
+                                height: 30px;
+                                line-height: 30px;
+                                color: #808080;
+                                background-color: #FFF;
+                                .show-icon {
+                                    display: inline-block;
+                                    width: 30px;
+                                    font-size: 14px;
+                                }
+                                .show-text {
+                                    display: inline-block;
+                                }
+                            }
+                            .item-wrap:hover {
+                                & {
+                                    width: 70px;
+                                    color: #FFF;
+                                    background-color: #FF9641;
+                                }
                             }
                         }
                     }
