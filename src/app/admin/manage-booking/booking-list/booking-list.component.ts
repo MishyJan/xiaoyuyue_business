@@ -20,9 +20,6 @@ import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-e
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
-  totalItems: number = 1;
-  currentPage: number = 0;
-
   // 保存预约列表背景图的比例
   bookingBgW: number = 384;
   bookingBgH: number = 214;
@@ -45,8 +42,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   bookingName: string;
 
   maxResultCount: number = AppConsts.grid.defaultPageSize;
-  skipCount: number;
+  skipCount: number = 0;
   sorting: string;
+  totalItems: number = 0;
+  currentPage: number = 0;
 
   shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
   @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
@@ -88,7 +87,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
 
-  loadData() {
+  loadData(): void {
     this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
     this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
 
@@ -108,15 +107,13 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     this._organizationBookingServiceProxy
       .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
       .subscribe(result => {
-        let pagesCount = [];
         let self = this;
-        this.totalItems = result.totalCount - this.maxResultCount;
-        // this.PaginationModel.countPagesTotal(result.totalCount,);
+        this.totalItems = result.totalCount;
+        this.organizationBookingResultData = result.items;
         if (typeof this.startCreationTime === "object") {
           this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
           this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
         }
-        this.organizationBookingResultData = result.items;
         setTimeout(function () {
           self.renderDOM();
         }, 10);

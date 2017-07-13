@@ -250,7 +250,6 @@
 
 .vapps-icon-bm-menu:before {
     content: "\e92e";
-    color: #7f7f7f;
 }
 
 .vapps-icon-cb-add-img:before {
@@ -270,7 +269,6 @@
 
 .vapps-icon-cb-menu:before {
     content: "\e932";
-    color: #ff9641;
 }
 
 .vapps-icon-dc-calendar:before {
@@ -285,7 +283,6 @@
 
 .vapps-icon-dc-menu:before {
     content: "\e935";
-    color: #ff9641;
 }
 
 .vapps-icon-download:before {
@@ -310,7 +307,6 @@
 
 .vapps-icon-oi-menu:before {
     content: "\e93a";
-    color: #808080;
 }
 
 .vapps-icon-print:before {
