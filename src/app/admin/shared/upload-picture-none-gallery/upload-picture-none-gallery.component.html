@@ -8,44 +8,39 @@
                     </h4>
                 </div>
 
-                <div class="modal-body">
-                    <div class="col-md-6">
-                        <img [id]="'profilePicture'+uniqueUid" width="100%" />
+                <div class="modal-body row">
+                    <div class="col-lg-6 col-md-6" [id]="'dropArea'+uploadUid">
+                        <div class="upload-area-wrap" [id]="'uploadAreaWrap'+uploadUid">
+                            <div class="upload-area" [id]="'uploadArea'+uploadUid"></div>
+                            <div class="img-area"><img width="100%" [id]="'profilePicture'+uploadUid"></div>
+                        </div>
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="btn-wrap" [id]="'pictureGallery'+uniqueUid">
-                                <a class="btn btn-border-radius btn-file-wrap" [id]="'pictureGalleryPickfiles'+uniqueUid">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                    <span>选择文件</span>
-                                </a>
+                        <div class="upload-tips-wrap">
+                            <div class="tips-item">
+                                <span class="char"></span>
+                                <span class="content">提个醒</span>
                             </div>
-                            <div class="upload-tips-wrap">
-                                <div class="tips-item">
-                                    <span class="head"></span>
-                                    <span class="content">提个醒</span>
-                                </div>
-                                <div class="tips-item">
-                                    <span class="head">1</span>
-                                    <span class="content">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
-                                </div>
-                                <div class="tips-item">
-                                    <span class="head">2</span>
-                                    <span class="content">所有图片皆有自动添加水印；</span>
-                                </div>
-                                <div class="tips-item">
-                                    <span class="head">3</span>
-                                    <span class="content">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
-                                </div>
+                            <div class="tips-item">
+                                <span class="char">1、</span>
+                                <span class="content">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
+                            </div>
+                            <div class="tips-item">
+                                <span class="char">2、</span>
+                                <span class="content">所有图片皆有自动添加水印；</span>
+                            </div>
+                            <div class="tips-item">
+                                <span class="char">3、</span>
+                                <span class="content">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-submit" [id]="'confirmUpload'+uniqueUid" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
-                    <button type="button" class="btn btn-cancel" (click)="close()" [disabled]="loading"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-submit" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
+                    <button type="button" class="btn btn-cancel" [id]="'cancelUpload'+uploadUid" (click)="close()" [disabled]="loading"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
                 </div>
             </div>
         </div>

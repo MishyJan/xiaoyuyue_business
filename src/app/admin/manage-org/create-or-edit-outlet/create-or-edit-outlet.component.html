@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn btn-submit"><span class="vapps-icon vapps-icon-app-submit"></span>{{l("Save")}}</button>
+                <button type="submit" (click)="save()" class="btn btn-submit" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                 <button type="botton" class="btn btn-submit">{{l("BusinessCenter.SavingAndEditing")}}</button>
                 <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
             </div>

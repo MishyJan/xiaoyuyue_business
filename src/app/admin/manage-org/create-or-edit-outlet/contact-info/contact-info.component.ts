@@ -21,8 +21,6 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
   href: string = document.location.href;
   outletId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
 
-  uniqueUid: string = "ContactInfo";
-
   // 保存本地数据所有联系人
   localAllContact: ContactorEditDto[] = [];
   // 保存本地数据单个联系人

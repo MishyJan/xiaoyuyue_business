@@ -21,8 +21,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
   // 传给图片管理组件
   pictureInfo: BookingPictureEditDto[];
 
-  pictureForEdit: BookingPictureEditDto;
-  allPictureForEdit: BookingPictureEditDto[] = [];
+  allPictureForEdit: BookingPictureEditDto[];
   outletSelectListData: SelectListItemDto[];
   contactorSelectListData: SelectListItemDto[];
 
@@ -40,6 +39,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
   selectOutletId: number;
   selectContactorId: number;
+  saving: boolean = false;
+  savingAndEditing: boolean = false;
 
   @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
 
@@ -125,14 +126,15 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     // 判断是否有添加新的时间信息
     this.input.items = !this.allBookingTime ? this.timeInfo : this.allBookingTime;
     // 判断是否上传过图片
-    if (this.pictureForEdit) {
-      this.allPictureForEdit.push(this.pictureForEdit);
+    if (this.allPictureForEdit) {
       this.input.bookingPictures = this.allPictureForEdit;
     } else {
       this.input.bookingPictures = this.pictureInfo;
     }
+    this.saving = true;
     this._organizationBookingServiceProxy
       .createOrUpdateBooking(this.input)
+      .finally( () => { this.saving = false })
       .subscribe((result) => {
         this.shareBookingModel.show(result.id);
       });
@@ -141,8 +143,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
   saveAndEdit() {
     this.input.booking = this.baseInfo;
     this.input.items = this.allBookingTime;
+    this.savingAndEditing = true;
     this._organizationBookingServiceProxy
       .createOrUpdateBooking(this.input)
+      .finally( () => { this.savingAndEditing = false})
       .subscribe(() => {
         this.notify.success("创建成功!");
       });
@@ -182,7 +186,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     this.selectContactorId = parseInt(contactor);
   }
 
-  getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
-    this.pictureForEdit = pictureForEdit;
+  getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
+    this.allPictureForEdit = pictureForEdit;
   }
 }

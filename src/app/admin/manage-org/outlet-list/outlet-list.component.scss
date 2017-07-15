@@ -4,10 +4,16 @@
     }
     .outlet-list-wrap {
         margin-top: 30px;
+        padding: 0;
         .outlet-item {
             border-radius: 4px;
-            background-color: #FFF;
             margin-top: 60px;
+            .item {
+                width: 100%;
+                float: left;
+                background-color: #FFF;
+                padding: 0 15px;
+            }
             .top-wrap {
                 margin-top: -30px;
                 border-radius: 4px;
@@ -19,23 +25,24 @@
                     margin-top: 10px;
                 }
                 .content-item {
-                    display: flex;
+                    width: 100%;
                     >.flex-right {
-                        display: flex;
-                        flex: 1;
+                        width: 90%;
+                        float: left;
                         .flex-right {
-                            width: 18px;
-                            flex: 0 0 18px;
+                            width: 10%;
+                            float: left;
                             margin-right: 20px;
                             font-size: 18px;
                         }
                         .flex-left {
-                            flex: 1;
+                            width: calc(80% - 10px);
+                            float: left;
                         }
                     }
                     >.flex-left {
-                        width: 18px;
-                        flex: 0 0 18px;
+                        width: 10%;
+                        float: left;
                         font-size: 18px;
                     }
                 }

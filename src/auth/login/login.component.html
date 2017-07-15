@@ -35,16 +35,17 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group form-md-line-input form-md-floating-label">
-                                <input id="phoneNumber" class="form-control" type="phone" autocomplete="off" name="phoneNumber" required [class.edited]="loginService.authenticateModel.loginCertificate && loginService.authenticateModel.loginCertificate.length > 0">
-                                <label for="phoneNumber">手机号</label>
+                                <input class="form-control" type="phone" autofocus name="phoneNumber" [(ngModel)]="model.phoneNum">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="form-group form-md-line-input form-md-floating-label">
-                                <input id="identifyCode" class="form-control" type="text" name="identifyCode" required maxlength="256" [class.edited]="loginService.authenticateModel.password && loginService.authenticateModel.password.length > 0">
-                                <label for="identifyCode">验证码</label>
+                            <div class="validate-code-wrap form-group form-md-line-input form-md-floating-label">
+                                <input class="form-control" type="text" name="identifyCode" [(ngModel)]="model.loginCode" required>
+                                <div class="get-sms-btn form-group form-md-line-input">
+                                    <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">获取验证码</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +66,7 @@
                     </div>
                 </div>
                 <div class="login-btn-wrap">
-                    <button class="btn btn-login" type="submit" (click)="login()">{{l("LogIn")}}</button>
+                    <button class="btn btn-login" type="submit" (click)="login()" [disabled]="!loginForm.form.valid" [buttonBusy]="saving" [busyText]="'登录中...'"><i></i><span>{{l("LogIn")}}</span></button>
                 </div>
                 <!--                <div class="form-group form-md-line-input">
                     <div *ngIf="loginService.externalLoginProviders.length > 0">

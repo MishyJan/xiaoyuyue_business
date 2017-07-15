@@ -15,26 +15,36 @@
                 }
             }
             .modal-body {
-                .btn-wrap {
+                .upload-area-wrap {
+                    width: 200px;
+                    height: 200px;
                     position: relative;
-                    cursor: pointer;
-                    .btn-file-wrap {
-                        color: #FF9641;
+                    margin: 0 auto;
+                    border: 1px dashed #CCC;
+                    .upload-area {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        cursor: pointer;
+                        i {
+                            font-size: 30px;
+                        }
+                    }
+                    .img-area {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
                     }
                 }
                 .upload-tips-wrap {
-                    position: relative;
-                    padding-top: 40px;
-                    color: #808080;
-                    .tips-item+.tips-item {
-                        margin-top: 12px;
-                    }
-                    .tip-item {
+                    .tips-item {
                         display: flex;
-                        .head {
-                            width: 28px;
-                            flex: 0 0 28px;
-                            text-align: center;
+                        margin-top: 20px;
+                        .char {
+                            width: 30px;
+                            flex: 0 0 30px;
                         }
                         .content {
                             flex: 1;

@@ -12,7 +12,6 @@ cache:
   untracked: true
   paths:
     - node_modules/
-    - dist/
 
 # 安装依赖
 # install_deps:
@@ -71,11 +70,12 @@ build_and_deploy_develop:
     - ng build --prod --aot
     - Stop-WebAppPool 'xiaoyuyue_business_center' # 停止iis进程
     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件
+    - rm D:\wwwroot\xiaoyuyue_business_center\* -r # 清空输出目录
     - copy 'dist\*' -Destination 'D:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
     - Start-Sleep -Seconds 3
     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程
   tags:
-    - deloper_xiaoyuyue_business_center
+    - deloy_xiaoyuyue_business_center
 
 build_and_deploy_test:
   stage: build_and_deploy_test
@@ -86,6 +86,7 @@ build_and_deploy_test:
     - ng build --prod --aot
     - Stop-WebAppPool 'xiaoyuyue_business_center' # 停止iis进程
     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件
+    - rm C:\wwwroot\xiaoyuyue_business_center\* -r # 清空输出目录
     - copy 'dist\*' -Destination 'C:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
     - Start-Sleep -Seconds 3
     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程

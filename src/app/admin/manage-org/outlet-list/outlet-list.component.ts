@@ -18,9 +18,16 @@ export class OutletListComponent extends AppComponentBase implements OnInit {
   allOutlets: OutletListDto[];
   contactInfo: ContactorEditDto;
 
-  pageSize: number = AppConsts.grid.defaultPageSize;
-  skip: number = 0;
-  sort: Array<SortDescriptor> = [];
+  maxResultCount: number = AppConsts.grid.defaultPageSize;
+  skipCount: number = 0;
+  sorting: string;
+  totalItems: number = 0;
+  currentPage: number = 0;
+
+  // 保存机构列表背景图的比例
+  bookingBgW: number = 384;
+  bookingBgH: number = 214;
+  pictureDefaultBgUrl: string = "/assets/common/images/login/bg1.jpg";
 
   constructor(
     injector: Injector,
@@ -34,23 +41,29 @@ export class OutletListComponent extends AppComponentBase implements OnInit {
     this.loadData()
   }
 
-  loadData(): void {
-    let state = { skip: this.skip, take: this.pageSize, sort: this.sort };
+  ngAfterViewInit() {
+    let self = this;
+    setTimeout(function () {
+      self.renderDOM();
+    }, 600);
 
-    let maxResultCount, skipCount, sorting;
-    if (state) {
-      // maxResultCount = state.take;
-      maxResultCount = 8;
-      skipCount = state.skip
-      if (state.sort.length > 0 && state.sort[0].dir) {
-        sorting = state.sort[0].field + " " + state.sort[0].dir;
-      }
-    }
+    window.addEventListener("resize", function () {
+      self.renderDOM();
+    })
+  }
+
+  loadData(): void {
 
     this._outletServiceServiceProxy
-      .getOutlets(this.outletName, sorting, maxResultCount, skipCount)
+      .getOutlets(this.outletName, this.sorting, this.maxResultCount, this.skipCount)
       .subscribe(result => {
+        this.totalItems = result.totalCount;
         this.allOutlets = result.items;
+
+        let self = this;
+        setTimeout(function () {
+          self.renderDOM();
+        }, 600);
       });
   }
 
@@ -60,5 +73,19 @@ export class OutletListComponent extends AppComponentBase implements OnInit {
 
   editHandler(outletId: number): void {
     this._router.navigate(['/app/admin/org/edit', outletId]);
+  }
+
+  onPageChange(index: number): void {
+    this.currentPage = index;
+    this.skipCount = this.maxResultCount * this.currentPage;
+    this.loadData();
+  }
+
+  // 渲染DOM，获取DOM元素的宽高
+  renderDOM(): void {
+    let bookingBgRatio = this.bookingBgH / this.bookingBgW;
+    // 获取预约item的宽度，得出背景图的高度
+    let bookingBgH = Math.round($(".outlet-list-wrap .top-wrap img").innerWidth() * bookingBgRatio);
+    $(".top-wrap").height(bookingBgH);
   }
 }

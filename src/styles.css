@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
-a:hover {
+html,
+body {
+    width: 100%;
+    min-width: 768px;
+}
+
+a,
+a:hover,
+a:focus {
     text-decoration: none;
 }
 
@@ -23,6 +31,27 @@ a:hover {
 
 
 /* 覆盖bootstrap样式 */
+
+.modal-dialog {
+    margin: 160px auto;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        margin: 160px auto;
+    }
+}
+
+.ngx-pagination .current {
+    background: #FF9641!important;
+}
+
+
+/* .modal-open .modal {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+} */
 
 .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
@@ -221,13 +250,13 @@ a:hover {
 .pagination>li>a,
 .pagination>li>span {
     border: 0;
-    border-radius: 30px !important;
+    border-radius: 50% !important;
     transition: all .3s;
-    padding: 0px 11px;
-    margin: 0 3px;
-    min-width: 30px;
-    height: 30px;
-    line-height: 30px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
     color: #999999;
     font-weight: 400;
     font-size: 12px;
@@ -239,7 +268,8 @@ a:hover {
 .pagination>li>a:focus,
 .pagination>li>span:hover,
 .pagination>li>span:focus {
-    color: #999999;
+    color: #FFF;
+    background-color: #BBB;
 }
 
 .pagination>.active>a,

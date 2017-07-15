@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit, AfterViewInit, Output, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, Injector, OnInit, AfterViewInit, Output, ElementRef, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Http, Headers } from '@angular/http';
@@ -11,6 +11,8 @@ import { LoginService, ExternalLoginProvider } from "shared/services/login.servi
 import { TooltipConfig } from "ngx-bootstrap";
 import { NgxAni } from "ngxani";
 import * as _ from 'lodash';
+import { CodeSendInput, SMSServiceProxy, PhoneAuthenticateModel } from 'shared/service-proxies/service-proxies';
+import { VerificationCodeType } from 'shared/AppEnums';
 
 @Component({
     templateUrl: './login.component.html',
@@ -26,6 +28,10 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     flag: boolean = true;
     // 普通登录或者手机验证登录，默认普通登录
     ordinaryLogin: boolean = true;
+    isSendSMS: boolean = false;
+    saving: boolean = false;
+    model: PhoneAuthenticateModel = new PhoneAuthenticateModel();
+    @ViewChild('smsBtn') _smsBtn: ElementRef;
 
     constructor(
         injector: Injector,
@@ -35,15 +41,13 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         private _activatedRoute: ActivatedRoute,
         private _sessionService: AbpSessionService,
         private _tokenAuthService: TokenAuthServiceProxy,
+        private _SMSServiceProxy: SMSServiceProxy,
         private _ngxAni: NgxAni
     ) {
         super(injector);
     }
 
     ngOnInit(): void {
-        // this._activatedRoute.queryParams.subscribe((params: Params) => {
-        //     this.loginService.externalLoginCallback(params);
-        // });
 
         if (this.is_weixn()) {
             this._tokenAuthService
@@ -54,17 +58,17 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
                     });
 
                     console.log(this.externalLoginProviders);
-                    for (let i = 0; i <this.externalLoginProviders.length; i++) {
+                    for (let i = 0; i < this.externalLoginProviders.length; i++) {
                         if (this.externalLoginProviders[i].name == "WeChatMP") {
                             let authBaseUrl = "https://open.weixin.qq.com/connect/oauth2/authorize";
                             let appid = this.externalLoginProviders[i].clientId;
-                            let redirect_url = AppConsts.appBaseUrl + '/auth/login'+ '?providerName=' + ExternalLoginProvider.WECHAT;
+                            let redirect_url = AppConsts.appBaseUrl + '/auth/login' + '?providerName=' + ExternalLoginProvider.WECHAT;
                             let response_type = "code";
                             let scope = "snsapi_userinfo";
 
                             let authUrl = `${authBaseUrl}?appid=${appid}&redirect_uri=${encodeURI(redirect_url)}&response_type=${response_type}&scope=${scope}#wechat_redirect`;
                             console.log(redirect_url);
-                            window.location.href  = authUrl;
+                            window.location.href = authUrl;
                         }
                     }
                 });
@@ -109,9 +113,17 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
             return;
         }
 
-        this.submitting = true;
+        // TODO: 手机验证登录，浏览器存储cookies
+        if (!this.ordinaryLogin) {
+            this._tokenAuthService
+                .phoneNumAuthenticate(this.model)
+                .subscribe(() => {
+                });
+        }
+
+        this.saving = true;
         this.loginService.authenticate(
-            () => this.submitting = false
+            () => this.saving = false
         );
     }
 
@@ -173,9 +185,38 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     }
     //是否手机验证登录
     isPhoneLogin() {
-        // 暂未实现
-        // this.ordinaryLogin = false;
-        this.ordinaryLogin = true;
+        this.ordinaryLogin = false;
+        // this.ordinaryLogin = true;
+    }
+
+    // 发送验证码
+    send() {
+        let input: CodeSendInput = new CodeSendInput();
+        input.targetNumber = this.model.phoneNum;
+        input.codeType = VerificationCodeType.Login;
+        // this.captchaResolved();
+
+        this._SMSServiceProxy
+            .sendCodeAsync(input)
+            .subscribe(result => {
+                this.anginSend();
+            });
+    }
+
+    anginSend() {
+        let self = this;
+        let time = 60;
+        this.isSendSMS = true;
+        let set = setInterval(() => {
+            time--;
+            self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
+        }, 1000)
+
+        setTimeout(() => {
+            clearInterval(set);
+            self.isSendSMS = false;
+            self._smsBtn.nativeElement.innerHTML = this.l("AgainSendValidateCode");
+        }, 60000);
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿{
     "remoteServiceBaseUrl": "http://api.xiaoyuyue.com/",
-     "appBaseUrl": "http://business.xiaoyuyue.com"
+    "appBaseUrl": "http://business.xiaoyuyue.com",
+    "shareBaseUrl": "http://user.xiaoyuyue.com"
 }

@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
   shareUrl: string = "";
-  shareBaseUrl: string = "http://vapps.iok.la/booking/about/";
 
   @ViewChild("shareBookingModel") model: ModalDirective;
   @Input() bookingId: number;
@@ -28,9 +27,9 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
 
   show(bookingId?: number): void {
     if (bookingId) {
-      this.shareUrl = this.shareBaseUrl + bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about/" + bookingId;
     } else {
-      this.shareUrl = this.shareBaseUrl + this.bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about/" + this.bookingId;
     }
     this.model.show();
   }
@@ -39,5 +38,13 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
     this.model.hide();
     this._router.navigate(['/app/admin/booking/list']);
   }
+
+  // 单击复制文本
+  // copyText(text: string): void {
+  //   var Url2 = document.getElementById("biao1");
+  //   Url2.select(); // 选择对象
+  //   document.execCommand("Copy"); // 执行浏览器复制命令
+  //   alert("已复制好，可贴粘。");
+  // }
 
 }

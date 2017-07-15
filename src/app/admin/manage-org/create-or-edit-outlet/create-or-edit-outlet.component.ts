@@ -12,6 +12,7 @@ import { UploadPictureDto } from 'app/admin/shared/utils/upload-picture.dto';
   animations: [accountModuleAnimation()],
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+  saving: boolean = false;
   onlineAllContactors: ContactorEditDto[];
   contactorEdit: ContactorEditDto[];
   districtSelectDefaultItem: string;
@@ -110,9 +111,11 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     this.input.outlet = this.outetInfo;
     this.input.contactors = this.contactorEdit;
-
+    
+    this.saving = true;
     this._outletServiceServiceProxy
       .createOrUpdateOutlet(this.input)
+      .finally( () => this.saving = false)
       .subscribe(result => {
         this.notify.success("保存成功");
         this._router.navigate(['/app/admin/org/list']);

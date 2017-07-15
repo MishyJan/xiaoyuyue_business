@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, ChangeDetectionStrategy, ElementRef } from '@angular/core';
 import { appModuleAnimation } from "shared/animations/routerTransition";
 import { AppComponentBase } from "shared/common/app-component-base";
 import { NgxAni } from "ngxani";
@@ -9,19 +9,20 @@ import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descript
 import * as moment from 'moment';
 import { Router } from "@angular/router";
 import { SelectHelper } from "shared/helpers/SelectHelper";
+import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component";
 
 @Component({
   selector: 'app-manage-booking',
   templateUrl: './booking-list.component.html',
   styleUrls: ['./booking-list.component.scss'],
-  animations: [appModuleAnimation()]
+  animations: [appModuleAnimation()],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
-  totalCount: number;
-  pagesTotal: number[] = [];
-  pagesNum: number = 1;
-  currentPage: number = 0;
+  // 保存预约列表背景图的比例
+  bookingBgW: number = 384;
+  bookingBgH: number = 214;
 
   activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
   outletSelectDefaultItem: string;
@@ -30,21 +31,25 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   bookingActiveSelectDefaultItem: object;
 
   organizationBookingResultData: BookingListDto[];
+  // pictureDefaultBgUrl: string = "/assets/common/images/login/bg1.jpg";
+  pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
 
   endCreationTime: any;
   startCreationTime: any;
 
-  // endCreationTime: string;
-  // startCreationTime: string;
   isActive: boolean;
   outletId: number;
   bookingName: string;
 
-  pageSize: number = AppConsts.grid.defaultPageSize;
-  skip: number = 0;
-  sort: Array<SortDescriptor> = [];
+  maxResultCount: number = AppConsts.grid.defaultPageSize;
+  skipCount: number = 0;
+  sorting: string;
+  totalItems: number = 0;
+  currentPage: number = 39;
 
-  shareBaseUrl: string = "http://vapps.iok.la/booking/about/";
+  shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
+  @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
+  @ViewChild("bookingBg") bookingBgElement: ElementRef;
 
   constructor(
     injector: Injector,
@@ -58,8 +63,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
     this.loadData();
-    // this.bookingActiveSelectDefaultItem = this.bookingActiveSelectListData[0];
-    // console.log(this.bookingActiveSelectDefaultItem.displayText)
     this.bookingActiveSelectDefaultItem = {
       value: "",
       displayText: "请选择"
@@ -67,22 +70,24 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
   ngAfterViewInit() {
-    $(".startCreationTime").flatpickr();
-    $(".endCreationTime").flatpickr();
+    let self = this;
+    setTimeout(function () {
+      self.renderDOM();
+    }, 600);
+
+    window.addEventListener("resize", function () {
+      self.renderDOM();
+    })
+    $(".startCreationTime").flatpickr({
+      "locale": "zh"
+    });
+    $(".endCreationTime").flatpickr({
+      "locale": "zh"
+    });
   }
 
 
-  loadData() {
-    let state = { skip: this.skip, take: this.pageSize, sort: this.sort };
-
-    let maxResultCount, skipCount, sorting;
-    if (state) {
-      maxResultCount = state.take;
-      skipCount = state.skip
-      if (state.sort.length > 0 && state.sort[0].dir) {
-        sorting = state.sort[0].field + " " + state.sort[0].dir;
-      }
-    }
+  loadData(): void {
     this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
     this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
 
@@ -100,16 +105,18 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
       })
 
     this._organizationBookingServiceProxy
-      .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, sorting, maxResultCount, skipCount)
+      .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
       .subscribe(result => {
-        this.pagesTotal = [];
-        this.totalCount = result.totalCount;
-        this.pagesCount(result.totalCount, maxResultCount);
+        let self = this;
+        this.totalItems = result.totalCount;
+        this.organizationBookingResultData = result.items;
         if (typeof this.startCreationTime === "object") {
           this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
           this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
         }
-        this.organizationBookingResultData = result.items;
+        setTimeout(function () {
+          self.renderDOM();
+        }, 10);
       })
   }
   getMoment(arg: string) {
@@ -216,72 +223,33 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   }
 
   // 门店搜索下拉框值改变时
-  public outletChangeHandler(outlet: any): void {
+  outletChangeHandler(outlet: any): void {
     this.outletId = outlet;
   }
   // 预约状态搜索下拉框值改变时
-  public bookingActiveChangeHandler(bookingActive: any): void {
+  bookingActiveChangeHandler(bookingActive: any): void {
     this.isActive = bookingActive;
   }
 
-  // 计算分页数量
-  pagesCount(totalCount: number, skipCount: number) {
-    let temp = totalCount - skipCount;
-
-    this.pagesTotal.push(this.pagesNum++);
-
-    if (temp < skipCount) {
-      this.pagesNum = 1;
-      return;
-    } else {
-      return this.pagesCount(temp, skipCount);
-    }
+  // 分享按钮弹出分享model
+  shareHandler(bookingId: number): void {
+    this.shareBookingModel.show(bookingId);
   }
 
-  // 改变页码事件
-  changePage(index: number) {
-    this.pagesTotal = [];
-    this.skip = index;
+  onPageChange(index: number): void {
     this.currentPage = index;
-    // this.pagesNum = index+1;
+    this.skipCount = this.maxResultCount * this.currentPage;
     this.loadData();
   }
 
-  // 上一页
-  prevPage(index: number) {
-    this.pagesTotal = [];
-    this.skip = --index;
-    this.currentPage = index--;
-    if (this.currentPage < 0) {
-      this.currentPage = 0;
-      this.skip = 0;
-    }
-    this.loadData();
-  }
-  // 下一页
-  nextPage(index: number) {
-    this.pagesTotal = [];
-    this.skip = ++index;
-    this.currentPage = index++;
-    if (this.currentPage > this.totalCount - 1) {
-      this.currentPage = this.totalCount - 1;
-      this.skip = this.totalCount - 1
-    }
-    this.loadData();
-  }
+  // 渲染DOM，获取DOM元素的宽高
+  renderDOM(): void {
+    let bookingBgRatio = this.bookingBgH / this.bookingBgW;
+    // 获取预约item的宽度，得出背景图的高度
+    let bookingBgH = Math.round($(".top-banner-wrap .org-bg img").innerWidth() * bookingBgRatio);
+    $(".top-banner-wrap").height(bookingBgH);
 
-  // 第一页
-  firstPage() {
-    this.pagesTotal = [];
-    this.skip = 0;
-    this.currentPage = 0;
-    this.loadData();
-  }
-  // 最后一页
-  lastPage() {
-    this.pagesTotal = [];
-    this.skip = this.totalCount - 1;
-    this.currentPage = this.totalCount - 1;
-    this.loadData();
+    $(".booking-item").height($(".front-wrap").innerHeight());
+
   }
 }

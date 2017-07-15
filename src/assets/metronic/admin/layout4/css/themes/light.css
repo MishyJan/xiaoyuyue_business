@@ -373,7 +373,7 @@ body.page-md {
     .page-header.navbar {
         padding: 0;
         /* Top menu */
-
+    }
     .page-header.navbar .top-menu .navbar-nav>li.dropdown>.dropdown-toggle:hover {
         background-color: #f6f7fa;
     }
@@ -387,7 +387,7 @@ body.page-md {
         /* Top menu */
     }
     .page-header.navbar .page-top {
-        background: #FFFFFF;
+        /* background: #FFFFFF; */
     }
     .page-header.navbar .top-menu .navbar-nav>li.dropdown>.dropdown-toggle:hover {
         background-color: #eff1f6;

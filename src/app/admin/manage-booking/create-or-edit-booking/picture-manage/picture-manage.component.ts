@@ -1,19 +1,20 @@
 import { Component, OnInit, Injector, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { AppComponentBase } from "shared/common/app-component-base";
 import { BookingPictureEditDto } from "shared/service-proxies/service-proxies";
-import { UploadPictureModelComponent } from './upload-picture-model/upload-picture-model.component';
+import { UploadPictureGalleryComponent } from 'app/admin/shared/upload-picture-gallery/upload-picture-gallery.component';
 
 @Component({
   selector: 'app-picture-manage',
   templateUrl: './picture-manage.component.html',
   styleUrls: ['./picture-manage.component.scss']
-}) 
+})
 export class PictureManageComponent extends AppComponentBase implements OnInit {
-  @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
-  allPictureUrl: string[];
+  displayOrder: number = 0;
+  @Output() sendAllPictureForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
+  allPictureEdit: BookingPictureEditDto[] = [];
   @Input() pictureInfo: BookingPictureEditDto[];
 
-  @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureModelComponent;
+  @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureGalleryComponent;
 
 
   constructor(
@@ -26,20 +27,22 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
   }
 
   ngAfterViewInit() {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    console.log(this.pictureInfo);
+    let self = this;
+    setTimeout(function () {
+      if (self.pictureInfo) {
+        self.allPictureEdit = self.pictureInfo;
+      }
+    }, 1000)
   }
 
-  createUser(): void {
+  show(): void {
     this.uploadPictureModel.show();
   }
 
-  getAllPictureUrl(allPictureUrl: string[]) {
-    this.allPictureUrl = allPictureUrl;
-  }
   getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
-    this.sendPictureForEdit.emit(pictureForEdit);
+    pictureForEdit.displayOrder = this.displayOrder++; //暂时测试
+    this.allPictureEdit.push(pictureForEdit);
+    this.sendAllPictureForEdit.emit(this.allPictureEdit);
   }
 
 }
