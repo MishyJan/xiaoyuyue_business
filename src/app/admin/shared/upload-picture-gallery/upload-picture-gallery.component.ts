@@ -54,7 +54,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     let self = this;
     self.allPictureUrl = [];
     let token: string = '';
-
     this._pictureServiceProxy
       .getPictureUploadToken()
       .subscribe(result => {
@@ -148,6 +147,10 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             },
             'UploadComplete': function () {
               //队列文件处理完毕后,处理相关的事情
+              self.pictureForEdit = new BookingPictureEditDto();
+              self._$profilePicture.removeAttr("src");
+              self._$profilePicture.removeAttr("width");
+              self.close();
               console.log('完成流程');
             },
             'Key': function (up, file) {

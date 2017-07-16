@@ -37,6 +37,7 @@ import { UploadOrgLogoComponent } from './manage-org/org-info/upload-org-logo/up
 import { UploadOrgBgComponent } from './manage-org/org-info/upload-org-bg/upload-org-bg.component';
 import { UploadPictureGalleryComponent } from "app/admin/shared/upload-picture-gallery/upload-picture-gallery.component";
 import {NgxPaginationModule} from 'ngx-pagination';
+import { PaginationComponent } from './shared/pagination/pagination.component';
 
 @NgModule({
     imports: [
@@ -78,7 +79,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
         UploadPictureNoneGalleryComponent,
         UploadOrgLogoComponent,
         UploadOrgBgComponent,
-        // PaginationComponent
+        PaginationComponent
     ],
     providers: [
         AppStorageService,

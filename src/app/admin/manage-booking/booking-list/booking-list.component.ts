@@ -45,7 +45,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   skipCount: number = 0;
   sorting: string;
   totalItems: number = 0;
-  currentPage: number = 0;
+  currentPage: number = 39;
 
   shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
   @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
