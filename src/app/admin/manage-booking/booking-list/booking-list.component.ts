@@ -16,7 +16,7 @@ import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-e
   templateUrl: './booking-list.component.html',
   styleUrls: ['./booking-list.component.scss'],
   animations: [appModuleAnimation()],
-  changeDetection: ChangeDetectionStrategy.OnPush
+//   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
@@ -31,7 +31,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
   bookingActiveSelectDefaultItem: object;
 
   organizationBookingResultData: BookingListDto[];
-  pictureDefaultBgUrl: string = "/assets/common/images/login/bg1.jpg";
+  pictureDefaultBgUrl: string = '/assets/common/images/login/bg1.jpg';
   // pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
 
   endCreationTime: any;
@@ -238,7 +238,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
 
   onPageChange(index: number): void {
     this.currentPage = index;
-    this.skipCount = this.maxResultCount * this.currentPage;
+    this.skipCount = this.maxResultCount * (this.currentPage - 1);
     this.loadData();
   }
 
