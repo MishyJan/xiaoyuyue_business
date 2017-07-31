@@ -56,7 +56,7 @@
                             <div class="xiaoyuyue-title-box">
                                 {{ contactItem.name }}
                                 <div class="btn-action-wrap">
-                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-default': contactItem.isDefault, 'vapps-icon-not-default': !contactItem.isDefault }"></span>
+                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': contactItem.isDefault, 'vapps-icon-app-no-defalut': !contactItem.isDefault }"></span>
                                     <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                             <div class="xiaoyuyue-title-box">
                                 {{ contactItem.name }}
                                 <div class="btn-action-wrap">
-                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-default': contactItem.isDefault, 'vapps-icon-not-default': !contactItem.isDefault }"></span>
+                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
                                     <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
                                 </div>
                             </div>

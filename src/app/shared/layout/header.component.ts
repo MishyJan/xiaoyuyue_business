@@ -121,7 +121,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     getProfilePicture(): void {
         this._profileServiceProxy.getProfilePicture().subscribe(result => {
             if (result && result.profilePicture) {
-                this.profilePicture = 'data:image/jpeg;base64,' + result.profilePicture;
+                this.profilePicture = result.profilePicture;
             }
         });
     }
