@@ -1,0 +1,43 @@
+.tip-wrap {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    .bg-cover {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1100;
+        background-color: rgba(0, 0, 0, .4);
+    }
+    .tip-content {
+        width: 380px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 1101;
+        padding: 96px 50px 40px;
+        transform: translate3d(-50%, -50%, 0);
+        background-color: #FFF;
+        text-align: center;
+        border-radius: 4px;
+        .tip-head {
+            width: 80%;
+            line-height: 64px;
+            border-radius: 8px;
+        }
+        .tip-body {
+            color: #FF9641;
+        }
+        .tip-footer {
+            margin-top: 55px;
+            .btn-orange {
+                background-color: #FF9641;
+            }
+        }
+    }
+}
