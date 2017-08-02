@@ -86,9 +86,9 @@ build_and_deploy_test:
     - ng build --prod --aot
     - Stop-WebAppPool 'xiaoyuyue_business_center' # 停止iis进程
     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件
-    - rm C:\wwwroot\xiaoyuyue_business_center\* -r # 清空输出目录
-    - copy 'dist\*' -Destination 'C:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
+    - rm D:\wwwroot\xiaoyuyue_business_center\* -r # 清空输出目录
+    - copy 'dist\*' -Destination 'D:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
     - Start-Sleep -Seconds 3
     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程
   tags:
-    - deploy_xiaoyuyue_business_center_207
+    - deploy_xiaoyuyue_business_center_168
