@@ -1,4 +1,4 @@
-﻿import { ChatMessageDtoReadState, ChatMessageDtoSide, FriendDtoState, DefaultTimezoneScope, UserNotificationState, IsTenantAvailableOutputState, CodeSendInputCodeType } from '@shared/service-proxies/service-proxies';
+﻿import { ChatMessageDtoReadState, ChatMessageDtoSide, FriendDtoState, DefaultTimezoneScope, UserNotificationState, IsTenantAvailableOutputState, CodeSendInputCodeType, BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
 
 export class AppChatMessageReadState {
     static Unread: number = ChatMessageDtoReadState._1;
@@ -36,6 +36,15 @@ export class AppTenantAvailabilityState {
 // 根据枚举名获取数据源
 export class AppEnumSelectItemSource {
     static UserActivationOption: string = "UserActivationOption";
+}
+
+// 应约人订单状态
+export class OrgBookingOrderStatus {
+    static State1: number = BookingOrderListDtoStatus._1;
+    static State2: number = BookingOrderListDtoStatus._2;
+    static State3: number = BookingOrderListDtoStatus._3;
+    static State4: number = BookingOrderListDtoStatus._4;
+    static State5: number = BookingOrderListDtoStatus._5;
 }
 
 //手机验证的类型

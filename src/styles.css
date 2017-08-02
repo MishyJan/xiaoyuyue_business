@@ -76,6 +76,10 @@ a:focus {
     background-color: #3598dc;
 }
 
+.k-button {
+    background-image: none;
+}
+
 .k-dialog-buttongroup .k-button.k-primary {
     color: #3598dc;
 }

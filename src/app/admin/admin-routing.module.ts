@@ -6,6 +6,7 @@ import { CreateOrEditBookingComponent } from './manage-booking/create-or-edit-bo
 import { OutletListComponent } from './manage-org/outlet-list/outlet-list.component';
 import { OrgInfoComponent } from './manage-org/org-info/org-info.component';
 import { CreateOrEditOutletComponent } from './manage-org/create-or-edit-outlet/create-or-edit-outlet.component';
+import { CustomerListComponent } from './manage-customer/customer-list/customer-list.component';
 
 @NgModule({
     imports: [
@@ -13,7 +14,6 @@ import { CreateOrEditOutletComponent } from './manage-org/create-or-edit-outlet/
             {
                 path: '',
                 children: [
-
                     {
                         path: 'booking',
                         children: [
@@ -31,6 +31,13 @@ import { CreateOrEditOutletComponent } from './manage-org/create-or-edit-outlet/
                             { path: "info", component: OrgInfoComponent },
                             { path: "create", component: CreateOrEditOutletComponent },
                             { path: "edit/:id", component: CreateOrEditOutletComponent }
+                        ]
+                    },
+                    {
+                        path: 'custom',
+                        children: [
+                            { path: '', redirectTo: 'list' },
+                            { path: "list", component: CustomerListComponent },
                         ]
                     }
                 ]

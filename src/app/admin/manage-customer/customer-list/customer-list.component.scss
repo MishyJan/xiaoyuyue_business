@@ -1,0 +1,40 @@
+.custom-list {
+    .portlet-body {
+        .filter-action {
+            .btn {
+                background-color: #ff9742;
+            }
+        }
+    }
+    .btn.btn-primary {
+        background-color: #3598dc;
+    }
+    .btn.btn-success {
+        background-color: #e73d4a;
+    }
+    .btn.btn-danger {
+        background-color: #36c6d3;
+    }
+    .btn+.btn {
+        margin: 0;
+    }
+    .order-status {
+        color: #FFF;
+        border-radius: 2px;
+        padding: 2px 4px;
+        font-size: 14px;
+        &.status1 {
+            background-color: #e32600;
+        }
+        &.status2 {
+            background-color: #2add1c;
+        }
+        &.status3 {}
+        &.status4 {
+            background-color: #808080;
+        }
+        &.status5 {
+            background-color: #FF9641;
+        }
+    }
+}

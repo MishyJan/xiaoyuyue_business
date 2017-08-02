@@ -39,6 +39,7 @@ import { UploadPictureGalleryComponent } from "app/admin/shared/upload-picture-g
 import {NgxPaginationModule} from 'ngx-pagination';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { TipsComponent } from './shared/tips/tips.component';
+import { CustomerListComponent } from './manage-customer/customer-list/customer-list.component';
 
 @NgModule({
     imports: [
@@ -81,7 +82,8 @@ import { TipsComponent } from './shared/tips/tips.component';
         UploadOrgLogoComponent,
         UploadOrgBgComponent,
         PaginationComponent,
-        TipsComponent
+        TipsComponent,
+        CustomerListComponent
     ],
     providers: [
         AppStorageService,

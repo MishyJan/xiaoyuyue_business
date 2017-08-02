@@ -25,6 +25,7 @@ export class SideBarComponent extends AppComponentBase {
         new SideBarMenuItem("BusinessCenter.Menu.UserData", this.adminPermissions.tenantDashboard, "vapps-icon-dc-menu", "/app/main/dashboard"),
         new SideBarMenuItem("BusinessCenter.Menu.ManageBooking", this.adminPermissions.userManage, "vapps-icon-bm-menu", "", [
             new SideBarMenuItem("BusinessCenter.Menu.ManageBooking.List", "", "", "/app/admin/booking/list"),
+            new SideBarMenuItem("应约人列表", "", "", "/app/admin/custom/list"),
         ]),
         new SideBarMenuItem("BusinessCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu", "", [
             new SideBarMenuItem("BusinessCenter.Menu.Org.BaseInfo", "", "", "/app/admin/org/info"),

@@ -1,0 +1,255 @@
+<div class="custom-list" [@routerTransition]>
+
+    <div class="row margin-bottom-5">
+        <div class="col-xs-6">
+            <div class="page-head">
+                <div class="page-title">
+                    <h1>
+                        <span>应约人列表</span>
+                    </h1>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 text-right">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet light portlet-fit">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject">{{l("Search")}}</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body clearfix">
+                    <div class="inputs inputs-full-width">
+                        <div class="portlet-input">
+                            <form class="form-horizontal">
+                                <div class="row">
+                                    <!-- 姓名  -->
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">姓名</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="姓名">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 预约项目名称  -->
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">预约项目名称</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="预约项目名称">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 性别  -->
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">性别</label>
+                                            <div class="col-md-9">
+                                                <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 预约日期  -->
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">预约日期</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="预约日期">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 电话号码  -->
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">电话号码</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="电话号码">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 预约时间  -->
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">预约时间</label>
+                                            <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
+                                                <div class="col-md-6">
+                                                    <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" data-input>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" data-input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 电子邮箱  -->
+                                    <div class="col-xs-6">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">电子邮箱</label>
+                                            <div class="col-md-9">
+                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="电子邮箱">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 预约人地址  -->
+                                    <div class="col-xs-6 row">
+                                        <div class="form-group common-max-width">
+                                            <label class="col-md-3 control-label">预约人地址</label>
+                                            <div class="col-md-9 ">
+                                                <div class="col-md-4">
+                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom-10">
+                                    <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
+                                        <div class="text-center filter-action">
+                                            <button class="btn btn-block" (click)="loadData()"><i class="fa fa-search"></i> {{l("Search")}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-lg-12" *ngIf="organizationBookingResultData">
+            <div class="pull-right">
+                <div class="has-text-centered">
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet light portlet-fit">
+                <div class="portlet-body clearfix">
+                    <kendo-grid [data]="customerListData | async" (edit)="editHandler($event)" (cancel)="cancelHandler($event)" (save)="saveHandler($event)" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="onStateChange($event)">
+                        <!-- 订单状态  -->
+                        <kendo-grid-column title="订单状态">
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 应约人 -->
+                        <kendo-grid-column title="应约人">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.customerName }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 预约项目名称 -->
+                        <kendo-grid-column title="预约项目名称">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.bookingName }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 预约门店 -->
+                        <kendo-grid-column title="预约门店">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.outletName }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 预约时间 -->
+                        <kendo-grid-column title="预约时间">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.outletName }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 应约人数 -->
+                        <kendo-grid-column title="应约人数">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ t(dataItem.bookingDate) }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 电话 -->
+                        <kendo-grid-column title="电话">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.phoneNum }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 订单创建时间 -->
+                        <kendo-grid-column title="订单创建时间">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ t(dataItem.creationTime) }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 备注 -->
+                        <kendo-grid-column field="remark" title="备注">
+                            <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+                                <label style="width:100%; cursor:pointer;">
+                                    <input [(ngModel)]="dataItem.remark" style="width: 100%" name="remark"  required/>
+                                </label>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-command-column title="{{l('Actions')}}">
+                            <ng-template let-isNew="isNew" kendoGridCellTemplate>
+                                <!-- edit command directive, will be visible when not in edit mode -->
+                                <button kendoGridEditCommand class="btn btn-xs btn-primary" title="{{l('Admin.Edit')}}">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <!-- save command directive, will be visible when in edit mode -->
+                                <button kendoGridSaveCommand class="btn btn-xs btn-success" title="{{l('Admin.Save')}}">
+                                    <i class="fa fa-floppy-o"></i>
+                                </button>
+                                <!-- cancel command directive, will be visible when in edit mode -->
+                                <button kendoGridCancelCommand class="btn btn-xs btn-danger" title="{{l('Admin.Cancel')}}">
+                                    <i class="fa fa-reply"></i>
+                                </button>
+                            </ng-template>
+                        </kendo-grid-command-column>
+
+                        <!-- <kendo-grid-column field="appSecret" title="{{l('Admin.Configuration.Settings.AppSecret')}}">
+                            <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+                                <input [(ngModel)]="dataItem.appSecret" name="appSecret" class="k-textbox" required/>
+                            </ng-template>
+                        </kendo-grid-column> -->
+
+                        <!--<kendo-grid-column field="providerName" title="ProviderName" [width]="160"></kendo-grid-column>-->
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-lg-12" *ngIf="organizationBookingResultData">
+            <div class="pull-right">
+                <div class="has-text-centered">
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

@@ -9,6 +9,7 @@ import { BusyIfDirective } from './busy-if.directive';
 import { LocalStorageService } from './local-storage.service';
 import { FriendProfilePictureComponent } from './friend-profile-picture.component';
 import { MomentFormatPipe } from './moment-format.pipe';
+import { GridRowClickDirective } from './grid-row-click.directive';
 
 @NgModule({
     providers: [
@@ -22,7 +23,8 @@ import { MomentFormatPipe } from './moment-format.pipe';
         AutoFocusDirective,
         BusyIfDirective,
         FriendProfilePictureComponent,
-        MomentFormatPipe
+        MomentFormatPipe,
+        GridRowClickDirective
     ],
     exports: [
         EqualValidator,
