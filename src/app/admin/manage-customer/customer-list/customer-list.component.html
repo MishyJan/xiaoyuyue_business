@@ -32,9 +32,9 @@
                                     <!-- 姓名  -->
                                     <div class="col-xs-6">
                                         <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">姓名</label>
+                                            <label class="col-md-3 control-label">客户姓名</label>
                                             <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="姓名">
+                                                <input class="form-control common-max-width" [(ngModel)]="customerName" type="text" name="customerName" placeholder="姓名">
                                             </div>
                                         </div>
                                     </div>
@@ -42,9 +42,9 @@
                                     <!-- 预约项目名称  -->
                                     <div class="col-xs-6">
                                         <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">预约项目名称</label>
+                                            <label class="col-md-3 control-label">预约名称</label>
                                             <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="预约项目名称">
+                                                <input class="form-control common-max-width" [(ngModel)]="bookingName" type="text" name="bookingName" placeholder="预约项目名称">
                                             </div>
                                         </div>
                                     </div>
@@ -52,9 +52,9 @@
                                     <!-- 性别  -->
                                     <div class="col-xs-6">
                                         <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">性别</label>
+                                            <label class="col-md-3 control-label">客户性别</label>
                                             <div class="col-md-9">
-                                                <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="genderSelectListData" (valueChange)="genderChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                         <div class="form-group common-max-width">
                                             <label class="col-md-3 control-label">预约日期</label>
                                             <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="预约日期">
+                                                <input class="form-control common-max-width" id="bookingDate" [(ngModel)]="bookingDate" type="text" name="bookingDate" placeholder="预约日期">
                                             </div>
                                         </div>
                                     </div>
@@ -74,50 +74,32 @@
                                         <div class="form-group common-max-width">
                                             <label class="col-md-3 control-label">电话号码</label>
                                             <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="电话号码">
+                                                <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="电话号码">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- 预约时间  -->
+                                    <!-- 创建时间  -->
                                     <div class="col-xs-6">
                                         <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">预约时间</label>
+                                            <label class="col-md-3 control-label">创建时间</label>
                                             <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
                                                 <div class="col-md-6">
-                                                    <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" data-input>
+                                                    <input class="form-control" id="startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" data-input>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" data-input>
+                                                    <input class="form-control" id="endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" data-input>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- 电子邮箱  -->
+                                    <!-- 预约状态  -->
                                     <div class="col-xs-6">
                                         <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">电子邮箱</label>
+                                            <label class="col-md-3 control-label">预约状态</label>
                                             <div class="col-md-9">
-                                                <input class="form-control common-max-width" type="text" name="bookingName" placeholder="电子邮箱">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- 预约人地址  -->
-                                    <div class="col-xs-6 row">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">预约人地址</label>
-                                            <div class="col-md-9 ">
-                                                <div class="col-md-4">
-                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
-                                                </div>
+                                                <kendo-dropdownlist [data]="orderStatusSelectList" (valueChange)="orderStatusChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>

@@ -8,7 +8,13 @@ import { AppConsts } from '@shared/AppConsts';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { OrgBookingOrderStatus } from "shared/AppEnums";
 import { EditEvent } from '@progress/kendo-angular-grid';
+import { SelectHelper } from 'shared/helpers/SelectHelper';
+import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
 
+export class SingleBookingStatus {
+    value: any;
+    displayText: any;
+}
 
 @Component({
     selector: 'xiaoyuyue-customer-list',
@@ -16,11 +22,15 @@ import { EditEvent } from '@progress/kendo-angular-grid';
     styleUrls: ['./customer-list.component.scss'],
     animations: [appModuleAnimation()]
 })
+
 export class CustomerListComponent extends AppComponentBase implements OnInit {
+    singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
+    searchActiveSelectDefaultItem: { value: string, displayText: string; };
+    orderStatusSelectList: Object[] = [];
+    genderSelectListData: Object[] = SelectHelper.genderList();
     skipCount: number = 0;
     maxResultCount: number = AppConsts.grid.defaultPageSize;
     sorting: Array<SortDescriptor> = [];
-    bookingOrderStatus: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
     creationDate: moment.Moment;
     gender: Gender;
     phoneNumber: string;
@@ -31,6 +41,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     bookingName: string;
     customerListData: AppGridData;
     remarkBookingOrderInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
+    bookingOrderStatus: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
     bookingOrderStatusName: string[] = ["待确认", "已确认", "待评价", "已取消", "已完成"];
 
     private editedRowIndex: number;
@@ -51,9 +62,33 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     ngOnInit() {
         this.customerListData = this._customerListGridDataResult;
         this.loadData();
+        this.searchActiveSelectDefaultItem = {
+            value: "",
+            displayText: "请选择"
+        };
+        this.getOrderStatusSelectList();
+    }
+
+    ngAfterViewInit() {
+        $("#bookingOrderDate").flatpickr({
+            "locale": "zh"
+        });
+
+        $("#startCreationTime").flatpickr({
+            "locale": "zh"
+        });
+
+        $("#endCreationTime").flatpickr({
+            "locale": "zh"
+        });
     }
 
     loadData(): void {
+        this.bookingDate = this.bookingDate ? moment(this.bookingDate) : undefined;
+        // TODO 订单创建时间搜索未做
+        // this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
+        // this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
+        
         let state = { skip: this.skipCount, take: this.maxResultCount, sort: this.sorting };
         let maxResultCount, skipCount, sorting;
         if (state) {
@@ -105,13 +140,23 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         return tipsClass;
     }
 
-    protected editHandler({ sender, rowIndex, dataItem }) {
+    // 获取预约状态下拉框数据源
+    getOrderStatusSelectList(): void {
+        this.bookingOrderStatus.forEach((value, index) => {
+            this.singleBookingStatus = new SingleBookingStatus();
+            this.singleBookingStatus.value = value;
+            this.singleBookingStatus.displayText = this.bookingOrderStatusName[index];
+            this.orderStatusSelectList.push(this.singleBookingStatus);
+        });
+    }
+
+    public editHandler({ sender, rowIndex, dataItem }) {
         this.closeEditor(sender);
         this.editedRowIndex = rowIndex;
         sender.editRow(rowIndex);
     }
 
-    protected cancelHandler({ sender, rowIndex }) {
+    public cancelHandler({ sender, rowIndex }) {
         this.loadData();
         sender.closeRow(rowIndex);
     }
@@ -121,11 +166,24 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         this.editedRowIndex = undefined;
     }
 
-    protected saveHandler({ sender, rowIndex, dataItem, isNew }) {
+    public saveHandler({ sender, rowIndex, dataItem, isNew }) {
         sender.closeRow(rowIndex);
         console.log((dataItem));
         this.remarkBookingOrderInput.id = dataItem.id;
         this.remarkBookingOrderInput.remark = dataItem.remark;
         this.remarkBookingOrder(this.remarkBookingOrderInput);
     }
+
+    public genderChangeHandler(gender: Gender): void {
+        this.gender = gender;
+    }
+
+    public orderStatusChangeHandler(status: Status): void {
+        if (!!status == false) {
+            this.bookingOrderStatus = [Status._1, Status._2, Status._3, Status._4, Status._5];
+            return;
+        }
+        this.bookingOrderStatus = [status];
+    }
 }
+
