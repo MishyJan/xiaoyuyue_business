@@ -11,7 +11,6 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
 import { AppRouteGuard } from "app/shared/common/auth/auth-route-guard";
 import { ExternalLoginGuard } from "app/shared/common/auth/external-login-guard";
 import { AuthComponent } from "auth/auth.component";
-import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
     imports: [

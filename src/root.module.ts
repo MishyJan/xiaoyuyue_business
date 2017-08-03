@@ -18,7 +18,6 @@ import { AppPreBootstrap } from './AppPreBootstrap';
 import { AbpHttpConfiguration, IErrorInfo } from "abp-ng2-module/src/abpHttp";
 
 import { NgxAniModule } from 'ngxani';
-import { LoadingComponent } from './auth/loading/loading.component';
 
 export function appInitializerFactory(injector: Injector) {
     return () => {
@@ -68,8 +67,7 @@ export function getRemoteServiceBaseUrl(): string {
         NgxAniModule
     ],
     declarations: [
-        RootComponent,
-        LoadingComponent
+        RootComponent
     ],
     providers: [
         ABP_HTTP_PROVIDER,
@@ -81,7 +79,7 @@ export function getRemoteServiceBaseUrl(): string {
             multi: true
         }
     ],
-    bootstrap: [RootComponent]
+    bootstrap: [RootComponent] 
 })
 export class RootModule {
 

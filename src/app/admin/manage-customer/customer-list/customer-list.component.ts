@@ -174,6 +174,8 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         this.remarkBookingOrder(this.remarkBookingOrderInput);
     }
 
+    public onStateonStateChange(event): void {}
+
     public genderChangeHandler(gender: Gender): void {
         this.gender = gender;
     }
