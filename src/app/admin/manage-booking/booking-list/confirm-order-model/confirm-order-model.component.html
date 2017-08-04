@@ -3,7 +3,8 @@
         <div class="header-model clearfix">
             <div class="title-name">订单确认</div>
             <div class="command-wrap">
-                <span class="process-batch">批处理</span>
+                <span class="process-batch" *ngIf="!isBatchConfirmFlag" (click)="batchComfirmBookingOrderHandler()">批处理</span>
+                <span class="process-batch" *ngIf="isBatchConfirmFlag" (click)="batchComfirmBookingOrderHandler()">确认</span>
             </div>
         </div>
 
@@ -45,12 +46,22 @@
                     </ng-template>
                 </kendo-grid-column>
 
-                <kendo-grid-command-column title="{{l('Actions')}}">
-                    <ng-template let-isNew="isNew" kendoGridCellTemplate>
+                <kendo-grid-column title="{{l('Actions')}}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
                         <!-- edit command directive, will be visible when not in edit mode -->
-                        <button kendoGridEditCommand class="" title="{{l('Admin.Edit')}}">确认</button>
+                        <button title="{{l('Admin.Edit')}}" *ngIf="!isBatchConfirmFlag" (click)="comfirmBookingOrderHander(dataItem.id)">确认</button>
+                        <div class="md-checkbox-list" *ngIf="isBatchConfirmFlag" [ngClass]="{'k-button': false}">
+                            <div class="md-checkbox">
+                                <input [id]="'name'+dataItem.id" (click)="batchComfirmBookingOrder($event.target.checked,dataItem.id)" class="md-check" type="checkbox" [name]="'name'+dataItem.id">
+                                <label [for]="'name'+dataItem.id">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                </label>
+                            </div>
+                        </div>
                     </ng-template>
-                </kendo-grid-command-column>
+                </kendo-grid-column>
 
                 <!-- <kendo-grid-column field="appSecret" title="{{l('Admin.Configuration.Settings.AppSecret')}}">
                             <ng-template kendoGridEditTemplate let-dataItem="dataItem">

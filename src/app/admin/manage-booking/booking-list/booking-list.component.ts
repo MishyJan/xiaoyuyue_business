@@ -257,4 +257,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     showConfirmOrderHander(bookingId: number): void {
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
+
+        // 待确认model弹窗，若关闭应该刷新数据
+    isShowComfirmOrderModelHander(flag: boolean): void {
+        if (!flag) {
+            this.loadData();
+        }
+    }
 }

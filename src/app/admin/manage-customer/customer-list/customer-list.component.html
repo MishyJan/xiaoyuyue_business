@@ -163,14 +163,14 @@
                         <!-- 预约时间 -->
                         <kendo-grid-column title="预约时间">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                                <span>{{ dataItem.outletName }}</span>
+                                <span>{{ dataItem.hourOfDay }}</span>
                             </ng-template>
                         </kendo-grid-column>
 
                         <!-- 应约人数 -->
                         <kendo-grid-column title="应约人数">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                                <span>{{ t(dataItem.bookingDate) }}</span>
+                                <span>{{ dataItem.subscriberNum }}</span>
                             </ng-template>
                         </kendo-grid-column>
 

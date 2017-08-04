@@ -154,7 +154,7 @@
                     </div>
 
                     <!-- 待确认人数  -->
-                    <div class="wait-confirm-num" (click)="showConfirmOrderHander(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
+                    <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHander(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
                 </div>
                 <!--翻转后-->
                 <div class="back-wrap box-shadow">
