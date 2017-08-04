@@ -1,11 +1,11 @@
 import { Injectable, Injector, Input } from '@angular/core';
-import { CommonLookupServiceProxy, ComboboxItemDto, TenantServiceProxy, TenantEditDto, UpdateTenantFeaturesInput, GetTenantFeaturesForEditOutput, EntityDto } from "shared/service-proxies/service-proxies";
+import { CommonLookupServiceProxy, ComboboxItemDto, TenantServiceProxy, TenantEditDto, UpdateTenantFeaturesInput, EntityDto, GetTenantFeaturesEditOutput } from "shared/service-proxies/service-proxies";
 import { AppServiceBase } from "shared/services/base.service";
 import { ActivatedRoute, Params } from "@angular/router";
 
 @Injectable()
 export class TenantService extends AppServiceBase {
-    tenantFeatures: GetTenantFeaturesForEditOutput;
+    tenantFeatures: GetTenantFeaturesEditOutput;
     currentConnectionString: string;
     tenant: TenantEditDto;
     editions: ComboboxItemDto[];
@@ -28,7 +28,7 @@ export class TenantService extends AppServiceBase {
      */
     getEditionsForCombobox() {
         this._commonLookupService
-            .getEditionsForCombobox()
+            .getEditionsForCombobox(true)
             .subscribe(result => {
                 this.editions = result.items;
                 let notSelectedEdition = new ComboboxItemDto();
