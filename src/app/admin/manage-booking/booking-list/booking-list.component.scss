@@ -18,6 +18,19 @@
         padding: 0;
         transform-style: preserve-3d;
         min-height: 470px;
+        .wait-confirm-num {
+            width: 34px;
+            height: 34px;
+            line-height: 34px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            text-align: center;
+            color: #FFF;
+            background-color: red;
+            border-radius: 50%;
+        }
         .booking-item.flip {
             transform-style: preserve-3d;
         } // 禁用预约的样式

@@ -107,17 +107,14 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                   self._$profilePicture.attr("src", src);
                   self._$profilePicture.attr("width", "100%");
                 }
-                console.log('加入上传');
               });
             },
             'BeforeUpload': function (up, file) {
               // 每个文件上传前,处理相关的事情
-              console.log('上传之前');
             },
             'UploadProgress': function (up, file) {
               // 每个文件上传时,处理相关的事情
               self.loading = true;
-              console.log('正在上传');
             },
             'FileUploaded': function (up, file, info) {
               // 每个文件上传成功后,处理相关的事情
@@ -130,7 +127,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
 
               console.log("上传成功");
 
-              var res = JSON.parse(info).result;
+              var res = JSON.parse(info.response).result;
               var currentPicUrl = res.originalUrl;
               var currentPicId = res.pictureId;
               self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);

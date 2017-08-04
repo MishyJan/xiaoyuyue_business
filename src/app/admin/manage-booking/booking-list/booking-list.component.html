@@ -152,6 +152,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- 待确认人数  -->
+                    <div class="wait-confirm-num" (click)="showConfirmOrderHander(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
                 </div>
                 <!--翻转后-->
                 <div class="back-wrap box-shadow">
@@ -208,4 +211,5 @@
         </div>
     </div>
     <xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>
+    <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($evnet)"></xiaoyuyue-confirm-order-model>
 </div>
