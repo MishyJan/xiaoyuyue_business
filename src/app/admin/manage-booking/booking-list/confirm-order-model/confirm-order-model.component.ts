@@ -133,4 +133,6 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
         this.isShowModelFlag = false;
         this.isShowModelHander.emit(this.isShowModelFlag);
     }
+
+    public onStateonStateChange(event): void {}
 }
