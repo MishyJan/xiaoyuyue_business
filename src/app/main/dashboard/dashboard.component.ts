@@ -67,7 +67,7 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
         this._dashboardService
             .getMemberActivity()
             .subscribe(result => {
-                $("#totalMembersChart").sparkline(result.totalMembers, {
+                $("#totalMembersChart").sparkline(result.memberActivities, {
                     type: 'bar',
                     width: '100',
                     barWidth: 6,
@@ -77,7 +77,7 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
                     chartRangeMin: 0
                 });
 
-                $("#newMembersChart").sparkline(result.newMembers, {
+                $("#newMembersChart").sparkline(result.memberActivities, {
                     type: 'bar',
                     width: '100',
                     barWidth: 6,

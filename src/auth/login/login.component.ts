@@ -54,7 +54,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         // 解决Chrome浏览器自动填充的BUG
         setTimeout(() => {
             $("input:-webkit-autofill").addClass("edited")
-        }, 300);
+        }, 600);
 
         $(document).click(() => {
             self.flag = true;

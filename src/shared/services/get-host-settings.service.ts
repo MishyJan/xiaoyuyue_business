@@ -73,7 +73,7 @@ export class HostSettingService extends AppServiceBase {
 
     // 获取版本
     loadEditions(): void {
-        this._commonLookupService.getEditionsForCombobox()
+        this._commonLookupService.getEditionsForCombobox(true)
             .subscribe((result) => {
                 this.editions = result.items;
                 let notAssignedEdition = new ComboboxItemDto();

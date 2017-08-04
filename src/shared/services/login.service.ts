@@ -350,7 +350,7 @@ export class LoginService {
         let url_ = AppConsts.remoteServiceBaseUrl + "/api/TokenAuth/ExternalAuthenticate";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(model ? model.toJS() : null);
+        const content_ = JSON.stringify(model ? model.toJSON() : null);
 
         // let options_ = {
         //     body: content_,
