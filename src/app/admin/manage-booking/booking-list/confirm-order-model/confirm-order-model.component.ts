@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { AppConsts } from 'shared/AppConsts';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { GridDataResult, EditEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, EditEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 
 @Component({
@@ -15,8 +15,9 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    batchConfirmCount: number = 0;
+    confirmOrderText: string = "批处理";
     isBatchConfirmFlag: boolean = false;
-    @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
     isShowModelFlag: boolean = false;
     wait4ComfirmOrderListData: AppGridData;
@@ -33,6 +34,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     customerName: string;
     bookingId: number;
 
+    @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
@@ -97,11 +99,21 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     batchComfirmBookingOrderHandler(): void {
+
         this.isBatchConfirmFlag = !this.isBatchConfirmFlag;
+        if (this.batchComfirmInput.ids.length == 0) {
+            this.confirmOrderText == "取消" ? this.confirmOrderText = "批处理" : this.confirmOrderText = "取消";
+            return;
+        } else {
+            this.confirmOrderText = "确认";
+        }
+
         if (!this.isBatchConfirmFlag) {
             this._orgBookingOrderServiceProxy
                 .batchComfirmBookingOrder(this.batchComfirmInput)
                 .subscribe(() => {
+                    this.confirmOrderText = "批处理";
+                    this.batchComfirmInput.ids = [];
                     this.notify.success("确认成功");
                     this.loadData()
                 })
@@ -113,14 +125,25 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
         if (check) {
             this.batchComfirmInput.ids.push(value);
+            this.confirmOrderText = "确认";
         } else {
-            this.batchComfirmInput.ids = this.batchComfirmInput.ids.filter((ele, index) => {
-                return ele != value;
-            })
+            if (this.batchComfirmInput.ids.length <= 1) {
+                this.confirmOrderText = "取消";
+            }
+            this.removeByValue(this.batchComfirmInput.ids, value);
         }
     }
 
-    showModel(bookingId: number): void {
+    private removeByValue(arr, val): void {
+        arr.forEach((element, index) => {
+            if (element == val) {
+                arr.splice(index, 1);
+                return;
+            }
+        });
+    }
+
+    public showModel(bookingId: number): void {
         if (!bookingId) {
             return;
         }
@@ -129,8 +152,16 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
         this.isShowModelFlag = true;
     }
 
-    hideModel(): void {
+    public hideModel(): void {
         this.isShowModelFlag = false;
         this.isShowModelHander.emit(this.isShowModelFlag);
+    }
+
+    public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
+        this.skipCount = skip;
+        this.maxResultCount = take;
+        this.sorting = sort;
+
+        this.loadData();
     }
 }
