@@ -95,7 +95,15 @@
                     <div class="booking-details">
                         <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
                         <div class="content clearfix">
-                            <div class="booking-overbrim pull-left"><img src="/assets/common/images/admin/booking-circle.jpg" alt="" width="100%"></div>
+                            <div class="pull-left">
+                                <div class="booking-overbrim">
+                                    <div class="wave">
+                                        <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>
+                                        <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>
+                                    </div>
+                                </div>
+                                <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum) }}</div>
+                            </div>
                             <div class="booking-info pull-right">
                                 <div class="info-row-item">
                                     <span class="key">已预约人数</span><span class="value">{{bookingResultItem.subBookedNum}}</span>

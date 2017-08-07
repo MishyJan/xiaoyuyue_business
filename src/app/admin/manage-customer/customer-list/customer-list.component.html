@@ -131,17 +131,18 @@
         <div class="col-lg-12">
             <div class="portlet light portlet-fit">
                 <div class="portlet-body clearfix">
-                    <kendo-grid [data]="customerListData | async" (edit)="editHandler($event)" (cancel)="cancelHandler($event)" (save)="saveHandler($event)" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="onStateonStateChange($event)">
+                    <kendo-grid [data]="customerListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="dataStateChange($event)">
                         <!-- 订单状态  -->
-                        <kendo-grid-column title="订单状态">
+                        <kendo-grid-column title="订单状态" width="84px">
                             <ng-template kendoGridCellTemplate let-dataItem="dataItem">
                                 <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
                             </ng-template>
                         </kendo-grid-column>
 
                         <!-- 应约人 -->
-                        <kendo-grid-column title="应约人">
+                        <kendo-grid-column title="应约人" width="160px">
                             <ng-template kendoGridCellTemplate let-dataItem>
+                                <img src="assets/common/images/default-profile-picture.png" width="50px" alt="avatar" class="avatar">
                                 <span>{{ dataItem.customerName }}</span>
                             </ng-template>
                         </kendo-grid-column>
@@ -188,50 +189,19 @@
                             </ng-template>
                         </kendo-grid-column>
 
-                        <!-- 备注 -->
-                        <kendo-grid-column field="remark" title="备注">
-                            <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                                <label style="width:100%; cursor:pointer;">
-                                    <input [(ngModel)]="dataItem.remark" style="width: 100%" name="remark"  required/>
-                                </label>
-                            </ng-template>
-                        </kendo-grid-column>
-
                         <kendo-grid-command-column title="{{l('Actions')}}">
-                            <ng-template let-isNew="isNew" kendoGridCellTemplate>
+                            <ng-template kendoGridCellTemplate let-dataItem>
                                 <!-- edit command directive, will be visible when not in edit mode -->
-                                <button kendoGridEditCommand class="btn btn-xs btn-primary" title="{{l('Admin.Edit')}}">
+                                <button class="btn btn-xs btn-primary" (click)="showCustomerForEditHander(dataItem)" title="{{l('Admin.Edit')}}">
                                     <i class="fa fa-edit"></i>
-                                </button>
-                                <!-- save command directive, will be visible when in edit mode -->
-                                <button kendoGridSaveCommand class="btn btn-xs btn-success" title="{{l('Admin.Save')}}">
-                                    <i class="fa fa-floppy-o"></i>
-                                </button>
-                                <!-- cancel command directive, will be visible when in edit mode -->
-                                <button kendoGridCancelCommand class="btn btn-xs btn-danger" title="{{l('Admin.Cancel')}}">
-                                    <i class="fa fa-reply"></i>
                                 </button>
                             </ng-template>
                         </kendo-grid-command-column>
-
-                        <!-- <kendo-grid-column field="appSecret" title="{{l('Admin.Configuration.Settings.AppSecret')}}">
-                            <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                                <input [(ngModel)]="dataItem.appSecret" name="appSecret" class="k-textbox" required/>
-                            </ng-template>
-                        </kendo-grid-column> -->
-
-                        <!--<kendo-grid-column field="providerName" title="ProviderName" [width]="160"></kendo-grid-column>-->
                     </kendo-grid>
                 </div>
             </div>
         </div>
 
-        <!-- <div class="col-lg-12" *ngIf="organizationBookingResultData">
-            <div class="pull-right">
-                <div class="has-text-centered">
-                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
-                </div>
-            </div>
-        </div> -->
+        <xiaoyuyue-customer-for-edit-model #customerForEditModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($evnet)"></xiaoyuyue-customer-for-edit-model>
     </div>
 </div>

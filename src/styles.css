@@ -195,6 +195,24 @@ a:focus {
 
 /*重写覆盖kendo-date-picker样式*/
 
+.k-drag-clue,
+.k-grid-add-row,
+.k-grid-footer,
+.k-grid-header,
+.k-grid-toolbar,
+.k-grouping-header,
+.k-pager-wrap {
+    background-color: #FFF;
+}
+
+.k-grid-content {
+    overflow: hidden;
+}
+
+.k-grid-header {
+    padding: 0 !important;
+}
+
 .x-multiple-date-wrap {
     width: 100%;
     height: 50px;

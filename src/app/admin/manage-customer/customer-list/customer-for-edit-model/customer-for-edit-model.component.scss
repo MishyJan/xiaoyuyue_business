@@ -8,10 +8,6 @@
     transition: all .3s;
     visibility: hidden;
     opacity: 0;
-    .btn-white {
-        color: #FF9641;
-        background-color: #FFF;
-    }
     &.ani.fade-in {
         visibility: visible;
         opacity: 1;
@@ -30,8 +26,8 @@
     }
     .confirm-model {
         width: 100%;
-        max-width: 974px;
-        height: 80vh;
+        max-width: 450px;
+        height: 64vh;
         position: absolute;
         top: 0;
         bottom: 0;
@@ -44,23 +40,44 @@
         transform: translateY(-100px);
         opacity: 0;
         .header-model {
-            height: 72px;
-            line-height: 72px;
-            padding: 0 40px;
-            color: #FFF;
-            background-color: #FF9641;
-            .title-name {
-                float: left;
-            }
-            .process-batch {
-                float: right;
-                margin-top: 16px;
+            position: relative;
+            .avatar {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
             }
         }
         .content-model {
-            padding: 40px;
+            max-width: 460px;
+            margin: 100px auto 0;
+            .item {
+                font-size: 14px;
+                margin: 10px 0;
+                .name {
+                    color: #333;
+                }
+                .desc {
+                    color: #FF9641;
+                }
+            }
+            .remark-item {
+                .name,
+                .desc {
+                    height: 80px;
+                    line-height: 80px;
+                }
+                .desc {
+                    textarea {
+                        height: 100%;
+                    }
+                }
+            }
         }
-        .footer-model {}
+        .footer-model {
+            text-align: center;
+        }
     }
     .bg-cover {
         width: 100%;

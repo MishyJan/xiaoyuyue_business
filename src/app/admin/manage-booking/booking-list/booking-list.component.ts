@@ -21,7 +21,8 @@ import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
-    @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
+    countOverbrimTopValue: string = '';
+    bookingOverbrimValue: number = 0;
     // 保存预约列表背景图的比例
     bookingBgW: number = 384;
     bookingBgH: number = 214;
@@ -50,6 +51,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     currentPage: number = 0;
 
     shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
+    @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
     @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
     @ViewChild("bookingBg") bookingBgElement: ElementRef;
 
@@ -258,10 +260,22 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
 
-        // 待确认model弹窗，若关闭应该刷新数据
+    // 待确认model弹窗，若关闭应该刷新数据
     isShowComfirmOrderModelHander(flag: boolean): void {
         if (!flag) {
             this.loadData();
         }
+    }
+
+    public getOverbrimValue(val1, val2): string {
+        this.bookingOverbrimValue = Math.round(100 - val1 / val2 * 100);
+        return this.bookingOverbrimValue + '%';
+    }
+
+    private countOverbrimTop(val1, val2): string {
+        const maxResult = 74;
+        let ratio = maxResult / 100;
+        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / val2 * 100)) * ratio) + 'px';
+        return this.countOverbrimTopValue;
     }
 }
