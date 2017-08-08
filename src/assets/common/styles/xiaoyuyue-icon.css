@@ -258,7 +258,6 @@
 
 .vapps-icon-cb-add-time:before {
     content: "\e930";
-    color: #fff;
 }
 
 .vapps-icon-cb-calendar:before {
@@ -277,7 +276,6 @@
 
 .vapps-icon-dc-customer-vip:before {
     content: "\e934";
-    color: #000;
 }
 
 .vapps-icon-dc-menu:before {

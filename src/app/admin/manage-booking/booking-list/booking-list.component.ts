@@ -268,14 +268,28 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     public getOverbrimValue(val1, val2): string {
+        if (val1 == 0 || val2 == 0) return '0%';
         this.bookingOverbrimValue = Math.round(100 - val1 / val2 * 100);
         return this.bookingOverbrimValue + '%';
     }
 
     private countOverbrimTop(val1, val2): string {
+        if (val1 == 0 || val2 == 0) return '30px';
         const maxResult = 74;
         let ratio = maxResult / 100;
         this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / val2 * 100)) * ratio) + 'px';
         return this.countOverbrimTopValue;
+    }
+
+    private countOverbrimState(val1, val2): any {
+        let temp = Math.round(100 - val1 / val2 * 100);
+        (val1 == 0 || val2 == 0) && (temp = 0);
+        let state = {
+            state1: 0 <= temp && temp <= 30,
+            state2: 30 < temp && temp <= 60,
+            state3: 60 < temp && temp <= 90,
+            state4: 90 < temp && temp <= 100,
+        }
+        return state;
     }
 }

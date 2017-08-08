@@ -85,8 +85,8 @@
             .front-wrap {
                 z-index: 2;
                 &:hover .booking-item-cover {
-                    // visibility: visible;
-                    // opacity: 1;
+                    visibility: visible;
+                    opacity: 1;
                 }
                 .top-banner-wrap {
                     overflow: hidden;
@@ -109,6 +109,30 @@
                             height: 74px;
                             border-radius: 50%;
                             overflow: hidden;
+                            &.state1 {
+                                box-shadow: 0px 2px 2px 0px #02AFF3;
+                                .wave {
+                                    background-color: #02AFF3;
+                                }
+                            }
+                            &.state2 {
+                                box-shadow: 0px 2px 2px 0px #00B200;
+                                .wave {
+                                    background-color: #00B200;
+                                }
+                            }
+                            &.state3 {
+                                box-shadow: 0px 2px 2px 0px #FF9641;
+                                .wave {
+                                    background-color: #FF9641;
+                                }
+                            }
+                            &.state4 {
+                                box-shadow: 0px 2px 2px 0px #E32600;
+                                .wave {
+                                    background-color: #E32600;
+                                }
+                            }
                             .wave {
                                 position: relative;
                                 width: 100%;
@@ -122,7 +146,7 @@
                                     height: 148px;
                                     top: 36px;
                                     left: 50%;
-                                    background-color: rgba(255, 255, 255, 0);
+                                    background-color: rgba(255, 255, 255, 0.6);
                                     border-radius: 44%;
                                     transform: translate(-50%, -70%) rotate(0);
                                     animation: rotate 6s linear infinite;
@@ -132,7 +156,7 @@
                                     border-radius: 44%;
                                     background-color: rgba(255, 255, 255, .9);
                                     transform: translate(-50%, -70%) rotate(0);
-                                    animation: rotate 10s cubic-bezier(0, -0.32, 0, 1.49) -5s infinite;
+                                    animation: rotate 10s linear -5s infinite;
                                     z-index: 20;
                                 }
                             }
@@ -174,6 +198,7 @@
                     position: absolute;
                     top: 0;
                     left: 0;
+                    z-index: 100;
                     color: #FFF;
                     background-color: rgba(0, 0, 0, .8);
                     visibility: hidden;

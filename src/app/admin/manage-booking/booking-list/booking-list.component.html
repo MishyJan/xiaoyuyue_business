@@ -96,7 +96,7 @@
                         <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
                         <div class="content clearfix">
                             <div class="pull-left">
-                                <div class="booking-overbrim">
+                                <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)">
                                     <div class="wave">
                                         <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>
                                         <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>

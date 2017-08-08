@@ -84,6 +84,10 @@ a:focus {
     color: #3598dc;
 }
 
+.k-link.k-state-selected {
+    background-color: #FF9641;
+}
+
 .k-action-buttons .k-primary:hover,
 .k-button.k-primary.k-flat.k-state-hover,
 .k-button.k-primary.k-flat:hover,
