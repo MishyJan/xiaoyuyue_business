@@ -60,11 +60,19 @@
             }
             .back-wrap {
                 transform: rotateY(-180deg);
+                height: 100%;
                 .portlet {
                     height: 100%;
                     box-shadow: none;
                 }
                 .content-wrap {
+                    position: absolute;
+                    top: 66px;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    overflow: auto;
+                    padding-bottom: 15px;
                     .content-item {
                         display: flex;
                         padding: 12px 0;

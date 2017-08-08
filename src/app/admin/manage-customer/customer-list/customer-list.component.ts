@@ -25,6 +25,8 @@ export class SingleBookingStatus {
 })
 
 export class CustomerListComponent extends AppComponentBase implements OnInit {
+    creationEndDate: any;
+    creationStartDate: any;
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
     searchActiveSelectDefaultItem: { value: string, displayText: string; };
     orderStatusSelectList: Object[] = [];
@@ -32,7 +34,6 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     skipCount: number = 0;
     maxResultCount: number = AppConsts.grid.defaultPageSize;
     sorting: Array<SortDescriptor> = [];
-    creationDate: moment.Moment;
     gender: Gender;
     phoneNumber: string;
     endMinute: number;
@@ -104,6 +105,8 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         }
 
         let loadOrgBookingOrderData = () => {
+            this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
+            this.creationEndDate = this.creationEndDate ? moment(this.creationEndDate) : undefined;
             return this._orgBookingOrderServiceProxy
                 .getOrders
                 (this.bookingName,
@@ -113,7 +116,8 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
                 this.endMinute,
                 this.phoneNumber,
                 this.gender,
-                this.creationDate,
+                this.creationStartDate,
+                this.creationEndDate,
                 this.bookingOrderStatus,
                 sorting,
                 maxResultCount,
@@ -121,6 +125,10 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         };
 
         this._customerListGridDataResult.query(loadOrgBookingOrderData);
+        if (typeof this.creationStartDate === "object") {
+            this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
+            this.creationEndDate = this.creationEndDate.format('YYYY-MM-DD');
+        }
     }
 
     showCustomerForEditHander(dataItem: any): void {

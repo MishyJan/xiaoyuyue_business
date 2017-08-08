@@ -8,6 +8,10 @@
     transition: all .3s;
     visibility: hidden;
     opacity: 0;
+    .btn-perfect {
+        border-color: #ff7241;
+        background-color: #ff7241;
+    }
     &.ani.fade-in {
         visibility: visible;
         opacity: 1;

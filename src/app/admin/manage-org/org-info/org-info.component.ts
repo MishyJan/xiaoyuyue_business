@@ -6,103 +6,123 @@ import { TenantInfoServiceProxy, TenantInfoEditDto } from "shared/service-proxie
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'xiaoyuyue-org-info',
-  templateUrl: './org-info.component.html',
-  styleUrls: ['./org-info.component.scss'],
-  animations: [accountModuleAnimation()],
+    selector: 'xiaoyuyue-org-info',
+    templateUrl: './org-info.component.html',
+    styleUrls: ['./org-info.component.scss'],
+    animations: [accountModuleAnimation()],
 })
 export class OrgInfoComponent extends AppComponentBase implements OnInit {
-  saving: boolean = false;
-  updatedOrgBgPicture: boolean = false;
-  updatedOrgLogoPicture: boolean = false;
-  input: TenantInfoEditDto = new TenantInfoEditDto();
-  currentPicDom: any;
-  picUrl: string;
-  orgLogoAreaWrapHeight: string;
-  orgBgAreaWrapHeight: string;
-  orgLogoWrapHeight: string;
+    savingAndEditing: boolean;
+    saving: boolean = false;
+    updatedOrgBgPicture: boolean = false;
+    updatedOrgLogoPicture: boolean = false;
+    input: TenantInfoEditDto = new TenantInfoEditDto();
+    currentPicDom: any;
+    picUrl: string;
+    orgLogoAreaWrapHeight: string;
+    orgBgAreaWrapHeight: string;
+    orgLogoWrapHeight: string;
 
-  sendOrgBgInfo: UploadPictureDto = new UploadPictureDto();
-  sendOrgLogoInfo: UploadPictureDto = new UploadPictureDto();
-  constructor(
-    injector: Injector,
-    private _router: Router,
-    private _tenantInfoServiceProxy: TenantInfoServiceProxy
-  ) {
-    super(
-      injector
-    );
-  }
+    sendOrgBgInfo: UploadPictureDto = new UploadPictureDto();
+    sendOrgLogoInfo: UploadPictureDto = new UploadPictureDto();
+    constructor(
+        injector: Injector,
+        private _router: Router,
+        private _tenantInfoServiceProxy: TenantInfoServiceProxy
+    ) {
+        super(
+            injector
+        );
+    }
 
-  ngOnInit() {
-    this.loadData();
-  }
+    ngOnInit() {
+        this.loadData();
+    }
 
-  ngAfterViewInit() {
-    let self = this;
-    this.getUploadOrgWrap();
+    ngAfterViewInit() {
+        let self = this;
+        this.getUploadOrgWrap();
 
-    window.addEventListener("resize", function () {
-      self.getUploadOrgWrap();
-    })
-  }
+        window.addEventListener("resize", function () {
+            self.getUploadOrgWrap();
+        })
+    }
 
-  loadData(): void {
-    this._tenantInfoServiceProxy
-      .getTenantInfoForEdit()
-      .subscribe(result => {
-        if (!result) {
-          return;
+    loadData(): void {
+        this._tenantInfoServiceProxy
+            .getTenantInfoForEdit()
+            .subscribe(result => {
+                if (!result) {
+                    return;
+                }
+                this.input.tenancyName = result.tenancyName;
+                this.input.tagline = result.tagline;
+                this.input.description = result.description;
+
+                this.sendOrgBgInfo.pictureUrl = result.backgroundPictureUrl;
+                this.sendOrgBgInfo.pictureId = result.backgroundPictureId;
+
+                this.sendOrgLogoInfo.pictureUrl = result.logoUrl;
+                this.sendOrgLogoInfo.pictureId = result.logoId;
+            })
+    }
+
+    getUploadOrgWrap(): void {
+        let orgLogoAreaWrapHeight = +$(".upload-logo-pic-wrap").width() + "px";
+        let orgBgAreaWrapHeight = +$(".upload-bg-pic-wrap").width() * 0.6 + "px";
+        $(".upload-logo-pic-wrap").height(orgLogoAreaWrapHeight);
+        $(".upload-bg-pic-wrap").height(orgBgAreaWrapHeight);
+    }
+
+    save(): void {
+        if (!this.updatedOrgBgPicture) {
+            this.input.backgroundPictureId = this.sendOrgBgInfo.pictureId;
+            this.input.backgroundPictureUrl = this.sendOrgBgInfo.pictureUrl;
         }
-        this.input.tenancyName = result.tenancyName;
-        this.input.tagline = result.tagline;
-        this.input.description = result.description;
 
-        this.sendOrgBgInfo.pictureUrl = result.backgroundPictureUrl;
-        this.sendOrgBgInfo.pictureId = result.backgroundPictureId;
+        if (!this.updatedOrgLogoPicture) {
+            this.input.logoId = this.sendOrgLogoInfo.pictureId;
+            this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
+        }
 
-        this.sendOrgLogoInfo.pictureUrl = result.logoUrl;
-        this.sendOrgLogoInfo.pictureId = result.logoId;
-      })
-  }
-
-  getUploadOrgWrap(): void {
-    let orgLogoAreaWrapHeight = +$(".upload-logo-pic-wrap").width() + "px";
-    let orgBgAreaWrapHeight = +$(".upload-bg-pic-wrap").width() * 0.6 + "px";
-    $(".upload-logo-pic-wrap").height(orgLogoAreaWrapHeight);
-    $(".upload-bg-pic-wrap").height(orgBgAreaWrapHeight);
-  }
-
-  save(): void {
-    if (!this.updatedOrgBgPicture) {
-      this.input.backgroundPictureId = this.sendOrgBgInfo.pictureId;
-      this.input.backgroundPictureUrl = this.sendOrgBgInfo.pictureUrl;
+        this.saving = true;
+        this._tenantInfoServiceProxy
+            .updateTenantInfo(this.input)
+            .finally(() => { this.saving = false })
+            .subscribe(result => {
+                this.notify.success("信息已完善");
+                this._router.navigate(['/app/admin/org/list']);
+            })
     }
 
-    if (!this.updatedOrgLogoPicture) {
-      this.input.logoId = this.sendOrgLogoInfo.pictureId;
-      this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
+    saveAndEdit() {
+        if (!this.updatedOrgBgPicture) {
+            this.input.backgroundPictureId = this.sendOrgBgInfo.pictureId;
+            this.input.backgroundPictureUrl = this.sendOrgBgInfo.pictureUrl;
+        }
+
+        if (!this.updatedOrgLogoPicture) {
+            this.input.logoId = this.sendOrgLogoInfo.pictureId;
+            this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
+        }
+        this.savingAndEditing = true;
+        this._tenantInfoServiceProxy
+            .updateTenantInfo(this.input)
+            .finally(() => { this.savingAndEditing = false })
+            .subscribe(() => {
+                this.notify.success("保存成功!");
+            });
     }
 
-    this.saving = true;
-    this._tenantInfoServiceProxy
-      .updateTenantInfo(this.input)
-      .finally( () => { this.saving = false})
-      .subscribe(result => {
-        this.notify.success("信息已完善");
-        this._router.navigate(['/app/admin/org/list']);
-      })
-  }
+    orgBgInfo(orgBgInfo: UploadPictureDto): void {
+        this.updatedOrgBgPicture = true;
+        this.input.backgroundPictureId = orgBgInfo.pictureId;
+        this.input.backgroundPictureUrl = orgBgInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+    }
 
-  orgBgInfo(orgBgInfo: UploadPictureDto): void {
-    this.updatedOrgBgPicture = true;
-    this.input.backgroundPictureId = orgBgInfo.pictureId;
-    this.input.backgroundPictureUrl = orgBgInfo.pictureUrl.changingThisBreaksApplicationSecurity;
-  }
-
-  orgLogoInfo(orgLogoInfo: UploadPictureDto): void {
-    this.updatedOrgLogoPicture = true;
-    this.input.logoId = orgLogoInfo.pictureId;
-    this.input.logoUrl = orgLogoInfo.pictureUrl.changingThisBreaksApplicationSecurity;
-  }
+    orgLogoInfo(orgLogoInfo: UploadPictureDto): void {
+        this.updatedOrgLogoPicture = true;
+        this.input.logoId = orgLogoInfo.pictureId;
+        this.input.logoUrl = orgLogoInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+    }
 }

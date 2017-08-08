@@ -709,15 +709,12 @@ export class BookingServiceProxy {
 
     /**
      * 获取预约详情
-     * @source 来源
      * @return Success
      */
-    getJoinBookingInfo(source: string, id: number): Observable<JoinBookingOutput> {
+    getJoinBookingInfo(id: number): Observable<JoinBookingOutput> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetJoinBookingInfo?";
-        if (source !== undefined)
-            url_ += "Source=" + encodeURIComponent("" + source) + "&"; 
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -808,6 +805,70 @@ export class BookingServiceProxy {
             return throwException("An unexpected server error occurred.", status, responseText);
         }
         return Observable.of<JoinBookingResultDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class BookingDataStatisticsAppSeriviceServiceProxy {
+    private http: Http;
+    private baseUrl: string;
+    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * 获取预约数据统计
+     * @date 数据统计日期
+     * @return Success
+     */
+    getBookingDataStatistics(date: moment.Moment): Observable<BookingDataStatisticsDto> {
+        let url_ = this.baseUrl + "/api/services/app/BookingDataStatisticsAppSerivice/GetBookingDataStatistics?";
+        if (date !== undefined)
+            url_ += "Date=" + encodeURIComponent("" + date.toJSON()) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processGetBookingDataStatistics(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processGetBookingDataStatistics(response_);
+                } catch (e) {
+                    return <Observable<BookingDataStatisticsDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<BookingDataStatisticsDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetBookingDataStatistics(response: Response): Observable<BookingDataStatisticsDto> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const responseText = response.text();
+            let result200: BookingDataStatisticsDto = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BookingDataStatisticsDto.fromJS(resultData200) : new BookingDataStatisticsDto();
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return Observable.of<BookingDataStatisticsDto>(<any>null);
     }
 }
 
@@ -4314,14 +4375,15 @@ export class OrgBookingOrderServiceProxy {
      * @endMinute 预约结束时间
      * @phoneNumber 电话号码
      * @gender 性别
-     * @creationDate 创建日期
+     * @creationStartDate 创建开始日期
+     * @creationEndDate 创建结束日期
      * @status 预约状态
      * @sorting 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getOrders(bookingName: string, customerName: string, bookingDate: moment.Moment, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, creationDate: moment.Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingOrderListDto> {
+    getOrders(bookingName: string, customerName: string, bookingDate: moment.Moment, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, creationStartDate: moment.Moment, creationEndDate: moment.Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingOrderListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrgBookingOrder/GetOrders?";
         if (bookingName !== undefined)
             url_ += "BookingName=" + encodeURIComponent("" + bookingName) + "&"; 
@@ -4337,8 +4399,10 @@ export class OrgBookingOrderServiceProxy {
             url_ += "PhoneNumber=" + encodeURIComponent("" + phoneNumber) + "&"; 
         if (gender !== undefined)
             url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
-        if (creationDate !== undefined)
-            url_ += "CreationDate=" + encodeURIComponent("" + creationDate.toJSON()) + "&"; 
+        if (creationStartDate !== undefined)
+            url_ += "CreationStartDate=" + encodeURIComponent("" + creationStartDate.toJSON()) + "&"; 
+        if (creationEndDate !== undefined)
+            url_ += "CreationEndDate=" + encodeURIComponent("" + creationEndDate.toJSON()) + "&"; 
         if (status !== undefined)
             status.forEach(item => { url_ += "Status=" + encodeURIComponent("" + item) + "&"; });
         if (sorting !== undefined)
@@ -12056,6 +12120,8 @@ export class JoinBookingInput implements IJoinBookingInput {
     age: number;
     /** 预约人数 */
     subscriberNum: number;
+    /** 预约来源 */
+    source: JoinBookingInputSource;
 
     constructor(data?: IJoinBookingInput) {
         if (data) {
@@ -12076,6 +12142,7 @@ export class JoinBookingInput implements IJoinBookingInput {
             this.gender = data["gender"];
             this.age = data["age"];
             this.subscriberNum = data["subscriberNum"];
+            this.source = data["source"];
         }
     }
 
@@ -12095,6 +12162,7 @@ export class JoinBookingInput implements IJoinBookingInput {
         data["gender"] = this.gender;
         data["age"] = this.age;
         data["subscriberNum"] = this.subscriberNum;
+        data["source"] = this.source;
         return data; 
     }
 }
@@ -12116,6 +12184,8 @@ export interface IJoinBookingInput {
     age: number;
     /** 预约人数 */
     subscriberNum: number;
+    /** 预约来源 */
+    source: JoinBookingInputSource;
 }
 
 export class JoinBookingResultDto implements IJoinBookingResultDto {
@@ -12171,6 +12241,85 @@ export interface IJoinBookingResultDto {
     bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
+}
+
+export class BookingDataStatisticsDto implements IBookingDataStatisticsDto {
+    /** 查看人数 */
+    uv: number;
+    /** 查看次数 */
+    pv: number;
+    /** 预约数 */
+    bookingNum: number;
+    /** 分享数 */
+    shareBookingNum: number;
+    /** 预约人数 */
+    bookingSubscriberNum: number;
+    /** 确认数 */
+    confirmNum: number;
+    /** 完成数 */
+    complateNum: number;
+    /** 取消数 */
+    cancelNum: number;
+
+    constructor(data?: IBookingDataStatisticsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.uv = data["uv"];
+            this.pv = data["pv"];
+            this.bookingNum = data["bookingNum"];
+            this.shareBookingNum = data["shareBookingNum"];
+            this.bookingSubscriberNum = data["bookingSubscriberNum"];
+            this.confirmNum = data["confirmNum"];
+            this.complateNum = data["complateNum"];
+            this.cancelNum = data["cancelNum"];
+        }
+    }
+
+    static fromJS(data: any): BookingDataStatisticsDto {
+        let result = new BookingDataStatisticsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["uv"] = this.uv;
+        data["pv"] = this.pv;
+        data["bookingNum"] = this.bookingNum;
+        data["shareBookingNum"] = this.shareBookingNum;
+        data["bookingSubscriberNum"] = this.bookingSubscriberNum;
+        data["confirmNum"] = this.confirmNum;
+        data["complateNum"] = this.complateNum;
+        data["cancelNum"] = this.cancelNum;
+        return data; 
+    }
+}
+
+export interface IBookingDataStatisticsDto {
+    /** 查看人数 */
+    uv: number;
+    /** 查看次数 */
+    pv: number;
+    /** 预约数 */
+    bookingNum: number;
+    /** 分享数 */
+    shareBookingNum: number;
+    /** 预约人数 */
+    bookingSubscriberNum: number;
+    /** 确认数 */
+    confirmNum: number;
+    /** 完成数 */
+    complateNum: number;
+    /** 取消数 */
+    cancelNum: number;
 }
 
 export class BookingAccessRecordInput implements IBookingAccessRecordInput {
@@ -17965,6 +18114,8 @@ export class BookingOrderListDto implements IBookingOrderListDto {
     emailAddress: string;
     /** 创建时间 */
     creationTime: moment.Moment;
+    /** 头像Url */
+    profilePictureUrl: string;
     id: number;
 
     constructor(data?: IBookingOrderListDto) {
@@ -17990,6 +18141,7 @@ export class BookingOrderListDto implements IBookingOrderListDto {
             this.sticked = data["sticked"];
             this.emailAddress = data["emailAddress"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.profilePictureUrl = data["profilePictureUrl"];
             this.id = data["id"];
         }
     }
@@ -18014,6 +18166,7 @@ export class BookingOrderListDto implements IBookingOrderListDto {
         data["sticked"] = this.sticked;
         data["emailAddress"] = this.emailAddress;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["profilePictureUrl"] = this.profilePictureUrl;
         data["id"] = this.id;
         return data; 
     }
@@ -18045,6 +18198,8 @@ export interface IBookingOrderListDto {
     emailAddress: string;
     /** 创建时间 */
     creationTime: moment.Moment;
+    /** 头像Url */
+    profilePictureUrl: string;
     id: number;
 }
 
@@ -25183,6 +25338,14 @@ export enum JoinBookingInputGender {
     _2 = 2, 
 }
 
+export enum JoinBookingInputSource {
+    _10 = 10, 
+    _20 = 20, 
+    _30 = 30, 
+    _40 = 40, 
+    _50 = 50, 
+}
+
 export enum BookingAccessRecordInputSource {
     _10 = 10, 
     _20 = 20, 
@@ -25196,7 +25359,6 @@ export enum BookingAccessRecordInputWeChatSource {
     _20 = 20, 
     _30 = 30, 
     _40 = 40, 
-    _50 = 50, 
 }
 
 export enum BookingShareRecordInputTarget {
