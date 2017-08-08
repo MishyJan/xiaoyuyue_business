@@ -15,6 +15,8 @@
         text-align: center;
     }
     .booking-list-wrap {
+        position: relative;
+        left: 15px;
         padding: 0;
         transform-style: preserve-3d;
         min-height: 470px;
@@ -33,7 +35,7 @@
         }
         .booking-item.flip {
             transform-style: preserve-3d;
-        } // 禁用预约的样式
+        }
         .disabledBooking {
             filter: grayscale(100%);
         }
@@ -42,17 +44,21 @@
             padding: 0;
             cursor: pointer;
             margin-bottom: 30px;
-            .back-wrap,
-            .front-wrap {
+            .back-wrap {
                 width: calc(100% - 30px);
                 position: absolute;
                 top: 0;
-                left: 15px;
+                left: 30px;
+                background-color: #FFF;
+                backface-visibility: hidden;
+            }
+            .front-wrap {
+                position: relative;
+                width: calc(100% - 30px);
                 background-color: #FFF;
                 backface-visibility: hidden;
             }
             .back-wrap {
-                // left: 480px;
                 transform: rotateY(-180deg);
                 .portlet {
                     height: 100%;
@@ -91,7 +97,11 @@
                 .top-banner-wrap {
                     overflow: hidden;
                     border-radius: 4px;
-                    .org-bg {}
+                    .org-bg {
+                        padding-bottom: 54%;
+                        background-size: cover;
+                        background-position: center;
+                    }
                 }
                 .booking-details {
                     width: 100%;

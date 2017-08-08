@@ -74,14 +74,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     ngAfterViewInit() {
-        let self = this;
-        setTimeout(function () {
-            self.renderDOM();
-        }, 600);
-
-        window.addEventListener("resize", function () {
-            self.renderDOM();
-        })
         $(".startCreationTime").flatpickr({
             "locale": "zh"
         });
@@ -118,9 +110,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
                 }
-                setTimeout(function () {
-                    self.renderDOM();
-                }, 10);
             })
     }
     getMoment(arg: string) {
@@ -246,16 +235,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
         this.loadData();
     }
 
-    // 渲染DOM，获取DOM元素的宽高
-    renderDOM(): void {
-        let bookingBgRatio = this.bookingBgH / this.bookingBgW;
-        // 获取预约item的宽度，得出背景图的高度
-        let bookingBgH = Math.round($(".top-banner-wrap .org-bg img").innerWidth() * bookingBgRatio);
-        $(".top-banner-wrap").height(bookingBgH);
-
-        $(".booking-item").height($(".front-wrap").innerHeight());
-    }
-
     showConfirmOrderHander(bookingId: number): void {
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
@@ -291,5 +270,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
             state4: 90 < temp && temp <= 100,
         }
         return state;
+    }
+
+    // 获取预约背景
+    getBookingBgUrl(pictureUrl): string {
+        return pictureUrl == '' ? this.pictureDefaultBgUrl : pictureUrl;
     }
 }

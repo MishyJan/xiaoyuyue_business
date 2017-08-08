@@ -90,7 +90,7 @@
                 <!--翻转前-->
                 <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-banner-wrap">
-                        <div class="org-bg"><img #bookingBg [src]="bookingResultItem.pictureUrl == '' ? pictureDefaultBgUrl : bookingResultItem.pictureUrl" alt="图片加载失败" width="100%"></div>
+                        <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getBookingBgUrl(bookingResultItem.pictureUrl) + ')'}"></div>
                     </div>
                     <div class="booking-details">
                         <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
