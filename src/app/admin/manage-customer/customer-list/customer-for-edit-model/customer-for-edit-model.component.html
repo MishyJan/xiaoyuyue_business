@@ -1,0 +1,68 @@
+<div *ngIf="dataItem" class="confirm-order-wrap ani" [ngClass]="{'fade-in': isShowModelFlag, 'fade-out': !isShowModelFlag}">
+    <div class="confirm-model">
+        <div class="header-model">
+            <img class="avatar" [src]="getProfileAvatar()" width="100px" alt="avatar">
+        </div>
+
+        <div class="content-model">
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">订单状态</div>
+                <div class="col-md-5 desc">{{ dataItem.status }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">应约人</div>
+                <div class="col-md-5 desc">{{ dataItem.customerName }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">预约项目名称</div>
+                <div class="col-md-5 desc">{{ dataItem.bookingName }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">预约门店</div>
+                <div class="col-md-5 desc">{{ dataItem.outletName }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">预约时间</div>
+                <div class="col-md-5 desc">{{ dataItem.hourOfDay }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">应约人数</div>
+                <div class="col-md-5 desc">{{ dataItem.subscriberNum }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">联系电话</div>
+                <div class="col-md-5 desc">{{ dataItem.phoneNum }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">电子邮箱</div>
+                <div class="col-md-5 desc">{{ dataItem.emailAddress }}</div>
+            </div>
+
+            <div class="row item">
+                <div class="col-md-4 col-lg-offset-2 name">订单创建时间</div>
+                <div class="col-md-5 desc">{{ t(dataItem.creationTime) }}</div>
+            </div>
+
+            <div class="row item remark-item">
+                <div class="col-md-4 col-lg-offset-2 name">客户备注</div>
+                <div class="col-md-5 desc">
+                    <textarea class="form-control col-md-5 " [(ngModel)]="dataItem.remark" name="remark" placeholder="补充备注"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-model">
+            <button type="button" class="btn btn-submit" *ngIf="dataItem.status == 1" (click)="confirmCustomerOrder()">确认订单</button>
+            <button type="button" class="btn btn-primary" (click)="remarkBookingOrder()">更新备注</button>
+        </div>
+    </div>
+
+    <div class="bg-cover" (click)="hideModel()"></div>
+</div>

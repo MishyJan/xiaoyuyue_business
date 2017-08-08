@@ -103,19 +103,16 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                   self._$profilePicture.attr("src", src);
                   self._$profilePicture.attr("width", "100%");
                 }
-                console.log('加入上传');
               });
             },
             'BeforeUpload': function (up, file) {
               // 每个文件上传前,处理相关的事情
-              console.log('上传之前');
               // self.modal.hide();
             },
             'UploadProgress': function (up, file) {
               // 每个文件上传时,处理相关的事情
               // console.log(up);
               self.loading = true;
-              console.log('正在上传');
             },
             'FileUploaded': function (up, file, info) {
               // 每个文件上传成功后,处理相关的事情
@@ -129,7 +126,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
               // var res = parseJSON(info);
               // this._$profilePicture = domain + res.key; //获取上传成功后的文件的Url
-              var result = JSON.parse(info).result;
+              var result = JSON.parse(info.response).result;
               self.pictureForEdit.pictureId = result.pictureId;
               self.pictureForEdit.pictureUrl = result.originalUrl;
               self.sendPictureForEdit.emit(self.pictureForEdit);

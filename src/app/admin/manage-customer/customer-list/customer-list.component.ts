@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
@@ -7,9 +7,10 @@ import * as moment from 'moment';
 import { AppConsts } from '@shared/AppConsts';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { OrgBookingOrderStatus } from "shared/AppEnums";
-import { EditEvent } from '@progress/kendo-angular-grid';
+import { EditEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
+import { CustomerForEditModelComponent } from './customer-for-edit-model/customer-for-edit-model.component';
 
 export class SingleBookingStatus {
     value: any;
@@ -43,6 +44,9 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     remarkBookingOrderInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     bookingOrderStatus: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
     bookingOrderStatusName: string[] = ["待确认", "已确认", "待评价", "已取消", "已完成"];
+
+    @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: CustomerForEditModelComponent;
+
 
     private editedRowIndex: number;
 
@@ -88,7 +92,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         // TODO 订单创建时间搜索未做
         // this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         // this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
-        
+
         let state = { skip: this.skipCount, take: this.maxResultCount, sort: this.sorting };
         let maxResultCount, skipCount, sorting;
         if (state) {
@@ -117,6 +121,17 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         };
 
         this._customerListGridDataResult.query(loadOrgBookingOrderData);
+    }
+
+    showCustomerForEditHander(dataItem: any): void {
+        this.CustomerForEditModelComponent.showModel(dataItem);
+    }
+
+    // 应约人列表model弹窗，若关闭应该刷新数据
+    isShowComfirmOrderModelHander(flag: boolean): void {
+        if (!flag) {
+            this.loadData();
+        }
     }
 
     // 备注订单
@@ -150,31 +165,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    public editHandler({ sender, rowIndex, dataItem }) {
-        this.closeEditor(sender);
-        this.editedRowIndex = rowIndex;
-        sender.editRow(rowIndex);
-    }
-
-    public cancelHandler({ sender, rowIndex }) {
-        this.loadData();
-        sender.closeRow(rowIndex);
-    }
-
-    private closeEditor(grid, rowIndex = this.editedRowIndex) {
-        grid.closeRow(rowIndex);
-        this.editedRowIndex = undefined;
-    }
-
-    public saveHandler({ sender, rowIndex, dataItem, isNew }) {
-        sender.closeRow(rowIndex);
-        console.log((dataItem));
-        this.remarkBookingOrderInput.id = dataItem.id;
-        this.remarkBookingOrderInput.remark = dataItem.remark;
-        this.remarkBookingOrder(this.remarkBookingOrderInput);
-    }
-
-    public onStateonStateChange(event): void {}
+    public onStateonStateChange(event): void { }
 
     public genderChangeHandler(gender: Gender): void {
         this.gender = gender;
@@ -187,5 +178,15 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         }
         this.bookingOrderStatus = [status];
     }
+
+    public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
+        this.skipCount = skip;
+        this.maxResultCount = take;
+        this.sorting = sort;
+
+        this.loadData();
+    }
+
+
 }
 
