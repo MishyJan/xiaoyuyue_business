@@ -41,6 +41,7 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
 import { TipsComponent } from './shared/tips/tips.component';
 import { CustomerListComponent } from './manage-customer/customer-list/customer-list.component';
 import { ConfirmOrderModelComponent } from './manage-booking/booking-list/confirm-order-model/confirm-order-model.component';
+import { CustomerForEditModelComponent } from "app/admin/manage-customer/customer-list/customer-for-edit-model/customer-for-edit-model.component";
 
 @NgModule({
     imports: [
@@ -85,7 +86,8 @@ import { ConfirmOrderModelComponent } from './manage-booking/booking-list/confir
         PaginationComponent,
         TipsComponent,
         CustomerListComponent,
-        ConfirmOrderModelComponent
+        ConfirmOrderModelComponent,
+        CustomerForEditModelComponent
     ],
     providers: [
         AppStorageService,

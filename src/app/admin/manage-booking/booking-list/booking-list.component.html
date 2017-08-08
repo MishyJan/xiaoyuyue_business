@@ -95,7 +95,15 @@
                     <div class="booking-details">
                         <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
                         <div class="content clearfix">
-                            <div class="booking-overbrim pull-left"><img src="/assets/common/images/admin/booking-circle.jpg" alt="" width="100%"></div>
+                            <div class="pull-left">
+                                <div class="booking-overbrim">
+                                    <div class="wave">
+                                        <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>
+                                        <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>
+                                    </div>
+                                </div>
+                                <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum) }}</div>
+                            </div>
                             <div class="booking-info pull-right">
                                 <div class="info-row-item">
                                     <span class="key">已预约人数</span><span class="value">{{bookingResultItem.subBookedNum}}</span>
@@ -154,7 +162,7 @@
                     </div>
 
                     <!-- 待确认人数  -->
-                    <div class="wait-confirm-num" (click)="showConfirmOrderHander(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
+                    <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHander(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
                 </div>
                 <!--翻转后-->
                 <div class="back-wrap box-shadow">
@@ -211,5 +219,5 @@
         </div>
     </div>
     <xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>
-    <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($evnet)"></xiaoyuyue-confirm-order-model>
+    <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($event)"></xiaoyuyue-confirm-order-model>
 </div>
