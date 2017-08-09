@@ -809,7 +809,7 @@ export class BookingServiceProxy {
 }
 
 @Injectable()
-export class BookingDataStatisticsAppSeriviceServiceProxy {
+export class BookingDataStatisticsServiceProxy {
     private http: Http;
     private baseUrl: string;
     protected jsonParseReviver: (key: string, value: any) => any = undefined;
@@ -824,8 +824,8 @@ export class BookingDataStatisticsAppSeriviceServiceProxy {
      * @date 数据统计日期
      * @return Success
      */
-    getBookingDataStatistics(date: moment.Moment): Observable<BookingDataStatisticsDto> {
-        let url_ = this.baseUrl + "/api/services/app/BookingDataStatisticsAppSerivice/GetBookingDataStatistics?";
+    getBookingData(date: moment.Moment): Observable<BookingDataStatisticsDto> {
+        let url_ = this.baseUrl + "/api/services/app/BookingDataStatistics/GetBookingData?";
         if (date !== undefined)
             url_ += "Date=" + encodeURIComponent("" + date.toJSON()) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -842,11 +842,11 @@ export class BookingDataStatisticsAppSeriviceServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_) => {
-            return this.processGetBookingDataStatistics(response_);
+            return this.processGetBookingData(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processGetBookingDataStatistics(response_);
+                    return this.processGetBookingData(response_);
                 } catch (e) {
                     return <Observable<BookingDataStatisticsDto>><any>Observable.throw(e);
                 }
@@ -855,7 +855,7 @@ export class BookingDataStatisticsAppSeriviceServiceProxy {
         });
     }
 
-    protected processGetBookingDataStatistics(response: Response): Observable<BookingDataStatisticsDto> {
+    protected processGetBookingData(response: Response): Observable<BookingDataStatisticsDto> {
         const status = response.status; 
 
         if (status === 200) {
@@ -869,6 +869,234 @@ export class BookingDataStatisticsAppSeriviceServiceProxy {
             return throwException("An unexpected server error occurred.", status, responseText);
         }
         return Observable.of<BookingDataStatisticsDto>(<any>null);
+    }
+
+    /**
+     * 获取预约转化率统计
+TODO:待添加缓存
+     * @date 数据统计日期
+     * @return Success
+     */
+    getBookingConverRate(date: moment.Moment): Observable<BookingConverRateDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/BookingDataStatistics/GetBookingConverRate?";
+        if (date !== undefined)
+            url_ += "Date=" + encodeURIComponent("" + date.toJSON()) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processGetBookingConverRate(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processGetBookingConverRate(response_);
+                } catch (e) {
+                    return <Observable<BookingConverRateDto[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<BookingConverRateDto[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetBookingConverRate(response: Response): Observable<BookingConverRateDto[]> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const responseText = response.text();
+            let result200: BookingConverRateDto[] = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(BookingConverRateDto.fromJS(item));
+            }
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return Observable.of<BookingConverRateDto[]>(<any>null);
+    }
+
+    /**
+     * 获取预约访问时间统计
+TODO:待添加缓存
+     * @date 数据统计日期
+     * @return Success
+     */
+    getBookingAccessTime(date: moment.Moment): Observable<BookingAccessChannelDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/BookingDataStatistics/GetBookingAccessTime?";
+        if (date !== undefined)
+            url_ += "Date=" + encodeURIComponent("" + date.toJSON()) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processGetBookingAccessTime(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processGetBookingAccessTime(response_);
+                } catch (e) {
+                    return <Observable<BookingAccessChannelDto[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<BookingAccessChannelDto[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetBookingAccessTime(response: Response): Observable<BookingAccessChannelDto[]> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const responseText = response.text();
+            let result200: BookingAccessChannelDto[] = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(BookingAccessChannelDto.fromJS(item));
+            }
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return Observable.of<BookingAccessChannelDto[]>(<any>null);
+    }
+
+    /**
+     * 获取预约来源统计
+TODO:待添加缓存
+     * @date 数据统计日期
+     * @return Success
+     */
+    getBookingAccessSource(date: moment.Moment): Observable<BookingAccessSourceDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/BookingDataStatistics/GetBookingAccessSource?";
+        if (date !== undefined)
+            url_ += "Date=" + encodeURIComponent("" + date.toJSON()) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processGetBookingAccessSource(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processGetBookingAccessSource(response_);
+                } catch (e) {
+                    return <Observable<BookingAccessSourceDto[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<BookingAccessSourceDto[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetBookingAccessSource(response: Response): Observable<BookingAccessSourceDto[]> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const responseText = response.text();
+            let result200: BookingAccessSourceDto[] = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(BookingAccessSourceDto.fromJS(item));
+            }
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return Observable.of<BookingAccessSourceDto[]>(<any>null);
+    }
+
+    /**
+     * 获取预约分布统计
+TODO:待添加缓存
+     * @date 数据统计日期
+     * @return Success
+     */
+    getBookingAccessRegion(date: moment.Moment): Observable<BookingAccessRegionDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/BookingDataStatistics/GetBookingAccessRegion?";
+        if (date !== undefined)
+            url_ += "Date=" + encodeURIComponent("" + date.toJSON()) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+        
+        let options_ = {
+            body: content_,
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processGetBookingAccessRegion(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processGetBookingAccessRegion(response_);
+                } catch (e) {
+                    return <Observable<BookingAccessRegionDto[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<BookingAccessRegionDto[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetBookingAccessRegion(response: Response): Observable<BookingAccessRegionDto[]> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const responseText = response.text();
+            let result200: BookingAccessRegionDto[] = null;
+            let resultData200 = responseText === "" ? null : JSON.parse(responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(BookingAccessRegionDto.fromJS(item));
+            }
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, responseText);
+        }
+        return Observable.of<BookingAccessRegionDto[]>(<any>null);
     }
 }
 
@@ -12244,17 +12472,21 @@ export interface IJoinBookingResultDto {
 }
 
 export class BookingDataStatisticsDto implements IBookingDataStatisticsDto {
-    /** 查看人数 */
+    /** 今日查看人数 */
     uv: number;
-    /** 查看次数 */
+    /** 今日查看次数 */
     pv: number;
+    /** 昨日查看人数 */
+    yuv: number;
+    /** 昨日查看次数 */
+    ypv: number;
     /** 预约数 */
     bookingNum: number;
     /** 分享数 */
     shareBookingNum: number;
     /** 预约人数 */
     bookingSubscriberNum: number;
-    /** 确认数 */
+    /** 待确认数 */
     confirmNum: number;
     /** 完成数 */
     complateNum: number;
@@ -12274,6 +12506,8 @@ export class BookingDataStatisticsDto implements IBookingDataStatisticsDto {
         if (data) {
             this.uv = data["uv"];
             this.pv = data["pv"];
+            this.yuv = data["yuv"];
+            this.ypv = data["ypv"];
             this.bookingNum = data["bookingNum"];
             this.shareBookingNum = data["shareBookingNum"];
             this.bookingSubscriberNum = data["bookingSubscriberNum"];
@@ -12293,6 +12527,8 @@ export class BookingDataStatisticsDto implements IBookingDataStatisticsDto {
         data = typeof data === 'object' ? data : {};
         data["uv"] = this.uv;
         data["pv"] = this.pv;
+        data["yuv"] = this.yuv;
+        data["ypv"] = this.ypv;
         data["bookingNum"] = this.bookingNum;
         data["shareBookingNum"] = this.shareBookingNum;
         data["bookingSubscriberNum"] = this.bookingSubscriberNum;
@@ -12304,22 +12540,253 @@ export class BookingDataStatisticsDto implements IBookingDataStatisticsDto {
 }
 
 export interface IBookingDataStatisticsDto {
-    /** 查看人数 */
+    /** 今日查看人数 */
     uv: number;
-    /** 查看次数 */
+    /** 今日查看次数 */
     pv: number;
+    /** 昨日查看人数 */
+    yuv: number;
+    /** 昨日查看次数 */
+    ypv: number;
     /** 预约数 */
     bookingNum: number;
     /** 分享数 */
     shareBookingNum: number;
     /** 预约人数 */
     bookingSubscriberNum: number;
-    /** 确认数 */
+    /** 待确认数 */
     confirmNum: number;
     /** 完成数 */
     complateNum: number;
     /** 取消数 */
     cancelNum: number;
+}
+
+export class BookingConverRateDto implements IBookingConverRateDto {
+    /** 名称 */
+    name: string;
+    /** 应约人数 */
+    bookingOrderNum: number;
+    /** 访问量 */
+    accessNum: number;
+
+    constructor(data?: IBookingConverRateDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.bookingOrderNum = data["bookingOrderNum"];
+            this.accessNum = data["accessNum"];
+        }
+    }
+
+    static fromJS(data: any): BookingConverRateDto {
+        let result = new BookingConverRateDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["bookingOrderNum"] = this.bookingOrderNum;
+        data["accessNum"] = this.accessNum;
+        return data; 
+    }
+}
+
+export interface IBookingConverRateDto {
+    /** 名称 */
+    name: string;
+    /** 应约人数 */
+    bookingOrderNum: number;
+    /** 访问量 */
+    accessNum: number;
+}
+
+export class BookingAccessChannelDto implements IBookingAccessChannelDto {
+    /** 渠道名称 */
+    name: string;
+    times: BookingAccessTimeDto[];
+
+    constructor(data?: IBookingAccessChannelDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            if (data["times"] && data["times"].constructor === Array) {
+                this.times = [];
+                for (let item of data["times"])
+                    this.times.push(BookingAccessTimeDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): BookingAccessChannelDto {
+        let result = new BookingAccessChannelDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        if (this.times && this.times.constructor === Array) {
+            data["times"] = [];
+            for (let item of this.times)
+                data["times"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IBookingAccessChannelDto {
+    /** 渠道名称 */
+    name: string;
+    times: BookingAccessTimeDto[];
+}
+
+export class BookingAccessTimeDto implements IBookingAccessTimeDto {
+    /** 时间 */
+    hour: string;
+    /** 数量 */
+    num: number;
+
+    constructor(data?: IBookingAccessTimeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.hour = data["hour"];
+            this.num = data["num"];
+        }
+    }
+
+    static fromJS(data: any): BookingAccessTimeDto {
+        let result = new BookingAccessTimeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["hour"] = this.hour;
+        data["num"] = this.num;
+        return data; 
+    }
+}
+
+export interface IBookingAccessTimeDto {
+    /** 时间 */
+    hour: string;
+    /** 数量 */
+    num: number;
+}
+
+export class BookingAccessSourceDto implements IBookingAccessSourceDto {
+    /** 渠道名称 */
+    name: string;
+    /** 比例 */
+    rate: number;
+
+    constructor(data?: IBookingAccessSourceDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.rate = data["rate"];
+        }
+    }
+
+    static fromJS(data: any): BookingAccessSourceDto {
+        let result = new BookingAccessSourceDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["rate"] = this.rate;
+        return data; 
+    }
+}
+
+export interface IBookingAccessSourceDto {
+    /** 渠道名称 */
+    name: string;
+    /** 比例 */
+    rate: number;
+}
+
+export class BookingAccessRegionDto implements IBookingAccessRegionDto {
+    /** 地区名称 */
+    name: string;
+    /** 比例 */
+    num: number;
+
+    constructor(data?: IBookingAccessRegionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.num = data["num"];
+        }
+    }
+
+    static fromJS(data: any): BookingAccessRegionDto {
+        let result = new BookingAccessRegionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["num"] = this.num;
+        return data; 
+    }
+}
+
+export interface IBookingAccessRegionDto {
+    /** 地区名称 */
+    name: string;
+    /** 比例 */
+    num: number;
 }
 
 export class BookingAccessRecordInput implements IBookingAccessRecordInput {

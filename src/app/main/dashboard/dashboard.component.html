@@ -12,10 +12,12 @@
     <div class="content row">
         <div class="col-md-12 row">
             <div class="left-content col-md-3">
-                <div class="org-profile box-shadow content-item">
-                    <div class="org-bg"></div>
-                    <h4 class="org-name">机构名称</h4>
-                    <div class="edition-info clearfix">
+                <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
+                    <div class="org-bg">
+                        <img [src]="tenantBaseInfoData.logoUrl" width="100%" alt="logo">
+                    </div>
+                    <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
+                    <!-- <div class="edition-info clearfix">
                         <span class="col-md-4 edition-name">专业版</span>
                         <span class="col-md-8 edition-time">2018-01-01 <span>到期</span></span>
                     </div>
@@ -25,36 +27,36 @@
                             <p>20</p>
                         </div>
                         <div class="not-booked-num col-md-6">
-                            <p>已用预约数</p>
+                            <p>可用预约数</p>
                             <p>20</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
-                <div class="org-data box-shadow content-item clearfix">
+                <div class="org-data box-shadow content-item clearfix" *ngIf="bookingDataStatistics">
                     <div class="col-md-6 item">
-                        <p>1000</p>
+                        <p>{{ bookingDataStatistics.pv }}</p>
                         <p>今日访问量</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>1000</p>
-                        <p>今日访问量</p>
+                        <p>{{ bookingDataStatistics.uv }}</p>
+                        <p>首次访问</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>1000</p>
-                        <p>今日访问量</p>
+                        <p>{{ bookingDataStatistics.ypv }}</p>
+                        <p>昨日访问量</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>1000</p>
-                        <p>今日访问量</p>
+                        <p>{{ bookingDataStatistics.yuv }}</p>
+                        <p>昨日访问人数</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>1000</p>
-                        <p>今日访问量</p>
+                        <p>{{ bookingDataStatistics.complateNum+'/'+bookingDataStatistics.bookingSubscriberNum }}</p>
+                        <p>昨日完成预约</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>1000</p>
-                        <p>今日访问量</p>
+                        <p>{{ bookingDataStatistics.confirmNum }}</p>
+                        <p>待确认</p>
                     </div>
                 </div>
             </div>
