@@ -126,6 +126,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
               // var res = parseJSON(info);
               // this._$profilePicture = domain + res.key; //获取上传成功后的文件的Url
+              console.log(info);
               var result = JSON.parse(info.response).result;
               self.pictureForEdit.pictureId = result.pictureId;
               self.pictureForEdit.pictureUrl = result.originalUrl;
