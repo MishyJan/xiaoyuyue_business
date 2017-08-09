@@ -84,7 +84,7 @@ build_and_deploy_test:
     - test
   script:
     - npm install
-    - ng build --prod --aot
+    - ng build
     - Stop-WebAppPool 'xiaoyuyue_business_center' # 停止iis进程
     - Start-Sleep -Seconds 3
     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件

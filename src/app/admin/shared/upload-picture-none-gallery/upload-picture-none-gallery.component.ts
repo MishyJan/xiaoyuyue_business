@@ -125,7 +125,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               //  }
               // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
 
-              console.log("上传成功");
+              console.log(info);
 
               var res = JSON.parse(info.response).result;
               var currentPicUrl = res.originalUrl;
@@ -135,6 +135,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               self.picUploadInfoHandler.emit(self.uploadPictureInfo);
               self.loading = false;
               self.close();
+              uploader.destroy();
             },
             'Error': function (up, err, errTip) {
               //上传出错时,处理相关的事情
@@ -144,7 +145,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
             },
             'UploadComplete': function () {
               //队列文件处理完毕后,处理相关的事情
-              uploader.destroy();
+              
               console.log('完成流程');
             },
             'Key': function (up, file) {
