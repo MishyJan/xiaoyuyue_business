@@ -125,8 +125,6 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               //  }
               // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
 
-              console.log(info);
-
               var res = JSON.parse(info.response).result;
               var currentPicUrl = res.originalUrl;
               var currentPicId = res.pictureId;
@@ -141,12 +139,9 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               //上传出错时,处理相关的事情
               self.loading = false;
               self.notify.error("上传失败，请重新上传");
-              console.log('上传出错');
             },
             'UploadComplete': function () {
               //队列文件处理完毕后,处理相关的事情
-              
-              console.log('完成流程');
             },
             'Key': function (up, file) {
               // 若想在前端对每个文件的key进行个性化处理，可以配置该函数

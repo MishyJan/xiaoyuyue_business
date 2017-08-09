@@ -40,7 +40,6 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
         }
         this.dataItem = dataItem;
         this.isShowModelFlag = true;
-        console.log(this.dataItem);
     }
 
     hideModel(): void {
