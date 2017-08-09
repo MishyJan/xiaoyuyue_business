@@ -1,7 +1,7 @@
 {
     "project": {
         "version": "1.0.0-beta.30",
-        "name": "xiaoyuyue-user-center"
+        "name": "xiaoyuyue-business-center"
     },
     "apps": [{
         "root": "src",

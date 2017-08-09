@@ -85,10 +85,10 @@
                                             <label class="col-md-3 control-label">创建时间</label>
                                             <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
                                                 <div class="col-md-6">
-                                                    <input class="form-control" id="startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" data-input>
+                                                    <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="请选择起始日期" data-input>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input class="form-control" id="endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" data-input>
+                                                    <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="请选择结束日期" data-input>
                                                 </div>
                                             </div>
                                         </div>
@@ -202,6 +202,6 @@
             </div>
         </div>
 
-        <xiaoyuyue-customer-for-edit-model #customerForEditModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($evnet)"></xiaoyuyue-customer-for-edit-model>
+        <xiaoyuyue-customer-for-edit-model #customerForEditModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($event)"></xiaoyuyue-customer-for-edit-model>
     </div>
 </div>

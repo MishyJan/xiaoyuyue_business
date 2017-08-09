@@ -162,7 +162,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
-                this.notify.success("创建成功!");
+                this.notify.success("保存成功!");
             });
     }
 

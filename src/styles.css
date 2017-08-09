@@ -4,12 +4,17 @@ html,
 body {
     width: 100%;
     min-width: 768px;
+    overflow-x: hidden;
 }
 
 a,
 a:hover,
 a:focus {
     text-decoration: none;
+}
+
+textarea {
+    resize: none;
 }
 
 .bas-reset {
@@ -82,6 +87,10 @@ a:focus {
 
 .k-dialog-buttongroup .k-button.k-primary {
     color: #3598dc;
+}
+
+.k-link.k-state-selected {
+    background-color: #FF9641;
 }
 
 .k-action-buttons .k-primary:hover,

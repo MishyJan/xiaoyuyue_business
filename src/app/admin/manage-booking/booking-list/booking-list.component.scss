@@ -15,6 +15,8 @@
         text-align: center;
     }
     .booking-list-wrap {
+        position: relative;
+        left: 15px;
         padding: 0;
         transform-style: preserve-3d;
         min-height: 470px;
@@ -25,7 +27,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            z-index: 10;
+            z-index: 101;
             text-align: center;
             color: #FFF;
             background-color: red;
@@ -33,7 +35,7 @@
         }
         .booking-item.flip {
             transform-style: preserve-3d;
-        } // 禁用预约的样式
+        }
         .disabledBooking {
             filter: grayscale(100%);
         }
@@ -42,26 +44,34 @@
             padding: 0;
             cursor: pointer;
             margin-bottom: 30px;
-            .back-wrap,
-            .front-wrap {
+            transition: transform 1s cubic-bezier(0.34, 1.45, 0.7, 1);
+            .back-wrap {
                 width: calc(100% - 30px);
                 position: absolute;
                 top: 0;
-                left: 15px;
+                left: 30px;
+                background-color: #FFF;
+                backface-visibility: hidden;
+            }
+            .front-wrap {
+                position: relative;
+                width: calc(100% - 30px);
                 background-color: #FFF;
                 backface-visibility: hidden;
             }
             .back-wrap {
-                // left: 480px;
                 transform: rotateY(-180deg);
+                height: 100%;
                 .portlet {
                     height: 100%;
                     box-shadow: none;
                 }
                 .content-wrap {
+                    padding-top: 15px;
+                    padding-bottom: 15px;
                     .content-item {
                         display: flex;
-                        padding: 12px 0;
+                        padding: 6px 0;
                         .name {
                             flex: 0 0 96px;
                         }
@@ -70,6 +80,9 @@
                         }
                     }
                     .back {
+                        position: absolute;
+                        bottom: 20px;
+                        right: 20px;
                         .vapps-icon-app-back {
                             width: 34px;
                             height: 34px;
@@ -85,13 +98,17 @@
             .front-wrap {
                 z-index: 2;
                 &:hover .booking-item-cover {
-                    // visibility: visible;
-                    // opacity: 1;
+                    visibility: visible;
+                    opacity: 1;
                 }
                 .top-banner-wrap {
                     overflow: hidden;
                     border-radius: 4px;
-                    .org-bg {}
+                    .org-bg {
+                        padding-bottom: 54%;
+                        background-size: cover;
+                        background-position: center;
+                    }
                 }
                 .booking-details {
                     width: 100%;
@@ -109,6 +126,30 @@
                             height: 74px;
                             border-radius: 50%;
                             overflow: hidden;
+                            &.state1 {
+                                box-shadow: 0px 2px 2px 0px #02AFF3;
+                                .wave {
+                                    background-color: #02AFF3;
+                                }
+                            }
+                            &.state2 {
+                                box-shadow: 0px 2px 2px 0px #00B200;
+                                .wave {
+                                    background-color: #00B200;
+                                }
+                            }
+                            &.state3 {
+                                box-shadow: 0px 2px 2px 0px #FF9641;
+                                .wave {
+                                    background-color: #FF9641;
+                                }
+                            }
+                            &.state4 {
+                                box-shadow: 0px 2px 2px 0px #E32600;
+                                .wave {
+                                    background-color: #E32600;
+                                }
+                            }
                             .wave {
                                 position: relative;
                                 width: 100%;
@@ -122,7 +163,7 @@
                                     height: 148px;
                                     top: 36px;
                                     left: 50%;
-                                    background-color: rgba(255, 255, 255, 0);
+                                    background-color: rgba(255, 255, 255, 0.6);
                                     border-radius: 44%;
                                     transform: translate(-50%, -70%) rotate(0);
                                     animation: rotate 6s linear infinite;
@@ -132,7 +173,7 @@
                                     border-radius: 44%;
                                     background-color: rgba(255, 255, 255, .9);
                                     transform: translate(-50%, -70%) rotate(0);
-                                    animation: rotate 10s cubic-bezier(0, -0.32, 0, 1.49) -5s infinite;
+                                    animation: rotate 10s linear -5s infinite;
                                     z-index: 20;
                                 }
                             }
@@ -174,6 +215,7 @@
                     position: absolute;
                     top: 0;
                     left: 0;
+                    z-index: 100;
                     color: #FFF;
                     background-color: rgba(0, 0, 0, .8);
                     visibility: hidden;

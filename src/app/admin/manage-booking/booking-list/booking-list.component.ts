@@ -74,14 +74,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     ngAfterViewInit() {
-        let self = this;
-        setTimeout(function () {
-            self.renderDOM();
-        }, 600);
-
-        window.addEventListener("resize", function () {
-            self.renderDOM();
-        })
         $(".startCreationTime").flatpickr({
             "locale": "zh"
         });
@@ -118,9 +110,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
                 }
-                setTimeout(function () {
-                    self.renderDOM();
-                }, 10);
             })
     }
     getMoment(arg: string) {
@@ -135,14 +124,16 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     // 正面翻转到背面
     flipToBack(flipAni: any, event) {
         this._ngxAni.to(flipAni, .6, {
-            transform: "rotateY(180deg)"
+            transform: "rotateY(180deg)",
+            transition: "transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);"
         })
     }
 
     // 背面翻转到正面
     flipToFront(flipAni: any, event) {
         this._ngxAni.to(flipAni, .6, {
-            transform: "rotateY(0)"
+            transform: "rotateY(0)",
+            transition: "transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);"
         })
     }
 
@@ -246,16 +237,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
         this.loadData();
     }
 
-    // 渲染DOM，获取DOM元素的宽高
-    renderDOM(): void {
-        let bookingBgRatio = this.bookingBgH / this.bookingBgW;
-        // 获取预约item的宽度，得出背景图的高度
-        let bookingBgH = Math.round($(".top-banner-wrap .org-bg img").innerWidth() * bookingBgRatio);
-        $(".top-banner-wrap").height(bookingBgH);
-
-        $(".booking-item").height($(".front-wrap").innerHeight());
-    }
-
     showConfirmOrderHander(bookingId: number): void {
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
@@ -268,14 +249,33 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     public getOverbrimValue(val1, val2): string {
-        this.bookingOverbrimValue = Math.round(100 - val1 / val2 * 100);
+        if (val1 <= 0 || val2 <= 0) return '0%';
+        this.bookingOverbrimValue = Math.round(100 - val1 /(val1 +  val2) * 100);
         return this.bookingOverbrimValue + '%';
     }
 
     private countOverbrimTop(val1, val2): string {
+        if (val1 <= 0 || val2 <= 0) return '30px';
         const maxResult = 74;
         let ratio = maxResult / 100;
-        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / val2 * 100)) * ratio) + 'px';
+        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio) + 'px';
         return this.countOverbrimTopValue;
+    }
+
+    private countOverbrimState(val1, val2): any {
+        let temp = Math.round(100 - val1 / (val1 + val2) * 100);
+        (val1 == 0 || val2 == 0) && (temp = 0);
+        let state = {
+            state1: 0 <= temp && temp <= 30,
+            state2: 30 < temp && temp <= 60,
+            state3: 60 < temp && temp <= 90,
+            state4: 90 < temp && temp <= 100,
+        }
+        return state;
+    }
+
+    // 获取预约背景
+    getBookingBgUrl(pictureUrl): string {
+        return pictureUrl == '' ? this.pictureDefaultBgUrl : pictureUrl;
     }
 }
