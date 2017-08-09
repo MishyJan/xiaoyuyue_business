@@ -124,14 +124,16 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     // 正面翻转到背面
     flipToBack(flipAni: any, event) {
         this._ngxAni.to(flipAni, .6, {
-            transform: "rotateY(180deg)"
+            transform: "rotateY(180deg)",
+            transition: "transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);"
         })
     }
 
     // 背面翻转到正面
     flipToFront(flipAni: any, event) {
         this._ngxAni.to(flipAni, .6, {
-            transform: "rotateY(0)"
+            transform: "rotateY(0)",
+            transition: "transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);"
         })
     }
 
@@ -247,21 +249,21 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     public getOverbrimValue(val1, val2): string {
-        if (val1 == 0 || val2 == 0) return '0%';
-        this.bookingOverbrimValue = Math.round(100 - val1 / val2 * 100);
+        if (val1 <= 0 || val2 <= 0) return '0%';
+        this.bookingOverbrimValue = Math.round(100 - val1 /(val1 +  val2) * 100);
         return this.bookingOverbrimValue + '%';
     }
 
     private countOverbrimTop(val1, val2): string {
-        if (val1 == 0 || val2 == 0) return '30px';
+        if (val1 <= 0 || val2 <= 0) return '30px';
         const maxResult = 74;
         let ratio = maxResult / 100;
-        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / val2 * 100)) * ratio) + 'px';
+        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio) + 'px';
         return this.countOverbrimTopValue;
     }
 
     private countOverbrimState(val1, val2): any {
-        let temp = Math.round(100 - val1 / val2 * 100);
+        let temp = Math.round(100 - val1 / (val1 + val2) * 100);
         (val1 == 0 || val2 == 0) && (temp = 0);
         let state = {
             state1: 0 <= temp && temp <= 30,
