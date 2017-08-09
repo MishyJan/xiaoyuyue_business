@@ -19,6 +19,8 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
     dataItem: BookingOrderListDto = new BookingOrderListDto();
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl: string = "assets/common/images/default-profile-picture.png";
+    bookingOrderStatusName: string[] = ["待确认", "已确认", "待评价", "已取消", "已完成"];
+
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
 

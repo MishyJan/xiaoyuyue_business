@@ -36,9 +36,6 @@
         .booking-item.flip {
             transform-style: preserve-3d;
         }
-        .disabledBooking {
-            filter: grayscale(100%);
-        }
         .booking-item {
             position: relative;
             padding: 0;
@@ -166,7 +163,7 @@
                                     background-color: rgba(255, 255, 255, 0.6);
                                     border-radius: 44%;
                                     transform: translate(-50%, -70%) rotate(0);
-                                    animation: rotate 6s linear infinite;
+                                    animation: rotate 14s linear infinite;
                                     z-index: 10;
                                 }
                                 .after {

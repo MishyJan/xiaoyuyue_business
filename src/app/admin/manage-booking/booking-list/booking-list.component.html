@@ -98,8 +98,8 @@
                             <div class="pull-left">
                                 <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)">
                                     <div class="wave">
-                                        <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>
-                                        <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}"></span>
+                                        <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)+'px'}"></span>
+                                        <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)-2+'px'}"></span>
                                     </div>
                                 </div>
                                 <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum) }}</div>
@@ -128,8 +128,8 @@
                                 <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)"><i class="vapps-icon-app-share"></i>分享</span>
                             </div>
                             <div class="handle-item-2 pull-right">
-                                <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
-                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
+                                <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="编辑预约">
+                                    <span class="show-icon vapps-icon-app-edit"></span><span class="show-text">编辑</span>
                                 </span>
 
                                 <span class="btn item-wrap" (click)="copyBooking(index)" title="复制预约">
@@ -138,6 +138,10 @@
 
                                 <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="查看详情">
                                     <span class="show-icon vapps-icon-app-detail"></span><span class="show-text">详情</span>
+                                </span>
+
+                                <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
+                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
                                 </span>
                             </div>
                         </div>
@@ -150,12 +154,16 @@
                                 </span>
                             </div>
                             <div class="handle-item-2 pull-right">
-                                <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
-                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
+                                <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="编辑预约">
+                                    <span class="show-icon vapps-icon-app-edit"></span><span class="show-text">编辑</span>
                                 </span>
 
                                 <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="查看详情">
                                     <span class="show-icon vapps-icon-app-detail"></span><span class="show-text">详情</span>
+                                </span>
+
+                                <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
+                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
                                 </span>
                             </div>
                         </div>

@@ -21,7 +21,7 @@ import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit {
-    countOverbrimTopValue: string = '';
+    countOverbrimTopValue: number;
     bookingOverbrimValue: number = 0;
     // 保存预约列表背景图的比例
     bookingBgW: number = 384;
@@ -254,11 +254,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
         return this.bookingOverbrimValue + '%';
     }
 
-    private countOverbrimTop(val1, val2): string {
-        if (val1 <= 0 || val2 <= 0) return '30px';
+    private countOverbrimTop(val1, val2): number {
+        if (val1 <= 0 || val2 <= 0) return 30;
         const maxResult = 74;
         let ratio = maxResult / 100;
-        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio) + 'px';
+        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio);
         return this.countOverbrimTopValue;
     }
 

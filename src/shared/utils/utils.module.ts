@@ -33,7 +33,8 @@ import { GridRowClickDirective } from './grid-row-click.directive';
         AutoFocusDirective,
         BusyIfDirective,
         FriendProfilePictureComponent,
-        MomentFormatPipe
+        MomentFormatPipe,
+        GridRowClickDirective
     ]
 })
 export class UtilsModule { }

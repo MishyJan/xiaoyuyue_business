@@ -179,6 +179,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         this.gender = gender;
     }
 
+    public editRowHandler(index): void {
+        let dataItem = this.customerListData.value.data[index];
+        this.showCustomerForEditHander(dataItem);
+    }
+
     public orderStatusChangeHandler(status: Status): void {
         if (!!status == false) {
             this.bookingOrderStatus = [Status._1, Status._2, Status._3, Status._4, Status._5];

@@ -131,7 +131,7 @@
         <div class="col-lg-12">
             <div class="portlet light portlet-fit">
                 <div class="portlet-body clearfix">
-                    <kendo-grid [data]="customerListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="dataStateChange($event)">
+                    <kendo-grid xiaoyuyueGridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="dataStateChange($event)">
                         <!-- 订单状态  -->
                         <kendo-grid-column title="订单状态" width="84px">
                             <ng-template kendoGridCellTemplate let-dataItem="dataItem">
@@ -188,15 +188,6 @@
                                 <span>{{ t(dataItem.creationTime) }}</span>
                             </ng-template>
                         </kendo-grid-column>
-
-                        <kendo-grid-command-column title="{{l('Actions')}}">
-                            <ng-template kendoGridCellTemplate let-dataItem>
-                                <!-- edit command directive, will be visible when not in edit mode -->
-                                <button class="btn btn-xs btn-primary" (click)="showCustomerForEditHander(dataItem)" title="{{l('Admin.Edit')}}">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                            </ng-template>
-                        </kendo-grid-command-column>
                     </kendo-grid>
                 </div>
             </div>
