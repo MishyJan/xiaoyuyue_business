@@ -13,6 +13,7 @@
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
 declare var System: any;
+declare var echarts: any;
 
 declare var App: any; //Related to Metronic
 declare var Layout: any; //Related to Metronic

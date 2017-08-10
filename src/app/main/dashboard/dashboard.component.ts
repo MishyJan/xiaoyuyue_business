@@ -3,7 +3,6 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, TenantInfoServiceProxy, TenantInfoEditDto } from 'shared/service-proxies/service-proxies';
 import * as moment from 'moment';
-import { echarts } from 'echarts';
 
 @Component({
     templateUrl: './dashboard.component.html',

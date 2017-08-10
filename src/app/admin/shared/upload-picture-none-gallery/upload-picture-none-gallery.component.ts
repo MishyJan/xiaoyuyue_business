@@ -125,7 +125,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               //  }
               // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
 
-              var res = JSON.parse(info.response).result;
+              var res = JSON.parse(info).result;
               var currentPicUrl = res.originalUrl;
               var currentPicId = res.pictureId;
               self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
@@ -133,7 +133,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
               self.picUploadInfoHandler.emit(self.uploadPictureInfo);
               self.loading = false;
               self.close();
-              uploader.destroy();
+            //   uploader.destroy();
             },
             'Error': function (up, err, errTip) {
               //上传出错时,处理相关的事情

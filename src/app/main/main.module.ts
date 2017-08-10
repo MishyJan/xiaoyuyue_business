@@ -10,6 +10,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
 import { MainRoutingModule } from './main-routing.module';
 import { GridModule } from '@progress/kendo-angular-grid';
 
+import { AngularEchartsModule } from 'ngx-echarts';
+import { BookingDateStatisticsComponent } from './dashboard/booking-date-statistics/booking-date-statistics.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -20,10 +22,12 @@ import { GridModule } from '@progress/kendo-angular-grid';
         AppCommonModule,
         UtilsModule,
         MainRoutingModule,
-        GridModule
+        GridModule,
+        AngularEchartsModule
     ],
     declarations: [
-        DashboardComponent
+        DashboardComponent,
+        BookingDateStatisticsComponent
     ]
 })
 export class MainModule { }
