@@ -46,6 +46,7 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
             let day = date.getDate();
             temp = `${year}-${month}-${day}`;
         }
+        
         return temp;
     }
 
