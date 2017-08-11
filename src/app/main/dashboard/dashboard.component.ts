@@ -1,91 +1,60 @@
 import { Component, Injector, AfterViewInit } from '@angular/core';
-import { TenantDashboardServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { GridModule } from '@progress/kendo-angular-grid';
+import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, TenantInfoServiceProxy, TenantInfoEditDto } from 'shared/service-proxies/service-proxies';
+import * as moment from 'moment';
 
 @Component({
     templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
     animations: [appModuleAnimation()]
 })
 export class DashboardComponent extends AppComponentBase implements AfterViewInit {
-
+    tenantBaseInfoData: TenantInfoEditDto;
+    bookingDataStatistics: BookingDataStatisticsDto;
+    bookingStatisticalDate: string;
     constructor(
         injector: Injector,
-        private _dashboardService: TenantDashboardServiceProxy
+        private _tenantInfoServiceProxy: TenantInfoServiceProxy,
+        private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
         super(injector);
     }
 
-    ngAfterViewInit(): void {
-        
-        Morris.Area({
-            element: 'sales_statistics',
-            padding: 0,
-            behaveLikeLine: false,
-            gridEnabled: false,
-            //gridLineColor: false,
-            axes: false,
-            fillOpacity: 1,
-            data: [
-                {
-                    period: '2011 Q1',
-                    sales: 1400,
-                    profit: 400
-                }, {
-                    period: '2011 Q2',
-                    sales: 1100,
-                    profit: 600
-                }, {
-                    period: '2011 Q3',
-                    sales: 1600,
-                    profit: 500
-                }, {
-                    period: '2011 Q4',
-                    sales: 1200,
-                    profit: 400
-                }, {
-                    period: '2012 Q1',
-                    sales: 1550,
-                    profit: 800
-                }
-            ],
-            lineColors: ['#399a8c', '#92e9dc'],
-            xkey: 'period',
-            ykeys: ['sales', 'profit'],
-            labels: ['Sales', 'Profit'],
-            pointSize: 0,
-            lineWidth: 0,
-            hideHover: 'auto',
-            resize: true
-        });
-
-        this.getMemberActivity();
+    ngAfterViewInit(): void { }
+    ngOnInit() {
+        let date = new Date();
+        date.setDate(date.getDate() - 1);
+        this.bookingStatisticalDate = this.dateToString(date);
+        this.loadData();
+        this.getTenantInfo();
     }
 
-    getMemberActivity(): void {
-        this._dashboardService
-            .getMemberActivity()
-            .subscribe(result => {
-                $("#totalMembersChart").sparkline(result.memberActivities, {
-                    type: 'bar',
-                    width: '100',
-                    barWidth: 6,
-                    height: '45',
-                    barColor: '#F36A5B',
-                    negBarColor: '#e02222',
-                    chartRangeMin: 0
-                });
-
-                $("#newMembersChart").sparkline(result.memberActivities, {
-                    type: 'bar',
-                    width: '100',
-                    barWidth: 6,
-                    height: '45',
-                    barColor: '#5C9BD1',
-                    negBarColor: '#e02222',
-                    chartRangeMin: 0
-                });
+    loadData(): void {
+        this._bookingDataStatisticsServiceProxy
+            .getBookingData(this.bookingStatisticalDate)
+            .subscribe((result) => {
+                this.bookingDataStatistics = result;
             });
-    };
+    }
+
+    dateToString(date: Date): string {
+        let temp = '';
+        if (date instanceof Date) {
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            temp = `${year}-${month}-${day}`;
+        }
+        
+        return temp;
+    }
+
+    getTenantInfo(): void {
+        this._tenantInfoServiceProxy
+            .getTenantInfoForEdit()
+            .subscribe(result => {
+                this.tenantBaseInfoData = result;
+            });
+    }
 }

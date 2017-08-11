@@ -1,0 +1,87 @@
+.customer-center {
+    .content {
+        .left-content {
+            .content-item+.content-item {
+                margin-top: 15px;
+            }
+            .org-profile {
+                width: 100%;
+                background-color: #FFF;
+                text-align: center;
+                overflow: hidden;
+                .org-bg {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    background-color: #555;
+                    margin: 30px auto 0;
+                }
+                .org-name {
+                    color: #FF9641;
+                }
+                .edition-info {
+                    .edition-name {
+                        color: #E32600;
+                    }
+                    .edition-time {
+                        color: #FF9641;
+                    }
+                }
+                .booked-amount {
+                    border-top: 1px solid #CCC;
+                }
+            }
+            .org-data {
+                width: 100%;
+                background-color: #FFF;
+                text-align: center;
+                padding: 15px;
+                .item:nth-of-type(odd) {
+                    border-right: 1px solid #CCC;
+                }
+                .item:nth-of-type(n+3) {
+                    border-top: 1px solid #CCC;
+                }
+                .item {
+                    padding: 0 8px;
+                }
+            }
+        }
+        .right-content {
+            margin-top: -10px;
+            .data-item {
+                .top-bar {
+                    background-color: #FFF;
+                    .top-title {
+                        height: 72px;
+                        line-height: 72px;
+                        padding-left: 20px;
+                        overflow: hidden;
+                    }
+                }
+                .content {
+                    .content-item {
+                        height: 460px;
+                        padding: 0 20px 20px;
+                        background-color: #FFF;
+                    }
+                }
+            }
+            .booking-order-data {
+                .top-title {
+                    color: #FF9641;
+                }
+            }
+            .booking-time-data {
+                .top-title {
+                    color: #FF2741;
+                }
+            }
+            .booking-customer-data {
+                .top-title {
+                    color: #02AFF3;
+                }
+            }
+        }
+    }
+}
