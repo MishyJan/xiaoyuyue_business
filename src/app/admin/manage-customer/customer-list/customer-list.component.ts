@@ -25,6 +25,7 @@ export class SingleBookingStatus {
 })
 
 export class CustomerListComponent extends AppComponentBase implements OnInit {
+    bookingId: number;
     creationEndDate: any;
     creationStartDate: any;
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
@@ -109,7 +110,8 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
             this.creationEndDate = this.creationEndDate ? moment(this.creationEndDate) : undefined;
             return this._orgBookingOrderServiceProxy
                 .getOrders
-                (this.bookingName,
+                (this.bookingId,
+                this.bookingName,
                 this.customerName,
                 this.bookingDate,
                 this.startMinute,

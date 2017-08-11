@@ -8,7 +8,7 @@ import * as moment from 'moment';
 })
 export class BookingDateStatisticsComponent implements OnInit {
     bookingStatisticalData: BookingConverRateDto[] = [];
-    bookingStatisticalDate: moment.Moment;
+    bookingStatisticalDate: string;
     chartOption: object = {};
     count: number = 0;
     showloading: boolean = true;
@@ -23,8 +23,9 @@ export class BookingDateStatisticsComponent implements OnInit {
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
+        date.setMilliseconds(0);
         date.setDate(date.getDate() - 1);
-        this.bookingStatisticalDate = moment(date);
+        this.bookingStatisticalDate = this.dateToString(date);
         this.loadData();
     }
 
@@ -72,6 +73,13 @@ export class BookingDateStatisticsComponent implements OnInit {
                             restore: {},
                             saveAsImage: {}
                         }
+                    },
+                    grid: {
+                        top: '60px',
+                        left: '3%',
+                        right: '4%',
+                        bottom: '60px',
+                        containLabel: true
                     },
                     dataZoom: {
                         show: false,
@@ -139,7 +147,6 @@ export class BookingDateStatisticsComponent implements OnInit {
                                         res.push(element.bookingOrderNum);
                                     });
                                 }
-                                console.log(res);
                                 return res;
                             })()
                         }
@@ -148,4 +155,15 @@ export class BookingDateStatisticsComponent implements OnInit {
             })
     }
 
+
+    dateToString(date: Date): string {
+        let temp = '';
+        if (date instanceof Date) {
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            temp = `${year}-${month}-${day}`;
+        }
+        return temp;
+    }
 }
