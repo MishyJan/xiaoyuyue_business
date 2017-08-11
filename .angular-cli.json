@@ -103,7 +103,12 @@
             "../src/assets/metronic/layouts/global/scripts/quick-sidebar.js",
 
             "../src/assets/common/js/flatpickr.js",
-            "../src/assets/common/js/flatpickr-zh.js"
+            "../src/assets/common/js/flatpickr-zh.js",
+
+            "../node_modules/echarts/dist/echarts.min.js",
+            "../node_modules/echarts/map/js/china.js",
+            "../node_modules/echarts/dist/extension/bmap.js",
+            "../node_modules/echarts/theme/shine.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

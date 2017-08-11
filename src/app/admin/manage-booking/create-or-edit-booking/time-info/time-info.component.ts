@@ -264,7 +264,6 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
                 continue;
             }
         }
-        // console.log(singleBookingTime);
         return bookingTime;
     }
 

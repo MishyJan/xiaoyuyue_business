@@ -3,7 +3,6 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, TenantInfoServiceProxy, TenantInfoEditDto } from 'shared/service-proxies/service-proxies';
 import * as moment from 'moment';
-import { echarts } from 'echarts';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -13,7 +12,7 @@ import { echarts } from 'echarts';
 export class DashboardComponent extends AppComponentBase implements AfterViewInit {
     tenantBaseInfoData: TenantInfoEditDto;
     bookingDataStatistics: BookingDataStatisticsDto;
-    bookingStatisticalDate: moment.Moment;
+    bookingStatisticalDate: string;
     constructor(
         injector: Injector,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
@@ -24,8 +23,9 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
 
     ngAfterViewInit(): void { }
     ngOnInit() {
-        let date = moment();
-        this.bookingStatisticalDate = date.date(date.date() - 1);
+        let date = new Date();
+        date.setDate(date.getDate() - 1);
+        this.bookingStatisticalDate = this.dateToString(date);
         this.loadData();
         this.getTenantInfo();
     }
@@ -36,6 +36,17 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
             .subscribe((result) => {
                 this.bookingDataStatistics = result;
             });
+    }
+
+    dateToString(date: Date): string {
+        let temp = '';
+        if (date instanceof Date) {
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            temp = `${year}-${month}-${day}`;
+        }
+        return temp;
     }
 
     getTenantInfo(): void {

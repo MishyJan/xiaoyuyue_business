@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { OrgBookingOrderServiceProxy, Gender2, Status2, BatchComfirmInput, EntityDtoOfInt64, BookingOrderListDto, RemarkBookingOrderInput } from 'shared/service-proxies/service-proxies';
+import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64, BookingOrderListDto, RemarkBookingOrderInput } from 'shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AppConsts } from 'shared/AppConsts';
@@ -40,7 +40,6 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
         }
         this.dataItem = dataItem;
         this.isShowModelFlag = true;
-        console.log(this.dataItem);
     }
 
     hideModel(): void {
@@ -52,7 +51,7 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
     remarkBookingOrder(): void {
         this.remarkInput = new RemarkBookingOrderInput();
         this.remarkInput.id = this.dataItem.id;
-        this.remarkInput.remark = this.dataItem.remark;
+        // this.remarkInput.remark = this.dataItem.remark;
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
             .subscribe(() => {

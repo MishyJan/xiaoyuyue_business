@@ -142,7 +142,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
 
     private animationHide(externalAni, externalContent) {
-        console.log(externalAni);
         this._ngxAni.to(externalAni, .4, {
             transform: "scale(0)",
             opacity: 0,

@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { OrgBookingOrderServiceProxy, Gender2, Status2, BatchComfirmInput, EntityDtoOfInt64 } from 'shared/service-proxies/service-proxies';
+import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64 } from 'shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AppConsts } from 'shared/AppConsts';
@@ -15,18 +15,20 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    bookingName: string;
     batchConfirmCount: number = 0;
     confirmOrderText: string = "批处理";
     isBatchConfirmFlag: boolean = false;
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
     isShowModelFlag: boolean = false;
     wait4ComfirmOrderListData: AppGridData;
-    status: Status2[] = [OrgBookingOrderStatus.State1];
-    creationDate: moment.Moment;
+    status: Status[] = [OrgBookingOrderStatus.State1];
+    creationStartDate: moment.Moment;
+    creationEndDate: moment.Moment;
     skipCount: number = 0;
     maxResultCount: number = AppConsts.grid.defaultPageSize;
     sorting: Array<SortDescriptor> = [];
-    gender: Gender2;
+    gender: Gender;
     phoneNumber: string;
     endMinute: number;
     startMinute: number;
@@ -61,23 +63,25 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
         let loadOrgConfirmOrderData = () => {
             return this._orgBookingOrderServiceProxy
-                .getOrders2Booking(
+                .getOrders(
                 this.bookingId,
+                this.bookingName,
                 this.customerName,
                 this.bookingDate,
                 this.startMinute,
                 this.endMinute,
                 this.phoneNumber,
                 this.gender,
-                this.creationDate,
+                this.creationStartDate,
+                this.creationEndDate,
                 this.status,
                 sorting,
                 maxResultCount,
                 skipCount
                 ).map(response => {
                     let gridData = (<GridDataResult>{
-                        data: response.bookingOrders.items,
-                        total: response.bookingOrders.totalCount
+                        data: response.items,
+                        total: response.totalCount
                     });
                     return gridData;
                 });

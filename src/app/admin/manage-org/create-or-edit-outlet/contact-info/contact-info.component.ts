@@ -44,8 +44,6 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.localAllContact);
-        console.log(this.onlineAllContactors);
         this.loadData();
     }
 
@@ -56,7 +54,6 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit {
         }
         setTimeout(function () {
             self.localAllContact = self.onlineAllContactors;
-            console.log(self.localAllContact);
         }, 1000)
     }
 

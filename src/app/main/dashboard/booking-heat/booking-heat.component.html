@@ -1,0 +1,7 @@
+<div class="header clearfix">
+    <span class="title pull-left">预约时间热度</span>
+    <span class="dropdown-list pull-right">
+         <kendo-dropdownlist [data]="orgBookingSelectListData" (valueChange)="orgBookingSelectListDataChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true"[value]="orgBookingDefaultListItem"></kendo-dropdownlist> 
+    </span>
+</div>
+<div id="bookingAccessHeatEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="demo-chart"></div>

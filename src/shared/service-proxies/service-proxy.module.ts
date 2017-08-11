@@ -31,7 +31,9 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.TenantRegistrationServiceProxy,
         ApiServiceProxies.OrgBookingOrderServiceProxy,
         ApiServiceProxies.BookingDataStatisticsServiceProxy,
-        ApiServiceProxies.TenantInfoServiceProxy
+        ApiServiceProxies.TenantInfoServiceProxy,
+        ApiServiceProxies.OutletServiceServiceProxy,
+        ApiServiceProxies.OrgBookingServiceProxy,
     ]
 })
 export class ServiceProxyModule { }

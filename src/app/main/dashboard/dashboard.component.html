@@ -35,27 +35,27 @@
 
                 <div class="org-data box-shadow content-item clearfix" *ngIf="bookingDataStatistics">
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.pv }}</p>
+                        <p>{{ bookingDataStatistics.today.pv }}</p>
                         <p>今日访问量</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.uv }}</p>
-                        <p>首次访问</p>
+                        <p>{{ bookingDataStatistics.today.uv }}</p>
+                        <p>今日访问人数</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.ypv }}</p>
+                        <p>{{ bookingDataStatistics.history.pv }}</p>
                         <p>昨日访问量</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.yuv }}</p>
+                        <p>{{ bookingDataStatistics.history.uv }}</p>
                         <p>昨日访问人数</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.complateNum+'/'+bookingDataStatistics.bookingSubscriberNum }}</p>
-                        <p>昨日完成预约</p>
+                        <p>{{ bookingDataStatistics.history.complateNum }}</p>
+                        <p>昨日预约</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.confirmNum }}</p>
+                        <p>{{ bookingDataStatistics.today.waitConfirmNum }}</p>
                         <p>待确认</p>
                     </div>
                 </div>
@@ -69,10 +69,14 @@
 
                     <div class="content row">
                         <div class="col-md-6">
-                            <div class="content-item box-shadow"></div>
+                            <div class="content-item box-shadow">
+                                <xiaoyuyue-booking-saturation></xiaoyuyue-booking-saturation>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="content-item box-shadow"></div>
+                            <div class="content-item box-shadow">
+                                <xiaoyuyue-booking-date-statistics></xiaoyuyue-booking-date-statistics>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -84,10 +88,14 @@
 
                     <div class="content row">
                         <div class="col-md-6">
-                            <div class="content-item box-shadow"></div>
+                            <div class="content-item box-shadow">
+                                <xiaoyuyue-booking-heat></xiaoyuyue-booking-heat>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="content-item box-shadow"></div>
+                            <div class="content-item box-shadow">
+                                <xiaoyuyue-booking-access-time></xiaoyuyue-booking-access-time>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,10 +107,14 @@
 
                     <div class="content row">
                         <div class="col-md-6">
-                            <div class="content-item box-shadow"></div>
+                            <div class="content-item box-shadow">
+                                <xiaoyuyue-booking-access-source></xiaoyuyue-booking-access-source>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="content-item box-shadow"></div>
+                            <div class="content-item box-shadow">
+                                <xiaoyuyue-booking-access-region></xiaoyuyue-booking-access-region>
+                            </div>
                         </div>
                     </div>
                 </div>
