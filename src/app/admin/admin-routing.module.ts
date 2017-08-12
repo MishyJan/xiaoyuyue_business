@@ -49,16 +49,5 @@ import { CustomerListComponent } from './manage-customer/customer-list/customer-
     ]
 })
 export class AdminRoutingModule {
-    constructor(private router: Router) {
-        router.events.subscribe(() => {
-            this.hideOpenJTableDropdownMenus();
-        });
-    }
-
-    hideOpenJTableDropdownMenus(): void {
-        var $dropdownMenus = $('.dropdown-menu.tether-element');
-        $dropdownMenus.css({
-            'display': 'none'
-        });
-    }
+   
 }

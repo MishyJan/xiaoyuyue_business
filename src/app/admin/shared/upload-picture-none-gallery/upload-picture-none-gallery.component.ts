@@ -4,7 +4,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { UploadPictureDto } from "app/admin/shared/utils/upload-picture.dto";
-
+import '@node_modules/qiniu-js/dist/qiniu.min';
 @Component({
     selector: 'xiaoyuyue-upload-picture-none-gallery',
     templateUrl: './upload-picture-none-gallery.component.html',
