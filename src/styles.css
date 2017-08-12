@@ -93,6 +93,17 @@ textarea {
     background-color: #FF9641;
 }
 
+.k-pager-wrap .k-state-selected:hover {
+    background-color: #ff8c2f;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.k-pager-wrap .k-link,
+.k-pager-wrap .k-state-selected {
+    border-radius: 2px;
+}
+
 .k-action-buttons .k-primary:hover,
 .k-button.k-primary.k-flat.k-state-hover,
 .k-button.k-primary.k-flat:hover,

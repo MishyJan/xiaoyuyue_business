@@ -146,7 +146,7 @@
                         <!-- 应约人 -->
                         <kendo-grid-column title="应约人" width="160px">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                                <img src="assets/common/images/default-profile-picture.png" width="50px" alt="avatar" class="avatar">
+                                <img [src]="getBookingCustomerAvatar(dataItem.profilePictureUrl)" width="50px" alt="avatar" class="avatar">
                                 <span>{{ dataItem.customerName }}</span>
                             </ng-template>
                         </kendo-grid-column>

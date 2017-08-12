@@ -9,7 +9,7 @@
 
         <div class="content-model">
             <kendo-grid [data]="wait4ComfirmOrderListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }" [sortable]="false"
-                (dataStateChange)="dataStateChange($event)" [height]="446">
+                (dataStateChange)="dataStateChange($event)" [scrollable]="scrollable">
                 <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
                     pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
                 <!-- 应约人 -->
@@ -50,7 +50,7 @@
                 <kendo-grid-column title="{{l('Actions')}}">
                     <ng-template kendoGridCellTemplate let-dataItem>
                         <!-- edit command directive, will be visible when not in edit mode -->
-                        <button title="{{l('Admin.Edit')}}" *ngIf="!isBatchConfirmFlag" (click)="comfirmBookingOrderHander(dataItem.id)">确认</button>
+                        <button title="{{l('Admin.Edit')}}" class="btn comfirm-btn" *ngIf="!isBatchConfirmFlag" (click)="comfirmBookingOrderHander(dataItem.id)">确认</button>
                         <div class="md-checkbox-list" *ngIf="isBatchConfirmFlag" [ngClass]="{'k-button': false}">
                             <div class="md-checkbox">
                                 <input [id]="'name'+dataItem.id" (click)="batchComfirmBookingOrder($event.target.checked,dataItem.id)" class="md-check" type="checkbox" [name]="'name'+dataItem.id">
@@ -63,14 +63,6 @@
                         </div>
                     </ng-template>
                 </kendo-grid-column>
-
-                <!-- <kendo-grid-column field="appSecret" title="{{l('Admin.Configuration.Settings.AppSecret')}}">
-                            <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                                <input [(ngModel)]="dataItem.appSecret" name="appSecret" class="k-textbox" required/>
-                            </ng-template>
-                        </kendo-grid-column> -->
-
-                <!--<kendo-grid-column field="providerName" title="ProviderName" [width]="160"></kendo-grid-column>-->
             </kendo-grid>
         </div>
 

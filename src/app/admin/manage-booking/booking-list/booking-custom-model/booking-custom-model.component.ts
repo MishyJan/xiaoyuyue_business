@@ -22,7 +22,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     isBatchConfirmFlag: boolean = false;
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
     isShowModelFlag: boolean = false;
-    wait4ComfirmOrderListData: AppGridData;
+    bookingCustomListData: any;
     status: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
     creationStartDate: moment.Moment;
     creationEndDate: moment.Moment;
@@ -30,9 +30,9 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     buttonCount: number = 5;
     info: boolean = true;
     type: 'numeric' | 'input' = 'numeric';
-    pageSizes: boolean = true;
+    pageSizes: boolean = false;
     previousNext: boolean = true;
-
+    scrollable: string = "none";
 
     skipCount: number = 0;
     maxResultCount: number = AppConsts.grid.defaultPageSize;
@@ -49,14 +49,13 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _orgConfirmOrderGridDataResult: AppGridData
+        private _orgBookingOrderGridDataResult: AppGridData
     ) {
         super(injector);
     }
 
     ngOnInit() {
-        this.wait4ComfirmOrderListData = this._orgConfirmOrderGridDataResult;
-        this.batchComfirmInput.ids = [];
+        this.bookingCustomListData = this._orgBookingOrderGridDataResult;
     }
 
     loadData(): void {
@@ -96,7 +95,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 });
         }
 
-        this._orgConfirmOrderGridDataResult.query(loadOrgConfirmOrderData, true);
+        this._orgBookingOrderGridDataResult.query(loadOrgConfirmOrderData, true);
     }
 
     public showModel(bookingItem: BookingListDto): void {

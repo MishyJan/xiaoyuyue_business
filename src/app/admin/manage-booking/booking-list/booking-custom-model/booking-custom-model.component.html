@@ -1,6 +1,3 @@
-<p>
-    booking-custom-model works!
-</p>
 <div class="confirm-order-wrap ani" [ngClass]="{'fade-in': isShowModelFlag, 'fade-out': !isShowModelFlag}">
     <div class="confirm-model">
         <div class="header-model clearfix">
@@ -45,8 +42,8 @@
             </div>
 
             <div class="grid-wrap">
-                <kendo-grid [data]="wait4ComfirmOrderListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }" [sortable]="false"
-                    (dataStateChange)="dataStateChange($event)" [height]="446">
+                <kendo-grid [data]="bookingCustomListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }" [sortable]="false"
+                    (dataStateChange)="dataStateChange($event)" [scrollable]="scrollable">
                     <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
                         pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
                     <!-- 应约人 -->

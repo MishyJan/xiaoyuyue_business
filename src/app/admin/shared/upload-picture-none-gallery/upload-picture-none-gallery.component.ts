@@ -53,8 +53,6 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
 
     initFileUploader(): void {
         let self = this;
-        console.log(self.uploadUid);
-
         this._$profilePicture = $('#profilePicture' + this.uploadUid);
 
         let token: string = '';

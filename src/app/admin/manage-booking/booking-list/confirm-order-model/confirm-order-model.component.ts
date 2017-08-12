@@ -21,7 +21,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     isBatchConfirmFlag: boolean = false;
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
     isShowModelFlag: boolean = false;
-    wait4ComfirmOrderListData: AppGridData;
+    wait4ComfirmOrderListData: any;
     status: Status[] = [OrgBookingOrderStatus.State1];
     creationStartDate: moment.Moment;
     creationEndDate: moment.Moment;
@@ -29,8 +29,9 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     buttonCount: number = 5;
     info: boolean = true;
     type: 'numeric' | 'input' = 'numeric';
-    pageSizes: boolean = true;
+    pageSizes: boolean = false;
     previousNext: boolean = true;
+    scrollable: string = "none";
 
 
     skipCount: number = 0;

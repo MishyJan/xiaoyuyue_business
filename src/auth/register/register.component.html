@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="register-btn-wrap">
-                    <button class="btn btn-register" type="button" [disabled]="!registerForm.form.valid" (click)="register()">{{l("CreateAnAccount")}}</button>
+                    <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!registerForm.form.valid" [buttonBusy]="saving" [busyText]="'注册中...'"><i></i><span>{{l("CreateAnAccount")}}</span></button>
                 </div>
             </div>
             <div class="register-footer"></div>

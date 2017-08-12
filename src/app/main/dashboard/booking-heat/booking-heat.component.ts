@@ -81,19 +81,7 @@ export class BookingHeatComponent implements OnInit {
                             barWidth: '20px',
                             itemStyle: {
                                 normal: {
-                                    color: (() => {
-                                        let color = "";
-                                        this.bookingHeatData.forEach(element => {
-                                            if (element.bookingOrderRate <= 0.3) {
-                                                color = "#00B200";
-                                            } else if (0.3 < element.bookingOrderRate && element.bookingOrderRate <= 0.6) {
-                                                color = "#FF9641";
-                                            } else if (0.6 < element.bookingOrderRate && element.bookingOrderRate <= 1) {
-                                                color = "#E32600";
-                                            }
-                                        });
-                                        return color;
-                                    })()
+                                    color: "#FF9641"
                                 }
                             },
                             data: (() => {

@@ -41,10 +41,10 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
         }
         this.dataItemId = dataItemId;
         this._orgBookingOrderServiceProxy
-        .getOrderDetail(dataItemId)
-        .subscribe( result => {
-            this.dataItem = result;
-        })
+            .getOrderDetail(dataItemId)
+            .subscribe(result => {
+                this.dataItem = result;
+            })
 
         this.isShowModelFlag = true;
     }
@@ -81,10 +81,9 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
 
     // 获取用户头像
     getProfileAvatar(): string {
-        // if (this.dataItem.picUrl) {
-        //     return this.dataItem.picUrl;
-        // }
-
+        if (this.dataItem.profilePictureUrl) {
+            return this.dataItem.profilePictureUrl;
+        }
         return this.defaultAvatarUrl;
     }
 }

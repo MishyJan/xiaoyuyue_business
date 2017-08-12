@@ -182,6 +182,15 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         });
     }
 
+    //获取应约人头像
+    getBookingCustomerAvatar(url: string): string {
+        let defaultAvatar = "assets/common/images/default-profile-picture.png";
+        if (url !== '') {
+            return url;
+        }
+        return defaultAvatar;
+    }
+
     public onStateonStateChange(event): void { }
 
     public genderChangeHandler(gender: Gender): void {
@@ -190,8 +199,6 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
 
     public editRowHandler(index): void {
         let dataItem = this.customerListData.value.data[index];
-        console.log(dataItem);
-        
         this.showCustomerForEditHander(dataItem.id);
     }
 
