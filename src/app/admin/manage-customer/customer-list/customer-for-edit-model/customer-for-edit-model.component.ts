@@ -44,8 +44,6 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
         .getOrderDetail(dataItemId)
         .subscribe( result => {
             this.dataItem = result;
-            console.log(result);
-            
         })
 
         this.isShowModelFlag = true;

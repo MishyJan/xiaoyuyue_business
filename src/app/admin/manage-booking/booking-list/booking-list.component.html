@@ -170,7 +170,7 @@
                     </div>
 
                     <!-- 待确认人数  -->
-                    <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHander(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
+                    <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHandler(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
                 </div>
                 <!--翻转后-->
                 <div class="back-wrap box-shadow">
@@ -206,8 +206,7 @@
                                 <div class="desc text-overflow">{{bookingResultItem.contactorPhoneNum}}</div>
                             </div>
                             <div class="content-item">
-                                <div class="name">{{l("BusinessCenter.Booking.ResponderNumber")}}</div>
-                                <div class="desc text-overflow">{{bookingResultItem.wait4ConfirmNum}}</div>
+                                <div class="name"><span class="booking-custom-btn btn" (click)="showBookingCostomHandler(bookingResultItem)">应约人列表</span></div>
                             </div>
                             <div class="back clearfix" (click)="flipToFront(flipAni, $event)">
                                 <span class="vapps-icon-app-back btn btn-xs btn-default pull-right"></span>
@@ -228,5 +227,6 @@
         </div>
     </div>
     <xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>
-    <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($event)"></xiaoyuyue-confirm-order-model>
+    <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHandler($event)"></xiaoyuyue-confirm-order-model>
+    <xiaoyuyue-booking-custom-model #bookingCustomModelComponent></xiaoyuyue-booking-custom-model>
 </div>

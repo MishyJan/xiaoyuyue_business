@@ -215,7 +215,7 @@ textarea {
 }
 
 .k-grid-content {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .k-grid tr.k-alt {

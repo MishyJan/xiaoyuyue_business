@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
 import { SelectHelper } from "shared/helpers/SelectHelper";
 import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component";
 import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-model.component';
+import { BookingCustomModelComponent } from './booking-custom-model/booking-custom-model.component';
 
 @Component({
     selector: 'app-manage-booking',
@@ -52,6 +53,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
 
     shareBaseUrl: string = AppConsts.shareBaseUrl + "/booking/about/";
     @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
+    @ViewChild('bookingCustomModelComponent') BookingCustomModelComponent: BookingCustomModelComponent;
     @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
     @ViewChild("bookingBg") bookingBgElement: ElementRef;
 
@@ -237,20 +239,26 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
         this.loadData();
     }
 
-    showConfirmOrderHander(bookingId: number): void {
+    // 显示待确认model
+    showConfirmOrderHandler(bookingId: number): void {
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
 
     // 待确认model弹窗，若关闭应该刷新数据
-    isShowComfirmOrderModelHander(flag: boolean): void {
+    isShowComfirmOrderModelHandler(flag: boolean): void {
         if (!flag) {
             this.loadData();
         }
     }
 
+    // 显示应约人列表
+    showBookingCostomHandler(bookingItem: BookingListDto): void {
+        this.BookingCustomModelComponent.showModel(bookingItem);
+    }
+
     public getOverbrimValue(val1, val2): string {
         if (val1 <= 0 || val2 <= 0) return '0%';
-        this.bookingOverbrimValue = Math.round(100 - val1 /(val1 +  val2) * 100);
+        this.bookingOverbrimValue = Math.round(100 - val1 / (val1 + val2) * 100);
         return this.bookingOverbrimValue + '%';
     }
 

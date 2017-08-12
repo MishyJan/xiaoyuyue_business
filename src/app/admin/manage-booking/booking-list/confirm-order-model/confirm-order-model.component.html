@@ -1,14 +1,15 @@
 <div class="confirm-order-wrap ani" [ngClass]="{'fade-in': isShowModelFlag, 'fade-out': !isShowModelFlag}">
     <div class="confirm-model">
         <div class="header-model clearfix">
-            <div class="title-name">订单确认</div>
+            <div class="title-name">预约确认</div>
             <div class="command-wrap">
                 <span class="process-batch btn btn-white" (click)="batchComfirmBookingOrderHandler()">{{ confirmOrderText }}</span>
             </div>
         </div>
 
         <div class="content-model">
-            <kendo-grid [data]="wait4ComfirmOrderListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="dataStateChange($event)">
+            <kendo-grid [data]="wait4ComfirmOrderListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }" [sortable]="false"
+                (dataStateChange)="dataStateChange($event)" [height]="446">
                 <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
                     pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
                 <!-- 应约人 -->

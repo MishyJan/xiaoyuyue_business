@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64 } from 'shared/service-proxies/service-proxies';
+import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64, BookingListDto } from 'shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AppConsts } from 'shared/AppConsts';
@@ -10,11 +10,12 @@ import { GridDataResult, EditEvent, DataStateChangeEvent } from '@progress/kendo
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 
 @Component({
-    selector: 'xiaoyuyue-confirm-order-model',
-    templateUrl: './confirm-order-model.component.html',
-    styleUrls: ['./confirm-order-model.component.scss']
+    selector: 'xiaoyuyue-booking-custom-model',
+    templateUrl: './booking-custom-model.component.html',
+    styleUrls: ['./booking-custom-model.component.scss']
 })
-export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+export class BookingCustomModelComponent extends AppComponentBase implements OnInit {
+    bookingItem: BookingListDto = new BookingListDto();
     bookingName: string;
     batchConfirmCount: number = 0;
     confirmOrderText: string = "批处理";
@@ -22,7 +23,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
     isShowModelFlag: boolean = false;
     wait4ComfirmOrderListData: AppGridData;
-    status: Status[] = [OrgBookingOrderStatus.State1];
+    status: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
     creationStartDate: moment.Moment;
     creationEndDate: moment.Moment;
 
@@ -98,68 +99,11 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
         this._orgConfirmOrderGridDataResult.query(loadOrgConfirmOrderData, true);
     }
 
-    // 确认预约订单
-    comfirmBookingOrderHander(confirmBookingId: number): void {
-        let input: EntityDtoOfInt64 = new EntityDtoOfInt64();
-        input.id = confirmBookingId;
-        this._orgBookingOrderServiceProxy
-            .comfirmBookingOrder(input)
-            .subscribe(() => {
-                this.notify.success("确认成功");
-                this.loadData()
-            })
-    }
-
-    batchComfirmBookingOrderHandler(): void {
-
-        this.isBatchConfirmFlag = !this.isBatchConfirmFlag;
-        if (this.batchComfirmInput.ids.length == 0) {
-            this.confirmOrderText == "取消" ? this.confirmOrderText = "批处理" : this.confirmOrderText = "取消";
-            return;
-        } else {
-            this.confirmOrderText = "确认";
-        }
-
-        if (!this.isBatchConfirmFlag) {
-            this._orgBookingOrderServiceProxy
-                .batchComfirmBookingOrder(this.batchComfirmInput)
-                .subscribe(() => {
-                    this.confirmOrderText = "批处理";
-                    this.batchComfirmInput.ids = [];
-                    this.notify.success("确认成功");
-                    this.loadData()
-                })
-        }
-    }
-
-    // 批量确认预约订单
-    batchComfirmBookingOrder(check: boolean, value: number): void {
-
-        if (check) {
-            this.batchComfirmInput.ids.push(value);
-            this.confirmOrderText = "确认";
-        } else {
-            if (this.batchComfirmInput.ids.length <= 1) {
-                this.confirmOrderText = "取消";
-            }
-            this.removeByValue(this.batchComfirmInput.ids, value);
-        }
-    }
-
-    private removeByValue(arr, val): void {
-        arr.forEach((element, index) => {
-            if (element == val) {
-                arr.splice(index, 1);
-                return;
-            }
-        });
-    }
-
-    public showModel(bookingId: number): void {
-        if (!bookingId) {
+    public showModel(bookingItem: BookingListDto): void {
+        if (!bookingItem) {
             return;
         }
-        this.bookingId = bookingId;
+        this.bookingItem = bookingItem;
         this.loadData();
         this.isShowModelFlag = true;
     }

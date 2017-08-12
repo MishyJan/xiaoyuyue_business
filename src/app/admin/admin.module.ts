@@ -42,6 +42,7 @@ import { TipsComponent } from './shared/tips/tips.component';
 import { CustomerListComponent } from './manage-customer/customer-list/customer-list.component';
 import { ConfirmOrderModelComponent } from './manage-booking/booking-list/confirm-order-model/confirm-order-model.component';
 import { CustomerForEditModelComponent } from "app/admin/manage-customer/customer-list/customer-for-edit-model/customer-for-edit-model.component";
+import { BookingCustomModelComponent } from './manage-booking/booking-list/booking-custom-model/booking-custom-model.component';
 
 @NgModule({
     imports: [
@@ -87,7 +88,8 @@ import { CustomerForEditModelComponent } from "app/admin/manage-customer/custome
         TipsComponent,
         CustomerListComponent,
         ConfirmOrderModelComponent,
-        CustomerForEditModelComponent
+        CustomerForEditModelComponent,
+        BookingCustomModelComponent
     ],
     providers: [
         AppStorageService,
