@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64, BookingOrderListDto, RemarkBookingOrderInput } from 'shared/service-proxies/service-proxies';
+import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64, RemarkBookingOrderInput, OrgBookingOrderInfolDto } from 'shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AppConsts } from 'shared/AppConsts';
@@ -15,8 +15,9 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
     styleUrls: ['./customer-for-edit-model.component.scss']
 })
 export class CustomerForEditModelComponent extends AppComponentBase implements OnInit {
+    dataItem: OrgBookingOrderInfolDto;
+    dataItemId: number;
     isShowModelFlag: boolean = false;
-    dataItem: BookingOrderListDto = new BookingOrderListDto();
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl: string = "assets/common/images/default-profile-picture.png";
     bookingOrderStatusName: string[] = ["待确认", "已确认", "待评价", "已取消", "已完成"];
@@ -26,7 +27,7 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
 
     constructor(
         injector: Injector,
-        private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy
+        private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
     ) {
         super(injector);
     }
@@ -34,11 +35,19 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
     ngOnInit() {
     }
 
-    showModel(dataItem: BookingOrderListDto): void {
-        if (!dataItem) {
+    showModel(dataItemId: number): void {
+        if (!dataItemId) {
             return;
         }
-        this.dataItem = dataItem;
+        this.dataItemId = dataItemId;
+        this._orgBookingOrderServiceProxy
+        .getOrderDetail(dataItemId)
+        .subscribe( result => {
+            this.dataItem = result;
+            console.log(result);
+            
+        })
+
         this.isShowModelFlag = true;
     }
 
@@ -47,11 +56,11 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
         this.isShowModelHander.emit(this.isShowModelFlag);
     }
 
-    // 备注订单
+    备注订单
     remarkBookingOrder(): void {
         this.remarkInput = new RemarkBookingOrderInput();
         this.remarkInput.id = this.dataItem.id;
-        // this.remarkInput.remark = this.dataItem.remark;
+        this.remarkInput.remark = this.dataItem.remark;
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
             .subscribe(() => {

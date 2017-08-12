@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, BookingConverRateDto, BookingAccessSourceDto } from 'shared/service-proxies/service-proxies';
+import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, BookingConverRateDto, GetBookingAccessSourceOutput } from 'shared/service-proxies/service-proxies';
 import * as moment from 'moment';
 @Component({
     selector: 'xiaoyuyue-booking-access-source',
@@ -9,7 +9,7 @@ import * as moment from 'moment';
 })
 export class BookingAccessSourceComponent implements OnInit {
     resData: object[] = [];
-    bookingAccessSourceData: BookingAccessSourceDto[] = [];
+    bookingAccessSourceData: GetBookingAccessSourceOutput = new GetBookingAccessSourceOutput();
     bookingAccessSourceDate: string;
     chartOption: object = {};
     count: number = 0;
@@ -26,7 +26,7 @@ export class BookingAccessSourceComponent implements OnInit {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 2);
+        date.setDate(date.getDate() - 1);
         // this.bookingAccessSourceDate = moment(date);
         this.bookingAccessSourceDate = this.dateToString(date);
         this.loadData();
@@ -81,23 +81,32 @@ export class BookingAccessSourceComponent implements OnInit {
                                 }
                             },
                             data: (() => {
-                                if (this.bookingAccessSourceData.length > 0) {
-                                    this.bookingAccessSourceData.forEach((element, index) => {
+                                if (this.bookingAccessSourceData.subAccessNum <= 0) {
+                                    return [{ value: 0, name: "暂无数据" }];
+
+                                } else if (this.bookingAccessSourceData.channels.length > 0) {
+                                    this.bookingAccessSourceData.channels.forEach((element, index) => {
                                         let res = { value: 0, name: "" };
                                         res.value = element.num;
                                         res.name = element.name;
                                         this.resData.push(res);
                                     });
+                                    return this.resData;
                                 }
-                                return this.resData;
-
                             })(),
                             itemStyle: {
-                                emphasis: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                normal: {
+                                    color: (() => {
+                                        if (this.bookingAccessSourceData.subAccessNum <= 0) {
+                                            return "rgba(0, 0, 0, 0.5)";
+                                        }
+                                    })(),
                                 }
+                                // emphasis: {
+                                //     shadowBlur: 10,
+                                //     shadowOffsetX: 0,
+                                //     shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                // }
                             }
                         }
                     ]

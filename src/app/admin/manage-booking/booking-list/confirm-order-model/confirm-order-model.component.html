@@ -9,7 +9,8 @@
 
         <div class="content-model">
             <kendo-grid [data]="wait4ComfirmOrderListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="dataStateChange($event)">
-
+                <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
+                    pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
                 <!-- 应约人 -->
                 <kendo-grid-column title="应约人">
                     <ng-template kendoGridCellTemplate let-dataItem>

@@ -57,7 +57,7 @@ export abstract class AppComponentBase {
         if(momentTime=== undefined)
             return '';
 
-        let localDatetimeString = momentTime.local().format("YYYY-MM-DD HH:mm:ss");
+        let localDatetimeString = momentTime.local().format("YYYY-MM-DD HH:mm");
         return localDatetimeString;
     }
 

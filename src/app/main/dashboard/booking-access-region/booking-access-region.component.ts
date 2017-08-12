@@ -32,7 +32,7 @@ export class BookingAccessRegionComponent implements OnInit {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 2);
+        date.setDate(date.getDate() - 1);
         this.bookingAccessRegionDate = this.dateToString(date);
         this.loadData();
     }
@@ -99,6 +99,7 @@ export class BookingAccessRegionComponent implements OnInit {
                             data: (() => {
                                 let res = [];
                                 this.bookingAccessRegionData.forEach(element => {
+                                    this.bookingAccessRegionEchartsData = new BookingAccessRegion();
                                     this.bookingAccessRegionEchartsData.name = element.name;
                                     this.bookingAccessRegionEchartsData.value = element.num;
                                     res.push(this.bookingAccessRegionEchartsData);

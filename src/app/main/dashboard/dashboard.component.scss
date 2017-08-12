@@ -1,6 +1,11 @@
 .customer-center {
     .content {
         .left-content {
+            .content-item {
+                .item :nth-of-type(1) {
+                    font-size: 24px;
+                }
+            }
             .content-item+.content-item {
                 margin-top: 15px;
             }

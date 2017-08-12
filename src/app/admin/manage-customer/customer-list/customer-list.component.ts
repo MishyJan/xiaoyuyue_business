@@ -32,6 +32,13 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     searchActiveSelectDefaultItem: { value: string, displayText: string; };
     orderStatusSelectList: Object[] = [];
     genderSelectListData: Object[] = SelectHelper.genderList();
+
+    buttonCount: number = 5;
+    info: boolean = true;
+    type: 'numeric' | 'input' = 'numeric';
+    pageSizes: boolean = true;
+    previousNext: boolean = true;
+
     skipCount: number = 0;
     maxResultCount: number = AppConsts.grid.defaultPageSize;
     sorting: Array<SortDescriptor> = [];
@@ -133,8 +140,8 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         }
     }
 
-    showCustomerForEditHander(dataItem: any): void {
-        this.CustomerForEditModelComponent.showModel(dataItem);
+    showCustomerForEditHander(dataItemId: any): void {
+        this.CustomerForEditModelComponent.showModel(dataItemId);
     }
 
     // 应约人列表model弹窗，若关闭应该刷新数据
@@ -183,7 +190,9 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
 
     public editRowHandler(index): void {
         let dataItem = this.customerListData.value.data[index];
-        this.showCustomerForEditHander(dataItem);
+        console.log(dataItem);
+        
+        this.showCustomerForEditHander(dataItem.id);
     }
 
     public orderStatusChangeHandler(status: Status): void {

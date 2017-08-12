@@ -131,7 +131,11 @@
         <div class="col-lg-12">
             <div class="portlet light portlet-fit">
                 <div class="portlet-body clearfix">
-                    <kendo-grid xiaoyuyueGridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]="true" [sortable]="false" (dataStateChange)="dataStateChange($event)">
+                    <kendo-grid xiaoyuyueGridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }"
+                        [sortable]="false" (dataStateChange)="dataStateChange($event)">
+                        <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
+                            pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+
                         <!-- 订单状态  -->
                         <kendo-grid-column title="订单状态" width="84px">
                             <ng-template kendoGridCellTemplate let-dataItem="dataItem">

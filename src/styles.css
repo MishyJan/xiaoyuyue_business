@@ -218,6 +218,21 @@ textarea {
     overflow: hidden;
 }
 
+.k-grid tr.k-alt {
+    background-color: #F9F9F9;
+    transition: all .15s;
+}
+
+.k-grid td,
+.k-grid th {
+    border: none;
+}
+
+.k-grid tr:hover {
+    background-color: rgba(0, 0, 0, .1);
+    cursor: pointer;
+}
+
 .k-grid-header {
     padding: 0 !important;
 }
