@@ -28,7 +28,7 @@ export class BookingSaturationComponent implements OnInit {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 2); //TODO: 写死测试
+        date.setDate(date.getDate() - 1); //TODO: 写死测试
         this.bookingStatisticsDate = this.dateToString(date);
         this.getOutletSelectListData();
     }

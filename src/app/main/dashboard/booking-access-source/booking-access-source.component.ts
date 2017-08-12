@@ -26,7 +26,7 @@ export class BookingAccessSourceComponent implements OnInit {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 1);
+        date.setDate(date.getDate() - 2);
         // this.bookingAccessSourceDate = moment(date);
         this.bookingAccessSourceDate = this.dateToString(date);
         this.loadData();
@@ -70,8 +70,8 @@ export class BookingAccessSourceComponent implements OnInit {
                         {
                             name: '访问来源',
                             type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
+                            radius: '84%',
+                            center: ['50%', '50%'],
                             label: {
                                 normal: {
                                     show: false
@@ -102,7 +102,6 @@ export class BookingAccessSourceComponent implements OnInit {
                         }
                     ]
                 };
-
             })
     }
 

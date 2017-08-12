@@ -32,7 +32,7 @@ export class BookingAccessRegionComponent implements OnInit {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 1);
+        date.setDate(date.getDate() - 2);
         this.bookingAccessRegionDate = this.dateToString(date);
         this.loadData();
     }
@@ -48,8 +48,6 @@ export class BookingAccessRegionComponent implements OnInit {
             .finally(() => { this.showloading = false })
             .subscribe((result) => {
                 this.bookingAccessRegionData = result;
-                console.log(this.bookingAccessRegionData);
-                
 
                 this.chartOption = {
                     title: {
@@ -113,6 +111,11 @@ export class BookingAccessRegionComponent implements OnInit {
                         },
                     ]
                 };
+
+                if (result.length <= 0) {
+                    let myChart = echarts.init(document.getElementById("bookingAccessRegionEcharts"));
+                    myChart.setOption(this.chartOption);
+                }
 
             })
     }

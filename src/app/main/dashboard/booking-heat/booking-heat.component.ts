@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, BookingConverRateDto, BookingAccessSourceDto, OutletServiceServiceProxy, SelectListItemDto, OrgBookingServiceProxy, BookingHeatDto } from 'shared/service-proxies/service-proxies';
 import * as moment from 'moment';
+import { element } from 'protractor';
 @Component({
     selector: 'xiaoyuyue-booking-heat',
     templateUrl: './booking-heat.component.html',
@@ -78,6 +79,23 @@ export class BookingHeatComponent implements OnInit {
                             name: '时间热度',
                             type: 'bar',
                             barWidth: '20px',
+                            itemStyle: {
+                                normal: {
+                                    color: (() => {
+                                        let color = "";
+                                        this.bookingHeatData.forEach(element => {
+                                            if (element.bookingOrderRate <= 0.3) {
+                                                color = "#00B200";
+                                            } else if (0.3 < element.bookingOrderRate && element.bookingOrderRate <= 0.6) {
+                                                color = "#FF9641";
+                                            } else if (0.6 < element.bookingOrderRate && element.bookingOrderRate <= 1) {
+                                                color = "#E32600";
+                                            }
+                                        });
+                                        return color;
+                                    })()
+                                }
+                            },
                             data: (() => {
                                 let res = [];
                                 this.bookingHeatData.forEach(element => {

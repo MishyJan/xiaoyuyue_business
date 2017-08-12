@@ -24,7 +24,7 @@ export class BookingDateStatisticsComponent implements OnInit {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 1);
+        date.setDate(date.getDate() - 2);
         this.bookingStatisticalDate = this.dateToString(date);
         this.loadData();
     }
@@ -62,6 +62,10 @@ export class BookingDateStatisticsComponent implements OnInit {
                     title: {
                         // text: '应约人数',
                         // subtext: ''
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c}"
                     },
                     legend: {
                         data: ['应约人数', '访问量']
@@ -108,17 +112,13 @@ export class BookingDateStatisticsComponent implements OnInit {
                             type: 'value',
                             scale: true,
                             name: '应约人数',
-                            max: 50,
-                            min: 0,
-                            boundaryGap: [0.2, 0.2]
+                            boundaryGap: false
                         },
                         {
                             type: 'value',
                             scale: true,
                             name: '访问量',
-                            max: 500,
-                            min: 0,
-                            boundaryGap: [0.2, 0.2]
+                            boundaryGap: false
                         }
                     ],
                     series: [
