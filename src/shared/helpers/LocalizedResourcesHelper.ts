@@ -28,12 +28,12 @@ export class LocalizedResourcesHelper {
 
         var currentCulture = abp.localization.currentLanguage.name;
 
-        var bootstrapSelect = "/assets/localization/bootstrap-select/defaults-{0}.js";
-        var jqueryTimeago = "/assets/localization/jquery-timeago/jquery.timeago.{0}.js";
+        // var bootstrapSelect = "/assets/localization/bootstrap-select/defaults-{0}.js";
+        // var jqueryTimeago = "/assets/localization/jquery-timeago/jquery.timeago.{0}.js";
 
         return $.when(
-            jQuery.getScript(abp.utils.formatString(bootstrapSelect, LocalizedResourcesHelper.findBootstrapSelectLocalization(currentCulture))),
-            jQuery.getScript(abp.utils.formatString(jqueryTimeago, currentCulture))
+            // jQuery.getScript(abp.utils.formatString(bootstrapSelect, LocalizedResourcesHelper.findBootstrapSelectLocalization(currentCulture))),
+            // jQuery.getScript(abp.utils.formatString(jqueryTimeago, currentCulture))
         );
     }
 

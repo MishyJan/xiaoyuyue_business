@@ -18,7 +18,6 @@ import { GetUserForEdit } from "shared/services/get-user-info.service";
 import { TenantService } from "shared/services/tenant.service";
 
 import { DialogModule } from '@progress/kendo-angular-dialog';
-import { SMSTemplateServiceProxy, OrgBookingServiceProxy, PictureServiceProxy, OutletServiceServiceProxy, BookingServiceProxy, StateServiceServiceProxy, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { QRCodeModule } from 'angular2-qrcode';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { CreateOrEditBookingComponent } from './manage-booking/create-or-edit-booking/create-or-edit-booking.component';
@@ -95,14 +94,7 @@ import { BookingCustomModelComponent } from './manage-booking/booking-list/booki
         AppStorageService,
         HostSettingService,
         GetUserForEdit,
-        TenantService,
-        SMSTemplateServiceProxy,
-        OrgBookingServiceProxy,
-        PictureServiceProxy,
-        OutletServiceServiceProxy,
-        BookingServiceProxy,
-        StateServiceServiceProxy,
-        TenantInfoServiceProxy
+        TenantService
     ]
 })
 export class AdminModule { }

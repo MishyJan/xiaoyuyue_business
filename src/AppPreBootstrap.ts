@@ -7,10 +7,11 @@ import { SubdomainTenancyNameFinder } from '@shared/helpers/SubdomainTenancyName
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Type, CompilerOptions, NgModuleRef } from '@angular/core';
 import { UtilsService } from '@abp/utils/utils.service';
-
+declare var $: any;
 export class AppPreBootstrap {
 
     static run(callback: () => void): void {
+        $.material.init();
         AppPreBootstrap.getApplicationConfig(() => {
             const queryStringObj = UrlHelper.getQueryParameters();
 
@@ -43,7 +44,7 @@ export class AppPreBootstrap {
             AppConsts.appBaseUrlFormat = result.appBaseUrl;
             AppConsts.shareBaseUrl = result.shareBaseUrl;
             AppConsts.remoteServiceBaseUrlFormat = result.remoteServiceBaseUrl;
-            
+
             if (tenancyName == null) {
                 AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + ".", "");
                 AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + ".", "");
