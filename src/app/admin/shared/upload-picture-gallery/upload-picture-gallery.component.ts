@@ -7,7 +7,7 @@ import { TokenService } from "abp-ng2-module/src/auth/token.service";
 import { IAjaxResponse } from "abp-ng2-module/src/abpHttp";
 import { UpdateProfilePictureInput, PictureServiceProxy, UploadTokenOutput, BookingPictureEditDto } from "shared/service-proxies/service-proxies";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
-
+import '@node_modules/qiniu-js/dist/qiniu.min';
 @Component({
   selector: 'xiaoyuyue-upload-picture-gallery',
   templateUrl: './upload-picture-gallery.component.html',

@@ -17,17 +17,7 @@ export class LocalizedResourcesHelper {
             cssPostfix = "-rtl";
             $('html').attr("dir", "rtl");
         }
-
-
-        //Metronic css fils
-        $('head').prepend($('<link rel="stylesheet" type="text/css" />').attr('href', '/assets/metronic/global/plugins/jquery-file-upload/css/jquery.fileupload.css'));
-        $('head').prepend($('<link rel="stylesheet" type="text/css" />').attr('href', '/assets/metronic/admin/layout4/css/themes/light' + cssPostfix + '.css'));
-        $('head').prepend($('<link rel="stylesheet" type="text/css" />').attr('href', '/assets/metronic/admin/layout4/css/layout' + cssPostfix + '.css'));
-        $('head').prepend($('<link rel="stylesheet" type="text/css" />').attr('href', '/assets/metronic/global/css/plugins-md' + cssPostfix + '.css'));
-
-        //Bootstrap css
-        $('head').prepend($('<link rel="stylesheet" type="text/css" />').attr('href', '/assets/metronic/global/css/components-md' + cssPostfix + '.css'));
-        $('head').prepend($('<link rel="stylesheet" type="text/css" />').attr('href', '/assets/metronic/libs/bootstrap/css/bootstrap' + cssPostfix + '.css'));
+ 
         return $.Deferred().resolve();
     }
 

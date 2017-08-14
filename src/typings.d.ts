@@ -74,18 +74,6 @@ interface JQuery {
 }
 
 /**
- * Morris
- */
-
-declare namespace morris {
-    interface IAreaOptions {
-        gridEnabled?: boolean;
-        //gridLineColor?: string;
-        padding?: number;
-    }
-}
-
-/**
  * rtl-detect
  */
 
