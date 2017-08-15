@@ -70,6 +70,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
 
     ngOnInit() {
         this.loadData();
+        
         this.bookingActiveSelectDefaultItem = {
             value: "",
             displayText: "请选择"
@@ -77,31 +78,18 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     ngAfterViewInit() {
-        $(".startCreationTime").flatpickr({
-            "locale": "zh"
-        });
-        $(".endCreationTime").flatpickr({
-            "locale": "zh"
-        });
+        // $(".startCreationTime").flatpickr({
+        //     "locale": "zh"
+        // });
+        // $(".endCreationTime").flatpickr({
+        //     "locale": "zh"
+        // });
     }
 
 
     loadData(): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
-
-        // 获取可用下拉框数据源
-        this._outletServiceServiceProxy
-            .getOutletSelectList()
-            .subscribe(result => {
-                // 添加请选择数据源
-                let input = new SelectListItemDto();
-                input.text = "请选择";
-                input.value = "";
-                this.outletSelectListData = result;
-                this.outletSelectListData.unshift(input);
-                this.outletSelectDefaultItem = result[0].value;
-            })
 
         this._organizationBookingServiceProxy
             .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)

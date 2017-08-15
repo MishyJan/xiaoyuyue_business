@@ -83,17 +83,18 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     }
 
     ngAfterViewInit() {
-        $("#bookingOrderDate").flatpickr({
-            "locale": "zh"
-        });
+        //  this.loadData();
+        // $("#bookingOrderDate").flatpickr({
+        //     "locale": "zh"
+        // });
 
-        $("#startCreationTime").flatpickr({
-            "locale": "zh"
-        });
+        // $("#startCreationTime").flatpickr({
+        //     "locale": "zh"
+        // });
 
-        $("#endCreationTime").flatpickr({
-            "locale": "zh"
-        });
+        // $("#endCreationTime").flatpickr({
+        //     "locale": "zh"
+        // });
     }
 
     loadData(): void {
