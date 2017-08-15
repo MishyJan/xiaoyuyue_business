@@ -1,16 +1,17 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, AfterViewInit } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
-import { OrgBookingOrderServiceProxy, Gender, Status, RemarkBookingOrderInput } from "shared/service-proxies/service-proxies";
+import { OrgBookingOrderServiceProxy, Gender, Status, RemarkBookingOrderInput } from 'shared/service-proxies/service-proxies';
 import * as moment from 'moment';
 import { AppConsts } from '@shared/AppConsts';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { OrgBookingOrderStatus } from "shared/AppEnums";
+import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { EditEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
 import { CustomerForEditModelComponent } from './customer-for-edit-model/customer-for-edit-model.component';
+import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 
 export class SingleBookingStatus {
     value: any;
@@ -24,7 +25,7 @@ export class SingleBookingStatus {
     animations: [appModuleAnimation()]
 })
 
-export class CustomerListComponent extends AppComponentBase implements OnInit {
+export class CustomerListComponent extends AppComponentBase implements OnInit, AfterViewInit {
     bookingId: number;
     creationEndDate: any;
     creationStartDate: any;
@@ -33,15 +34,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     orderStatusSelectList: Object[] = [];
     genderSelectListData: Object[] = SelectHelper.genderList();
 
-    buttonCount: number = 5;
-    info: boolean = true;
-    type: 'numeric' | 'input' = 'numeric';
-    pageSizes: boolean = true;
-    previousNext: boolean = true;
-
-    skipCount: number = 0;
-    maxResultCount: number = AppConsts.grid.defaultPageSize;
-    sorting: Array<SortDescriptor> = [];
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
     gender: Gender;
     phoneNumber: string;
     endMinute: number;
@@ -52,13 +45,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     customerListData: AppGridData = new AppGridData();
     remarkBookingOrderInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     bookingOrderStatus: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
-    bookingOrderStatusName: string[] = ["待确认", "已确认", "待评价", "已取消", "已完成"];
+    bookingOrderStatusName: string[] = ['待确认', '已确认', '待评价', '已取消', '已完成'];
 
     @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: CustomerForEditModelComponent;
 
-
     private editedRowIndex: number;
-
 
     public get isInEditingMode(): boolean {
         return this.editedRowIndex !== undefined;
@@ -72,13 +63,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        this.searchActiveSelectDefaultItem = {
-            value: "",
-            displayText: "请选择"
-        };
+        this.searchActiveSelectDefaultItem = SelectHelper.defaultList();
     }
 
     ngAfterViewInit() {
+        this.getOrderStatusSelectList();
         this.loadData();
 
         //  this.loadData();
@@ -100,23 +89,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         // TODO 订单创建时间搜索未做
         // this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         // this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
-
-        let state = { skip: this.skipCount, take: this.maxResultCount, sort: this.sorting };
-        let maxResultCount, skipCount, sorting;
-        if (state) {
-            maxResultCount = state.take;
-            skipCount = state.skip
-            if (state.sort.length > 0 && state.sort[0].dir) {
-                sorting = state.sort[0].field + " " + state.sort[0].dir
-            }
-        }
-
-        let loadOrgBookingOrderData = () => {
+        const loadOrgBookingOrderData = () => {
             this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
             this.creationEndDate = this.creationEndDate ? moment(this.creationEndDate) : undefined;
             return this._orgBookingOrderServiceProxy
-                .getOrders
-                (this.bookingId,
+                .getOrders(this.bookingId,
                 this.bookingName,
                 this.customerName,
                 this.bookingDate,
@@ -127,13 +104,13 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
                 this.creationStartDate,
                 this.creationEndDate,
                 this.bookingOrderStatus,
-                sorting,
-                maxResultCount,
-                skipCount);
+                this.gridParam.GetSortingString(),
+                this.gridParam.MaxResultCount,
+                this.gridParam.SkipCount);
         };
 
         this.customerListData.query(loadOrgBookingOrderData);
-        if (typeof this.creationStartDate === "object") {
+        if (typeof this.creationStartDate === 'object') {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
             this.creationEndDate = this.creationEndDate.format('YYYY-MM-DD');
         }
@@ -161,13 +138,13 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
 
     // 订单状态样式
     setOrderTipsClass(status: number): any {
-        let tipsClass = {
-            status1: status == 1,
-            status2: status == 2,
-            status3: status == 3,
-            status4: status == 4,
-            status5: status == 5
-        }
+        const tipsClass = {
+            status1: status === 1,
+            status2: status === 2,
+            status3: status === 3,
+            status4: status === 4,
+            status5: status === 5
+        };
         return tipsClass;
     }
 
@@ -197,12 +174,12 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     }
 
     public editRowHandler(index): void {
-        let dataItem = this.customerListData.value.data[index];
+        const dataItem = this.customerListData.value.data[index];
         this.showCustomerForEditHander(dataItem.id);
     }
 
     public orderStatusChangeHandler(status: Status): void {
-        if (!!status == false) {
+        if (!!status === false) {
             this.bookingOrderStatus = [Status._1, Status._2, Status._3, Status._4, Status._5];
             return;
         }
@@ -210,13 +187,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     }
 
     public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
-        this.skipCount = skip;
-        this.maxResultCount = take;
-        this.sorting = sort;
+        this.gridParam.SkipCount = skip;
+        this.gridParam.MaxResultCount = take;
+        this.gridParam.Sorting = sort;
 
         this.loadData();
     }
-
-
 }
 

@@ -2,11 +2,10 @@ import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angu
 import { LocalizationService } from '@abp/localization/localization.service';
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
-import { ProfileServiceProxy,UserLinkServiceProxy,UserServiceProxy,LinkedUserDto,ChangeUserLanguageDto } from '@shared/service-proxies/service-proxies';
+import { ProfileServiceProxy, UserLinkServiceProxy, UserServiceProxy, LinkedUserDto, ChangeUserLanguageDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
-import { LinkedAccountsModalComponent } from './linked-accounts-modal.component';
 import { ChangePasswordModalComponent } from './profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
 import { MySettingsModalComponent } from './profile/my-settings-modal.component'
@@ -29,7 +28,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     @ViewChild('notificationSettingsModal') notificationSettingsModal: NotificationSettingsModalCompoent;
 
     @ViewChild('loginAttemptsModal') loginAttemptsModal: LoginAttemptsModalComponent;
-    @ViewChild('linkedAccountsModal') linkedAccountsModal: LinkedAccountsModalComponent;
     @ViewChild('changePasswordModal') changePasswordModal: ChangePasswordModalComponent;
     @ViewChild('changeProfilePictureModal') changeProfilePictureModal: ChangeProfilePictureModalComponent;
     @ViewChild('mySettingsModal') mySettingsModal: MySettingsModalComponent;
@@ -71,7 +69,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l("YouCanBackToYourAccount") : "";
         this.getCurrentLoginInformations();
         this.getProfilePicture();
-        this.getRecentlyLinkedUsers();
 
         this.registerToEvents();
     }
@@ -126,18 +123,8 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    getRecentlyLinkedUsers(): void {
-        this._userLinkServiceProxy.getRecentlyUsedLinkedUsers().subscribe(result => {
-            this.recentlyLinkedUsers = result.items;
-        });
-    }
-
     showLoginAttempts(): void {
         this.loginAttemptsModal.show();
-    }
-
-    showLinkedAccounts(): void {
-        this.linkedAccountsModal.show();
     }
 
     changePassword(): void {

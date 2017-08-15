@@ -30,7 +30,6 @@ import { AppConsts } from '@shared/AppConsts';
 
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { LinkedAccountService } from './shared/layout/linked-account.service';
-import { LinkedAccountsModalComponent } from '@app/shared/layout/linked-accounts-modal.component';
 import { LinkAccountModalComponent } from '@app/shared/layout/link-account-modal.component';
 import { NotificationsComponent } from './shared/layout/notifications/notifications.component';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
@@ -47,7 +46,6 @@ import { GridDataResultsModule } from '@shared/grid-data-results/grid-result.mod
         SideBarComponent,
         FooterComponent,
         LoginAttemptsModalComponent,
-        LinkedAccountsModalComponent,
         LinkAccountModalComponent,
         ChangePasswordModalComponent,
         ChangeProfilePictureModalComponent,

@@ -17,10 +17,10 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 export class CustomerForEditModelComponent extends AppComponentBase implements OnInit {
     dataItem: OrgBookingOrderInfolDto;
     dataItemId: number;
-    isShowModelFlag: boolean = false;
+    isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
-    defaultAvatarUrl: string = "assets/common/images/default-profile-picture.png";
-    bookingOrderStatusName: string[] = ["待确认", "已确认", "待评价", "已取消", "已完成"];
+    defaultAvatarUrl = 'assets/common/images/default-profile-picture.png';
+    bookingOrderStatusName: string[] = ['待确认', '已确认', '待评价', '已取消', '已完成'];
 
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
@@ -54,7 +54,7 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
         this.isShowModelHander.emit(this.isShowModelFlag);
     }
 
-    备注订单
+    // 备注订单
     remarkBookingOrder(): void {
         this.remarkInput = new RemarkBookingOrderInput();
         this.remarkInput.id = this.dataItem.id;
@@ -62,21 +62,21 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
             .subscribe(() => {
-                this.notify.success("备注已修改");
+                this.notify.success('备注已修改');
             });
     }
 
     // 确认订单
     confirmCustomerOrder(): void {
-        let input = new EntityDtoOfInt64();
+        const input = new EntityDtoOfInt64();
         input.id = this.dataItem.id;
         this._orgBookingOrderServiceProxy
             .comfirmBookingOrder(input)
             .subscribe(() => {
                 this.hideModel();
                 this.isShowModelHander.emit(false);
-                this.notify.success("订单已确认");
-            })
+                this.notify.success('订单已确认');
+            });
     }
 
     // 获取用户头像

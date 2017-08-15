@@ -33,7 +33,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
     outletSelectDefaultItem: string;
     outletSelectListData: SelectListItemDto[];
-    bookingActiveSelectListData: Object[] = SelectHelper.defaultList();
+    bookingActiveSelectListData: Object[] = SelectHelper.boolList();
     bookingActiveSelectDefaultItem: object;
 
     organizationBookingResultData: BookingListDto[];
@@ -47,7 +47,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId: number;
     bookingName: string;
 
-    maxResultCount: number = AppConsts.grid.defaultPageSize;
+    maxResultCount = 8;
     skipCount = 0;
     sorting: string;
     totalItems = 0;
@@ -71,10 +71,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     ngOnInit() {
-        this.bookingActiveSelectDefaultItem = {
-            value: '',
-            displayText: '请选择'
-        };
+        this.bookingActiveSelectDefaultItem = SelectHelper.defaultList();
     }
 
     ngAfterViewInit() {
