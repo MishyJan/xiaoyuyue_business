@@ -49,7 +49,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     bookingDate: moment.Moment;
     customerName: string;
     bookingName: string;
-    customerListData: AppGridData;
+    customerListData: AppGridData = new AppGridData();
     remarkBookingOrderInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     bookingOrderStatus: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
     bookingOrderStatusName: string[] = ["待确认", "已确认", "待评价", "已取消", "已完成"];
@@ -67,22 +67,20 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _customerListGridDataResult: AppGridData,
     ) {
         super(injector);
     }
 
     ngOnInit() {
-        this.customerListData = this._customerListGridDataResult;
-        this.loadData();
         this.searchActiveSelectDefaultItem = {
             value: "",
             displayText: "请选择"
         };
-        this.getOrderStatusSelectList();
     }
 
     ngAfterViewInit() {
+        this.loadData();
+
         //  this.loadData();
         // $("#bookingOrderDate").flatpickr({
         //     "locale": "zh"
@@ -134,7 +132,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
                 skipCount);
         };
 
-        this._customerListGridDataResult.query(loadOrgBookingOrderData);
+        this.customerListData.query(loadOrgBookingOrderData);
         if (typeof this.creationStartDate === "object") {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
             this.creationEndDate = this.creationEndDate.format('YYYY-MM-DD');

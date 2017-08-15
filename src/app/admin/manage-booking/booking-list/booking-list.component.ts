@@ -69,8 +69,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        this.loadData();
-        
         this.bookingActiveSelectDefaultItem = {
             value: "",
             displayText: "请选择"
@@ -78,6 +76,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit {
     }
 
     ngAfterViewInit() {
+     
+        this.loadData();
+        
         // $(".startCreationTime").flatpickr({
         //     "locale": "zh"
         // });
