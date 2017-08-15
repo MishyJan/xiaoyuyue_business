@@ -79,7 +79,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     ngAfterViewInit() {
         this.loadSelectListData();
-
         this.loadData();
 
         // $(".startCreationTime").flatpickr({
