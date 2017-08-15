@@ -181,9 +181,9 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    //获取应约人头像
+    // 获取应约人头像
     getBookingCustomerAvatar(url: string): string {
-        let defaultAvatar = "assets/common/images/default-profile-picture.png";
+        const defaultAvatar = 'assets/common/images/default-profile-picture.png';
         if (url !== '') {
             return url;
         }
