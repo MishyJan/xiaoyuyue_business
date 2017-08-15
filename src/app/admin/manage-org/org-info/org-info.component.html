@@ -6,15 +6,14 @@
                     <div class="page-title">
                         <h1>
                             <span>基本信息</span>
-                            <!--<span>编辑预约</span>-->
-                            <small routerLink="/app/admin/org"><span class="fa fa-arrow-circle-left"></span><a >返回</a></small>
+                            <small routerLink="/app/admin/org"><span class="fa fa-arrow-circle-left primary-color"></span><a href="javascript:;"  class="primary-color">返回</a></small>
                         </h1>
                     </div>
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn btn-submit" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
-                <button type="botton" (click)="saveAndEdit()" class="btn btn-submit">{{l("BusinessCenter.SavingAndEditing")}}</button>
+                <button type="submit" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor">{{l("BusinessCenter.SavingAndEditing")}}</button>
                 <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
             </div>
         </div>
@@ -23,19 +22,20 @@
             <div class="row col-lg-7">
                 <!-- 基本信息 -->
                 <div class="base-info col-lg-12">
-                    <div class="portlet light portlet-fit">
-                        <div class="portlet-title">
-                            <div class="caption">
-                                <span class="caption-subject">{{l("General")}}</span>
-                            </div>
+                    <div class="card">
+                        <div class="card-header card-header-text" data-background-color="rose">
+                            <h4 class="card-title">{{l("General")}}</h4>
                         </div>
                         <div class="portlet-body">
                             <!-- 门店名称 -->
                             <div class="info-row row">
-                                <div class="outlet-name name col-md-3 text-right"><span>机构名称</span></div>
+                                <div class="outlet-name name col-md-3 text-right label-on-left"><span>机构名称</span></div>
                                 <div class="col-md-9 input-box row">
                                     <div class="col-md-12 input-form">
-                                        <input class="form-control common-max-width" type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control common-max-width" type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

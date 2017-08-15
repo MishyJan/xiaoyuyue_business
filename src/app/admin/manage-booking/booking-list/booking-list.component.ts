@@ -13,6 +13,7 @@ import { ShareBookingModelComponent } from "app/admin/manage-booking/create-or-e
 import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-model.component';
 import { BookingCustomModelComponent } from './booking-custom-model/booking-custom-model.component';
 
+
 @Component({
     selector: 'app-manage-booking',
     templateUrl: './booking-list.component.html',

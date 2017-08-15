@@ -37,6 +37,8 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.PerBookingOrderServiceProxy,
         ApiServiceProxies.PictureServiceProxy,
         ApiServiceProxies.StateServiceServiceProxy,
+        ApiServiceProxies.BookingServiceProxy,
+        ApiServiceProxies.SMSServiceProxy,
     ]
 })
 export class ServiceProxyModule { }
