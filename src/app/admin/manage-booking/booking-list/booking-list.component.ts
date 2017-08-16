@@ -87,7 +87,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         })
     }
 
-    private loadData(): void {
+    loadData(): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
 
