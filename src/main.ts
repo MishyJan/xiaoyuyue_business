@@ -1,13 +1,14 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { enableProdMode, ChangeDetectorRef } from '@angular/core';
-import { environment } from './environments/environment';
-import { RootModule } from './root.module';
-import { hmrBootstrap } from './hmr';
+import 'moment/min/locales.min';
+import 'moment-timezone';
 
 import * as moment from 'moment';
 
-import 'moment/min/locales.min';
-import 'moment-timezone';
+import { ChangeDetectorRef, enableProdMode } from '@angular/core';
+
+import { RootModule } from './root.module';
+import { environment } from './environments/environment';
+import { hmrBootstrap } from './hmr';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 if (environment.production) {
     enableProdMode();

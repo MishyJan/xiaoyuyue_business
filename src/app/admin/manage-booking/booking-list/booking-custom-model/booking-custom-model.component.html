@@ -42,10 +42,12 @@
             </div>
 
             <div class="grid-wrap">
-                <kendo-grid [data]="bookingCustomListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }" [sortable]="false"
-                    (dataStateChange)="dataStateChange($event)" [scrollable]="scrollable">
-                    <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
-                        pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+                <kendo-grid [data]="bookingCustomListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting"
+                    [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
+                    [sortable]="gridParam.Sortable" (dataStateChange)="dataStateChange($event)" [scrollable]="gridParam.Scrollable">
+                    <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
+                        pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
+                        pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
                     <!-- 应约人 -->
                     <kendo-grid-column title="应约人">
                         <ng-template kendoGridCellTemplate let-dataItem>

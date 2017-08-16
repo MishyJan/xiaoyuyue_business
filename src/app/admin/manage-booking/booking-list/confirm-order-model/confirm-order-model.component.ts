@@ -1,14 +1,16 @@
-import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
-import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
-import { AppComponentBase } from 'shared/common/app-component-base';
-import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64 } from 'shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+
+import { BatchComfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
+import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
+
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { GridDataResult, EditEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { AppGridData } from '@shared/grid-data-results/grid-data-results';
+import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
     selector: 'xiaoyuyue-confirm-order-model',
@@ -16,24 +18,25 @@ import { AppGridData } from '@shared/grid-data-results/grid-data-results';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
-    bookingName: string;
-    batchConfirmCount = 0;
     confirmOrderText = '批处理';
-    isBatchConfirmFlag = false;
+
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
-    isShowModelFlag = false;
-    wait4ComfirmOrderListData: any;
-    status: Status[] = [OrgBookingOrderStatus.State1];
-    creationStartDate: moment.Moment;
-    creationEndDate: moment.Moment;
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
-    gender: Gender;
-    phoneNumber: string;
-    endMinute: number;
-    startMinute: number;
+    batchConfirmCount = 0;
     bookingDate: moment.Moment;
-    customerName: string;
     bookingId: number;
+    bookingName: string;
+    creationEndDate: moment.Moment;
+    creationStartDate: moment.Moment;
+    customerName: string;
+    endMinute: number;
+    gender: Gender;
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
+    isBatchConfirmFlag = false;
+    isShowModelFlag = false;
+    phoneNumber: string;
+    startMinute: number;
+    status: Status[] = [OrgBookingOrderStatus.State1];
+    wait4ComfirmOrderListData: any;
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
     constructor(
