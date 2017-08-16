@@ -1,14 +1,13 @@
-﻿export class AppConsts {
+﻿import { state } from '@angular/core';
+export class AppConsts {
 
-    static readonly tenancyNamePlaceHolderInUrl = "{TENANCY_NAME}";
-
+    static readonly tenancyNamePlaceHolderInUrl = '{TENANCY_NAME}';
     static remoteServiceBaseUrl: string;
     static remoteServiceBaseUrlFormat: string;
     static appBaseUrl: string;
     static shareBaseUrl: string;
     static appBaseUrlFormat: string;
     static readonly externalLoginUrl = '/auth/login';
-    
     static readonly userManagement = {
         defaultAdminUserName: 'admin'
     };
@@ -22,8 +21,10 @@
     };
 
     static readonly grid = {
-        defaultPageSize: 8,
+        defaultPageSize: 10,
         pageSizes: [5, 10, 20, 50, 100],
-        maxPageSize:1000,
-    }
+        maxPageSize: 1000,
+    };
+
+    static outletSelectListCache = 'OutletSelectListCache';
 }

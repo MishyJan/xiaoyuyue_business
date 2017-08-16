@@ -1,10 +1,8 @@
-<div class="portlet light portlet-fit">
-    <div class="portlet-title">
-        <div class="caption">
-            <span class="caption-subject">预约背景图</span>
-        </div>
+<div class="card org-bg-wrap">
+    <div class="card-header card-header-text" data-background-color="orange">
+        <h6 class="card-title">预约背景图</h6>
     </div>
-    <div class="portlet-body">
+    <div class="card-content">
         <div class="upload-bg-pic-wrap" (click)="uploadOrgBg()">
             <img width="100%" *ngIf="orgBgUrl" [src]="orgBgUrl">
         </div>

@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-submit" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
+                    <button type="submit" class="btn primary-bgcolor" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
                     <button type="button" class="btn btn-cancel" [id]="'cancelUpload'+uploadUid" (click)="close()" [disabled]="loading"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
                 </div>
             </div>

@@ -12,14 +12,14 @@
                 <p class="text">可预约总人数</p>
                 <span class="total">{{ bookingStatisticsData.subMaxBookingNum }}</span>
             </span>
-            <span class="icon"></span>
+            <span class="icon vapps-icon-app-booking-total"></span>
         </div>
         <div class="item right-item">
+            <span class="icon vapps-icon-app-booking-new-join"></span>
             <span class="text-data">
                 <p class="text">新参与人数</p>
                 <span class="total">{{ bookingStatisticsData.subBookingNum }}</span>
             </span>
-            <span class="icon"></span>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
             <span class="head-item">排队人数</span>
         </div>
         <div class="table-content" *ngFor="let item of bookingStatisticsData.bookings">
-            <span class="content-item">{{ item.name }}</span>
+            <span class="content-item item-name">{{ item.name }}</span>
             <span class="content-item">{{ item.subBookedNum}} / {{ item.subBookingNum }}</span>
             <span class="content-item">{{ getSaturationValue(item.subBookedNum, item.subBookingNum) }}</span>
             <span class="content-item">{{ item.subQueueNum }}</span>

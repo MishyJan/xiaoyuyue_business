@@ -19,42 +19,29 @@
             }
         }
     }
-    .portlet-title {
-        margin-bottom: 0;
+    .card {
         .add-time {
+            margin-right: 15px;
             span {
-                color: #ff9742;
+                color: #ff9742!important;
             }
         }
-    }
-    .portlet-body {
-        position: relative;
-        min-height: 200px;
-        padding-top: 0;
-        .time-info-wrap {
+        .card-content {
             position: relative;
-            margin-top: 52px;
-            .time-item+.time-item {
-                border-top: 1px solid #eee;
-            }
-            .flatpickr-wrap {
+            min-height: 200px;
+            .time-info-wrap {
                 position: relative;
-                .flatpickr-toggle {
-                    position: absolute;
-                    top: 50%;
-                    right: 10px;
-                    transform: translateY(-50%);
+                margin-top: 52px;
+                .flatpickr-wrap {
+                    position: relative;
+                    .flatpickr-toggle {
+                        position: absolute;
+                        top: 50%;
+                        right: 10px;
+                        transform: translateY(-50%);
+                    }
                 }
-            }
-            .time-item {
-                // width: 510px;
-                height: 64px;
-                .name {
-                    line-height: 64px;
-                    border-right: 1px solid #eee;
-                }
-                .input-box {
-                    margin-top: 15px;
+                .time-item {
                     input.common-max-width {
                         width: 240px;
                         height: 34px;
@@ -82,49 +69,50 @@
                             font-size: 15px;
                         }
                     }
-                }
-                .view-box {
-                    line-height: 64px;
-                }
-            }
-            .booking-date-item {
-                .input-box {
-                    position: relative;
-                    .vapps-icon-dc-calendar {
-                        position: absolute;
-                        top: 50%;
-                        right: 142px;
-                        transform: translateY(-50%);
-                        cursor: pointer;
+                    .name,
+                    .view-box {
+                        line-height: 64px;
                     }
                 }
-            }
-            .booking-time-item {
-                .item {
-                    overflow: hidden;
-                    margin-bottom: 15px;
+                .booking-date-item {
+                    .input-box {
+                        position: relative;
+                        .vapps-icon-dc-calendar {
+                            position: absolute;
+                            top: 50%;
+                            right: 142px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                        }
+                    }
                 }
-            }
-            .submit-item {
-                text-align: center;
-                >.btn-submit,
-                >.btn-cancel {
-                    margin-top: 15px;
+                .booking-time-item {
+                    .item {
+                        overflow: hidden;
+                        margin-bottom: 15px;
+                    }
                 }
-            }
-        } // .add-time-btn-wrap {
-        //     width: 60px;
-        //     height: 60px;
-        //     margin-top: 12%;
-        //     text-align: center;
-        //     background-color: #ff9742;
-        //     border-radius: 50%;
-        //     cursor: pointer;
-        //     .vapps-icon-cb-add-time {
-        //         line-height: 60px;
-        //         color: #FFF;
-        //         font-size: 30px;
-        //     }
-        // }
+                .submit-item {
+                    text-align: center;
+                    >.primary-bgcolor,
+                    >.btn-cancel {
+                        margin-top: 15px;
+                    }
+                }
+            } // .add-time-btn-wrap {
+            //     width: 60px;
+            //     height: 60px;
+            //     margin-top: 12%;
+            //     text-align: center;
+            //     background-color: #ff9742;
+            //     border-radius: 50%;
+            //     cursor: pointer;
+            //     .vapps-icon-cb-add-time {
+            //         line-height: 60px;
+            //         color: #FFF;
+            //         font-size: 30px;
+            //     }
+            // }
+        }
     }
 }

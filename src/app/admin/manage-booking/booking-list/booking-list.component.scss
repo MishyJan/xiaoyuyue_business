@@ -8,6 +8,9 @@
             }
         }
     }
+    .orange-color {
+        color: #ff9742;
+    }
     .xiaoyuyue-title-box {
         width: calc(100% - 40px);
         height: 60px;
@@ -75,6 +78,12 @@
                         .desc {
                             flex: 1;
                         }
+                        .booking-custom-btn {
+                            border: 1px solid #FF9641;
+                            color: #FF9641;
+                            border-radius: 24px;
+                            padding: 3px 8px;
+                        }
                     }
                     .back {
                         position: absolute;
@@ -83,6 +92,7 @@
                         .vapps-icon-app-back {
                             width: 34px;
                             height: 34px;
+                            border: 1px solid #DADADA;
                             line-height: 34px;
                             font-size: 34px;
                             color: #AAA;
@@ -269,7 +279,7 @@
                                 background-color: #FFF;
                                 .show-icon {
                                     display: inline-block;
-                                    width: 30px;
+                                    width: 34px;
                                     font-size: 14px;
                                 }
                                 .show-text {

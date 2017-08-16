@@ -1,4 +1,5 @@
 ﻿import * as moment from 'moment';
+
 import { AppConsts } from '@shared/AppConsts';
 import { UrlHelper } from './shared/helpers/UrlHelper';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
@@ -7,10 +8,11 @@ import { SubdomainTenancyNameFinder } from '@shared/helpers/SubdomainTenancyName
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { Type, CompilerOptions, NgModuleRef } from '@angular/core';
 import { UtilsService } from '@abp/utils/utils.service';
-
+declare var $: any;
 export class AppPreBootstrap {
 
     static run(callback: () => void): void {
+        $.material.init();
         AppPreBootstrap.getApplicationConfig(() => {
             const queryStringObj = UrlHelper.getQueryParameters();
 
@@ -37,16 +39,15 @@ export class AppPreBootstrap {
             }
         }).done(result => {
 
-            let subdomainTenancyNameFinder = new SubdomainTenancyNameFinder();
-            var tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(result.appBaseUrl);
+            const subdomainTenancyNameFinder = new SubdomainTenancyNameFinder();
+            const tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(result.appBaseUrl);
 
             AppConsts.appBaseUrlFormat = result.appBaseUrl;
-            AppConsts.shareBaseUrl = result.shareBaseUrl;
             AppConsts.remoteServiceBaseUrlFormat = result.remoteServiceBaseUrl;
-            
+
             if (tenancyName == null) {
-                AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + ".", "");
-                AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + ".", "");
+                AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
+                AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
             } else {
                 AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
                 AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
@@ -57,11 +58,11 @@ export class AppPreBootstrap {
     }
 
     private static getCurrentClockProvider(currentProviderName: string): abp.timing.IClockProvider {
-        if (currentProviderName === "unspecifiedClockProvider") {
+        if (currentProviderName === 'unspecifiedClockProvider') {
             return abp.timing.unspecifiedClockProvider;
         }
 
-        if (currentProviderName === "utcClockProvider") {
+        if (currentProviderName === 'utcClockProvider') {
             return abp.timing.utcClockProvider;
         }
 
@@ -70,12 +71,12 @@ export class AppPreBootstrap {
 
     private static impersonatedAuthenticate(impersonationToken: string, tenantId: number, callback: () => void): JQueryPromise<any> {
         abp.multiTenancy.setTenantIdCookie(tenantId);
-
+        const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
         return abp.ajax({
             url: AppConsts.remoteServiceBaseUrl + '/api/TokenAuth/ImpersonatedAuthenticate?impersonationToken=' + impersonationToken,
             method: 'POST',
             headers: {
-                'Accept-Language': abp.utils.getCookieValue("Abp.Localization.CultureName"),
+                '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
@@ -88,12 +89,12 @@ export class AppPreBootstrap {
 
     private static linkedAccountAuthenticate(switchAccountToken: string, tenantId: number, callback: () => void): JQueryPromise<any> {
         abp.multiTenancy.setTenantIdCookie(tenantId);
-
+        const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
         return abp.ajax({
             url: AppConsts.remoteServiceBaseUrl + '/api/TokenAuth/LinkedAccountAuthenticate?switchAccountToken=' + switchAccountToken,
             method: 'POST',
             headers: {
-                'Accept-Language': abp.utils.getCookieValue("Abp.Localization.CultureName"),
+                '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
@@ -105,12 +106,13 @@ export class AppPreBootstrap {
     }
 
     private static getUserConfiguration(callback: () => void): JQueryPromise<any> {
+        const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
         return abp.ajax({
             url: AppConsts.remoteServiceBaseUrl + '/AbpUserConfiguration/GetAll',
             method: 'GET',
             headers: {
                 Authorization: 'Bearer ' + abp.auth.getToken(),
-                'Accept-Language': abp.utils.getCookieValue("Abp.Localization.CultureName"),
+                '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
@@ -119,9 +121,10 @@ export class AppPreBootstrap {
             abp.clock.provider = this.getCurrentClockProvider(result.clock.provider);
 
             moment.locale(abp.localization.currentLanguage.name);
-
+            (window as any).moment.locale(abp.localization.currentLanguage.name);
             if (abp.clock.provider.supportsMultipleTimezone) {
                 moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
+                // (window as any).moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
             }
             abp.event.trigger('abp.dynamicScriptsInitialized');
 
@@ -132,7 +135,7 @@ export class AppPreBootstrap {
     private static setEncryptedTokenCookie(encryptedToken: string) {
         new UtilsService().setCookieValue(AppConsts.authorization.encrptedAuthTokenName,
             encryptedToken,
-            new Date(new Date().getTime() + 365 * 86400000), //1 year
+            new Date(new Date().getTime() + 365 * 86400000), // 1 year
             abp.appPath
         );
     }

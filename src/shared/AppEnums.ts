@@ -35,7 +35,7 @@ export class AppTenantAvailabilityState {
 
 // 根据枚举名获取数据源
 export class AppEnumSelectItemSource {
-    static UserActivationOption: string = "UserActivationOption";
+    static UserActivationOption = 'UserActivationOption';
 }
 
 // 应约人订单状态
@@ -47,12 +47,12 @@ export class OrgBookingOrderStatus {
     static State5: number = BookingOrderListDtoStatus._5;
 }
 
-//手机验证的类型
+// 手机验证的类型
 export class VerificationCodeType {
-    static Register: number =  CodeSendInputCodeType._10;
-    static Login: number =  CodeSendInputCodeType._20;
-    static ChangePassword: number =  CodeSendInputCodeType._30;
-    static ChangeEmail: number =  CodeSendInputCodeType._40;
-    static PhoneBinding: number =  CodeSendInputCodeType._50;
-    static PhoneVerify: number =  CodeSendInputCodeType._60;
+    static Register: number = CodeSendInputCodeType._10;
+    static Login: number = CodeSendInputCodeType._20;
+    static ChangePassword: number = CodeSendInputCodeType._30;
+    static ChangeEmail: number = CodeSendInputCodeType._40;
+    static PhoneBinding: number = CodeSendInputCodeType._50;
+    static PhoneVerify: number = CodeSendInputCodeType._60;
 }

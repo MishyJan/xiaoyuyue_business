@@ -17,6 +17,7 @@ export class SeriesItem {
 })
 
 export class BookingAccessTimeComponent implements OnInit {
+    echartsIntance: any;
     seriesData: SeriesItem[] = [];
     bookingAccessTimeData: BookingAccessChannelDto[] = [];
     bookingAccessTimeDate: string;
@@ -35,7 +36,7 @@ export class BookingAccessTimeComponent implements OnInit {
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 1);
+        date.setDate(date.getDate() - 2);
         this.bookingAccessTimeDate = this.dateToString(date);
         this.loadData();
     }
@@ -104,11 +105,15 @@ export class BookingAccessTimeComponent implements OnInit {
                             });
                         }
                         return this.seriesData;
-                    })(),
+                    })()
                 };
+
+                if (result.length <= 0) {
+                    let myChart = echarts.init(document.getElementById("bookingAccessTimeEcharts"));
+                    myChart.setOption(this.chartOption);
+                }
             })
     }
-
 
     dateToString(date: Date): string {
         let temp = '';

@@ -16,71 +16,79 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="portlet light portlet-fit">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <span class="caption-subject">{{l("Search")}}</span>
+            <div class="card">
+                <form class="form-horizontal">
+                    <div class="card-header card-header-text" data-background-color="orange">
+                        <h4 class="card-title">{{l("Search")}}</h4>
                     </div>
-                </div>
 
-                <div class="portlet-body clearfix">
-                    <div class="inputs inputs-full-width">
-                        <div class="portlet-input">
-                            <form class="form-horizontal">
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">{{l("BusinessCenter.Booking.BookingName")}}</label>
-                                            <div class="col-md-9">
-                                                <input class="form-control common-max-width" [(ngModel)]="bookingName" type="text" name="bookingName" placeholder="{{l('BusinessCenter.Booking.BookingName')}}">
-                                            </div>
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group common-max-width">
+                                    <label class="col-md-3 label-on-left">{{l("BusinessCenter.Booking.BookingName")}}</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control common-max-width" [(ngModel)]="bookingName" type="text" name="bookingName" placeholder="{{l('BusinessCenter.Booking.BookingName')}}">
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="col-xs-6">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">{{l("CreationTime")}}</label>
-                                            <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
-                                                <div class="col-md-6">
-                                                    <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" [(ngModel)]="startCreationTime" data-input>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" [(ngModel)]="endCreationTime" data-input>
-                                                </div>
+                            <div class="col-xs-6">
+                                <div class="form-group common-max-width">
+                                    <label class="col-md-3 label-on-left">{{l("CreationTime")}}</label>
+                                    <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating is-empty">
+                                                <label class="control-label"></label>
+                                                <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" [(ngModel)]="startCreationTime" data-input>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-xs-6">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">{{l("BusinessCenter.Booking.TenantField")}}</label>
-                                            <div class="col-md-9">
-                                                <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xs-6">
-                                        <div class="form-group common-max-width">
-                                            <label class="col-md-3 control-label">{{l("BusinessCenter.Booking.BookingState")}}</label>
-                                            <div class="col-md-9">
-                                                <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating is-empty">
+                                                <label class="control-label"></label>
+                                                <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" [(ngModel)]="endCreationTime" data-input>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row margin-bottom-10">
-                                    <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
-                                        <div class="text-center filter-action">
-                                            <button class="btn btn-block" (click)="loadData()"><i class="fa fa-search"></i> {{l("Search")}}</button>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <div class="form-group common-max-width">
+                                    <label class="col-md-3 label-on-left">{{l("BusinessCenter.Booking.TenantField")}}</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <div class="form-group common-max-width">
+                                    <label class="col-md-3 label-on-left">{{l("BusinessCenter.Booking.BookingState")}}</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
+                                <div class="text-center">
+                                    <button class="btn btn-block primary-bgcolor" (click)="loadData()"><i class="fa fa-search"></i> {{l("Search")}}</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                </form>
             </div>
         </div>
 
@@ -170,7 +178,7 @@
                     </div>
 
                     <!-- 待确认人数  -->
-                    <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHander(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
+                    <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHandler(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
                 </div>
                 <!--翻转后-->
                 <div class="back-wrap box-shadow">
@@ -182,12 +190,12 @@
                         </div>
                         <div class="portlet-body content-wrap clearfix">
                             <div class="content-item">
-                                <div class="name">{{bookingResultItem.name}}</div>
-                                <span class="vapps-icon-app-edit" (click)="editHandler(bookingResultItem.id)"></span>
+                                <div class="name orange-color">{{bookingResultItem.name}}</div>
+                                <span class="vapps-icon-app-edit orange-color" (click)="editHandler(bookingResultItem.id)"></span>
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderTenant")}}</div>
-                                <div class="desc text-overflow" [title]="bookingResultItem.outlet">{{bookingResultItem.outlet}}</div>
+                                <div class="desc text-overflow orange-color" [title]="bookingResultItem.outlet">{{bookingResultItem.outlet}}</div>
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("BusinessCenter.Booking.ResponderTime")}}</div>
@@ -206,11 +214,10 @@
                                 <div class="desc text-overflow">{{bookingResultItem.contactorPhoneNum}}</div>
                             </div>
                             <div class="content-item">
-                                <div class="name">{{l("BusinessCenter.Booking.ResponderNumber")}}</div>
-                                <div class="desc text-overflow">{{bookingResultItem.wait4ConfirmNum}}</div>
+                                <div class="name"><span class="booking-custom-btn light-bgcolor btn" (click)="showBookingCostomHandler(bookingResultItem)">应约人列表</span></div>
                             </div>
                             <div class="back clearfix" (click)="flipToFront(flipAni, $event)">
-                                <span class="vapps-icon-app-back btn btn-xs btn-default pull-right"></span>
+                                <span class="vapps-icon-app-back btn btn-xs  light-bgcolor pull-right"></span>
                             </div>
                         </div>
                     </div>
@@ -227,6 +234,7 @@
             </div>
         </div>
     </div>
-    <xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>
-    <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($event)"></xiaoyuyue-confirm-order-model>
 </div>
+<xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>
+<xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHandler($event)"></xiaoyuyue-confirm-order-model>
+<xiaoyuyue-booking-custom-model #bookingCustomModelComponent></xiaoyuyue-booking-custom-model>

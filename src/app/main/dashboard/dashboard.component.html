@@ -35,27 +35,27 @@
 
                 <div class="org-data box-shadow content-item clearfix" *ngIf="bookingDataStatistics">
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.today.pv }}</p>
+                        <p style="color: #00B200;">{{ bookingDataStatistics.today.pv }}</p>
                         <p>今日访问量</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.today.uv }}</p>
+                        <p style="color: #00B200;">{{ bookingDataStatistics.today.uv }}</p>
                         <p>今日访问人数</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.history.pv }}</p>
+                        <p style="color: #FF9641;">{{ bookingDataStatistics.history.pv }}</p>
                         <p>昨日访问量</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.history.uv }}</p>
+                        <p style="color: #FF9641;">{{ bookingDataStatistics.history.uv }}</p>
                         <p>昨日访问人数</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.history.complateNum }}</p>
+                        <p style="color: #02AFF3;">{{ bookingDataStatistics.history.bookingNum }}</p>
                         <p>昨日预约</p>
                     </div>
                     <div class="col-md-6 item">
-                        <p>{{ bookingDataStatistics.today.waitConfirmNum }}</p>
+                        <p style="color: #E32600;">{{ bookingDataStatistics.today.waitConfirmNum }}</p>
                         <p>待确认</p>
                     </div>
                 </div>

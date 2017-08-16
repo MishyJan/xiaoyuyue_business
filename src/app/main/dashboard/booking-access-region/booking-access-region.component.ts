@@ -48,8 +48,6 @@ export class BookingAccessRegionComponent implements OnInit {
             .finally(() => { this.showloading = false })
             .subscribe((result) => {
                 this.bookingAccessRegionData = result;
-                console.log(this.bookingAccessRegionData);
-                
 
                 this.chartOption = {
                     title: {
@@ -101,6 +99,7 @@ export class BookingAccessRegionComponent implements OnInit {
                             data: (() => {
                                 let res = [];
                                 this.bookingAccessRegionData.forEach(element => {
+                                    this.bookingAccessRegionEchartsData = new BookingAccessRegion();
                                     this.bookingAccessRegionEchartsData.name = element.name;
                                     this.bookingAccessRegionEchartsData.value = element.num;
                                     res.push(this.bookingAccessRegionEchartsData);
@@ -113,6 +112,11 @@ export class BookingAccessRegionComponent implements OnInit {
                         },
                     ]
                 };
+
+                if (result.length <= 0) {
+                    let myChart = echarts.init(document.getElementById("bookingAccessRegionEcharts"));
+                    myChart.setOption(this.chartOption);
+                }
 
             })
     }

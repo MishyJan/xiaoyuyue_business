@@ -1,4 +1,4 @@
-import { Component, ViewChild, Injector, Output, EventEmitter, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, Injector, Output, EventEmitter, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -11,13 +11,13 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
     animations: [accountModuleAnimation()]
 })
 
-export class BackgroundImgComponent extends AppComponentBase {
+export class BackgroundImgComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('loginBg') _loginBg: ElementRef;
     private $loginBg: JQuery;
 
     private imageData: string[] = [
-        "/assets/common/images/login/bg.jpg",
+        '/assets/common/images/login/bg.jpg',
     ]
     private imgUrl: string;
 
