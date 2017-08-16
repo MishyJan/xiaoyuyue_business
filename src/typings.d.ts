@@ -52,11 +52,6 @@ interface JQuery {
 }
 
 
-// interface JQuery {
-//     backstretch(...any): any;
-// }
-
-
 /**
  * jQuery sparkline
  */
@@ -96,6 +91,8 @@ interface JQuery {
     LUOCAPTCHA(...any): any;
 }
 
+declare var flatpickr: any;
+declare var Flatpickr: any;
 interface JQuery {
     flatpickr(...any): any;
 }

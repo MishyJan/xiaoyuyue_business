@@ -32,6 +32,7 @@
         width: 100%;
         max-width: 450px;
         height: 64vh;
+        min-height: 64vh;
         position: absolute;
         top: 0;
         bottom: 0;
@@ -57,7 +58,7 @@
         }
         .content-model {
             max-width: 460px;
-            margin: 100px auto 0;
+            margin: 80px auto 0;
             .item {
                 font-size: 14px;
                 margin: 10px 0;

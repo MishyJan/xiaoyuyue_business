@@ -4,10 +4,23 @@ export function appModuleAnimation() {
     return slideFromBottom();
 }
 
+export function appModuleSlowAnimation() {
+    return slideSlowFromBottom();
+}
+
 export function accountModuleAnimation() {
     return slideFromUp();
 }
 
+export function slideSlowFromBottom() {
+    return trigger('routerTransition', [
+        state('void', style({ 'padding-top': '20px', opacity: '0' })),
+        state('*', style({ 'padding-top': '0', opacity: '1' })),
+        transition(':enter', [
+            animate('0.2s ease-out', style({  'padding-top': '0', opacity: '1' }))
+        ])
+    ]);
+}
 export function slideFromBottom() {
     return trigger('routerTransition', [
         state('void', style({ transform: 'translateY(20px)', opacity: '0' })),

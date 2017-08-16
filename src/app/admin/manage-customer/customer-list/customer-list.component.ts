@@ -25,6 +25,9 @@ export class SingleBookingStatus {
 })
 
 export class CustomerListComponent extends AppComponentBase implements OnInit {
+    cEndCreationTime: any;
+    cStartCreationTime: any;
+    cBookingOrderDate: any;
     bookingId: number;
     creationEndDate: any;
     creationStartDate: any;
@@ -76,23 +79,25 @@ export class CustomerListComponent extends AppComponentBase implements OnInit {
             value: "",
             displayText: "请选择"
         };
+        this.getOrderStatusSelectList();
     }
 
     ngAfterViewInit() {
         this.loadData();
-
-        //  this.loadData();
-        // $("#bookingOrderDate").flatpickr({
-        //     "locale": "zh"
-        // });
-
-        // $("#startCreationTime").flatpickr({
-        //     "locale": "zh"
-        // });
-
-        // $("#endCreationTime").flatpickr({
-        //     "locale": "zh"
-        // });
+        this.cBookingOrderDate = new flatpickr("#bookingDate", {
+            "locale": "zh"
+        })
+        this.cStartCreationTime = $("#startCreationTime").flatpickr({
+            "locale": "zh"
+        });
+        this. cEndCreationTime = $("#endCreationTime").flatpickr({
+            "locale": "zh"
+        }); 
+    }
+    ngOnDestroy() {
+            this.cBookingOrderDate.destroy();
+            this.cStartCreationTime.destroy();
+            this.cEndCreationTime.destroy();
     }
 
     loadData(): void {

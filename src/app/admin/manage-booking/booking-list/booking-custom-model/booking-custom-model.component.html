@@ -7,30 +7,33 @@
         </div>
 
         <div class="content-model">
-            <div class="portlet-input">
+            <div class="card">
                 <form class="form-horizontal">
-                    <div class="row">
+                    <div class="row serach-wrap">
                         <div class="col-md-11">
                             <div class="col-md-4">
-                                <div class="form-group common-max-width">
-                                    <label class="col-md-4 control-label">姓名</label>
-                                    <div class="col-md-8">
+                                <label class="col-md-4 label-on-left">姓名</label>
+                                <div class="col-md-8">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
                                         <input class="form-control common-max-width" [(ngModel)]="customerName" type="text" name="customerName" placeholder="姓名">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group common-max-width">
-                                    <label class="col-md-4 control-label">电话号码</label>
-                                    <div class="col-md-8">
+                                <label class="col-md-4 label-on-left">电话号码</label>
+                                <div class="col-md-8">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
                                         <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="电话号码">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group common-max-width">
-                                    <label class="col-md-4 control-label">创建日期</label>
-                                    <div class="col-md-8">
+                                <label class="col-md-4 label-on-left">创建日期</label>
+                                <div class="col-md-8">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
                                         <input class="form-control common-max-width" [(ngModel)]="creationStartDate" type="text" name="creationStartDate" placeholder="创建日期">
                                     </div>
                                 </div>
@@ -39,48 +42,48 @@
                         <div class="col-md-1"><span class="btn vapps-icon-app-search" (click)="loadData()"></span></div>
                     </div>
                 </form>
-            </div>
 
-            <div class="grid-wrap">
-                <kendo-grid [data]="bookingCustomListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }" [sortable]="false"
-                    (dataStateChange)="dataStateChange($event)" [scrollable]="scrollable">
-                    <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
-                        pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
-                    <!-- 应约人 -->
-                    <kendo-grid-column title="应约人">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                            <span>{{ dataItem.customerName }}</span>
-                        </ng-template>
-                    </kendo-grid-column>
+                <div class="grid-wrap">
+                    <kendo-grid [data]="bookingCustomListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }" [sortable]="false"
+                        (dataStateChange)="dataStateChange($event)" [scrollable]="scrollable">
+                        <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
+                            pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+                        <!-- 应约人 -->
+                        <kendo-grid-column title="应约人">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.customerName }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
 
-                    <!-- 预约时间 -->
-                    <kendo-grid-column title="预约时间">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                            <span>{{ dataItem.hourOfDay }}</span>
-                        </ng-template>
-                    </kendo-grid-column>
+                        <!-- 预约时间 -->
+                        <kendo-grid-column title="预约时间">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.hourOfDay }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
 
-                    <!-- 预约人数 -->
-                    <kendo-grid-column title="预约人数">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                            <span>{{ dataItem.subscriberNum }}</span>
-                        </ng-template>
-                    </kendo-grid-column>
+                        <!-- 预约人数 -->
+                        <kendo-grid-column title="预约人数">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.subscriberNum }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
 
-                    <!-- 联系电话 -->
-                    <kendo-grid-column title="联系电话">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                            <span>{{ dataItem.phoneNum }}</span>
-                        </ng-template>
-                    </kendo-grid-column>
+                        <!-- 联系电话 -->
+                        <kendo-grid-column title="联系电话">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.phoneNum }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
 
-                    <!-- 预约时间 -->
-                    <kendo-grid-column title="订单创建时间">
-                        <ng-template kendoGridCellTemplate let-dataItem>
-                            <span>{{ t(dataItem.creationTime) }}</span>
-                        </ng-template>
-                    </kendo-grid-column>
-                </kendo-grid>
+                        <!-- 预约时间 -->
+                        <kendo-grid-column title="订单创建时间">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ t(dataItem.creationTime) }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+                </div>
             </div>
         </div>
 

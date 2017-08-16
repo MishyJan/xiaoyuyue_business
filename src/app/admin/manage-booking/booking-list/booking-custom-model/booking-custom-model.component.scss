@@ -1,4 +1,10 @@
 .confirm-order-wrap {
+    .form-group {
+        margin: 0;
+    }
+    .card .form-horizontal .label-on-left {
+        padding-top: 8px;
+    }
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -31,7 +37,7 @@
     .confirm-model {
         width: 100%;
         max-width: 974px;
-        height: 80vh;
+        height: 640px;
         position: absolute;
         top: 0;
         bottom: 0;
@@ -58,7 +64,10 @@
             }
         }
         .content-model {
-            padding: 40px;
+            padding: 15px 40px 40px;
+            .serach-wrap {
+                margin: 10px 0;
+            }
             .vapps-icon-app-search {
                 font-size: 18px;
                 background-color: #FF9641;
