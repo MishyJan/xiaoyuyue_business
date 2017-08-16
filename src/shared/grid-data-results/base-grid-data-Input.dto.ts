@@ -10,12 +10,15 @@ export class BaseGridDataInputDto {
     SkipCount = 0;
     MaxResultCount: number = AppConsts.grid.defaultPageSize;
     Sorting: Array<SortDescriptor> = [];
-
-    constructor(buttonCount = 5, pageSizes = true, previousNext = true, info = true) {
+    Scrollable = false;
+    Sortable = false;
+    constructor(buttonCount = 5, pageSizes = true, previousNext = true, info = true, scrollable = false, sortable = false) {
         this.ButtonCount = buttonCount;
         this.PageSizes = pageSizes;
         this.PreviousNext = previousNext;
         this.Info = info;
+        this.Scrollable = scrollable;
+        this.Sortable = sortable;
     }
 
     GetSortingString(): string {

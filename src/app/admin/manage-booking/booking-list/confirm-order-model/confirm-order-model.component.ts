@@ -1,3 +1,4 @@
+import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64 } from 'shared/service-proxies/service-proxies';
@@ -7,7 +8,7 @@ import { AppConsts } from 'shared/AppConsts';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { GridDataResult, EditEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { AppGridData } from '@shared/grid-data-results/grid-data-results';
 
 @Component({
     selector: 'xiaoyuyue-confirm-order-model',
@@ -16,27 +17,16 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
     bookingName: string;
-    batchConfirmCount: number = 0;
-    confirmOrderText: string = "批处理";
-    isBatchConfirmFlag: boolean = false;
+    batchConfirmCount = 0;
+    confirmOrderText = '批处理';
+    isBatchConfirmFlag = false;
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
-    isShowModelFlag: boolean = false;
+    isShowModelFlag = false;
     wait4ComfirmOrderListData: any;
     status: Status[] = [OrgBookingOrderStatus.State1];
     creationStartDate: moment.Moment;
     creationEndDate: moment.Moment;
-
-    buttonCount: number = 5;
-    info: boolean = true;
-    type: 'numeric' | 'input' = 'numeric';
-    pageSizes: boolean = false;
-    previousNext: boolean = true;
-    scrollable: string = "none";
-
-
-    skipCount: number = 0;
-    maxResultCount: number = AppConsts.grid.defaultPageSize;
-    sorting: Array<SortDescriptor> = [];
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
     gender: Gender;
     phoneNumber: string;
     endMinute: number;
@@ -60,17 +50,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     loadData(): void {
-        let state = { skip: this.skipCount, take: this.maxResultCount, sort: this.sorting };
-        let maxResultCount, skipCount, sorting;
-        if (state) {
-            maxResultCount = state.take;
-            skipCount = state.skip
-            if (state.sort.length > 0 && state.sort[0].dir) {
-                sorting = state.sort[0].field + " " + state.sort[0].dir
-            }
-        }
-
-        let loadOrgConfirmOrderData = () => {
+        const loadOrgConfirmOrderData = () => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
                 this.bookingId,
@@ -84,11 +64,11 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
                 this.creationStartDate,
                 this.creationEndDate,
                 this.status,
-                sorting,
-                maxResultCount,
-                skipCount
+                this.gridParam.GetSortingString(),
+                this.gridParam.MaxResultCount,
+                this.gridParam.SkipCount
                 ).map(response => {
-                    let gridData = (<GridDataResult>{
+                    const gridData = (<GridDataResult>{
                         data: response.items,
                         total: response.totalCount
                     });
@@ -101,12 +81,12 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
     // 确认预约订单
     comfirmBookingOrderHander(confirmBookingId: number): void {
-        let input: EntityDtoOfInt64 = new EntityDtoOfInt64();
+        const input: EntityDtoOfInt64 = new EntityDtoOfInt64();
         input.id = confirmBookingId;
         this._orgBookingOrderServiceProxy
             .comfirmBookingOrder(input)
             .subscribe(() => {
-                this.notify.success("确认成功");
+                this.notify.success('确认成功');
                 this.loadData()
             })
     }
@@ -114,20 +94,20 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     batchComfirmBookingOrderHandler(): void {
 
         this.isBatchConfirmFlag = !this.isBatchConfirmFlag;
-        if (this.batchComfirmInput.ids.length == 0) {
-            this.confirmOrderText == "取消" ? this.confirmOrderText = "批处理" : this.confirmOrderText = "取消";
+        if (this.batchComfirmInput.ids.length === 0) {
+            this.confirmOrderText === '取消' ? this.confirmOrderText = '批处理' : this.confirmOrderText = '取消';
             return;
         } else {
-            this.confirmOrderText = "确认";
+            this.confirmOrderText = '确认';
         }
 
         if (!this.isBatchConfirmFlag) {
             this._orgBookingOrderServiceProxy
                 .batchComfirmBookingOrder(this.batchComfirmInput)
                 .subscribe(() => {
-                    this.confirmOrderText = "批处理";
+                    this.confirmOrderText = '批处理';
                     this.batchComfirmInput.ids = [];
-                    this.notify.success("确认成功");
+                    this.notify.success('确认成功');
                     this.loadData()
                 })
         }
@@ -138,10 +118,10 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
         if (check) {
             this.batchComfirmInput.ids.push(value);
-            this.confirmOrderText = "确认";
+            this.confirmOrderText = '确认';
         } else {
             if (this.batchComfirmInput.ids.length <= 1) {
-                this.confirmOrderText = "取消";
+                this.confirmOrderText = '取消';
             }
             this.removeByValue(this.batchComfirmInput.ids, value);
         }
@@ -149,7 +129,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
     private removeByValue(arr, val): void {
         arr.forEach((element, index) => {
-            if (element == val) {
+            if (element === val) {
                 arr.splice(index, 1);
                 return;
             }
@@ -171,9 +151,9 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
-        this.skipCount = skip;
-        this.maxResultCount = take;
-        this.sorting = sort;
+        this.gridParam.SkipCount = skip;
+        this.gridParam.MaxResultCount = take;
+        this.gridParam.Sorting = sort;
 
         this.loadData();
     }
