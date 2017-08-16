@@ -74,10 +74,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     ngOnInit() {
         this.bookingActiveSelectDefaultItem = SelectHelper.defaultList();
+        this.loadSelectListData();
     }
 
     ngAfterViewInit() {
-        this.loadSelectListData();
         this.loadData();
         this.bStartCreationTime = new flatpickr(".startCreationTime", {
             "locale": "zh"
