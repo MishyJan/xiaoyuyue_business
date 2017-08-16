@@ -1,17 +1,19 @@
-import { Component, OnInit, Injector, ViewChild, AfterViewInit } from '@angular/core';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { AppComponentBase } from '@shared/common/app-component-base';
-import { AppGridData } from 'shared/grid-data-results/grid-data-results';
-import { OrgBookingOrderServiceProxy, Gender, Status, RemarkBookingOrderInput } from 'shared/service-proxies/service-proxies';
 import * as moment from 'moment';
+
+import { AfterViewInit, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { DataStateChangeEvent, EditEvent } from '@progress/kendo-angular-grid';
+import { Gender, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
+
+import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { EditEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { SelectHelper } from 'shared/helpers/SelectHelper';
+import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
 import { CustomerForEditModelComponent } from './customer-for-edit-model/customer-for-edit-model.component';
-import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { SelectHelper } from 'shared/helpers/SelectHelper';
+import { SortDescriptor } from '@progress/kendo-data-query';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 export class SingleBookingStatus {
     value: any;
@@ -26,13 +28,16 @@ export class SingleBookingStatus {
 })
 
 export class CustomerListComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    cEndCreationTime: any;
+    cStartCreationTime: any;
+    cBookingOrderDate: any;
     bookingId: number;
     creationEndDate: any;
     creationStartDate: any;
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
     searchActiveSelectDefaultItem: { value: string, displayText: string; };
     orderStatusSelectList: Object[] = [];
-    genderSelectListData: Object[] = SelectHelper.genderList();
+    genderSelectListData: Object[] = SelectHelper.GenderList();
 
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
     gender: Gender;
@@ -63,25 +68,27 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
     }
 
     ngOnInit() {
-        this.searchActiveSelectDefaultItem = SelectHelper.defaultList();
+        this.searchActiveSelectDefaultItem = SelectHelper.DefaultList();
+        this.getOrderStatusSelectList();
     }
 
     ngAfterViewInit() {
         this.getOrderStatusSelectList();
         this.loadData();
-
-        //  this.loadData();
-        // $("#bookingOrderDate").flatpickr({
-        //     "locale": "zh"
-        // });
-
-        // $("#startCreationTime").flatpickr({
-        //     "locale": "zh"
-        // });
-
-        // $("#endCreationTime").flatpickr({
-        //     "locale": "zh"
-        // });
+        this.cBookingOrderDate = new flatpickr("#bookingDate", {
+            "locale": "zh"
+        })
+        this.cStartCreationTime = $("#startCreationTime").flatpickr({
+            "locale": "zh"
+        });
+        this.cEndCreationTime = $("#endCreationTime").flatpickr({
+            "locale": "zh"
+        });
+    }
+    ngOnDestroy() {
+        this.cBookingOrderDate.destroy();
+        this.cStartCreationTime.destroy();
+        this.cEndCreationTime.destroy();
     }
 
     loadData(): void {

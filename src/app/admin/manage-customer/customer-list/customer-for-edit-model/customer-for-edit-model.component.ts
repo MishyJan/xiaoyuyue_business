@@ -15,7 +15,7 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
     styleUrls: ['./customer-for-edit-model.component.scss']
 })
 export class CustomerForEditModelComponent extends AppComponentBase implements OnInit {
-    dataItem: OrgBookingOrderInfolDto;
+    dataItem: OrgBookingOrderInfolDto = new OrgBookingOrderInfolDto();
     dataItemId: number;
     isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
@@ -44,9 +44,9 @@ export class CustomerForEditModelComponent extends AppComponentBase implements O
             .getOrderDetail(dataItemId)
             .subscribe(result => {
                 this.dataItem = result;
+                this.isShowModelFlag = true;
             })
 
-        this.isShowModelFlag = true;
     }
 
     hideModel(): void {

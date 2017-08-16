@@ -9,6 +9,7 @@ import { AppStorageService } from 'shared/services/storage.service';
 import { BookingCustomModelComponent } from './booking-custom-model/booking-custom-model.component';
 import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-model.component';
 import { NgxAni } from 'ngxani';
+import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/admin/manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component';
@@ -24,6 +25,8 @@ import { appModuleAnimation } from 'shared/animations/routerTransition';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    bEndCreationTime: any;
+    bStartCreationTime: any;
     countOverbrimTopValue: number;
     bookingOverbrimValue = 0;
     // 保存预约列表背景图的比例
@@ -31,9 +34,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     bookingBgH = 214;
 
     activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
-    outletSelectDefaultItem;
-    outletSelectListData: SelectListItemDto[] = [];
-    bookingActiveSelectListData: Object[] = SelectHelper.boolList();
+    outletSelectDefaultItem = '0';
+    outletSelectListData: SelectListItemDto[];
+    bookingActiveSelectListData: Object[] = SelectHelper.BoolList();
     bookingActiveSelectDefaultItem: object;
 
     organizationBookingResultData: BookingListDto[];
@@ -70,19 +73,18 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     ngOnInit() {
-        this.bookingActiveSelectDefaultItem = SelectHelper.defaultList();
+        this.bookingActiveSelectDefaultItem = SelectHelper.DefaultList();
+        this.loadSelectListData();
     }
 
     ngAfterViewInit() {
-        this.loadSelectListData();
         this.loadData();
-
-        // $(".startCreationTime").flatpickr({
-        //     "locale": "zh"
-        // });
-        // $(".endCreationTime").flatpickr({
-        //     "locale": "zh"
-        // });
+        this.bStartCreationTime = new flatpickr('.startCreationTime', {
+            'locale': 'zh'
+        })
+        this.bEndCreationTime = new flatpickr('.endCreationTime', {
+            'locale': 'zh'
+        })
     }
 
     private loadData(): void {
@@ -108,12 +110,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             return this._outletServiceServiceProxy.getOutletSelectList();
         }).subscribe(result => {
             // 添加请选择数据源
-            const input = new SelectListItemDto();
-            input.text = '请选择';
-            input.value = '';
             this.outletSelectListData = result;
-            this.outletSelectListData.unshift(input);
-            this.outletSelectDefaultItem = result[0].value;
+            this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
         });
     }
 

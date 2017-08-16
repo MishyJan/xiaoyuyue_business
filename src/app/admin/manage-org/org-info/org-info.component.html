@@ -21,54 +21,54 @@
         <div class="row">
             <div class="row col-lg-7">
                 <!-- 基本信息 -->
-                <div class="base-info col-lg-12">
-                    <div class="card">
-                        <div class="card-header card-header-text" data-background-color="rose">
+                <div class="card">
+                    <div class="form-horizontal">
+                        <div class="card-header card-header-text" data-background-color="orange">
                             <h4 class="card-title">{{l("General")}}</h4>
                         </div>
-                        <div class="portlet-body">
+                        <div class="card-content">
                             <!-- 门店名称 -->
-                            <div class="info-row row">
-                                <div class="outlet-name name col-md-3 text-right label-on-left"><span>机构名称</span></div>
-                                <div class="col-md-9 input-box row">
-                                    <div class="col-md-12 input-form">
-                                        <div class="form-group label-floating is-empty">
-                                            <label class="control-label"></label>
-                                            <input class="form-control common-max-width" type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
-                                        </div>
+                            <div class="row">
+                                <label class="col-sm-2 label-on-left">机构名称</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <input class="form-control common-max-width" type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
                                     </div>
                                 </div>
                             </div>
                             <!-- 机构宣传语 -->
-                            <div class="shop-hours-row row">
-                                <div class="project-intro name col-md-3 text-right"><span>机构宣传语</span></div>
-                                <div class="col-md-9 input-box row">
-                                    <div class="col-md-12 input-form">
-                                        <div class="common-max-width">
-                                            <input class="form-control" type="text" [(ngModel)]="input.tagline" name="tagline" placeholder="机构宣传语" required>
-                                        </div>
+                            <div class="row">
+                                <label class="col-sm-2 label-on-left">机构宣传语</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <input class="form-control common-max-width" type="text" [(ngModel)]="input.tagline" name="tagline" placeholder="机构宣传语" required>
                                     </div>
                                 </div>
                             </div>
                             <!-- 机构简介 -->
-                            <div class="outlet-address-row row">
-                                <div class="outlet-address name col-md-3 text-right"><span>机构简介</span></div>
-                                <div class="col-md-9 row input-box">
-                                    <div class="col-md-12 detailed-address-wrap">
-                                        <textarea class="form-control common-max-width" [(ngModel)]="input.description" name="description" placeholder="机构简介..."></textarea>
+                            <div class="row">
+                                <label class="col-sm-2 label-on-left">机构宣传语</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <textarea class="form-control common-max-width" rows="5" [(ngModel)]="input.description" name="description" placeholder="机构简介..."></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- 机构logo -->
-                <div class="col-lg-6 org-logo-wrap">
-                    <xiaoyuyue-upload-org-logo [orgLogoUrl]="sendOrgLogoInfo.pictureUrl" (orgLogoIngoHandler)="orgLogoInfo($event)"></xiaoyuyue-upload-org-logo>
-                </div>
+                <div class="row">
+                    <!-- 机构logo -->
+                    <div class="col-lg-6 org-logo-wrap">
+                        <xiaoyuyue-upload-org-logo [orgLogoUrl]="sendOrgLogoInfo.pictureUrl" (orgLogoIngoHandler)="orgLogoInfo($event)"></xiaoyuyue-upload-org-logo>
+                    </div>
 
-                <div class="col-lg-6 org-bg-wrap">
-                    <xiaoyuyue-upload-org-bg [orgBgUrl]="sendOrgBgInfo.pictureUrl" (orgBgInfoHandler)="orgBgInfo($event)"></xiaoyuyue-upload-org-bg>
+                    <div class="col-lg-6 org-bg-wrap">
+                        <xiaoyuyue-upload-org-bg [orgBgUrl]="sendOrgBgInfo.pictureUrl" (orgBgInfoHandler)="orgBgInfo($event)"></xiaoyuyue-upload-org-bg>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3 col-md-offset-1" *ngIf="false">

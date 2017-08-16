@@ -1,12 +1,23 @@
+import { SelectListItemDto } from './../service-proxies/service-proxies';
+
 export class SelectHelper {
-    static defaultList() {
+    static DefaultList() {
         return {
             value: '',
             displayText: '请选择'
         };
     };
 
-    static boolList(): Object[] {
+    static DefaultSelectList(): SelectListItemDto {
+        const input = new SelectListItemDto();
+        input.text = '请选择';
+        input.value = '0';
+
+        return input;
+    };
+
+
+    static BoolList(): Object[] {
         return [
             {
                 value: true,
@@ -18,7 +29,7 @@ export class SelectHelper {
             }];
     };
 
-    static genderList(): Object[] {
+    static GenderList(): Object[] {
         return [
             {
                 value: 1,

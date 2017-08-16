@@ -49,11 +49,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
     ngAfterViewInit(): void {
         const self = this;
-        // 解决Chrome浏览器自动填充的BUG
-        setTimeout(() => {
-            $('input:-webkit-autofill').addClass('edited')
-        }, 600);
-
         $(document).click(() => {
             self.flag = true;
             $('#externalLogin').css({

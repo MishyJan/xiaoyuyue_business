@@ -1,27 +1,21 @@
-<div class="outlet-image">
-    <div class="portlet light portlet-fit">
-        <div class="portlet-title">
-            <div class="caption">
-                <span class="caption-subject">{{l("BusinessCenter.Booking.PictureManage")}}</span>
-            </div>
-        </div>
+<div class="card">
+    <div class="card-header card-header-text" data-background-color="orange">
+        <h4 class="card-title">{{l("BusinessCenter.Booking.PictureManage")}}</h4>
+    </div>
 
-        <div class="portlet-body">
-            <div class="row">
-                <div class="gallery-wrap col-md-12">
-                    <div class="img-wrap">
-                        <img alt="outletPicUrl" *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" height="100%">
-                    </div>
+    <div class="card-content">
+        <div class="row">
+            <div class="gallery-wrap col-md-12">
+                <div class="img-wrap">
+                    <img alt="outletPicUrl" *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" height="100%">
                 </div>
-                <div class="gallery-action col-md-12">
-                    <div class="upload-wrap">
-                        <button class="upload btn btn-border-radius" (click)="uploadPicModel()"><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
-                    </div>
+            </div>
+            <div class="gallery-action col-md-12">
+                <div class="upload-wrap">
+                    <button class="upload btn btn-border-radius" (click)="uploadPicModel()"><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
-
 </div>
+<xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>

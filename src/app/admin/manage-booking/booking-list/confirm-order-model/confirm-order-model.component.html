@@ -52,16 +52,12 @@
                 <kendo-grid-column title="{{l('Actions')}}">
                     <ng-template kendoGridCellTemplate let-dataItem>
                         <!-- edit command directive, will be visible when not in edit mode -->
-                        <button title="{{l('Admin.Edit')}}" class="btn comfirm-btn" *ngIf="!isBatchConfirmFlag" (click)="comfirmBookingOrderHander(dataItem.id)">确认</button>
+                        <button title="确认" class="btn comfirm-btn" *ngIf="!isBatchConfirmFlag" (click)="comfirmBookingOrderHander(dataItem.id)">确认</button>
                         <div class="md-checkbox-list" *ngIf="isBatchConfirmFlag" [ngClass]="{'k-button': false}">
-                            <div class="md-checkbox">
-                                <input [id]="'name'+dataItem.id" (click)="batchComfirmBookingOrder($event.target.checked,dataItem.id)" class="md-check" type="checkbox"
-                                    [name]="'name'+dataItem.id">
-                                <label [for]="'name'+dataItem.id">
-                                    <span class="inc"></span>
-                                    <span class="check"></span>
-                                    <span class="box"></span>
-                                </label>
+                            <div class="checkbox">
+                                <label>
+                                        <input [id]="'name'+dataItem.id" (click)="batchComfirmBookingOrder($event.target.checked,dataItem.id)" class="md-check" type="checkbox">
+                                    </label>
                             </div>
                         </div>
                     </ng-template>
