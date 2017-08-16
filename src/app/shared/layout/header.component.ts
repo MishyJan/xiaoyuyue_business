@@ -2,16 +2,14 @@ import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angu
 import { LocalizationService } from '@abp/localization/localization.service';
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
-import { ProfileServiceProxy,UserLinkServiceProxy,UserServiceProxy,LinkedUserDto,ChangeUserLanguageDto } from '@shared/service-proxies/service-proxies';
+import { ProfileServiceProxy, UserLinkServiceProxy, UserServiceProxy, LinkedUserDto, ChangeUserLanguageDto } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
-import { LinkedAccountsModalComponent } from './linked-accounts-modal.component';
 import { ChangePasswordModalComponent } from './profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
 import { MySettingsModalComponent } from './profile/my-settings-modal.component'
 import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
-import { LinkedAccountService } from '@app/shared/layout/linked-account.service';
 import { NotificationSettingsModalCompoent } from '@app/shared/layout/notifications/notification-settings-modal.component';
 import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNotificationHelper';
 import { AppConsts } from '@shared/AppConsts';
@@ -29,18 +27,17 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     @ViewChild('notificationSettingsModal') notificationSettingsModal: NotificationSettingsModalCompoent;
 
     @ViewChild('loginAttemptsModal') loginAttemptsModal: LoginAttemptsModalComponent;
-    @ViewChild('linkedAccountsModal') linkedAccountsModal: LinkedAccountsModalComponent;
     @ViewChild('changePasswordModal') changePasswordModal: ChangePasswordModalComponent;
     @ViewChild('changeProfilePictureModal') changeProfilePictureModal: ChangeProfilePictureModalComponent;
     @ViewChild('mySettingsModal') mySettingsModal: MySettingsModalComponent;
 
     languages: abp.localization.ILanguageInfo[];
     currentLanguage: abp.localization.ILanguageInfo;
-    isImpersonatedLogin: boolean = false;
+    isImpersonatedLogin = false;
 
-    shownLoginNameTitle: string = "";
-    shownLoginName: string = "";
-    profilePicture: string = "/assets/common/images/default-profile-picture.png";
+    shownLoginNameTitle = '';
+    shownLoginName = '';
+    profilePicture = '/assets/common/images/default-profile-picture.png';
     recentlyLinkedUsers: LinkedUserDto[];
     unreadChatMessageCount = 0;
 
@@ -55,7 +52,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _userLinkServiceProxy: UserLinkServiceProxy,
         private _userServiceProxy: UserServiceProxy,
         private _authService: AppAuthService,
-        private _linkedAccountService: LinkedAccountService,
         private _userNotificationHelper: UserNotificationHelper
     ) {
         super(injector);
@@ -68,16 +64,15 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.currentLanguage = this.localization.currentLanguage;
         this.isImpersonatedLogin = this._sessionService.impersonatorUserId > 0;
 
-        this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l("YouCanBackToYourAccount") : "";
+        this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l('YouCanBackToYourAccount') : '';
         this.getCurrentLoginInformations();
         this.getProfilePicture();
-        this.getRecentlyLinkedUsers();
 
         this.registerToEvents();
     }
 
     registerToEvents() {
-        abp.event.on("profilePictureChanged", () => {
+        abp.event.on('profilePictureChanged', () => {
             this.getProfilePicture();
         });
 
@@ -91,14 +86,14 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     changeLanguage(languageName: string): void {
-        let input = new ChangeUserLanguageDto();
+        const input = new ChangeUserLanguageDto();
         input.languageName = languageName;
 
         this._profileServiceProxy.changeLanguage(input).subscribe(() => {
             abp.utils.setCookieValue(
-                "Abp.Localization.CultureName",
+                'Abp.Localization.CultureName',
                 languageName,
-                new Date(new Date().getTime() + 5 * 365 * 86400000), //5 year
+                new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
                 abp.appPath
             );
 
@@ -115,7 +110,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
             return linkedUser.username;
         }
 
-        return (linkedUser.tenantId ? linkedUser.tenancyName : ".") + "\\" + linkedUser.username;
+        return (linkedUser.tenantId ? linkedUser.tenancyName : '.') + '\\' + linkedUser.username;
     }
 
     getProfilePicture(): void {
@@ -126,18 +121,8 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         });
     }
 
-    getRecentlyLinkedUsers(): void {
-        this._userLinkServiceProxy.getRecentlyUsedLinkedUsers().subscribe(result => {
-            this.recentlyLinkedUsers = result.items;
-        });
-    }
-
     showLoginAttempts(): void {
         this.loginAttemptsModal.show();
-    }
-
-    showLinkedAccounts(): void {
-        this.linkedAccountsModal.show();
     }
 
     changePassword(): void {
@@ -160,11 +145,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.shownLoginName = this.appSession.getShownLoginName();
     }
 
-    switchToLinkedUser(linkedUser: LinkedUserDto): void {
-        this._linkedAccountService.switchToAccount(linkedUser.id, linkedUser.tenantId);
-    }
-
     get chatEnabled(): boolean {
-        return (!this._sessionService.tenantId || this.feature.isEnabled("App.ChatFeature"));
+        return (!this._sessionService.tenantId || this.feature.isEnabled('App.ChatFeature'));
     }
 }

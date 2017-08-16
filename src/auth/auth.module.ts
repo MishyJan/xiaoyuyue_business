@@ -1,5 +1,5 @@
 import * as ngCommon from '@angular/common';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -62,7 +62,7 @@ import { BackgroundImgComponent } from "auth/layout/background-img/background-im
         LanguageSwitchComponent,
         PhoneValidateComponent,
         LuosimaoCaptcha,
-        
+
         HeaderComponent,
         FooterComponent,
         BackgroundImgComponent

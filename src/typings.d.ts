@@ -1,5 +1,4 @@
 ///<reference path="../node_modules/@types/jquery/index.d.ts"/>
-///<reference path="../node_modules/@types/jstree/index.d.ts"/>
 ///<reference path="../node_modules/abp-web-resources/Abp/Framework/scripts/abp.d.ts"/>
 ///<reference path="../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.d.ts"/>
 ///<reference path="../node_modules/moment/moment.d.ts"/>
@@ -23,6 +22,10 @@ interface JQuery {
 }
 
 interface JQuery {
+    datepicker(...any): any;
+}
+
+interface JQuery {
     daterangepicker(...any): any;
 }
 
@@ -33,7 +36,6 @@ interface JQuery {
 interface JQuery {
     timeago(...any): any;
 }
-
 
 /**
  * jQuery selectpicker

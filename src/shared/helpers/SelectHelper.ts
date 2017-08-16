@@ -1,13 +1,20 @@
 export class SelectHelper {
-    static defaultList(): Object[] {
+    static defaultList() {
+        return {
+            value: '',
+            displayText: '请选择'
+        };
+    };
+
+    static boolList(): Object[] {
         return [
             {
                 value: true,
-                displayText: "是",
+                displayText: '是',
             },
             {
                 value: false,
-                displayText: "否",
+                displayText: '否',
             }];
     };
 
@@ -15,11 +22,11 @@ export class SelectHelper {
         return [
             {
                 value: 1,
-                displayText: "男",
+                displayText: '男',
             },
             {
                 value: 2,
-                displayText: "女",
+                displayText: '女',
             }];
     }
 }

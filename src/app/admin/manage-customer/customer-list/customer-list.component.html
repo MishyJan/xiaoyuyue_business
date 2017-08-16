@@ -149,10 +149,12 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-content">
-                    <kendo-grid xiaoyuyueGridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="maxResultCount" [skip]="skipCount" [sort]="sorting" [pageable]=" { buttonCount: buttonCount, info: info, type: type, pageSizes: pageSizes, previousNext: previousNext }"
+                    <kendo-grid xiaoyuyueGridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
+                        [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                         [sortable]="false" (dataStateChange)="dataStateChange($event)">
-                        <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
-                            pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+                        <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
+                            pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
+                            pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
 
                         <!-- 订单状态  -->
                         <kendo-grid-column title="订单状态" width="84px">

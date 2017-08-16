@@ -1,143 +1,129 @@
 {
-    "project": {
-        "version": "1.0.0-beta.30",
-        "name": "xiaoyuyue-business-center"
-    },
-    "apps": [{
-        "root": "src",
-        "outDir": "dist",
-        "assets": [
-            "assets"
-        ],
-        "index": "index.html",
-        "main": "main.ts",
-        "polyfills": "polyfills.ts",
-        "test": "test.ts",
-        "tsconfig": "tsconfig.json",
-        "prefix": "xiaoyuyue",
-        "mobile": false,
-        "styles": [
-            "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-
-            "assets/md-pro/css/material-dashboard.css",
-            "assets/metronic/admin/layout4/css/layout.css",
-            "assets/metronic/admin/layout4/css/themes/light.css",
-            "assets/metronic/global/css/plugins-md.css",
-
-            "../node_modules/simple-line-icons/css/simple-line-icons.css",
-            "../node_modules/font-awesome/css/font-awesome.css",
-            "../node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
-
-            "../node_modules/jquery.uniform/dist/css/default.css",
-            "../node_modules/toastr/build/toastr.css",
-            "../node_modules/sweetalert/dist/sweetalert.css",
-            "../node_modules//@progress/kendo-theme-default/dist/all.css",
-            "../external_libs/Jcrop/css/Jcrop.css",
-
-            "../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
-            "../node_modules/bootstrap-select/dist/css/bootstrap-select.css",
-
-            "../src/app/shared/core.less",
-            "../src/app/shared/skin.less",
-            "../src/app/shared/layout/layout.scss",
-
-            "assets/common/styles/xiaoyuyue-icon.css",
-            "assets/common/styles/flatpickr.css",
-            "styles.css"
-        ],
-        "scripts": [
-            "../node_modules/jquery/dist/jquery.min.js",
-            "../node_modules/jquery-migrate/dist/jquery-migrate.min.js",
-            "../node_modules/js-cookie/src/js.cookie.js",
-            "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-            "../node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
-
-            "../node_modules/lodash/lodash.min.js",
-            "../node_modules/moment/min/moment.min.js",
-
-            "../external_libs/Jcrop/js/Jcrop.js",
-            "../node_modules/raphael/raphael.min.js",
-            "../node_modules/jquery-backstretch/jquery.backstretch.min.js",
-
-            "../node_modules/toastr/build/toastr.min.js",
-            "../node_modules/sweetalert/dist/sweetalert.min.js",
-            "../node_modules/block-ui/jquery.blockUI.js",
-            "../node_modules/spin.js/spin.min.js",
-            "../node_modules/spin.js/jquery.spin.js",
-
-            "../node_modules/jquery-slimscroll/jquery.slimscroll.min.js",
-            "../node_modules/timeago/jquery.timeago.js",
-            "../node_modules/localforage/dist/localforage.min.js",
-            "../node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
-            "../node_modules/push.js/push.min.js",
-
-            "../node_modules/abp-web-resources/Abp/Framework/scripts/abp.js",
-            "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",
-            "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js",
-            "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
-            "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
-            "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
-            "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
-
-            "../src/assets/common/js/plupload-2.1.9.full.min.js",
-
-            "../src/assets/metronic/global/scripts/app.js",
-            "../src/assets/metronic/admin/layout4/scripts/layout.js",
-            "../src/assets/metronic/layouts/global/scripts/quick-sidebar.js",
-
-            "../src/assets/common/js/flatpickr.js",
-            "../src/assets/common/js/flatpickr-zh.js",
-
-            "../node_modules/arrive/minified/arrive.min.js",
-            "../src/assets/md-pro/js/core/material.min.js",
-
-            "../node_modules/echarts/dist/echarts.min.js",
-            "../node_modules/echarts/map/js/china.js",
-            "../node_modules/echarts/dist/extension/bmap.js",
-            "../node_modules/echarts/theme/shine.js"
-        ],
-        "environmentSource": "environments/environment.ts",
-        "environments": {
-            "dev": "environments/environment.ts",
-            "hmr": "environments/environment.hmr.ts",
-            "prod": "environments/environment.prod.ts"
-        }
-    }],
-    "addons": [],
-    "packages": [],
-    "e2e": {
-        "protractor": {
-            "config": "./protractor.conf.js"
-        }
-    },
-    "lint": [{
-            "files": "src/**/*.ts",
-            "project": "src/tsconfig.json"
-        },
-        {
-            "files": "e2e/**/*.ts",
-            "project": "e2e/tsconfig.json"
-        }
+  "project": {
+    "version": "1.0.0-beta.30",
+    "name": "xiaoyuyue-business-center"
+  },
+  "apps": [{
+    "root": "src",
+    "outDir": "dist",
+    "assets": [
+      "assets",
+      "favicon.ico"
     ],
-    "test": {
-        "karma": {
-            "config": "./karma.conf.js"
-        }
-    },
-    "defaults": {
-        "styleExt": "scss",
-        "prefixInterfaces": false,
-        "inline": {
-            "style": false,
-            "template": false
-        },
-        "spec": {
-            "class": false,
-            "component": true,
-            "directive": true,
-            "module": false,
-            "pipe": true,
-            "service": true
-        }
+    "index": "index.html",
+    "main": "main.ts",
+    "polyfills": "polyfills.ts",
+    "test": "test.ts",
+    "tsconfig": "tsconfig.json",
+    "prefix": "xiaoyuyue",
+    "mobile": false,
+    "styles": [
+      "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+
+      "assets/md-pro/css/material-dashboard.css",
+      "assets/metronic/admin/layout4/css/layout.css",
+      "assets/metronic/admin/layout4/css/themes/light.css",
+      "assets/metronic/global/css/plugins-md.css",
+
+      "../node_modules/simple-line-icons/css/simple-line-icons.css",
+      "../node_modules/font-awesome/css/font-awesome.css",
+      "../node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
+
+      "../node_modules/jquery.uniform/dist/css/default.css",
+      "../node_modules/toastr/build/toastr.css",
+      "../node_modules/sweetalert/dist/sweetalert.css",
+      "../node_modules//@progress/kendo-theme-default/dist/all.css",
+      "../external_libs/Jcrop/css/Jcrop.css",
+
+      "../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
+      "../node_modules/bootstrap-select/dist/css/bootstrap-select.css",
+
+      "../src/app/shared/core.less",
+      "../src/app/shared/skin.less",
+      "../src/app/shared/layout/layout.scss",
+
+      "assets/common/styles/xiaoyuyue-icon.css",
+      "assets/common/styles/flatpickr.css",
+      "styles.css"
+    ],
+    "scripts": [
+      "../node_modules/jquery/dist/jquery.min.js",
+      "../node_modules/jquery-migrate/dist/jquery-migrate.min.js",
+      "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+      "../node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
+
+      "../node_modules/lodash/lodash.min.js",
+
+      "../external_libs/Jcrop/js/Jcrop.js",
+      "../node_modules/raphael/raphael.min.js",
+      "../node_modules/jquery-backstretch/jquery.backstretch.min.js",
+
+      "../node_modules/toastr/build/toastr.min.js",
+      "../node_modules/sweetalert/dist/sweetalert.min.js",
+      "../node_modules/block-ui/jquery.blockUI.js",
+      "../node_modules/spin.js/spin.min.js",
+      "../node_modules/spin.js/jquery.spin.js",
+
+      "../node_modules/jquery-slimscroll/jquery.slimscroll.min.js",
+      "../node_modules/timeago/jquery.timeago.js",
+      "../node_modules/localforage/dist/localforage.min.js",
+      "../node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
+      "../node_modules/push.js/bin/push.min.js",
+
+      "../node_modules/moment/min/moment-with-locales.min.js",
+      "../node_modules/moment-timezone/builds/moment-timezone-with-data.min.js",
+      "../node_modules/abp-web-resources/Abp/Framework/scripts/abp.js",
+      "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",
+      "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js",
+      "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
+      "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
+      "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
+      "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+
+      "../src/assets/common/js/plupload-2.1.9.full.min.js",
+
+      "../src/assets/metronic/global/scripts/app.js",
+      "../src/assets/metronic/admin/layout4/scripts/layout.js",
+      "../src/assets/metronic/layouts/global/scripts/quick-sidebar.js",
+
+      "../src/assets/common/js/flatpickr.js",
+      "../src/assets/common/js/flatpickr-zh.js",
+
+      "../node_modules/arrive/minified/arrive.min.js",
+      "../src/assets/md-pro/js/core/material.min.js",
+
+      "../node_modules/echarts/dist/echarts.min.js",
+      "../node_modules/echarts/map/js/china.js",
+      "../node_modules/echarts/dist/extension/bmap.js",
+      "../node_modules/echarts/theme/shine.js"
+    ],
+    "environmentSource": "environments/environment.ts",
+    "environments": {
+      "dev": "environments/environment.ts",
+      "hmr": "environments/environment.hmr.ts",
+      "prod": "environments/environment.prod.ts"
     }
+  }],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [{
+      "files": "src/**/*.ts",
+      "project": "src/tsconfig.json"
+    },
+    {
+      "files": "e2e/**/*.ts",
+      "project": "e2e/tsconfig.json"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "scss"
+  }
 }
