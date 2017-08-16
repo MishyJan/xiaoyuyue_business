@@ -10,7 +10,6 @@ import { ChangePasswordModalComponent } from './profile/change-password-modal.co
 import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
 import { MySettingsModalComponent } from './profile/my-settings-modal.component'
 import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
-import { LinkedAccountService } from '@app/shared/layout/linked-account.service';
 import { NotificationSettingsModalCompoent } from '@app/shared/layout/notifications/notification-settings-modal.component';
 import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNotificationHelper';
 import { AppConsts } from '@shared/AppConsts';
@@ -34,11 +33,11 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
 
     languages: abp.localization.ILanguageInfo[];
     currentLanguage: abp.localization.ILanguageInfo;
-    isImpersonatedLogin: boolean = false;
+    isImpersonatedLogin = false;
 
-    shownLoginNameTitle: string = "";
-    shownLoginName: string = "";
-    profilePicture: string = "/assets/common/images/default-profile-picture.png";
+    shownLoginNameTitle = '';
+    shownLoginName = '';
+    profilePicture = '/assets/common/images/default-profile-picture.png';
     recentlyLinkedUsers: LinkedUserDto[];
     unreadChatMessageCount = 0;
 
@@ -53,7 +52,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _userLinkServiceProxy: UserLinkServiceProxy,
         private _userServiceProxy: UserServiceProxy,
         private _authService: AppAuthService,
-        private _linkedAccountService: LinkedAccountService,
         private _userNotificationHelper: UserNotificationHelper
     ) {
         super(injector);
@@ -66,7 +64,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.currentLanguage = this.localization.currentLanguage;
         this.isImpersonatedLogin = this._sessionService.impersonatorUserId > 0;
 
-        this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l("YouCanBackToYourAccount") : "";
+        this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l('YouCanBackToYourAccount') : '';
         this.getCurrentLoginInformations();
         this.getProfilePicture();
 
@@ -74,7 +72,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     registerToEvents() {
-        abp.event.on("profilePictureChanged", () => {
+        abp.event.on('profilePictureChanged', () => {
             this.getProfilePicture();
         });
 
@@ -88,14 +86,14 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     changeLanguage(languageName: string): void {
-        let input = new ChangeUserLanguageDto();
+        const input = new ChangeUserLanguageDto();
         input.languageName = languageName;
 
         this._profileServiceProxy.changeLanguage(input).subscribe(() => {
             abp.utils.setCookieValue(
-                "Abp.Localization.CultureName",
+                'Abp.Localization.CultureName',
                 languageName,
-                new Date(new Date().getTime() + 5 * 365 * 86400000), //5 year
+                new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
                 abp.appPath
             );
 
@@ -112,7 +110,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
             return linkedUser.username;
         }
 
-        return (linkedUser.tenantId ? linkedUser.tenancyName : ".") + "\\" + linkedUser.username;
+        return (linkedUser.tenantId ? linkedUser.tenancyName : '.') + '\\' + linkedUser.username;
     }
 
     getProfilePicture(): void {
@@ -147,11 +145,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.shownLoginName = this.appSession.getShownLoginName();
     }
 
-    switchToLinkedUser(linkedUser: LinkedUserDto): void {
-        this._linkedAccountService.switchToAccount(linkedUser.id, linkedUser.tenantId);
-    }
-
     get chatEnabled(): boolean {
-        return (!this._sessionService.tenantId || this.feature.isEnabled("App.ChatFeature"));
+        return (!this._sessionService.tenantId || this.feature.isEnabled('App.ChatFeature'));
     }
 }

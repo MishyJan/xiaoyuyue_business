@@ -9,7 +9,6 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { GridComponent, GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { toODataString } from '@progress/kendo-data-query';
 import { DatetimeHelper } from '@shared/helpers/DatetimeHelper';
-import { FormatArgumentHelper } from '@shared/helpers/UrlHelper';
 
 @Injectable()
 export class AppGridData extends BehaviorSubject<GridDataResult> {
@@ -23,7 +22,7 @@ export class AppGridData extends BehaviorSubject<GridDataResult> {
      * @param getUsersForGrid 接收一个函数，此函数去获取api数据
      */
 
- public query(getForGrid: () => any, transform: boolean = false) {
+    public query(getForGrid: () => any, transform: boolean = false) {
         if (transform) {
             getForGrid().subscribe(x => super.next(x));
             return;

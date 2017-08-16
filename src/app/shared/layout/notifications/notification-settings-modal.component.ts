@@ -13,7 +13,7 @@ export class NotificationSettingsModalCompoent extends AppComponentBase {
 
     @ViewChild('modal') modal: ModalDirective;
 
-    saving: boolean = false;
+    saving = false;
 
     settings: GetNotificationSettingsOutput;
 
@@ -42,7 +42,7 @@ export class NotificationSettingsModalCompoent extends AppComponentBase {
         input.receiveNotifications = this.settings.receiveNotifications;
         input.notifications = _.map(this.settings.notifications,
             (n) => {
-                var subscription = new NotificationSubscriptionDto();
+                const subscription = new NotificationSubscriptionDto();
                 subscription.name = n.name;
                 subscription.isSubscribed = n.isSubscribed;
                 return subscription;

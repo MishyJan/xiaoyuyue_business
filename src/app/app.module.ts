@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import * as ngCommon from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
@@ -19,18 +19,12 @@ import { ChangePasswordModalComponent } from '@app/shared/layout/profile/change-
 import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
 import { MySettingsModalComponent } from '@app/shared/layout/profile/my-settings-modal.component';
 
-import { AbpModule, ABP_HTTP_PROVIDER } from '@abp/abp.module';
+import { AbpModule } from '@abp/abp.module';
 
 import { UtilsModule } from '@shared/utils/utils.module';
 import { AppCommonModule } from './shared/common/app-common.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 
-import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
-import { AppConsts } from '@shared/AppConsts';
-
-import { AppSessionService } from '@shared/common/session/app-session.service';
-import { LinkedAccountService } from './shared/layout/linked-account.service';
-import { LinkAccountModalComponent } from '@app/shared/layout/link-account-modal.component';
 import { NotificationsComponent } from './shared/layout/notifications/notifications.component';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
 import { UserNotificationHelper } from './shared/layout/notifications/UserNotificationHelper';
@@ -46,7 +40,6 @@ import { GridDataResultsModule } from '@shared/grid-data-results/grid-result.mod
         SideBarComponent,
         FooterComponent,
         LoginAttemptsModalComponent,
-        LinkAccountModalComponent,
         ChangePasswordModalComponent,
         ChangeProfilePictureModalComponent,
         MySettingsModalComponent,
@@ -75,7 +68,6 @@ import { GridDataResultsModule } from '@shared/grid-data-results/grid-result.mod
         GridDataResultsModule
     ],
     providers: [
-        LinkedAccountService,
         UserNotificationHelper,
     ]
 })

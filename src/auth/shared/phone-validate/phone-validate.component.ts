@@ -38,7 +38,7 @@ export class PhoneValidateComponent extends AppComponentBase implements OnInit {
   }
 
   captchaResolved(): string {
-    let captchaResponse = $('#lc-captcha-response').val();
+    const captchaResponse = $('#lc-captcha-response').val().toString();
     return captchaResponse;
   }
 
@@ -47,9 +47,9 @@ export class PhoneValidateComponent extends AppComponentBase implements OnInit {
   }
 
   anginSend() {
-    let self = this;
+    const self = this;
     let time = 60;
-    let set = setInterval(() => {
+    const set = setInterval(() => {
       time--;
       self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
     }, 1000)
