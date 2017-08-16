@@ -1,19 +1,20 @@
+import * as moment from 'moment';
+
+import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppStorageService } from 'shared/services/storage.service';
-import { Component, OnInit, Injector, ViewChild, ChangeDetectionStrategy, ElementRef, AfterViewInit } from '@angular/core';
-import { appModuleAnimation } from 'shared/animations/routerTransition';
-import { AppComponentBase } from 'shared/common/app-component-base';
+import { BookingCustomModelComponent } from './booking-custom-model/booking-custom-model.component';
+import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-model.component';
 import { NgxAni } from 'ngxani';
-import { OrgBookingServiceProxy, PagedResultDtoOfBookingListDto, BookingListDto, CreateOrUpdateBookingInput, OutletServiceServiceProxy, SelectListItemDto, ActiveOrDisableInput } from 'shared/service-proxies/service-proxies';
-import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
-
-import * as moment from 'moment';
+import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/admin/manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component';
-import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-model.component';
-import { BookingCustomModelComponent } from './booking-custom-model/booking-custom-model.component';
-
+import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
+import { appModuleAnimation } from 'shared/animations/routerTransition';
 
 @Component({
     selector: 'app-manage-booking',
@@ -33,9 +34,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     bookingBgH = 214;
 
     activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
-    outletSelectDefaultItem: string;
+    outletSelectDefaultItem = '0';
     outletSelectListData: SelectListItemDto[];
-    bookingActiveSelectListData: Object[] = SelectHelper.boolList();
+    bookingActiveSelectListData: Object[] = SelectHelper.BoolList();
     bookingActiveSelectDefaultItem: object;
 
     organizationBookingResultData: BookingListDto[];
@@ -44,7 +45,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     endCreationTime: any;
     startCreationTime: any;
-
     isActive: boolean;
     outletId: number;
     bookingName: string;
@@ -73,17 +73,18 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     ngOnInit() {
-        this.bookingActiveSelectDefaultItem = SelectHelper.defaultList();
+        this.bookingActiveSelectDefaultItem = SelectHelper.DefaultList();
+        this.loadSelectListData();
         this.loadSelectListData();
     }
 
     ngAfterViewInit() {
         this.loadData();
-        this.bStartCreationTime = new flatpickr(".startCreationTime", {
-            "locale": "zh"
+        this.bStartCreationTime = new flatpickr('.startCreationTime', {
+            'locale': 'zh'
         })
-        this.bEndCreationTime = new flatpickr(".endCreationTime", {
-            "locale": "zh"
+        this.bEndCreationTime = new flatpickr('.endCreationTime', {
+            'locale': 'zh'
         })
     }
 
@@ -110,12 +111,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             return this._outletServiceServiceProxy.getOutletSelectList();
         }).subscribe(result => {
             // 添加请选择数据源
-            const input = new SelectListItemDto();
-            input.text = '请选择';
-            input.value = '';
             this.outletSelectListData = result;
-            this.outletSelectListData.unshift(input);
-            this.outletSelectDefaultItem = result[0].value;
+            this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
         });
     }
 

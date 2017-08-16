@@ -43,13 +43,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" [(ngModel)]="startCreationTime" data-input>
+                                                <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="请选择起始日期" [(ngModel)]="startCreationTime"
+                                                    data-input>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" [(ngModel)]="endCreationTime" data-input>
+                                                <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="请选择结束日期" [(ngModel)]="endCreationTime"
+                                                    data-input>
                                             </div>
                                         </div>
                                     </div>
@@ -62,7 +64,8 @@
                                     <div class="col-md-9">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'"
+                                                [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +77,8 @@
                                     <div class="col-md-9">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+                                            <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'"
+                                                [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +98,8 @@
 
         <div class="col-lg-12 booking-list-wrap" *ngIf="organizationBookingResultData">
             <!-- 翻转最外层，包含翻转前front-wrap / 翻转后back-wrap -->
-            <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems };let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
+            <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems };let index = index"
+                class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
                 <!--翻转前-->
                 <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-banner-wrap">
@@ -137,19 +142,23 @@
                             </div>
                             <div class="handle-item-2 pull-right">
                                 <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="编辑预约">
-                                    <span class="show-icon vapps-icon-app-edit"></span><span class="show-text">编辑</span>
+                                    <span class="show-icon vapps-icon-app-edit"></span>
+                                <span class="show-text">编辑</span>
                                 </span>
 
                                 <span class="btn item-wrap" (click)="copyBooking(index)" title="复制预约">
-                                    <span class="show-icon vapps-icon-app-copy-1"></span><span class="show-text">复制</span>
+                                    <span class="show-icon vapps-icon-app-copy-1"></span>
+                                <span class="show-text">复制</span>
                                 </span>
 
                                 <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="查看详情">
-                                    <span class="show-icon vapps-icon-app-detail"></span><span class="show-text">详情</span>
+                                    <span class="show-icon vapps-icon-app-detail"></span>
+                                <span class="show-text">详情</span>
                                 </span>
 
                                 <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
-                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
+                                    <span class="show-icon vapps-icon-app-delete"></span>
+                                <span class="show-text">删除</span>
                                 </span>
                             </div>
                         </div>
@@ -163,15 +172,18 @@
                             </div>
                             <div class="handle-item-2 pull-right">
                                 <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="编辑预约">
-                                    <span class="show-icon vapps-icon-app-edit"></span><span class="show-text">编辑</span>
+                                    <span class="show-icon vapps-icon-app-edit"></span>
+                                <span class="show-text">编辑</span>
                                 </span>
 
                                 <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="查看详情">
-                                    <span class="show-icon vapps-icon-app-detail"></span><span class="show-text">详情</span>
+                                    <span class="show-icon vapps-icon-app-detail"></span>
+                                <span class="show-text">详情</span>
                                 </span>
 
                                 <span class="btn item-wrap" (click)="removeBooking(index)" title="删除预约">
-                                    <span class="show-icon vapps-icon-app-delete"></span><span class="show-text">删除</span>
+                                    <span class="show-icon vapps-icon-app-delete"></span>
+                                <span class="show-text">删除</span>
                                 </span>
                             </div>
                         </div>
