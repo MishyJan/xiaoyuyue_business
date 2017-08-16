@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-import { AfterViewInit, Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataStateChangeEvent, EditEvent } from '@progress/kendo-angular-grid';
 import { Gender, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
 
@@ -27,7 +27,7 @@ export class SingleBookingStatus {
     animations: [appModuleAnimation()]
 })
 
-export class CustomerListComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class CustomerListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     cEndCreationTime: any;
     cStartCreationTime: any;
     cBookingOrderDate: any;
@@ -75,14 +75,14 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
     ngAfterViewInit() {
         this.getOrderStatusSelectList();
         this.loadData();
-        this.cBookingOrderDate = new flatpickr("#bookingDate", {
-            "locale": "zh"
+        this.cBookingOrderDate = new flatpickr('#bookingDate', {
+            'locale': 'zh'
         })
-        this.cStartCreationTime = $("#startCreationTime").flatpickr({
-            "locale": "zh"
+        this.cStartCreationTime = $('#startCreationTime').flatpickr({
+            'locale': 'zh'
         });
-        this.cEndCreationTime = $("#endCreationTime").flatpickr({
-            "locale": "zh"
+        this.cEndCreationTime = $('#endCreationTime').flatpickr({
+            'locale': 'zh'
         });
     }
     ngOnDestroy() {
