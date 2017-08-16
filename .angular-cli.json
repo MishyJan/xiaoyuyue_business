@@ -68,7 +68,7 @@
       "../node_modules/timeago/jquery.timeago.js",
       "../node_modules/localforage/dist/localforage.min.js",
       "../node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
-      "../node_modules/push.js/bin/push.min.js",
+      "../node_modules/push.js/push.min.js",
 
       "../node_modules/moment/min/moment-with-locales.min.js",
       "../node_modules/moment-timezone/builds/moment-timezone-with-data.min.js",

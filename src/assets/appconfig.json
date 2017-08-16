@@ -1,5 +1,5 @@
 ﻿{
-    "remoteServiceBaseUrl": "https://api.xiaoyuyue.com/",
+    "remoteServiceBaseUrl": "http://vappshk.oicp.net:9090",
     "appBaseUrl": "https://business.xiaoyuyue.com",
     "shareBaseUrl": "https://user.xiaoyuyue.com"
 }
