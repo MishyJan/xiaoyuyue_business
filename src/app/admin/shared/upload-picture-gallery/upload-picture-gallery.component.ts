@@ -7,7 +7,7 @@ import { TokenService } from "abp-ng2-module/src/auth/token.service";
 import { IAjaxResponse } from "abp-ng2-module/src/abpHttp";
 import { UpdateProfilePictureInput, PictureServiceProxy, UploadTokenOutput, BookingPictureEditDto } from "shared/service-proxies/service-proxies";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
-
+import '@node_modules/qiniu-js/dist/qiniu.min';
 @Component({
   selector: 'xiaoyuyue-upload-picture-gallery',
   templateUrl: './upload-picture-gallery.component.html',
@@ -111,7 +111,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             },
             'UploadProgress': function (up, file) {
               // 每个文件上传时,处理相关的事情
-              // console.log(up);
               self.loading = true;
             },
             'FileUploaded': function (up, file, info) {
@@ -126,21 +125,19 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
               // var res = parseJSON(info);
               // this._$profilePicture = domain + res.key; //获取上传成功后的文件的Url
-              var result = JSON.parse(info.response).result;
+              var result = JSON.parse(info).result;
               self.pictureForEdit.pictureId = result.pictureId;
               self.pictureForEdit.pictureUrl = result.originalUrl;
               self.sendPictureForEdit.emit(self.pictureForEdit);
               self.loading = false;
-              // uploader.destroy();
+              uploader.destroy();
               self.close();
             },
             'Error': function (up, err, errTip) {
               //上传出错时,处理相关的事情
               self.loading = false;
               self.picturyDestroy();
-              // uploader.destroy();
               self.notify.error("上传失败，请重新上传");
-              console.log('上传出错');
             },
             'UploadComplete': function () {
               //队列文件处理完毕后,处理相关的事情
@@ -148,7 +145,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
               self._$profilePicture.removeAttr("src");
               self._$profilePicture.removeAttr("width");
               self.close();
-              console.log('完成流程');
             },
             'Key': function (up, file) {
               // 若想在前端对每个文件的key进行个性化处理，可以配置该函数

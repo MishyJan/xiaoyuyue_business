@@ -2,31 +2,41 @@
     /**
      * The URL requested, before initial routing.
      */
-    static redirectUrl ;
+    static redirectUrl;
     static readonly initialUrl = location.href;
-    
-    static getQueryParameters(): any {
-        return document.location.search.replace(/(^\?)/, '').split("&").map(function (n) { return n = n.split("="), this[n[0]] = n[1], this }.bind({}))[0];
-    }
-}
 
-export class FormatArgumentHelper {
-    static serializeArgmsTOUrl(filter: Object): string {
-        var url = "";
-        for (let key in filter) {
-            if (filter[key]) {
-                let str;
-                if (filter[key] instanceof Array) {
-                    var newArray = filter[key].map(function (item) {
-                        return key + "=" + item;
-                    })
-                    str = newArray.join("&") + "&";
-                } else {
-                    str = key + "=" + filter[key] + "&";
-                }
-                url += str;
-            }
+    static getQueryParameters(): any {
+        return UrlHelper.getQueryParametersUsingParameters(document.location.search);
+    }
+
+    static getQueryParametersUsingParameters(search: string): any {
+        return search.replace(/(^\?)/, '').split('&').map(function (n) { return n = n.split('='), this[n[0]] = n[1], this; }.bind({}))[0];
+    }
+
+    static getInitialUrlParameters(): any {
+        const questionMarkIndex = UrlHelper.initialUrl.indexOf('?');
+        if (questionMarkIndex >= 0) {
+            return UrlHelper.initialUrl.substr(questionMarkIndex, UrlHelper.initialUrl.length - questionMarkIndex);
         }
-        return url
+
+        return '';
+    }
+
+    static getReturnUrl(): string {
+        const queryStringObj = UrlHelper.getQueryParametersUsingParameters(UrlHelper.getInitialUrlParameters());
+        if (queryStringObj.returnUrl) {
+            return decodeURIComponent(queryStringObj.returnUrl);
+        }
+
+        return null;
+    }
+
+    static getSingleSignIn(): boolean {
+        const queryStringObj = UrlHelper.getQueryParametersUsingParameters(UrlHelper.getInitialUrlParameters());
+        if (queryStringObj.ss) {
+            return queryStringObj.ss;
+        }
+
+        return false;
     }
 }

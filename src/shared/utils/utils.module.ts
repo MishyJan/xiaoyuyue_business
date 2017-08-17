@@ -1,4 +1,6 @@
-﻿import { NgModule } from '@angular/core';
+﻿import { CurrencyInputDirective } from './currency-input.directive';
+import { MinValueValidator } from './validation/min-value-validator.directive';
+import { NgModule } from '@angular/core';
 
 import { FileDownloadService } from './file-download.service';
 import { EqualValidator } from './validation/equal-validator.directive';
@@ -19,21 +21,26 @@ import { GridRowClickDirective } from './grid-row-click.directive';
     declarations: [
         EqualValidator,
         PasswordComplexityValidator,
+        MinValueValidator,
         ButtonBusyDirective,
         AutoFocusDirective,
         BusyIfDirective,
         FriendProfilePictureComponent,
         MomentFormatPipe,
-        GridRowClickDirective
+        GridRowClickDirective,
+        CurrencyInputDirective
     ],
     exports: [
         EqualValidator,
         PasswordComplexityValidator,
+        MinValueValidator,
         ButtonBusyDirective,
         AutoFocusDirective,
         BusyIfDirective,
         FriendProfilePictureComponent,
-        MomentFormatPipe
+        MomentFormatPipe,
+        GridRowClickDirective,
+        CurrencyInputDirective
     ]
 })
 export class UtilsModule { }

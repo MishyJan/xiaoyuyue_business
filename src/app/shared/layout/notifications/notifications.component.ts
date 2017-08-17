@@ -11,9 +11,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import * as moment from 'moment';
-import { AppGridData } from "shared/grid-data-results/grid-data-results";
-import { Observable } from "rxjs/Observable";
-import { AppUserNotificationState } from "shared/AppEnums";
+import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { Observable } from 'rxjs/Observable';
+import { AppUserNotificationState } from 'shared/AppEnums';
 
 @Component({
     templateUrl: './notifications.component.html',
@@ -21,22 +21,22 @@ import { AppUserNotificationState } from "shared/AppEnums";
     encapsulation: ViewEncapsulation.None,
     animations: [appModuleAnimation()]
 })
-export class NotificationsComponent extends AppComponentBase implements AfterViewInit {
+export class NotificationsComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
     @ViewChild('table') table: ElementRef;
     private _$table: JQuery;
 
     notificationsData: AppGridData = new AppGridData();
-    readStateFilter: string = 'ALL';
-    loading: boolean = false;
+    readStateFilter = 'ALL';
+    loading = false;
 
-    buttonCount: number = 5;
-    info: boolean = true;
+    buttonCount = 5;
+    info = true;
     type: 'numeric';
     pageSizes: number[] = AppConsts.grid.pageSizes;
-    previousNext: boolean = true;
-    pageSize: number = 5;
-    skip: number = 0;
+    previousNext = true;
+    pageSize = 5;
+    skip = 0;
 
     constructor(
         injector: Injector,
@@ -95,17 +95,19 @@ export class NotificationsComponent extends AppComponentBase implements AfterVie
     }
 
     private loadData(): void {
-        let state = { skip: this.skip, take: this.pageSize };
+        // tslint:disable-next-line:prefer-const
         let maxResultCount, skipCount, sorting;
-        let filter = this.readStateFilter === 'ALL' ? undefined : AppUserNotificationState.Unread;
+
+        const state = { skip: this.skip, take: this.pageSize };
+        const filter = this.readStateFilter === 'ALL' ? undefined : AppUserNotificationState.Unread;
         if (state) {
             maxResultCount = state.take;
             skipCount = state.skip
         }
 
-        let loadNotificationsData = () => {
-            var result = this._notificationService.getUserNotifications(filter, maxResultCount, skipCount).map((response) => {
-                let dataResult = (<GridDataResult>{
+        const loadNotificationsData = () => {
+            const result = this._notificationService.getUserNotifications(filter, maxResultCount, skipCount).map((response) => {
+                const dataResult = (<GridDataResult>{
                     data: response.items.map(item => {
                         return ({
                             tenantId: item.id,
@@ -132,7 +134,7 @@ export class NotificationsComponent extends AppComponentBase implements AfterVie
     // 编辑删除
     editHandler({ sender, rowIndex, dataItem }) {
         this.setNotificationAsRead(dataItem, () => {
-            var btn = $('#' + dataItem.id);
+            const btn = $('#' + dataItem.id);
             btn.find('i').removeClass('fa-envelope').addClass('fa-envelope-open');
             btn.attr('disabled', 'disabled');
         });

@@ -1,4 +1,6 @@
-﻿import { BrowserModule } from '@angular/platform-browser';
+﻿import { AppAuthService } from './app/shared/common/auth/app-auth.service';
+import { UrlHelper } from './shared/helpers/UrlHelper';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Injector, APP_INITIALIZER } from '@angular/core';
 
@@ -22,6 +24,7 @@ import { NgxAniModule } from 'ngxani';
 export function appInitializerFactory(injector: Injector) {
     return () => {
         abp.ui.setBusy();
+        handleLogoutRequest(injector.get(AppAuthService));
         return new Promise<boolean>((resolve, reject) => {
             AppPreBootstrap.run(() => {
                 var appSessionService: AppSessionService = injector.get(AppSessionService);
@@ -53,6 +56,14 @@ export function getRemoteServiceBaseUrl(): string {
     return AppConsts.remoteServiceBaseUrl;
 }
 
+function handleLogoutRequest(authService: AppAuthService) {
+    var currentUrl = UrlHelper.initialUrl;
+    var returnUrl = UrlHelper.getReturnUrl();
+    if (currentUrl.indexOf(('account/logout')) >= 0 && returnUrl) {
+        authService.logout(true, returnUrl);
+    }
+}
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -79,7 +90,7 @@ export function getRemoteServiceBaseUrl(): string {
             multi: true
         }
     ],
-    bootstrap: [RootComponent] 
+    bootstrap: [RootComponent]
 })
 export class RootModule {
 

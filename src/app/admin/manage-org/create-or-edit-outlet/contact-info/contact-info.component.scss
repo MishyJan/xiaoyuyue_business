@@ -22,15 +22,13 @@
             }
         }
     }
-    .portlet-title {
-        margin-bottom: 0;
-        .add-time {
-            span {
-                color: #ff9742;
-            }
+    .add-time {
+        margin-right: 15px;
+        span {
+            color: #ff9742;
         }
     }
-    .portlet-body {
+    .card-content {
         position: relative;
         min-height: 200px;
         padding-top: 0;
@@ -38,17 +36,8 @@
             position: relative;
             margin-top: 52px;
             border: 1px solid #eee;
-            .contact-item+.contact-item {
-                border-top: 1px solid #eee;
-            }
             .contact-item {
-                height: 64px;
-                .name {
-                    line-height: 64px;
-                    border-right: 1px solid #eee;
-                }
                 .input-box {
-                    margin-top: 15px;
                     input.common-max-width {
                         width: 240px;
                         height: 34px;
@@ -76,7 +65,7 @@
             }
             .submit-item {
                 text-align: center;
-                >.btn-submit,
+                >.primary-bgcolor,
                 >.btn-cancel {
                     margin-top: 15px;
                 }

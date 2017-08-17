@@ -1,3 +1,4 @@
+import { DatePickerComponent } from './timing/date-picker.component';
 import * as ngCommon from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +16,6 @@ import { DateRangePickerComponent } from './timing/date-range-picker.component';
 import { AppRouteGuard } from './auth/auth-route-guard';
 
 import { GridModule } from '@progress/kendo-angular-grid';
-import { GridDataResultsModule } from '@shared/grid-data-results/grid-result.modules';
 
 @NgModule({
     imports: [
@@ -26,19 +26,20 @@ import { GridDataResultsModule } from '@shared/grid-data-results/grid-result.mod
         AbpModule,
         CommonModule,
         GridModule,
-        GridDataResultsModule
     ],
     declarations: [
         TimeZoneComboComponent,
         JqPluginDirective,
         CommonLookupModalComponent,
-        DateRangePickerComponent
+        DateRangePickerComponent,
+        DatePickerComponent
     ],
     exports: [
         TimeZoneComboComponent,
         JqPluginDirective,
         CommonLookupModalComponent,
-        DateRangePickerComponent
+        DateRangePickerComponent,
+        DatePickerComponent
     ]
 })
 export class AppCommonModule {

@@ -9,7 +9,7 @@ import { UploadPictureDto } from 'app/admin/shared/utils/upload-picture.dto';
 })
 export class UploadOrgBgComponent implements OnInit {
   picUrl: string;
-  uploadUid: number = new Date().valueOf();
+  uploadUid: number = Math.round(new Date().valueOf()*Math.random());
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
   @Output() orgBgInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
   @Input() orgBgUrl: string;

@@ -54,14 +54,15 @@ export abstract class AppComponentBase {
 
 
     t(momentTime: moment.Moment): string {
-        if(momentTime=== undefined)
+        if (momentTime === undefined) {
             return '';
+        }
 
-        let localDatetimeString = momentTime.local().format("YYYY-MM-DD HH:mm:ss");
+        const localDatetimeString = momentTime.local().format('YYYY-MM-DD HH:mm');
         return localDatetimeString;
     }
 
-    omitString(str:string):string{
+    omitString(str: string): string {
         return abp.utils.truncateStringWithPostfix(str, 20);
     }
 }

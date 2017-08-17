@@ -1,4 +1,7 @@
 .manage-org {
+    .search-btn-wrap {
+        margin: 15px;
+    }
     .orange-icon {
         color: #FF9641;
     }
@@ -18,6 +21,9 @@
                 margin-top: -30px;
                 border-radius: 4px;
                 overflow: hidden;
+                padding-bottom: 54%;
+                background-size: cover;
+                background-position: center;
             }
             .content-wrap {
                 padding: 26px 0;
@@ -34,6 +40,7 @@
                             float: left;
                             margin-right: 20px;
                             font-size: 18px;
+                            color: #FF9641;
                         }
                         .flex-left {
                             width: calc(80% - 10px);

@@ -1,6 +1,6 @@
 <div [@routerTransition]>
-    <form #loginForm="ngForm" method="post">
-        <div class="login-wrap portlet">
+    <div class="login-wrap card">
+        <form #loginForm="ngForm" method="post">
             <div class="login-title">
                 <div class="title"><img class="logo" src="/assets/common/images/login/logo-x2.png" alt=""></div>
                 <div class="toggle-wrap clearfix">
@@ -14,36 +14,45 @@
                     </span>
                 </div>
             </div>
-            <div class="login-body">
+            <div class="login-body card-content">
                 <div [@routerTransition] class="ordinary-login-wrap" *ngIf="ordinaryLogin">
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="form-group form-md-line-input form-md-floating-label">
-                                <input class="form-control" type="text" placeholder="用户名/手机号/邮箱" autofocus [(ngModel)]="loginService.authenticateModel.loginCertificate" name="UserName" required>
+                            <div class="form-group label-floating">
+                                <label class="control-label"></label>
+                                <input class="form-control" type="text" placeholder="用户名/手机号/邮箱" autofocus [(ngModel)]="loginService.authenticateModel.loginCertificate"
+                                    name="UserName" required>
+                                <input style="display:none" type="text" name="UserName" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="form-group form-md-line-input form-md-floating-label">
-                                <input class="form-control" type="password" placeholder="密码" [(ngModel)]="loginService.authenticateModel.password" name="EmailAddress" required>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label"></label>
+                                <input class="form-control" type="password" placeholder="密码" [(ngModel)]="loginService.authenticateModel.password" name="EmailAddress"
+                                    required>
+                                <input style="display:none" type="password" name="EmailAddress" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div [@routerTransition] class="phone-login-wrap" *ngIf="!ordinaryLogin">
                     <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group form-md-line-input form-md-floating-label">
-                                <input class="form-control" type="phone" autofocus name="phoneNumber" [(ngModel)]="model.phoneNum">
+                        <!-- <label class="col-sm-2 label-on-left">With help</label> -->
+                        <div class="col-md-12">
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label"></label>
+                                <input class="form-control" type="phone" autofocus name="phoneNumber" [(ngModel)]="model.phoneNum" placeholder="手机号码">
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="validate-code-wrap form-group form-md-line-input form-md-floating-label">
-                                <input class="form-control" type="text" name="identifyCode" [(ngModel)]="model.loginCode" required>
-                                <div class="get-sms-btn form-group form-md-line-input">
+                                <input class="form-control" type="text" name="identifyCode" [(ngModel)]="model.loginCode" required placeholder="验证码">
+                                <div class="get-sms-btn">
                                     <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">获取验证码</button>
                                 </div>
                             </div>
@@ -51,18 +60,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group">
-                        <div class="col-md-6 col-xs-6">
-                            <label class="mt-checkbox mt-checkbox-outline">
-                                <input class="form-control" [(ngModel)]="loginService.rememberMe" type="checkbox" name="rememberMe" value="true" />自动登录
-                                <span></span>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="checkbox">
+                            <label>
+                                <input [(ngModel)]="loginService.rememberMe" type="checkbox" name="rememberMe" value="true" />自动登录
                             </label>
                         </div>
-                        <div class="col-md-6 col-xs-6">
-                            <span class="forgot-password pull-right">
-                                <a routerLink="/account/forgot-password" id="forget-password">忘记密码</a>
-                            </span>
-                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <span class="forgot-password pull-right">
+                            <a routerLink="/account/forgot-password" id="forget-password">忘记密码?</a>
+                        </span>
                     </div>
                 </div>
                 <div class="login-btn-wrap">
@@ -94,6 +102,6 @@
                 </div>-->
             </div>
             <div class="login-footer"></div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>

@@ -54,7 +54,6 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
         this._tenantRegistrationServiceProxy.registerTenant(this.model)
             .finally(() => { this.saving = false; })
             .subscribe((result) => {
-                console.log(result);
                 if (!result.isActive) {
                     this.notify.success(this.l('SuccessfullyRegistered'));
                     this._router.navigate(['auth/login']);

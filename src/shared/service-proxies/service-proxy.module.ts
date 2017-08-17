@@ -29,7 +29,16 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.AccountServiceProxy,
         ApiServiceProxies.TokenAuthServiceProxy,
         ApiServiceProxies.TenantRegistrationServiceProxy,
-        ApiServiceProxies.OrgBookingOrderServiceProxy
+        ApiServiceProxies.OrgBookingOrderServiceProxy,
+        ApiServiceProxies.BookingDataStatisticsServiceProxy,
+        ApiServiceProxies.TenantInfoServiceProxy,
+        ApiServiceProxies.OutletServiceServiceProxy,
+        ApiServiceProxies.OrgBookingServiceProxy,
+        ApiServiceProxies.PerBookingOrderServiceProxy,
+        ApiServiceProxies.PictureServiceProxy,
+        ApiServiceProxies.StateServiceServiceProxy,
+        ApiServiceProxies.BookingServiceProxy,
+        ApiServiceProxies.SMSServiceProxy,
     ]
 })
 export class ServiceProxyModule { }

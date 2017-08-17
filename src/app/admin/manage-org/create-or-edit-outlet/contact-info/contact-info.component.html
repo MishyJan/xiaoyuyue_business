@@ -1,48 +1,56 @@
 <div class="contact-info">
-    <form #timeInfoForm="ngForm">
-        <div class="portlet light portlet-fit">
-            <div class="portlet-title clearfix">
-                <div class="caption pull-left">
-                    <span class="caption-subject">联系人</span>
+    <div class="card">
+        <form #timeInfoForm="ngForm" class="form-horizontal">
+            <div class="clearfix">
+                <div class="card-header card-header-text pull-left" data-background-color="orange">
+                    <h6 class="card-title">联系人</h6>
                 </div>
                 <div class="caption pull-right add-time">
-                    <span (click)="openCreateContact()" class="btn btn-border-radius"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加</span>
+                    <span (click)="openCreateContact()" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加</span>
                 </div>
             </div>
 
-            <div class="portlet-body clearfix">
+            <div class="card-content">
                 <!-- 创建时间段 -->
                 <div style="width: 100%;" *ngIf="isCreateContact" class="clearfix">
-                    <div class="col-md-4 contact-info-wrap box-shadow border-radius-14 pull-left paddingTop-32 no-lr-padding">
+                    <div class="col-md-4 contact-info-wrap box-shadow border-radius-14 pull-left paddingTop-32">
                         <div class="xiaoyuyue-title-box">{{ contactName }}</div>
                         <div class="contact-item clearfix">
-                            <div class="name col-md-4 text-right"><span>姓名</span></div>
+                            <div class="name col-md-4 text-right label-on-left"><span>姓名</span></div>
                             <div class="col-md-8 row input-box">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="text" [(ngModel)]="localSingleContact.name" name="name" required autofocus>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <input class="form-control" type="text" [(ngModel)]="localSingleContact.name" name="name" required autofocus>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="contact-item">
-                            <div class="name col-md-4 text-right"><span>电话</span></div>
+                            <div class="name col-md-4 text-right label-on-left"><span>电话</span></div>
                             <div class="col-md-8 row input-box">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="text" [(ngModel)]="localSingleContact.phoneNum" name="phoneNumber" pattern="^1[3|4|5|7|8][0-9]{9}$" required>
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <input class="form-control" type="text" [(ngModel)]="localSingleContact.phoneNum" name="phoneNumber" pattern="^1[3|4|5|7|8][0-9]{9}$" required>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="contact-item wechat-item">
-                            <div class="name col-md-4 text-right"><span>微信二维码</span></div>
+                            <div class="name col-md-4 text-right label-on-left"><span>微信二维码</span></div>
                             <div class="col-md-8 row input-box">
                                 <div class="col-md-12 flex-item">
-                                    <span class="qr-code-wrap" (click)="uploadPicModel()">
-                                        <img *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" width="100%" alt="qr-code">
-                                    </span>
+                                    <div class="form-group">
+                                        <span class="qr-code-wrap" (click)="uploadPicModel()">
+                                            <img *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" width="100%" alt="qr-code">
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="contact-item submit-item">
-                            <button type="submit" class="btn btn-submit" (click)="save()" [disabled]="!timeInfoForm.form.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
+                            <button type="submit" class="btn primary-bgcolor" (click)="save()" [disabled]="!timeInfoForm.form.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
                             <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
                         </div>
                     </div>
@@ -83,7 +91,7 @@
                                 </div>
                             </div>
                             <div class="wechat-img-wrap">
-                                <img [src]="contactItem.wechatQrcodeUrl" width="100px" alt="qr-code">
+                                <img [src]="contactItem.wechatQrcodeUrl" style="width:100px" alt="qr-code">
                             </div>
                             <div class="contact-wrap">
                                 <span><span class="vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}</span>
@@ -93,7 +101,7 @@
                 </ng-template>
 
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
 </div>

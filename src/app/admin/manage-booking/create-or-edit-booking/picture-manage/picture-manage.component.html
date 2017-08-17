@@ -1,13 +1,13 @@
 <div class="picture-manage">
-    <div class="portlet light portlet-fit">
-        <div class="portlet-title clearfix">
-            <div class="caption pull-left">
-                <span class="caption-subject">{{l("BusinessCenter.Booking.PictureManage")}}</span>
+    <div class="card">
+        <div class="clearfix">
+            <div class="card-header card-header-text pull-left" data-background-color="orange">
+                <h6 class="card-title">图片管理</h6>
             </div>
-            <button class="btn btn-border-radius upload-btn pull-right" (click)="show() "><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
+            <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="show() "><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
         </div>
 
-        <div class="portlet-body">
+        <div class="card-content">
             <div class="row">
                 <div class="gallery-wrap">
                     <div class="picture-item" *ngFor="let item of allPictureEdit">
@@ -18,37 +18,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--<div class="picture-item">
-                        <div class="content">
-                            <div class="area-wrap"></div>
-                            <div class="img-wrap">
-                                <img width=100%>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="picture-item">
-                        <div class="content">
-                            <div class="area-wrap"></div>
-                            <div class="img-wrap">
-                                <img width=100%>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="picture-item">
-                        <div class="content">
-                            <div class="area-wrap"></div>
-                            <div class="img-wrap">
-                                <img width=100%>
-                            </div>
-                        </div>
-                    </div>-->
                 </div>
             </div>
         </div>
-
-        <xiaoyuyue-upload-picture-gallery #uploadPictureModel (sendPictureForEdit)="getPictureForEdit($event) "></xiaoyuyue-upload-picture-gallery>
-
     </div>
+    <xiaoyuyue-upload-picture-gallery #uploadPictureModel (sendPictureForEdit)="getPictureForEdit($event) "></xiaoyuyue-upload-picture-gallery>
+</div>

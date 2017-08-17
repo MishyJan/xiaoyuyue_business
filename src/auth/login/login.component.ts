@@ -7,9 +7,9 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { AbpSessionService } from '@abp/session/abp-session.service';
-import { LoginService, ExternalLoginProvider } from "shared/services/login.service";
-import { TooltipConfig } from "ngx-bootstrap";
-import { NgxAni } from "ngxani";
+import { LoginService, ExternalLoginProvider } from 'shared/services/login.service';
+import { TooltipConfig } from 'ngx-bootstrap';
+import { NgxAni } from 'ngxani';
 import * as _ from 'lodash';
 import { CodeSendInput, SMSServiceProxy, PhoneAuthenticateModel } from 'shared/service-proxies/service-proxies';
 import { VerificationCodeType } from 'shared/AppEnums';
@@ -24,12 +24,12 @@ import { VerificationCodeType } from 'shared/AppEnums';
 export class LoginComponent extends AppComponentBase implements AfterViewInit {
     externalLoginProviders: ExternalLoginProvider[];
 
-    submitting: boolean = false;
-    flag: boolean = true;
+    submitting = false;
+    flag = true;
     // 普通登录或者手机验证登录，默认普通登录
-    ordinaryLogin: boolean = true;
-    isSendSMS: boolean = false;
-    saving: boolean = false;
+    ordinaryLogin = true;
+    isSendSMS = false;
+    saving = false;
     model: PhoneAuthenticateModel = new PhoneAuthenticateModel();
     @ViewChild('smsBtn') _smsBtn: ElementRef;
 
@@ -47,22 +47,15 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         super(injector);
     }
 
-    ngOnInit(): void {}
-
     ngAfterViewInit(): void {
-        let self = this;
-        // 解决Chrome浏览器自动填充的BUG
-        setTimeout(() => {
-            $("input:-webkit-autofill").addClass("edited")
-        }, 600);
-
+        const self = this;
         $(document).click(() => {
             self.flag = true;
-            $("#externalLogin").css({
+            $('#externalLogin').css({
                 opacity: 0,
-                transform: "scale(0)"
+                transform: 'scale(0)'
             });
-            $("#external_login_container").css({
+            $('#external_login_container').css({
                 opacity: 0
             });
         })
@@ -102,8 +95,8 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     }
 
     is_weixn() {
-        var ua = navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) + "" == "micromessenger") {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) + '' == 'micromessenger') {
             return true;
         } else {
             return false;
@@ -126,9 +119,9 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     // NgxAni动画
     private animationShow(externalAni, externalContent) {
         this._ngxAni.to(externalAni, .6, {
-            transform: "scale(1)",
+            transform: 'scale(1)',
             opacity: .8,
-            "ease": this._ngxAni['easeOutBack'],
+            'ease': this._ngxAni['easeOutBack'],
             onComplete: () => {
                 // 利用定时器解决每次请求微信图片会出现延迟，导致显示问题
                 setTimeout(() => {
@@ -142,9 +135,8 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
 
     private animationHide(externalAni, externalContent) {
-        console.log(externalAni);
         this._ngxAni.to(externalAni, .4, {
-            transform: "scale(0)",
+            transform: 'scale(0)',
             opacity: 0,
         });
         this._ngxAni.to(externalContent, 1, {
@@ -152,12 +144,11 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         })
     }
 
-    // add after
-    //是否账号登录
+    // 是否账号登录
     isOrdinaryLogin() {
         this.ordinaryLogin = true;
     }
-    //是否手机验证登录
+    // 是否手机验证登录
     isPhoneLogin() {
         this.ordinaryLogin = false;
         // this.ordinaryLogin = true;
@@ -165,7 +156,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
     // 发送验证码
     send() {
-        let input: CodeSendInput = new CodeSendInput();
+        const input: CodeSendInput = new CodeSendInput();
         input.targetNumber = this.model.phoneNum;
         input.codeType = VerificationCodeType.Login;
         // this.captchaResolved();
@@ -178,28 +169,26 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     }
 
     anginSend() {
-        let self = this;
+        const self = this;
         let time = 60;
         this.isSendSMS = true;
-        let set = setInterval(() => {
+        const set = setInterval(() => {
             time--;
             self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
-        }, 1000)
+        }, 1000);
 
         setTimeout(() => {
             clearInterval(set);
             self.isSendSMS = false;
-            self._smsBtn.nativeElement.innerHTML = this.l("AgainSendValidateCode");
+            self._smsBtn.nativeElement.innerHTML = this.l('AgainSendValidateCode');
         }, 60000);
     }
 
 }
-
 
 export function getAlertConfig(): TooltipConfig {
     return Object.assign(new TooltipConfig(), {
         placement: 'top',
         container: 'body'
     });
-
-}
+};

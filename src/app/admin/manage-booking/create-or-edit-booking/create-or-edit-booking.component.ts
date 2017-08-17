@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector, Input, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { AppComponentBase } from "shared/common/app-component-base";
-import { appModuleAnimation } from "shared/animations/routerTransition";
+import { appModuleAnimation, appModuleSlowAnimation } from "shared/animations/routerTransition";
 import { OrgBookingServiceProxy, PagedResultDtoOfBookingListDto, CreateOrUpdateBookingInput, BookingEditDto, BookingItemEditDto, GetBookingForEditOutput, OutletServiceServiceProxy, SelectListItemDto, BookingPictureEditDto, TenantInfoServiceProxy, TenantInfoEditDto } from 'shared/service-proxies/service-proxies';
 
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import { ShareBookingModelComponent } from './share-booking-model/share-booking-
     selector: 'app-create-or-edit-booking',
     templateUrl: './create-or-edit-booking.component.html',
     styleUrls: ['./create-or-edit-booking.component.less'],
-    animations: [appModuleAnimation()]
+    animations: [appModuleSlowAnimation()]
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit {
     tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
@@ -162,7 +162,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
-                this.notify.success("创建成功!");
+                this.notify.success("保存成功!");
             });
     }
 

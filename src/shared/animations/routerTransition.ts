@@ -4,16 +4,29 @@ export function appModuleAnimation() {
     return slideFromBottom();
 }
 
+export function appModuleSlowAnimation() {
+    return slideSlowFromBottom();
+}
+
 export function accountModuleAnimation() {
     return slideFromUp();
 }
 
-export function slideFromBottom() {
+export function slideSlowFromBottom() {
     return trigger('routerTransition', [
         state('void', style({ 'padding-top': '20px', opacity: '0' })),
-        state('*', style({ 'padding-top': '0px', opacity: '1' })),
+        state('*', style({ 'padding-top': '0', opacity: '1' })),
         transition(':enter', [
-            animate('0.33s ease-out', style({ opacity: '1', 'padding-top': '0px' }))
+            animate('0.2s ease-out', style({  'padding-top': '0', opacity: '1' }))
+        ])
+    ]);
+}
+export function slideFromBottom() {
+    return trigger('routerTransition', [
+        state('void', style({ transform: 'translateY(20px)', opacity: '0' })),
+        state('*', style({ transform: 'translateY(0px)', opacity: '1' })),
+        transition(':enter', [
+            animate('0.2s ease-out', style({ opacity: '1', transform: 'translateY(0px)' }))
         ])
     ]);
 }

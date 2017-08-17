@@ -1,13 +1,13 @@
-<div *ngIf="dataItem" class="confirm-order-wrap ani" [ngClass]="{'fade-in': isShowModelFlag, 'fade-out': !isShowModelFlag}">
+<div class="confirm-order-wrap  box-shadow ani" [ngClass]="{'fade-in': isShowModelFlag, 'fade-out': !isShowModelFlag}">
     <div class="confirm-model">
         <div class="header-model">
-            <img class="avatar" [src]="getProfileAvatar()" width="100px" alt="avatar">
+            <img class="avatar box-shadow" [src]="getProfileAvatar()" width="100px" alt="avatar">
         </div>
 
         <div class="content-model">
             <div class="row item">
                 <div class="col-md-4 col-lg-offset-2 name">订单状态</div>
-                <div class="col-md-5 desc">{{ dataItem.status }}</div>
+                <div class="col-md-5 desc">{{ bookingOrderStatusName[dataItem.status-1] }}</div>
             </div>
 
             <div class="row item">
@@ -59,8 +59,8 @@
         </div>
 
         <div class="footer-model">
-            <button type="button" class="btn btn-submit" *ngIf="dataItem.status == 1" (click)="confirmCustomerOrder()">确认订单</button>
-            <button type="button" class="btn btn-primary" (click)="remarkBookingOrder()">更新备注</button>
+            <button type="button" class="btn primary-bgcolor" *ngIf="dataItem.status == 1" (click)="confirmCustomerOrder()">确认订单</button>
+            <button type="button" class="btn btn-perfect" (click)="remarkBookingOrder()">更新备注</button>
         </div>
     </div>
 

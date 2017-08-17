@@ -11,11 +11,11 @@
             <li *ngIf="showMenuItem(menuItem)" routerLinkActive="active" [ngClass]="{'start': mainMenuItemIndex == 0,'active':isMenuActive(menuItem)}">
                 <a [routerLink]="[menuItem.route]" *ngIf="!menuItem.items.length">
                     <i class="{{menuItem.icon}} margin-right-10"></i>
-                    <span class="title">{{l(menuItem.name)}}</span>
+                    <span class="title-name">{{l(menuItem.name)}}</span>
                 </a>
                 <a href="javascript:;" class="auto" *ngIf="menuItem.items.length">
                     <i class="{{menuItem.icon}} margin-right-10"></i>
-                    <span class="title">{{l(menuItem.name)}}</span>
+                    <span class="title-name">{{l(menuItem.name)}}</span>
                     <span class="arrow "></span>
                 </a>
                 <ul class="sub-menu" *ngIf="menuItem.items.length">
@@ -24,11 +24,11 @@
                         <li *ngIf="showMenuItem(childMenuItem)" routerLinkActive="active" [ngClass]="{'start': childMenuItemIndex == 0,'open':isMenuActive(childMenuItem)}">
                             <a [routerLink]="[childMenuItem.route]" *ngIf="!childMenuItem.items.length" class="padding-left-46">
                                 <i class="{{childMenuItem.icon}}"></i>
-                                <span class="title">{{l(childMenuItem.name)}}</span>
+                                <span class="title-name">{{l(childMenuItem.name)}}</span>
                             </a>
                             <a href="javascript:;" class="auto" *ngIf="childMenuItem.items.length">
                                 <i class="{{childMenuItem.icon}}"></i>
-                                <span class="title">{{l(childMenuItem.name)}}</span>
+                                <span class="title-name">{{l(childMenuItem.name)}}</span>
                                 <span class="arrow "></span>
                             </a>
                             <ul class="sub-menu" *ngIf="childMenuItem.items.length">
@@ -37,11 +37,11 @@
                                     <li *ngIf="showMenuItem(childOfChildMenuItem)" routerLinkActive="active" [ngClass]="{'start': (childOfChildMenuItemIndex == 0),'open':isMenuActive(childOfChildMenuItem)}">
                                         <a [routerLink]="[childOfChildMenuItem.route]" *ngIf="!childOfChildMenuItem.items.length">
                                             <i class="{{childOfChildMenuItem.icon}}"></i>
-                                            <span class="title">{{l(childOfChildMenuItem.name)}}</span>
+                                            <span class="title-name">{{l(childOfChildMenuItem.name)}}</span>
                                         </a>
                                         <a href="javascript:;" class="auto" *ngIf="childOfChildMenuItem.items.length">
                                             <i class="{{childOfChildMenuItem.icon}}"></i>
-                                            <span class="title">{{l(childOfChildMenuItem.name)}}</span>
+                                            <span class="title-name">{{l(childOfChildMenuItem.name)}}</span>
                                             <span class="arrow "></span>
                                         </a>
                                         <ul class="sub-menu" *ngIf="childOfChildMenuItem.items.length">
@@ -50,7 +50,7 @@
                                                 <li *ngIf="showMenuItem(childOfChildOfChildMenuItem)" routerLinkActive="active" [ngClass]="{'start': childOfChildMenuItemIndex == 0}">
                                                     <a [routerLink]="[childOfChildOfChildMenuItem.route]">
                                                         <i class="{{childOfChildOfChildMenuItem.icon}}"></i>
-                                                        <span class="title">{{l(childOfChildOfChildMenuItem.name)}}</span>
+                                                        <span class="title-name">{{l(childOfChildOfChildMenuItem.name)}}</span>
                                                     </a>
                                                 </li>
                                             </ng-template>

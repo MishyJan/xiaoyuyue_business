@@ -1,68 +1,24 @@
+.common-max-width {
+    max-width: 240px;
+}
+
 .base-info {
-    .portlet-title {
-        margin-bottom: 0;
-    }
-    .portlet-body {
-        padding-top: 0;
-        padding-bottom: 0;
-        .row {
-            .name {
-                border-right: 1px solid #EEE;
-            }
-        }
-        .row+.row {
-            border-top: 1px solid #EEE;
-        }
-        .info-row {
-            .input-box {
-                .project-name {
-                    margin-top: 25px;
-                }
-            }
-        }
-        .info-row,
+    .card-content {
         .choose-contact-row {
-            height: 84px;
-            line-height: 84px;
+            margin: 15px 0;
             .input-box {
-                .common-max-width {
-                    max-width: 240px;
-                    height: 34px;
+                padding-left: 2px;
+                padding-right: 2px;
+                .input-item:first-child {
+                    padding-left: 0;
                 }
-            }
-        }
-        .intro-row,
-        .info-checkbox-row {
-            .name {
-                >span {
-                    display: inline-block;
-                    margin-top: 25px;
+                .input-item:last-child {
+                    padding-right: 0;
                 }
-            }
-        }
-        .intro-row {
-            .project-intro {
-                height: 175px;
-            }
-            textarea {
-                width: 240px;
-                height: 150px;
-                margin-top: 15px;
-                resize: none;
             }
         }
         .info-checkbox-row {
-            .info-checkbox {
-                height: 95px;
-            }
-            .content {
-                .item {
-                    cursor: pointer;
-                    input {
-                        margin-right: 6px;
-                    }
-                }
-            }
+            margin: 15px 0;
         }
     }
 }
