@@ -1,11 +1,11 @@
-import { AdminPermissions } from '@shared/AdminPermissions';
 import { Component, Injector } from '@angular/core';
-import { SideBarMenu } from './side-bar-menu';
-import { SideBarMenuItem } from './side-bar-menu-item';
 
-import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppSessionService } from '@shared/common/session/app-session.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { SideBarMenu } from './side-bar-menu';
+import { SideBarMenuItem } from './side-bar-menu-item';
 
 @Component({
     templateUrl: './side-bar.component.html',
@@ -23,12 +23,12 @@ export class SideBarComponent extends AppComponentBase {
     }
 
     menu: SideBarMenu = new SideBarMenu("MainMenu", "MainMenu", [
-        new SideBarMenuItem("BusinessCenter.Menu.UserData", this.adminPermissions.tenantDashboard, "vapps-icon-dc-menu", "/app/main/dashboard"),
-        new SideBarMenuItem("BusinessCenter.Menu.ManageBooking", this.adminPermissions.userManage, "vapps-icon-bm-menu", "", [
+        new SideBarMenuItem("BusinessCenter.Menu.UserData", this.adminPermissions.tenantDashboard, "vapps-icon-dc-menu menu-item", "/app/main/dashboard"),
+        new SideBarMenuItem("BusinessCenter.Menu.ManageBooking", this.adminPermissions.userManage, "vapps-icon-bm-menu menu-item", "", [
             new SideBarMenuItem("BusinessCenter.Menu.ManageBooking.List", "", "", "/app/admin/booking/list"),
             new SideBarMenuItem("应约人列表", "", "", "/app/admin/custom/list"),
         ]),
-        new SideBarMenuItem("BusinessCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu", "", [
+        new SideBarMenuItem("BusinessCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu menu-item", "", [
             new SideBarMenuItem("BusinessCenter.Menu.Org.BaseInfo", "", "", "/app/admin/org/info"),
             new SideBarMenuItem("BusinessCenter.Menu.Org.TenantManage", "", "", "/app/admin/org/list"),
         ])
