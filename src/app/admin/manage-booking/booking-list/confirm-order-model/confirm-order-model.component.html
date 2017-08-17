@@ -9,7 +9,7 @@
 
         <div class="content-model">
             <kendo-grid [data]="wait4ComfirmOrderListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount"
-                [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Ttype, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
+                [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                 [sortable]="gridParam.Sortable" (dataStateChange)="dataStateChange($event)" [scrollable]="gridParam.Scrollable">
                 <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
                     pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
