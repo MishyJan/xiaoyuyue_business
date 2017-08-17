@@ -75,6 +75,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     ngOnInit() {
         this.bookingActiveSelectDefaultItem = SelectHelper.DefaultList();
         this.loadSelectListData();
+        this.loadSelectListData();
     }
 
     ngAfterViewInit() {
@@ -87,7 +88,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         })
     }
 
-    private loadData(): void {
+    loadData(): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
 

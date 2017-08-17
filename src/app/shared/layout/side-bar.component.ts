@@ -9,6 +9,7 @@ import { AppSessionService } from '@shared/common/session/app-session.service';
 
 @Component({
     templateUrl: './side-bar.component.html',
+    styleUrls: ['./side-bar.component.scss'],
     selector: 'side-bar'
 })
 export class SideBarComponent extends AppComponentBase {
