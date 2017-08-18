@@ -12,12 +12,36 @@ a:hover,
 a:focus {
     text-decoration: none;
 }
+
 input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px white inset !important;
 }
 
 textarea {
     resize: none;
+}
+
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+/*定义滚动条轨道 内阴影+圆角*/
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #CCC;
+}
+
+
+/*定义滑块 内阴影+圆角*/
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(94, 94, 94, 0.83);
 }
 
 .bas-reset {
@@ -84,7 +108,7 @@ textarea {
     -moz-border-radius: 2px;
     -ms-border-radius: 2px;
     -o-border-radius: 2px;
-    border-radius: 2px;
+    border-radius: 4px;
     overflow: hidden;
     position: relative;
     user-select: none;
@@ -98,6 +122,15 @@ textarea {
 
 .k-dialog-titlebar {
     background-color: #3598dc;
+}
+
+.k-dropdown .k-dropdown-wrap {
+    border: none !important;
+    background-image: linear-gradient(#9c27b0, #9c27b0), linear-gradient(#D2D2D2, #D2D2D2)!important;
+    background-size: 0 2px, 100% 1px;
+    background-repeat: no-repeat;
+    background-position: center bottom, center 100%;
+    background-color: transparent;
 }
 
 .k-button {
@@ -147,13 +180,16 @@ textarea {
     cursor: pointer;
 }
 
-.k-animation-container-shown,
-.k-animation-container-shown .k-list-container {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2);
-}
-
 .k-dropdown-wrap .k-input {
     height: auto;
+}
+
+.k-animation-container-shown .k-list-container {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    border-radius: 6px;
+    background: #fff;
+    padding: 5px;
+    margin-top: -1px;
 }
 
 .k-list .k-item.k-state-focused,
@@ -161,16 +197,33 @@ textarea {
     box-shadow: none;
 }
 
+.k-list .k-item {
+    margin: 6px 2px;
+    border-radius: 2px;
+}
+
 .k-list .k-item.k-state-selected {
-    background-color: #ff9742;
+    background-color: #FF9641;
+}
+
+.k-dropdown .k-state-focused {
+    box-shadow: none;
+    /* box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .03), 1px 0px 0px 1px rgba(0, 0, 0, .04); */
 }
 
 .k-state-selected {
-    background-color: #ff9742;
+    background-color: #FF9641;
 }
 
 .k-list .k-item:hover.k-state-selected {
-    background-color: #fbaa69;
+    background-color: rgba(255, 141, 65, 0.91);
+}
+
+.k-list .k-item:hover,
+.k-list-optionlabel:hover {
+    color: #FFF;
+    background-color: #FF9641;
+    /* box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4); */
 }
 
 .k-dropdown-wrap {
@@ -1071,11 +1124,35 @@ Dropdown Menu
 }
 
 
+/* 覆盖flatpicker样式 */
+
+.flatpickr-calendar.open {
+    top: 320px!important;
+}
+
+
 /* 覆盖 material-Pro样式 */
+
+.modal .modal-dialog {
+    margin-top: 160px;
+}
+
+.checkbox input[type=checkbox]:checked+.checkbox-material .check {
+    background: #FF9641;
+}
+
+.card .card-title {
+    margin-bottom: 0;
+}
+
+.card [data-background-color="orange"] {
+    background: #FF9641;
+}
 
 .form-group {
     padding-bottom: 0;
 }
+
 .form-group.is-focused .form-control {
     outline: none;
     background-image: linear-gradient(#FF9641, #EC8332), linear-gradient(#D2D2D2, #D2D2D2);

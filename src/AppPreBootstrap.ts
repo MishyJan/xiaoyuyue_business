@@ -1,13 +1,15 @@
-﻿import * as moment from 'moment';
+﻿import * as _ from 'lodash';
+import * as moment from 'moment';
+
+import { CompilerOptions, NgModuleRef, Type } from '@angular/core';
 
 import { AppConsts } from '@shared/AppConsts';
-import { UrlHelper } from './shared/helpers/UrlHelper';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
-import * as _ from 'lodash';
 import { SubdomainTenancyNameFinder } from '@shared/helpers/SubdomainTenancyNameFinder';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { Type, CompilerOptions, NgModuleRef } from '@angular/core';
+import { UrlHelper } from './shared/helpers/UrlHelper';
 import { UtilsService } from '@abp/utils/utils.service';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 declare var $: any;
 export class AppPreBootstrap {
 
@@ -43,6 +45,7 @@ export class AppPreBootstrap {
             const tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(result.appBaseUrl);
 
             AppConsts.appBaseUrlFormat = result.appBaseUrl;
+            AppConsts.shareBaseUrl = result.shareBaseUrl;
             AppConsts.remoteServiceBaseUrlFormat = result.remoteServiceBaseUrl;
 
             if (tenancyName == null) {

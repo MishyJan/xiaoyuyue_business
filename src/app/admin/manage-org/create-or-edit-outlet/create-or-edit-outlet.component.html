@@ -6,8 +6,10 @@
                     <div class="page-title">
                         <h1>
                             <span>新增门店</span>
-                            <!--<span>编辑预约</span>-->
-                            <small routerLink="/app/admin/org"><span class="fa fa-arrow-circle-left"></span><a >返回</a></small>
+                            <small routerLink="/app/admin/org" clas>
+                                <span class="vapps-icon-app-back"></span>
+                                <span class="text">返回</span>
+                            </small>
                         </h1>
                     </div>
                 </div>
@@ -25,7 +27,7 @@
                 <div class="card">
                     <div class="form-horizontal">
                         <div class="card-header card-header-text" data-background-color="orange">
-                            <h4 class="card-title">{{l("General")}}</h4>
+                            <h6 class="card-title">{{l("General")}}</h6>
                         </div>
                         <div class="card-content">
                             <!-- 门店名称 -->
@@ -62,13 +64,15 @@
                                         <label class="control-label"></label>
                                         <div class="common-max-width select-address-wrap">
                                             <div class="col-md-4 item">
-                                                <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="provinceSelectDefaultItem"></kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
                                             </div>
                                             <div class="col-md-4 item">
-                                                <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="citySelectDefaultItem" [disabled]="!isCitySelect"> </kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                                </kendo-dropdownlist>
                                             </div>
                                             <div class="col-md-4 item">
-                                                <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="districtSelectDefaultItem" [disabled]="!isDistrictSelect"> </kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                                </kendo-dropdownlist>
                                             </div>
                                         </div>
                                         <div class="col-md-12 detailed-address-wrap">

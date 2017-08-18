@@ -3,7 +3,7 @@
         <form #timeInfoForm="ngForm" class="form-horizontal">
             <div class="clearfix">
                 <div class="card-header card-header-text pull-left" data-background-color="orange">
-                    <h4 class="card-title">{{l("BusinessCenter.Booking.TimeInfo")}}</h4>
+                    <h6 class="card-title">{{l("BusinessCenter.Booking.TimeInfo")}}</h6>
                 </div>
                 <div class="pull-right add-time">
                     <span (click)="createTimeField()" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加时段</span>
@@ -21,8 +21,7 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required
-                                            autofocus>
+                                        <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required autofocus>
                                     </div>
                                 </div>
                             </div>
@@ -45,12 +44,11 @@
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <div id="timeInfoFlatpickr" class="flatpickr-wrap">
-                                            <input class="form-control" type="text" name="bookingDate" placeholder="请选择日期" [(ngModel)]="localSingleBookingItem.availableDates"
-                                                data-input required>
+                                            <input class="form-control" type="text" name="bookingDate" placeholder="请选择日期" [(ngModel)]="localSingleBookingItem.availableDates" data-input required>
 
                                             <a class="input-button flatpickr-toggle" title="切换" data-toggle>
-                                            <i class="icon-calendar"></i>
-                                        </a>
+                                                <i class="icon-calendar"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

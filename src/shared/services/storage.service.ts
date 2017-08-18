@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs/Rx';
 /**
  * 作用：封装保存页码到localstorage中
  */
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class AppStorageService {

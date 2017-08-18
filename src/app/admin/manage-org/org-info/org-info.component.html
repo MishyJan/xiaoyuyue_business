@@ -19,12 +19,12 @@
         </div>
 
         <div class="row">
-            <div class="row col-lg-7">
+            <div class="col-lg-7">
                 <!-- 基本信息 -->
                 <div class="card">
                     <div class="form-horizontal">
                         <div class="card-header card-header-text" data-background-color="orange">
-                            <h4 class="card-title">{{l("General")}}</h4>
+                            <h6 class="card-title">{{l("General")}}</h6>
                         </div>
                         <div class="card-content">
                             <!-- 门店名称 -->
@@ -33,7 +33,7 @@
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control common-max-width" type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
+                                        <input class="form-control " type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,7 @@
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control common-max-width" type="text" [(ngModel)]="input.tagline" name="tagline" placeholder="机构宣传语" required>
+                                        <input class="form-control " type="text" [(ngModel)]="input.tagline" name="tagline" placeholder="机构宣传语" required>
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <textarea class="form-control common-max-width" rows="5" [(ngModel)]="input.description" name="description" placeholder="机构简介..."></textarea>
+                                        <textarea class="form-control " rows="5" [(ngModel)]="input.description" name="description" placeholder="机构简介..."></textarea>
                                     </div>
                                 </div>
                             </div>

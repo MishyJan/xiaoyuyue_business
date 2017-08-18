@@ -1,24 +1,23 @@
 .picture-manage {
     .card {
-        .upload-btn{
+        .upload-btn {
             color: #FF9641!important;
             margin-right: 15px;
         }
     }
-    .portlet-body {
+    .card-content {
         padding: 0;
         .row {
             margin: 0;
         }
         .gallery-wrap {
-            padding: 0;
             padding: 10px;
             .picture-item {
-                width: calc(100% / 4);
+                width: calc(100% / 2);
                 position: relative;
                 float: left;
-                padding-top: calc((100% / 4) / 2);
-                padding-bottom: calc((100% / 4) / 2);
+                padding-top: calc((100% / 2) / 2);
+                padding-bottom: calc((100% / 2) / 2);
                 .content {
                     width: calc(100% - 20px);
                     height: calc(100% - 20px);
@@ -27,6 +26,8 @@
                     left: 50%;
                     transform: translate(-50%, -50%);
                     background-color: #EEE;
+                    background-position: center;
+                    background-size: cover;
                 }
             }
         }

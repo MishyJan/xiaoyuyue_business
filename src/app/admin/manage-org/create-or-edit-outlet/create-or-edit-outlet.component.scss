@@ -1,3 +1,33 @@
 .common-max-width {
     max-width: 360px;
 }
+
+.create-outlet {
+    .page-head {
+        .back-btn {
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            display: inline-block;
+            border-radius: 26px;
+            color: #FFF;
+            background-color: #FF9641;
+            overflow: hidden;
+            transition: width .15s;
+            cursor: pointer;
+            vertical-align: text-top;
+            .text {
+                color: #FFF;
+                padding-right: 8px;
+            }
+            .vapps-icon-app-back {
+                font-size: 26px;
+                font-weight: 800;
+                vertical-align: middle;
+            }
+        }
+        .back-btn:hover {
+            width: 68px;
+        }
+    }
+}

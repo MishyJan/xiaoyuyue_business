@@ -1,9 +1,11 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ContactorEditDto, CreateOrUpdateOutletInput, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { StateServiceServiceProxy, SelectListItemDto, CreateOrUpdateOutletInput, OutletServiceServiceProxy, OutletEditDto, ContactorEditDto } from 'shared/service-proxies/service-proxies';
 import { Router } from '@angular/router';
+import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { UploadPictureDto } from 'app/admin/shared/utils/upload-picture.dto';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-create-or-edit-outlet',
@@ -13,20 +15,21 @@ import { UploadPictureDto } from 'app/admin/shared/utils/upload-picture.dto';
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
     savingAndEditing: boolean;
-    saving: boolean = false;
+    saving = false;
     onlineAllContactors: ContactorEditDto[];
     contactorEdit: ContactorEditDto[];
-    districtSelectDefaultItem: string;
-    citySelectDefaultItem: string;
-    provinceSelectDefaultItem: string;
+    selectedDistrictId: string;
+    selectedCityId: string;
+    selectedProvinceId: string;
+
+    districtId: number;
+    cityId: number;
+    provinceId: number;
+
     defaultItem: SelectListItemDto = new SelectListItemDto();
 
-    cityId: number = 1;
-    provinceId: number = 1;
-    districtId: number = 0;
-
-    isCitySelect: boolean = false;
-    isDistrictSelect: boolean = false;
+    isCitySelect = false;
+    isDistrictSelect = false;
 
     provinceSelectListData: SelectListItemDto[] = [];
     citysSelectListData: SelectListItemDto[];
@@ -41,7 +44,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     pictureInfo: UploadPictureDto = new UploadPictureDto();
 
     href: string = document.location.href;
-    outletId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
+    outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
     constructor(
         injector: Injector,
         private _router: Router,
@@ -54,10 +57,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     ngOnInit() {
-        this.defaultItem.text = "请选择";
-        this.defaultItem.value = "0";
-        this.provinceSelectListData.unshift(this.defaultItem);
-        this.provinceSelectDefaultItem = this.provinceSelectListData[0].value;
+        this.provinceSelectListData.unshift(SelectHelper.DefaultSelectList());
+        this.selectedProvinceId = this.provinceSelectListData[0].value;
         this.loadData();
     }
 
@@ -78,22 +79,22 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 this.outetInfo.detailAddress = result.outlet.detailAddress;
                 this.outetInfo.phoneNum = result.outlet.phoneNum;
 
-                this.startShopHours = result.outlet.businessHours.split(" ")[0];
-                this.endShopHours = result.outlet.businessHours.split(" ")[1];
+                this.startShopHours = result.outlet.businessHours.split(' ')[0];
+                this.endShopHours = result.outlet.businessHours.split(' ')[1];
 
                 this.provinceSelectListData = result.availableProvinces;
-                this.provinceSelectDefaultItem = result.outlet.provinceId + "";
-                this.provinceId = parseInt(this.provinceSelectDefaultItem);
+                this.selectedProvinceId = result.outlet.provinceId + '';
+                this.provinceId = result.outlet.provinceId;
 
                 this.citysSelectListData = result.availableCitys;
-                this.citySelectDefaultItem = result.outlet.cityId + "";
-                this.cityId = parseInt(this.citySelectDefaultItem);
+                this.selectedCityId = result.outlet.cityId + '';
+                this.cityId = result.outlet.cityId;
 
                 this.districtSelectListData = result.availableDistricts;
-                this.districtSelectDefaultItem = result.outlet.districtId + "";
-                this.districtId = parseInt(this.districtSelectDefaultItem);
+                this.selectedDistrictId = result.outlet.districtId + '';
+                this.districtId = result.outlet.districtId;
 
-                if (parseInt(this.provinceSelectDefaultItem) >= 0) {
+                if (result.outlet.provinceId >= 0) {
                     this.isCitySelect = true;
                     this.isDistrictSelect = true;
                 }
@@ -104,7 +105,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
         this.outetInfo.id = this.outletId ? this.outletId : 0;
 
-        this.outetInfo.businessHours = this.startShopHours + " " + this.endShopHours;
+        this.outetInfo.businessHours = this.startShopHours + ' ' + this.endShopHours;
         this.outetInfo.provinceId = this.provinceId;
         this.outetInfo.cityId = this.cityId;
         this.outetInfo.districtId = this.districtId;
@@ -118,7 +119,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .createOrUpdateOutlet(this.input)
             .finally(() => this.saving = false)
             .subscribe(result => {
-                this.notify.success("保存成功");
+                this.notify.success('保存成功');
                 this._router.navigate(['/app/admin/org/list']);
             })
     }
@@ -126,7 +127,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     saveAndEdit() {
         this.outetInfo.id = this.outletId ? this.outletId : 0;
 
-        this.outetInfo.businessHours = this.startShopHours + " " + this.endShopHours;
+        this.outetInfo.businessHours = this.startShopHours + ' ' + this.endShopHours;
         this.outetInfo.provinceId = this.provinceId;
         this.outetInfo.cityId = this.cityId;
         this.outetInfo.districtId = this.districtId;
@@ -139,7 +140,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .createOrUpdateOutlet(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
-                this.notify.success("保存成功!");
+                this.notify.success('保存成功!');
             });
     }
 
@@ -150,13 +151,13 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .subscribe(result => {
                 this.provinceSelectListData = result;
                 this.provinceSelectListData.unshift(this.defaultItem);
-                this.provinceSelectDefaultItem = this.provinceSelectListData[0].value;
-                this.provinceId = provinceId;
+                this.selectedProvinceId = this.provinceSelectListData[0].value;
+                this.provinceId = parseInt(this.selectedProvinceId, null);
             })
     }
 
-    getCitysSelectList(cityId?: number): void {
-        if (!this.provinceId) {
+    getCitysSelectList(provinceId: number): void {
+        if (!parseInt(this.selectedProvinceId, null)) {
             return;
         }
         this._stateServiceServiceProxy
@@ -164,53 +165,53 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .subscribe(result => {
                 this.citysSelectListData = result;
                 this.citysSelectListData.unshift(this.defaultItem);
-                this.citySelectDefaultItem = this.citysSelectListData[1].value;
-                this.cityId = cityId || parseInt(this.citySelectDefaultItem);
-                this.getDistrictsSelectList();
+                this.selectedCityId = this.citysSelectListData[1].value;
+                this.cityId = parseInt(this.selectedCityId, null);
+                this.getDistrictsSelectList(this.cityId);
             })
 
     }
 
-    getDistrictsSelectList(): void {
+    getDistrictsSelectList(cityId: number): void {
         if (!this.cityId) {
             return;
         }
         this._stateServiceServiceProxy
-            .getDistrictSelectList(this.cityId)
+            .getDistrictSelectList(cityId)
             .subscribe(result => {
                 this.districtSelectListData = result;
+                this.districtSelectListData.unshift(this.defaultItem);
                 if (result.length <= 0) {
                     this.isDistrictSelect = false;
-                    this.districtSelectDefaultItem = "";
-                    this.districtSelectListData.unshift(this.defaultItem);
-                    this.districtSelectDefaultItem = this.districtSelectListData[0].value;
-                    return;
+                    this.selectedDistrictId = '';
+                    this.districtId = 0;
+                } else {
+                    this.selectedDistrictId = this.districtSelectListData[1].value;
+                    this.districtId = parseInt(this.selectedDistrictId, null);
                 }
-                this.districtSelectListData.unshift(this.defaultItem);
-                this.districtSelectDefaultItem = this.districtSelectListData[1].value;
             })
     }
 
     public provinceSelectHandler(provinceId: any): void {
-        this.provinceId = parseInt(provinceId);
+        this.provinceId = parseInt(provinceId, null);
         if (this.provinceId <= 0) {
             this.isCitySelect = false;
             this.isDistrictSelect = false;
-            this.citySelectDefaultItem = this.defaultItem.value;
-            this.districtSelectDefaultItem = this.defaultItem.value;
+            this.selectedCityId = this.defaultItem.value;
+            this.selectedDistrictId = this.defaultItem.value;
         } else {
             this.isCitySelect = true;
             this.isDistrictSelect = true;
-            this.getCitysSelectList();
+            this.getCitysSelectList(provinceId);
         }
     }
     public citySelectHandler(cityId: any): void {
-        this.cityId = parseInt(cityId);
-        this.getDistrictsSelectList();
+        this.cityId = parseInt(cityId, null);
+        this.getDistrictsSelectList(this.cityId);
     }
 
     public districtSelectHandler(districtId: any): void {
-        this.districtId = parseInt(districtId);
+        this.districtId = parseInt(districtId, null);
     }
 
     public openProvinceSledct(): void {

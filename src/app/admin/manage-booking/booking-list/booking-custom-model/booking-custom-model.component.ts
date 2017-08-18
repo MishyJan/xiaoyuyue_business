@@ -1,13 +1,16 @@
-import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
-import { AppComponentBase } from 'shared/common/app-component-base';
-import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64, BookingListDto } from 'shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+
+import { BatchComfirmInput, BookingListDto, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
+import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
+
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { GridDataResult, EditEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
     selector: 'xiaoyuyue-booking-custom-model',
@@ -15,61 +18,40 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
     styleUrls: ['./booking-custom-model.component.scss']
 })
 export class BookingCustomModelComponent extends AppComponentBase implements OnInit {
+    batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
+    batchConfirmCount = 0;
+    bookingCustomListData = new AppGridData();
+    bookingDate: moment.Moment;
+    bookingId: number;
     bookingItem: BookingListDto = new BookingListDto();
     bookingName: string;
-    batchConfirmCount: number = 0;
-    confirmOrderText: string = "批处理";
-    isBatchConfirmFlag: boolean = false;
-    batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
-    isShowModelFlag: boolean = false;
-    bookingCustomListData: any;
-    status: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
-    creationStartDate: moment.Moment;
+    confirmOrderText = '批处理';
     creationEndDate: moment.Moment;
-
-    buttonCount: number = 5;
-    info: boolean = true;
-    type: 'numeric' | 'input' = 'numeric';
-    pageSizes: boolean = false;
-    previousNext: boolean = true;
-    scrollable: string = "none";
-
-    skipCount: number = 0;
-    maxResultCount: number = AppConsts.grid.defaultPageSize;
-    sorting: Array<SortDescriptor> = [];
-    gender: Gender;
-    phoneNumber: string;
-    endMinute: number;
-    startMinute: number;
-    bookingDate: moment.Moment;
+    creationStartDate: moment.Moment;
     customerName: string;
-    bookingId: number;
+    endMinute: number;
+    gender: Gender;
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
+    isBatchConfirmFlag = false;
+    isShowModelFlag = false;
+    phoneNumber: string;
+    startMinute: number;
+    status: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _orgBookingOrderGridDataResult: AppGridData
     ) {
         super(injector);
     }
 
     ngOnInit() {
-        this.bookingCustomListData = this._orgBookingOrderGridDataResult;
+
     }
 
     loadData(): void {
-        let state = { skip: this.skipCount, take: this.maxResultCount, sort: this.sorting };
-        let maxResultCount, skipCount, sorting;
-        if (state) {
-            maxResultCount = state.take;
-            skipCount = state.skip
-            if (state.sort.length > 0 && state.sort[0].dir) {
-                sorting = state.sort[0].field + " " + state.sort[0].dir
-            }
-        }
-
-        let loadOrgConfirmOrderData = () => {
+        this.bookingCustomListData.query(() => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
                 this.bookingId,
@@ -83,25 +65,21 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 this.creationStartDate,
                 this.creationEndDate,
                 this.status,
-                sorting,
-                maxResultCount,
-                skipCount
+                this.gridParam.GetSortingString(),
+                this.gridParam.MaxResultCount,
+                this.gridParam.SkipCount
                 ).map(response => {
-                    let gridData = (<GridDataResult>{
+                    const gridData = (<GridDataResult>{
                         data: response.items,
                         total: response.totalCount
                     });
                     return gridData;
                 });
-        }
-
-        this._orgBookingOrderGridDataResult.query(loadOrgConfirmOrderData, true);
+        }, true);
     }
 
     public showModel(bookingItem: BookingListDto): void {
-        if (!bookingItem) {
-            return;
-        }
+        if (!bookingItem) { return; }
         this.bookingItem = bookingItem;
         this.loadData();
         this.isShowModelFlag = true;
@@ -113,9 +91,9 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     }
 
     public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
-        this.skipCount = skip;
-        this.maxResultCount = take;
-        this.sorting = sort;
+        this.gridParam.SkipCount = skip;
+        this.gridParam.MaxResultCount = take;
+        this.gridParam.Sorting = sort;
 
         this.loadData();
     }

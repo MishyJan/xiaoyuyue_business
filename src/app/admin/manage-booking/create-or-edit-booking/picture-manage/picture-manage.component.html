@@ -2,20 +2,20 @@
     <div class="card">
         <div class="clearfix">
             <div class="card-header card-header-text pull-left" data-background-color="orange">
-                <h4 class="card-title">图片管理</h4>
+                <h6 class="card-title">图片管理</h6>
             </div>
             <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="show() "><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
         </div>
 
         <div class="card-content">
             <div class="row">
-                <div class="gallery-wrap">
+                <div class="gallery-wrap clearfix">
                     <div class="picture-item" *ngFor="let item of allPictureEdit">
-                        <div class="content">
+                        <div class="content" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}">
                             <!--<div class="area-wrap"></div>-->
-                            <div class="img-wrap">
+                            <!-- <div class="img-wrap">
                                 <img width=100% [src]="item.pictureUrl">
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

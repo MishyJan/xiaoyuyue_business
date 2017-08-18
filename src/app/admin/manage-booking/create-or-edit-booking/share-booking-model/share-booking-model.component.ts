@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ViewChild, Inject, Injector, ViewEncapsulation } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { Component, Inject, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { ModalDirective } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 
 @Component({
