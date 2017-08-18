@@ -80,7 +80,7 @@
     "ngxani": "^1.2.2",
     "plupload": "^2.3.2",
     "push.js": "^1.0.4",
-    "qiniu-js": "^1.0.21",
+    "qiniu-js": "1.0.19",
     "raphael": "^2.2.7",
     "rtl-detect": "^1.0.0",
     "rxjs": "^5.4.3",
