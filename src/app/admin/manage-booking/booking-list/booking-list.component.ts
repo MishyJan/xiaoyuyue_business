@@ -15,6 +15,7 @@ import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/admin/manage-booking/create-or-edit-booking/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { appModuleAnimation } from 'shared/animations/routerTransition';
+import { element } from 'protractor';
 
 @Component({
     selector: 'app-manage-booking',
@@ -81,11 +82,24 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     ngAfterViewInit() {
         this.loadData();
         this.bStartCreationTime = new flatpickr('.startCreationTime', {
-            'locale': 'zh'
+            'locale': 'zh',
+            // clickOpens: false,
+            onClose: (element) => {
+               $(this.bStartCreationTime.input).blur();
+            }
         })
         this.bEndCreationTime = new flatpickr('.endCreationTime', {
-            'locale': 'zh'
+            'locale': 'zh',
+            // clickOpens: false,
+            onClose: (element) => {
+                $(this.bEndCreationTime.input).blur();
+             }
         })
+    }
+
+    ngOnDestroy() {
+        this.bStartCreationTime.destroy();
+        this.bEndCreationTime.destroy();
     }
 
     loadData(): void {

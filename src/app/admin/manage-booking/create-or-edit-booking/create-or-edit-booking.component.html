@@ -7,14 +7,16 @@
                         <h1>
                             <span *ngIf="!this.bookingId">{{l("BusinessCenter.Menu.CreateYuyue")}}</span>
                             <span *ngIf="this.bookingId">编辑预约</span>
-                            <small routerLink="/app/admin/booking"><span class="fa fa-arrow-circle-left"></span><a >返回</a></small>
+                            <small routerLink="/app/admin/booking" class="back-btn">
+                                <span class="vapps-icon-app-back"></span>
+                                <span class="text">返回</span>
+                            </small>
                         </h1>
                     </div>
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
-                    [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                 <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [buttonBusy]="savingAndEditing" [busyText]="'保存中...'"><i></i><span>{{l("BusinessCenter.SavingAndEditing")}}</span></button>
                 <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>
             </div>
@@ -59,25 +61,23 @@
                                     <div class="col-md-6 input-item">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'"
-                                                [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
                                         </div>
                                     </div>
                                     <div class="col-md-6 input-item">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'"
-                                                [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
+                                            <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--应约人所需信息选项-->
                             <div class="info-checkbox-row row">
-                                <div class="info-checkbox name col-md-3 text-right label-on-left"><span>应约人所需信息选项</span></div>
+                                <div class="info-checkbox name col-md-3 text-right label-on-left"><span>信息选项</span></div>
                                 <div class="col-md-9 row content">
-                                    <div class="col-md-10 row margin-top-20">
-                                        <div class="col-md-4 item">
+                                    <div class="margin-top-14">
+                                        <div class="col-md-2 col-lg-4 item">
                                             <div class="checkbox">
                                                 <label>
                                                         <input type="checkbox" name="optionsCheckboxes"> 姓名
@@ -85,7 +85,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4 item">
+                                        <div class="col-md-2 col-lg-4 item">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="optionsCheckboxes"> 手机
@@ -93,7 +93,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4 item">
+                                        <div class="col-md-2 col-lg-4 item">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="optionsCheckboxes"> 性别
@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4 item">
+                                        <div class="col-md-2 col-lg-4 item">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="optionsCheckboxes"> 年龄
@@ -109,7 +109,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4 item">
+                                        <div class="col-md-2 col-lg-4 item">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="optionsCheckboxes"> 邮箱
@@ -117,7 +117,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-4 item">
+                                        <div class="col-md-2 col-lg-4 item">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox" name="optionsCheckboxes"> 地址

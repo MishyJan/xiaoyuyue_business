@@ -46,12 +46,16 @@
                 left: 30px;
                 background-color: #FFF;
                 backface-visibility: hidden;
+                border-radius: 4px;
+                overflow: hidden;
             }
             .front-wrap {
                 position: relative;
                 width: calc(100% - 30px);
                 background-color: #FFF;
                 backface-visibility: hidden;
+                border-radius: 4px;
+                overflow: hidden;
             }
             .back-wrap {
                 transform: rotateY(-180deg);
@@ -104,7 +108,6 @@
                 }
                 .top-banner-wrap {
                     overflow: hidden;
-                    border-radius: 4px;
                     .org-bg {
                         padding-bottom: 54%;
                         background-size: cover;

@@ -1,24 +1,26 @@
 <div class="header clearfix">
-    <span class="title pull-left">预约饱和度</span>
+    <div class="card-header card-header-text pull-left" data-background-color="orange">
+        <h4 class="card-title">预约饱和度</h4>
+    </div>
     <span class="dropdown-list pull-right">
-        <kendo-dropdownlist [data]="outletSelectListData"  (valueChange)="outletSelectListDataChangeHandler($event)" textField="text" valueField="value" [valuePrimitive]="true" [value]="outletDefaultListItem"></kendo-dropdownlist> 
-    </span>
+            <kendo-dropdownlist [data]="outletSelectListData"  (valueChange)="outletSelectListDataChangeHandler($event)" textField="text" valueField="value" [valuePrimitive]="true" [value]="outletDefaultListItem"></kendo-dropdownlist> 
+        </span>
 </div>
 
 <div class="content" *ngIf="bookingStatisticsData">
     <div class="top-view clearfix">
         <div class="item left-item">
             <span class="text-data">
-                <p class="text">可预约总人数</p>
-                <span class="total">{{ bookingStatisticsData.subMaxBookingNum }}</span>
+                    <p class="text">可预约总人数</p>
+                    <span class="total">{{ bookingStatisticsData.subMaxBookingNum }}</span>
             </span>
             <span class="icon vapps-icon-app-booking-total"></span>
         </div>
         <div class="item right-item">
             <span class="icon vapps-icon-app-booking-new-join"></span>
             <span class="text-data">
-                <p class="text">新参与人数</p>
-                <span class="total">{{ bookingStatisticsData.subBookingNum }}</span>
+                    <p class="text">新参与人数</p>
+                    <span class="total">{{ bookingStatisticsData.subBookingNum }}</span>
             </span>
         </div>
     </div>

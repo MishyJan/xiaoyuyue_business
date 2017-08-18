@@ -9,13 +9,13 @@
 
         <div class="card-content">
             <div class="row">
-                <div class="gallery-wrap">
+                <div class="gallery-wrap clearfix">
                     <div class="picture-item" *ngFor="let item of allPictureEdit">
-                        <div class="content">
+                        <div class="content" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}">
                             <!--<div class="area-wrap"></div>-->
-                            <div class="img-wrap">
+                            <!-- <div class="img-wrap">
                                 <img width=100% [src]="item.pictureUrl">
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
