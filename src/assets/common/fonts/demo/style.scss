@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'xiaoyuue';
-  src:  url('#{$icomoon-font-path}/xiaoyuue.eot?1w86w');
-  src:  url('#{$icomoon-font-path}/xiaoyuue.eot?1w86w#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/xiaoyuue.ttf?1w86w') format('truetype'),
-    url('#{$icomoon-font-path}/xiaoyuue.woff?1w86w') format('woff'),
-    url('#{$icomoon-font-path}/xiaoyuue.svg?1w86w#xiaoyuue') format('svg');
+  src:  url('#{$icomoon-font-path}/xiaoyuue.eot?pwzfrn');
+  src:  url('#{$icomoon-font-path}/xiaoyuue.eot?pwzfrn#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/xiaoyuue.ttf?pwzfrn') format('truetype'),
+    url('#{$icomoon-font-path}/xiaoyuue.woff?pwzfrn') format('woff'),
+    url('#{$icomoon-font-path}/xiaoyuue.svg?pwzfrn#xiaoyuue') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -26,6 +26,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-back {
+  &:before {
+    content: $vapps-icon-app-back;
+  }
+}
 .vapps-icon-app-active {
   &:before {
     content: $vapps-icon-app-active;
@@ -49,11 +54,6 @@
 .vapps-icon-app-add-time-field {
   &:before {
     content: $vapps-icon-app-add-time-field;
-  }
-}
-.vapps-icon-app-back {
-  &:before {
-    content: $vapps-icon-app-back;
   }
 }
 .vapps-icon-app-booking-new-join {

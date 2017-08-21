@@ -24,9 +24,9 @@
 .header {
     line-height: 60px;
     height: 60px;
-    border-bottom: 1px solid #CCC;
-    .title {
-        color: #000;
+    .card-header {
+        margin-left: 0;
+        margin-right: 0;
     }
     .dropdown-list {
         width: 112px;
@@ -37,8 +37,9 @@
     width: 100%;
     height: 50%;
     position: relative;
+
     .top-view {
-        margin-top: 55px;
+        margin-top: 40px;
         .item {
             width: 50%;
             float: left;

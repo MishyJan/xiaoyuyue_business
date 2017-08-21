@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'xiaoyuue';
-  src:  url('fonts/xiaoyuue.eot?1w86w');
-  src:  url('fonts/xiaoyuue.eot?1w86w#iefix') format('embedded-opentype'),
-    url('fonts/xiaoyuue.ttf?1w86w') format('truetype'),
-    url('fonts/xiaoyuue.woff?1w86w') format('woff'),
-    url('fonts/xiaoyuue.svg?1w86w#xiaoyuue') format('svg');
+  src:  url('fonts/xiaoyuue.eot?pwzfrn');
+  src:  url('fonts/xiaoyuue.eot?pwzfrn#iefix') format('embedded-opentype'),
+    url('fonts/xiaoyuue.ttf?pwzfrn') format('truetype'),
+    url('fonts/xiaoyuue.woff?pwzfrn') format('woff'),
+    url('fonts/xiaoyuue.svg?pwzfrn#xiaoyuue') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-back:before {
+  content: "\e905";
+}
 .vapps-icon-app-active:before {
   content: "\e900";
 }
@@ -38,9 +41,6 @@
 }
 .vapps-icon-app-add-time-field:before {
   content: "\e904";
-}
-.vapps-icon-app-back:before {
-  content: "\e905";
 }
 .vapps-icon-app-booking-new-join:before {
   content: "\e906";
