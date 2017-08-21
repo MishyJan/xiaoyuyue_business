@@ -14,13 +14,13 @@ import { ConfirmOrderModelComponent } from './manage-booking/booking-list/confir
 import { ContactInfoComponent } from './manage-org/create-or-edit-outlet/contact-info/contact-info.component';
 import { CreateOrEditBookingComponent } from './manage-booking/create-or-edit-booking/create-or-edit-booking.component';
 import { CreateOrEditOutletComponent } from './manage-org/create-or-edit-outlet/create-or-edit-outlet.component';
-import { CustomerForEditModelComponent } from "app/admin/manage-customer/customer-list/customer-for-edit-model/customer-for-edit-model.component";
+import { CustomerForEditModelComponent } from "app/admin/manage-customer/customer-list/customer-for-edit-model/customer-info-model.component";
 import { CustomerListComponent } from './manage-customer/customer-list/customer-list.component';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FileUploadModule } from '@node_modules/ng2-file-upload';
-import { GetUserForEdit } from "shared/services/get-user-info.service";
+import { GetUserForEditService } from "shared/services/get-user-info.service";
 import { HostSettingService } from "shared/services/get-host-settings.service";
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -34,8 +34,8 @@ import { ShareBookingModelComponent } from './manage-booking/create-or-edit-book
 import { TenantService } from "shared/services/tenant.service";
 import { TimeInfoComponent } from './manage-booking/create-or-edit-booking/time-info/time-info.component';
 import { TipsComponent } from './shared/tips/tips.component';
-import { UploadOrgBgComponent } from './manage-org/org-info/upload-org-bg/upload-org-bg.component';
-import { UploadOrgLogoComponent } from './manage-org/org-info/upload-org-logo/upload-org-logo.component';
+import { UploadOrgBgComponent } from './manage-org/org-info/upload-bg/upload-bg.component';
+import { UploadOrgLogoComponent } from './manage-org/org-info/upload-logo/upload-logo.component';
 import { UploadPictureGalleryComponent } from "app/admin/shared/upload-picture-gallery/upload-picture-gallery.component";
 import { UploadPictureNoneGalleryComponent } from './shared/upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module'
@@ -65,23 +65,9 @@ import { UtilsModule } from '@shared/utils/utils.module'
         NgxPaginationModule
     ],
     declarations: [
-        CreateOrEditBookingComponent,
-        BaseInfoComponent,
-        PictureManageComponent,
-        TimeInfoComponent,
-        BookingListComponent,
-        ShareBookingModelComponent,
-        CreateOrEditOutletComponent,
-        OutletListComponent,
-        OrgInfoComponent,
-        OutletImageComponent,
-        ContactInfoComponent,
-        UploadPictureGalleryComponent,
-        UploadPictureNoneGalleryComponent,
-        UploadOrgLogoComponent,
-        UploadOrgBgComponent,
-        PaginationComponent,
-        TipsComponent,
+
+
+
         CustomerListComponent,
         ConfirmOrderModelComponent,
         CustomerForEditModelComponent,
@@ -90,7 +76,7 @@ import { UtilsModule } from '@shared/utils/utils.module'
     providers: [
         AppStorageService,
         HostSettingService,
-        GetUserForEdit,
+        GetUserForEditService,
         TenantService
     ]
 })

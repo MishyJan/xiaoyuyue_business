@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
-import { UploadOrgBgComponent } from './upload-org-bg.component';
+import { UploadOrgBgComponent } from './upload-bg.component';
 
 describe('UploadOrgBgComponent', () => {
   let component: UploadOrgBgComponent;
@@ -8,9 +8,9 @@ describe('UploadOrgBgComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UploadOrgBgComponent ]
+      declarations: [UploadOrgBgComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

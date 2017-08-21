@@ -1,18 +1,20 @@
-import { Component, OnInit, Injector, Output, EventEmitter } from '@angular/core';
-import { AppComponentBase } from 'shared/common/app-component-base';
-import { OrgBookingOrderServiceProxy, Gender, Status, BatchComfirmInput, EntityDtoOfInt64, RemarkBookingOrderInput, OrgBookingOrderInfolDto } from 'shared/service-proxies/service-proxies';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+
+import { BatchComfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderInfolDto, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
+import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
+
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
-import { SortDescriptor } from '@progress/kendo-data-query';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { GridDataResult, EditEvent } from '@progress/kendo-angular-grid';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
-    selector: 'xiaoyuyue-customer-for-edit-model',
-    templateUrl: './customer-for-edit-model.component.html',
-    styleUrls: ['./customer-for-edit-model.component.scss']
+    selector: 'xiaoyuyue-customer-info-model',
+    templateUrl: './customer-info-model.component.html',
+    styleUrls: ['./customer-info-model.component.scss']
 })
 export class CustomerForEditModelComponent extends AppComponentBase implements OnInit {
     dataItem: OrgBookingOrderInfolDto = new OrgBookingOrderInfolDto();

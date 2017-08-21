@@ -1,12 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
 import { ExternalLoginGuard } from 'app/shared/common/auth/external-login-guard';
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
     { path: '', redirectTo: '/app/main/dashboard', pathMatch: 'full' },
     {
         path: 'auth',
-        loadChildren: 'auth/auth.module#AuthModule', //Lazy load account module
+        loadChildren: 'app/auth/auth.module#AuthModule', // Lazy load account module
         data: { preload: true }
     }
 ];

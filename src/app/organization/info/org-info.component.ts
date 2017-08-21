@@ -1,9 +1,10 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
+import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { UploadPictureDto } from 'app/admin/shared/utils/upload-picture.dto';
-import { TenantInfoServiceProxy, TenantInfoEditDto } from "shared/service-proxies/service-proxies";
 import { Router } from '@angular/router';
+import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-org-info',
@@ -13,9 +14,9 @@ import { Router } from '@angular/router';
 })
 export class OrgInfoComponent extends AppComponentBase implements OnInit {
     savingAndEditing: boolean;
-    saving: boolean = false;
-    updatedOrgBgPicture: boolean = false;
-    updatedOrgLogoPicture: boolean = false;
+    saving = false;
+    updatedOrgBgPicture = false;
+    updatedOrgLogoPicture = false;
     input: TenantInfoEditDto = new TenantInfoEditDto();
     currentPicDom: any;
     picUrl: string;
@@ -40,10 +41,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
     ngAfterViewInit() {
-        let self = this;
+        const self = this;
         this.getUploadOrgWrap();
 
-        window.addEventListener("resize", function () {
+        window.addEventListener('resize', function () {
             self.getUploadOrgWrap();
         })
     }
@@ -68,10 +69,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
     getUploadOrgWrap(): void {
-        let orgLogoAreaWrapHeight = +$(".upload-logo-pic-wrap").width() + "px";
-        let orgBgAreaWrapHeight = +$(".upload-bg-pic-wrap").width() * 0.6 + "px";
-        $(".upload-logo-pic-wrap").height(orgLogoAreaWrapHeight);
-        $(".upload-bg-pic-wrap").height(orgBgAreaWrapHeight);
+        const orgLogoAreaWrapHeight = +$('.upload-logo-pic-wrap').width() + 'px';
+        const orgBgAreaWrapHeight = +$('.upload-bg-pic-wrap').width() * 0.6 + 'px';
+        $('.upload-logo-pic-wrap').height(orgLogoAreaWrapHeight);
+        $('.upload-bg-pic-wrap').height(orgBgAreaWrapHeight);
     }
 
     save(): void {
@@ -90,7 +91,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
             .updateTenantInfo(this.input)
             .finally(() => { this.saving = false })
             .subscribe(result => {
-                this.notify.success("信息已完善");
+                this.notify.success('信息已完善');
                 this._router.navigate(['/app/admin/org/list']);
             })
     }
@@ -110,7 +111,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
             .updateTenantInfo(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
-                this.notify.success("保存成功!");
+                this.notify.success('保存成功!');
             });
     }
 

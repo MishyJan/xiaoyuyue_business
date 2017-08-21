@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { Route } from '@angular/router';
 import { AdminPermissions } from '@shared/AdminPermissions';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard.component';
+import { NgModule } from '@angular/core';
+import { Route } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
@@ -19,4 +19,4 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         RouterModule
     ]
 })
-export class MainRoutingModule { }
+export class DashboardRoutingModule { }

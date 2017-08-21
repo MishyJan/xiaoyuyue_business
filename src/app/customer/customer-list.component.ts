@@ -9,7 +9,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
-import { CustomerForEditModelComponent } from './customer-for-edit-model/customer-for-edit-model.component';
+import { CustomerForEditModelComponent } from './info-model/customer-info-model.component';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';

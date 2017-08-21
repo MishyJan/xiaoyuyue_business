@@ -1,9 +1,10 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
-import { CustomerForEditModelComponent } from './customer-for-edit-model.component';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+
+import { By } from '@angular/platform-browser';
+import { CustomerForEditModelComponent } from './customer-info-model.component';
+import { DebugElement } from '@angular/core';
 
 describe('CustomerForEditModelComponent', () => {
   let component: CustomerForEditModelComponent;
@@ -11,9 +12,9 @@ describe('CustomerForEditModelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CustomerForEditModelComponent ]
+      declarations: [CustomerForEditModelComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
