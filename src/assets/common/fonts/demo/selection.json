@@ -4,6 +4,32 @@
     {
       "icon": {
         "paths": [
+          "M807.385 728.615c0 0-23.631-35.446-31.508-47.262s-47.262-59.077-110.277-86.646c-43.323-19.692-110.277-23.631-145.723-23.631-11.815 0-19.692 7.877-19.692 19.692v94.523l-283.569-192.985 283.569-192.985v94.523c0 11.815 7.877 19.692 19.692 19.692 23.631 3.938 63.015 3.938 86.646 11.815 59.077 11.815 94.523 39.385 94.523 39.385 35.446 19.692 78.769 74.831 94.523 141.785 15.754 63.015 11.815 122.092 11.815 122.092v0zM807.385 728.615z"
+        ],
+        "attrs": [],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "app-back"
+        ],
+        "colorPermutations": {}
+      },
+      "attrs": [],
+      "properties": {
+        "order": 907,
+        "id": 63,
+        "name": "app-back",
+        "prevSize": 32,
+        "code": 59653
+      },
+      "setIdx": 0,
+      "setId": 3,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
           "M650.24 341.333c-5.12-3.413-10.24-6.827-17.067-6.827-8.533 0-17.067 3.413-22.187 10.24-5.12 5.12-6.827 13.653-6.827 20.48s5.12 13.653 10.24 18.773c39.253 32.427 63.147 78.507 63.147 129.707 0 44.373-17.067 85.333-49.493 117.76-30.72 30.72-73.387 47.787-117.76 47.787s-85.333-17.067-117.76-47.787c-30.72-30.72-49.493-73.387-49.493-117.76 0-51.2 22.187-97.28 63.147-129.707 5.12-5.12 10.24-11.947 10.24-18.773s-1.707-15.36-5.12-20.48c-5.12-6.827-13.653-10.24-22.187-10.24v0c-6.827 0-11.947 1.707-17.067 6.827-25.6 20.48-46.080 46.080-61.44 75.093-15.36 30.72-22.187 63.147-22.187 97.28 0 59.733 23.893 114.347 64.853 155.307 42.667 40.96 97.28 64.853 157.013 64.853s114.347-22.187 157.013-64.853c42.667-40.96 64.853-97.28 64.853-155.307 1.707-68.267-29.013-131.413-81.92-172.373v0zM512 552.96c15.36 0 29.013-10.24 29.013-25.6v-208.213c0-15.36-13.653-29.013-29.013-29.013s-27.307 13.653-27.307 29.013v208.213c0 15.36 11.947 25.6 27.307 25.6v0zM512 552.96z"
         ],
         "attrs": [],
@@ -17,7 +43,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 779,
+        "order": 845,
         "id": 62,
         "name": "app-active",
         "prevSize": 32,
@@ -25,7 +51,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 0
+      "iconIdx": 1
     },
     {
       "icon": {
@@ -43,7 +69,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 780,
+        "order": 846,
         "id": 61,
         "name": "app-add-booking-item",
         "prevSize": 32,
@@ -51,7 +77,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 1
+      "iconIdx": 2
     },
     {
       "icon": {
@@ -71,7 +97,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 781,
+        "order": 847,
         "id": 60,
         "name": "app-add-outlet",
         "prevSize": 32,
@@ -79,7 +105,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 2
+      "iconIdx": 3
     },
     {
       "icon": {
@@ -97,7 +123,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 782,
+        "order": 848,
         "id": 59,
         "name": "app-address",
         "prevSize": 32,
@@ -105,7 +131,7 @@
       },
       "setIdx": 0,
       "setId": 3,
-      "iconIdx": 3
+      "iconIdx": 4
     },
     {
       "icon": {
@@ -124,38 +150,11 @@
       },
       "attrs": [],
       "properties": {
-        "order": 783,
+        "order": 849,
         "id": 58,
         "name": "app-add-time-field",
         "prevSize": 32,
         "code": 59652
-      },
-      "setIdx": 0,
-      "setId": 3,
-      "iconIdx": 4
-    },
-    {
-      "icon": {
-        "paths": [
-          "M551.153 379.482h-231.906l90.353-90.353c3.012-3.012 3.012-12.047 0-15.059s-12.047-3.012-15.059 0l-105.412 105.412c-3.012 3.012-3.012 12.047 0 15.059l105.412 105.412c3.012 3.012 12.047 3.012 15.059 0s3.012-12.047 0-15.059l-84.329-84.329h225.882c90.353 0 165.647 75.294 165.647 165.647s-75.294 165.647-165.647 165.647h-256v21.082h256c102.4 0 186.729-84.329 186.729-186.729s-84.329-186.729-186.729-186.729v0zM551.153 379.482z",
-          "M551.153 761.976h-262.024v-39.153h262.024c87.341 0 156.612-69.271 156.612-156.612s-69.271-156.612-156.612-156.612h-207.812l72.282 72.282c3.012 3.012 6.024 9.035 6.024 12.047s-3.012 9.035-6.024 12.047c-6.024 6.024-18.071 6.024-27.106 0l-108.424-105.412c-3.012-3.012-6.024-9.035-6.024-12.047 0-6.024 3.012-9.035 6.024-12.047l111.435-108.424c6.024-6.024 18.071-6.024 27.106 0 0 3.012 3.012 9.035 3.012 12.047 0 6.024-3.012 9.035-6.024 12.047l-78.306 78.306h213.835c108.424 0 195.765 87.341 195.765 192.753 0 111.435-87.341 198.776-195.765 198.776zM304.188 746.918h246.965c99.388 0 180.706-81.318 180.706-177.694s-81.318-177.694-180.706-177.694h-249.976l105.412-105.412c0 0 0 0 0-3.012 0 0 0-3.012 0-3.012s-3.012 0-3.012 0l-105.412 105.412c0 0 0 0 0 3.012 0 0 0 3.012 0 3.012l108.424 105.412c0 0 3.012 0 3.012 0s0 0 0-3.012 0-3.012 0-3.012l-99.388-99.388h243.953c96.376 0 171.671 78.306 171.671 171.671s-78.306 171.671-171.671 171.671h-246.965v12.047z"
-        ],
-        "attrs": [],
-        "isMulticolor": false,
-        "isMulticolor2": false,
-        "grid": 0,
-        "tags": [
-          "app-back"
-        ],
-        "colorPermutations": {}
-      },
-      "attrs": [],
-      "properties": {
-        "order": 784,
-        "id": 57,
-        "name": "app-back",
-        "prevSize": 32,
-        "code": 59653
       },
       "setIdx": 0,
       "setId": 3,
@@ -177,7 +176,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 785,
+        "order": 850,
         "id": 56,
         "name": "app-booking-new-join",
         "prevSize": 32,
@@ -203,7 +202,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 786,
+        "order": 851,
         "id": 55,
         "name": "app-booking-total",
         "prevSize": 32,
@@ -229,7 +228,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 787,
+        "order": 852,
         "id": 54,
         "name": "app-cancel",
         "prevSize": 32,
@@ -255,7 +254,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 788,
+        "order": 853,
         "id": 53,
         "name": "app-confirm",
         "prevSize": 32,
@@ -281,7 +280,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 789,
+        "order": 854,
         "id": 52,
         "name": "app-contact",
         "prevSize": 32,
@@ -307,7 +306,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 790,
+        "order": 855,
         "id": 51,
         "name": "app-copy-1",
         "prevSize": 32,
@@ -334,7 +333,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 791,
+        "order": 856,
         "id": 50,
         "name": "app-copy-2",
         "prevSize": 32,
@@ -360,7 +359,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 792,
+        "order": 857,
         "id": 49,
         "name": "app-default",
         "prevSize": 32,
@@ -386,7 +385,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 793,
+        "order": 858,
         "id": 48,
         "name": "app-delete",
         "prevSize": 32,
@@ -413,7 +412,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 794,
+        "order": 859,
         "id": 47,
         "name": "app-delete-time-field",
         "prevSize": 32,
@@ -442,7 +441,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 795,
+        "order": 860,
         "id": 46,
         "name": "app-detail",
         "prevSize": 32,
@@ -468,7 +467,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 796,
+        "order": 861,
         "id": 45,
         "name": "app-disable",
         "prevSize": 32,
@@ -494,7 +493,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 797,
+        "order": 862,
         "id": 44,
         "name": "app-drop-down",
         "prevSize": 32,
@@ -520,7 +519,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 798,
+        "order": 863,
         "id": 43,
         "name": "app-edit",
         "prevSize": 32,
@@ -547,7 +546,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 799,
+        "order": 864,
         "id": 42,
         "name": "app-first-page",
         "prevSize": 32,
@@ -574,7 +573,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 800,
+        "order": 865,
         "id": 41,
         "name": "app-last-page",
         "prevSize": 32,
@@ -600,7 +599,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 801,
+        "order": 866,
         "id": 40,
         "name": "app-location",
         "prevSize": 32,
@@ -628,7 +627,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 802,
+        "order": 867,
         "id": 39,
         "name": "app-logo",
         "prevSize": 32,
@@ -654,7 +653,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 803,
+        "order": 868,
         "id": 38,
         "name": "app-logo-text",
         "prevSize": 32,
@@ -681,7 +680,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 804,
+        "order": 869,
         "id": 37,
         "name": "app-message",
         "prevSize": 32,
@@ -707,7 +706,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 805,
+        "order": 870,
         "id": 36,
         "name": "app-mode-toggle-1",
         "prevSize": 32,
@@ -733,7 +732,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 806,
+        "order": 871,
         "id": 35,
         "name": "app-mode-toggle-2",
         "prevSize": 32,
@@ -759,7 +758,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 807,
+        "order": 872,
         "id": 34,
         "name": "app-multitask",
         "prevSize": 32,
@@ -785,7 +784,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 808,
+        "order": 873,
         "id": 33,
         "name": "app-next-page",
         "prevSize": 32,
@@ -812,7 +811,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 809,
+        "order": 874,
         "id": 32,
         "name": "app-no-defalut",
         "prevSize": 32,
@@ -838,7 +837,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 810,
+        "order": 875,
         "id": 31,
         "name": "app-outlet-image",
         "prevSize": 32,
@@ -864,7 +863,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 811,
+        "order": 876,
         "id": 30,
         "name": "app-phone",
         "prevSize": 32,
@@ -890,7 +889,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 812,
+        "order": 877,
         "id": 29,
         "name": "app-preview",
         "prevSize": 32,
@@ -916,7 +915,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 813,
+        "order": 878,
         "id": 28,
         "name": "app-prev-page",
         "prevSize": 32,
@@ -942,7 +941,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 814,
+        "order": 879,
         "id": 27,
         "name": "app-qr-code",
         "prevSize": 32,
@@ -973,7 +972,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 815,
+        "order": 880,
         "id": 26,
         "name": "app-refurbish",
         "prevSize": 32,
@@ -1000,7 +999,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 816,
+        "order": 881,
         "id": 25,
         "name": "app-search",
         "prevSize": 32,
@@ -1026,7 +1025,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 817,
+        "order": 882,
         "id": 24,
         "name": "app-share",
         "prevSize": 32,
@@ -1052,7 +1051,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 818,
+        "order": 883,
         "id": 23,
         "name": "app-shop-hours",
         "prevSize": 32,
@@ -1078,7 +1077,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 819,
+        "order": 884,
         "id": 22,
         "name": "app-submit",
         "prevSize": 32,
@@ -1104,7 +1103,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 820,
+        "order": 885,
         "id": 21,
         "name": "app-upload",
         "prevSize": 32,
@@ -1130,7 +1129,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 821,
+        "order": 886,
         "id": 20,
         "name": "app-user-auth",
         "prevSize": 32,
@@ -1156,7 +1155,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 822,
+        "order": 887,
         "id": 19,
         "name": "app-user-center",
         "prevSize": 32,
@@ -1182,7 +1181,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 823,
+        "order": 888,
         "id": 18,
         "name": "app-user-feedback",
         "prevSize": 32,
@@ -1208,7 +1207,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 824,
+        "order": 889,
         "id": 17,
         "name": "app-user-logout",
         "prevSize": 32,
@@ -1234,7 +1233,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 825,
+        "order": 890,
         "id": 16,
         "name": "app-user-profile",
         "prevSize": 32,
@@ -1260,7 +1259,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 826,
+        "order": 891,
         "id": 15,
         "name": "app-user-security",
         "prevSize": 32,
@@ -1289,7 +1288,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 827,
+        "order": 892,
         "id": 14,
         "name": "bm-menu",
         "prevSize": 32,
@@ -1315,7 +1314,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 828,
+        "order": 893,
         "id": 13,
         "name": "cb-add-img",
         "prevSize": 32,
@@ -1341,7 +1340,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 829,
+        "order": 894,
         "id": 12,
         "name": "cb-add-time",
         "prevSize": 32,
@@ -1367,7 +1366,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 830,
+        "order": 895,
         "id": 11,
         "name": "cb-calendar",
         "prevSize": 32,
@@ -1395,7 +1394,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 831,
+        "order": 896,
         "id": 10,
         "name": "cb-menu",
         "prevSize": 32,
@@ -1421,7 +1420,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 832,
+        "order": 897,
         "id": 9,
         "name": "dc-calendar",
         "prevSize": 32,
@@ -1466,7 +1465,7 @@
         {}
       ],
       "properties": {
-        "order": 833,
+        "order": 898,
         "id": 8,
         "name": "dc-customer-vip",
         "prevSize": 32,
@@ -1492,7 +1491,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 834,
+        "order": 899,
         "id": 7,
         "name": "dc-menu",
         "prevSize": 32,
@@ -1518,7 +1517,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 835,
+        "order": 900,
         "id": 6,
         "name": "download",
         "prevSize": 32,
@@ -1544,7 +1543,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 836,
+        "order": 901,
         "id": 5,
         "name": "female",
         "prevSize": 32,
@@ -1570,7 +1569,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 837,
+        "order": 902,
         "id": 4,
         "name": "leading-out",
         "prevSize": 32,
@@ -1596,7 +1595,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 838,
+        "order": 903,
         "id": 3,
         "name": "male",
         "prevSize": 32,
@@ -1627,7 +1626,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 839,
+        "order": 904,
         "id": 2,
         "name": "oi-menu",
         "prevSize": 32,
@@ -1653,7 +1652,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 840,
+        "order": 905,
         "id": 1,
         "name": "print",
         "prevSize": 32,
@@ -1679,7 +1678,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 841,
+        "order": 906,
         "id": 0,
         "name": "save",
         "prevSize": 32,

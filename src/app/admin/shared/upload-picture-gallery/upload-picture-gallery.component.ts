@@ -17,18 +17,16 @@ import { TokenService } from "abp-ng2-module/src/auth/token.service";
     styleUrls: ['./upload-picture-gallery.component.scss']
 })
 export class UploadPictureGalleryComponent extends AppComponentBase implements OnInit {
-
-
     @Output() getAllPictureUrl: EventEmitter<SafeUrl[]> = new EventEmitter();
     @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
-    public allPictureUrl: SafeUrl[] = [];
-    public allPictureId: number[] = [];
-    public pictureForEdit: BookingPictureEditDto = new BookingPictureEditDto();
-
     @ViewChild('uploadPictureModel') modal: ModalDirective;
 
     loading: boolean = false;
     tabToggle: boolean = true;
+
+    public allPictureUrl: SafeUrl[] = [];
+    public allPictureId: number[] = [];
+    public pictureForEdit: BookingPictureEditDto = new BookingPictureEditDto();
     public uploader: FileUploader;
     public temporaryPictureUrl: string;
     public safeTemporaryPictureUrl: SafeUrl;
@@ -48,7 +46,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     ngOnInit() {
     }
-
+    /* 上传图片时的索引值，用于更换某个索引值的图片数据 */
     show(): void {
         this.modal.show();
     }
@@ -96,15 +94,15 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                       'groupid': 1
                     },*/
                     init: {
-                        'FilesAdded': function (up, files) {
+                        'FilesAdded': (up, files) => {
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
 
                                 // 上传之前本地预览
-                                for (var i = 0; i < files.length; i++) {
-                                    var fileItem = files[i].getNative(),
+                                for (let i = 0; i < files.length; i++) {
+                                    let fileItem = files[i].getNative(),
                                         url = window.URL;
-                                    var src = url.createObjectURL(fileItem);
+                                    let src = url.createObjectURL(fileItem);
                                     // self.temporaryPictureUrl = src;
                                     // self.safeTemporaryPictureUrl = self.sanitizer.bypassSecurityTrustResourceUrl(self.temporaryPictureUrl);
                                     // self.allPictureUrl.push(self.safeTemporaryPictureUrl);
@@ -113,15 +111,15 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                                 }
                             });
                         },
-                        'BeforeUpload': function (up, file) {
+                        'BeforeUpload': (up, file) => {
                             // 每个文件上传前,处理相关的事情
                             // self.modal.hide();
                         },
-                        'UploadProgress': function (up, file) {
+                        'UploadProgress': (up, file) => {
                             // 每个文件上传时,处理相关的事情
                             self.loading = true;
                         },
-                        'FileUploaded': function (up, file, info) {
+                        'FileUploaded': (up, file, info) => {
                             // 每个文件上传成功后,处理相关的事情
                             // 其中 info 是文件上传成功后，服务端返回的json，形式如
                             // {
@@ -133,27 +131,27 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
                             // var res = parseJSON(info);
                             // this._$profilePicture = domain + res.key; //获取上传成功后的文件的Url
-                            var result = JSON.parse(info).result;
+                            let result = JSON.parse(info).result;
                             self.pictureForEdit.pictureId = result.pictureId;
                             self.pictureForEdit.pictureUrl = result.originalUrl;
                             self.sendPictureForEdit.emit(self.pictureForEdit);
                             self.loading = false;
                             self.close();
                         },
-                        'Error': function (up, err, errTip) {
+                        'Error': (up, err, errTip) => {
                             //上传出错时,处理相关的事情
                             self.loading = false;
                             self.picturyDestroy();
                             self.notify.error("上传失败，请重新上传");
                         },
-                        'UploadComplete': function () {
+                        'UploadComplete': () => {
                             //队列文件处理完毕后,处理相关的事情
                             self.pictureForEdit = new BookingPictureEditDto();
                             self._$profilePicture.removeAttr("src");
                             self._$profilePicture.removeAttr("width");
                             self.close();
                         },
-                        'Key': function (up, file) {
+                        'Key': (up, file) => {
                             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                             // 该配置必须要在 unique_names: false , save_key: false 时才生效
                             let id = 1;
@@ -169,11 +167,11 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         }
                     }
                 });
-                $("#confirmUpload").on("click", function () {
+                $("#confirmUpload").on("click", () => {
                     uploader.start();
                 })
                 // 销毁实例
-                $("#cancelUpload").on("click", function () {
+                $("#cancelUpload").on("click", () => {
                     uploader.destroy();
                 });
             });

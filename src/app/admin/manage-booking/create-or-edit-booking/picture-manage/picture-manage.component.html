@@ -10,12 +10,20 @@
         <div class="card-content">
             <div class="row">
                 <div class="gallery-wrap clearfix">
-                    <div class="picture-item" *ngFor="let item of allPictureEdit">
-                        <div class="content" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}">
-                            <!--<div class="area-wrap"></div>-->
-                            <!-- <div class="img-wrap">
-                                <img width=100% [src]="item.pictureUrl">
-                            </div> -->
+                    <div class="picture-item" *ngFor="let item of allPictureEdit; let index = index;">
+                        <div class="content">
+                            <div class="bg-img" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}"></div>
+                            <div class="bg-cover"></div>
+                            <div class="bg-tools">
+                                <div class="wrap clearfix">
+                                    <div class="tool-item pull-left" (click)="deletePic(index)">
+                                        <span class="icon vapps-icon-app-delete"></span>
+                                    </div>
+                                    <div class="tool-item pull-right" (click)="changePic(index, item.displayOrder)">
+                                        <span class="icon vapps-icon-app-edit"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

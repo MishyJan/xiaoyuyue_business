@@ -1,15 +1,15 @@
-import { Component, OnInit, Injector, Input, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
-import { AppComponentBase } from "shared/common/app-component-base";
-import { appModuleAnimation, appModuleSlowAnimation } from "shared/animations/routerTransition";
-import { OrgBookingServiceProxy, PagedResultDtoOfBookingListDto, CreateOrUpdateBookingInput, BookingEditDto, BookingItemEditDto, GetBookingForEditOutput, OutletServiceServiceProxy, SelectListItemDto, BookingPictureEditDto, TenantInfoServiceProxy, TenantInfoEditDto } from 'shared/service-proxies/service-proxies';
-
 import * as moment from 'moment';
+
+import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
+import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { appModuleAnimation, appModuleSlowAnimation } from "shared/animations/routerTransition";
+
+import { AppComponentBase } from "shared/common/app-component-base";
 import { AppConsts } from "shared/AppConsts";
-import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descriptor";
+import { Location } from '@angular/common';
 import { Router } from "@angular/router";
 import { ShareBookingModelComponent } from './share-booking-model/share-booking-model.component';
-
+import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descriptor";
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -158,11 +158,20 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking = this.baseInfo;
         this.input.items = this.allBookingTime;
         this.savingAndEditing = true;
+        // 判断是否有添加新的时间信息
+        this.input.items = !this.allBookingTime ? this.timeInfo : this.allBookingTime;
+        // 判断是否上传过图片
+        if (this.allPictureForEdit) {
+            this.input.bookingPictures = this.allPictureForEdit;
+        } else {
+            this.input.bookingPictures = this.pictureInfo;
+        }
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
-                this.notify.success("保存成功!");
+                this.notify.success('保存成功!');
+                this.loadData();
             });
     }
 
