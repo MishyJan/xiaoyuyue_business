@@ -1,6 +1,7 @@
+import { BookingAccessChannelDto, BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
 import { Component, OnInit } from '@angular/core';
-import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, BookingConverRateDto, BookingAccessSourceDto, BookingAccessChannelDto } from 'shared/service-proxies/service-proxies';
-import * as moment from 'moment';
+
+import { Moment } from 'moment';
 import { element } from 'protractor';
 
 export class SeriesItem {

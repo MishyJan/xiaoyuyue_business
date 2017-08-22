@@ -1,8 +1,9 @@
-﻿import { Directive, AfterViewInit, ElementRef, ViewChild, Injector, Input, Output, EventEmitter } from '@angular/core';
+﻿import { AfterViewInit, Directive, ElementRef, EventEmitter, Injector, Input, Output, ViewChild } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { Moment } from 'moment';
 
-import * as moment from 'moment';
-
+const moment = require('moment');
 @Directive({
     selector: '[datePicker]'
 })
@@ -10,7 +11,7 @@ export class DatePickerComponent extends AppComponentBase implements AfterViewIn
 
     hostElement: ElementRef;
 
-    _selectedDate: moment.Moment = moment().startOf('day');
+    _selectedDate: Moment = moment().startOf('day');
     @Output() selectedDateChange = new EventEmitter();
 
 

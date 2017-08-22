@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataStateChangeEvent, EditEvent } from '@progress/kendo-angular-grid';
 import { Gender, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
@@ -10,11 +8,13 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
 import { CustomerInfoModelComponent } from './info-model/customer-info-model.component';
+import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 
+const moment = require('moment');
 export class SingleBookingStatus {
     value: any;
     displayText: any;
@@ -44,7 +44,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
     phoneNumber: string;
     endMinute: number;
     startMinute: number;
-    bookingDate: moment.Moment;
+    bookingDate: Moment;
     customerName: string;
     bookingName: string;
     customerListData: AppGridData = new AppGridData();

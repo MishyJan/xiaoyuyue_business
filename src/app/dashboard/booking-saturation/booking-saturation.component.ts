@@ -1,6 +1,8 @@
+import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, GetBookingSaturationOutput, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 import { Component, OnInit } from '@angular/core';
-import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, BookingConverRateDto, BookingAccessSourceDto, OutletServiceServiceProxy, SelectListItemDto, GetBookingSaturationOutput } from 'shared/service-proxies/service-proxies';
-import * as moment from 'moment';
+
+import { Moment } from 'moment';
+
 @Component({
     selector: 'xiaoyuyue-booking-saturation',
     templateUrl: './booking-saturation.component.html',

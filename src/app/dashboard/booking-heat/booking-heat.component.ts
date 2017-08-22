@@ -1,7 +1,9 @@
+import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BookingHeatDto, OrgBookingServiceProxy, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 import { Component, OnInit } from '@angular/core';
-import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, BookingConverRateDto, BookingAccessSourceDto, OutletServiceServiceProxy, SelectListItemDto, OrgBookingServiceProxy, BookingHeatDto } from 'shared/service-proxies/service-proxies';
-import * as moment from 'moment';
+
+import { Moment } from 'moment';
 import { element } from 'protractor';
+
 @Component({
     selector: 'xiaoyuyue-booking-heat',
     templateUrl: './booking-heat.component.html',

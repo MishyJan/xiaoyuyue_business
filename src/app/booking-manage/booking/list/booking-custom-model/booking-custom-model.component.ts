@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import * as moment from 'moment';
 
 import { BatchComfirmInput, BookingListDto, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
@@ -9,6 +8,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
@@ -21,13 +21,13 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
     batchConfirmCount = 0;
     bookingCustomListData = new AppGridData();
-    bookingDate: moment.Moment;
+    bookingDate: Moment;
     bookingId: number;
     bookingItem: BookingListDto = new BookingListDto();
     bookingName: string;
     confirmOrderText = '批处理';
-    creationEndDate: moment.Moment;
-    creationStartDate: moment.Moment;
+    creationEndDate: Moment;
+    creationStartDate: Moment;
     customerName: string;
     endMinute: number;
     gender: Gender;

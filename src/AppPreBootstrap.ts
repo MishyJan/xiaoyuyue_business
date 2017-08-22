@@ -1,15 +1,16 @@
 ﻿import * as _ from 'lodash';
-import * as moment from 'moment';
 
 import { CompilerOptions, NgModuleRef, Type } from '@angular/core';
 
 import { AppConsts } from '@shared/AppConsts';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
+import { Moment } from 'moment';
 import { SubdomainTenancyNameFinder } from '@shared/helpers/SubdomainTenancyNameFinder';
 import { UrlHelper } from './shared/helpers/UrlHelper';
 import { UtilsService } from '@abp/utils/utils.service';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
+const moment = require('moment');
 declare var $: any;
 export class AppPreBootstrap {
 
@@ -123,8 +124,8 @@ export class AppPreBootstrap {
 
             abp.clock.provider = this.getCurrentClockProvider(result.clock.provider);
 
-            moment.locale(abp.localization.currentLanguage.name);
-            (window as any).moment.locale(abp.localization.currentLanguage.name);
+            // moment.locale(abp.localization.currentLanguage.name);
+            // (window as any).moment.locale(abp.localization.currentLanguage.name);
             if (abp.clock.provider.supportsMultipleTimezone) {
                 moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
                 // (window as any).moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);

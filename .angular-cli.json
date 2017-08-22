@@ -70,7 +70,6 @@
       "../node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
       "../node_modules/push.js/bin/push.min.js",
 
-      "../node_modules/moment/min/moment-with-locales.min.js",
       "../node_modules/moment-timezone/builds/moment-timezone-with-data.min.js",
       "../node_modules/abp-web-resources/Abp/Framework/scripts/abp.js",
       "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js",

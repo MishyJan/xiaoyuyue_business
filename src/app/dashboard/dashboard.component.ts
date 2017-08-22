@@ -1,8 +1,9 @@
-import { Component, Injector, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Injector, ViewEncapsulation } from '@angular/core';
+import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { Moment } from 'moment';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, TenantInfoServiceProxy, TenantInfoEditDto } from 'shared/service-proxies/service-proxies';
-import * as moment from 'moment';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -46,7 +47,7 @@ export class DashboardComponent extends AppComponentBase implements AfterViewIni
             let day = date.getDate();
             temp = `${year}-${month}-${day}`;
         }
-        
+
         return temp;
     }
 

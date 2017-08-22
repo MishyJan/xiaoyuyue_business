@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 
@@ -8,6 +6,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { AppStorageService } from 'shared/services/storage.service';
 import { BookingCustomModelComponent } from './booking-custom-model/booking-custom-model.component';
 import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-model.component';
+import { Moment } from 'moment';
 import { NgxAni } from 'ngxani';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
@@ -17,6 +16,7 @@ import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descript
 import { appModuleAnimation } from 'shared/animations/routerTransition';
 import { element } from 'protractor';
 
+const moment = require('moment');
 @Component({
     selector: 'app-manage-booking',
     templateUrl: './booking-list.component.html',

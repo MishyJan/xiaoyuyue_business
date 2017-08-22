@@ -1,6 +1,8 @@
+import { BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
 import { Component, OnInit } from '@angular/core';
-import { BookingDataStatisticsServiceProxy, BookingDataStatisticsDto, BookingConverRateDto } from 'shared/service-proxies/service-proxies';
-import * as moment from 'moment';
+
+import { Moment } from 'moment';
+
 @Component({
     selector: 'xiaoyuyue-booking-date-statistics',
     templateUrl: './booking-date-statistics.component.html',

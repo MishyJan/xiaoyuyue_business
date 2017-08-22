@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { appModuleAnimation, appModuleSlowAnimation } from "shared/animations/routerTransition";
@@ -7,6 +5,7 @@ import { appModuleAnimation, appModuleSlowAnimation } from "shared/animations/ro
 import { AppComponentBase } from "shared/common/app-component-base";
 import { AppConsts } from "shared/AppConsts";
 import { Location } from '@angular/common';
+import { Moment } from 'moment';
 import { Router } from "@angular/router";
 import { ShareBookingModelComponent } from './share-booking-model/share-booking-model.component';
 import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descriptor";
