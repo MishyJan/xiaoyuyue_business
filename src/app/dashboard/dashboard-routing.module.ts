@@ -12,8 +12,8 @@ import { RouterModule } from '@angular/router';
                 path: '',
                 canActivate: [AppRouteGuard],
                 canActivateChild: [AppRouteGuard],
+                component: DashboardComponent, data: { permission: AdminPermissions.tenantDashboard },
                 children: [
-                    { path: 'dashboard', component: DashboardComponent, data: { permission: AdminPermissions.tenantDashboard } },
                 ]
             }
         ])
