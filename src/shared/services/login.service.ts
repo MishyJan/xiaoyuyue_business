@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Router, Params } from '@angular/router';
-import { TokenAuthServiceProxy, AuthenticateModel, AuthenticateResultModel, ExternalLoginProviderInfoModel, ExternalAuthenticateModel, ExternalAuthenticateResultModel, WebLogServiceProxy } from '@shared/service-proxies/service-proxies';
-import { UrlHelper } from '@shared/helpers/UrlHelper';
-import { AppConsts } from '@shared/AppConsts';
+import * as _ from 'lodash';
 
-import { MessageService } from '@abp/message/message.service';
+import { AuthenticateModel, AuthenticateResultModel, ExternalAuthenticateModel, ExternalAuthenticateResultModel, ExternalLoginProviderInfoModel, TokenAuthServiceProxy, WebLogServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Headers, Http, Response } from '@angular/http';
+import { Params, Router } from '@angular/router';
+
+import { AppConsts } from '@shared/AppConsts';
+import { Injectable } from '@angular/core';
 import { LogService } from '@abp/log/log.service';
+import { MessageService } from '@abp/message/message.service';
 import { TokenService } from '@abp/auth/token.service';
+import { UrlHelper } from '@shared/helpers/UrlHelper';
 import { UtilsService } from '@abp/utils/utils.service';
 
-import { Http, Headers, Response } from '@angular/http';
-
-import * as _ from 'lodash';
 declare const FB: any; // Facebook API
 declare const gapi: any; // Facebook API
 declare const WL: any; // Microsoft API
@@ -179,7 +179,7 @@ export class LoginService {
         }
 
         UrlHelper.redirectUrl = this._utilsService.getCookieValue('UrlHelper.redirectUrl');
-        let initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/app/main/dashboard';
+        const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
         if (redirectUrl) {
             location.href = redirectUrl;
         } else {
@@ -375,7 +375,7 @@ export class LoginService {
 
         if (status === 200) {
             let result200: ExternalAuthenticateResultModel = null;
-            let resultData200 = responseText === '' ? null : JSON.parse(responseText, this.jsonParseReviver);
+            const resultData200 = responseText === '' ? null : JSON.parse(responseText, this.jsonParseReviver);
             result200 = resultData200 ? ExternalAuthenticateResultModel.fromJS(resultData200) : new ExternalAuthenticateResultModel();
             return result200;
         } else if (status !== 200 && status !== 204) {

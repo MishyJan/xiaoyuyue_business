@@ -9,26 +9,39 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
     imports: [
         RouterModule.forChild([
             {
-                path: 'app',
+                path: '',
                 component: AppComponent,
-                canActivate: [AppRouteGuard],
-                canActivateChild: [AppRouteGuard],
                 children: [
+                    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
                     {
-                        path: '',
-                        children: [
-                            { path: 'notifications', component: NotificationsComponent },
-                            { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
-                        ]
+                        path: 'auth',
+                        loadChildren: 'app/auth/auth.module#AuthModule', // Lazy load account module
+                        data: { preload: true }
                     },
+                    { path: 'notifications', component: NotificationsComponent },
                     {
                         path: 'dashboard',
                         loadChildren: 'app/dashboard/dashboard.module#DashboardModule', // Lazy load main module
                         data: { preload: true }
                     },
                     {
-                        path: 'admin',
-                        loadChildren: 'app/admin/admin.module#AdminModule', // Lazy load admin module
+                        path: 'booking',
+                        loadChildren: 'app/booking-manage/booking/booking.module#BookingModule', // Lazy load admin module
+                        data: { preload: true }
+                    },
+                    {
+                        path: 'customer',
+                        loadChildren: 'app/booking-manage/customer/customer.module#CustomerModule', // Lazy load admin module
+                        data: { preload: true }
+                    },
+                    {
+                        path: 'organization',
+                        loadChildren: 'app/organization-manage/org-info/organization.modules#OrganizationModule', // Lazy load admin module
+                        data: { preload: true }
+                    },
+                    {
+                        path: 'outlet',
+                        loadChildren: 'app/organization-manage/outlet/outlet.modules#OutletModule', // Lazy load admin module
                         data: { preload: true }
                     }
                 ]

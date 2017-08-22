@@ -4,12 +4,7 @@ import { ExternalLoginGuard } from 'app/shared/common/auth/external-login-guard'
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/app/main/dashboard', pathMatch: 'full' },
-    {
-        path: 'auth',
-        loadChildren: 'app/auth/auth.module#AuthModule', // Lazy load account module
-        data: { preload: true }
-    }
+
 ];
 
 @NgModule({

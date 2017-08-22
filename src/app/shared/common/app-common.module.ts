@@ -14,6 +14,9 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
 import { ModalModule } from 'ngx-bootstrap';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
+import { TipsComponent } from './tips/tips.component';
+import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
+import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
 
 @NgModule({
@@ -32,14 +35,19 @@ import { UtilsModule } from '@shared/utils/utils.module';
         CommonLookupModalComponent,
         DateRangePickerComponent,
         DatePickerComponent,
-       
+        TipsComponent,
+        UploadPictureGalleryComponent,
+        UploadPictureNoneGalleryComponent,
     ],
     exports: [
         TimeZoneComboComponent,
         JqPluginDirective,
         CommonLookupModalComponent,
         DateRangePickerComponent,
-        DatePickerComponent
+        DatePickerComponent,
+        TipsComponent,
+        UploadPictureGalleryComponent,
+        UploadPictureNoneGalleryComponent,
     ]
 })
 export class AppCommonModule {

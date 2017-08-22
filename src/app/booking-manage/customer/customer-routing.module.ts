@@ -1,19 +1,20 @@
+import { Router, RouterModule } from '@angular/router';
+
 import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
-import { DashboardComponent } from './dashboard.component';
+import { CustomerListComponent } from 'app/booking-manage/customer/customer-list.component';
 import { NgModule } from '@angular/core';
-import { Route } from '@angular/router';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
         RouterModule.forChild([
             {
-                path: '',
+                path: 'customer',
                 canActivate: [AppRouteGuard],
                 canActivateChild: [AppRouteGuard],
                 children: [
-                    { path: 'dashboard', component: DashboardComponent, data: { permission: AdminPermissions.tenantDashboard } },
+                    { path: '', redirectTo: 'list' },
+                    { path: 'list', component: CustomerListComponent },
                 ]
             }
         ])
@@ -22,4 +23,6 @@ import { RouterModule } from '@angular/router';
         RouterModule
     ]
 })
-export class DashboardRoutingModule { }
+export class CustomerRoutingModule {
+
+}

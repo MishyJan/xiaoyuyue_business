@@ -1,19 +1,20 @@
+import { Router, RouterModule } from '@angular/router';
+
 import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
-import { DashboardComponent } from './dashboard.component';
 import { NgModule } from '@angular/core';
-import { Route } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { OrgInfoComponent } from './org-info.component';
 
 @NgModule({
     imports: [
         RouterModule.forChild([
             {
-                path: '',
+                path: 'org',
                 canActivate: [AppRouteGuard],
                 canActivateChild: [AppRouteGuard],
                 children: [
-                    { path: 'dashboard', component: DashboardComponent, data: { permission: AdminPermissions.tenantDashboard } },
+                    { path: '', redirectTo: 'list' },
+                    { path: 'info', component: OrgInfoComponent },
                 ]
             }
         ])
@@ -22,4 +23,6 @@ import { RouterModule } from '@angular/router';
         RouterModule
     ]
 })
-export class DashboardRoutingModule { }
+export class OrganizationRoutingModule {
+
+}

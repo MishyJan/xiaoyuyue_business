@@ -13,7 +13,6 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
-import { GridModule } from '@progress/kendo-angular-grid';
 import { NgModule } from '@angular/core';
 import { UtilsModule } from '@shared/utils/utils.module';
 
@@ -27,7 +26,6 @@ import { UtilsModule } from '@shared/utils/utils.module';
         AppCommonModule,
         UtilsModule,
         DashboardRoutingModule,
-        GridModule,
         AngularEchartsModule,
         DropDownsModule
     ],

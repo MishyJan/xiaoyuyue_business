@@ -1,15 +1,16 @@
-﻿import { Injectable } from '@angular/core';
-import { PermissionCheckerService } from "@abp/auth/permission-checker.service";
-import { AppSessionService } from '@shared/common/session/app-session.service';
-import { AdminPermissions } from '@shared/AdminPermissions';
-import { UrlHelper } from '@shared/helpers/UrlHelper';
-
-import {
-    CanActivate, Router,
+﻿import {
     ActivatedRouteSnapshot,
-    RouterStateSnapshot,
-    CanActivateChild
+    CanActivate,
+    CanActivateChild,
+    Router,
+    RouterStateSnapshot
 } from '@angular/router';
+
+import { AdminPermissions } from '@shared/AdminPermissions';
+import { AppSessionService } from '@shared/common/session/app-session.service';
+import { Injectable } from '@angular/core';
+import { PermissionCheckerService } from "@abp/auth/permission-checker.service";
+import { UrlHelper } from '@shared/helpers/UrlHelper';
 
 @Injectable()
 export class AppRouteGuard implements CanActivate, CanActivateChild {
@@ -49,17 +50,9 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
         }
 
         if (this._permissionChecker.isGranted(AdminPermissions.tenantDashboard)) {
-            return '/app/main/dashboard';
+            return '/dashboard';
         }
 
-        if (this._permissionChecker.isGranted(AdminPermissions.userManage_Tenants)) {
-            return '/app/admin/tenants';
-        }
-
-        if (this._permissionChecker.isGranted(AdminPermissions.userManage)) {
-            return '/app/admin/users';
-        }
-
-        return '/app/notifications';
+        return '/notifications';
     }
 }
