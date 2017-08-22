@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
     imports: [
         RouterModule.forChild([
             {
-                path: 'customer',
+                path: '',
                 canActivate: [AppRouteGuard],
                 canActivateChild: [AppRouteGuard],
                 children: [

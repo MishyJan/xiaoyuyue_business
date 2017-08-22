@@ -53,6 +53,7 @@
       "../node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
 
       "../node_modules/lodash/lodash.min.js",
+      "../node_modules/moment/min/moment.min.js",
 
       "../external_libs/Jcrop/js/Jcrop.js",
       "../node_modules/raphael/raphael.min.js",

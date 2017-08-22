@@ -6,7 +6,7 @@
                     <div class="page-title">
                         <h1>
                             <span>新增门店</span>
-                            <small routerLink="/app/admin/org" clas>
+                            <small routerLink="/org" clas>
                                 <span class="vapps-icon-app-back"></span>
                                 <span class="text">返回</span>
                             </small>
@@ -36,7 +36,8 @@
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control common-max-width" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="门店名称" required autofocus>
+                                        <input class="form-control common-max-width" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="门店名称"
+                                            required autofocus>
                                     </div>
                                 </div>
                             </div>
@@ -64,14 +65,17 @@
                                         <label class="control-label"></label>
                                         <div class="common-max-width select-address-wrap">
                                             <div class="col-md-4 item">
-                                                <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
+                                                    [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
                                             </div>
                                             <div class="col-md-4 item">
-                                                <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                                <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
+                                                    [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
                                                 </kendo-dropdownlist>
                                             </div>
                                             <div class="col-md-4 item">
-                                                <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                                <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
+                                                    [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
                                                 </kendo-dropdownlist>
                                             </div>
                                         </div>
@@ -88,7 +92,8 @@
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control common-max-width" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="固定电话" required>
+                                        <input class="form-control common-max-width" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="固定电话"
+                                            required>
                                     </div>
                                 </div>
                             </div>

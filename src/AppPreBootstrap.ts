@@ -10,7 +10,6 @@ import { UrlHelper } from './shared/helpers/UrlHelper';
 import { UtilsService } from '@abp/utils/utils.service';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-const moment = require('moment');
 declare var $: any;
 export class AppPreBootstrap {
 

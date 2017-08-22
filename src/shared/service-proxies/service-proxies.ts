@@ -19,7 +19,6 @@ import { Inject, Injectable, OpaqueToken, Optional } from '@angular/core';
 import { Moment } from 'moment';
 import { Observable } from 'rxjs/Observable';
 
-const moment = require('moment');
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
 
 @Injectable()

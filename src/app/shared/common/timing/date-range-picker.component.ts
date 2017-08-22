@@ -4,7 +4,6 @@ import { DefaultTimezoneScope, NameValueDto, TimingServiceProxy } from '@shared/
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 
-const moment = require('moment');
 @Component({
     selector: 'date-range-picker',
     template:

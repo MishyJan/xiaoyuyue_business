@@ -120,7 +120,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .finally(() => this.saving = false)
             .subscribe(result => {
                 this.notify.success('保存成功');
-                this._router.navigate(['/app/admin/org/list']);
+                this._router.navigate(['/outlet/list']);
             })
     }
 

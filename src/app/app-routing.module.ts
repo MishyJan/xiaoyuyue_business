@@ -13,11 +13,7 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
                 component: AppComponent,
                 children: [
                     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-                    {
-                        path: 'auth',
-                        loadChildren: 'app/auth/auth.module#AuthModule', // Lazy load account module
-                        data: { preload: true }
-                    },
+
                     { path: 'notifications', component: NotificationsComponent },
                     {
                         path: 'dashboard',

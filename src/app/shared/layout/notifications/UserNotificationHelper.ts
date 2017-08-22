@@ -7,7 +7,6 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 import { NotificationSettingsModalCompoent } from './notification-settings-modal.component';
 
-const moment = require('moment');
 export interface IFormattedUserNotification {
     userNotificationId: string;
     text: string;
@@ -34,7 +33,7 @@ export class UserNotificationHelper extends AppComponentBase {
     getUrl(userNotification: abp.notifications.IUserNotification): string {
         switch (userNotification.notification.notificationName) {
             case 'App.NewUserRegistered':
-                return '/app/admin/users?filterText=' + userNotification.notification.data.properties.emailAddress;
+                return '/users?filterText=' + userNotification.notification.data.properties.emailAddress;
             case 'App.NewTenantRegistered':
                 return '/admin/tenants?filterText=' + userNotification.notification.data.properties.tenancyName;
             //Add your custom notification names to navigate to a URL when user clicks to a notification.

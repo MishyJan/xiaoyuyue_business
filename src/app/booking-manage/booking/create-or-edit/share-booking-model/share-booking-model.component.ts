@@ -37,7 +37,7 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
 
   close(): void {
     this.model.hide();
-    this._router.navigate(['/app/admin/booking/list']);
+    this._router.navigate(['/booking/list']);
   }
 
   // 单击复制文本

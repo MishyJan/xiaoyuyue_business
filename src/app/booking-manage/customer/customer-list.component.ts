@@ -14,7 +14,6 @@ import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 
-const moment = require('moment');
 export class SingleBookingStatus {
     value: any;
     displayText: any;

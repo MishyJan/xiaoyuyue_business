@@ -189,7 +189,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     back() {
         // this._locaition.back();
-        this._router.navigate(['/app/admin/booking'])
+        this._router.navigate(['/booking'])
     }
 
     public outletChange(outlet: any): void {

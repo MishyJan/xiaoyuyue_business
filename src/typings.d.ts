@@ -118,3 +118,5 @@ interface String {
 //      if (arg === undefined) return undefined;
 //         return moment(arg);
 // }
+
+declare var moment: any;

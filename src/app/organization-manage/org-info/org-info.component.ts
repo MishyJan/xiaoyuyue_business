@@ -92,7 +92,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
             .finally(() => { this.saving = false })
             .subscribe(result => {
                 this.notify.success('信息已完善');
-                this._router.navigate(['/app/admin/org/list']);
+                this._router.navigate(['/outlet/list']);
             })
     }
 

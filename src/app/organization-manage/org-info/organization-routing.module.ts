@@ -9,7 +9,7 @@ import { OrgInfoComponent } from './org-info.component';
     imports: [
         RouterModule.forChild([
             {
-                path: 'org',
+                path: '',
                 canActivate: [AppRouteGuard],
                 canActivateChild: [AppRouteGuard],
                 children: [

@@ -3,7 +3,6 @@
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 
-const moment = require('moment');
 @Directive({
     selector: '[datePicker]'
 })

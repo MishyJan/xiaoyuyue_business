@@ -1,8 +1,5 @@
-import 'moment-timezone';
-
 import { ChangeDetectorRef, enableProdMode } from '@angular/core';
 
-import { Moment } from 'moment';
 import { RootModule } from './root.module';
 import { environment } from './environments/environment';
 import { hmrBootstrap } from './hmr';

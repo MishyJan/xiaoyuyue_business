@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { Moment } from 'moment';
 
-const moment = require('moment');
 @Injectable()
 export class DateTimeService {
 

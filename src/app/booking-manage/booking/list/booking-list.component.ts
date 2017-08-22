@@ -16,7 +16,6 @@ import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descript
 import { appModuleAnimation } from 'shared/animations/routerTransition';
 import { element } from 'protractor';
 
-const moment = require('moment');
 @Component({
     selector: 'app-manage-booking',
     templateUrl: './booking-list.component.html',
@@ -136,7 +135,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     editHandler(bookingId: number) {
-        this._router.navigate(['app/admin/booking/edit', bookingId]);
+        this._router.navigate(['/booking/edit', bookingId]);
     }
 
     // 正面翻转到背面
