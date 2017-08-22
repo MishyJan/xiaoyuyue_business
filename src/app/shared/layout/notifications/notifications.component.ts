@@ -1,19 +1,18 @@
-﻿import { Component, OnInit, Injector, ViewChild, ElementRef, AfterViewInit, ViewEncapsulation, Injectable } from '@angular/core';
+﻿import { ActivatedRoute, Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, Injectable, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DataStateChangeEvent, GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { GetNotificationsOutput, NotificationServiceProxy, State, UserNotification } from '@shared/service-proxies/service-proxies';
+import { IFormattedUserNotification, UserNotificationHelper } from './UserNotificationHelper';
+import { SortDescriptor, orderBy, process, toODataString } from '@progress/kendo-data-query';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { NotificationServiceProxy, GetNotificationsOutput, UserNotification, State } from '@shared/service-proxies/service-proxies';
-import { UserNotificationHelper, IFormattedUserNotification } from './UserNotificationHelper';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
-
 import { AppConsts } from '@shared/AppConsts';
-import { GridComponent, GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { process, SortDescriptor, orderBy, toODataString } from '@progress/kendo-data-query';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import * as moment from 'moment';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
-import { Observable } from 'rxjs/Observable';
 import { AppUserNotificationState } from 'shared/AppEnums';
+import { Moment } from 'moment';
+import { Observable } from 'rxjs/Observable';
+import { appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     templateUrl: './notifications.component.html',

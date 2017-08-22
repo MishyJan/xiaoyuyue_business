@@ -1,8 +1,3 @@
-import 'moment/min/locales.min';
-import 'moment-timezone';
-
-import * as moment from 'moment';
-
 import { ChangeDetectorRef, enableProdMode } from '@angular/core';
 
 import { RootModule } from './root.module';

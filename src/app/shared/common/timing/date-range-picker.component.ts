@@ -1,8 +1,8 @@
-﻿import { Component, AfterViewInit, ElementRef, ViewChild, Injector, Input, Output, EventEmitter } from '@angular/core';
-import { TimingServiceProxy, NameValueDto, DefaultTimezoneScope } from '@shared/service-proxies/service-proxies';
-import { AppComponentBase } from '@shared/common/app-component-base';
+﻿import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, Output, ViewChild } from '@angular/core';
+import { DefaultTimezoneScope, NameValueDto, TimingServiceProxy } from '@shared/service-proxies/service-proxies';
 
-import * as moment from 'moment';
+import { AppComponentBase } from '@shared/common/app-component-base';
+import { Moment } from 'moment';
 
 @Component({
     selector: 'date-range-picker',
@@ -13,8 +13,8 @@ export class DateRangePickerComponent extends AppComponentBase implements AfterV
 
     @ViewChild('DateRangePicker') dateRangePickerElement: ElementRef;
 
-    _startDate: moment.Moment = moment().startOf('day');
-    _endDate: moment.Moment = moment().startOf('day');
+    _startDate: Moment = moment().startOf('day');
+    _endDate: Moment = moment().startOf('day');
 
     @Input() isDisabled = false;
     @Input() allowFutureDate = false;

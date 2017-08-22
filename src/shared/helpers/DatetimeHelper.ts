@@ -1,5 +1,4 @@
-import * as moment from 'moment';
-
+import { Moment } from 'moment';
 
 export class DatetimeHelper {
     static localDatetime(utcDatetime: string): string {

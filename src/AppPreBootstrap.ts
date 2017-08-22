@@ -1,10 +1,10 @@
 ﻿import * as _ from 'lodash';
-import * as moment from 'moment';
 
 import { CompilerOptions, NgModuleRef, Type } from '@angular/core';
 
 import { AppConsts } from '@shared/AppConsts';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
+import { Moment } from 'moment';
 import { SubdomainTenancyNameFinder } from '@shared/helpers/SubdomainTenancyNameFinder';
 import { UrlHelper } from './shared/helpers/UrlHelper';
 import { UtilsService } from '@abp/utils/utils.service';

@@ -1,14 +1,14 @@
-import * as moment from 'moment';
-
 import 'rxjs/Rx';
-import { Observable } from 'rxjs/Observable';
-import { Injectable, Inject, Optional, OpaqueToken } from '@angular/core';
-import { Http, Headers, Response, RequestOptionsArgs } from '@angular/http';
+
+import { DataStateChangeEvent, GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
+import { Headers, Http, RequestOptionsArgs, Response } from '@angular/http';
+import { Inject, Injectable, OpaqueToken, Optional } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs/Rx';
-import { GridComponent, GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { toODataString } from '@progress/kendo-data-query';
 import { DatetimeHelper } from '@shared/helpers/DatetimeHelper';
+import { Moment } from 'moment';
+import { Observable } from 'rxjs/Observable';
+import { toODataString } from '@progress/kendo-data-query';
 
 @Injectable()
 export class AppGridData extends BehaviorSubject<GridDataResult> {

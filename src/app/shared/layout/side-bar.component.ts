@@ -13,7 +13,27 @@ import { SideBarMenuItem } from './side-bar-menu-item';
     selector: 'side-bar'
 })
 export class SideBarComponent extends AppComponentBase {
-    
+
+    menu: SideBarMenu = new SideBarMenu('MainMenu', 'MainMenu', [
+        new SideBarMenuItem('BusinessCenter.Menu.UserData', this.adminPermissions.tenantDashboard, 'vapps-icon-dc-menu menu-item', '/dashboard'),
+        new SideBarMenuItem('BusinessCenter.Menu.ManageBooking', this.adminPermissions.userManage, 'vapps-icon-bm-menu menu-item', '', [
+            new SideBarMenuItem('BusinessCenter.Menu.ManageBooking.List', '', '', '//booking/list'),
+            new SideBarMenuItem('应约人列表', '', '', '/customer/list'),
+        ]),
+        new SideBarMenuItem('BusinessCenter.Menu.OrgInfo', this.adminPermissions.configuration, 'vapps-icon-oi-menu menu-item', '', [
+            new SideBarMenuItem('BusinessCenter.Menu.Org.BaseInfo', '', '', '/organization/info'),
+            new SideBarMenuItem('BusinessCenter.Menu.Org.TenantManage', '', '', '/outlet/list'),
+        ])
+        // new SideBarMenuItem("Admin.System", this.adminPermissions.system, "icon-settings", "", [
+        //     new SideBarMenuItem("AuditLogs", this.adminPermissions.system_AuditLogs, "icon-lock", "/auditLogs"),
+        //     new SideBarMenuItem("Editions", this.adminPermissions.system_Editions, "icon-grid", "/editions"),
+        //     new SideBarMenuItem("Maintenance", this.adminPermissions.system_HostMaintenance, "icon-wrench", "/maintenance"),
+        // ]),
+        // new SideBarMenuItem("Admin.ContentManage", this.adminPermissions.content, "fa fa-newspaper-o", "", [
+        //     new SideBarMenuItem("MessageTemplate", this.adminPermissions.content_SmsTemplates, "fa fa-envelope-o", "/message-template")
+        // ])
+    ]);
+
     constructor(
         injector: Injector,
         public permission: PermissionCheckerService,
@@ -22,30 +42,10 @@ export class SideBarComponent extends AppComponentBase {
         super(injector);
     }
 
-    menu: SideBarMenu = new SideBarMenu("MainMenu", "MainMenu", [
-        new SideBarMenuItem("BusinessCenter.Menu.UserData", this.adminPermissions.tenantDashboard, "vapps-icon-dc-menu menu-item", "/app/main/dashboard"),
-        new SideBarMenuItem("BusinessCenter.Menu.ManageBooking", this.adminPermissions.userManage, "vapps-icon-bm-menu menu-item", "", [
-            new SideBarMenuItem("BusinessCenter.Menu.ManageBooking.List", "", "", "/app/admin/booking/list"),
-            new SideBarMenuItem("应约人列表", "", "", "/app/admin/custom/list"),
-        ]),
-        new SideBarMenuItem("BusinessCenter.Menu.OrgInfo", this.adminPermissions.configuration, "vapps-icon-oi-menu menu-item", "", [
-            new SideBarMenuItem("BusinessCenter.Menu.Org.BaseInfo", "", "", "/app/admin/org/info"),
-            new SideBarMenuItem("BusinessCenter.Menu.Org.TenantManage", "", "", "/app/admin/org/list"),
-        ])
-        // new SideBarMenuItem("Admin.System", this.adminPermissions.system, "icon-settings", "", [
-        //     new SideBarMenuItem("AuditLogs", this.adminPermissions.system_AuditLogs, "icon-lock", "/app/admin/auditLogs"),
-        //     new SideBarMenuItem("Editions", this.adminPermissions.system_Editions, "icon-grid", "/app/admin/editions"),
-        //     new SideBarMenuItem("Maintenance", this.adminPermissions.system_HostMaintenance, "icon-wrench", "/app/admin/maintenance"),
-        // ]),
-        // new SideBarMenuItem("Admin.ContentManage", this.adminPermissions.content, "fa fa-newspaper-o", "", [
-        //     new SideBarMenuItem("MessageTemplate", this.adminPermissions.content_SmsTemplates, "fa fa-envelope-o", "/app/admin/message-template")
-        // ])
-    ]);
-
     checkChildMenuItemPermission(menuItem): boolean {
 
-        for (var i = 0; i < menuItem.items.length; i++) {
-            var subMenuItem = menuItem.items[i];
+        for (let i = 0; i < menuItem.items.length; i++) {
+            const subMenuItem = menuItem.items[i];
 
             if (subMenuItem.permissionName && this.permission.isGranted(subMenuItem.permissionName)) {
                 return true;
@@ -74,13 +74,14 @@ export class SideBarComponent extends AppComponentBase {
     }
 
     isMenuActive(menuItem: SideBarMenuItem): boolean {
-        if (menuItem.name == this._appSessionService.activeMenu)
+        if (menuItem.name === this._appSessionService.activeMenu) {
             return true;
-
+        }
         if (menuItem.items) {
-            for (var item of menuItem.items) {
-                if (this.isMenuActive(item))
+            for (const item of menuItem.items) {
+                if (this.isMenuActive(item)) {
                     return true;
+                }
             }
         }
 

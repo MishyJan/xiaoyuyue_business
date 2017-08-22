@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { ProfileServiceProxy, UserLoginAttemptDto, UserLoginServiceProxy } from '@shared/service-proxies/service-proxies';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-
-import { UserLoginServiceProxy, ProfileServiceProxy, UserLoginAttemptDto } from '@shared/service-proxies/service-proxies';
-
-import * as moment from "moment";
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'loginAttemptsModal',
@@ -16,7 +14,7 @@ export class LoginAttemptsModalComponent extends AppComponentBase {
     @ViewChild('loginAttemptsModal') modal: ModalDirective;
 
     userLoginAttempts: UserLoginAttemptDto[];
-    profilePicture: string = "/assets/common/images/default-profile-picture.png";
+    profilePicture = '/assets/common/images/default-profile-picture.png';
 
     constructor(
         injector: Injector,
