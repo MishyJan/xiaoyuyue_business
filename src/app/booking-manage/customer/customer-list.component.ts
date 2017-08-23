@@ -72,7 +72,6 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
     }
 
     ngAfterViewInit() {
-        this.getOrderStatusSelectList();
         this.loadData();
         this.cBookingOrderDate = new flatpickr('#bookingDate', {
             'locale': 'zh'
