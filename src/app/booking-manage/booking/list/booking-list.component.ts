@@ -1,5 +1,5 @@
 import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
@@ -24,7 +24,7 @@ import { element } from 'protractor';
     //   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     bEndCreationTime: any;
     bStartCreationTime: any;
     countOverbrimTopValue: number;
@@ -35,7 +35,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
     outletSelectDefaultItem = '0';
-    outletSelectListData: SelectListItemDto[];
+    outletSelectListData: SelectListItemDto[] = [];
     bookingActiveSelectListData: Object[] = SelectHelper.BoolList();
     bookingActiveSelectDefaultItem: object;
 
@@ -74,7 +74,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     ngOnInit() {
         this.bookingActiveSelectDefaultItem = SelectHelper.DefaultList();
-        this.loadSelectListData();
+        this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
         this.loadSelectListData();
     }
 
@@ -121,7 +121,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     // 获取可用下拉框数据源
     private loadSelectListData(): void {
         this._appStorageService.getItem(AppConsts.outletSelectListCache, () => {
-            return this._outletServiceServiceProxy.getOutletSelectList();
+            return this._outletServiceServiceProxy.getOutletSelectList()
         }).subscribe(result => {
             // 添加请选择数据源
             this.outletSelectListData = result;

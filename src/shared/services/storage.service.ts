@@ -1,8 +1,10 @@
+import { GetWorldMapOutput } from './../service-proxies/service-proxies';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+
 /**
  * 作用：封装保存页码到localstorage中
  */
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class AppStorageService {
@@ -14,14 +16,14 @@ export class AppStorageService {
         let result;
         if (cacheString) {
             result = JSON.parse(cacheString);
+            return Observable.of(result);
         } else {
-            callback().subscribe(callbackResult => {
-                result = callbackResult;
-                this.setItem(key, JSON.stringify(callbackResult));
+            return callback().flatMap(function (dataResult) {
+                result = dataResult;
+                localStorage.setItem(key, JSON.stringify(dataResult));
+                return Observable.of(result);
             });
         }
-
-        return Observable.of(result);
     }
 
     // 封装设置localstorage，setItem()
