@@ -196,8 +196,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
         this.gridParam.SkipCount = skip;
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
-
         this.loadData();
+    }
+
+    public transDate(date: Moment): string {
+        return date.format('YYYY-MM-DD');
     }
 }
 

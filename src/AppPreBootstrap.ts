@@ -123,8 +123,8 @@ export class AppPreBootstrap {
 
             abp.clock.provider = this.getCurrentClockProvider(result.clock.provider);
 
-            // moment.locale(abp.localization.currentLanguage.name);
-            // (window as any).moment.locale(abp.localization.currentLanguage.name);
+            moment.locale(abp.localization.currentLanguage.name);
+            (window as any).moment.locale(abp.localization.currentLanguage.name);
             if (abp.clock.provider.supportsMultipleTimezone) {
                 moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
                 // (window as any).moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);

@@ -1,4 +1,4 @@
-﻿import * as Push from 'push.js'; // if using ES6 
+﻿// import * as Push from 'push.js'; // if using ES6
 
 import { EntityDtoOfGuid, NotificationServiceProxy } from '@shared/service-proxies/service-proxies';
 import { Injectable, Injector } from '@angular/core';
