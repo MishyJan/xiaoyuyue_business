@@ -13,8 +13,9 @@ a:focus {
     text-decoration: none;
 }
 
-input:-webkit-autofill {
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     box-shadow: 0 0 0px 1000px white inset !important;
+    border-bottom: 1px solid #D2D2D2 !important;
 }
 
 textarea {
@@ -141,8 +142,11 @@ textarea {
     color: #3598dc;
 }
 
-.k-link.k-state-selected {
+.k-state-selected {
     background-color: #FF9641;
+    padding: 4px 8px;
+    margin: 2px;
+    border-radius: 2px;
 }
 
 .k-pager-wrap .k-state-selected:hover {
@@ -1122,15 +1126,6 @@ Dropdown Menu
         background-color: #eee;
     }
 }
-
-
-/* 覆盖flatpicker样式 */
-
-.flatpickr-calendar.open {
-    top: 320px!important;
-}
-
-
 /* 覆盖 material-Pro样式 */
 
 .modal .modal-dialog {

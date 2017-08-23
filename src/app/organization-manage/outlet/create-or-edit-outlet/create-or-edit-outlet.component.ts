@@ -26,8 +26,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     cityId: number;
     provinceId: number;
 
-    defaultItem: SelectListItemDto = new SelectListItemDto();
-
     isCitySelect = false;
     isDistrictSelect = false;
 
@@ -150,22 +148,19 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .getProvinceSelectList()
             .subscribe(result => {
                 this.provinceSelectListData = result;
-                this.provinceSelectListData.unshift(this.defaultItem);
-                this.selectedProvinceId = this.provinceSelectListData[0].value;
                 this.provinceId = parseInt(this.selectedProvinceId, null);
             })
     }
 
     getCitysSelectList(provinceId: number): void {
-        if (!parseInt(this.selectedProvinceId, null)) {
+        if (!provinceId) {
             return;
         }
         this._stateServiceServiceProxy
             .getCitySelectList(this.provinceId)
             .subscribe(result => {
                 this.citysSelectListData = result;
-                this.citysSelectListData.unshift(this.defaultItem);
-                this.selectedCityId = this.citysSelectListData[1].value;
+                this.selectedCityId = this.citysSelectListData[0].value;
                 this.cityId = parseInt(this.selectedCityId, null);
                 this.getDistrictsSelectList(this.cityId);
             })
@@ -173,20 +168,19 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     getDistrictsSelectList(cityId: number): void {
-        if (!this.cityId) {
+        if (!cityId) {
             return;
         }
         this._stateServiceServiceProxy
             .getDistrictSelectList(cityId)
             .subscribe(result => {
                 this.districtSelectListData = result;
-                this.districtSelectListData.unshift(this.defaultItem);
                 if (result.length <= 0) {
                     this.isDistrictSelect = false;
                     this.selectedDistrictId = '';
                     this.districtId = 0;
                 } else {
-                    this.selectedDistrictId = this.districtSelectListData[1].value;
+                    this.selectedDistrictId = this.districtSelectListData[0].value;
                     this.districtId = parseInt(this.selectedDistrictId, null);
                 }
             })
@@ -197,8 +191,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         if (this.provinceId <= 0) {
             this.isCitySelect = false;
             this.isDistrictSelect = false;
-            this.selectedCityId = this.defaultItem.value;
-            this.selectedDistrictId = this.defaultItem.value;
         } else {
             this.isCitySelect = true;
             this.isDistrictSelect = true;
@@ -207,7 +199,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
     public citySelectHandler(cityId: any): void {
         this.cityId = parseInt(cityId, null);
-        this.getDistrictsSelectList(this.cityId);
+        this.getDistrictsSelectList(cityId);
     }
 
     public districtSelectHandler(districtId: any): void {

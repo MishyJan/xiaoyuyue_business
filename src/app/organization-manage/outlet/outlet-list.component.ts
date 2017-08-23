@@ -57,11 +57,11 @@ export class OutletListComponent extends AppComponentBase implements OnInit {
     }
 
     createOutlet(): void {
-        this._router.navigate(['/organization/create']);
+        this._router.navigate(['/outlet/create']);
     }
 
     editHandler(outletId: number): void {
-        this._router.navigate(['/organization/edit', outletId]);
+        this._router.navigate(['/outlet/edit', outletId]);
     }
 
     onPageChange(index: number): void {
