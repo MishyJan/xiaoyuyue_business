@@ -38,16 +38,20 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
     }
 
     show(): void {
+        if (this.allPictureEdit.length >= 4) {
+            this.message.warn('不能超过四张图');
+            return;
+        }
         this.uploadPictureModel.show();
     }
 
     getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
-        if (this.pictrueIndex >= 0) {
+        if (this.pictrueIndex != null && this.pictrueIndex >= 0) {
             this.displayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
             ++this.displayOrder;
             this.allPictureEdit[this.pictrueIndex] = pictureForEdit;
             this.sendAllPictureForEdit.emit(this.allPictureEdit);
-            console.log(this.allPictureEdit);
+            this.pictrueIndex = null;
             return;
         }
 
@@ -70,8 +74,6 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
     changePic(pictureIndex: number, displayOrder: number): void {
         this.pictrueIndex = pictureIndex;
         this.displayOrder = displayOrder;
-        console.log(this.pictrueIndex);
-
         this.show();
     }
 
