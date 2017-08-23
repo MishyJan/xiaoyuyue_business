@@ -5,6 +5,7 @@ body {
     width: 100%;
     min-width: 768px;
     overflow-x: hidden;
+    padding-right: 0!important;
 }
 
 a,
@@ -141,12 +142,19 @@ textarea {
 .k-dialog-buttongroup .k-button.k-primary {
     color: #3598dc;
 }
-
+.k-link.k-state-selected {
+    background-color: #FF9641;
+}
 .k-state-selected {
     background-color: #FF9641;
     padding: 4px 8px;
     margin: 2px;
     border-radius: 2px;
+}
+
+.k-block, .k-widget {
+    border-left: none;
+    border-right: none;
 }
 
 .k-pager-wrap .k-state-selected:hover {

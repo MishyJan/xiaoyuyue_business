@@ -16,7 +16,6 @@
         left: 15px;
         padding: 0;
         transform-style: preserve-3d;
-        min-height: 470px;
         .wait-confirm-num {
             width: 34px;
             height: 34px;
@@ -283,6 +282,7 @@
                                 }
                                 .show-text {
                                     display: inline-block;
+                                    margin-right: 10px;
                                 }
                             }
                             .item-wrap:hover {
