@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
                 canActivate: [AppRouteGuard],
                 canActivateChild: [AppRouteGuard],
                 children: [
-                    { path: 'dashboard', component: DashboardComponent, data: { permission: AdminPermissions.tenantDashboard } },
+                    { path: '', component: DashboardComponent, data: { permission: AdminPermissions.tenantDashboard } },
                 ]
             }
         ])
