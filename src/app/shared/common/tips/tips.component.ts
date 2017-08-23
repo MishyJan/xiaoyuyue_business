@@ -1,4 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'xiaoyuyue-tips',
@@ -6,8 +8,14 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
     styleUrls: ['./tips.component.scss']
 })
 export class TipsComponent implements OnInit {
-    constructor() { }
+    constructor(
+        private _router: Router
+    ) { }
 
     ngOnInit() {
+    }
+
+    completeOrgInfo(): void {
+        this._router.navigate(['/organization/info']);
     }
 }
