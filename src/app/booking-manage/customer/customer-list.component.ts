@@ -92,12 +92,9 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
 
     loadData(): void {
         this.bookingDate = this.bookingDate ? moment(this.bookingDate) : undefined;
-        // TODO 订单创建时间搜索未做
-        // this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
-        // this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
+        this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
+        this.creationEndDate = this.creationEndDate ? moment(this.creationEndDate) : undefined;
         const loadOrgBookingOrderData = () => {
-            this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
-            this.creationEndDate = this.creationEndDate ? moment(this.creationEndDate) : undefined;
             return this._orgBookingOrderServiceProxy
                 .getOrders(this.bookingId,
                 this.bookingName,
@@ -118,8 +115,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
         this.customerListData.query(loadOrgBookingOrderData);
         if (typeof this.creationStartDate === 'object') {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
+        }
+        if (typeof this.creationEndDate === 'object') {
             this.creationEndDate = this.creationEndDate.format('YYYY-MM-DD');
         }
+
     }
 
     showCustomerForEditHander(dataItemId: any): void {
@@ -196,8 +196,11 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
         this.gridParam.SkipCount = skip;
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
-
         this.loadData();
+    }
+
+    public transDate(date: Moment): string {
+        return date.format('YYYY-MM-DD');
     }
 }
 
