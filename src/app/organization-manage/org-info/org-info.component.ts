@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -60,10 +61,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
                 this.input.tagline = result.tagline;
                 this.input.description = result.description;
 
-                this.sendOrgBgInfo.pictureUrl = result.backgroundPictureUrl;
+                this.sendOrgBgInfo.pictureUrl = PictureUrlHelper.getMinProfilePicCompressUrl(result.backgroundPictureUrl);
                 this.sendOrgBgInfo.pictureId = result.backgroundPictureId;
 
-                this.sendOrgLogoInfo.pictureUrl = result.logoUrl;
+                this.sendOrgLogoInfo.pictureUrl = PictureUrlHelper.getMinProfilePicCompressUrl(result.logoUrl);
                 this.sendOrgLogoInfo.pictureId = result.logoId;
             })
     }

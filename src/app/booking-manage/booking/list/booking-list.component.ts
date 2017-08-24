@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
@@ -9,6 +11,7 @@ import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-
 import { Moment } from 'moment';
 import { NgxAni } from 'ngxani';
 import { Observable } from 'rxjs/Rx';
+import { PictureUrlHelper } from "shared/helpers/PictureUrlHelper";
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
@@ -110,12 +113,18 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             .subscribe(result => {
                 const self = this;
                 this.totalItems = result.totalCount;
-                this.organizationBookingResultData = result.items;
+                // this.organizationBookingResultData = result.items;
+                this.organizationBookingResultData = _.map(result.items, this.converTimelineData);
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
                 }
             });
+    }
+
+    private converTimelineData(item: BookingListDto): BookingListDto {
+        item.pictureUrl = PictureUrlHelper.getBookingListPicCompressUrl(item.pictureUrl);
+        return item;
     }
 
     // 获取可用下拉框数据源
