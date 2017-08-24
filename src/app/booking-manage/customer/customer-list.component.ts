@@ -10,6 +10,7 @@ import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxi
 import { CustomerInfoModelComponent } from './info-model/customer-info-model.component';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -167,7 +168,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
     getBookingCustomerAvatar(url: string): string {
         const defaultAvatar = 'assets/common/images/default-profile-picture.png';
         if (url !== '') {
-            return url;
+            return PictureUrlHelper.getMinProfilePicCompressUrl(url);
         }
         return defaultAvatar;
     }
