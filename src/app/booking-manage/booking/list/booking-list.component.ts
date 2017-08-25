@@ -113,18 +113,12 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             .subscribe(result => {
                 const self = this;
                 this.totalItems = result.totalCount;
-                // this.organizationBookingResultData = result.items;
-                this.organizationBookingResultData = _.map(result.items, this.converTimelineData);
+                this.organizationBookingResultData = result.items;
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
                 }
             });
-    }
-
-    private converTimelineData(item: BookingListDto): BookingListDto {
-        item.pictureUrl = PictureUrlHelper.getBookingListPicCompressUrl(item.pictureUrl);
-        return item;
     }
 
     // 获取可用下拉框数据源
@@ -307,6 +301,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 获取预约背景
     getBookingBgUrl(pictureUrl): string {
-        return pictureUrl === '' ? this.pictureDefaultBgUrl : pictureUrl;
+        return pictureUrl === '' ? this.pictureDefaultBgUrl : PictureUrlHelper.getBookingListPicCompressUrl(pictureUrl);
     }
 }
