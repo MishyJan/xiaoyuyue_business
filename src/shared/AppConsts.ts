@@ -1,4 +1,5 @@
 ﻿import { state } from '@angular/core';
+
 export class AppConsts {
 
     static readonly tenancyNamePlaceHolderInUrl = '{TENANCY_NAME}';
@@ -27,4 +28,13 @@ export class AppConsts {
     };
 
     static outletSelectListCache = 'OutletSelectListCache';
+}
+
+export class MediaCompressFormat {
+    static bookingListFormat = 'imageView2/2/w/600/q/100|imageslim';
+    static bookingInfoFormat = 'imageView2/2/w/800/q/100|imageslim';
+    static outletListFormat = 'imageView2/2/w/600/q/100|imageslim';
+    static outletInfoFormat = 'imageView2/2/w/800/q/100|imageslim';
+    static contactorFormat = 'imageView2/2/w/400/q/100|imageslim';
+    static minProfilePictureFormat = 'imageView2/2/w/100/q/100|imageslim';
 }

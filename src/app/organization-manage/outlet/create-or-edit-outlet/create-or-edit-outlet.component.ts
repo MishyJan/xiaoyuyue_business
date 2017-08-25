@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { PictureUrlHelper } from './../../../../shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
@@ -71,7 +72,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 this.contactorEdit = this.onlineAllContactors = result.contactors;
 
                 this.outetInfo.pictureId = this.pictureInfo.pictureId = result.outlet.pictureId;
-                this.outetInfo.pictureUrl = this.pictureInfo.pictureUrl = result.outlet.pictureUrl;
+                this.outetInfo.pictureUrl = this.pictureInfo.pictureUrl = PictureUrlHelper.getMinProfilePicCompressUrl(result.outlet.pictureUrl);
 
                 this.outetInfo.name = result.outlet.name;
                 this.outetInfo.detailAddress = result.outlet.detailAddress;
