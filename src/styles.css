@@ -14,7 +14,9 @@ a:focus {
     text-decoration: none;
 }
 
-input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
     box-shadow: 0 0 0px 1000px white inset !important;
     border-bottom: 1px solid #D2D2D2 !important;
 }
@@ -117,6 +119,22 @@ textarea {
     padding: 8px 14px 7px 14px;
 }
 
+
+/* kendo grid */
+
+.k-grid thead th {
+    padding: 20px 14px 20px 24px;
+    border-bottom: 1px solid #E8E7E7;
+}
+
+.k-grid thead tr:hover {
+    background-color: transparent;
+}
+
+.k-grid tbody td {
+    padding: 16px;
+}
+
 .k-textbox::selection {
     background-color: #3598dc;
     color: #fff;
@@ -142,19 +160,19 @@ textarea {
 .k-dialog-buttongroup .k-button.k-primary {
     color: #3598dc;
 }
+
+.k-pager-wrap .k-link, .k-pager-wrap .k-state-selected {
+    margin: 2px;
+    border-radius: 50% !important;
+}
+
 .k-link.k-state-selected {
     background-color: #FF9641;
 }
+
 .k-state-selected {
     background-color: #FF9641;
     padding: 4px 8px;
-    margin: 2px;
-    border-radius: 2px;
-}
-
-.k-block, .k-widget {
-    border-left: none;
-    border-right: none;
 }
 
 .k-pager-wrap .k-state-selected:hover {
@@ -1134,6 +1152,8 @@ Dropdown Menu
         background-color: #eee;
     }
 }
+
+
 /* 覆盖 material-Pro样式 */
 
 .modal .modal-dialog {

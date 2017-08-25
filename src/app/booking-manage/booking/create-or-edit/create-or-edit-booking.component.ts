@@ -87,12 +87,12 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 .getOutletSelectList()
                 .subscribe(result => {
                     this.outletSelectDefaultItem = result[0].value;
-                    this.selectOutletId = parseInt(result[0].value);
+                    this.selectOutletId = +result[0].value;
                     this.outletSelectListData = result;
 
                     // 获取联系人下拉框数据源
                     this._outletServiceServiceProxy
-                        .getContactorSelectList(parseInt(this.outletSelectListData[0].value))
+                        .getContactorSelectList(this.selectOutletId)
                         .subscribe(result => {
                             this.contactorSelectDefaultItem = result[0].value;
                             this.selectContactorId = parseInt(result[0].value);
@@ -116,7 +116,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                     .subscribe(result => {
                         this.outletSelectDefaultItem = this.bookingDataForEdit.booking.outletId.toString();
                         this.outletSelectListData = result;
-                        this.selectOutletId = parseInt(result[0].value);
+                        this.selectOutletId = +result[0].value;
 
                         // 获取联系人下拉框数据源
                         this._outletServiceServiceProxy
@@ -124,7 +124,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                             .subscribe(result => {
                                 this.contactorSelectListData = result;
                                 this.contactorSelectDefaultItem = result[0].value;
-                                this.selectContactorId = parseInt(result[0].value);
+                                this.selectContactorId = +result[0].value;
                             })
                     })
             })
@@ -154,9 +154,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     saveAndEdit() {
+        this.input.booking.id = this.bookingId ? this.bookingId : 0;
         this.input.booking = this.baseInfo;
-        this.input.items = this.allBookingTime;
-        this.savingAndEditing = true;
+        this.input.booking.outletId = this.selectOutletId;
+        this.input.booking.contactorId = this.selectContactorId;
+        this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
         this.input.items = !this.allBookingTime ? this.timeInfo : this.allBookingTime;
         // 判断是否上传过图片
@@ -199,8 +201,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .subscribe(result => {
                 this.contactorSelectListData = result;
                 this.contactorSelectDefaultItem = result[0].value;
-                // this.contactorSelectDefaultItem.text = this.contactorSelectListData[0].text;
-                // this.contactorSelectDefaultItem.value = parseInt(this.contactorSelectListData[0].value);
+                this.selectContactorId = +result[0].value;
             })
     }
 
