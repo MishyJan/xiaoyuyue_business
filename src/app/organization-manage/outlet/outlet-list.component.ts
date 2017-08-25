@@ -73,6 +73,6 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
 
     // 获取门店背景
     getOutletBgUrl(pictureUrl): string {
-        return pictureUrl === '' ? this.pictureDefaultBgUrl : PictureUrlHelper.getMinProfilePicCompressUrl(pictureUrl);
+        return pictureUrl === '' ? this.pictureDefaultBgUrl : PictureUrlHelper.getOutletListPicCompressUrl(pictureUrl);
     }
 }
