@@ -1,10 +1,4 @@
 .confirm-order-wrap {
-    .form-group {
-        margin: 0;
-    }
-    .card .form-horizontal .label-on-left {
-        padding-top: 8px;
-    }
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -21,7 +15,7 @@
     &.ani.fade-in {
         visibility: visible;
         opacity: 1;
-        .confirm-model {
+        .wrap {
             transform: translateY(0);
             opacity: 1;
         }
@@ -29,61 +23,68 @@
     &.ani.fade-out {
         visibility: hidden;
         opacity: 0;
-        .confirm-model {
+        .wrap {
             transform: translateY(-100px);
             opacity: 0;
         }
     }
-    .confirm-model {
+    .wrap {
         width: 100%;
+        height: 100%;
         max-width: 974px;
-        height: 640px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
+        position: relative;
         left: 0;
         right: 0;
-        margin: auto;
-        z-index: 1001;
-        background-color: #FFF;
+        margin: 0 auto;
         transition: transform .25s, opacity .15s;
         transform: translateY(-100px);
         opacity: 0;
-        .header-model {
-            height: 72px;
-            line-height: 72px;
-            padding: 0 40px;
-            color: #FFF;
-            background-color: #FF9641;
-            .title-name {
-                float: left;
-            }
-            .process-batch {
-                float: right;
-                margin-top: 16px;
-            }
-        }
-        .content-model {
-            padding: 15px 40px 40px;
-            .serach-wrap {
-                margin: 10px 0;
-            }
-            .vapps-icon-app-search {
-                font-size: 18px;
+        overflow: auto;
+        .confirm-model {
+            width: 100%;
+            max-width: 974px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 40px auto;
+            z-index: 1001;
+            background-color: #FFF;
+            .header-model {
+                height: 72px;
+                line-height: 72px;
+                padding: 0 40px;
+                color: #FFF;
                 background-color: #FF9641;
-                padding: 3px 8px;
+                .title-name {
+                    float: left;
+                }
+                .process-batch {
+                    float: right;
+                    margin-top: 16px;
+                }
             }
-            // .grid-wrap {
-            //     overflow: auto;
-            //     position: absolute;
-            //     width: 91%;
-            //     top: 172px;
-            //     bottom: 20px;
-            // }
+            .content-model {
+                .card {
+                    margin: 0;
+                }
+                .serach-wrap {
+                    margin: 10px 0;
+                }
+                .vapps-icon-app-search {
+                    font-size: 18px;
+                    background-color: #FF9641;
+                    padding: 6px;
+                    margin: 20px 0 0 0;
+                }
+            }
+            .footer-model {}
         }
-        .footer-model {}
     }
     .bg-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, .4);

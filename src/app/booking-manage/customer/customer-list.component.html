@@ -152,8 +152,8 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card no-top-margin">
-                <div class="card-content">
-                    <kendo-grid xiaoyuyueGridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
+                <div class="card-content no-padding">
+                    <kendo-grid GridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
                         [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                         [sortable]="false" (dataStateChange)="dataStateChange($event)" [scrollable]="'none'">
                         <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"

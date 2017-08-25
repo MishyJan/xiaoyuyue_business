@@ -1,4 +1,4 @@
-import { Output, Directive, ElementRef, EventEmitter, Renderer2, OnInit } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, OnInit, Output, Renderer2 } from '@angular/core';
 
 const hasClass = (el, className) => new RegExp(className).test(el.className)
 
@@ -24,33 +24,24 @@ const closest = (el, nodeName) => {
     return null;
 };
 
-@Directive({ selector: '[xiaoyuyueGridRowClick]' })
+@Directive({ selector: '[GridRowClick]' })
 export class GridRowClickDirective implements OnInit {
 
     @Output() public editRow: EventEmitter<number> = new EventEmitter<number>();
-    @Output() public saveRow: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(private el: ElementRef, private renderer: Renderer2) { }
 
     public ngOnInit(): void {
         this.renderer.listen(
             this.el.nativeElement,
-            "click",
+            'click',
             ({ target }) => {
-                const tr = closest(target, "tr");
-                if (tr && !hasClass(tr, "k-grid-edit-row") && isChildOf(target, "k-grid-content")) {
-                    this.editRow.emit(tr.rowIndex);
+                const tr = closest(target, 'tr');
+
+                if (tr && !hasClass(tr, 'k-grid-edit-row') && !hasClass(tr.parentElement, 'k-grid-header')) {
+                    this.editRow.emit(tr.rowIndex - 1);
                 }
             }
         );
-
-        this.renderer.listen(
-            "document",
-            "click",
-            ({ target }) => {
-                if (!isChildOf(target, "k-grid-content") && !isChildOf(target, "k-grid-toolbar")) {
-                    this.saveRow.emit();
-                }
-            });
     }
 }
