@@ -1,4 +1,5 @@
-import { Component, OnInit, Injector, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+
 import { AppComponentBase } from "shared/common/app-component-base";
 import { BookingItemEditDto } from "shared/service-proxies/service-proxies";
 import { Location } from '@angular/common';
@@ -91,11 +92,13 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
             if (allBookingTimeItem.length > 1) {
                 let maxBookingNum = this.localSingleBookingItem.maxBookingNum;
                 let maxQueueNum = this.localSingleBookingItem.maxQueueNum;
+                let availableDates = this.localSingleBookingItem.availableDates;
                 for (let i = 0; i < allBookingTimeItem.length; i++) {
                     this.localSingleBookingItem = new BookingItemEditDto();
                     this.localSingleBookingItem.maxBookingNum = maxBookingNum;
                     this.localSingleBookingItem.maxQueueNum = maxQueueNum;
-                    // this.getLocalBookingItem();
+                    this.localSingleBookingItem.availableDates = availableDates;
+                    
                     this.localSingleBookingItem.hourOfDay = allBookingTimeItem[i];
                     this.localAllBookingItem.push(this.localSingleBookingItem);
                 }
