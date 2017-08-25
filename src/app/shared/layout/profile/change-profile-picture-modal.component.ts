@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Injector, Inject, OpaqueToken } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { AfterViewInit, Component, Inject, Injector, OnInit, OpaqueToken, ViewChild } from '@angular/core';
+import { FileUploader, FileUploaderOptions, Headers } from '@node_modules/ng2-file-upload';
+import { ProfileServiceProxy, UpdateProfilePictureInput } from '@shared/service-proxies/service-proxies';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { FileUploader, FileUploaderOptions, Headers } from '@node_modules/ng2-file-upload';
-import { ProfileServiceProxy, UpdateProfilePictureInput } from "@shared/service-proxies/service-proxies";
 import { IAjaxResponse } from '@abp/abpHttp';
+import { ModalDirective } from 'ngx-bootstrap';
 import { TokenService } from '@abp/auth/token.service';
 
 @Component({
@@ -15,10 +16,10 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
 
     @ViewChild('changeProfilePictureModal') modal: ModalDirective;
 
-    public active: boolean = false;
+    public active = false;
     public uploader: FileUploader;
     public temporaryPictureUrl: string;
-    public saving: boolean = false;
+    public saving = false;
 
     private temporaryPictureFileName: string;
     private _uploaderOptions: FileUploaderOptions = {};
@@ -46,7 +47,7 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
 
     initFileUploader(): void {
         let self = this;
-        self.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + "/Profile/UploadProfilePicture" });
+        self.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/Profile/UploadProfilePicture' });
         self._uploaderOptions.autoUpload = true;
         self._uploaderOptions.authToken = 'Bearer ' + self._tokenService.getToken();
         self._uploaderOptions.removeAfterUpload = true;
@@ -89,7 +90,7 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
     }
 
     onModalShown() {
-        this._$profilePictureResize = $("#ProfilePictureResize");
+        this._$profilePictureResize = $('#ProfilePictureResize');
     }
 
     show(): void {
@@ -103,7 +104,7 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
     }
 
     save(): void {
-        let self = this;
+        const self = this;
         if (!self.temporaryPictureFileName) {
             return;
         }
@@ -113,21 +114,21 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
             resizeParams = self._$jcropApi.getSelection();
         }
 
-        let containerWidth = parseInt(self._$jcropApi.getContainerSize()[0]);
-        let containerHeight = self._$jcropApi.getContainerSize()[1];
+        const containerWidth = parseInt(self._$jcropApi.getContainerSize()[0]);
+        const containerHeight = self._$jcropApi.getContainerSize()[1];
 
         let originalWidth = containerWidth;
         let originalHeight = containerHeight;
 
         if (self._$profilePictureResize) {
-            originalWidth = parseInt(self._$profilePictureResize.attr("originalWidth"));
-            originalHeight = parseInt(self._$profilePictureResize.attr("originalHeight"));
+            originalWidth = parseInt(self._$profilePictureResize.attr('originalWidth'));
+            originalHeight = parseInt(self._$profilePictureResize.attr('originalHeight'));
         }
 
-        let widthRatio = originalWidth / containerWidth;
-        let heightRatio = originalHeight / containerHeight;
+        const widthRatio = originalWidth / containerWidth;
+        const heightRatio = originalHeight / containerHeight;
 
-        let input = new UpdateProfilePictureInput();
+        const input = new UpdateProfilePictureInput();
         // input.fileName = self.temporaryPictureFileName;
         // input.x = Math.floor(resizeParams.x * widthRatio);
         // input.y = Math.floor(resizeParams.y * heightRatio);
@@ -138,10 +139,10 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
         self._profileService.updateProfilePicture(input)
             .finally(() => { this.saving = false; })
             .subscribe(() => {
-                let self = this;
+                const self = this;
                 self._$jcropApi.destroy();
                 self._$jcropApi = null;
-                abp.event.trigger("profilePictureChanged");
+                abp.event.trigger('profilePictureChanged');
                 self.close();
             });
     }
