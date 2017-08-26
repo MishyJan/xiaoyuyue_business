@@ -3,7 +3,6 @@ import '@node_modules/qiniu-js/dist/qiniu.min';
 import { BookingPictureEditDto, IPictureGroupListDto, PagedResultDtoOfPictureListDto, PictureGroupListDto, PictureListDto, PictureServiceProxy, UpdateProfilePictureInput, UploadTokenOutput } from 'shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
@@ -43,7 +42,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     public allPictureId: number[] = [];
     public pictureForEdit: BookingPictureEditDto = new BookingPictureEditDto();
     public picGalleryForEdit: BookingPictureEditDto[] = [];
-    public uploader: FileUploader;
     public temporaryPictureUrl: string;
     public safeTemporaryPictureUrl: SafeUrl;
     public domain = 'http://image.xiaoyuyue.com/';

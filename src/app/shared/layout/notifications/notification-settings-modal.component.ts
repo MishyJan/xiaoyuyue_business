@@ -1,9 +1,10 @@
-﻿import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
-import { AppComponentBase } from '@shared/common/app-component-base';
-import { NotificationServiceProxy, GetNotificationSettingsOutput, UpdateNotificationSettingsInput, NotificationSubscriptionDto } from '@shared/service-proxies/service-proxies';
+﻿import * as _ from 'lodash';
 
-import * as _ from 'lodash';
+import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { GetNotificationSettingsOutput, NotificationServiceProxy, NotificationSubscriptionDto, UpdateNotificationSettingsInput } from '@shared/service-proxies/service-proxies';
+
+import { AppComponentBase } from '@shared/common/app-component-base';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'notificationSettingsModal',

@@ -61,10 +61,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
                 this.input.tagline = result.tagline;
                 this.input.description = result.description;
 
-                this.sendOrgBgInfo.pictureUrl = PictureUrlHelper.getMinProfilePicCompressUrl(result.backgroundPictureUrl);
+                this.sendOrgBgInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.backgroundPictureUrl);
                 this.sendOrgBgInfo.pictureId = result.backgroundPictureId;
 
-                this.sendOrgLogoInfo.pictureUrl = PictureUrlHelper.getMinProfilePicCompressUrl(result.logoUrl);
+                this.sendOrgLogoInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.logoUrl);
                 this.sendOrgLogoInfo.pictureId = result.logoId;
             })
     }

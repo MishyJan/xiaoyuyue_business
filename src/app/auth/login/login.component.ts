@@ -1,25 +1,26 @@
-import { Component, Injector, OnInit, AfterViewInit, Output, ElementRef, ViewEncapsulation, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Http, Headers } from '@angular/http';
-import { TokenAuthServiceProxy, AuthenticateModel, AuthenticateResultModel, ExternalLoginProviderInfoModel } from '@shared/service-proxies/service-proxies';
+import * as _ from 'lodash';
+
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, Injector, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AuthenticateModel, AuthenticateResultModel, ExternalLoginProviderInfoModel, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CodeSendInput, PhoneAuthenticateModel, SMSServiceProxy } from 'shared/service-proxies/service-proxies';
+import { ExternalLoginProvider, LoginService } from 'shared/services/login.service';
+import { Headers, Http } from '@angular/http';
+
+import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { AbpSessionService } from '@abp/session/abp-session.service';
-import { LoginService, ExternalLoginProvider } from 'shared/services/login.service';
-import { TooltipConfig } from 'ngx-bootstrap';
+import { Location } from '@angular/common';
 import { NgxAni } from 'ngxani';
-import * as _ from 'lodash';
-import { CodeSendInput, SMSServiceProxy, PhoneAuthenticateModel } from 'shared/service-proxies/service-proxies';
+import { TooltipConfig } from 'ngx-bootstrap';
 import { VerificationCodeType } from 'shared/AppEnums';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     templateUrl: './login.component.html',
     animations: [accountModuleAnimation()],
     styleUrls: ['./login.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    providers: [{ provide: TooltipConfig, useFactory: getAlertConfig }]
 })
 export class LoginComponent extends AppComponentBase implements AfterViewInit {
     externalLoginProviders: ExternalLoginProvider[];
@@ -185,10 +186,3 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     }
 
 }
-
-export function getAlertConfig(): TooltipConfig {
-    return Object.assign(new TooltipConfig(), {
-        placement: 'top',
-        container: 'body'
-    });
-};
