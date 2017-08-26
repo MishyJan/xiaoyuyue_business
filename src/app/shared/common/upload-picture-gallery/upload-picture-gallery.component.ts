@@ -71,7 +71,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     show(): void {
         this.modal.show();
         this.loadPicGalleryData();
-        this.loadAllPicAsync();
     }
 
     // 获取图片库所有分组数据
@@ -80,7 +79,8 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             .getPictureGroupAsync()
             .subscribe(result => {
                 this.picGalleryGroupData = result;
-                this.groupId = this.defaultPicGalleryGroupId = result[0].id;
+                this.groupId = result[0].id;
+                this.loadAllPicAsync();
             })
     }
 
