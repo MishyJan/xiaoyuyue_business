@@ -1,6 +1,8 @@
-﻿import { Injector, Component, OnInit } from '@angular/core';
+﻿import * as _ from 'lodash';
+
+import { Component, Injector, OnInit } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
-import * as _ from 'lodash';
 
 @Component({
     selector: 'languageSwitch',

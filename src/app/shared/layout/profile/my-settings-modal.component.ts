@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Injector, Inject, Output, EventEmitter, ElementRef } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { CurrentUserProfileEditDto, DefaultTimezoneScope, ProfileServiceProxy, UserLoginInfoDto } from "@shared/service-proxies/service-proxies";
+
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { FileUploader, FileUploaderOptions, Headers } from '@node_modules/ng2-file-upload';
-import { ProfileServiceProxy, CurrentUserProfileEditDto, DefaultTimezoneScope, UserLoginInfoDto } from "@shared/service-proxies/service-proxies";
 import { AppSessionService } from '@shared/common/session/app-session.service'
 import { AppTimezoneScope } from "shared/AppEnums";
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'mySettingsModal',

@@ -3,6 +3,7 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
 import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
+import { element } from 'protractor';
 
 @Component({
     selector: 'app-picture-manage',
@@ -10,12 +11,13 @@ import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-
     styleUrls: ['./picture-manage.component.scss']
 })
 export class PictureManageComponent extends AppComponentBase implements OnInit {
+    existingPicNum: number;
     pictrueIndex: number;
     displayOrder: number = 0;
-    @Output() sendAllPictureForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     allPictureEdit: BookingPictureEditDto[] = [];
-    @Input() pictureInfo: BookingPictureEditDto[];
 
+    @Input() pictureInfo: BookingPictureEditDto[];
+    @Output() sendAllPictureForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureGalleryComponent;
 
 
@@ -42,10 +44,12 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
             this.message.warn('不能超过四张图');
             return;
         }
+        // 统计已有的图片数量
+        this.existingPicNum = this.allPictureEdit.length;
         this.uploadPictureModel.show();
     }
 
-    getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
+    public getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
         if (this.pictrueIndex != null && this.pictrueIndex >= 0) {
             this.displayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
             ++this.displayOrder;
@@ -64,6 +68,19 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
         pictureForEdit.displayOrder = this.displayOrder;
 
         this.allPictureEdit.unshift(pictureForEdit);
+        this.sendAllPictureForEdit.emit(this.allPictureEdit);
+    }
+
+    public getPicGalleryForEdit(picGalleryForEdit: BookingPictureEditDto[]): void {
+        let maxDisplayOrder = 0;
+        if (this.allPictureEdit.length > 0) {
+            // 在本地上传拿到排序最大的值
+            maxDisplayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
+        }
+        picGalleryForEdit.forEach(element => {
+            element.displayOrder = maxDisplayOrder++;
+            this.allPictureEdit.unshift(element);
+        });
         this.sendAllPictureForEdit.emit(this.allPictureEdit);
     }
 

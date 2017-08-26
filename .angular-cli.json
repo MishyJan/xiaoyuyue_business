@@ -52,22 +52,21 @@
       "../node_modules/bootstrap/dist/js/bootstrap.min.js",
       "../node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
 
-      "../node_modules/lodash/lodash.min.js",
       "../node_modules/moment/min/moment.min.js",
 
-      "../external_libs/Jcrop/js/Jcrop.js",
+      "../external_libs/Jcrop/js/Jcrop.min.js",
       "../node_modules/raphael/raphael.min.js",
       "../node_modules/jquery-backstretch/jquery.backstretch.min.js",
 
+      "../src/assets/common/js/jquery.blockUI.min.js",
+
       "../node_modules/toastr/build/toastr.min.js",
       "../node_modules/sweetalert/dist/sweetalert.min.js",
-      "../node_modules/block-ui/jquery.blockUI.js",
       "../node_modules/spin.js/spin.min.js",
       "../node_modules/spin.js/jquery.spin.js",
 
       "../node_modules/jquery-slimscroll/jquery.slimscroll.min.js",
       "../node_modules/timeago/jquery.timeago.js",
-      "../node_modules/localforage/dist/localforage.min.js",
       "../node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
       "../node_modules/push.js/bin/push.min.js",
 
@@ -82,11 +81,11 @@
 
       "../src/assets/common/js/plupload-2.1.9.full.min.js",
 
-      "../src/assets/metronic/global/scripts/app.js",
-      "../src/assets/metronic/admin/layout4/scripts/layout.js",
-      "../src/assets/metronic/layouts/global/scripts/quick-sidebar.js",
+      "../src/assets/metronic/global/scripts/app.min.js",
+      "../src/assets/metronic/admin/layout4/scripts/layout.min.js",
+      "../src/assets/metronic/layouts/global/scripts/quick-sidebar.min.js",
 
-      "../src/assets/common/js/flatpickr.js",
+      "../src/assets/common/js/flatpickr.min.js",
       "../src/assets/common/js/flatpickr-zh.js",
 
       "../node_modules/arrive/minified/arrive.min.js",
