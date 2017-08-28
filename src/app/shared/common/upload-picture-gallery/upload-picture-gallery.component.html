@@ -65,6 +65,7 @@
                         <div class="pull-left">
                             已选{{ setPicSelectNum() }}个，可选{{ setPicElectiveNum() }}个
                         </div>
+                        <p>{{ selectedPicData.pictureId }}</p>
                         <div class="pull-right">
                             <button type="submit" class="btn primary-bgcolor" [buttonBusy]="loading" [busyText]="'确认中...'" (click)="confirmGallerySelect()"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
                             <button type="button" class="btn btn-cancel" (click)="close()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
