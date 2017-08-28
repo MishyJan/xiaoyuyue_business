@@ -1,5 +1,5 @@
-﻿import * as rtlDetect from 'rtl-detect';
-import * as _ from 'lodash';
+﻿import * as _ from 'lodash';
+import * as rtlDetect from 'rtl-detect';
 
 export class LocalizedResourcesHelper {
 
