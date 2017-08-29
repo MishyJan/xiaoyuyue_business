@@ -1,0 +1,98 @@
+@numberOfSkins: 2;
+.themeDefs(1) {
+    @White: #FFFEFE;
+    @BgColor-1: #FAFAFA; //通知背景色
+    @HeaderColor: #5b9bd1; // header
+    @HeaderHoverBg: #347cb9; //header下被hover的颜色
+    @SidebarColor: #5b9bd1; //侧边栏
+    @SidebarBg: #f2f6f9;
+    @MenuDefColor: #485a6a;
+    @CreateBespeakColor: #5b9bd1; //创建预约按钮
+}
+
+.themeDefs(2) {
+    @White: #FFFEFE;
+    @BgColor-1: #FAFAFA; //通知背景色
+    @HeaderColor: #ff9742; // header
+    @HeaderHoverBg: #ff801a; //header下被hover的颜色
+    @SidebarColor: #ff9742; //侧边栏
+    @SidebarBg: #f2f6f9;
+    @MenuDefColor: #485a6a;
+    @CreateBespeakColor: #ff9742; //创建预约按钮
+}
+
+.buildSkins(@index) when (@index < @numberOfSkins + 1) {
+    .theme-@{index} {
+        .themeDefs(@index);
+        .page-header.navbar {
+            background-color: @HeaderColor;
+            .page-top {
+                .create-bespeak {
+                    .vapps-icon-cb-menu,
+                    .text {
+                        color: @CreateBespeakColor;
+                    }
+                }
+                .top-menu {
+                    .langname,
+                    .username {
+                        color: @White;
+                    }
+                    .navbar-nav {
+                        >li.dropdown-extended {
+                            .dropdown-menu {
+                                >li.external {
+                                    background-color: @BgColor-1;
+                                }
+                            }
+                        }
+                        >li.dropdown {
+                            >.dropdown-toggle:hover {
+                                background-color: @HeaderHoverBg;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .page-sidebar {
+            .page-sidebar-menu {
+                &>li {
+                    a {
+                        color: @MenuDefColor;
+                    }
+                    &.active,
+                    &.active.open {
+                        &>a {
+                            color: @SidebarColor;
+                        }
+                    }
+                    &>a:hover {
+                        background: @SidebarBg;
+                    }
+                }
+                .sub-menu {
+                    &>li {
+                        a {
+                            color: @MenuDefColor;
+                        }
+                        &:hover,
+                        &.open,
+                        &.active,
+                        &.active.open {
+                            &>a {
+                                color: @SidebarColor;
+                                background: @SidebarBg;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .buildSkins(@index + 1);
+}
+
+.buildSkins(@index) {}
+
+.buildSkins(1);
