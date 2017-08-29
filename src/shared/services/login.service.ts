@@ -179,7 +179,9 @@ export class LoginService {
         }
 
         UrlHelper.redirectUrl = this._utilsService.getCookieValue('UrlHelper.redirectUrl');
-        const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
+        this._utilsService.deleteCookie('UrlHelper.redirectUrl', '/');
+        const initialUrl = UrlHelper.redirectUrl.indexOf(AppConsts.appBaseUrl) >= 0 ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
+
         if (redirectUrl) {
             location.href = redirectUrl;
         } else {

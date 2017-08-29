@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
-  shareUrl: string = "";
+  shareUrl = '';
 
-  @ViewChild("shareBookingModel") model: ModalDirective;
+  @ViewChild('shareBookingModel') model: ModalDirective;
   @Input() bookingId: number;
   constructor(
     injector: Injector,
@@ -28,9 +28,9 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
 
   show(bookingId?: number): void {
     if (bookingId) {
-      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about/" + bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + '/booking/' + bookingId;
     } else {
-      this.shareUrl = AppConsts.shareBaseUrl + "/booking/about/" + this.bookingId;
+      this.shareUrl = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
     }
     this.model.show();
   }
