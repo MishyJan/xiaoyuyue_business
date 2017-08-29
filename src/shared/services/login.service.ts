@@ -8,6 +8,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { Injectable } from '@angular/core';
 import { LogService } from '@abp/log/log.service';
 import { MessageService } from '@abp/message/message.service';
+import { PhoneAuthenticateModel } from 'shared/service-proxies/service-proxies';
 import { TokenService } from '@abp/auth/token.service';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
 import { UtilsService } from '@abp/utils/utils.service';
@@ -80,6 +81,15 @@ export class LoginService {
             .subscribe((result: AuthenticateResultModel) => {
                 this.processAuthenticateResult(result, redirectUrl);
             });
+    }
+
+    phoneNumAuth(model: PhoneAuthenticateModel, finallyCallback?: () => void): void {
+        this._tokenAuthService
+        .phoneNumAuthenticate(model)
+        .finally(finallyCallback)
+        .subscribe((result: AuthenticateResultModel) => {
+            this.processAuthenticateResult(result);
+        });
     }
 
     externalAuthenticate(provider: ExternalLoginProvider): void {
@@ -180,7 +190,7 @@ export class LoginService {
 
         UrlHelper.redirectUrl = this._utilsService.getCookieValue('UrlHelper.redirectUrl');
         this._utilsService.deleteCookie('UrlHelper.redirectUrl', '/');
-        const initialUrl = UrlHelper.redirectUrl.indexOf(AppConsts.appBaseUrl) >= 0 ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
+        const initialUrl = UrlHelper.redirectUrl && UrlHelper.redirectUrl.indexOf(AppConsts.appBaseUrl) >= 0 ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
 
         if (redirectUrl) {
             location.href = redirectUrl;

@@ -82,14 +82,12 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         }
 
         // TODO: 手机验证登录，浏览器存储cookies
+        this.saving = true;
         if (!this.ordinaryLogin) {
-            this._tokenAuthService
-                .phoneNumAuthenticate(this.model)
-                .subscribe(() => {
-                });
+            this.loginService.phoneNumAuth(this.model, () => this.saving = false);
+            return;
         }
 
-        this.saving = true;
         this.loginService.authenticate(
             () => this.saving = false
         );
