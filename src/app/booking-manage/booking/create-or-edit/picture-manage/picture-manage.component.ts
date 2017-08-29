@@ -39,6 +39,14 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
         }, 1000)
     }
 
+    uploadPicHandler(): void {
+        // if (this.allPictureEdit.length >= 4) {
+        //     this.message.warn('不能超过四张图');
+        //     return;
+        // }
+        this.show();
+    }
+
     show(): void {
         if (this.allPictureEdit.length >= 4) {
             this.message.warn('不能超过四张图');
@@ -78,7 +86,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
             maxDisplayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
         }
         picGalleryForEdit.forEach(element => {
-            element.displayOrder = maxDisplayOrder++;
+            element.displayOrder = ++maxDisplayOrder;
             this.allPictureEdit.unshift(element);
         });
         this.sendAllPictureForEdit.emit(this.allPictureEdit);

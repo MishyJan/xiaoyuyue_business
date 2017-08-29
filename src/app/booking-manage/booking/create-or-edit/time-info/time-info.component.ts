@@ -98,16 +98,17 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
                     this.localSingleBookingItem.maxBookingNum = maxBookingNum;
                     this.localSingleBookingItem.maxQueueNum = maxQueueNum;
                     this.localSingleBookingItem.availableDates = availableDates;
-                    
+                    this.localSingleBookingItem.isActive = true;
                     this.localSingleBookingItem.hourOfDay = allBookingTimeItem[i];
                     this.localAllBookingItem.push(this.localSingleBookingItem);
                 }
                 return;
             }
-            // this.getLocalBookingItem();
+            this.localSingleBookingItem.isActive = true;
             this.localSingleBookingItem.hourOfDay = allBookingTimeItem[0];
             this.localAllBookingItem.push(this.localSingleBookingItem);
             this.localSingleBookingItem = new BookingItemEditDto();
+            console.log(this.localAllBookingItem);
 
             this.changeInput.emit(this.localAllBookingItem);
             return;
@@ -121,15 +122,18 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
                 this.localSingleBookingItem = new BookingItemEditDto();
                 this.localSingleBookingItem.maxBookingNum = maxBookingNum;
                 this.localSingleBookingItem.maxQueueNum = maxQueueNum;
-                // this.getLocalBookingItem();
                 this.localSingleBookingItem.hourOfDay = allBookingTimeItem[i];
+                this.localSingleBookingItem.isActive = true;
+                this.localSingleBookingItem.bookingId = this.bookingId;
                 this.timeInfo.push(this.localSingleBookingItem);
             }
             return;
         }
-        // this.getLocalBookingItem();
+        this.localSingleBookingItem.isActive = true;
         this.localSingleBookingItem.hourOfDay = allBookingTimeItem[0];
         this.timeInfo.push(this.localSingleBookingItem);
+        console.log(this.timeInfo);
+        
         this.localSingleBookingItem = new BookingItemEditDto();
 
         this.changeInput.emit(this.timeInfo);

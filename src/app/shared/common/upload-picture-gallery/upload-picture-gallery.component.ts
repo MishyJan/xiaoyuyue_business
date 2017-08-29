@@ -101,6 +101,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     public confirmGallerySelect(): void {
         // 把数据传给父组件
         this.sendPicGalleryForEdit.emit(this.picGalleryForEdit);
+        this.picturyGalleryDestroy();
         this.close();
     }
 
@@ -116,38 +117,20 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         this.selectedPicIndex = index;
         this.selectedPicIndexArr[index] = !this.selectedPicIndexArr[index];
 
-        // 获取图片分组数据
-        this.selectedPicIndexArr.forEach((element, inx) => {
-            if (element === true) {
-                if (this.selectedPicData.length >= 4) {
-                    return;
-                }
-                this.selectedPicData.push(this.picGroupItemData[inx]);
-            } else {
-                this.selectedPicData.splice(inx, 1);
-            }
-        });
-
-        // 将图片分组数据转DTO
-        this.selectedPicData.forEach((element, inx) => {
-            let temp = new BookingPictureEditDto();
-            // temp.displayOrder = inx;
-            temp.pictureId = element.id;
-            temp.pictureUrl = element.originalUrl;
-            this.picGalleryForEdit.push(temp);
-        });
+        this.saveSelectPicData();
 
         // 图片数量超过限制警告
         if (this.setPicElectiveNum() < 0) {
-            this.selectedPicIndexArr[index] = !this.selectedPicIndexArr[index];
+            this.selectedPicIndexArr[index] = false;
+            this.selectedPicData.splice(this.selectedPicData.length - 1, 1);
+            this.picGalleryForEdit.splice(this.selectedPicData.length - 1, 1);
             this.message.warn('图片超过上限');
         }
-
     }
 
     // 获取可选择图片的数量
     public setPicElectiveNum(): number {
-        return this.maxPicNum - this.existingPicNum - this.setPicSelectNum();;
+        return this.maxPicNum - this.existingPicNum - this.setPicSelectNum();
     }
 
     // 获取选中图片数组中，返回已选择的数据长度
@@ -159,6 +142,37 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             }
         });
         return length;
+    }
+
+    // 销毁图片库的数据
+    private picturyGalleryDestroy(): void {
+        this.selectedPicIndexArr = [];
+    }
+
+    // 保存已选中的数据
+    private saveSelectPicData(): void {
+        if (this.selectedPicIndexArr.length > 0) {
+            // 获取图片分组数据
+            this.selectedPicIndexArr.forEach((element, inx) => {
+                if (element === true) {
+                    if (this.selectedPicData.length >= 4) {
+                        return;
+                    }
+                    this.selectedPicData.push(this.picGroupItemData[inx]);
+                } else {
+                    this.selectedPicData.splice(inx, 1);
+                }
+            });
+
+            // 将图片分组数据转DTO
+            this.selectedPicData.forEach((element, inx) => {
+                let temp = new BookingPictureEditDto();
+                // temp.displayOrder = inx;
+                temp.pictureId = element.id;
+                temp.pictureUrl = element.originalUrl;
+                this.picGalleryForEdit.push(temp);
+            });
+        }
     }
 
     public groupItemActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
@@ -313,7 +327,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         this.tabToggle = false;
         this.initFileUploader();
     }
-    // 上传图销毁
+    // 在下次本地上传弹窗时，销毁已上传的数据
     picturyDestroy(): void {
         this.pictureForEdit = new BookingPictureEditDto();
         this._$profilePicture.removeAttr('src');

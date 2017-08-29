@@ -59,15 +59,15 @@
                             <!--选择联系人-->
                             <div class="choose-contact-row row">
                                 <div class="choose-contact name col-md-3 text-right label-on-left"><span>选择联系人</span></div>
-                                <div class="col-md-9 input-box">
-                                    <div class="col-md-6 input-item">
+                                <div class="col-md-9">
+                                    <div class="col-md-6 input-item no-left-padding">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
                                             <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'"
                                                 [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 input-item">
+                                    <div class="col-md-6 input-item no-right-padding">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
                                             <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'"

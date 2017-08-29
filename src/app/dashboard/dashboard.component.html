@@ -13,8 +13,8 @@
         <div class="col-md-12 row">
             <div class="left-content col-md-3">
                 <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
-                    <div class="org-bg">
-                        <img [src]="tenantBaseInfoData.logoUrl" width="100%" alt="logo">
+                    <div class="org-bg" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.logoUrl + ')'}">
+                        <!-- <img [src]="tenantBaseInfoData.logoUrl" width="100%" alt="logo"> -->
                     </div>
                     <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
                     <!-- <div class="edition-info clearfix">
