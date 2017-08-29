@@ -58,7 +58,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     totalItems = 0;
     currentPage = 0;
 
-    shareBaseUrl: string = AppConsts.shareBaseUrl + '/booking/about/';
+    shareBaseUrl: string = AppConsts.shareBaseUrl + '/booking/';
     @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
     @ViewChild('bookingCustomModelComponent') BookingCustomModelComponent: BookingCustomModelComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
