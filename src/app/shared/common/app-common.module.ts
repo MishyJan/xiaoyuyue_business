@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
 import { ModalModule } from 'ngx-bootstrap';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
 import { TipsComponent } from './tips/tips.component';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
@@ -28,6 +29,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         AbpModule,
         CommonModule,
         GridModule,
+        NgxPaginationModule
     ],
     declarations: [
         TimeZoneComboComponent,

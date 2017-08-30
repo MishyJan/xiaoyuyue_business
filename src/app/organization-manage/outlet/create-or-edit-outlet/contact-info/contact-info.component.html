@@ -1,6 +1,6 @@
 <div class="contact-info">
     <div class="card">
-        <form #timeInfoForm="ngForm" class="form-horizontal">
+        <form #contactInfo="ngForm" class="form-horizontal">
             <div class="clearfix">
                 <div class="card-header card-header-text pull-left" data-background-color="orange">
                     <h6 class="card-title">联系人</h6>
@@ -32,8 +32,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="text" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber" pattern="/^1[3|5|8][0-9]\d{8}$/" required>
-                                        <small [hidden]="phoneNum.valid || (phoneNum.pristine && !f.submitted)" class="text-danger">无效的手机号</small>
+                                        <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber"
+                                            pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
+                                        <!-- <small [hidden]="phoneNum.valid || (phoneNum.pristine && !f.submitted)" class="text-danger">无效的手机号</small> -->
                                     </div>
                                 </div>
                             </div>
@@ -44,14 +45,15 @@
                                 <div class="col-md-12 flex-item">
                                     <div class="form-group">
                                         <span class="qr-code-wrap" (click)="uploadPicModel()">
-                                            <img *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" width="100%" alt="qr-code">
+                                            <img *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" width="100%" height="100%" alt="qr-code">
+                                            <!-- <span *ngIf="uploadPicInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></span>                                        -->
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="contact-item submit-item">
-                            <button type="submit" class="btn primary-bgcolor" (click)="save()" [disabled]="!timeInfoForm.form.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
+                            <button type="submit" class="btn primary-bgcolor" (click)="save()" [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
                             <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
                         </div>
                     </div>
@@ -59,10 +61,9 @@
 
                 <!-- 创建状态的展示段 -->
                 <!-- 本地数据 -->
-                <div *ngIf="!isLocalOrOnline; else hasOnline">
-                    <div *ngFor="let contactItem of localAllContact, let index = index">
-                        <div class="col-md-4 create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}"
-                            *ngIf="hideContactIndex != index">
+                <div *ngIf="!isLocalOrOnline; else hasOnline" class="row">
+                    <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
+                        <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
                             <div class="xiaoyuyue-title-box">
                                 {{ contactItem.name }}
                                 <div class="btn-action-wrap">
@@ -70,9 +71,7 @@
                                     <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
                                 </div>
                             </div>
-                            <div class="wechat-img-wrap">
-                                <img [src]="contactItem.wechatQrcodeUrl" style="width:100px" alt="qr-code">
-                            </div>
+                            <div class="wechat-img-wrap" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></div>
                             <div class="contact-wrap">
                                 <span><span class="vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}</span>
                             </div>
@@ -83,21 +82,20 @@
                 <!-- 编辑状态的展示段 -->
                 <!-- 线上数据 -->
                 <ng-template #hasOnline>
-                    <div *ngFor="let contactItem of localAllContact, let index = index">
-                        <div class="col-md-4 create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}"
-                            *ngIf="hideContactIndex != index">
-                            <div class="xiaoyuyue-title-box">
-                                {{ contactItem.name }}
-                                <div class="btn-action-wrap">
-                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
-                                    <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
+                    <div class="row">
+                        <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
+                            <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
+                                <div class="xiaoyuyue-title-box">
+                                    {{ contactItem.name }}
+                                    <div class="btn-action-wrap">
+                                        <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
+                                        <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="wechat-img-wrap">
-                                <img [src]="contactItem.wechatQrcodeUrl" style="width:100px" alt="qr-code">
-                            </div>
-                            <div class="contact-wrap">
-                                <span><span class="vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}</span>
+                                <div class="wechat-img-wrap" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></div>
+                                <div class="contact-wrap">
+                                    <span><span class="vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -87,11 +87,6 @@ export class BookingDateStatisticsComponent implements OnInit {
                         bottom: '60px',
                         containLabel: true
                     },
-                    dataZoom: {
-                        show: false,
-                        start: 0,
-                        end: 100
-                    },
                     xAxis: [
                         {
                             type: 'category',
