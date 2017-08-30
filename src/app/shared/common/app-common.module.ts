@@ -5,12 +5,10 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { AbpModule } from '@abp/abp.module';
 import { AppAuthService } from './auth/app-auth.service';
 import { AppRouteGuard } from './auth/auth-route-guard';
-import { CommonLookupModalComponent } from './lookup/common-lookup-modal.component';
 import { CommonModule } from '@shared/common/common.module';
 import { DatePickerComponent } from './timing/date-picker.component';
 import { DateRangePickerComponent } from './timing/date-range-picker.component';
 import { FormsModule } from '@angular/forms';
-import { GridModule } from '@progress/kendo-angular-grid';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -28,13 +26,11 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UtilsModule,
         AbpModule,
         CommonModule,
-        GridModule,
         NgxPaginationModule
     ],
     declarations: [
         TimeZoneComboComponent,
         JqPluginDirective,
-        CommonLookupModalComponent,
         DateRangePickerComponent,
         DatePickerComponent,
         TipsComponent,
@@ -44,7 +40,6 @@ import { UtilsModule } from '@shared/utils/utils.module';
     exports: [
         TimeZoneComboComponent,
         JqPluginDirective,
-        CommonLookupModalComponent,
         DateRangePickerComponent,
         DatePickerComponent,
         TipsComponent,

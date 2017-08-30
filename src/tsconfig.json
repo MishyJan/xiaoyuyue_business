@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "outDir": "../dist/out-tsc",
+    "allowJs": true,
     "sourceMap": true,
     "target": "es5",
     "typeRoots": [
@@ -20,7 +21,8 @@
       "@app/*": ["./app/*"],
       "@shared/*": ["./shared/*"],
       "@node_modules/*": ["../node_modules/*"],
-      "@assets/*": ["./assets/common/js/*"]
+      "@assets/*": ["./assets/common/js/*"],
+      "@external_libs/*": ["../external_libs/*"]
     }
   },
   "exclude": ["node_modules"]

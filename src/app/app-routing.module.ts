@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
 import { NgModule } from '@angular/core';
-import { NotificationsComponent } from './shared/layout/notifications/notifications.component';
 
 @NgModule({
     imports: [
@@ -14,7 +13,11 @@ import { NotificationsComponent } from './shared/layout/notifications/notificati
                 children: [
                     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 
-                    { path: 'notifications', component: NotificationsComponent },
+                    {
+                        path: 'notifications',
+                        loadChildren: 'app/notifications/notifications.module#NotificationsModule', // Lazy load main module
+                        data: { preload: true }
+                    },
                     {
                         path: 'dashboard',
                         loadChildren: 'app/dashboard/dashboard.module#DashboardModule', // Lazy load main module

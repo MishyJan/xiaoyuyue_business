@@ -1,5 +1,5 @@
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
-import { Component, OnInit } from '@angular/core';
 
 import { Moment } from 'moment';
 
@@ -8,12 +8,12 @@ import { Moment } from 'moment';
     templateUrl: './booking-date-statistics.component.html',
     styleUrls: ['./booking-date-statistics.component.scss']
 })
-export class BookingDateStatisticsComponent implements OnInit {
+export class BookingDateStatisticsComponent implements OnInit, AfterViewInit {
     bookingStatisticalData: BookingConverRateDto[] = [];
     bookingStatisticalDate: string;
     chartOption: object = {};
-    count: number = 0;
-    showloading: boolean = true;
+    count = 0;
+    showloading = true;
 
     constructor(
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
@@ -21,7 +21,7 @@ export class BookingDateStatisticsComponent implements OnInit {
     }
 
     ngOnInit() {
-        let date = new Date();
+        const date = new Date();
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
@@ -67,7 +67,7 @@ export class BookingDateStatisticsComponent implements OnInit {
                     },
                     tooltip: {
                         trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c}"
+                        formatter: '{a} <br/>{b} : {c}'
                     },
                     legend: {
                         data: ['应约人数', '访问量']
@@ -94,7 +94,7 @@ export class BookingDateStatisticsComponent implements OnInit {
                             name: '渠道',
                             nameLocation: 'start',
                             data: (() => {
-                                let res = [];
+                                const res = [];
                                 if (this.bookingStatisticalData.length > 0) {
                                     this.bookingStatisticalData.forEach((element, index) => {
                                         res.push(element.name);
@@ -125,7 +125,7 @@ export class BookingDateStatisticsComponent implements OnInit {
                             xAxisIndex: 0,
                             yAxisIndex: 1,
                             data: (() => {
-                                let res = [];
+                                const res = [];
                                 if (this.bookingStatisticalData.length > 0) {
                                     this.bookingStatisticalData.forEach((element, index) => {
                                         res.push(element.accessNum);
@@ -138,7 +138,7 @@ export class BookingDateStatisticsComponent implements OnInit {
                             name: '应约人数',
                             type: 'line',
                             data: (() => {
-                                let res = [];
+                                const res = [];
                                 if (this.bookingStatisticalData.length > 0) {
                                     this.bookingStatisticalData.forEach((element, index) => {
                                         res.push(element.bookingOrderNum);
@@ -152,13 +152,12 @@ export class BookingDateStatisticsComponent implements OnInit {
             })
     }
 
-
     dateToString(date: Date): string {
         let temp = '';
         if (date instanceof Date) {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
             temp = `${year}-${month}-${day}`;
         }
         return temp;
