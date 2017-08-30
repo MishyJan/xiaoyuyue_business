@@ -17,7 +17,7 @@
                     <div class="content-item" *ngIf="tabToggle">
                         <div class="pic-gallery-wrap">
                             <div class="flex-left" *ngIf="picGroupItemData">
-                                <div [@routerTransition] class="col-lg-3" *ngFor="let item of picGroupItemData; let index = index;">
+                                <div [@routerTransition] class="col-lg-3" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let index = index;">
                                     <div class="pic-item" [ngClass]="{'active': selectedPicIndexArr[index] == true}" (click)="selectPicHandler(index)">
                                         <!-- <div class="img-wrap"></div> -->
                                         <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.originalUrl + ')'}"></div>
@@ -27,8 +27,8 @@
                             </div>
                             <div [@routerTransition] class="flex-right">
                                 <div class="side-bar">
-                                    <p class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" (click)="groupItemActive(groupItem,index)"
-                                        [ngClass]="{'active': groupActiveIndex == index }">{{ groupItem.name }}({{ groupItem.pictureNum }})</p>
+                                    <p class="sub-item text-overflow" *ngFor="let groupItem of picGalleryGroupData; let index = index" (click)="groupItemActive(groupItem,index)"
+                                        [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})">{{ groupItem.name }}({{ groupItem.pictureNum }})</p>
                                 </div>
                             </div>
                         </div>
@@ -65,10 +65,14 @@
                         <div class="pull-left">
                             已选{{ setPicSelectNum() }}个，可选{{ setPicElectiveNum() }}个
                         </div>
-                        <p>{{ selectedPicData.pictureId }}</p>
                         <div class="pull-right">
                             <button type="submit" class="btn primary-bgcolor" [buttonBusy]="loading" [busyText]="'确认中...'" (click)="confirmGallerySelect()"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
                             <button type="button" class="btn btn-cancel" (click)="close()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
+                        </div>
+                        <div class="pull-right gallery-pagination">
+                            <div class="has-text-centered">
+                                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
+                            </div>
                         </div>
                     </div>
                     <div *ngIf="!tabToggle">
