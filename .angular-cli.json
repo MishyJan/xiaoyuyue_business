@@ -21,8 +21,8 @@
       "../node_modules/bootstrap/dist/css/bootstrap.min.css",
 
       "assets/md-pro/css/material-dashboard.css",
-      "assets/metronic/admin/layout4/css/layout.css",
       "assets/metronic/admin/layout4/css/themes/light.css",
+      "assets/metronic/admin/layout4/css/layout.css",
       "assets/metronic/global/css/plugins-md.css",
 
       "../node_modules/simple-line-icons/css/simple-line-icons.css",

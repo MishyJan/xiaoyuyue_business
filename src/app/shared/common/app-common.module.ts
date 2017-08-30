@@ -11,6 +11,7 @@ import { DateRangePickerComponent } from './timing/date-range-picker.component';
 import { FormsModule } from '@angular/forms';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
 import { ModalModule } from 'ngx-bootstrap';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
 import { TipsComponent } from './tips/tips.component';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
@@ -25,6 +26,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UtilsModule,
         AbpModule,
         CommonModule,
+        NgxPaginationModule
     ],
     declarations: [
         TimeZoneComboComponent,

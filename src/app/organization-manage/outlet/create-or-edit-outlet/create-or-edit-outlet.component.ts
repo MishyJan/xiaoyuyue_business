@@ -104,7 +104,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
         this.outetInfo.id = this.outletId ? this.outletId : 0;
 
-        this.outetInfo.businessHours = this.startShopHours + ' ' + this.endShopHours;
+        this.outetInfo.businessHours = this.startShopHours + ' - ' + this.endShopHours;
         this.outetInfo.provinceId = this.provinceId;
         this.outetInfo.cityId = this.cityId;
         this.outetInfo.districtId = this.districtId;

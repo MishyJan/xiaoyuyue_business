@@ -59,7 +59,9 @@ textarea {
     outline: none;
 }
 
-
+.title {
+    color: inherit;
+}
 /*.bootstrap-select.open .dropdown-toggle {
     background-color: #FFF !important;
     border-color: #FFF !important;
@@ -1192,4 +1194,34 @@ a {
 a:hover,
 a:focus {
     color: #FF9641;
+}
+
+
+/* 覆盖分页插件样式 */
+
+.ngx-pagination .current,
+.ngx-pagination a {
+    padding: 4px !important;
+    width: calc(1.4285714286em + 2px);
+    height: calc(1.4285714286em + 2px);
+    line-height: calc(1.4285714286em + 2px);
+    box-sizing: content-box;
+    text-align: center;
+    border-radius: 50% !important;
+}
+
+.ngx-pagination .pagination-previous a::before,
+.ngx-pagination .pagination-previous.disabled::before {
+    margin-right: 2px !important;
+    font-size: 20px;
+    line-height: 1;
+    text-align: center;
+}
+
+.ngx-pagination .pagination-next a::after,
+.ngx-pagination .pagination-next.disabled::after {
+    margin-left: 2px !important;
+    font-size: 20px;
+    line-height: 1;
+    text-align: center;
 }

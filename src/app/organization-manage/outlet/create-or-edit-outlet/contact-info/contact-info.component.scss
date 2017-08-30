@@ -59,6 +59,8 @@
                             overflow: hidden;
                             margin-right: 10px;
                             cursor: pointer;
+                            background-size: cover;
+                            background-position: center center;
                         }
                     }
                 }
@@ -70,7 +72,7 @@
                     margin-top: 15px;
                 }
             }
-        } 
+        }
         .create-local-wrap {
             position: relative;
             margin-top: 52px;
@@ -81,6 +83,13 @@
             .contact-wrap {
                 text-align: center;
                 margin-top: 20px;
+            }
+            .wechat-img-wrap {
+                width: 100px;
+                height: 100px;
+                margin: 20px auto 0;
+                background-size: cover;
+                background-position: center center;
             }
             .contact-wrap {
                 color: #ff9641;

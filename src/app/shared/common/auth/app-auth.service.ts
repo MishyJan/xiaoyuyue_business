@@ -1,5 +1,5 @@
-﻿import { Injectable } from '@angular/core';
-import { AppConsts } from '@shared/AppConsts';
+﻿import { AppConsts } from '@shared/AppConsts';
+import { Injectable } from '@angular/core';
 import { UtilsService } from '@abp/utils/utils.service';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class AppAuthService {
         exdate.setDate(exdate.getDate() + 1);
         this._utilsService.deleteCookie('UrlHelper.redirectUrl', '/');
         // 测试域名
-        const domainArr = ['http://user.xiaoyuyue.com/', 'http://localhost:5201/'];
+        const domainArr = ['http://business.xiaoyuyue.com/', 'http://localhost:5202/'];
         if (domainArr.indexOf(location.href) < 0) {
             this._utilsService.setCookieValue('UrlHelper.redirectUrl', location.href, exdate, '/');
         }

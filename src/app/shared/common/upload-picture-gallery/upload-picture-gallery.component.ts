@@ -21,6 +21,10 @@ import { element } from 'protractor';
 })
 
 export class UploadPictureGalleryComponent extends AppComponentBase implements OnInit {
+    totalItems: number;
+    currentPage = 0;
+    maxResultCount = 12;
+
     selectedPicIndex: number;
     selectedPicIndexArr: boolean[] = [];
 
@@ -86,6 +90,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     // 根据分组ID获取某分组下所有图片数据
     loadAllPicAsync(): void {
+        this.gridParam.MaxResultCount = this.maxResultCount;
         this._pictureServiceProxy
             .getPictureAsync(
             this.groupId,
@@ -94,6 +99,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             this.gridParam.SkipCount
             )
             .subscribe(result => {
+                this.totalItems = result.totalCount;
                 this.picGroupItemData = result.items;
             })
     }
@@ -173,6 +179,13 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                 this.picGalleryForEdit.push(temp);
             });
         }
+    }
+
+    // 分页
+    public onPageChange(index: number): void {
+        this.currentPage = index;
+        this.gridParam.SkipCount = this.maxResultCount * (this.currentPage - 1);
+        this.loadAllPicAsync()
     }
 
     public groupItemActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {

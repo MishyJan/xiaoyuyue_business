@@ -21,7 +21,8 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required autofocus>
+                                        <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required
+                                            autofocus>
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +45,8 @@
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <div id="timeInfoFlatpickr" class="flatpickr-wrap">
-                                            <input class="form-control" type="text" name="bookingDate" placeholder="请选择日期" [(ngModel)]="localSingleBookingItem.availableDates" data-input required>
+                                            <input class="form-control" type="text" name="bookingDate" placeholder="请选择日期" [(ngModel)]="localSingleBookingItem.availableDates"
+                                                data-input required>
 
                                             <a class="input-button flatpickr-toggle" title="切换" data-toggle>
                                                 <i class="icon-calendar"></i>
@@ -86,13 +88,13 @@
                     <div *ngIf="isShowTimeField">
                         <div *ngFor="let bookingItem of localAllBookingItem; let index = index;" class="col-lg-4 col-md-6 col-sm-12 view-time-info pull-left">
                             <div class="box-shadow  border-radius-14 paddingTop-32 time-info-wrap">
-                                <div class="xiaoyuyue-title-box">
+                                <div class="xiaoyuyue-title-box hover">
                                     {{bookingItem.hourOfDay}}
-                                    <div class="btn-action-wrap">
-                                        <span class="icon vapps-icon-app-copy-2" (click)="copyBookingItem(index)"></span>
-                                        <span class="icon vapps-icon-app-edit" (click)="editBookingItem(index)"></span>
-                                        <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)"></span>
-                                    </div>
+                                </div>
+                                <div class="btn-action-wrap">
+                                    <span class="icon vapps-icon-app-copy-2" (click)="copyBookingItem(index)" title="复制"></span>
+                                    <span class="icon vapps-icon-app-edit" (click)="editBookingItem(index)" title="编辑"></span>
+                                    <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)" title="移除"></span>
                                 </div>
                                 <div class="time-item clearfix">
                                     <div class="name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
@@ -126,13 +128,13 @@
                 <ng-template #hasTimeInfo>
                     <div *ngFor="let timeInfoItem of timeInfo; let index = index;" class="col-lg-4 col-md-6 col-sm-12 view-time-info pull-left">
                         <div class="box-shadow border-radius-14 time-info-wrap paddingTop-32">
-                            <div class="xiaoyuyue-title-box">
+                            <div class="xiaoyuyue-title-box hover">
                                 {{timeInfoItem.hourOfDay}}
-                                <div class="btn-action-wrap">
-                                    <span class="icon vapps-icon-app-copy-2" (click)="copyBookingItem(index)"></span>
-                                    <span class="icon vapps-icon-app-edit" (click)="editBookingItem(index)"></span>
-                                    <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)"></span>
-                                </div>
+                            </div>
+                            <div class="btn-action-wrap">
+                                <span class="icon vapps-icon-app-copy-2" (click)="copyBookingItem(index)" title="复制"></span>
+                                <span class="icon vapps-icon-app-edit" (click)="editBookingItem(index)" title="编辑"></span>
+                                <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)" title="移除"></span>
                             </div>
                             <div class="time-item clearfix">
                                 <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>

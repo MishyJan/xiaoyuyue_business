@@ -27,9 +27,6 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     totalItems = 0;
     currentPage = 0;
 
-    // 保存机构列表背景图的比例
-    bookingBgW = 384;
-    bookingBgH = 214;
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
 
     constructor(
