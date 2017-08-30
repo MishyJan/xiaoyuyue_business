@@ -91,9 +91,8 @@
       "../node_modules/arrive/minified/arrive.min.js",
       "../src/assets/md-pro/js/core/material.min.js",
 
-      "../node_modules/echarts/dist/echarts.min.js",
+      "../external_libs/ECharts/js/echarts.min.js",
       "../node_modules/echarts/map/js/china.js",
-      "../node_modules/echarts/dist/extension/bmap.js",
       "../node_modules/echarts/theme/shine.js"
     ],
     "environmentSource": "environments/environment.ts",
