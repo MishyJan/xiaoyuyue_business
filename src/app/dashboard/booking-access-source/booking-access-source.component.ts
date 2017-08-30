@@ -1,5 +1,7 @@
+import * as echarts from '../../../../external_libs/ECharts/js/echarts.min';
+
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, GetBookingAccessSourceOutput } from 'shared/service-proxies/service-proxies';
-import { Component, OnInit } from '@angular/core';
 
 import { Moment } from 'moment';
 
@@ -8,13 +10,13 @@ import { Moment } from 'moment';
     templateUrl: './booking-access-source.component.html',
     styleUrls: ['./booking-access-source.component.scss']
 })
-export class BookingAccessSourceComponent implements OnInit {
+export class BookingAccessSourceComponent implements OnInit, AfterViewInit {
     resData: object[] = [];
     bookingAccessSourceData: GetBookingAccessSourceOutput = new GetBookingAccessSourceOutput();
     bookingAccessSourceDate: string;
     chartOption: object = {};
-    count: number = 0;
-    showloading: boolean = true;
+    count = 0;
+    showloading = true;
 
     constructor(
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
@@ -22,7 +24,7 @@ export class BookingAccessSourceComponent implements OnInit {
     }
 
     ngOnInit() {
-        let date = new Date();
+        const date = new Date();
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
@@ -53,7 +55,7 @@ export class BookingAccessSourceComponent implements OnInit {
                     },
                     tooltip: {
                         trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
                     },
                     grid: {
                         top: '60px',
@@ -83,11 +85,11 @@ export class BookingAccessSourceComponent implements OnInit {
                             },
                             data: (() => {
                                 if (this.bookingAccessSourceData.subAccessNum <= 0) {
-                                    return [{ value: 0, name: "暂无数据" }];
+                                    return [{ value: 0, name: '暂无数据' }];
 
                                 } else if (this.bookingAccessSourceData.channels.length > 0) {
                                     this.bookingAccessSourceData.channels.forEach((element, index) => {
-                                        let res = { value: 0, name: "" };
+                                        const res = { value: 0, name: '' };
                                         res.value = element.num;
                                         res.name = element.name;
                                         this.resData.push(res);
@@ -99,7 +101,7 @@ export class BookingAccessSourceComponent implements OnInit {
                                 normal: {
                                     color: (() => {
                                         if (this.bookingAccessSourceData.subAccessNum <= 0) {
-                                            return "rgba(0, 0, 0, 0.5)";
+                                            return 'rgba(0, 0, 0, 0.5)';
                                         }
                                     })(),
                                 }
@@ -118,9 +120,9 @@ export class BookingAccessSourceComponent implements OnInit {
     dateToString(date: Date): string {
         let temp = '';
         if (date instanceof Date) {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
             temp = `${year}-${month}-${day}`;
         }
         return temp;

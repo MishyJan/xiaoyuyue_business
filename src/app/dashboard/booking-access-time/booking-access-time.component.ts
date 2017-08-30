@@ -1,5 +1,7 @@
+import * as echarts from '../../../../external_libs/ECharts/js/echarts.min';
+
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BookingAccessChannelDto, BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
-import { Component, OnInit } from '@angular/core';
 
 import { Moment } from 'moment';
 import { element } from 'protractor';
@@ -17,14 +19,14 @@ export class SeriesItem {
     styleUrls: ['./booking-access-time.component.scss']
 })
 
-export class BookingAccessTimeComponent implements OnInit {
+export class BookingAccessTimeComponent implements OnInit, AfterViewInit {
     echartsIntance: any;
     seriesData: SeriesItem[] = [];
     bookingAccessTimeData: BookingAccessChannelDto[] = [];
     bookingAccessTimeDate: string;
     chartOption: object = {};
-    count: number = 0;
-    showloading: boolean = true;
+    count = 0;
+    showloading = true;
 
     constructor(
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
@@ -32,7 +34,7 @@ export class BookingAccessTimeComponent implements OnInit {
     }
 
     ngOnInit() {
-        let date = new Date();
+        const date = new Date();
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
@@ -44,7 +46,6 @@ export class BookingAccessTimeComponent implements OnInit {
 
     ngAfterViewInit() {
     }
-
 
     loadData(): void {
         this.showloading = true;
@@ -79,7 +80,7 @@ export class BookingAccessTimeComponent implements OnInit {
                         type: 'category',
                         boundaryGap: false,
                         data: (() => {
-                            let res = [];
+                            const res = [];
                             if (this.bookingAccessTimeData.length > 0) {
                                 this.bookingAccessTimeData[0].times.forEach(element => {
                                     res.push(element.hour);
@@ -94,9 +95,9 @@ export class BookingAccessTimeComponent implements OnInit {
                     series: (() => {
                         if (this.bookingAccessTimeData.length > 0) {
                             this.bookingAccessTimeData.forEach(element => {
-                                let res = new SeriesItem();
-                                res.stack = "总量";
-                                res.type = "line";
+                                const res = new SeriesItem();
+                                res.stack = '总量';
+                                res.type = 'line';
                                 res.name = element.name;
                                 element.times.forEach(element => {
                                     res.data.push(element.num);
@@ -110,7 +111,7 @@ export class BookingAccessTimeComponent implements OnInit {
                 };
 
                 if (result.length <= 0) {
-                    let myChart = echarts.init(document.getElementById("bookingAccessTimeEcharts"));
+                    const myChart = echarts.init(document.getElementById('bookingAccessTimeEcharts'));
                     myChart.setOption(this.chartOption);
                 }
             })
@@ -119,9 +120,9 @@ export class BookingAccessTimeComponent implements OnInit {
     dateToString(date: Date): string {
         let temp = '';
         if (date instanceof Date) {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
             temp = `${year}-${month}-${day}`;
         }
         return temp;

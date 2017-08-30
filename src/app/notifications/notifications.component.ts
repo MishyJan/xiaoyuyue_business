@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, Injectable, Injector, OnInit, Vie
 import { DataStateChangeEvent, GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GetNotificationsOutput, NotificationServiceProxy, State, UserNotification } from '@shared/service-proxies/service-proxies';
-import { IFormattedUserNotification, UserNotificationHelper } from './UserNotificationHelper';
+import { IFormattedUserNotification, UserNotificationHelper } from 'app/shared/layout/notifications/UserNotificationHelper';
 import { SortDescriptor, orderBy, process, toODataString } from '@progress/kendo-data-query';
 
 import { AppComponentBase } from '@shared/common/app-component-base';

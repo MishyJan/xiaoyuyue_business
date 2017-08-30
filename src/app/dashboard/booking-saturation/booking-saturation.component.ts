@@ -1,5 +1,7 @@
+import * as echarts from '../../../../external_libs/ECharts/js/echarts.min';
+
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, GetBookingSaturationOutput, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
-import { Component, OnInit } from '@angular/core';
 
 import { Moment } from 'moment';
 
@@ -8,15 +10,15 @@ import { Moment } from 'moment';
     templateUrl: './booking-saturation.component.html',
     styleUrls: ['./booking-saturation.component.scss']
 })
-export class BookingSaturationComponent implements OnInit {
+export class BookingSaturationComponent implements OnInit, AfterViewInit {
     bookingStatisticsData: GetBookingSaturationOutput = new GetBookingSaturationOutput();
     outletDefaultListItem: any;
     outletSelectListData: SelectListItemDto[];
     resData: object[] = [];
     bookingStatisticsDate: string;
     chartOption: object = {};
-    count: number = 0;
-    showloading: boolean = true;
+    count = 0;
+    showloading = true;
 
     constructor(
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
@@ -25,19 +27,18 @@ export class BookingSaturationComponent implements OnInit {
     }
 
     ngOnInit() {
-        let date = new Date();
+        const date = new Date();
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
         date.setMilliseconds(0);
-        date.setDate(date.getDate() - 1); //TODO: 写死测试
+        date.setDate(date.getDate() - 1); // TODO: 写死测试
         this.bookingStatisticsDate = this.dateToString(date);
         this.getOutletSelectListData();
     }
 
     ngAfterViewInit() {
     }
-
 
     loadData(): void {
         this.showloading = true;
@@ -67,16 +68,16 @@ export class BookingSaturationComponent implements OnInit {
     dateToString(date: Date): string {
         let temp = '';
         if (date instanceof Date) {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
             temp = `${year}-${month}-${day}`;
         }
         return temp;
     }
 
     public getSaturationValue(val1, val2): string {
-        let temp = val1 / val2 * 100
+        const temp = val1 / val2 * 100
         return Math.round(temp) + '%';
     }
 }

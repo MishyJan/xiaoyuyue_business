@@ -14,6 +14,7 @@ import { CreateOrEditBookingComponent } from 'app/booking-manage/booking/create-
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { GridDataResultsModule } from 'shared/grid-data-results/grid-result.modules';
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PictureManageComponent } from 'app/booking-manage/booking/create-or-edit/picture-manage/picture-manage.component';
@@ -44,6 +45,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         DateInputModule,
         QRCodeModule,
         NgxPaginationModule,
+        GridDataResultsModule
     ],
     declarations: [
         BaseInfoComponent,

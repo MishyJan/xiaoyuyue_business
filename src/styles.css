@@ -161,7 +161,8 @@ textarea {
     color: #3598dc;
 }
 
-.k-pager-wrap .k-link, .k-pager-wrap .k-state-selected {
+.k-pager-wrap .k-link,
+.k-pager-wrap .k-state-selected {
     margin: 2px;
     border-radius: 50% !important;
 }
@@ -1182,4 +1183,13 @@ Dropdown Menu
     background-size: 100% 2px, 100% 1px;
     box-shadow: none;
     transition-duration: 0.3s;
+}
+
+a {
+    color: #FF9641;
+}
+
+a:hover,
+a:focus {
+    color: #FF9641;
 }

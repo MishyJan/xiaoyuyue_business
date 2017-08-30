@@ -1,5 +1,7 @@
+import * as echarts from '../../../../external_libs/ECharts/js/echarts.min';
+
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BookingHeatDto, OrgBookingServiceProxy, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
-import { Component, OnInit } from '@angular/core';
 
 import { Moment } from 'moment';
 import { element } from 'protractor';
@@ -9,14 +11,14 @@ import { element } from 'protractor';
     templateUrl: './booking-heat.component.html',
     styleUrls: ['./booking-heat.component.scss']
 })
-export class BookingHeatComponent implements OnInit {
+export class BookingHeatComponent implements OnInit, AfterViewInit {
     bookingHeatData: BookingHeatDto[];
     bookingId: number;
     orgBookingSelectListData: SelectListItemDto[];
     orgBookingDefaultListItem: string;
     chartOption: object = {};
-    count: number = 0;
-    showloading: boolean = true;
+    count = 0;
+    showloading = true;
 
     constructor(
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
@@ -117,4 +119,3 @@ export class BookingHeatComponent implements OnInit {
         this.loadData();
     }
 }
-
