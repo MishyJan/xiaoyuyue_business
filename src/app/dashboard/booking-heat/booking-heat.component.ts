@@ -1,5 +1,3 @@
-import * as echarts from '../../../../external_libs/ECharts/js/echarts.min';
-
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BookingHeatDto, OrgBookingServiceProxy, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 

@@ -1,5 +1,3 @@
-import * as echarts from '../../../external_libs/ECharts/js/echarts.min';
-
 import { ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 
 import { AngularEchartsModule } from 'ngx-echarts';
