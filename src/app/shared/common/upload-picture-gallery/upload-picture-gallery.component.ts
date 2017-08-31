@@ -13,23 +13,37 @@ import { TokenService } from 'abp-ng2-module/src/auth/token.service';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { element } from 'protractor';
 
+export class SelectedPicListDto {
+    name: string;
+    picUrl: string;
+    picId: number;
+    selected: boolean;
+}
+
 @Component({
     selector: 'xiaoyuyue-upload-picture-gallery',
     templateUrl: './upload-picture-gallery.component.html',
     styleUrls: ['./upload-picture-gallery.component.scss'],
-    animations: [accountModuleAnimation()]
+    animations: [accountModuleAnimation()],
+    providers: [SelectedPicListDto]
 })
 
 export class UploadPictureGalleryComponent extends AppComponentBase implements OnInit {
+    existsBookingPictureEdit: any;
+    selectedPicList: SelectedPicListDto = new SelectedPicListDto();
+    selectedPicListArr: SelectedPicListDto[] = [];
+
+    // 获取最大页码数
+    maxPageNum: number;
+    // 保存当前页码的数据是否选中的数据
     totalItems: number;
     currentPage = 0;
     maxResultCount = 12;
 
     selectedPicIndex: number;
-    selectedPicIndexArr: boolean[] = [];
 
     groupActiveIndex: number = 0;
-    picGroupItemData: PictureListDto[];
+    picGroupItemData: SelectedPicListDto[] = [];
     groupId: number;
     defaultPicGalleryGroupId: number;
     picGalleryGroupData: PictureGroupListDto[];
@@ -37,6 +51,9 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     loading = false;
     tabToggle = true;
+
+    // 是否多选图片
+    isMutliPic: boolean = true;
 
     // 记录已选中图片的数据
     public selectedPicData: PictureListDto[] = [];
@@ -72,7 +89,11 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     }
 
     /* 上传图片时的索引值，用于更换某个索引值的图片数据 */
-    show(): void {
+    show(bookingPictureEdit?: any, isMutliPic?: boolean): void {
+        if (bookingPictureEdit) {
+            this.isMutliPic = isMutliPic;
+            this.existsBookingPictureEdit = bookingPictureEdit
+        }
         this.modal.show();
         this.loadPicGalleryData();
     }
@@ -91,6 +112,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     // 根据分组ID获取某分组下所有图片数据
     loadAllPicAsync(): void {
         this.gridParam.MaxResultCount = this.maxResultCount;
+        let self = this;
         this._pictureServiceProxy
             .getPictureAsync(
             this.groupId,
@@ -100,11 +122,39 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             )
             .subscribe(result => {
                 this.totalItems = result.totalCount;
-                this.picGroupItemData = result.items;
+                this.picGroupItemData = [];
+                result.items.forEach((pagesItem, inx) => {
+                    this.selectedPicList = new SelectedPicListDto();
+                    this.selectedPicList.picId = pagesItem.id;
+                    this.selectedPicList.picUrl = pagesItem.originalUrl;
+                    this.selectedPicList.name = pagesItem.name;
+                    this.selectedPicList.selected = false;
+
+                    if (this.existsBookingPictureEdit.pictureId && this.existsBookingPictureEdit.pictureId == pagesItem.id) {
+                        this.selectedPicList.selected = true;
+                    }
+                    if (this.existsBookingPictureEdit.length > 0) {
+                        this.existsBookingPictureEdit.forEach(element => {
+                            if (element.pictureId == pagesItem.id) {
+                                this.selectedPicList.selected = true;
+                            }
+                        });
+                    }
+                    this.picGroupItemData.push(this.selectedPicList);
+                    if (this.selectedPicListArr.length > 0) {
+                        this.selectedPicListArr.forEach((selectedPicListArrItem) => {
+                            if (selectedPicListArrItem.picId === pagesItem.id) {
+                                (this.picGroupItemData[inx].selected = true);
+                            }
+                        });
+                    }
+                });
+                this.maxPageNum = Math.ceil(this.totalItems / this.maxResultCount);
             })
     }
 
     public confirmGallerySelect(): void {
+        this.saveSelectPicData();
         // 把数据传给父组件
         this.sendPicGalleryForEdit.emit(this.picGalleryForEdit);
         this.picturyGalleryDestroy();
@@ -112,25 +162,43 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     }
 
     // 选择图片库图片，保存选中数据
-    public selectPicHandler(index: number): void {
-        // 可选择的数量
-        let electiveNum = this.maxPicNum - this.existingPicNum;
-        let selectedNum = 0;
-
-        this.selectedPicData = [];
-        this.picGalleryForEdit = [];
-
+    public selectPicHandler(data: SelectedPicListDto, index: number): void {
         this.selectedPicIndex = index;
-        this.selectedPicIndexArr[index] = !this.selectedPicIndexArr[index];
+        this.selectedPicList = new SelectedPicListDto();
+        this.selectedPicList.picId = data.picId;
+        this.selectedPicList.picUrl = data.picUrl;
 
-        this.saveSelectPicData();
 
-        // 图片数量超过限制警告
-        if (this.setPicElectiveNum() < 0) {
-            this.selectedPicIndexArr[index] = false;
-            this.selectedPicData.splice(this.selectedPicData.length - 1, 1);
-            this.picGalleryForEdit.splice(this.selectedPicData.length - 1, 1);
-            this.message.warn('图片超过上限');
+        let existedIndex = -1;
+
+        if (this.isMutliPic) {
+            data.selected = !data.selected;
+            this.selectedPicList.selected = data.selected;
+            this.selectedPicListArr.forEach((element, inx) => {
+                if (element.picId === data.picId) {
+                    existedIndex = inx;
+                }
+            });
+
+            if (existedIndex > -1) {
+                this.selectedPicListArr.splice(existedIndex, 1);
+            } else {
+
+                this.selectedPicListArr.push(this.selectedPicList);
+                // 图片数量超过限制警告
+                if (this.setPicElectiveNum() < 0) {
+                    this.selectedPicListArr.splice(this.selectedPicListArr.length - 1, 1);
+                    this.message.warn('图片超过上限');
+                }
+            }
+        } else {
+            this.selectedPicListArr[0] = this.selectedPicList;
+            this.picGroupItemData.forEach(element => {
+                element.selected = false;
+                if (element.picId === this.selectedPicListArr[0].picId) {
+                    element.selected = true;
+                }
+            });
         }
     }
 
@@ -142,8 +210,8 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     // 获取选中图片数组中，返回已选择的数据长度
     public setPicSelectNum(): number {
         let length = 0;
-        this.selectedPicIndexArr.forEach(element => {
-            if (element === true) {
+        this.selectedPicListArr.forEach(element => {
+            if (element.selected === true) {
                 length++;
             }
         });
@@ -152,30 +220,19 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     // 销毁图片库的数据
     private picturyGalleryDestroy(): void {
-        this.selectedPicIndexArr = [];
+        this.selectedPicListArr = [];
     }
 
     // 保存已选中的数据
     private saveSelectPicData(): void {
-        if (this.selectedPicIndexArr.length > 0) {
-            // 获取图片分组数据
-            this.selectedPicIndexArr.forEach((element, inx) => {
-                if (element === true) {
-                    if (this.selectedPicData.length >= 4) {
-                        return;
-                    }
-                    this.selectedPicData.push(this.picGroupItemData[inx]);
-                } else {
-                    this.selectedPicData.splice(inx, 1);
-                }
-            });
-
+        this.picGalleryForEdit = [];
+        if (this.selectedPicListArr.length > 0) {
             // 将图片分组数据转DTO
-            this.selectedPicData.forEach((element, inx) => {
+            this.selectedPicListArr.forEach((element, inx) => {
                 let temp = new BookingPictureEditDto();
                 // temp.displayOrder = inx;
-                temp.pictureId = element.id;
-                temp.pictureUrl = element.originalUrl;
+                temp.pictureId = element.picId;
+                temp.pictureUrl = element.picUrl;
                 this.picGalleryForEdit.push(temp);
             });
         }

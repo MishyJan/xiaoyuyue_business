@@ -11,6 +11,7 @@ import { element } from 'protractor';
     styleUrls: ['./picture-manage.component.scss']
 })
 export class PictureManageComponent extends AppComponentBase implements OnInit {
+    isMutliPic: boolean = true;
     existingPicNum: number;
     pictrueIndex: number;
     displayOrder: number = 0;
@@ -40,21 +41,18 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
     }
 
     uploadPicHandler(): void {
-        // if (this.allPictureEdit.length >= 4) {
-        //     this.message.warn('不能超过四张图');
-        //     return;
-        // }
-        this.show();
-    }
-
-    show(): void {
+        this.isMutliPic = true;
         if (this.allPictureEdit.length >= 4) {
             this.message.warn('不能超过四张图');
             return;
         }
-        // 统计已有的图片数量
+        this.show(this.allPictureEdit, this.isMutliPic);
+    }
+
+    show(bookingPictureEdit?: any, isMutliPic?: boolean): void {
+        this.isMutliPic = isMutliPic;
         this.existingPicNum = this.allPictureEdit.length;
-        this.uploadPictureModel.show();
+        this.uploadPictureModel.show(bookingPictureEdit, this.isMutliPic);
     }
 
     public getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
@@ -85,10 +83,16 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
             // 在本地上传拿到排序最大的值
             maxDisplayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
         }
-        picGalleryForEdit.forEach(element => {
-            element.displayOrder = ++maxDisplayOrder;
-            this.allPictureEdit.unshift(element);
-        });
+        if (this.isMutliPic) {
+
+            picGalleryForEdit.forEach(element => {
+                element.displayOrder = ++maxDisplayOrder;
+                this.allPictureEdit.unshift(element);
+            });
+        } else {
+            this.allPictureEdit[this.pictrueIndex].pictureId = picGalleryForEdit[0].pictureId;
+            this.allPictureEdit[this.pictrueIndex].pictureUrl = picGalleryForEdit[0].pictureUrl;
+        }
         this.sendAllPictureForEdit.emit(this.allPictureEdit);
     }
 
@@ -97,9 +101,10 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
     }
 
     changePic(pictureIndex: number, displayOrder: number): void {
+        this.isMutliPic = false;
         this.pictrueIndex = pictureIndex;
         this.displayOrder = displayOrder;
-        this.show();
+        this.show(this.allPictureEdit[pictureIndex], this.isMutliPic);
     }
 
     // 移除数组某个索引的值
