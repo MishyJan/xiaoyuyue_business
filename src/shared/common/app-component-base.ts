@@ -54,12 +54,12 @@ export abstract class AppComponentBase {
     }
 
 
-    t(momentTime: Moment): string {
+    t(momentTime: Moment, format: string = 'YYYY-MM-DD HH:mm'): string {
         if (momentTime === undefined) {
             return '';
         }
 
-        const localDatetimeString = momentTime.local().format('YYYY-MM-DD HH:mm');
+        const localDatetimeString = momentTime.local().format(format);
         return localDatetimeString;
     }
 
