@@ -1,5 +1,5 @@
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BookingAccessRegionDto, BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
-import { Component, OnInit } from '@angular/core';
 
 import { Moment } from 'moment';
 
@@ -13,14 +13,14 @@ export class BookingAccessRegion {
     templateUrl: './booking-access-region.component.html',
     styleUrls: ['./booking-access-region.component.scss']
 })
-export class BookingAccessRegionComponent implements OnInit {
+export class BookingAccessRegionComponent implements OnInit, AfterViewInit {
     bookingAccessRegionEchartsData: BookingAccessRegion = new BookingAccessRegion();
     bookingAccessRegionData: BookingAccessRegionDto[];
     resData: object[] = [];
     bookingAccessRegionDate: string;
     chartOption: object = {};
-    count: number = 0;
-    showloading: boolean = true;
+    count = 0;
+    showloading = true;
 
     constructor(
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
@@ -28,7 +28,7 @@ export class BookingAccessRegionComponent implements OnInit {
     }
 
     ngOnInit() {
-        let date = new Date();
+        const date = new Date();
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
@@ -40,7 +40,6 @@ export class BookingAccessRegionComponent implements OnInit {
 
     ngAfterViewInit() {
     }
-
 
     loadData(): void {
         this.showloading = true;
@@ -98,7 +97,7 @@ export class BookingAccessRegionComponent implements OnInit {
                                 }
                             },
                             data: (() => {
-                                let res = [];
+                                const res = [];
                                 this.bookingAccessRegionData.forEach(element => {
                                     this.bookingAccessRegionEchartsData = new BookingAccessRegion();
                                     this.bookingAccessRegionEchartsData.name = element.name;
@@ -115,7 +114,7 @@ export class BookingAccessRegionComponent implements OnInit {
                 };
 
                 if (result.length <= 0) {
-                    let myChart = echarts.init(document.getElementById("bookingAccessRegionEcharts"));
+                    const myChart = echarts.init(document.getElementById('bookingAccessRegionEcharts'));
                     myChart.setOption(this.chartOption);
                 }
 
@@ -125,9 +124,9 @@ export class BookingAccessRegionComponent implements OnInit {
     dateToString(date: Date): string {
         let temp = '';
         if (date instanceof Date) {
-            let year = date.getFullYear();
-            let month = date.getMonth() + 1;
-            let day = date.getDate();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
             temp = `${year}-${month}-${day}`;
         }
         return temp;

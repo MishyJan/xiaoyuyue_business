@@ -1187,6 +1187,15 @@ Dropdown Menu
     transition-duration: 0.3s;
 }
 
+a {
+    color: #FF9641;
+}
+
+a:hover,
+a:focus {
+    color: #FF9641;
+}
+
 
 /* 覆盖分页插件样式 */
 

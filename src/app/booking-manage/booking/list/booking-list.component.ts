@@ -11,7 +11,7 @@ import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-
 import { Moment } from 'moment';
 import { NgxAni } from 'ngxani';
 import { Observable } from 'rxjs/Rx';
-import { PictureUrlHelper } from "shared/helpers/PictureUrlHelper";
+import { PictureUrlHelper } from 'shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';

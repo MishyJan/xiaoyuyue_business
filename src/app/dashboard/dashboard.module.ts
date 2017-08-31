@@ -36,7 +36,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         BookingAccessTimeComponent,
         BookingSaturationComponent,
         BookingHeatComponent,
-        BookingAccessRegionComponent
+        BookingAccessRegionComponent,
     ]
 })
 export class DashboardModule { }

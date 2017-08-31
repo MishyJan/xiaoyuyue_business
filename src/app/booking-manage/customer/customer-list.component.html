@@ -192,7 +192,7 @@
                         <!-- 预约时间 -->
                         <kendo-grid-column title="预约时间">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                                <span>{{ transDate(dataItem.bookingDate) }} {{ dataItem.hourOfDay }}</span>
+                                <span>{{ t(dataItem.bookingDate,'YYYY-MM-DD') }} {{ dataItem.hourOfDay }}</span>
                             </ng-template>
                         </kendo-grid-column>
 
