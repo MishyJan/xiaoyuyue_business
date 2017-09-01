@@ -18,10 +18,10 @@
                         <div class="pic-gallery-wrap">
                             <div class="flex-left" *ngIf="picGroupItemData">
                                 <div [@routerTransition] class="col-lg-3" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let index = index;">
-                                    <div class="pic-item" [ngClass]="{'active': selectedPicIndexArr[index] == true}" (click)="selectPicHandler(index)">
+                                    <div class="pic-item" [ngClass]="{'active': item.selected == true }" (click)="selectPicHandler(item, index)">
                                         <!-- <div class="img-wrap"></div> -->
-                                        <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.originalUrl + ')'}"></div>
-                                        <p class="img-name text-overflow" [title]="item.name">{{ item.name }}</p>
+                                        <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}"></div>
+                                        <p class="img-name text-overflow" [title]="item.name">{{ item.picId }}</p>
                                     </div>
                                 </div>
                             </div>

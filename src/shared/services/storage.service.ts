@@ -31,6 +31,10 @@ export class AppStorageService {
         return localStorage.setItem(key, value);
     }
 
+    removeItem(key: string): void {
+        return localStorage.removeItem(key);
+    }
+
     getStorageValue(key: string) {
         return parseInt(localStorage.getItem(key));
     }

@@ -118,6 +118,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .createOrUpdateOutlet(this.input)
             .finally(() => this.saving = false)
             .subscribe(result => {
+                abp.event.trigger('bookingListSelectChanged');
                 this.notify.success('保存成功');
                 this._router.navigate(['/outlet/list']);
             })
