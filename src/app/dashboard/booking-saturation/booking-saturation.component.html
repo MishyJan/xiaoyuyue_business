@@ -33,10 +33,10 @@
             <span class="head-item">排队人数</span>
         </div>
         <div class="table-content" *ngFor="let item of bookingStatisticsData.bookings">
-            <span class="content-item item-name">{{ item.name }}</span>
-            <span class="content-item">{{ item.subBookedNum}} / {{ item.subBookingNum }}</span>
-            <span class="content-item">{{ getSaturationValue(item.subBookedNum, item.subBookingNum) }}</span>
-            <span class="content-item">{{ item.subQueueNum }}</span>
+            <span class="content-item item-name text-overflow">{{ item.name }}</span>
+            <span class="content-item text-overflow">{{ item.subBookedNum}} / {{ item.subBookingNum }}</span>
+            <span class="content-item text-overflow">{{ getSaturationValue(item.subBookedNum, item.subBookingNum) }}</span>
+            <span class="content-item text-overflow">{{ item.subQueueNum }}</span>
         </div>
     </div>
 </div>
