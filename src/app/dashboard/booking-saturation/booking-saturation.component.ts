@@ -75,6 +75,9 @@ export class BookingSaturationComponent implements OnInit, AfterViewInit {
     }
 
     public getSaturationValue(val1, val2): string {
+        if (val2 === 0) {
+            return '0%';
+        }
         const temp = val1 / val2 * 100
         return Math.round(temp) + '%';
     }

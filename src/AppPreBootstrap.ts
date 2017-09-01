@@ -15,6 +15,9 @@ export class AppPreBootstrap {
 
     static run(callback: () => void): void {
         $.material.init();
+        // $('select option:selected').css({
+        //     'background': '#FF9641'
+        // })
         AppPreBootstrap.getApplicationConfig(() => {
             const queryStringObj = UrlHelper.getQueryParameters();
 
