@@ -8,6 +8,7 @@
     transition: all .3s;
     visibility: hidden;
     opacity: 0;
+    overflow: auto;
     .btn-white {
         color: #FF9641;
         background-color: #FFF;
@@ -35,7 +36,6 @@
     }
     .wrap {
         width: 100%;
-        height: 100%;
         max-width: 974px;
         position: relative;
         left: 0;
@@ -44,14 +44,13 @@
         transition: transform .25s, opacity .15s;
         transform: translateY(-100px);
         opacity: 0;
-        overflow: auto;
         .confirm-model {
             width: 100%;
             max-width: 974px;
             position: absolute;
             left: 0;
             right: 0;
-            margin: 40px auto;
+            margin: 80px auto 40px;
             z-index: 1001;
             background-color: #FFF;
             .header-model {
@@ -73,7 +72,7 @@
         }
     }
     .bg-cover {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         z-index: -1;
