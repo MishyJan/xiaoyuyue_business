@@ -136,7 +136,6 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
                             self.loading = false;
                             self.close();
-                            //   uploader.destroy();
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
@@ -144,6 +143,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
+                            uploader.destroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
                         'Key': function (up, file) {
