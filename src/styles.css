@@ -62,6 +62,8 @@ textarea {
 .title {
     color: inherit;
 }
+
+
 /*.bootstrap-select.open .dropdown-toggle {
     background-color: #FFF !important;
     border-color: #FFF !important;
@@ -203,7 +205,7 @@ textarea {
 }
 
 
-/* 覆盖kendo-datepicker样式*/
+/* 覆盖kendo样式*/
 
 .k-dateinput-wrap,
 .k-dropdown-wrap,
