@@ -170,8 +170,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
-            .subscribe(() => {
+            .subscribe((result) => {
                 this.notify.success('保存成功!');
+                this.bookingId = result.id;
                 this.loadData();
             });
     }

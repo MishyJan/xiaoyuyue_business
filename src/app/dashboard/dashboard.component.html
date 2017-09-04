@@ -1,16 +1,24 @@
 ﻿<div class="customer-center" [@routerTransition]>
     <div class="row margin-bottom-5">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="page-head">
                 <div class="page-title">
                     <h1>会员中心</h1>
                 </div>
             </div>
         </div>
+        <div class="col-xs-6 text-right">
+            <div class="flatpickr btn primary-bgcolor">
+                <a class="input-button" title="切换时间" data-toggle>
+                    <i class="vapps-icon light-bgcolor vapps-icon-dc-calendar"></i>
+                </a>
+                <input type="text" [(ngModel)]="bookingStatisticalDate" readonly data-input>
+            </div>
+        </div>
     </div>
 
     <div class="content row">
-        <div class="col-md-12 row">
+        <div class="col-md-12 row no-right-padding">
             <div class="left-content col-md-3">
                 <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
                     <div class="org-bg" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.logoUrl + ')'}">
@@ -44,15 +52,15 @@
                     </div>
                     <div class="col-md-6 item">
                         <p style="color: #FF9641;">{{ bookingDataStatistics.history.pv }}</p>
-                        <p>昨日访问量</p>
+                        <p>历史访问量</p>
                     </div>
                     <div class="col-md-6 item">
                         <p style="color: #FF9641;">{{ bookingDataStatistics.history.uv }}</p>
-                        <p>昨日访问人数</p>
+                        <p>历史访问人数</p>
                     </div>
                     <div class="col-md-6 item">
                         <p style="color: #02AFF3;">{{ bookingDataStatistics.history.bookingNum }}</p>
-                        <p>昨日预约</p>
+                        <p>历史预约</p>
                     </div>
                     <div class="col-md-6 item">
                         <p style="color: #E32600;">{{ bookingDataStatistics.today.waitConfirmNum }}</p>
@@ -61,7 +69,7 @@
                 </div>
             </div>
 
-            <div class="right-content col-md-9">
+            <div class="right-content col-md-9 no-right-padding">
                 <div class="booking-order-data  data-item">
                     <div class="top-bar box-shadow">
                         <h5 class="top-title">预约订单数据</h5>

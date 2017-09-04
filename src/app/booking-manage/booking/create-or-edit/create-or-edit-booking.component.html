@@ -19,8 +19,8 @@
                 <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
                     [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                 <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
-                    [buttonBusy]="savingAndEditing" [busyText]="'保存中...'"><i></i><span>{{l("BusinessCenter.SavingAndEditing")}}</span></button>
-                <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>
+                    [buttonBusy]="savingAndEditing" [busyText]="'保存中...'"><i class="vapps-icon-save"></i><span>{{l("BusinessCenter.SavingAndEditing")}}</span></button>
+                <!-- <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button> -->
             </div>
         </div>
 

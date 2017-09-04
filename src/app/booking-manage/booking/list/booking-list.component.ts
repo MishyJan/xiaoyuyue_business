@@ -279,7 +279,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     public getOverbrimValue(val1, val2): string {
         if (val1 <= 0 || val2 <= 0) { return '0%'; };
-        this.bookingOverbrimValue = Math.round(100 - val1 / (val1 + val2) * 100);
+        this.bookingOverbrimValue = Math.round(val2 / val1 * 100);
         return this.bookingOverbrimValue + '%';
     }
 
@@ -287,7 +287,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         if (val1 <= 0 || val2 <= 0) { return 30; };
         const maxResult = 74;
         const ratio = maxResult / 100;
-        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio);
+        this.countOverbrimTopValue = Math.round(32 - (val2 / val1 * 100) * ratio);
         return this.countOverbrimTopValue;
     }
 
