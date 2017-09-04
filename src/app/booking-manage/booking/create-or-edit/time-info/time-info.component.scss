@@ -6,6 +6,7 @@
         text-align: center;
     }
     .card {
+        margin-bottom: 0!important;
         .add-time {
             margin-right: 15px;
             span {
@@ -15,9 +16,14 @@
         .card-content {
             position: relative;
             min-height: 200px;
+            padding-bottom: 0px;
+            .create-time-info {
+                margin: 0 15px;
+            }
             .time-info-wrap {
                 position: relative;
-                margin-top: 52px;
+                margin-top: 24px;
+                margin-bottom: 36px;
                 .flatpickr-wrap {
                     position: relative;
                     .flatpickr-toggle {
