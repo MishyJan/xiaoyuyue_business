@@ -83,6 +83,18 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     ngAfterViewInit() {
         this.loadData();
+        this.initFlatpickr();
+    }
+
+    ngOnDestroy() {
+        this.bStartCreationTime.destroy();
+        this.bEndCreationTime.destroy();
+    }
+
+    /**
+     * desktop
+     */
+    initFlatpickr() {
         this.bStartCreationTime = new flatpickr('.startCreationTime', {
             'locale': 'zh',
             // clickOpens: false,
@@ -97,48 +109,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 $(this.bEndCreationTime.input).blur();
             }
         })
-    }
-
-    ngOnDestroy() {
-        this.bStartCreationTime.destroy();
-        this.bEndCreationTime.destroy();
-    }
-
-    loadData(): void {
-        this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
-        this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
-
-        this._organizationBookingServiceProxy
-            .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
-            .subscribe(result => {
-                const self = this;
-                this.totalItems = result.totalCount;
-                this.organizationBookingResultData = result.items;
-                if (typeof this.startCreationTime === 'object') {
-                    this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
-                    this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
-                }
-            });
-    }
-
-    // 获取可用下拉框数据源
-    private loadSelectListData(): void {
-        this._appStorageService.getItem(AppConsts.outletSelectListCache, () => {
-            return this._outletServiceServiceProxy.getOutletSelectList()
-        }).subscribe(result => {
-            // 添加请选择数据源
-            this.outletSelectListData = result;
-            this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
-        });
-    }
-
-    getMoment(arg: string) {
-        if (arg === undefined) { return undefined; }
-        return moment(arg);
-    }
-
-    editHandler(bookingId: number) {
-        this._router.navigate(['/booking/edit', bookingId]);
     }
 
     // 正面翻转到背面
@@ -185,6 +155,108 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 this.notify.success('已开启预约!');
                 this.loadData();
             });
+    }
+
+    // 显示待确认model
+    showConfirmOrderHandler(bookingId: number): void {
+        this.ConfirmOrderModelComponent.showModel(bookingId);
+    }
+
+    // 待确认model弹窗，若关闭应该刷新数据
+    isShowComfirmOrderModelHandler(flag: boolean): void {
+        if (!flag) {
+            this.loadData();
+        }
+    }
+
+    // 显示应约人列表
+    showBookingCostomHandler(bookingItem: BookingListDto): void {
+        this.BookingCustomModelComponent.showModel(bookingItem);
+    }
+
+    // 获取预约完成百分比
+    public getOverbrimValue(val1, val2): string {
+        if (val1 <= 0 || val2 <= 0) { return '0%'; };
+        this.bookingOverbrimValue = Math.round(100 - val1 / (val1 + val2) * 100);
+        return this.bookingOverbrimValue + '%';
+    }
+
+    private countOverbrimTop(val1, val2): number {
+        if (val1 <= 0 || val2 <= 0) { return 30; };
+        const maxResult = 74;
+        const ratio = maxResult / 100;
+        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio);
+        return this.countOverbrimTopValue;
+    }
+
+    private countOverbrimState(val1, val2): any {
+        let temp = Math.round(100 - val1 / (val1 + val2) * 100);
+        (val1 === 0 || val2 === 0) && (temp = 0);
+        const state = {
+            state1: 0 <= temp && temp <= 30,
+            state2: 30 < temp && temp <= 60,
+            state3: 60 < temp && temp <= 90,
+            state4: 90 < temp && temp <= 100,
+        };
+        return state;
+    }
+
+    // 获取预约背景
+    getBookingBgUrl(pictureUrl): string {
+        return pictureUrl === '' ? this.pictureDefaultBgUrl : PictureUrlHelper.getBookingListPicCompressUrl(pictureUrl);
+    }
+
+    // 门店搜索下拉框值改变时
+    outletChangeHandler(outlet: any): void {
+        this.outletId = outlet;
+    }
+    // 预约状态搜索下拉框值改变时
+    bookingActiveChangeHandler(bookingActive: any): void {
+        this.isActive = bookingActive;
+    }
+
+    // 分享按钮弹出分享model
+    shareHandler(bookingId: number): void {
+        this.shareBookingModel.show(bookingId);
+    }
+
+    /**
+     * mobile
+     */
+
+    /**
+     * data
+     */
+    loadData(): void {
+        this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
+        this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
+
+        this._organizationBookingServiceProxy
+            .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
+            .subscribe(result => {
+                const self = this;
+                this.totalItems = result.totalCount;
+                this.organizationBookingResultData = result.items;
+                if (typeof this.startCreationTime === 'object') {
+                    this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
+                    this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
+                }
+            });
+    }
+
+    // 获取可用下拉框数据源
+    private loadSelectListData(): void {
+        this._appStorageService.getItem(AppConsts.outletSelectListCache, () => {
+            return this._outletServiceServiceProxy.getOutletSelectList()
+        }).subscribe(result => {
+            // 添加请选择数据源
+            this.outletSelectListData = result;
+            this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
+        });
+    }
+
+    editHandler(bookingId: number) {
+        this._router.navigate(['/booking/edit', bookingId]);
     }
 
     // 复制预约
@@ -236,71 +308,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         });
     }
 
-    // 门店搜索下拉框值改变时
-    outletChangeHandler(outlet: any): void {
-        this.outletId = outlet;
-    }
-    // 预约状态搜索下拉框值改变时
-    bookingActiveChangeHandler(bookingActive: any): void {
-        this.isActive = bookingActive;
-    }
-
-    // 分享按钮弹出分享model
-    shareHandler(bookingId: number): void {
-        this.shareBookingModel.show(bookingId);
-    }
-
     onPageChange(index: number): void {
         this.currentPage = index;
         this.skipCount = this.maxResultCount * (this.currentPage - 1);
         this.loadData();
-    }
-
-    // 显示待确认model
-    showConfirmOrderHandler(bookingId: number): void {
-        this.ConfirmOrderModelComponent.showModel(bookingId);
-    }
-
-    // 待确认model弹窗，若关闭应该刷新数据
-    isShowComfirmOrderModelHandler(flag: boolean): void {
-        if (!flag) {
-            this.loadData();
-        }
-    }
-
-    // 显示应约人列表
-    showBookingCostomHandler(bookingItem: BookingListDto): void {
-        this.BookingCustomModelComponent.showModel(bookingItem);
-    }
-
-    public getOverbrimValue(val1, val2): string {
-        if (val1 <= 0 || val2 <= 0) { return '0%'; };
-        this.bookingOverbrimValue = Math.round(100 - val1 / (val1 + val2) * 100);
-        return this.bookingOverbrimValue + '%';
-    }
-
-    private countOverbrimTop(val1, val2): number {
-        if (val1 <= 0 || val2 <= 0) { return 30; };
-        const maxResult = 74;
-        const ratio = maxResult / 100;
-        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio);
-        return this.countOverbrimTopValue;
-    }
-
-    private countOverbrimState(val1, val2): any {
-        let temp = Math.round(100 - val1 / (val1 + val2) * 100);
-        (val1 === 0 || val2 === 0) && (temp = 0);
-        const state = {
-            state1: 0 <= temp && temp <= 30,
-            state2: 30 < temp && temp <= 60,
-            state3: 60 < temp && temp <= 90,
-            state4: 90 < temp && temp <= 100,
-        };
-        return state;
-    }
-
-    // 获取预约背景
-    getBookingBgUrl(pictureUrl): string {
-        return pictureUrl === '' ? this.pictureDefaultBgUrl : PictureUrlHelper.getBookingListPicCompressUrl(pictureUrl);
     }
 }
