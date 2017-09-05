@@ -1,11 +1,10 @@
 import { Component, Injector } from '@angular/core';
+import { SideBarMenu, SideBarMenuItem } from './side-bar-menu';
 
 import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
-import { SideBarMenu } from './side-bar-menu';
-import { SideBarMenuItem } from './side-bar-menu-item';
 
 @Component({
     templateUrl: './side-bar.component.html',
@@ -14,24 +13,16 @@ import { SideBarMenuItem } from './side-bar-menu-item';
 })
 export class SideBarComponent extends AppComponentBase {
 
-    menu: SideBarMenu = new SideBarMenu('MainMenu', 'MainMenu', [
+    desktopMenu: SideBarMenu = new SideBarMenu('MainMenu', 'MainMenu', [
         new SideBarMenuItem('BusinessCenter.Menu.UserData', this.adminPermissions.tenantDashboard, 'vapps-icon-dc-menu menu-item', '/dashboard'),
         new SideBarMenuItem('BusinessCenter.Menu.ManageBooking', this.adminPermissions.userManage, 'vapps-icon-bm-menu menu-item', '', [
-            new SideBarMenuItem('BusinessCenter.Menu.ManageBooking.List', '', '', '//booking/list'),
+            new SideBarMenuItem('BusinessCenter.Menu.ManageBooking.List', '', '', '/booking/list'),
             new SideBarMenuItem('应约人列表', '', '', '/customer/list'),
         ]),
         new SideBarMenuItem('BusinessCenter.Menu.OrgInfo', this.adminPermissions.configuration, 'vapps-icon-oi-menu menu-item', '', [
             new SideBarMenuItem('BusinessCenter.Menu.Org.BaseInfo', '', '', '/organization/info'),
             new SideBarMenuItem('BusinessCenter.Menu.Org.TenantManage', '', '', '/outlet/list'),
         ])
-        // new SideBarMenuItem("Admin.System", this.adminPermissions.system, "icon-settings", "", [
-        //     new SideBarMenuItem("AuditLogs", this.adminPermissions.system_AuditLogs, "icon-lock", "/auditLogs"),
-        //     new SideBarMenuItem("Editions", this.adminPermissions.system_Editions, "icon-grid", "/editions"),
-        //     new SideBarMenuItem("Maintenance", this.adminPermissions.system_HostMaintenance, "icon-wrench", "/maintenance"),
-        // ]),
-        // new SideBarMenuItem("Admin.ContentManage", this.adminPermissions.content, "fa fa-newspaper-o", "", [
-        //     new SideBarMenuItem("MessageTemplate", this.adminPermissions.content_SmsTemplates, "fa fa-envelope-o", "/message-template")
-        // ])
     ]);
 
     constructor(
