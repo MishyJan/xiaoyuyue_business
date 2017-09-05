@@ -1,14 +1,14 @@
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
-import { appModuleAnimation, appModuleSlowAnimation } from "shared/animations/routerTransition";
+import { appModuleAnimation, appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
-import { AppComponentBase } from "shared/common/app-component-base";
-import { AppConsts } from "shared/AppConsts";
+import { AppComponentBase } from 'shared/common/app-component-base';
+import { AppConsts } from 'shared/AppConsts';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { ShareBookingModelComponent } from './share-booking-model/share-booking-model.component';
-import { SortDescriptor } from "@progress/kendo-data-query/dist/es/sort-descriptor";
+import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -33,18 +33,18 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     timeInfo: BookingItemEditDto[];
 
     href: string = document.location.href;
-    bookingId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
+    bookingId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
 
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
 
     selectOutletId: number;
     selectContactorId: number;
-    saving: boolean = false;
-    savingAndEditing: boolean = false;
+    saving = false;
+    savingAndEditing = false;
     //   是否显示完善机构信息弹窗
-    isShowImperfectTip: boolean = false;
+    isShowImperfectTip = false;
 
-    @ViewChild("shareBookingModel") shareBookingModel: ShareBookingModelComponent;
+    @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
 
     public outletSelectDefaultItem: string;
     public contactorSelectDefaultItem: string;
@@ -64,9 +64,17 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.getTenantInfo();
     }
 
-    ngAfterViewInit() {
+    /**
+    * desktop
+    */
+    back() {
+        // this._locaition.back();
+        this._router.navigate(['/booking'])
     }
 
+    /**
+     * data
+     */
     // 获取机构信息是否完善
     getTenantInfo(): void {
         this._tenantInfoServiceProxy
@@ -185,13 +193,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     getTimeInfoInput(allBookingTime: BookingItemEditDto[]) {
         this.allBookingTime = allBookingTime;
     }
+
     getInfoFormValid(infoFormValid: boolean) {
         this.infoFormValid = infoFormValid;
-    }
-
-    back() {
-        // this._locaition.back();
-        this._router.navigate(['/booking'])
     }
 
     public outletChange(outlet: any): void {
