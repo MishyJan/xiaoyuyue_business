@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
+import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppStorageService } from 'shared/services/storage.service';
@@ -68,6 +69,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         injector: Injector,
         private _ngxAni: NgxAni,
         private _router: Router,
+        private _abpSessionService: AbpSessionService,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
         private _appStorageService: AppStorageService,
@@ -80,7 +82,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
         this.loadSelectListData();
         abp.event.on('bookingListSelectChanged', () => {
-            this._appStorageService.removeItem(AppConsts.outletSelectListCache);
+            this._appStorageService.removeItem(AppConsts.outletSelectListCache + '_' + this._abpSessionService.tenantId);
             this.loadSelectListData();
         })
     }
@@ -127,7 +129,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 获取可用下拉框数据源
     private loadSelectListData(): void {
-        this._appStorageService.getItem(AppConsts.outletSelectListCache, () => {
+        this._appStorageService.getItem(AppConsts.outletSelectListCache + '_' + abp.session.tenantId, () => {
             return this._outletServiceServiceProxy.getOutletSelectList()
         }).subscribe(result => {
             // 添加请选择数据源

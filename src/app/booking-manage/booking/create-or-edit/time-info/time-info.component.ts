@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 
+import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from "shared/common/app-component-base";
 import { BookingItemEditDto } from "shared/service-proxies/service-proxies";
 import { Location } from '@angular/common';
@@ -10,6 +11,8 @@ import { Location } from '@angular/common';
     styleUrls: ['./time-info.component.scss']
 })
 export class TimeInfoComponent extends AppComponentBase implements OnInit {
+    newTimeField: boolean;
+    editingBooking: boolean;
     // 存储正在编辑的时间信息索引值
     private editIndex: number = 0;
     index: number = 0;
@@ -18,7 +21,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     disabled: boolean;
     href: string = document.location.href;
-    bookingId: any = +this.href.substr(this.href.lastIndexOf("/") + 1, this.href.length);
+    bookingId: number;
 
     bookingStart = new Date();
     bookingEnd = new Date();
@@ -34,19 +37,22 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     @Input() timeInfoFormVaild: boolean = false;
     isCreateTimeField: boolean = false;
     isShowTimeField: boolean = false;
-    isCreateOrEdit: boolean = this.bookingId;
+    isCreateOrEdit: boolean;
 
     public bookingDate: Date = new Date();
 
     constructor(
         injector: Injector,
-        private location: Location
+        private location: Location,
+        private _route: ActivatedRoute
 
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this.bookingId = +this._route.snapshot.paramMap.get('id');
+        this.isCreateOrEdit = this.bookingId ? false : true;
         let bookingTime = new Array();
         bookingTime[0] = this.bookingStart;
         bookingTime[1] = this.bookingEnd;
@@ -63,16 +69,17 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         })
     }
     cancel() {
+        debugger;
         this.isCreateTimeField = false;
         this.timeInfoFormVaild = true;
         this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
-        if (!this.bookingId) {
-            if (this.localSingleBookingItem) {
-                this.localAllBookingItem.push(this.localSingleBookingItem)
-            }
+        if (!this.bookingId) { 
+            // if (this.localSingleBookingItem) {
+            //     this.localAllBookingItem.push(this.localSingleBookingItem)
+            // }
             return;
         }
-        this.timeInfo.push(this.localSingleBookingItem);
+        this.editingBooking && this.timeInfo.push(this.localSingleBookingItem);
     }
 
     save() {
@@ -133,7 +140,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.localSingleBookingItem.hourOfDay = allBookingTimeItem[0];
         this.timeInfo.push(this.localSingleBookingItem);
         console.log(this.timeInfo);
-        
+
         this.localSingleBookingItem = new BookingItemEditDto();
 
         this.changeInput.emit(this.timeInfo);
@@ -152,15 +159,13 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         }, 10);
 
         // 表示时间信息表单有新增，需要再次验证，传递给父组件为false
+        this.editingBooking = false;
         this.timeInfoFormVaild = false;
+        this.newTimeField = true;
         this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
         this.isCreateTimeField = true;
     }
 
-    // getLocalBookingItem(): BookingItemDto {
-    //   this.localSingleBookingItem.availableDates = this.dateToString(this.bookingDate);
-    //   return this.localSingleBookingItem;
-    // }
 
     // 增加预约时间段
     addTimeField() {
@@ -201,6 +206,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         }, 10);
         this.localSingleBookingItem = new BookingItemEditDto();
         this.allBookingTime = [];
+        this.editingBooking = true;
         this.isCreateTimeField = true;
         let temp;
         if (!this.bookingId) {
