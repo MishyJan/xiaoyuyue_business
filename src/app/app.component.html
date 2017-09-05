@@ -3,7 +3,7 @@
 <div class="clearfix">
 </div>
 
-<div class="page-container">
+<div class="page-container" *showItDevice="['tablet','desktop']">
 
     <div class="page-sidebar-wrapper">
         <side-bar id="sidebar"></side-bar>
@@ -16,5 +16,12 @@
     </div>
 
 </div>
+
+
+<div class="page-container" *showItDevice="['mobile']">
+
+
+</div>
+
 
 <footer></footer>

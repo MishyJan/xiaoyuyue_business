@@ -1,18 +1,19 @@
-import { Component, OnInit, Injector, ViewEncapsulation, ViewChild } from '@angular/core';
-import { LocalizationService } from '@abp/localization/localization.service';
-import { AbpSessionService } from '@abp/session/abp-session.service';
-import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
-import { ProfileServiceProxy, UserLinkServiceProxy, UserServiceProxy, LinkedUserDto, ChangeUserLanguageDto } from '@shared/service-proxies/service-proxies';
-import { AppComponentBase } from '@shared/common/app-component-base';
+import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserLinkServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
-import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
+import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
+import { AbpSessionService } from '@abp/session/abp-session.service';
+import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
+import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppConsts } from '@shared/AppConsts';
+import { AppStorageService } from 'shared/services/storage.service';
 import { ChangePasswordModalComponent } from './profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
+import { LocalizationService } from '@abp/localization/localization.service';
+import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
 import { MySettingsModalComponent } from './profile/my-settings-modal.component'
-import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { NotificationSettingsModalCompoent } from '@app/shared/layout/notifications/notification-settings-modal.component';
 import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNotificationHelper';
-import { AppConsts } from '@shared/AppConsts';
 
 @Component({
     templateUrl: './header.component.html',
@@ -52,7 +53,8 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _userLinkServiceProxy: UserLinkServiceProxy,
         private _userServiceProxy: UserServiceProxy,
         private _authService: AppAuthService,
-        private _userNotificationHelper: UserNotificationHelper
+        private _userNotificationHelper: UserNotificationHelper,
+        private _appStorageService: AppStorageService
     ) {
         super(injector);
     }
@@ -82,6 +84,10 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
 
         abp.event.on('app.chat.connected', () => {
             this.chatConnected = true;
+        });
+
+        abp.event.on('bookingListSelectChanged', () => {
+            this._appStorageService.removeItem(AppConsts.outletSelectListCache);
         });
     }
 

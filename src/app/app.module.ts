@@ -18,6 +18,7 @@ import { LoginAttemptsModalComponent } from '@app/shared/layout/login-attempts-m
 import { MySettingsModalComponent } from '@app/shared/layout/profile/my-settings-modal.component';
 import { NgModule } from '@angular/core';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
+import { ResponsiveModule } from 'ng2-responsive';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SideBarComponent } from './shared/layout/side-bar.component';
 import { UserNotificationHelper } from './shared/layout/notifications/UserNotificationHelper';
@@ -50,6 +51,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UtilsModule,
         AppCommonModule.forRoot(),
         ServiceProxyModule,
+        ResponsiveModule,
     ],
     providers: [
         UserNotificationHelper,

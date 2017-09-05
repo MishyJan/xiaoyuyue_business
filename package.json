@@ -75,6 +75,7 @@
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "ng2-file-upload": "^1.2.1",
+    "ng2-responsive": "^0.8.4",
     "ngx-bootstrap": "^1.8.1",
     "ngx-echarts": "^1.2.3",
     "ngx-pagination": "^3.0.1",
