@@ -19,6 +19,7 @@ import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PictureManageComponent } from 'app/booking-manage/booking/create-or-edit/picture-manage/picture-manage.component';
 import { QRCodeModule } from 'angular2-qrcode';
+import { ResponsiveModule } from 'ng2-responsive';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { TimeInfoComponent } from 'app/booking-manage/booking/create-or-edit/time-info/time-info.component';
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -45,7 +46,9 @@ import { UtilsModule } from '@shared/utils/utils.module';
         DateInputModule,
         QRCodeModule,
         NgxPaginationModule,
-        GridDataResultsModule
+        GridDataResultsModule,
+
+        ResponsiveModule,
     ],
     declarations: [
         BaseInfoComponent,

@@ -3,7 +3,6 @@
 html,
 body {
     width: 100%;
-    min-width: 768px;
     overflow-x: hidden;
     padding-right: 0!important;
 }
@@ -216,6 +215,7 @@ textarea {
 }
 
 .k-dropdown-wrap .k-input {
+    padding: 0;
     height: auto;
 }
 

@@ -1,18 +1,13 @@
 <div class="page-header navbar navbar-fixed-top md-shadow-zero-light">
-    <div class="page-header-inner">
+    <div class="page-header-inner" *hideItBootstrap="['xs','sm']">
         <div class="page-logo" title="小预约">
             <a routerLink="/" target="_blank" class="logo-wrap">
                 <span class="vapps-icon-app-logo logo"></span>
                 <span class="vapps-icon-app-logo-text logo"></span>
             </a>
-            <!--<a routerLink="/" target="_blank">
-                <img *ngIf="!appSession.tenant || !appSession.tenant.logoId" src="/assets/common/images/app-logo-on-light.png" alt="logo" class="logo-default" width="150" />
-                <img *ngIf="appSession.tenant && appSession.tenant.logoId" [src]="remoteServiceBaseUrl + '/TenantCustomization/GetLogo?id=' + appSession.tenant.logoId" alt="logo" class="logo-default" width="168" height="33" />
-            </a>-->
             <div class="menu-toggler sidebar-toggler"></div>
         </div>
-        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
-        </a>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
         <div class="page-top clearfix">
             <div class="create-bespeak btn" routerLink="/booking/create">
                 <span class="vapps-icon-cb-menu"></span>
@@ -78,9 +73,13 @@
             </div>
         </div>
     </div>
-</div>
-<loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
-<changePasswordModal #changePasswordModal></changePasswordModal>
-<changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
-<mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
-<notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
+
+    <div class="page-header-inner" *showItBootstrap="['xs','sm']">
+        <a href="javascript:;" class="vapps-icon-app-prev-page back-icon pull-left" (click)="back()"></a>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
+    </div>
+    <loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
+    <changePasswordModal #changePasswordModal></changePasswordModal>
+    <changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
+    <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
+    <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
