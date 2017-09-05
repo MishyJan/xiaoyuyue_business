@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
 import { NgxAniModule } from 'ngxani';
+import { ResponsiveModule } from 'ng2-responsive'
 import { RootComponent } from './root.component';
 import { RootRoutingModule } from './root-routing.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
@@ -71,7 +72,7 @@ function handleLogoutRequest(authService: AppAuthService) {
         ServiceProxyModule,
         ServicesModule,
         RootRoutingModule,
-
+        ResponsiveModule,
         NgxAniModule
     ],
     declarations: [
