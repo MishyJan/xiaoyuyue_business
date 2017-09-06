@@ -214,6 +214,11 @@ textarea {
     cursor: pointer;
 }
 
+::selection {
+    color: #FFF !important;
+    background-color: #FF9641 !important;
+}
+
 .k-dropdown-wrap .k-input {
     padding: 0;
     height: auto;

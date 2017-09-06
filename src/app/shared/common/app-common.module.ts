@@ -42,6 +42,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
     exports: [
         TimeZoneComboComponent,
         JqPluginDirective,
+        UploadPicDirective,
         DateRangePickerComponent,
         DatePickerComponent,
         TipsComponent,

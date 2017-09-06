@@ -17,7 +17,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     displayOrder = 0;
     allPictureEdit: BookingPictureEditDto[] = [];
 
-    @Input() pictureInfo: BookingPictureEditDto[];
+    @Input() pictureInfo: BookingPictureEditDto[] = [];
     @Output() sendAllPictureForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureGalleryComponent;
 
