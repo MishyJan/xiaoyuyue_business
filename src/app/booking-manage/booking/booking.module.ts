@@ -11,6 +11,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { CommonModule } from '@angular/common';
 import { ConfirmOrderModelComponent } from 'app/booking-manage/booking/list/confirm-order-model/confirm-order-model.component';
 import { CreateOrEditBookingComponent } from 'app/booking-manage/booking/create-or-edit/create-or-edit-booking.component';
+import { CreateSucceededComponent } from './create-or-edit/create-succeeded/create-succeeded.component';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
@@ -19,6 +20,7 @@ import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PictureManageComponent } from 'app/booking-manage/booking/create-or-edit/picture-manage/picture-manage.component';
 import { QRCodeModule } from 'angular2-qrcode';
+import { ResponsiveModule } from 'ng2-responsive';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { TimeInfoComponent } from 'app/booking-manage/booking/create-or-edit/time-info/time-info.component';
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -45,7 +47,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         DateInputModule,
         QRCodeModule,
         NgxPaginationModule,
-        GridDataResultsModule
+        GridDataResultsModule,
+        ResponsiveModule,
     ],
     declarations: [
         BaseInfoComponent,
@@ -56,6 +59,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         CreateOrEditBookingComponent,
         ConfirmOrderModelComponent,
         BookingCustomModelComponent,
+        CreateSucceededComponent
     ],
     providers: [
 

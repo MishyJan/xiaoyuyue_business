@@ -88,7 +88,8 @@ export class BookingAccessTimeComponent implements OnInit, AfterViewInit {
                         })()
                     },
                     yAxis: {
-                        type: 'value'
+                        type: 'value',
+                        minInterval: 1
                     },
                     series: (() => {
                         if (this.bookingAccessTimeData.length > 0) {

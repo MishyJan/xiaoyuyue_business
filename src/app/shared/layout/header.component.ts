@@ -10,6 +10,7 @@ import { AppStorageService } from 'shared/services/storage.service';
 import { ChangePasswordModalComponent } from './profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
 import { LocalizationService } from '@abp/localization/localization.service';
+import { Location } from '@angular/common';
 import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
 import { MySettingsModalComponent } from './profile/my-settings-modal.component'
 import { NotificationSettingsModalCompoent } from '@app/shared/layout/notifications/notification-settings-modal.component';
@@ -53,7 +54,8 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _userServiceProxy: UserServiceProxy,
         private _authService: AppAuthService,
         private _userNotificationHelper: UserNotificationHelper,
-        private _appStorageService: AppStorageService
+        private _appStorageService: AppStorageService,
+        private _location: Location
     ) {
         super(injector);
     }
@@ -144,6 +146,10 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
 
     logout(): void {
         this._authService.logout();
+    }
+
+    back(): void {
+        this._location.back();
     }
 
     onMySettingsModalSaved(): void {

@@ -7,6 +7,7 @@
 }
 
 .create-booking {
+    position: relative;
     .page-head {
         .back-btn {
             width: 26px;
@@ -46,5 +47,130 @@
                 margin: 15px 0;
             }
         }
+    }
+}
+
+// 小屏幕样式
+.mobile-create-booking {
+    margin-bottom: 50px;
+    .view-btn.btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
+        line-height: 40px;
+        font-size: 15px;
+    }
+    .side-bar {
+        width: 100%;
+        height: 50px;
+        background-color: rgba(0, 0, 0, .6);
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .nav-tabs {
+            display: flex;
+            background-color: transparent;
+            .nav-item.active {
+                .nav-link {
+                    color: #FFF!important;
+                    background-color: #FF9641;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+            }
+            .nav-item {
+                flex: 1;
+                line-height: 50px;
+                text-align: center;
+                .nav-link {
+                    display: inline-block;
+                    width: 100%;
+                    padding: 0;
+                    color: #AAA!important;
+                    font-size: 16px;
+                    >span {
+                        display: block;
+                        line-height: 50px;
+                    }
+                }
+            }
+        }
+    }
+    .upload-pic-wrap {
+        .upload-area {
+            width: 70px;
+            height: 70px;
+            border: 1px dashed #CCC;
+            background-size: cover;
+            background-position: center;
+        }
+    }
+    .time-create {
+        .add-time-btn {
+            position: fixed;
+            right: 10px;
+            bottom: 60px;
+            z-index: 1000;
+            .icon {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                display: inline-block;
+                border-radius: 50%;
+                background-color: #FF9641;
+                color: #FFF;
+                font-size: 18px;
+            }
+        }
+        .create-time-pannel {
+            .flatpickr-wrap,
+            .time-point-wrap {
+                position: relative;
+                .flatpickr-toggle,
+                .add-time-point {
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    transform: translateY(-50%);
+                }
+            }
+        }
+        .time-view-wrap {
+            .time-item {
+                .command-wrap {
+                    text-align: center;
+                    margin-top: 20px;
+                    .command-item+.command-item {
+                        border-left: 1px solid #CCC;
+                    }
+                    .command-item {
+                        .icon {
+                            display: inline-block;
+                            color: #FF9641;
+                            transform: translateY(1px);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .customer-info-wrap {
+        padding-bottom: 24px;
+        .title-wrap {
+            border-bottom: 1px solid #CCC;
+        }
+    }
+    .next-step {
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        text-align: center;
+        background-color: #FF9641;
+        color: #FFF;
+        font-size: 15px;
     }
 }

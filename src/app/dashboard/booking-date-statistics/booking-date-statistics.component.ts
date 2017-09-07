@@ -82,7 +82,7 @@ export class BookingDateStatisticsComponent implements OnInit, AfterViewInit {
                     },
                     grid: {
                         top: '60px',
-                        left: '3%',
+                        left: '8%',
                         right: '4%',
                         bottom: '60px',
                         containLabel: true
@@ -109,12 +109,14 @@ export class BookingDateStatisticsComponent implements OnInit, AfterViewInit {
                             type: 'value',
                             scale: true,
                             name: '应约人数',
-                            boundaryGap: false
+                            boundaryGap: false,
+                            minInterval: 1
                         },
                         {
                             type: 'value',
                             scale: true,
                             name: '访问量',
+                            minInterval: 1,
                             boundaryGap: false
                         }
                     ],

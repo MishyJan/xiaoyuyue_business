@@ -1,32 +1,44 @@
-import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
-import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
+import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { appModuleAnimation, appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
+import { PictureManageComponent } from './picture-manage/picture-manage.component';
 import { Router } from '@angular/router';
 import { ShareBookingModelComponent } from './share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
+import { TabsetComponent } from 'ngx-bootstrap';
+import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 
 @Component({
     selector: 'app-create-or-edit-booking',
     templateUrl: './create-or-edit-booking.component.html',
     styleUrls: ['./create-or-edit-booking.component.less'],
-    animations: [appModuleSlowAnimation()]
+    animations: [appModuleSlowAnimation()],
+    encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit {
+    bookingBaseIngoForm: FormGroup;
+    editingIndex: boolean[] = [];
+    startHourOfDay: string = '00:00';
+    endHourOfDay: string = '00:00';
+    isEditing: boolean = false;
+    isNew: boolean = true;
+    nextIndex: number = 1;
     tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     // 传给图片管理组件
-    pictureInfo: BookingPictureEditDto[];
+    pictureInfo: BookingPictureEditDto[] = [];
 
     allPictureForEdit: BookingPictureEditDto[];
     outletSelectListData: SelectListItemDto[];
     contactorSelectListData: SelectListItemDto[];
 
     formVaild: boolean;
-    allBookingTime: BookingItemEditDto[];
+    allBookingTime: BookingItemEditDto[] = [];
     infoFormValid: boolean;
     bookingDataForEdit: GetBookingForEditOutput;
     baseInfo: BookingEditDto = new BookingEditDto();
@@ -44,7 +56,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     //   是否显示完善机构信息弹窗
     isShowImperfectTip = false;
 
+    /* 移动端代码开始 */
+    // 保存本地时间段
+    localSingleBookingItem: BookingItemEditDto = new BookingItemEditDto();
+    @ViewChild('staticTabs') staticTabs: TabsetComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
+    @ViewChild('pictureManageModel') pictureManageModel: PictureManageComponent;
+    /* 移动端代码结束 */
 
     public outletSelectDefaultItem: string;
     public contactorSelectDefaultItem: string;
@@ -52,6 +70,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         injector: Injector,
         private _locaition: Location,
         private _router: Router,
+        private _pictureServiceProxy: PictureServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy
@@ -62,14 +81,35 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     ngOnInit() {
         this.loadData();
         this.getTenantInfo();
+        this.initFormValidation();
     }
+
+    ngAfterViewInit() {
+        this.initFlatpickr();
+    }
+
+    // 响应式表单验证
+    initFormValidation(): void {
+        this.bookingBaseIngoForm = new FormGroup({
+            bookingName: new FormControl(this.baseInfo.name, [
+                Validators.required,
+                Validators.maxLength(20),
+            ]),
+            bookingDescription: new FormControl(this.baseInfo.description, [
+                Validators.required,
+                Validators.minLength(10)
+            ])
+        })
+    }
+    get bookingName() { return this.bookingBaseIngoForm.get('bookingName'); }
+    get bookingDescription() { return this.bookingBaseIngoForm.get('bookingDescription'); }
 
     /**
     * desktop
     */
     back() {
         // this._locaition.back();
-        this._router.navigate(['/booking'])
+        this._router.navigate(['/booking']);
     }
 
     /**
@@ -117,6 +157,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.baseInfo = result.booking;
                 this.timeInfo = result.items;
                 this.pictureInfo = result.bookingPictures;
+                if (this.isMobile()) {
+                    this.allBookingTime = result.items;
+                    this.isNew = false;
+                }
+                // this.pictureManageModel.refreshAllPictrueEdit();
 
                 // 获取门店下拉框数据源
                 this._outletServiceServiceProxy
@@ -145,7 +190,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
-        this.input.items = !this.allBookingTime ? this.timeInfo : this.allBookingTime;
+        // this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
+        this.input.items = this.allBookingTime ? this.allBookingTime : this.timeInfo;
         // 判断是否上传过图片
         if (this.allPictureForEdit) {
             this.input.bookingPictures = this.allPictureForEdit;
@@ -157,7 +203,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .createOrUpdateBooking(this.input)
             .finally(() => { this.saving = false })
             .subscribe((result) => {
-                this.shareBookingModel.show(result.id);
+                if (!this.isMobile()) {
+                    this.shareBookingModel.show(result.id);
+                } else {
+                    this._router.navigate(['/booking/succeed', result.id]);
+                }
             });
     }
 
@@ -178,8 +228,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
-            .subscribe(() => {
+            .subscribe((result) => {
                 this.notify.success('保存成功!');
+                this.bookingId = result.id;
                 this.loadData();
             });
     }
@@ -215,5 +266,80 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
         this.allPictureForEdit = pictureForEdit;
+    }
+
+    // 移动端代码
+    initFlatpickr() {
+        if ($('#createTimeFlatpickr')) {
+            $('#createTimeFlatpickr').flatpickr({
+                disableMobile: false,
+                wrap: true,
+                'locale': 'zh',
+            })
+        }
+    }
+    nextStep(): void {
+        this.staticTabs.tabs[this.nextIndex].active = true;
+    }
+
+    // tab点击的时候更新tab索引值 
+    updateNextIndex(index: number): void {
+        this.nextIndex = index;
+    }
+
+    isShowConfirm(): boolean {
+        if (this.nextIndex === 3) {
+            return true;
+        }
+        return false;
+    }
+    createTimeField(): void {
+        this.isNew = true;
+        setTimeout(() => {
+            this.initFlatpickr();
+        }, 100);
+    }
+    savePanelTimeField(): void {
+        this.isNew = false;
+        this.localSingleBookingItem.isActive = true;
+        this.localSingleBookingItem.hourOfDay = this.startHourOfDay + '-' + this.endHourOfDay;
+        this.allBookingTime.push(this.localSingleBookingItem);
+        this.startHourOfDay = '00:00';
+        this.endHourOfDay = '00:00';
+        this.localSingleBookingItem = new BookingItemEditDto();
+    }
+
+    getPicUploadInfoHandler(picUploadInfo: UploadPictureDto): void {
+        let temp = new BookingPictureEditDto();
+        temp.pictureId = picUploadInfo.pictureId;
+        temp.pictureUrl = picUploadInfo.pictureUrl;
+        this.pictureInfo.push(temp)
+    }
+
+    editingTimeField(index: number): void {
+        this.editingIndex[index] = true;
+    }
+
+    deleteTimeField(index: number): void {
+        this.allBookingTime.splice(index, 1);
+    }
+
+    saveTimeField(index: number): void {
+        this.editingIndex[index] = false;
+    }
+
+    refresh(): void {
+
+    }
+
+    // PC端代码
+
+    /* 业务代码 */
+    // 判断是否有移动端的DOM元素
+    isMobile(): boolean {
+        if ($('.mobile-create-booking').length > 0) {
+            return true;
+        };
+        return false;
     }
 }

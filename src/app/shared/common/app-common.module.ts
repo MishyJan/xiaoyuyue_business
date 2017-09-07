@@ -14,6 +14,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
 import { TipsComponent } from './tips/tips.component';
+import { UploadPicDirective } from './upload-picture/upload-pic.directive';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -36,10 +37,12 @@ import { UtilsModule } from '@shared/utils/utils.module';
         TipsComponent,
         UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
+        UploadPicDirective
     ],
     exports: [
         TimeZoneComboComponent,
         JqPluginDirective,
+        UploadPicDirective,
         DateRangePickerComponent,
         DatePickerComponent,
         TipsComponent,

@@ -1,22 +1,17 @@
 <div class="page-header navbar navbar-fixed-top md-shadow-zero-light">
-    <div class="page-header-inner">
+    <div class="page-header-inner" *hideItBootstrap="['xs','sm']">
         <div class="page-logo" title="{{l('BusinessCenter')}}">
             <a routerLink="/" target="_blank" class="logo-wrap">
                 <span class="vapps-icon-app-logo logo"></span>
                 <span class="vapps-icon-app-logo-text logo"></span>
             </a>
-            <!--<a routerLink="/" target="_blank">
-                <img *ngIf="!appSession.tenant || !appSession.tenant.logoId" src="/assets/common/images/app-logo-on-light.png" alt="logo" class="logo-default" width="150" />
-                <img *ngIf="appSession.tenant && appSession.tenant.logoId" [src]="remoteServiceBaseUrl + '/TenantCustomization/GetLogo?id=' + appSession.tenant.logoId" alt="logo" class="logo-default" width="168" height="33" />
-            </a>-->
             <div class="menu-toggler sidebar-toggler"></div>
         </div>
-        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
-        </a>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
         <div class="page-top clearfix">
             <div class="create-bespeak btn" routerLink="/booking/create">
                 <span class="vapps-icon-cb-menu"></span>
-                <span class="text">{{l("Booking.CreateBooking")}}</span>
+                <span class="text">创建预约</span>
             </div>
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
@@ -34,7 +29,7 @@
                             <li class="item">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-profile"></span>
-                                    <div>{{l("Menu.Account.BaseInfo")}}</div>
+                                    <div>基本信息</div>
                                 </div>
                             </li>
                             <!-- <li class="item">
@@ -46,13 +41,13 @@
                             <li class="item">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-security"></span>
-                                    <div>{{l("Menu.Account.Security")}}</div>
+                                    <div>账户安全</div>
                                 </div>
                             </li>
                             <li class="item">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-feedback"></span>
-                                    <div>{{l("Menu.Account.Feedback")}}</div>
+                                    <div>意见反馈</div>
                                 </div>
                             </li>
                             <!-- <li class="item">
@@ -64,7 +59,7 @@
                             <li class="item" (click)="logout()">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-logout"></span>
-                                    <div>{{l("Menu.Account.Logout")}}</div>
+                                    <div>退出账户</div>
                                 </div>
                             </li>
                         </ul>
@@ -78,9 +73,13 @@
             </div>
         </div>
     </div>
-</div>
-<loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
-<changePasswordModal #changePasswordModal></changePasswordModal>
-<changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
-<mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
-<notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
+
+    <div class="page-header-inner" *showItBootstrap="['xs','sm']">
+        <a href="javascript:;" class="vapps-icon-app-prev-page back-icon pull-left" (click)="back()"></a>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
+    </div>
+    <loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
+    <changePasswordModal #changePasswordModal></changePasswordModal>
+    <changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
+    <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
+    <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>

@@ -1,5 +1,5 @@
-<div class="create-booking" [@routerTransition]>
-    <form #createBookingForm="ngForm">
+<div class="create-booking" [@routerTransition] *hideItBootstrap="['xs','sm']">
+    <form #createBookingForm="ngForm" [formGroup]="bookingBaseIngoForm">
         <div class="row margin-bottom-5">
             <div class="col-xs-6">
                 <div class="page-head">
@@ -19,8 +19,8 @@
                 <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
                     [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                 <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
-                    [buttonBusy]="savingAndEditing" [busyText]="'保存中...'"><i></i><span>{{l("BusinessCenter.SavingAndEditing")}}</span></button>
-                <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>
+                    [buttonBusy]="savingAndEditing" [busyText]="'保存中...'"><i class="vapps-icon-save"></i><span>{{l("BusinessCenter.SavingAndEditing")}}</span></button>
+                <!-- <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button> -->
             </div>
         </div>
 
@@ -40,7 +40,11 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control " type="text" name="projectName" [(ngModel)]="baseInfo.name" placeholder="项目名称" required autofocus>
+                                        <input class="form-control " type="text" formControlName="bookingName" placeholder="项目名称" required autofocus>
+                                        <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
+                                            <small class="text-danger" *ngIf="bookingName.errors.required">项目名称必填</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">项目名称不得超过20字</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +55,11 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <textarea class="form-control " rows="5" name="projectIntro" [(ngModel)]="baseInfo.description" placeholder="项目简介" required></textarea>
+                                        <textarea class="form-control " rows="5" name="projectIntro" minlength="10" formControlName="bookingDescription" placeholder="项目简介" required></textarea>
+                                        <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
+                                                <small class="text-danger" *ngIf="bookingDescription.errors.required">项目描述必填</small>
+                                                <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">项目描述不得小于10字</small>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +145,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <app-picture-manage (sendAllPictureForEdit)="getAllPictureForEdit($event)" [pictureInfo]="pictureInfo"></app-picture-manage>
+                <app-picture-manage #pictureManageModel (sendAllPictureForEdit)="getAllPictureForEdit($event)" [pictureInfo]="pictureInfo"></app-picture-manage>
             </div>
             <div class="col-lg-12">
                 <app-time-info (changeInput)="getTimeInfoInput($event)" (timeInfoFormDisabled)="getInfoFormValid($event)" [timeInfo]="timeInfo"></app-time-info>
@@ -146,4 +154,276 @@
     </form>
     <xiaoyuyue-share-booking-model #shareBookingModel [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
     <xiaoyuyue-tips *ngIf="isShowImperfectTip"></xiaoyuyue-tips>
+</div>
+
+<div class="mobile-create-booking" [@routerTransition] *showItBootstrap="['xs','sm']">
+    <tabset class="side-bar" #staticTabs>
+        <tab heading='预约信息' (select)="updateNextIndex(1)">
+            <div class="booking-info">
+                <div class="card">
+                    <form #bookingInfo="ngForm" class="form-horizontal">
+                        <div class="card-content">
+                            <div class="row">
+                                <label class="col-sm-2 label-on-left"></label>
+                                <div class="col-sm-7">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"></label>
+                                        <input class="form-control" type="text" name="text" placeholder="项目名称" [(ngModel)]="baseInfo.name" required>
+                                    </div>
+                                </div>
+                                <!-- <label class="col-sm-3 label-on-right">
+                                    <code>required</code>
+                                </label> -->
+                            </div>
+
+                            <div class="row">
+                                <label class="col-sm-2 label-on-left"></label>
+                                <div class="col-sm-7">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"></label>
+                                        <input class="form-control" type="text" name="text" placeholder="项目介绍" [(ngModel)]="baseInfo.description" required>
+                                    </div>
+                                </div>
+                                <!-- <label class="col-sm-3 label-on-right">
+                                        <code>required</code>
+                                    </label> -->
+                            </div>
+
+                            <div class="row">
+                                <label class="label-on-left"></label>
+                                <div class="col-sm-12">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"></label>
+                                        <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'"
+                                            [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label class="label-on-left"></label>
+                                <div class="col-sm-12">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label"></label>
+                                        <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'"
+                                            [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p>图片上传</p>
+                                    <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#uploadArea'"
+                                        [groupId]="1" [dropEle]="" [containerEle]="">
+                                        <div id="uploadArea" class="upload-area"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </tab>
+        <tab heading='时间编辑' (select)="updateNextIndex(2)">
+            <div class="time-create">
+                <div class="add-time-btn">
+                    <span class="icon vapps-icon-cb-add-time" (click)="createTimeField()"></span>
+                </div>
+                <form #timeCreate="ngForm">
+                    <!-- 创建时间段面板 -->
+                    <div class="create-time-pannel" *ngIf="isNew">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">可预约人数</label>
+                                            <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">可排队人数</label>
+                                            <input class="form-control" type="number" name="maxQueueNum" [(ngModel)]="localSingleBookingItem.maxQueueNum" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">开始时间</label>
+                                            <div class="time-point-wrap">
+                                                <input class="form-control" type="time" name="startHourOfDay" [(ngModel)]="startHourOfDay" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">结束时间</label>
+                                            <div class="time-point-wrap">
+                                                <input class="form-control" type="time" name="endHourOfDay" [(ngModel)]="endHourOfDay" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">请选择日期</label>
+                                            <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
+                                            <div id="createTimeFlatpickr" class="flatpickr-wrap">
+                                                <input class="form-control" type="text" name="bookingDate" [(ngModel)]="localSingleBookingItem.availableDates" data-input
+                                                    required>
+
+                                                <a class="input-button flatpickr-toggle" title="切换" data-toggle>
+                                                    <i class="icon-calendar"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-block primary-bgcolor view-btn" (click)="savePanelTimeField()">保存</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- 创建时间段展示 -->
+                <div class="time-view-wrap" *ngIf="allBookingTime.length>0">
+                    <div class="time-item" *ngFor="let item of allBookingTime; let index = index;">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">时间</label>
+                                            <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">日期</label>
+                                            <input class="form-control" type="text" name="availableDates" [(ngModel)]="item.availableDates" readonly disabled required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">可预约人数</label>
+                                            <input class="form-control" type="text" [name]="maxBookingNum" [(ngModel)]="item.maxBookingNum" [readonly]="!editingIndex[index]"
+                                                [disabled]="!editingIndex[index]" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">可排队人数</label>
+                                            <input class="form-control" type="text" [name]="maxQueueNum" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
+                                                [disabled]="!editingIndex[index]" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row command-wrap">
+                                    <!-- <div class="col-xs-4 command-item">
+                                        <span class="vapps-icon-app-copy-2 icon"></span>
+                                        <span class="text">复制</span>
+                                    </div> -->
+                                    <div class="col-xs-4 col-xs-offset-2 command-item" *ngIf="!editingIndex[index]" (click)="editingTimeField(index)">
+                                        <span class="vapps-icon-app-edit icon"></span>
+                                        <span class="text">编辑</span>
+                                    </div>
+                                    <div class="col-xs-4 col-xs-offset-2 command-item" *ngIf="editingIndex[index]" (click)="saveTimeField(index)">
+                                        <span class="vapps-icon-app-edit icon"></span>
+                                        <span class="text">保存</span>
+                                    </div>
+                                    <div class="col-xs-4 command-item" (click)="deleteTimeField(index)">
+                                        <span class="vapps-icon-app-delete icon"></span>
+                                        <span class="text">删除</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab heading='应约人信息' (select)="updateNextIndex(3)">
+            <div class="customer-info-wrap">
+                <div class="card">
+                    <div class="card-content clearfix">
+                        <div class="col-xs-12 title-wrap">
+                            <p class="title">应约人所需信息选项</p>
+                        </div>
+                        <div class="col-xs-4 item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes"> 姓名
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes"> 手机
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes"> 性别
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes"> 年龄
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes"> 邮箱
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4 item">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes"> 地址
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+    <div class="next-step" *ngIf="!isShowConfirm()" (click)="nextStep()">下一步</div>
+    <div class="next-step" *ngIf="isShowConfirm()" (click)="save()">提交</div>
+    <div class="next-step" *ngIf="isShowConfirm()&&bookingId" (click)="saveAndEdit()">更新</div>
 </div>

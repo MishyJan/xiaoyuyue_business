@@ -1,82 +1,61 @@
-import '@node_modules/qiniu-js/dist/qiniu.min';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
-import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-import { AppComponentBase } from 'shared/common/app-component-base';
-import { ModalDirective } from 'ngx-bootstrap';
+import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 
-@Component({
-    selector: 'xiaoyuyue-upload-picture-none-gallery',
-    templateUrl: './upload-picture-none-gallery.component.html',
-    styleUrls: ['./upload-picture-none-gallery.component.scss']
+@Directive({
+    selector: '[UploadPicture]'
 })
-
-
-export class UploadPictureNoneGalleryComponent extends AppComponentBase implements OnInit {
-
-    loading = false;
-    private _$profilePicture: JQuery;
+export class UploadPicDirective implements AfterViewInit {
+    _$browseButtonEle: JQuery<HTMLElement>;
+    _$uploadPicWrap: JQuery<HTMLElement>;
 
     public uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
 
+    @Input() browseButtonEle: string;
+    @Input() groupId: string;
+    @Input() dropEle: string;
+    @Input() containerEle: string;
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
-    @Input() uploadUid: number;
-    @ViewChild('uploadPictureNoneGalleryModel') modal: ModalDirective;
 
     constructor(
-        injector: Injector,
-        private _pictureServiceProxy: PictureServiceProxy,
-        private _sanitizer: DomSanitizer
+        private _element: ElementRef,
+        private _sanitizer: DomSanitizer,
+        private _pictureServiceProxy: PictureServiceProxy
     ) {
-        super(
-            injector
-        );
     }
 
-    ngOnInit() {
-    }
+    ngAfterViewInit(): void {
+        this._$uploadPicWrap = $(this._element.nativeElement);
+        this._$browseButtonEle = this._$uploadPicWrap.find(this.browseButtonEle);
 
-    show(): void {
-        this.modal.show();
+
         this.initFileUploader();
-    }
-    close(): void {
-        this.modal.hide();
-        this.picturyDestroy();
-    }
-
-    picturyDestroy(): void {
-        this.uploadPictureInfo = new UploadPictureDto();
-        this._$profilePicture.removeAttr('src');
-        this._$profilePicture.removeAttr('width');
     }
 
     initFileUploader(): void {
         const self = this;
-        this._$profilePicture = $('#profilePicture' + this.uploadUid);
 
         let token = '';
         this._pictureServiceProxy
             .getPictureUploadToken()
             .subscribe(result => {
                 token = result.token;
-                self._$profilePicture = $('#profilePicture' + self.uploadUid);
 
                 // 引入Plupload 、qiniu.js后
                 // var Q1 = new QiniuJsSDK();
+
                 const uploader = new QiniuJsSDK().uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
-                    browse_button: 'uploadArea' + self.uploadUid,       // 上传选择的点选按钮，**必需**
+                    browse_button: self.browseButtonEle.slice(1),       // 上传选择的点选按钮，**必需**
                     // uptoken_url: '/token',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
                     // unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
                     // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
                     domain: 'http://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
-                    // container: 'uploadAreaWrap'+self.uploadUid,           //上传区域DOM ID，默认是browser_button的父元素，
+                    // container: self._$uploadPicWrap,           //上传区域DOM ID，默认是browser_button的父元素，
                     max_file_size: '4mb',           // 最大文件体积限制
                     // flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
                     max_retries: 0,                   // 上传失败最大重试次数
@@ -88,10 +67,10 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         quality: 60,
                         preserve_headers: false
                     },
-                    auto_start: false,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    auto_start: true,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                     x_vars: {
                         groupid: function (up, file) {
-                            return 1;
+                            return self.groupId;
                         }
                     },
                     /*x_vals: {
@@ -107,8 +86,8 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                                     const fileItem = files[i].getNative(),
                                         url = window.URL;
                                     const src = url.createObjectURL(fileItem);
-                                    self._$profilePicture.attr('src', src);
-                                    self._$profilePicture.attr('width', '100%');
+
+                                    self._$browseButtonEle.css('background-image', 'url(' + src + ')');
                                 }
                             });
                         },
@@ -117,7 +96,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         },
                         'UploadProgress': function (up, file) {
                             // 每个文件上传时,处理相关的事情
-                            self.loading = true;
+                            // self.loading = true;
                         },
                         'FileUploaded': function (up, file, info) {
                             // 每个文件上传成功后,处理相关的事情
@@ -132,18 +111,20 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
                             self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
+                            self.uploadPictureInfo.pictureUrl = self.uploadPictureInfo.pictureUrl.changingThisBreaksApplicationSecurity;
                             self.uploadPictureInfo.pictureId = currentPicId;
+
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
-                            self.loading = false;
-                            self.close();
+                            // self.loading = false;
+                            // self.close();
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
-                            self.loading = false;
-                            self.notify.error('上传失败，请重新上传');
+                            // self.loading = false;
+                            // self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
-                            uploader.destroy();
+                            // uploader.destroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
                         'Key': function (up, file) {
@@ -161,14 +142,13 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         }
                     }
                 });
-                $('#confirmUpload' + self.uploadUid).on('click', function () {
-                    uploader.start();
-                });
-                // 销毁实例
-                $('#cancelUpload' + self.uploadUid).on('click', function () {
-                    uploader.destroy();
-                });
+                // $('#confirmUpload' + self.uploadUid).on('click', function () {
+                //     uploader.start();
+                // });
+                // // 销毁实例
+                // $('#cancelUpload' + self.uploadUid).on('click', function () {
+                //     uploader.destroy();
+                // });
             });
     }
-
 }
