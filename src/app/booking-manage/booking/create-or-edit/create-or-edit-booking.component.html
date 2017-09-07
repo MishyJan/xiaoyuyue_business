@@ -1,5 +1,5 @@
 <div class="create-booking" [@routerTransition] *hideItBootstrap="['xs','sm']">
-    <form #createBookingForm="ngForm">
+    <form #createBookingForm="ngForm" [formGroup]="bookingBaseIngoForm">
         <div class="row margin-bottom-5">
             <div class="col-xs-6">
                 <div class="page-head">
@@ -40,7 +40,11 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control " type="text" name="projectName" [(ngModel)]="baseInfo.name" placeholder="项目名称" required autofocus>
+                                        <input class="form-control " type="text" formControlName="bookingName" placeholder="项目名称" required autofocus>
+                                        <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
+                                            <small class="text-danger" *ngIf="bookingName.errors.required">项目名称必填</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">项目名称不得超过20字</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +55,11 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <textarea class="form-control " rows="5" name="projectIntro" [(ngModel)]="baseInfo.description" placeholder="项目简介" required></textarea>
+                                        <textarea class="form-control " rows="5" name="projectIntro" minlength="10" formControlName="bookingDescription" placeholder="项目简介" required></textarea>
+                                        <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
+                                                <small class="text-danger" *ngIf="bookingDescription.errors.required">项目描述必填</small>
+                                                <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">项目描述不得小于10字</small>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -232,16 +240,14 @@
                                     <div class="col-xs-6">
                                         <div class="form-group label-floating">
                                             <label class="control-label">可预约人数</label>
-                                            <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum"
-                                                required>
+                                            <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required>
                                         </div>
                                     </div>
 
                                     <div class="col-xs-6">
                                         <div class="form-group label-floating">
                                             <label class="control-label">可排队人数</label>
-                                            <input class="form-control" type="number" name="maxQueueNum" [(ngModel)]="localSingleBookingItem.maxQueueNum"
-                                                required>
+                                            <input class="form-control" type="number" name="maxQueueNum" [(ngModel)]="localSingleBookingItem.maxQueueNum" required>
                                         </div>
                                     </div>
                                 </div>
@@ -271,8 +277,8 @@
                                             <label class="control-label">请选择日期</label>
                                             <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
                                             <div id="createTimeFlatpickr" class="flatpickr-wrap">
-                                                <input class="form-control" type="text" name="bookingDate" [(ngModel)]="localSingleBookingItem.availableDates"
-                                                    data-input required>
+                                                <input class="form-control" type="text" name="bookingDate" [(ngModel)]="localSingleBookingItem.availableDates" data-input
+                                                    required>
 
                                                 <a class="input-button flatpickr-toggle" title="切换" data-toggle>
                                                     <i class="icon-calendar"></i>
@@ -321,13 +327,15 @@
                                     <div class="col-xs-6">
                                         <div class="form-group label-floating">
                                             <label class="control-label">可预约人数</label>
-                                            <input class="form-control" type="text" [name]="maxBookingNum" [(ngModel)]="item.maxBookingNum" [readonly]="!editingIndex[index]" [disabled]="!editingIndex[index]" required>
+                                            <input class="form-control" type="text" [name]="maxBookingNum" [(ngModel)]="item.maxBookingNum" [readonly]="!editingIndex[index]"
+                                                [disabled]="!editingIndex[index]" required>
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
                                         <div class="form-group label-floating">
                                             <label class="control-label">可排队人数</label>
-                                            <input class="form-control" type="text" [name]="maxQueueNum" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]" [disabled]="!editingIndex[index]" required>
+                                            <input class="form-control" type="text" [name]="maxQueueNum" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
+                                                [disabled]="!editingIndex[index]" required>
                                         </div>
                                     </div>
                                 </div>

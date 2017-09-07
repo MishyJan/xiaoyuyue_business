@@ -1,6 +1,6 @@
 <div class="time-info">
     <div class="card ">
-        <form #timeInfoForm="ngForm" class="form-horizontal">
+        <form #timeInfoForm="ngForm" class="form-horizontal" [formGroup]="timeBaseIngoForm">
             <div class="clearfix">
                 <div class="card-header card-header-text pull-left" data-background-color="orange">
                     <h6 class="card-title">{{l("BusinessCenter.Booking.TimeInfo")}}</h6>
@@ -21,8 +21,10 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required
-                                            autofocus>
+                                        <input class="form-control" type="number" name="maxBookingNum" formControlName="maxBookingNum" required autofocus>
+                                        <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
+                                            <small class="text-danger" *ngIf="maxBookingNum.errors.required">可预约人数必填</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +35,10 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="number" name="maxQueueNum" [(ngModel)]="localSingleBookingItem.maxQueueNum" required>
+                                        <input class="form-control" type="number" name="maxQueueNum" formControlName="maxBookingNum" required>
+                                        <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
+                                            <small class="text-danger" *ngIf="maxBookingNum.errors.required">可排队人数必填</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -45,8 +50,8 @@
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <div id="timeInfoFlatpickr" class="flatpickr-wrap">
-                                            <input class="form-control" type="text" name="bookingDate" placeholder="请选择日期" [(ngModel)]="localSingleBookingItem.availableDates"
-                                                data-input required>
+                                            <input class="form-control" type="text" name="bookingDate" placeholder="请选择日期" [ngModelOptions]="{standalone: true}" [(ngModel)]="localSingleBookingItem.availableDates"
+                                                data-input>
 
                                             <a class="input-button flatpickr-toggle" title="切换" data-toggle>
                                                 <i class="icon-calendar"></i>

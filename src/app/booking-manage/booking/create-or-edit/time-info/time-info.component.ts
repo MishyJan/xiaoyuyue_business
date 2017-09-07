@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, Type } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from "shared/common/app-component-base";
@@ -11,6 +12,7 @@ import { Location } from '@angular/common';
     styleUrls: ['./time-info.component.scss']
 })
 export class TimeInfoComponent extends AppComponentBase implements OnInit {
+    timeBaseIngoForm: any;
     newTimeField: boolean;
     editingBooking: boolean;
     // 存储正在编辑的时间信息索引值
@@ -57,6 +59,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         bookingTime[0] = this.bookingStart;
         bookingTime[1] = this.bookingEnd;
         this.allBookingTime.push(bookingTime);
+        this.initFormValidation();
     }
 
     initFlatpickr(defaultD: any) {
@@ -68,6 +71,21 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
             defaultDate: defaultDate
         })
     }
+
+        // 响应式表单验证
+        initFormValidation(): void {
+            this.timeBaseIngoForm = new FormGroup({
+                maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
+                    Validators.required,
+                ]),
+                maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
+                    Validators.required,
+                ])
+            })
+        }
+        get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
+        get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
+
     cancel() {
         debugger;
         this.isCreateTimeField = false;

@@ -1,5 +1,6 @@
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { appModuleAnimation, appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -21,6 +22,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit {
+    bookingBaseIngoForm: FormGroup;
     editingIndex: boolean[] = [];
     startHourOfDay: string = '00:00';
     endHourOfDay: string = '00:00';
@@ -79,18 +81,35 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     ngOnInit() {
         this.loadData();
         this.getTenantInfo();
+        this.initFormValidation();
     }
 
     ngAfterViewInit() {
         this.initFlatpickr();
     }
 
+    // 响应式表单验证
+    initFormValidation(): void {
+        this.bookingBaseIngoForm = new FormGroup({
+            bookingName: new FormControl(this.baseInfo.name, [
+                Validators.required,
+                Validators.maxLength(20),
+            ]),
+            bookingDescription: new FormControl(this.baseInfo.description, [
+                Validators.required,
+                Validators.minLength(10)
+            ])
+        })
+    }
+    get bookingName() { return this.bookingBaseIngoForm.get('bookingName'); }
+    get bookingDescription() { return this.bookingBaseIngoForm.get('bookingDescription'); }
+
     /**
     * desktop
     */
     back() {
         // this._locaition.back();
-        this._router.navigate(['/booking'])
+        this._router.navigate(['/booking']);
     }
 
     /**
