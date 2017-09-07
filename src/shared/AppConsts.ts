@@ -14,7 +14,7 @@ export class AppConsts {
     };
 
     static readonly localization = {
-        defaultLocalizationSourceName: 'Xiaoyuyue'
+        defaultLocalizationSourceName: 'BusinessCenter'
     };
 
     static readonly authorization = {

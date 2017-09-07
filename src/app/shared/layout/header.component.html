@@ -1,6 +1,6 @@
 <div class="page-header navbar navbar-fixed-top md-shadow-zero-light">
     <div class="page-header-inner">
-        <div class="page-logo" title="小预约">
+        <div class="page-logo" title="{{l('BusinessCenter')}}">
             <a routerLink="/" target="_blank" class="logo-wrap">
                 <span class="vapps-icon-app-logo logo"></span>
                 <span class="vapps-icon-app-logo-text logo"></span>
@@ -16,7 +16,7 @@
         <div class="page-top clearfix">
             <div class="create-bespeak btn" routerLink="/booking/create">
                 <span class="vapps-icon-cb-menu"></span>
-                <span class="text">创建预约</span>
+                <span class="text">{{l("Booking.CreateBooking")}}</span>
             </div>
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
@@ -34,7 +34,7 @@
                             <li class="item">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-profile"></span>
-                                    <div>基本信息</div>
+                                    <div>{{l("Menu.Account.BaseInfo")}}</div>
                                 </div>
                             </li>
                             <!-- <li class="item">
@@ -46,13 +46,13 @@
                             <li class="item">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-security"></span>
-                                    <div>账户安全</div>
+                                    <div>{{l("Menu.Account.Security")}}</div>
                                 </div>
                             </li>
                             <li class="item">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-feedback"></span>
-                                    <div>意见反馈</div>
+                                    <div>{{l("Menu.Account.Feedback")}}</div>
                                 </div>
                             </li>
                             <!-- <li class="item">
@@ -64,7 +64,7 @@
                             <li class="item" (click)="logout()">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-logout"></span>
-                                    <div>退出账户</div>
+                                    <div>{{l("Menu.Account.Logout")}}</div>
                                 </div>
                             </li>
                         </ul>

@@ -6,8 +6,8 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
 import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
-import { CustomerInfoModelComponent } from './info-model/customer-info-model.component';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
@@ -22,12 +22,12 @@ export class SingleBookingStatus {
 
 @Component({
     selector: 'xiaoyuyue-customer-list',
-    templateUrl: './customer-list.component.html',
-    styleUrls: ['./customer-list.component.scss'],
+    templateUrl: './booking-order-list.component.html',
+    styleUrls: ['./booking-order-list.component.scss'],
     animations: [appModuleAnimation()]
 })
 
-export class CustomerListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     cEndCreationTime: any;
     cStartCreationTime: any;
     cBookingOrderDate: any;
@@ -52,7 +52,7 @@ export class CustomerListComponent extends AppComponentBase implements OnInit, A
     bookingOrderStatus: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
     bookingOrderStatusName: string[] = ['待确认', '已确认', '待评价', '已取消', '已完成'];
 
-    @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: CustomerInfoModelComponent;
+    @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: BookingOrderInfoModelComponent;
 
     private editedRowIndex: number;
 

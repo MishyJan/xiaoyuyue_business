@@ -3,11 +3,11 @@ import { GridModule, SharedModule } from '@progress/kendo-angular-grid';
 import { ModalModule, PopoverModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 
 import { AppCommonModule } from 'app/shared/common/app-common.module';
+import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
+import { BookingOrderListComponent } from './booking-order-list.component';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { CommonModule } from '@angular/common';
-import { CustomerInfoModelComponent } from './info-model/customer-info-model.component';
-import { CustomerListComponent } from './customer-list.component';
-import { CustomerRoutingModule } from './customer-routing.module';
+import { CustomerRoutingModule } from './booking-order-routing.module';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
@@ -37,11 +37,11 @@ import { UtilsModule } from '@shared/utils/utils.module';
         DateInputModule,
     ],
     declarations: [
-        CustomerListComponent,
-        CustomerInfoModelComponent,
+        BookingOrderListComponent,
+        BookingOrderInfoModelComponent,
     ],
     providers: [
 
     ]
 })
-export class CustomerModule { }
+export class BookingOrderModule { }

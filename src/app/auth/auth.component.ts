@@ -2,7 +2,6 @@ import { Component, Injector, OnInit, ViewContainerRef, ViewEncapsulation } from
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { BookingServiceProxy } from 'shared/service-proxies/service-proxies';
 import { LoginService } from 'shared/services/login.service';
 
 @Component({
@@ -23,7 +22,6 @@ export class AuthComponent extends AppComponentBase implements OnInit {
         injector: Injector,
         private _loginService: LoginService,
         viewContainerRef: ViewContainerRef,
-        private _bookingServiceProxy: BookingServiceProxy
     ) {
         super(injector);
 

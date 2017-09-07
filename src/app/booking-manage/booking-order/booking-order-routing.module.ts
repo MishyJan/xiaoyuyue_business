@@ -2,7 +2,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
-import { CustomerListComponent } from 'app/booking-manage/customer/customer-list.component';
+import { BookingOrderListComponent } from 'app/booking-manage/booking-order/booking-order-list.component';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { NgModule } from '@angular/core';
                 canActivateChild: [AppRouteGuard],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: CustomerListComponent },
+                    { path: 'list', component: BookingOrderListComponent },
                 ]
             }
         ])

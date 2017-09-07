@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
+import { Title } from '@angular/platform-browser';
 import { appModuleAnimation } from 'shared/animations/routerTransition';
 import { element } from 'protractor';
 
@@ -71,6 +72,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
         private _appStorageService: AppStorageService,
+        private _title: Title,
     ) {
         super(injector);
     }
@@ -79,6 +81,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.bookingActiveSelectDefaultItem = SelectHelper.DefaultList();
         this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
         this.loadSelectListData();
+
+        super.ngOnInit();
     }
 
     ngAfterViewInit() {

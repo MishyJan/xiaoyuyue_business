@@ -13,15 +13,15 @@ import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 })
 export class SideBarComponent extends AppComponentBase {
 
-    desktopMenu: SideBarMenu = new SideBarMenu('MainMenu', 'MainMenu', [
-        new SideBarMenuItem('BusinessCenter.Menu.UserData', this.adminPermissions.tenantDashboard, 'vapps-icon-dc-menu menu-item', '/dashboard'),
-        new SideBarMenuItem('BusinessCenter.Menu.ManageBooking', this.adminPermissions.userManage, 'vapps-icon-bm-menu menu-item', '', [
-            new SideBarMenuItem('BusinessCenter.Menu.ManageBooking.List', '', '', '/booking/list'),
-            new SideBarMenuItem('应约人列表', '', '', '/customer/list'),
+    desktopMenu: SideBarMenu = new SideBarMenu('Menu', 'Menu', [
+        new SideBarMenuItem('Menu.Dashboard', this.permissions.Dashboard, 'vapps-icon-dc-menu menu-item', '/dashboard'),
+        new SideBarMenuItem('Menu.ManageBooking', this.permissions.bookingManage, 'vapps-icon-bm-menu menu-item', '', [
+            new SideBarMenuItem('Menu.ManageBooking.List', this.permissions.bookingManage_Bookings, '', '/booking/list'),
+            new SideBarMenuItem('Menu.ManageBooking.Orders', this.permissions.bookingManage_BookingOrders, '', '/bookingorder/list'),
         ]),
-        new SideBarMenuItem('BusinessCenter.Menu.OrgInfo', this.adminPermissions.configuration, 'vapps-icon-oi-menu menu-item', '', [
-            new SideBarMenuItem('BusinessCenter.Menu.Org.BaseInfo', '', '', '/organization/info'),
-            new SideBarMenuItem('BusinessCenter.Menu.Org.TenantManage', '', '', '/outlet/list'),
+        new SideBarMenuItem('Menu.Org', this.permissions.organization, 'vapps-icon-oi-menu menu-item', '', [
+            new SideBarMenuItem('Menu.Org.BaseInfo', this.permissions.organization_BaseInfo, '', '/organization/info'),
+            new SideBarMenuItem('Menu.Org.OutletManage', this.permissions.organization_Outlets, '', '/outlet/list'),
         ])
     ]);
 

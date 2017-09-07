@@ -4,7 +4,7 @@
             <div class="page-head">
                 <div class="page-title">
                     <h1>
-                        <span>{{l("BusinessCenter.Menu.OrgInfo")}}</span>
+                        <span>{{l("Menu.OrgInfo")}}</span>
                     </h1>
                     <div></div>
                 </div>
@@ -62,23 +62,30 @@
 
                         <div class="content-item clearfix">
                             <span class="flex-right" title="营业时间">
-                                <span class="vapps-icon-app-shop-hours flex-right"></span><span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
-                            </span>
-                            <span class="flex-left"></span>
+                                <span class="vapps-icon-app-shop-hours flex-right"></span>
+                            <span
+                                class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
+                                </span>
+                                <span class="flex-left"></span>
                         </div>
 
                         <div class="content-item clearfix">
                             <span class="flex-right" title="地址">
-                                <span class="vapps-icon-app-location flex-right"></span><span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress }}</span>
-                            </span>
-                            <span class="vapps-icon-app-phone flex-left orange-icon"></span>
+                                <span class="vapps-icon-app-location flex-right"></span>
+                            <span
+                                class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress
+                                }}</span>
+                                </span>
+                                <span class="vapps-icon-app-phone flex-left orange-icon"></span>
                         </div>
 
                         <div class="content-item clearfix">
                             <span class="flex-right" title="联系人">
-                                <span class="vapps-icon-app-contact flex-right"></span><span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
-                            </span>
-                            <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
+                                <span class="vapps-icon-app-contact flex-right"></span>
+                            <span
+                                class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
+                                </span>
+                                <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
                         </div>
                     </div>
                 </div>

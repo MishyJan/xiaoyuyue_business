@@ -1,4 +1,4 @@
-import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserLinkServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
@@ -50,7 +50,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _sessionService: AbpSessionService,
         private _abpMultiTenancyService: AbpMultiTenancyService,
         private _profileServiceProxy: ProfileServiceProxy,
-        private _userLinkServiceProxy: UserLinkServiceProxy,
         private _userServiceProxy: UserServiceProxy,
         private _authService: AppAuthService,
         private _userNotificationHelper: UserNotificationHelper,

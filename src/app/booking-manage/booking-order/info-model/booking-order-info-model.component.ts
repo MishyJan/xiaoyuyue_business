@@ -13,10 +13,10 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
     selector: 'xiaoyuyue-customer-info-model',
-    templateUrl: './customer-info-model.component.html',
-    styleUrls: ['./customer-info-model.component.scss']
+    templateUrl: './booking-order-info-model.component.html',
+    styleUrls: ['./booking-order-info-model.component.scss']
 })
-export class CustomerInfoModelComponent extends AppComponentBase implements OnInit {
+export class BookingOrderInfoModelComponent extends AppComponentBase implements OnInit {
     dataItem: OrgBookingOrderInfolDto = new OrgBookingOrderInfolDto();
     dataItemId: number;
     isShowModelFlag = false;
