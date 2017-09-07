@@ -6,6 +6,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
+import { PictureManageComponent } from './picture-manage/picture-manage.component';
 import { Router } from '@angular/router';
 import { ShareBookingModelComponent } from './share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
@@ -20,6 +21,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit {
+    editingIndex: boolean[] = [];
     startHourOfDay: string = '00:00';
     endHourOfDay: string = '00:00';
     isEditing: boolean = false;
@@ -57,6 +59,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     localSingleBookingItem: BookingItemEditDto = new BookingItemEditDto();
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
+    @ViewChild('pictureManageModel') pictureManageModel: PictureManageComponent;
     /* 移动端代码结束 */
 
     public outletSelectDefaultItem: string;
@@ -135,6 +138,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.baseInfo = result.booking;
                 this.timeInfo = result.items;
                 this.pictureInfo = result.bookingPictures;
+                if (this.isMobile()) {
+                    this.allBookingTime = result.items;
+                    this.isNew = false;
+                }
+                // this.pictureManageModel.refreshAllPictrueEdit();
 
                 // 获取门店下拉框数据源
                 this._outletServiceServiceProxy
@@ -176,7 +184,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .createOrUpdateBooking(this.input)
             .finally(() => { this.saving = false })
             .subscribe((result) => {
-                this.shareBookingModel.show(result.id);
+                if (!this.isMobile()) {
+                    this.shareBookingModel.show(result.id);
+                } else {
+                    this._router.navigate(['/booking/succeed', result.id]);
+                }
             });
     }
 
@@ -249,8 +261,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
     nextStep(): void {
         this.staticTabs.tabs[this.nextIndex].active = true;
-        this.nextIndex++;
     }
+
+    // tab点击的时候更新tab索引值 
+    updateNextIndex(index: number): void {
+        this.nextIndex = index;
+    }
+
     isShowConfirm(): boolean {
         if (this.nextIndex === 3) {
             return true;
@@ -261,13 +278,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.isNew = true;
         setTimeout(() => {
             this.initFlatpickr();
-        }, 10);
+        }, 100);
     }
-    saveTimeField(): void {
+    savePanelTimeField(): void {
         this.isNew = false;
         this.localSingleBookingItem.isActive = true;
         this.localSingleBookingItem.hourOfDay = this.startHourOfDay + '-' + this.endHourOfDay;
         this.allBookingTime.push(this.localSingleBookingItem);
+        this.startHourOfDay = '00:00';
+        this.endHourOfDay = '00:00';
+        this.localSingleBookingItem = new BookingItemEditDto();
     }
 
     getPicUploadInfoHandler(picUploadInfo: UploadPictureDto): void {
@@ -277,11 +297,30 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.pictureInfo.push(temp)
     }
 
+    editingTimeField(index: number): void {
+        this.editingIndex[index] = true;
+    }
+
+    deleteTimeField(index: number): void {
+        this.allBookingTime.splice(index, 1);
+    }
+
+    saveTimeField(index: number): void {
+        this.editingIndex[index] = false;
+    }
+
     refresh(): void {
 
     }
 
     // PC端代码
 
-    // 业务代码
+    /* 业务代码 */
+    // 判断是否有移动端的DOM元素
+    isMobile(): boolean {
+        if ($('.mobile-create-booking').length > 0) {
+            return true;
+        };
+        return false;
+    }
 }

@@ -10,7 +10,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 export class UploadPicDirective implements AfterViewInit {
     _$browseButtonEle: JQuery<HTMLElement>;
     _$uploadPicWrap: JQuery<HTMLElement>;
-    
+
     public uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
 
     @Input() browseButtonEle: string;
@@ -18,7 +18,7 @@ export class UploadPicDirective implements AfterViewInit {
     @Input() dropEle: string;
     @Input() containerEle: string;
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
-    
+
     constructor(
         private _element: ElementRef,
         private _sanitizer: DomSanitizer,
@@ -113,8 +113,7 @@ export class UploadPicDirective implements AfterViewInit {
                             self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
                             self.uploadPictureInfo.pictureUrl = self.uploadPictureInfo.pictureUrl.changingThisBreaksApplicationSecurity;
                             self.uploadPictureInfo.pictureId = currentPicId;
-                            console.log(self.uploadPictureInfo);
-                            
+
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
                             // self.loading = false;
                             // self.close();
@@ -125,7 +124,7 @@ export class UploadPicDirective implements AfterViewInit {
                             // self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
-                            uploader.destroy();
+                            // uploader.destroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
                         'Key': function (up, file) {

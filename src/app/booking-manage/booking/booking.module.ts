@@ -11,6 +11,7 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { CommonModule } from '@angular/common';
 import { ConfirmOrderModelComponent } from 'app/booking-manage/booking/list/confirm-order-model/confirm-order-model.component';
 import { CreateOrEditBookingComponent } from 'app/booking-manage/booking/create-or-edit/create-or-edit-booking.component';
+import { CreateSucceededComponent } from './create-or-edit/create-succeeded/create-succeeded.component';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
@@ -47,7 +48,6 @@ import { UtilsModule } from '@shared/utils/utils.module';
         QRCodeModule,
         NgxPaginationModule,
         GridDataResultsModule,
-
         ResponsiveModule,
     ],
     declarations: [
@@ -59,6 +59,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         CreateOrEditBookingComponent,
         ConfirmOrderModelComponent,
         BookingCustomModelComponent,
+        CreateSucceededComponent
     ],
     providers: [
 
