@@ -3,7 +3,7 @@
         <form #timeInfoForm="ngForm" class="form-horizontal" [formGroup]="timeBaseIngoForm">
             <div class="clearfix">
                 <div class="card-header card-header-text pull-left" data-background-color="orange">
-                    <h6 class="card-title">{{l("BusinessCenter.Booking.TimeInfo")}}</h6>
+                    <h6 class="card-title">{{l(".Booking.TimeInfo")}}</h6>
                 </div>
                 <div class="pull-right add-time">
                     <span (click)="createTimeField()" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加时段</span>
@@ -16,7 +16,7 @@
                     <div class="col-md-6 time-info-wrap create-time-info box-shadow border-radius-14 pull-left paddingTop-32">
                         <div class="xiaoyuyue-title-box"></div>
                         <div class="time-item clearfix clearfix">
-                            <div class="col-md-3 text-right label-on-left"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                            <div class="col-md-3 text-right label-on-left"><span>{{l(".Booking.BookingPeopleOfNumber")}}</span></div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="time-item clearfix">
-                            <div class="col-md-3 text-right label-on-left"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                            <div class="col-md-3 text-right label-on-left"><span>{{l(".Booking.QueuePeopleOfNumber")}}</span></div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="time-item clearfix booking-date-item">
-                            <div class=" col-md-3 text-right label-on-left"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
+                            <div class=" col-md-3 text-right label-on-left"><span>{{l(".Booking.BookingDate")}}</span></div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="time-item clearfix booking-time-item clearfix clearfix" style="height: 100%">
-                            <div class="col-md-3 text-righ label-on-left"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
+                            <div class="col-md-3 text-righ label-on-left"><span>{{l(".Booking.BookingTime")}}</span></div>
                             <div class="col-md-9 row input-box clearfix">
                                 <div *ngFor="let bookingTimeItem of allBookingTime; let index = index;" class="item">
                                     <div class="form-group">
@@ -102,25 +102,25 @@
                                     <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)" title="移除"></span>
                                 </div>
                                 <div class="time-item clearfix">
-                                    <div class="name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                                    <div class="name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l(".Booking.BookingPeopleOfNumber")}}</span></div>
                                     <div class="col-lg-6 col-md-7 col-sm-8 view-box">
                                         {{bookingItem.maxBookingNum}}
                                     </div>
                                 </div>
                                 <div class="time-item clearfix">
-                                    <div class=" name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                                    <div class=" name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l(".Booking.QueuePeopleOfNumber")}}</span></div>
                                     <div class="col-lg-6 col-md-7 col-sm-8 view-box">
                                         {{bookingItem.maxQueueNum}}
                                     </div>
                                 </div>
                                 <div class="time-item clearfix">
-                                    <div class=" name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
+                                    <div class=" name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l(".Booking.BookingDate")}}</span></div>
                                     <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                         {{bookingItem.availableDates}}
                                     </div>
                                 </div>
                                 <div class="time-item clearfix">
-                                    <div class="name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
+                                    <div class="name col-lg-4 col-md-6 col-sm-12 text-right"><span>{{l(".Booking.BookingTime")}}</span></div>
                                     <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                         {{bookingItem.hourOfDay}}
                                     </div>
@@ -142,25 +142,25 @@
                                 <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)" title="移除"></span>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("BusinessCenter.Booking.BookingPeopleOfNumber")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l(".Booking.BookingPeopleOfNumber")}}</span></div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box">
                                     {{timeInfoItem.maxBookingNum}}
                                 </div>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("BusinessCenter.Booking.QueuePeopleOfNumber")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l(".Booking.QueuePeopleOfNumber")}}</span></div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box">
                                     {{timeInfoItem.maxQueueNum}}
                                 </div>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("BusinessCenter.Booking.BookingDate")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l(".Booking.BookingDate")}}</span></div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                     {{timeInfoItem.availableDates}}
                                 </div>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("BusinessCenter.Booking.BookingTime")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l(".Booking.BookingTime")}}</span></div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                     {{timeInfoItem.hourOfDay}}
                                 </div>
