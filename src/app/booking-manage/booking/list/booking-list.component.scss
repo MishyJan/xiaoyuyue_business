@@ -299,3 +299,165 @@
         }
     }
 }
+
+.mobile-manage-booking {
+    // 移动端
+    // .booking-item-wrap {
+    // margin-bottom: 10px;
+    .booking-item+.booking-item {
+        margin-top: 10px;
+    }
+    .booking-item {
+        padding: 0 15px 0;
+        background-color: #FFF;
+        border-radius: 4px;
+        .top-wrap {
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 1px solid #E5E5E5;
+            .title {
+                color: #FF9641;
+                font-size: 16px;
+                .tips {
+                    font-size: 12px;
+                    color: #FFF;
+                    padding: 2px;
+                    border-radius: 2px;
+                    margin-bottom: 2px;
+                    &.status1 {
+                        background-color: #999;
+                    }
+                    &.status2 {
+                        background-color: #FF9641;
+                    }
+                    &.status3 {}
+                    &.status4 {
+                        background-color: #999;
+                    }
+                    &.status5 {}
+                }
+            }
+            .icon {
+                color: #FF9641;
+                font-size: 22px;
+            }
+        }
+        .content {
+            position: relative;
+            padding: 20px 0;
+            display: flex;
+            .stick-booking {
+                width: 60px;
+                position: absolute;
+                right: -18px;
+                bottom: 20px;
+            }
+            .flex-left{
+                width: 80px;
+                height: 80px;
+                flex: 0 0 80px;
+                .booking-overbrim {
+                    position: relative;
+                    width: 64px;
+                    height: 64px;
+                    top: 20px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    &.state1 {
+                        box-shadow: 0px 2px 2px 0px #02AFF3;
+                        .wave {
+                            background-color: #02AFF3;
+                        }
+                    }
+                    &.state2 {
+                        box-shadow: 0px 2px 2px 0px #00B200;
+                        .wave {
+                            background-color: #00B200;
+                        }
+                    }
+                    &.state3 {
+                        box-shadow: 0px 2px 2px 0px #FF9641;
+                        .wave {
+                            background-color: #FF9641;
+                        }
+                    }
+                    &.state4 {
+                        box-shadow: 0px 2px 2px 0px #E32600;
+                        .wave {
+                            background-color: #E32600;
+                        }
+                    }
+                    .wave {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                        background-color: #FF9641;
+                        border-radius: 50%;
+                        .before,
+                        .after {
+                            position: absolute;
+                            width: 148px;
+                            height: 148px;
+                            top: 36px;
+                            left: 50%;
+                            background-color: rgba(255, 255, 255, 0.6);
+                            border-radius: 44%;
+                            transform: translate(-50%, -70%) rotate(0);
+                            animation: rotate 14s linear infinite;
+                            z-index: 10;
+                        }
+                        .after {
+                            border-radius: 44%;
+                            background-color: rgba(255, 255, 255, .9);
+                            transform: translate(-50%, -70%) rotate(0);
+                            animation: rotate 10s linear -5s infinite;
+                            z-index: 20;
+                        }
+                    }
+                    @keyframes rotate {
+                        50% {
+                            transform: translate(-50%, -73%) rotate(180deg);
+                        }
+                        100% {
+                            transform: translate(-50%, -70%) rotate(360deg);
+                        }
+                    }
+                }
+            }
+            .flex-right{
+                flex: 1;
+                .content-item {
+                    padding: 4px 0;
+                    .name {
+                        margin-right: 10px;
+                    }
+                    .desc {
+                        color: #FF9641;
+                    }
+                }
+            }
+        }
+        .bottom-action {
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            border-top: 1px solid #E5E5E5; // .line {
+            //     transform: scaleX(.2) translateY(-1px);
+            // }
+            .action-item {
+                flex: 1;
+                text-align: center;
+                color: #333;
+                .icon {
+                    display: inline-block;
+                    margin-right: 6px;
+                    color: #FF9641;
+                    vertical-align: text-bottom;
+                }
+                a {
+                    color: #333;
+                }
+            }
+        }
+    } // }
+}

@@ -43,7 +43,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     bookingActiveSelectListData: Object[] = SelectHelper.BoolList();
     bookingActiveSelectDefaultItem: object;
 
-    organizationBookingResultData: BookingListDto[];
+    organizationBookingResultData: BookingListDto[] = [];
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
     // pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
 
@@ -87,12 +87,16 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     ngAfterViewInit() {
         this.loadData();
-        this.initFlatpickr();
+        if (!this.isMobile()) {
+            this.initFlatpickr();
+        }
     }
 
     ngOnDestroy() {
-        this.bStartCreationTime.destroy();
-        this.bEndCreationTime.destroy();
+        if (!this.isMobile() && this.bStartCreationTime && this.bEndCreationTime) {
+            this.bStartCreationTime.destroy();
+            this.bEndCreationTime.destroy();
+        }
     }
 
     /**
@@ -132,10 +136,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 禁用预约样式
-    disabledBookingClass(disabledAni: any, index) {
-        this._ngxAni.to(disabledAni, .6, {
-            'filter': 'grayscale(100%)'
-        });
+    disabledBookingClass(index) {
+        // this._ngxAni.to(disabledAni, .6, {
+        //     // 'filter': 'grayscale(100%)'
+        // });
         this.activeOrDisable.id = this.organizationBookingResultData[index].id;
         this.activeOrDisable.isActive = false;
         this._organizationBookingServiceProxy
@@ -147,10 +151,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 显示禁用之前预约样式
-    beforeBookingClass(disabledAni: any, index) {
-        this._ngxAni.to(disabledAni, .6, {
-            'filter': 'grayscale(0)'
-        });
+    beforeBookingClass(index) {
+        // this._ngxAni.to(disabledAni, .6, {
+        //     'filter': 'grayscale(0)'
+        // });
         this.activeOrDisable.id = this.organizationBookingResultData[index].id;
         this.activeOrDisable.isActive = true;
         this._organizationBookingServiceProxy
@@ -316,5 +320,19 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.currentPage = index;
         this.skipCount = this.maxResultCount * (this.currentPage - 1);
         this.loadData();
+    }
+
+    // 移动端
+    showDetail(id: number): void {
+        this._router.navigate(['/booking/detail', id]);
+    }
+
+    /* 公用代码 */
+    // 判断是否有移动端的DOM元素
+    isMobile(): boolean {
+        if ($('.mobile-manage-booking').length > 0) {
+            return true;
+        };
+        return false;
     }
 }

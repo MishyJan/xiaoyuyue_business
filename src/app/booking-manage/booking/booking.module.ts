@@ -5,6 +5,7 @@ import { ModalModule, PopoverModule, TabsModule, TooltipModule } from 'ngx-boots
 import { AppCommonModule } from 'app/shared/common/app-common.module';
 import { BaseInfoComponent } from 'app/booking-manage/booking/create-or-edit/base-info/base-info.component';
 import { BookingCustomModelComponent } from 'app/booking-manage/booking/list/booking-custom-model/booking-custom-model.component';
+import { BookingDetailComponent } from './list/booking-detail/booking-detail.component';
 import { BookingListComponent } from 'app/booking-manage/booking/list/booking-list.component';
 import { BookingRoutingModule } from './booking-routing.module';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -60,6 +61,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         ConfirmOrderModelComponent,
         BookingCustomModelComponent,
         CreateSucceededComponent,
+        BookingDetailComponent
     ],
     providers: [
 
