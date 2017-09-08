@@ -2,9 +2,9 @@
     <div class="card">
         <div class="clearfix">
             <div class="card-header card-header-text pull-left" data-background-color="orange">
-                <h6 class="card-title">图片管理</h6>
+                <h6 class="card-title">{{l('Booking.PictureManage')}}</h6>
             </div>
-            <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="uploadPicHandler() "><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
+            <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="uploadPicHandler() "><span class="vapps-icon vapps-icon-app-upload"></span>{{l('PictureGallery.LocalUpload')}}</button>
         </div>
 
         <div class="card-content">
@@ -30,5 +30,6 @@
             </div>
         </div>
     </div>
-    <xiaoyuyue-upload-picture-gallery #uploadPictureModel (sendPictureForEdit)="getPictureForEdit($event)" (sendPicGalleryForEdit)="getPicGalleryForEdit($event)" [existingPicNum]="existingPicNum"></xiaoyuyue-upload-picture-gallery>
+    <xiaoyuyue-upload-picture-gallery #uploadPictureModel (sendPictureForEdit)="getPictureForEdit($event)" (sendPicGalleryForEdit)="getPicGalleryForEdit($event)"
+        [existingPicNum]="existingPicNum"></xiaoyuyue-upload-picture-gallery>
 </div>

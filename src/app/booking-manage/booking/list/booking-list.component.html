@@ -137,7 +137,7 @@
                         </div>
                         <div class="handle-wrap">
                             <div class="handle-item-1 row">
-                                <span class="item col-md-6 col-sm-6 col-xs-6" (click)="disabledBookingClass(disabledAni, index)"><i class="vapps-icon-app-disable"></i>{{l('Booking.Disabled')}}</span>
+                                <span class="item col-md-6 col-sm-6 col-xs-6" *ngIf="isGranted(permissions.bookingManage_BookingDisable)" (click)="disabledBookingClass(disabledAni, index)"><i class="vapps-icon-app-disable"></i>{{l('Booking.Disabled')}}</span>
                                 <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)"><i class="vapps-icon-app-share"></i>{{l('Booking.Share')}}</span>
                             </div>
                             <div class="handle-item-2 pull-right">
@@ -171,17 +171,19 @@
                                 </span>
                             </div>
                             <div class="handle-item-2 pull-right">
-                                <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="{{l('Booking.Edit')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingResultItem.id)"
+                                    title="{{l('Booking.Edit')}}">
                                     <span class="show-icon vapps-icon-app-edit"></span>
                                 <span class="show-text">{{l('Edit')}}</span>
                                 </span>
 
-                                <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="{{l('Booking.Detail')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingCopy)" (click)="flipToBack(flipAni, $event)"
+                                    title="{{l('Booking.Detail')}}">
                                     <span class="show-icon vapps-icon-app-detail"></span>
                                 <span class="show-text">{{l('Detail')}}</span>
                                 </span>
 
-                                <span class="btn item-wrap" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingDelete)" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}">
                                     <span class="show-icon vapps-icon-app-delete"></span>
                                 <span class="show-text">{{l('Delete')}}</span>
                                 </span>
