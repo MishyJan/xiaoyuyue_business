@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { BatchComfirmInput, BookingListDto, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
+import { BatchConfirmInput, BookingListDto, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
@@ -18,7 +18,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./booking-custom-model.component.scss']
 })
 export class BookingCustomModelComponent extends AppComponentBase implements OnInit {
-    batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
+    batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
     batchConfirmCount = 0;
     bookingCustomListData = new AppGridData();
     bookingDate: Moment;
@@ -36,7 +36,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     isShowModelFlag = false;
     phoneNumber: string;
     startMinute: number;
-    status: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
+    status: Status[] = [OrgBookingOrderStatus.WaitConfirm, OrgBookingOrderStatus.ConfirmSuccess, OrgBookingOrderStatus.ConfirmFail, OrgBookingOrderStatus.Cancel, OrgBookingOrderStatus.Complete];
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
     constructor(

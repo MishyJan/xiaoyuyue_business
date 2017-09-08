@@ -1,4 +1,4 @@
-﻿import { ChatMessageDtoReadState, ChatMessageDtoSide, FriendDtoState, DefaultTimezoneScope, UserNotificationState, IsTenantAvailableOutputState, CodeSendInputCodeType, BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
+﻿import { BookingOrderListDtoStatus, ChatMessageDtoReadState, ChatMessageDtoSide, CodeSendInputCodeType, DefaultTimezoneScope, FriendDtoState, IsTenantAvailableOutputState, UserNotificationState } from '@shared/service-proxies/service-proxies';
 
 export class AppChatMessageReadState {
     static Unread: number = ChatMessageDtoReadState._1;
@@ -40,11 +40,19 @@ export class AppEnumSelectItemSource {
 
 // 应约人订单状态
 export class OrgBookingOrderStatus {
-    static State1: number = BookingOrderListDtoStatus._1;
-    static State2: number = BookingOrderListDtoStatus._2;
-    static State3: number = BookingOrderListDtoStatus._3;
-    static State4: number = BookingOrderListDtoStatus._4;
-    static State5: number = BookingOrderListDtoStatus._5;
+    static WaitConfirm: number = BookingOrderListDtoStatus._1;
+    static ConfirmSuccess: number = BookingOrderListDtoStatus._2;
+    static ConfirmFail: number = BookingOrderListDtoStatus._3;
+    static Cancel: number = BookingOrderListDtoStatus._4;
+    static WaitComment: number = BookingOrderListDtoStatus._5;
+    static Complete: number = BookingOrderListDtoStatus._6;
+
+    static WaitConfirmLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.WaitConfirm';
+    static ConfirmSuccessLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.ConfirmSuccess';
+    static ConfirmFailLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.ConfirmFail';
+    static CancelLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.Cancel';
+    static CompleteLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.Complete';
+    static WaitCommentLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.WaitComment';
 }
 
 // 手机验证的类型

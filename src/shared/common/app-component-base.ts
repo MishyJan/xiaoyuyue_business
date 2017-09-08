@@ -17,6 +17,7 @@ import { Title } from '@angular/platform-browser';
 export abstract class AppComponentBase implements OnInit {
 
     localizationSourceName = AppConsts.localization.defaultLocalizationSourceName;
+    commonlocalizationSourceName = AppConsts.localization.CommonLocalizationSourceName;
     permissions = Permissions;
     localization: LocalizationService;
     permission: PermissionCheckerService;
@@ -59,6 +60,10 @@ export abstract class AppComponentBase implements OnInit {
 
     l(key: string, ...args: any[]): string {
         let localizedText = this.localization.localize(key, this.localizationSourceName);
+
+        if (!localizedText) {
+            localizedText = this.localization.localize(key, this.commonlocalizationSourceName);
+        }
 
         if (!localizedText) {
             localizedText = key;

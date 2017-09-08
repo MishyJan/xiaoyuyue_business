@@ -167,7 +167,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 待确认model弹窗，若关闭应该刷新数据
-    isShowComfirmOrderModelHandler(flag: boolean): void {
+    isShowConfirmOrderModelHandler(flag: boolean): void {
         if (!flag) {
             this.loadData();
         }

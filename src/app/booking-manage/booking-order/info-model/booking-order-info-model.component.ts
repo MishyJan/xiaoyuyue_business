@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { BatchComfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderInfolDto, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
+import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderInfolDto, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
@@ -73,7 +73,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
         const input = new EntityDtoOfInt64();
         input.id = this.dataItem.id;
         this._orgBookingOrderServiceProxy
-            .comfirmBookingOrder(input)
+            .confirmBookingOrder(input)
             .subscribe(() => {
                 this.hideModel();
                 this.isShowModelHander.emit(false);

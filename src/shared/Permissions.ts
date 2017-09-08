@@ -15,7 +15,7 @@ export class Permissions {
     static readonly bookingManage_BookingOrders = 'BusiCenter.BookingManage.BookingOrders';
     static readonly bookingManage_BookingOrderEdit = 'BusiCenter.BookingManage.BookingOrder.Edit';
     static readonly bookingManage_BookingOrderDelete = 'BusiCenter.BookingManage.BookingOrder.Delete';
-    static readonly bookingManage_BookingOrderComfirm = 'BusiCenter.BookingManage.BookingOrder.Comfirm';
+    static readonly bookingManage_BookingOrderConfirm = 'BusiCenter.BookingManage.BookingOrder.Confirm';
     static readonly bookingManage_BookingOrderRemark = 'BusiCenter.BookingManage.BookingOrder.Remark';
 
     static readonly organization = 'BusiCenter.Organization';
