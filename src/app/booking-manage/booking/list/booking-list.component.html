@@ -141,22 +141,20 @@
                                 <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)"><i class="vapps-icon-app-share"></i>{{l('Booking.Share')}}</span>
                             </div>
                             <div class="handle-item-2 pull-right">
-                                <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="{{l('Booking.Edit')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingResultItem.id)"
+                                    title="{{l('Booking.Edit')}}">
                                     <span class="show-icon vapps-icon-app-edit"></span>
                                 <span class="show-text">{{l('Edit')}}</span>
                                 </span>
-
-                                <span class="btn item-wrap" (click)="copyBooking(index)" title="{{l('Booking.Copy')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingCopy)" (click)="copyBooking(index)" title="{{l('Booking.Copy')}}">
                                     <span class="show-icon vapps-icon-app-copy-1"></span>
                                 <span class="show-text">{{l('Copy')}}</span>
                                 </span>
-
-                                <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="{{l('Booking.Detail')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_Bookings)" (click)="flipToBack(flipAni, $event)" title="{{l('Booking.Detail')}}">
                                     <span class="show-icon vapps-icon-app-detail"></span>
                                 <span class="show-text">{{l('Detail')}}</span>
                                 </span>
-
-                                <span class="btn item-wrap" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingDelete)" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}">
                                     <span class="show-icon vapps-icon-app-delete"></span>
                                 <span class="show-text">{{l('Delete')}}</span>
                                 </span>
@@ -177,8 +175,7 @@
                                 <span class="show-text">{{l('Edit')}}</span>
                                 </span>
 
-                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingCopy)" (click)="flipToBack(flipAni, $event)"
-                                    title="{{l('Booking.Detail')}}">
+                                <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_Bookings)" (click)="flipToBack(flipAni, $event)" title="{{l('Booking.Detail')}}">
                                     <span class="show-icon vapps-icon-app-detail"></span>
                                 <span class="show-text">{{l('Detail')}}</span>
                                 </span>
@@ -190,7 +187,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- 待确认人数  -->
                     <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHandler(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
                 </div>
@@ -205,7 +201,7 @@
                         <div class="portlet-body content-wrap clearfix">
                             <div class="content-item">
                                 <div class="name orange-color">{{bookingResultItem.name}}</div>
-                                <span class="vapps-icon-app-edit orange-color" (click)="editHandler(bookingResultItem.id)"></span>
+                                <span class="vapps-icon-app-edit orange-color" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingResultItem.id)"></span>
                             </div>
                             <div class="content-item">
                                 <div class="name">{{l("Booking.Outlet")}}</div>
@@ -228,14 +224,14 @@
                                 <div class="desc text-overflow">{{bookingResultItem.contactorPhoneNum}}</div>
                             </div>
                             <div class="content-item">
-                                <div class="name"><span class="booking-custom-btn light-bgcolor btn" (click)="showBookingCostomHandler(bookingResultItem)">{{l('BookingOrder.List')}}</span></div>
+                                <div class="name"><span class="booking-custom-btn light-bgcolor btn" *ngIf="isGranted(permissions.bookingManage_BookingOrders)"
+                                        (click)="showBookingCostomHandler(bookingResultItem)">{{l('BookingOrder.List')}}</span></div>
                             </div>
                             <div class="back clearfix" (click)="flipToFront(flipAni, $event)">
                                 <span class="vapps-icon-app-back btn btn-xs  light-bgcolor pull-right"></span>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

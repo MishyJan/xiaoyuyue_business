@@ -2,8 +2,8 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, Type } from '
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ActivatedRoute } from '@angular/router';
-import { AppComponentBase } from "shared/common/app-component-base";
-import { BookingItemEditDto } from "shared/service-proxies/service-proxies";
+import { AppComponentBase } from 'shared/common/app-component-base';
+import { BookingItemEditDto } from 'shared/service-proxies/service-proxies';
 import { Location } from '@angular/common';
 
 @Component({
@@ -16,8 +16,8 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     newTimeField: boolean;
     editingBooking: boolean;
     // 存储正在编辑的时间信息索引值
-    private editIndex: number = 0;
-    index: number = 0;
+    private editIndex = 0;
+    index = 0;
     @Output() changeInput: EventEmitter<BookingItemEditDto[]> = new EventEmitter();
     @Output() timeInfoFormDisabled: EventEmitter<boolean> = new EventEmitter();
 
@@ -36,9 +36,9 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     singleTimeInfo: Array<BookingItemEditDto>;
 
     @Input() timeInfo: BookingItemEditDto[];
-    @Input() timeInfoFormVaild: boolean = false;
-    isCreateTimeField: boolean = false;
-    isShowTimeField: boolean = false;
+    @Input() timeInfoFormVaild = false;
+    isCreateTimeField = false;
+    isShowTimeField = false;
     isCreateOrEdit: boolean;
 
     public bookingDate: Date = new Date();
@@ -55,7 +55,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     ngOnInit() {
         this.bookingId = +this._route.snapshot.paramMap.get('id');
         this.isCreateOrEdit = this.bookingId ? false : true;
-        let bookingTime = new Array();
+        const bookingTime = new Array();
         bookingTime[0] = this.bookingStart;
         bookingTime[1] = this.bookingEnd;
         this.allBookingTime.push(bookingTime);
@@ -65,33 +65,32 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     initFlatpickr(defaultD: any) {
         let defaultDate: string[] = [];
         defaultDate = defaultD ? defaultD : defaultDate;
-        $("#timeInfoFlatpickr").flatpickr({
+        $('#timeInfoFlatpickr').flatpickr({
             wrap: true,
-            "locale": "zh",
+            'locale': 'zh',
             defaultDate: defaultDate
         })
     }
 
-        // 响应式表单验证
-        initFormValidation(): void {
-            this.timeBaseIngoForm = new FormGroup({
-                maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
-                    Validators.required,
-                ]),
-                maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
-                    Validators.required,
-                ])
-            })
-        }
-        get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
-        get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
+    // 响应式表单验证
+    initFormValidation(): void {
+        this.timeBaseIngoForm = new FormGroup({
+            maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
+                Validators.required,
+            ]),
+            maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
+                Validators.required,
+            ])
+        })
+    }
+    get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
+    get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
 
     cancel() {
-        debugger;
         this.isCreateTimeField = false;
         this.timeInfoFormVaild = true;
         this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
-        if (!this.bookingId) { 
+        if (!this.bookingId) {
             // if (this.localSingleBookingItem) {
             //     this.localAllBookingItem.push(this.localSingleBookingItem)
             // }
@@ -104,8 +103,8 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.isCreateTimeField = false;
         this.isShowTimeField = true;
 
-        let allBookingTimeItem = this.bookingTimeToString(this.allBookingTime);
-        let timeField = new BookingItemEditDto();
+        const allBookingTimeItem = this.bookingTimeToString(this.allBookingTime);
+        const timeField = new BookingItemEditDto();
 
         // 表示时间信息表单已验证，传递给父组件为true
         this.timeInfoFormVaild = true;
@@ -115,9 +114,9 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         if (!this.bookingId) {
             // 如果有多个预约时间段，将拆开单个保存数组
             if (allBookingTimeItem.length > 1) {
-                let maxBookingNum = this.localSingleBookingItem.maxBookingNum;
-                let maxQueueNum = this.localSingleBookingItem.maxQueueNum;
-                let availableDates = this.localSingleBookingItem.availableDates;
+                const maxBookingNum = this.localSingleBookingItem.maxBookingNum;
+                const maxQueueNum = this.localSingleBookingItem.maxQueueNum;
+                const availableDates = this.localSingleBookingItem.availableDates;
                 for (let i = 0; i < allBookingTimeItem.length; i++) {
                     this.localSingleBookingItem = new BookingItemEditDto();
                     this.localSingleBookingItem.maxBookingNum = maxBookingNum;
@@ -141,8 +140,8 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
         // 编辑状态
         if (allBookingTimeItem.length > 1) {
-            let maxBookingNum = this.localSingleBookingItem.maxBookingNum;
-            let maxQueueNum = this.localSingleBookingItem.maxQueueNum;
+            const maxBookingNum = this.localSingleBookingItem.maxBookingNum;
+            const maxQueueNum = this.localSingleBookingItem.maxQueueNum;
             for (let i = 0; i < allBookingTimeItem.length; i++) {
                 this.localSingleBookingItem = new BookingItemEditDto();
                 this.localSingleBookingItem.maxBookingNum = maxBookingNum;
@@ -167,7 +166,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 点击创建按钮，显示创建时段面板
     createTimeField() {
-        let self = this;
+        const self = this;
         // 点击创建按钮时，创建面板的内容应置空
         this.localSingleBookingItem.maxBookingNum = null;
         this.localSingleBookingItem.maxQueueNum = null;
@@ -189,9 +188,9 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     addTimeField() {
         this.index++;
 
-        let date = new Array();
-        let bookingStart = new Date();
-        let bookingEnd = new Date();
+        const date = new Array();
+        const bookingStart = new Date();
+        const bookingEnd = new Date();
         date[0] = bookingStart;
         date[1] = bookingEnd;
         date[0].setMinutes(date[0].getMinutes() + this.index);
@@ -207,18 +206,18 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     // 复制整个时段(单个)
     copyBookingItem(index) {
         if (!this.bookingId) {
-            let temp = this.localAllBookingItem[index];
+            const temp = this.localAllBookingItem[index];
             this.localAllBookingItem.push(temp);
         }
-        let temp = this.timeInfo[index];
+        const temp = this.timeInfo[index];
         this.timeInfo.push(temp);
     }
 
     // 编辑整个时段(单个)
     editBookingItem(index) {
-        let self = this;
+        const self = this;
         this.editIndex = index;
-        let defaultDate = this.localAllBookingItem.length ? this.localAllBookingItem[index].availableDates : this.timeInfo[index].availableDates;
+        const defaultDate = this.localAllBookingItem.length ? this.localAllBookingItem[index].availableDates : this.timeInfo[index].availableDates;
         setTimeout(function () {
             self.initFlatpickr(defaultDate);
         }, 10);
@@ -255,7 +254,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     }
 
     getBookingTimeItemHeight(): string {
-        let height = $(".booking-time-item .input-box").innerHeight() + 15 + 'px';
+        const height = $('.booking-time-item .input-box').innerHeight() + 15 + 'px';
         return height;
     }
 
@@ -268,30 +267,30 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     }
     // 日期转为指定格式
     dateToString(date: Date): string {
-        let year = date.getFullYear();
-        let month = (date.getMonth() + 1 < 10) ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-        let day = date.getDate();
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1 < 10) ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        const day = date.getDate();
 
-        let dateFormat = `${year}/${month}/${day}`;
+        const dateFormat = `${year}/${month}/${day}`;
 
         return dateFormat;
     }
 
     // 时间数组转为字符串数组
     bookingTimeToString(time): any {
-        let bookingTime = [];
+        const bookingTime = [];
         let singleBookingTime = '';
-        let char = "-";
+        const char = '-';
         for (let i = 0; i < time.length; i++) {
             for (let j = 0; j < time[i].length; j++) {
-                let hour = (time[i][j].getHours() < 10) ? "0" + time[i][j].getHours() : time[i][j].getHours();
-                let min = (time[i][j].getMinutes() < 10) ? "0" + time[i][j].getMinutes() : time[i][j].getMinutes();
-                let timeItem = hour + ':' + min;
+                const hour = (time[i][j].getHours() < 10) ? '0' + time[i][j].getHours() : time[i][j].getHours();
+                const min = (time[i][j].getMinutes() < 10) ? '0' + time[i][j].getMinutes() : time[i][j].getMinutes();
+                const timeItem = hour + ':' + min;
                 if (time[i].length - 1 === j) {
                     singleBookingTime += hour + ':' + min;
                     bookingTime.push(singleBookingTime);
                 }
-                singleBookingTime = timeItem + "-";
+                singleBookingTime = timeItem + '-';
                 continue;
             }
         }
@@ -300,21 +299,21 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 字符串转时间对象
     stringToDate(dateString: string): Date {
-        let date = new Date(dateString);
+        const date = new Date(dateString);
         return date;
     }
 
     // 字符串转date数组
     stringToBookingTime(bookingDate: Date, bookingTime: string): Date[] {
-        let temp = bookingTime.split("-");
-        let allBookingTime = [];
-        let startBookingTime = temp[0].split(":");
-        let endBookingTime = temp[1].split(":");
+        const temp = bookingTime.split('-');
+        const allBookingTime = [];
+        const startBookingTime = temp[0].split(':');
+        const endBookingTime = temp[1].split(':');
 
         for (let i = 0; i < temp.length; i++) {
-            let date = new Date(bookingDate);
+            const date = new Date(bookingDate);
 
-            date.setHours(parseInt(temp[i].split(":")[0]), parseInt(temp[i].split(":")[1]));
+            date.setHours(parseInt(temp[i].split(':')[0]), parseInt(temp[i].split(':')[1]));
             allBookingTime.push(date);
         }
 

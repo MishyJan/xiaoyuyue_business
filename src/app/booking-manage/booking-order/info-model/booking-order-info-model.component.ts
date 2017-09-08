@@ -22,7 +22,11 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
     isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl = 'assets/common/images/default-profile-picture.png';
-    bookingOrderStatusName: string[] = ['待确认', '已确认', '待评价', '已取消', '已完成'];
+    bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
+    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
+    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
+    this.l(OrgBookingOrderStatus.CancelLocalization),
+    this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
@@ -64,7 +68,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
             .subscribe(() => {
-                this.notify.success('备注已修改');
+                this.notify.success(this.l('UpdateSuccess'));
             });
     }
 
@@ -77,7 +81,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
             .subscribe(() => {
                 this.hideModel();
                 this.isShowModelHander.emit(false);
-                this.notify.success('订单已确认');
+                this.notify.success(this.l('Booking.Confirm.Success'));
             });
     }
 
