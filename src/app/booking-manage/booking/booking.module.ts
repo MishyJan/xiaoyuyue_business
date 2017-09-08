@@ -59,7 +59,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         CreateOrEditBookingComponent,
         ConfirmOrderModelComponent,
         BookingCustomModelComponent,
-        CreateSucceededComponent
+        CreateSucceededComponent,
     ],
     providers: [
 

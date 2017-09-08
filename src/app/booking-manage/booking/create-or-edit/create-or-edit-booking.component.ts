@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Injector, Input, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { appModuleAnimation, appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -22,6 +22,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    timeBaseIngoForm: FormGroup;
     bookingBaseIngoForm: FormGroup;
     editingIndex: boolean[] = [];
     startHourOfDay = '00:00';
@@ -58,6 +59,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     /* 移动端代码开始 */
     // 保存本地时间段
+    dafaultDate: string = moment().format('YYYY-MM-DD');
     localSingleBookingItem: BookingItemEditDto = new BookingItemEditDto();
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
@@ -88,6 +90,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.initFlatpickr();
     }
 
+    ngOnChanges(changes: SimpleChanges) {
+        // this.localSingleBookingItem.availableDates = this.dafaultDate;
+    }
+
     // 响应式表单验证
     initFormValidation(): void {
         this.bookingBaseIngoForm = new FormGroup({
@@ -99,10 +105,22 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 Validators.required,
                 Validators.minLength(10)
             ])
-        })
+        });
+
+        this.timeBaseIngoForm = new FormGroup({
+            maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
+                Validators.required,
+            ]),
+            maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
+                Validators.required,
+            ])
+        });
     }
     get bookingName() { return this.bookingBaseIngoForm.get('bookingName'); }
     get bookingDescription() { return this.bookingBaseIngoForm.get('bookingDescription'); }
+
+    get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
+    get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
 
     /**
     * desktop
@@ -258,11 +276,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 移动端代码
     initFlatpickr() {
+        const self = this;
         if ($('#createTimeFlatpickr')) {
             $('#createTimeFlatpickr').flatpickr({
                 disableMobile: false,
                 wrap: true,
                 'locale': 'zh',
+                defaultDate: self.dafaultDate
             })
         }
     }
@@ -273,6 +293,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     // tab点击的时候更新tab索引值 
     updateNextIndex(index: number): void {
         this.nextIndex = index;
+        this.refreshData();
     }
 
     isShowConfirm(): boolean {
@@ -291,9 +312,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.isNew = false;
         this.localSingleBookingItem.isActive = true;
         this.localSingleBookingItem.hourOfDay = this.startHourOfDay + '-' + this.endHourOfDay;
+        this.localSingleBookingItem.maxBookingNum = this.timeBaseIngoForm.value.maxBookingNum;
+        this.localSingleBookingItem.maxQueueNum = this.timeBaseIngoForm.value.maxQueueNum;
         this.allBookingTime.push(this.localSingleBookingItem);
         this.startHourOfDay = '00:00';
         this.endHourOfDay = '00:00';
+        console.log(this.localSingleBookingItem);
+
         this.localSingleBookingItem = new BookingItemEditDto();
     }
 
@@ -316,9 +341,12 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.editingIndex[index] = false;
     }
 
-    refresh(): void {
-
+    // 刷新数据（由于使用模型驱动表单验证，所以需要更新数据到DTO）
+    refreshData(): void {
+        this.baseInfo.name = this.bookingBaseIngoForm.value.bookingName;
+        this.baseInfo.description = this.bookingBaseIngoForm.value.bookingDescription;
     }
+
 
     // PC端代码
 

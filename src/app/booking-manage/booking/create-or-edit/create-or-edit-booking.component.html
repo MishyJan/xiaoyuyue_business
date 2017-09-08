@@ -160,14 +160,18 @@
         <tab heading='预约信息' (select)="updateNextIndex(1)">
             <div class="booking-info">
                 <div class="card">
-                    <form #bookingInfo="ngForm" class="form-horizontal">
+                    <form #bookingInfo="ngForm" [formGroup]="bookingBaseIngoForm" class="form-horizontal">
                         <div class="card-content">
                             <div class="row">
                                 <label class="col-sm-2 label-on-left"></label>
                                 <div class="col-sm-7">
                                     <div class="form-group label-floating">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="text" name="text" placeholder="项目名称" [(ngModel)]="baseInfo.name" required>
+                                        <input class="form-control" type="text" name="text" placeholder="项目名称" formControlName="bookingName" required>
+                                        <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
+                                            <small class="text-danger" *ngIf="bookingName.errors.required">项目名称必填</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">项目名称不得超过20字</small>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- <label class="col-sm-3 label-on-right">
@@ -180,7 +184,11 @@
                                 <div class="col-sm-7">
                                     <div class="form-group label-floating">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="text" name="text" placeholder="项目介绍" [(ngModel)]="baseInfo.description" required>
+                                        <input class="form-control" type="text" name="text" placeholder="项目介绍" formControlName="bookingDescription" required>
+                                        <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
+                                            <small class="text-danger" *ngIf="bookingDescription.errors.required">项目描述必填</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">项目描述不得小于10字</small>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- <label class="col-sm-3 label-on-right">
@@ -225,145 +233,164 @@
                 </div>
             </div>
         </tab>
-        <tab heading='时间编辑' (select)="updateNextIndex(2)">
+        <tab heading='时间编辑' (select)="updateNextIndex(2)" [disabled]="bookingBaseIngoForm.invalid">
             <div class="time-create">
                 <div class="add-time-btn">
                     <span class="icon vapps-icon-cb-add-time" (click)="createTimeField()"></span>
                 </div>
-                <form #timeCreate="ngForm">
-                    <!-- 创建时间段面板 -->
-                    <div class="create-time-pannel" *ngIf="isNew">
-                        <div class="card">
-                            <div class="card-content">
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">可预约人数</label>
-                                            <input class="form-control" type="number" name="maxBookingNum" [(ngModel)]="localSingleBookingItem.maxBookingNum" required>
+                <div *ngIf="isNew">
+                    <form #timeCreate="ngForm" [formGroup]="timeBaseIngoForm">
+                        <!-- 创建时间段面板 -->
+                        <div class="create-time-pannel">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">可预约人数</label>
+                                                <input class="form-control" type="number" name="maxBookingNum" formControlName="maxBookingNum" required>
+                                                <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
+                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">可预约人数必填</small>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-xs-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">可排队人数</label>
-                                            <input class="form-control" type="number" name="maxQueueNum" [(ngModel)]="localSingleBookingItem.maxQueueNum" required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">开始时间</label>
-                                            <div class="time-point-wrap">
-                                                <input class="form-control" type="time" name="startHourOfDay" [(ngModel)]="startHourOfDay" required>
+                                        <div class="col-xs-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">可排队人数</label>
+                                                <input class="form-control" type="number" name="maxQueueNum" formControlName="maxQueueNum" required>
+                                                <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
+                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">可排队人数必填</small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xs-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">结束时间</label>
-                                            <div class="time-point-wrap">
-                                                <input class="form-control" type="time" name="endHourOfDay" [(ngModel)]="endHourOfDay" required>
+
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">开始时间</label>
+                                                <div class="time-point-wrap">
+                                                    <input class="form-control" type="time" name="startHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="startHourOfDay"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">结束时间</label>
+                                                <div class="time-point-wrap">
+                                                    <input class="form-control" type="time" name="endHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="endHourOfDay"
+                                                        required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">请选择日期</label>
-                                            <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
-                                            <div id="createTimeFlatpickr" class="flatpickr-wrap">
-                                                <input class="form-control" type="text" name="bookingDate" [(ngModel)]="localSingleBookingItem.availableDates" data-input
-                                                    required>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">请选择日期</label>
+                                                <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
+                                                <div id="createTimeFlatpickr" class="flatpickr-wrap">
+                                                    <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="localSingleBookingItem.availableDates"
+                                                        data-input required>
 
-                                                <a class="input-button flatpickr-toggle" title="切换" data-toggle>
+                                                    <a class="input-button flatpickr-toggle" title="切换" data-toggle>
                                                     <i class="icon-calendar"></i>
                                                 </a>
+                                                </div>
                                             </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-block primary-bgcolor view-btn" [disabled]="timeBaseIngoForm.invalid" (click)="savePanelTimeField()">保存</button>
                                         </div>
                                     </div>
 
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-block primary-bgcolor view-btn" (click)="savePanelTimeField()">保存</button>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
 
                 <!-- 创建时间段展示 -->
                 <div class="time-view-wrap" *ngIf="allBookingTime.length>0">
                     <div class="time-item" *ngFor="let item of allBookingTime; let index = index;">
                         <div class="card">
-                            <div class="card-content">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">时间</label>
-                                            <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required>
+                            <form #timeViewForm="ngForm">
+                                <div class="card-content">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">时间</label>
+                                                <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">日期</label>
-                                            <input class="form-control" type="text" name="availableDates" [(ngModel)]="item.availableDates" readonly disabled required>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">日期</label>
+                                                <input class="form-control" type="text" name="availableDates" [(ngModel)]="item.availableDates" readonly disabled required>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">可预约人数</label>
-                                            <input class="form-control" type="text" [name]="maxBookingNum" [(ngModel)]="item.maxBookingNum" [readonly]="!editingIndex[index]"
-                                                [disabled]="!editingIndex[index]" required>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">可预约人数</label>
+                                                <input class="form-control" type="text" name="maxBookingNum" #maxBookingNum="ngModel" [(ngModel)]="item.maxBookingNum" [readonly]="!editingIndex[index]"
+                                                    [disabled]="!editingIndex[index]" required>
+                                                <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
+                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">可预约人数必填</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">可排队人数</label>
+                                                <input class="form-control" type="text" name="maxQueueNum" #maxQueueNum="ngModel" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
+                                                    [disabled]="!editingIndex[index]" required>
+                                                <div *ngIf="maxQueueNum.invalid && (maxQueueNum.dirty || maxQueueNum.touched)">
+                                                    <small class="text-danger" *ngIf="maxQueueNum.errors.required">可排队人数必填</small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-xs-6">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">可排队人数</label>
-                                            <input class="form-control" type="text" [name]="maxQueueNum" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
-                                                [disabled]="!editingIndex[index]" required>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="row command-wrap">
-                                    <!-- <div class="col-xs-4 command-item">
+                                    <div class="row command-wrap">
+                                        <!-- <div class="col-xs-4 command-item">
                                         <span class="vapps-icon-app-copy-2 icon"></span>
                                         <span class="text">复制</span>
                                     </div> -->
-                                    <div class="col-xs-4 col-xs-offset-2 command-item" *ngIf="!editingIndex[index]" (click)="editingTimeField(index)">
+                                        <button class="col-xs-4 col-xs-offset-2 command-item" *ngIf="!editingIndex[index]" (click)="editingTimeField(index)">
                                         <span class="vapps-icon-app-edit icon"></span>
                                         <span class="text">编辑</span>
-                                    </div>
-                                    <div class="col-xs-4 col-xs-offset-2 command-item" *ngIf="editingIndex[index]" (click)="saveTimeField(index)">
+                                    </button>
+                                        <button class="col-xs-4 col-xs-offset-2 command-item" [disabled]="!timeViewForm.form.valid" *ngIf="editingIndex[index]"
+                                            (click)="saveTimeField(index)">
                                         <span class="vapps-icon-app-edit icon"></span>
                                         <span class="text">保存</span>
-                                    </div>
-                                    <div class="col-xs-4 command-item" (click)="deleteTimeField(index)">
-                                        <span class="vapps-icon-app-delete icon"></span>
-                                        <span class="text">删除</span>
+                                    </button>
+                                        <div class="col-xs-4 command-item" (click)="deleteTimeField(index)">
+                                            <span class="vapps-icon-app-delete icon"></span>
+                                            <span class="text">删除</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </tab>
-        <tab heading='应约人信息' (select)="updateNextIndex(3)">
+        <tab heading='应约人信息' (select)="updateNextIndex(3)" [disabled]="timeBaseIngoForm.invalid">
             <div class="customer-info-wrap">
                 <div class="card">
                     <div class="card-content clearfix">
@@ -422,7 +449,8 @@
             </div>
         </tab>
     </tabset>
-    <div class="next-step" *ngIf="!isShowConfirm()" (click)="nextStep()">下一步</div>
-    <div class="next-step" *ngIf="isShowConfirm()" (click)="save()">提交</div>
-    <div class="next-step" *ngIf="isShowConfirm()&&bookingId" (click)="saveAndEdit()">更新</div>
+    <button class="btn btn-block next-step primary-bgcolor" [disabled]="bookingBaseIngoForm.invalid" *ngIf="!isShowConfirm()"
+        (click)="nextStep()">下一步</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()">提交</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="saveAndEdit()">更新</button>
 </div>
