@@ -54,7 +54,7 @@ export abstract class AppComponentBase implements OnInit {
             .filter((route) => route.outlet === 'primary')
             .mergeMap((route) => route.data)
             .subscribe((event) => {
-                this.titleService.setTitle(this.l(event['title']) + ' ' + this.l('Xiaoyuyue'));
+                this.titleService.setTitle(this.l(event['title']) + '-' + this.l('Xiaoyuyue'));
             });
     }
 
