@@ -43,9 +43,7 @@ export abstract class AppComponentBase implements OnInit {
         this.router = injector.get(Router);
         this.activatedRoute = injector.get(ActivatedRoute);
         this.titleService = injector.get(Title);
-    }
 
-    ngOnInit() {
         this.router.events
             .filter((event) => event instanceof NavigationEnd)
             .map(() => this.activatedRoute)
@@ -55,7 +53,12 @@ export abstract class AppComponentBase implements OnInit {
             })
             .filter((route) => route.outlet === 'primary')
             .mergeMap((route) => route.data)
-            .subscribe((event) => this.titleService.setTitle(this.l(event['title'])));
+            .subscribe((event) => {
+                this.titleService.setTitle(this.l(event['title']) + ' ' + this.l('Xiaoyuyue'));
+            });
+    }
+
+    ngOnInit() {
     }
 
     l(key: string, ...args: any[]): string {

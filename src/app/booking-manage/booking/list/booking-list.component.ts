@@ -81,8 +81,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.bookingActiveSelectDefaultItem = SelectHelper.DefaultList();
         this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
         this.loadSelectListData();
-
-        super.ngOnInit();
     }
 
     ngAfterViewInit() {

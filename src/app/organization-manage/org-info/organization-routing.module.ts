@@ -4,6 +4,7 @@ import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
 import { NgModule } from '@angular/core';
 import { OrgInfoComponent } from './org-info.component';
+import { Permissions } from '@shared/Permissions';
 
 @NgModule({
     imports: [
@@ -14,7 +15,7 @@ import { OrgInfoComponent } from './org-info.component';
                 canActivateChild: [AppRouteGuard],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'info', component: OrgInfoComponent },
+                    { path: 'info', component: OrgInfoComponent, data: { title: 'Menu.Org.BaseInfo', permission: Permissions.organization_BaseInfo } },
                 ]
             }
         ])
