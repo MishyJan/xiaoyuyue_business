@@ -18,7 +18,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
-    confirmOrderText = this.l('BookingOrder.Batch');
+    confirmOrderText = this.l('Batch');
 
     batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
     batchConfirmCount = 0;
@@ -98,7 +98,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
         this.isBatchConfirmFlag = !this.isBatchConfirmFlag;
         if (this.batchConfirmInput.ids.length === 0) {
-            this.confirmOrderText === this.l('Cancel') ? this.confirmOrderText = this.l('BookingOrder.Batch') : this.confirmOrderText = this.l('Cancel');
+            this.confirmOrderText === this.l('Cancel') ? this.confirmOrderText = this.l('Batch') : this.confirmOrderText = this.l('Cancel');
             return;
         } else {
             this.confirmOrderText = this.l('Confirm');
@@ -108,7 +108,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
             this._orgBookingOrderServiceProxy
                 .batchConfirmBookingOrder(this.batchConfirmInput)
                 .subscribe(() => {
-                    this.confirmOrderText = this.l('BookingOrder.Batch');
+                    this.confirmOrderText = this.l('Batch');
                     this.batchConfirmInput.ids = [];
                     this.notify.success(this.l('Booking.Confirm.Success'));
                     this.loadData()

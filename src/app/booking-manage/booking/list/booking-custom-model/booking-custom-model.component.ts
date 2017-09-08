@@ -25,7 +25,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     bookingId: number;
     bookingItem: BookingListDto = new BookingListDto();
     bookingName: string;
-    confirmOrderText = '批处理';
+    confirmOrderText = this.l('Batch');
     creationEndDate: Moment;
     creationStartDate: Moment;
     customerName: string;

@@ -141,7 +141,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this._organizationBookingServiceProxy
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
-                this.notify.success('已关闭预约!');
+                this.notify.success(this.l('"Booking.Disabled.Success"'));
                 this.loadData();
             });
     }
@@ -156,7 +156,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this._organizationBookingServiceProxy
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
-                this.notify.success('已开启预约!');
+                this.notify.success(this.l('"Booking.UnDisabled.Success"'));
                 this.loadData();
             });
     }
@@ -268,7 +268,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         const bookingId = this.organizationBookingResultData[index].id;
         const input = new CreateOrUpdateBookingInput();
 
-        this.message.confirm('是否要复制当前预约', (isCopy) => {
+        this.message.confirm(this.l('Booking.Copy.Confirm'), (isCopy) => {
             if (isCopy) {
                 this._organizationBookingServiceProxy
                     .getBookingForEdit(bookingId)
@@ -290,7 +290,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                             .createOrUpdateBooking(input)
                             .subscribe(() => {
                                 this.loadData();
-                                this.notify.success('复制成功！');
+                                this.notify.success(this.l('Booking.Copy.Success'));
                             });
                     });
             }
@@ -300,13 +300,13 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     // 删除预约
     removeBooking(index) {
         const bookingId = this.organizationBookingResultData[index].id;
-        this.message.confirm('是否要删除当前预约', (isDelete) => {
+        this.message.confirm(this.l('Booking.Delete.Confirm'), (isDelete) => {
             if (isDelete) {
                 this._organizationBookingServiceProxy
                     .deleteBooking(bookingId)
                     .subscribe(() => {
                         this.loadData();
-                        this.notify.success('删除成功！');
+                        this.notify.success(this.l('Booking.Delete.Success'));
                     });
             }
         });

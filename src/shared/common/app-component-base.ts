@@ -61,7 +61,7 @@ export abstract class AppComponentBase implements OnInit {
     l(key: string, ...args: any[]): string {
         let localizedText = this.localization.localize(key, this.localizationSourceName);
 
-        if (!localizedText) {
+        if (localizedText === key) {
             localizedText = this.localization.localize(key, this.commonlocalizationSourceName);
         }
 
