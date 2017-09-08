@@ -2,25 +2,25 @@
     <div class="card">
         <div class="card-content">
             <div class="finshed-icon"><img src="../../assets/common/images/booking/app-booked.svg" style="width:46px"></div>
-            <p class="success-tip">创建成功</p>
+            <p class="success-tip">{{l('CreateSuccess')}}</p>
 
             <div class="booked-footer">
                 <div class="qr-code-wrap">
-                        <qr-code [value]="shareUrl" [size]="150"></qr-code>
+                    <qr-code [value]="shareUrl" [size]="150"></qr-code>
                     <!-- <img src="/assets/common/images/qr-code.png" style="width:150px" alt="xiaoyuyue-qr-code"> -->
                 </div>
-                <p class="xiaoyuyue-tip">长按保存二维码</p>
-                <p class="xiaoyuyue-tip">让更多人参与该预约吧</p>
+                <p class="xiaoyuyue-tip">{{l('Booking.CreateSuccess.Tip1')}}</p>
+                <p class="xiaoyuyue-tip">{{l('Booking.CreateSuccess.Tip2')}}</p>
 
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="btn btn-yellow btn-submit btn-block">
-                            <a routerLink="/booking/create">继续创建</a>
+                            <a routerLink="/booking/create">{{l('CreateContinue')}}</a>
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <div class="btn btn-orange btn-submit btn-block">
-                            <a routerLink="/booking/list">管理预约</a>
+                            <a routerLink="/booking/list">{{l('Menu.ManageBooking')}}</a>
                         </div>
                     </div>
                 </div>

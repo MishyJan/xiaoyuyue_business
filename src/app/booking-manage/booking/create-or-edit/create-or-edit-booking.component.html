@@ -5,11 +5,11 @@
                 <div class="page-head">
                     <div class="page-title">
                         <h1>
-                            <span *ngIf="!this.bookingId">{{l("BusinessCenter.Menu.CreateYuyue")}}</span>
-                            <span *ngIf="this.bookingId">编辑预约</span>
+                            <span *ngIf="!this.bookingId">{{l('Booking.Create')}}</span>
+                            <span *ngIf="this.bookingId">{{l('Booking.Edit')}}</span>
                             <small routerLink="/booking" class="back-btn">
                                 <span class="vapps-icon-app-back"></span>
-                                <span class="text">返回</span>
+                                <span class="text">{{l('Back')}}</span>
                             </small>
                         </h1>
                     </div>
@@ -17,9 +17,9 @@
             </div>
             <div class="col-xs-6 text-right">
                 <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
-                    [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                    [buttonBusy]="saving" [busyText]="l('Saving')"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l('Save')}}</span></button>
                 <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
-                    [buttonBusy]="savingAndEditing" [busyText]="'保存中...'"><i class="vapps-icon-save"></i><span>{{l("BusinessCenter.SavingAndEditing")}}</span></button>
+                    [buttonBusy]="savingAndEditing" [busyText]="l('Saving')"><i class="vapps-icon-save"></i><span>{{l('SavingAndEditing')}}</span></button>
                 <!-- <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button> -->
             </div>
         </div>
@@ -34,32 +34,30 @@
                         </div>
                         <div class="card-content">
                             <!-- 项目名称 -->
-
                             <div class="row">
-                                <label class="col-md-3 label-on-left">项目名称</label>
+                                <label class="col-md-3 label-on-left">{{l('Booking.Name')}}</label>
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control " type="text" formControlName="bookingName" placeholder="项目名称" required autofocus>
+                                        <input class="form-control " type="text" formControlName="bookingName" placeholder="{{l('Booking.Name')}}" required autofocus>
                                         <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
-                                            <small class="text-danger" *ngIf="bookingName.errors.required">项目名称必填</small>
-                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">项目名称不得超过20字</small>
+                                            <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',20)}}</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--项目简介-->
-
                             <div class="row">
-                                <label class="col-md-3 label-on-left">项目简介</label>
+                                <label class="col-md-3 label-on-left">{{l('Booking.Des')}}</label>
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <textarea class="form-control " rows="5" name="projectIntro" minlength="10" formControlName="bookingDescription" placeholder="项目简介"
+                                        <textarea class="form-control " rows="5" name="projectIntro" minlength="10" formControlName="bookingDescription" placeholder="{{l('Booking.Des')}}"
                                             required></textarea>
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
-                                            <small class="text-danger" *ngIf="bookingDescription.errors.required">项目描述必填</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">项目描述不得小于10字</small>
+                                            <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',10)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +65,7 @@
 
                             <!--选择联系人-->
                             <div class="choose-contact-row row">
-                                <label class="col-md-3 label-on-left">选择联系人</label>
+                                <label class="col-md-3 label-on-left">{{l('Booking.Contactor')}}</label>
                                 <!-- <div class="choose-contact name col-md-3 text-right label-on-left"><span>选择联系人</span></div> -->
                                 <div class="col-md-9">
                                     <div class="col-md-6 input-item no-left-padding">
@@ -88,21 +86,13 @@
                             </div>
                             <!--应约人所需信息选项-->
                             <div class="info-checkbox-row row">
-                                <div class="info-checkbox name col-md-3 text-right label-on-left"><span>信息选项</span></div>
+                                <div class="info-checkbox name col-md-3 text-right label-on-left"><span>{{l('Booking.InfoOptions')}}</span></div>
                                 <div class="col-md-9 row content">
                                     <div class="margin-top-14">
                                         <div class="col-md-4 col-lg-2 item">
                                             <div class="checkbox">
                                                 <label>
-                                                        <input type="checkbox" name="optionsCheckboxes"> 姓名
-                                                    </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4 col-lg-2 item">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="optionsCheckboxes"> 手机
+                                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Name')}}
                                                 </label>
                                             </div>
                                         </div>
@@ -110,7 +100,7 @@
                                         <div class="col-md-4 col-lg-2 item">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="optionsCheckboxes"> 性别
+                                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.PhoneNumer')}}
                                                 </label>
                                             </div>
                                         </div>
@@ -118,7 +108,7 @@
                                         <div class="col-md-4 col-lg-2 item">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="optionsCheckboxes"> 年龄
+                                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Gender')}}
                                                 </label>
                                             </div>
                                         </div>
@@ -126,7 +116,7 @@
                                         <div class="col-md-4 col-lg-2 item">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="optionsCheckboxes"> 邮箱
+                                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Age')}}
                                                 </label>
                                             </div>
                                         </div>
@@ -134,7 +124,15 @@
                                         <div class="col-md-4 col-lg-2 item">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="optionsCheckboxes"> 地址
+                                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Email')}}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-2 item">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Address')}}
                                                 </label>
                                             </div>
                                         </div>

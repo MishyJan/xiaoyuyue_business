@@ -1,5 +1,4 @@
-import * as moment from 'moment';
-
+import { AfterViewInit, Component, Injector, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { Component, Injector, Input, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -23,15 +22,15 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
     animations: [appModuleSlowAnimation()],
     encapsulation: ViewEncapsulation.None
 })
-export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit {
     timeBaseIngoForm: FormGroup;
     bookingBaseIngoForm: FormGroup;
     editingIndex: boolean[] = [];
-    startHourOfDay: string = '00:00';
-    endHourOfDay: string = '00:00';
-    isEditing: boolean = false;
-    isNew: boolean = true;
-    nextIndex: number = 1;
+    startHourOfDay = '00:00';
+    endHourOfDay = '00:00';
+    isEditing = false;
+    isNew = true;
+    nextIndex = 1;
     tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     // 传给图片管理组件
     pictureInfo: BookingPictureEditDto[] = [];
@@ -151,22 +150,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     loadData() {
         if (!this.bookingId) {
             // 获取门店下拉框数据源
-            this._outletServiceServiceProxy
-                .getOutletSelectList()
-                .subscribe(result => {
-                    this.outletSelectDefaultItem = result[0].value;
-                    this.selectOutletId = +result[0].value;
-                    this.outletSelectListData = result;
-
-                    // 获取联系人下拉框数据源
-                    this._outletServiceServiceProxy
-                        .getContactorSelectList(this.selectOutletId)
-                        .subscribe(result => {
-                            this.contactorSelectDefaultItem = result[0].value;
-                            this.selectContactorId = parseInt(result[0].value);
-                            this.contactorSelectListData = result;
-                        })
-                })
+            this.loadOutletData();
             return;
         }
 
@@ -182,25 +166,28 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                     this.isNew = false;
                 }
                 // this.pictureManageModel.refreshAllPictrueEdit();
+                this.loadOutletData();
+            });
+    }
 
-                // 获取门店下拉框数据源
+    // 获取门店下拉框数据源
+    loadOutletData() {
+        this._outletServiceServiceProxy
+            .getOutletSelectList()
+            .subscribe(outletResult => {
+                this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
+                this.outletSelectListData = outletResult;
+                this.selectOutletId = +outletResult[0].value;
+
+                // 获取联系人下拉框数据源
                 this._outletServiceServiceProxy
-                    .getOutletSelectList()
-                    .subscribe(result => {
-                        this.outletSelectDefaultItem = this.bookingDataForEdit.booking.outletId.toString();
-                        this.outletSelectListData = result;
-                        this.selectOutletId = +result[0].value;
-
-                        // 获取联系人下拉框数据源
-                        this._outletServiceServiceProxy
-                            .getContactorSelectList(this.bookingDataForEdit.booking.outletId)
-                            .subscribe(result => {
-                                this.contactorSelectListData = result;
-                                this.contactorSelectDefaultItem = result[0].value;
-                                this.selectContactorId = +result[0].value;
-                            })
-                    })
-            })
+                    .getContactorSelectList(parseInt(this.outletSelectDefaultItem))
+                    .subscribe(contactorResult => {
+                        this.contactorSelectListData = contactorResult;
+                        this.contactorSelectDefaultItem = contactorResult[0].value;
+                        this.selectContactorId = +contactorResult[0].value;
+                    });
+            });
     }
 
     save() {
@@ -249,7 +236,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe((result) => {
-                this.notify.success('保存成功!');
+                this.notify.success(this.l('SavaSuccess'));
                 this.bookingId = result.id;
                 this.loadData();
             });

@@ -18,7 +18,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
-    confirmOrderText = '批处理';
+    confirmOrderText = this.l('BookingOrder.Batch');
 
     batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
     batchConfirmCount = 0;
@@ -89,7 +89,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
         this._orgBookingOrderServiceProxy
             .comfirmBookingOrder(input)
             .subscribe(() => {
-                this.notify.success('确认成功');
+                this.notify.success(this.l('Booking.Comfirm.Success'));
                 this.loadData()
             })
     }
@@ -98,19 +98,19 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
         this.isBatchConfirmFlag = !this.isBatchConfirmFlag;
         if (this.batchComfirmInput.ids.length === 0) {
-            this.confirmOrderText === '取消' ? this.confirmOrderText = '批处理' : this.confirmOrderText = '取消';
+            this.confirmOrderText === this.l('Cancel') ? this.confirmOrderText = this.l('BookingOrder.Batch') : this.confirmOrderText = this.l('Cancel');
             return;
         } else {
-            this.confirmOrderText = '确认';
+            this.confirmOrderText = this.l('Comfirm');
         }
 
         if (!this.isBatchConfirmFlag) {
             this._orgBookingOrderServiceProxy
                 .batchComfirmBookingOrder(this.batchComfirmInput)
                 .subscribe(() => {
-                    this.confirmOrderText = '批处理';
+                    this.confirmOrderText = this.l('BookingOrder.Batch');
                     this.batchComfirmInput.ids = [];
-                    this.notify.success('确认成功');
+                    this.notify.success(this.l('Booking.Comfirm.Success'));
                     this.loadData()
                 })
         }
@@ -121,10 +121,10 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
 
         if (check) {
             this.batchComfirmInput.ids.push(value);
-            this.confirmOrderText = '确认';
+            this.confirmOrderText = this.l('Comfirm');
         } else {
             if (this.batchComfirmInput.ids.length <= 1) {
-                this.confirmOrderText = '取消';
+                this.confirmOrderText = this.l('Cancel');
             }
             this.removeByValue(this.batchComfirmInput.ids, value);
         }
