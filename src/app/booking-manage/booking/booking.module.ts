@@ -4,14 +4,14 @@ import { ModalModule, PopoverModule, TabsModule, TooltipModule } from 'ngx-boots
 
 import { AppCommonModule } from 'app/shared/common/app-common.module';
 import { BaseInfoComponent } from 'app/booking-manage/booking/create-or-edit/base-info/base-info.component';
-import { BookingCustomModelComponent } from 'app/booking-manage/booking/list/booking-custom-model/booking-custom-model.component';
+import { BookingCustomModelComponent } from './list/shared/booking-custom-model/booking-custom-model.component';
 import { BookingDetailComponent } from './list/booking-detail/booking-detail.component';
-import { BookingListComponent } from 'app/booking-manage/booking/list/booking-list.component';
+import { BookingListComponent } from './list/booking-list.component';
 import { BookingRoutingModule } from './booking-routing.module';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { CommonModule } from '@angular/common';
-import { ConfirmOrderModelComponent } from 'app/booking-manage/booking/list/confirm-order-model/confirm-order-model.component';
-import { CreateOrEditBookingComponent } from 'app/booking-manage/booking/create-or-edit/create-or-edit-booking.component';
+import { ConfirmOrderModelComponent } from './list/shared/confirm-order-model/confirm-order-model.component';
+import { CreateOrEditBookingComponent } from './create-or-edit/create-or-edit-booking.component';
 import { CreateSucceededComponent } from './create-or-edit/create-succeeded/create-succeeded.component';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';

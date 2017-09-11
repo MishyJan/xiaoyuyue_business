@@ -263,7 +263,7 @@
                 <div class="top-wrap clearfix">
                     <div class="title pull-left">{{bookingResultItem.name}}</div>
                     <!-- <div class="title pull-left">{{dataItem.bookingName}} <span class="tips" [ngClass]="setTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status] }}</span></div> -->
-                    <!-- <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[index], 'rotate-360': !actionFlag[index]}"><span class="vapps-icon-app-drop-down"></span></div> -->
+                    <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[index], 'rotate-360': !actionFlag[index]}"><span class="vapps-icon-app-drop-down"></span></div>
                 </div>
                 <div class="content">
                     <div class="flex-left">
@@ -297,17 +297,15 @@
                 </div> -->
                 </div>
             </div>
-            <div class="bottom-action">
-                <span class="action-item"  (click)="showDetail(bookingResultItem.id)">
+            <div class="bottom-action" *ngIf="actionFlag[index]">
+                <span class="action-item" (click)="showDetail(bookingResultItem.id)">
                     <a><span class="icon vapps-icon-app-detail"></span>查看详情</a>
                 </span>
                 <span class="line">|</span>
-                <span class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)"><span class="icon vapps-icon-app-at-top-2"></span>禁用预约</span>
-                <span class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)"><span class="icon vapps-icon-app-at-top-2 rotate-180"></span>激活预约</span>
+                <span class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)"><span class="icon vapps-icon-app-cancel"></span>禁用预约</span>
+                <span class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)"><span class="icon vapps-icon-app-active"></span>激活预约</span>
                 <span class="line">|</span>
-                <span class="action-item">
-                    <span class="icon vapps-icon-app-cancel"></span> 分享预约
-                </span>
+                <span class="action-item"><span class="icon vapps-icon-leading-out"></span> 分享预约</span>
             </div>
         </div>
         <!-- <xiaoyuyue-booking-cancel (isCancelBooking)="getIsCancelBooking($event)" #cancelBookingModal></xiaoyuyue-booking-cancel> -->

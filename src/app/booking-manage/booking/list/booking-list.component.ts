@@ -6,8 +6,8 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppStorageService } from 'shared/services/storage.service';
-import { BookingCustomModelComponent } from './booking-custom-model/booking-custom-model.component';
-import { ConfirmOrderModelComponent } from './confirm-order-model/confirm-order-model.component';
+import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
+import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { Moment } from 'moment';
 import { NgxAni } from 'ngxani';
 import { Observable } from 'rxjs/Rx';
@@ -29,6 +29,7 @@ import { element } from 'protractor';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    actionFlag: boolean[] = [];
     bEndCreationTime: any;
     bStartCreationTime: any;
     countOverbrimTopValue: number;
@@ -322,9 +323,20 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.loadData();
     }
 
-    // 移动端
+    /* 移动端 */
     showDetail(id: number): void {
         this._router.navigate(['/booking/detail', id]);
+    }
+
+    setActionFlag(index: number) {
+        this.actionFlag[index] = !this.actionFlag[index];
+        this.actionFlag.forEach((element, i) => {
+            if (i !== index) {
+                this.actionFlag[i] = false;
+            } else {
+                this.actionFlag[index] = !!this.actionFlag[index];
+            }
+        });
     }
 
     /* 公用代码 */
