@@ -17,10 +17,10 @@ import { Permissions } from '@shared/Permissions';
                 canActivateChild: [AppRouteGuard],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: BookingListComponent, data: { title: 'Menu.ManageBooking.List', permission: Permissions.bookingManage } },
-                    { path: 'create', component: CreateOrEditBookingComponent, data: { title: 'Booking.Create', permission: Permissions.bookingManage_BookingCreate } },
-                    { path: 'edit/:id', component: CreateOrEditBookingComponent, data: { title: 'Booking.Edit', permission: Permissions.bookingManage_BookingEdit } },
-                    { path: 'succeed/:id', component: CreateSucceededComponent, data: { title: 'AddSuccess' } },
+                    { path: 'list', component: BookingListComponent, data: { breadcrumb: 'Menu.ManageBooking.List', permission: Permissions.bookingManage } },
+                    { path: 'create', component: CreateOrEditBookingComponent, data: { breadcrumb: 'Booking.Create', permission: Permissions.bookingManage_BookingCreate } },
+                    { path: 'edit/:id', component: CreateOrEditBookingComponent, data: { breadcrumb: 'Booking.Edit', permission: Permissions.bookingManage_BookingEdit } },
+                    { path: 'succeed/:id', component: CreateSucceededComponent, data: { breadcrumb: 'AddSuccess' } },
                 ]
             }
         ])

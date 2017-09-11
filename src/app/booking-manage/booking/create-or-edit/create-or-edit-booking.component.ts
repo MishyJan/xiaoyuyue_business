@@ -75,7 +75,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         private _pictureServiceProxy: PictureServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
-        private _organizationBookingServiceProxy: OrgBookingServiceProxy
+        private _organizationBookingServiceProxy: OrgBookingServiceProxy,
     ) {
         super(injector);
     }

@@ -36,7 +36,6 @@ export function appInitializerFactory(injector: Injector) {
                             $('body').attr('class', 'page-md login');
                         }
 
-
                         abp.ui.clearBusy();
                         resolve(result);
                     },
@@ -73,7 +72,8 @@ function handleLogoutRequest(authService: AppAuthService) {
         ServicesModule,
         RootRoutingModule,
         ResponsiveModule,
-        NgxAniModule
+        NgxAniModule,
+
     ],
     declarations: [
         RootComponent

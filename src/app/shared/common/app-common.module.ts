@@ -5,6 +5,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { AbpModule } from '@abp/abp.module';
 import { AppAuthService } from './auth/app-auth.service';
 import { AppRouteGuard } from './auth/auth-route-guard';
+import { BreadcrumbComponent } from './bread-crumb/breadcrumb.component';
 import { CommonModule } from '@shared/common/common.module';
 import { DatePickerComponent } from './timing/date-picker.component';
 import { DateRangePickerComponent } from './timing/date-range-picker.component';
@@ -12,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterModule } from '@angular/router';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
 import { TipsComponent } from './tips/tips.component';
 import { UploadPicDirective } from './upload-picture/upload-pic.directive';
@@ -27,7 +29,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UtilsModule,
         AbpModule,
         CommonModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        RouterModule
     ],
     declarations: [
         TimeZoneComboComponent,
@@ -37,7 +40,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         TipsComponent,
         UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
-        UploadPicDirective
+        UploadPicDirective,
+        BreadcrumbComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -48,6 +52,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         TipsComponent,
         UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
+        BreadcrumbComponent
     ]
 })
 export class AppCommonModule {

@@ -15,7 +15,7 @@ import { Permissions } from '@shared/Permissions';
                 canActivateChild: [AppRouteGuard],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'info', component: OrgInfoComponent, data: { title: 'Menu.Org.BaseInfo', permission: Permissions.organization_BaseInfo } },
+                    { path: 'info', component: OrgInfoComponent, data: { breadcrumb: 'Menu.Org.BaseInfo', permission: Permissions.organization_BaseInfo } },
                 ]
             }
         ])

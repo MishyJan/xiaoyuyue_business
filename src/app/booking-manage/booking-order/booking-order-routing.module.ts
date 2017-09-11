@@ -15,7 +15,7 @@ import { Permissions } from '@shared/Permissions';
                 canActivateChild: [AppRouteGuard],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: BookingOrderListComponent, data: { title: 'Menu.ManageBooking.Orders', permission: Permissions.bookingManage_BookingOrders } },
+                    { path: 'list', component: BookingOrderListComponent, data: { breadcrumb: 'Menu.ManageBooking.Orders', permission: Permissions.bookingManage_BookingOrders } },
                 ]
             }
         ])

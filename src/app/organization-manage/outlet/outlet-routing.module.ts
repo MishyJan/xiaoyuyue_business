@@ -16,9 +16,9 @@ import { Permissions } from '@shared/Permissions';
                 canActivateChild: [AppRouteGuard],
                 children: [
                     { path: '', redirectTo: 'list' },
-                    { path: 'list', component: OutletListComponent, data: { title: 'Menu.Org.OutletManage', permission: Permissions.organization_Outlets } },
-                    { path: 'create', component: CreateOrEditOutletComponent, data: { title: 'Outlet.Create', permission: Permissions.organization_OutletCreate } },
-                    { path: 'edit/:id', component: CreateOrEditOutletComponent, data: { title: 'Outlet.Edit', permission: Permissions.organization_OutletEdit } }
+                    { path: 'list', component: OutletListComponent, data: { breadcrumb: 'Menu.Org.OutletManage', permission: Permissions.organization_Outlets } },
+                    { path: 'create', component: CreateOrEditOutletComponent, data: { breadcrumb: 'Outlet.Create', permission: Permissions.organization_OutletCreate } },
+                    { path: 'edit/:id', component: CreateOrEditOutletComponent, data: { breadcrumb: 'Outlet.Edit', permission: Permissions.organization_OutletEdit } }
                 ]
             }
         ])

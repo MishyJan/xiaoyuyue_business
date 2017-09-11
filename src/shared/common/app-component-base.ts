@@ -4,6 +4,8 @@ import { Injector, OnInit } from '@angular/core';
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
 import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from '@shared/common/session/app-session.service';
+import { Breadcrumb } from 'angular-crumbs';
+import { BreadcrumbService } from 'shared/services/bread-crumb.service';
 import { FeatureCheckerService } from '@abp/features/feature-checker.service';
 import { LocalizationService } from '@abp/localization/localization.service';
 import { MessageService } from '@abp/message/message.service';
@@ -14,10 +16,10 @@ import { Permissions } from '@shared/Permissions';
 import { SettingService } from '@abp/settings/setting.service';
 import { Title } from '@angular/platform-browser';
 
-export abstract class AppComponentBase implements OnInit {
+export abstract class AppComponentBase {
 
     localizationSourceName = AppConsts.localization.defaultLocalizationSourceName;
-    commonlocalizationSourceName = AppConsts.localization.CommonLocalizationSourceName;
+    commonlocalizationSourceName = AppConsts.localization.commonLocalizationSourceName;
     permissions = Permissions;
     localization: LocalizationService;
     permission: PermissionCheckerService;
@@ -30,7 +32,7 @@ export abstract class AppComponentBase implements OnInit {
     router: Router;
     activatedRoute: ActivatedRoute;
     titleService: Title;
-
+    breadcrumbService: BreadcrumbService;
     constructor(injector: Injector) {
         this.localization = injector.get(LocalizationService);
         this.permission = injector.get(PermissionCheckerService);
@@ -43,23 +45,26 @@ export abstract class AppComponentBase implements OnInit {
         this.router = injector.get(Router);
         this.activatedRoute = injector.get(ActivatedRoute);
         this.titleService = injector.get(Title);
-
-        this.router.events
-            .filter((event) => event instanceof NavigationEnd)
-            .map(() => this.activatedRoute)
-            .map((route) => {
-                while (route.firstChild) { route = route.firstChild; }
-                return route;
-            })
-            .filter((route) => route.outlet === 'primary')
-            .mergeMap((route) => route.data)
-            .subscribe((event) => {
-                const title = event['title'] ? this.l(event['title']) + ' - ' : '';
-                this.titleService.setTitle(title + this.l('Xiaoyuyue'));
-            });
+        this.breadcrumbService = injector.get(BreadcrumbService);
+        this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
+            this.titleService.setTitle(this.createTitle(crumbs));
+        });
     }
 
-    ngOnInit() {
+    private createTitle(routesCollection: Breadcrumb[]) {
+        const title = this.l('Xiaoyuyue');
+        const titles = routesCollection.filter((route) => route.displayName);
+
+        if (!titles.length) { return title; }
+
+        const routeTitle = this.titlesToString(titles);
+        return `${routeTitle} ${title}`;
+    }
+
+    private titlesToString(titles) {
+        return titles.reduce((prev, curr) => {
+            return `${this.l(curr.displayName)} - ${prev}`;
+        }, '');
     }
 
     l(key: string, ...args: any[]): string {
