@@ -44,6 +44,7 @@
 
       "assets/common/styles/xiaoyuyue-icon.css",
       "assets/common/styles/flatpickr.css",
+      "sass/xiaoyuyue.scss",
       "styles.css"
     ],
     "scripts": [
