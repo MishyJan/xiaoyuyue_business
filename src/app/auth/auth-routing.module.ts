@@ -1,8 +1,7 @@
-import { AppRouteGuard } from "app/shared/common/auth/auth-route-guard";
 import { AuthComponent } from './auth.component';
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
-import { ExternalLoginGuard } from "app/shared/common/auth/external-login-guard";
+import { ExternalLoginGuard } from 'app/shared/common/auth/external-login-guard';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
@@ -19,14 +18,14 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
                 path: '',
                 component: AuthComponent,
                 children: [
-                    { path: 'login', component: LoginComponent},
-                    { path: 'register', component: RegisterComponent },
-                    { path: 'forgot-password', component: ForgotPasswordComponent },
-                    { path: 'reset-password', component: ResetPasswordComponent },
-                    { path: 'email-activation', component: EmailActivationComponent },
-                    { path: 'confirm-email', component: ConfirmEmailComponent },
-                    { path: 'send-code', component: SendTwoFactorCodeComponent },
-                    { path: 'verify-code', component: ValidateTwoFactorCodeComponent }
+                    { path: 'login', component: LoginComponent, data: { title: 'LogIn' } },
+                    { path: 'register', component: RegisterComponent, data: { title: 'Register' } },
+                    { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: 'ForgotPassword' } },
+                    { path: 'reset-password', component: ResetPasswordComponent, data: { title: 'ResetPassword' } },
+                    { path: 'email-activation', component: EmailActivationComponent, data: { title: 'EmailActivation' } },
+                    { path: 'confirm-email', component: ConfirmEmailComponent, data: { title: 'ConfirmEmail' } },
+                    { path: 'send-code', component: SendTwoFactorCodeComponent, data: { title: 'SendCode' } },
+                    { path: 'verify-code', component: ValidateTwoFactorCodeComponent, data: { title: 'VerifyCode' } }
                 ]
             }
         ])
