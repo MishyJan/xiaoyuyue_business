@@ -11,6 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { OutletImageComponent } from './create-or-edit-outlet/outlet-image/outlet-image.component';
 import { OutletListComponent } from './outlet-list.component';
 import { OutletRoutingModule } from './outlet-routing.module';
+import { ResponsiveModule } from 'ng2-responsive'
 import { UtilsModule } from '@shared/utils/utils.module';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         OutletRoutingModule,
 
         DropDownsModule,
+        ResponsiveModule
     ],
     declarations: [
         CreateOrEditOutletComponent,
