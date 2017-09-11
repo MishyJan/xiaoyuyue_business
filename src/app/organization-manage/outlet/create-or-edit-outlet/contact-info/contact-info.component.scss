@@ -101,3 +101,69 @@
         }
     }
 }
+
+.mobile-contact-info {
+    padding: 15px;
+    .add-time-btn {
+        position: fixed;
+        right: 10px;
+        bottom: 60px;
+        z-index: 1000;
+        .icon {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 50%;
+            background-color: #FF9641;
+            color: #FFF;
+            font-size: 18px;
+        }
+    }
+
+    .qr-code-wrap {
+        width: 92px;
+        height: 92px;
+        border: 1px dashed #CCC;
+        flex: 0 0 92px;
+        display: block;
+        overflow: hidden;
+        margin-right: 10px;
+        cursor: pointer;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    .create-local-wrap {
+        .contact-name {
+            height: 40px;
+            line-height: 40px;
+            color: #FFF;
+            background-color: #FF9641;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 15px;
+        }
+        .contact-wrap {
+            position: relative;
+            height: 100px;
+            line-height: 100px;
+            font-size: 16px;
+        }
+        .wechat-img-wrap {
+            height: 100px;
+            .img-wechat {
+                position: relative;
+                bottom: 50%;
+            }
+            .img-bg {
+                width: 100px;
+                height: 100px;
+                display: inline-block;
+                background-size: cover;
+                background-position: center center;
+            }
+        }
+    }
+}
