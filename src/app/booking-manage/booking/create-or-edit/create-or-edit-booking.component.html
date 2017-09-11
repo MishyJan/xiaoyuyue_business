@@ -157,7 +157,7 @@
 
 <div class="mobile-create-booking" [@routerTransition] *showItBootstrap="['xs','sm']">
     <tabset class="side-bar" #staticTabs>
-        <tab heading='预约信息' (select)="updateNextIndex(1)">
+        <tab heading="{{l('Booking.BaseInfo')}}" (select)="updateNextIndex(1)">
             <div class="booking-info">
                 <div class="card">
                     <form #bookingInfo="ngForm" [formGroup]="bookingBaseIngoForm" class="form-horizontal">
@@ -167,10 +167,10 @@
                                 <div class="col-sm-7">
                                     <div class="form-group label-floating">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="text" name="text" placeholder="项目名称" formControlName="bookingName" required>
+                                        <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Name')}}" formControlName="bookingName" required>
                                         <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
-                                            <small class="text-danger" *ngIf="bookingName.errors.required">项目名称必填</small>
-                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">项目名称不得超过20字</small>
+                                            <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',20)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -184,10 +184,11 @@
                                 <div class="col-sm-7">
                                     <div class="form-group label-floating">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="text" name="text" placeholder="项目介绍" formControlName="bookingDescription" required>
+                                        <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Des')}}" formControlName="bookingDescription"
+                                            required>
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
-                                            <small class="text-danger" *ngIf="bookingDescription.errors.required">项目描述必填</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">项目描述不得小于10字</small>
+                                            <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Name.MinLenth',10)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -220,7 +221,7 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <p>图片上传</p>
+                                    <p>{{l('PictureUpload')}}</p>
                                     <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#uploadArea'"
                                         [groupId]="1" [dropEle]="" [containerEle]="">
                                         <div id="uploadArea" class="upload-area"></div>
@@ -233,7 +234,7 @@
                 </div>
             </div>
         </tab>
-        <tab heading='时间编辑' (select)="updateNextIndex(2)" [disabled]="bookingBaseIngoForm.invalid">
+        <tab heading="{{l('Booking.TimeInfo')}}" (select)="updateNextIndex(2)" [disabled]="bookingBaseIngoForm.invalid">
             <div class="time-create">
                 <div class="add-time-btn">
                     <span class="icon vapps-icon-cb-add-time" (click)="createTimeField()"></span>
@@ -247,20 +248,20 @@
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">可预约人数</label>
+                                                <label class="control-label">{{l('Booking.AvailBookingNum')}}</label>
                                                 <input class="form-control" type="number" name="maxBookingNum" formControlName="maxBookingNum" required>
                                                 <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
-                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">可预约人数必填</small>
+                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxBookingNum.Required')}}</small>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">可排队人数</label>
+                                                <label class="control-label">{{l('Booking.MaxQueueNum')}}</label>
                                                 <input class="form-control" type="number" name="maxQueueNum" formControlName="maxQueueNum" required>
                                                 <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
-                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">可排队人数必填</small>
+                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -269,7 +270,7 @@
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">开始时间</label>
+                                                <label class="control-label">{{l('Booking.BookingStartTime')}}</label>
                                                 <div class="time-point-wrap">
                                                     <input class="form-control" type="time" name="startHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="startHourOfDay"
                                                         required>
@@ -278,7 +279,7 @@
                                         </div>
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">结束时间</label>
+                                                <label class="control-label">{{l('Booking.BookingEndTime')}}</label>
                                                 <div class="time-point-wrap">
                                                     <input class="form-control" type="time" name="endHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="endHourOfDay"
                                                         required>
@@ -290,13 +291,13 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">请选择日期</label>
+                                                <label class="control-label">{{l('Booking.BookingDate')}}</label>
                                                 <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
                                                 <div id="createTimeFlatpickr" class="flatpickr-wrap">
                                                     <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="localSingleBookingItem.availableDates"
                                                         data-input required>
 
-                                                    <a class="input-button flatpickr-toggle" title="切换" data-toggle>
+                                                    <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                     <i class="icon-calendar"></i>
                                                 </a>
                                                 </div>
@@ -307,7 +308,7 @@
 
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <button class="btn btn-block primary-bgcolor view-btn" [disabled]="timeBaseIngoForm.invalid" (click)="savePanelTimeField()">保存</button>
+                                            <button class="btn btn-block primary-bgcolor view-btn" [disabled]="timeBaseIngoForm.invalid" (click)="savePanelTimeField()">{{l('Save')}}</button>
                                         </div>
                                     </div>
 
@@ -326,7 +327,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">时间</label>
+                                                <label class="control-label">{{l('Booking.BookingTime')}}</label>
                                                 <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required>
                                             </div>
                                         </div>
@@ -335,7 +336,7 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">日期</label>
+                                                <label class="control-label">{{l('Booking.BookingDate')}}</label>
                                                 <input class="form-control" type="text" name="availableDates" [(ngModel)]="item.availableDates" readonly disabled required>
                                             </div>
                                         </div>
@@ -344,21 +345,21 @@
                                     <div class="row">
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">可预约人数</label>
+                                                <label class="control-label">{{l('Booking.MaxBookingNum')}}</label>
                                                 <input class="form-control" type="text" name="maxBookingNum" #maxBookingNum="ngModel" [(ngModel)]="item.maxBookingNum" [readonly]="!editingIndex[index]"
                                                     [disabled]="!editingIndex[index]" required>
                                                 <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
-                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">可预约人数必填</small>
+                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxBookingNum.Required')}}</small>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
-                                                <label class="control-label">可排队人数</label>
+                                                <label class="control-label">{{l('Booking.MaxQueueNum')}}</label>
                                                 <input class="form-control" type="text" name="maxQueueNum" #maxQueueNum="ngModel" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
                                                     [disabled]="!editingIndex[index]" required>
                                                 <div *ngIf="maxQueueNum.invalid && (maxQueueNum.dirty || maxQueueNum.touched)">
-                                                    <small class="text-danger" *ngIf="maxQueueNum.errors.required">可排队人数必填</small>
+                                                    <small class="text-danger" *ngIf="maxQueueNum.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -371,16 +372,15 @@
                                     </div> -->
                                         <button class="col-xs-4 col-xs-offset-2 command-item" *ngIf="!editingIndex[index]" (click)="editingTimeField(index)">
                                         <span class="vapps-icon-app-edit icon"></span>
-                                        <span class="text">编辑</span>
+                                        <span class="text">{{l('Edit')}}</span>
                                     </button>
-                                        <button class="col-xs-4 col-xs-offset-2 command-item" [disabled]="!timeViewForm.form.valid" *ngIf="editingIndex[index]"
-                                            (click)="saveTimeField(index)">
+                                        <button class="col-xs-4 col-xs-offset-2 command-item" [disabled]="!timeViewForm.form.valid" *ngIf="editingIndex[index]" (click)="saveTimeField(index)">
                                         <span class="vapps-icon-app-edit icon"></span>
-                                        <span class="text">保存</span>
+                                        <span class="text">{{l('Save')}}</span>
                                     </button>
                                         <div class="col-xs-4 command-item" (click)="deleteTimeField(index)">
                                             <span class="vapps-icon-app-delete icon"></span>
-                                            <span class="text">删除</span>
+                                            <span class="text">{{l('Delete')}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -390,17 +390,17 @@
                 </div>
             </div>
         </tab>
-        <tab heading='应约人信息' (select)="updateNextIndex(3)" [disabled]="timeBaseIngoForm.invalid">
+        <tab heading="{{l('Booking.CustomerOptions')}}" (select)="updateNextIndex(3)" [disabled]="timeBaseIngoForm.invalid">
             <div class="customer-info-wrap">
                 <div class="card">
                     <div class="card-content clearfix">
                         <div class="col-xs-12 title-wrap">
-                            <p class="title">应约人所需信息选项</p>
+                            <p class="title">{{l('Booking.InfoOptions')}}</p>
                         </div>
                         <div class="col-xs-4 item">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="optionsCheckboxes"> 姓名
+                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Name')}}
                                 </label>
                             </div>
                         </div>
@@ -408,7 +408,7 @@
                         <div class="col-xs-4 item">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="optionsCheckboxes"> 手机
+                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.PhoneNumer')}}
                                 </label>
                             </div>
                         </div>
@@ -416,7 +416,7 @@
                         <div class="col-xs-4 item">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="optionsCheckboxes"> 性别
+                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Gender')}}
                                 </label>
                             </div>
                         </div>
@@ -424,7 +424,7 @@
                         <div class="col-xs-4 item">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="optionsCheckboxes"> 年龄
+                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Age')}}
                                 </label>
                             </div>
                         </div>
@@ -432,7 +432,7 @@
                         <div class="col-xs-4 item">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="optionsCheckboxes"> 邮箱
+                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Email')}}
                                 </label>
                             </div>
                         </div>
@@ -440,7 +440,7 @@
                         <div class="col-xs-4 item">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="optionsCheckboxes"> 地址
+                                    <input type="checkbox" name="optionsCheckboxes"> {{l('Booking.Info.Address')}}
                                 </label>
                             </div>
                         </div>
@@ -450,7 +450,7 @@
         </tab>
     </tabset>
     <button class="btn btn-block next-step primary-bgcolor" [disabled]="bookingBaseIngoForm.invalid" *ngIf="!isShowConfirm()"
-        (click)="nextStep()">下一步</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()">提交</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="saveAndEdit()">更新</button>
+        (click)="nextStep()">{{l('NextStep')}}</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()">{{l('Submit')}}</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="saveAndEdit()">{{l('Update')}}</button>
 </div>

@@ -6,61 +6,62 @@
 
         <div class="content-model">
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">订单状态</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.Status')}}</div>
                 <div class="col-md-5 desc">{{ bookingOrderStatusName[dataItem.status-1] }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">应约人</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.Name')}}</div>
                 <div class="col-md-5 desc">{{ dataItem.customerName }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">预约项目名称</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.BookingName')}}</div>
                 <div class="col-md-5 desc">{{ dataItem.bookingName }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">预约门店</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.Outlet')}}</div>
                 <div class="col-md-5 desc">{{ dataItem.outletName }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">预约时间</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.Datetime')}}</div>
                 <div class="col-md-5 desc">{{ dataItem.hourOfDay }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">应约人数</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.SubscriberNum')}}</div>
                 <div class="col-md-5 desc">{{ dataItem.subscriberNum }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">联系电话</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.PhoneNumber')}}</div>
                 <div class="col-md-5 desc">{{ dataItem.phoneNum }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">电子邮箱</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.EmailAddress')}}</div>
                 <div class="col-md-5 desc">{{ dataItem.emailAddress }}</div>
             </div>
 
             <div class="row item">
-                <div class="col-md-4 col-lg-offset-2 name">订单创建时间</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.CreationTime')}}</div>
                 <div class="col-md-5 desc">{{ t(dataItem.creationTime) }}</div>
             </div>
 
             <div class="row item remark-item">
-                <div class="col-md-4 col-lg-offset-2 name">客户备注</div>
+                <div class="col-md-4 col-lg-offset-2 name">{{l('BookingOrder.Remark')}}</div>
                 <div class="col-md-5 desc">
-                    <textarea class="form-control col-md-5 " [(ngModel)]="dataItem.remark" name="remark" placeholder="补充备注"></textarea>
+                    <textarea class="form-control col-md-5 " [(ngModel)]="dataItem.remark" name="remark" placeholder="{{l('BookingOrder.EditRemark')}}"></textarea>
                 </div>
             </div>
         </div>
 
         <div class="footer-model">
-            <button type="button" class="btn primary-bgcolor" *ngIf="dataItem.status == 1" (click)="confirmCustomerOrder()">确认订单</button>
-            <button type="button" class="btn btn-perfect" (click)="remarkBookingOrder()">更新备注</button>
+            <button type="button" class="btn primary-bgcolor" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)&&(dataItem.status === 1)"
+                (click)="confirmCustomerOrder()">{{l('Confirm')}}</button>
+            <button type="button" class="btn btn-perfect" *ngIf="isGranted(permissions.bookingManage_BookingOrderRemark)" (click)="remarkBookingOrder()">{{l('BookingOrder.UpdateRemark')}}</button>
         </div>
     </div>
 

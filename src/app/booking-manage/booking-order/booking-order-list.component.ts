@@ -49,8 +49,17 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     bookingName: string;
     customerListData: AppGridData = new AppGridData();
     remarkBookingOrderInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
-    bookingOrderStatus: Status[] = [OrgBookingOrderStatus.State1, OrgBookingOrderStatus.State2, OrgBookingOrderStatus.State3, OrgBookingOrderStatus.State4, OrgBookingOrderStatus.State5];
-    bookingOrderStatusName: string[] = ['待确认', '已确认', '待评价', '已取消', '已完成'];
+    bookingOrderStatus: Status[] = [OrgBookingOrderStatus.WaitConfirm,
+    OrgBookingOrderStatus.ConfirmSuccess,
+    OrgBookingOrderStatus.ConfirmFail,
+    OrgBookingOrderStatus.Cancel,
+    OrgBookingOrderStatus.Complete];
+
+    bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
+    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
+    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
+    this.l(OrgBookingOrderStatus.CancelLocalization),
+    this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
     @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: BookingOrderInfoModelComponent;
 
@@ -127,7 +136,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     }
 
     // 应约人列表model弹窗，若关闭应该刷新数据
-    isShowComfirmOrderModelHander(flag: boolean): void {
+    isShowConfirmOrderModelHander(flag: boolean): void {
         if (!flag) {
             this.loadData();
         }

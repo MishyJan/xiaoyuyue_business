@@ -3,10 +3,10 @@
         <form #contactInfo="ngForm" class="form-horizontal">
             <div class="clearfix">
                 <div class="card-header card-header-text pull-left" data-background-color="orange">
-                    <h6 class="card-title">联系人</h6>
+                    <h6 class="card-title">{{l('Contactor')}}</h6>
                 </div>
                 <div class="caption pull-right add-time">
-                    <span (click)="openCreateContact()" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加</span>
+                    <span (click)="openCreateContact()" *ngIf="isGranted(permissions.organization_ContactorCreate)" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>{{l('Add')}}</span>
                 </div>
             </div>
 
@@ -16,7 +16,7 @@
                     <div class="col-md-4 contact-info-wrap box-shadow border-radius-14 pull-left paddingTop-32">
                         <div class="xiaoyuyue-title-box">{{ contactName }}</div>
                         <div class="contact-item clearfix">
-                            <div class="name col-md-4 text-right label-on-left"><span>姓名</span></div>
+                            <div class="name col-md-4 text-right label-on-left"><span>{{l('Contactor.Name')}}</span></div>
                             <div class="col-md-8 row input-box">
                                 <div class="col-md-12">
                                     <div class="form-group label-floating is-empty">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="contact-item">
-                            <div class="name col-md-4 text-right label-on-left"><span>电话</span></div>
+                            <div class="name col-md-4 text-right label-on-left"><span>{{l('Contactor.Telephone')}}</span></div>
                             <div class="col-md-8 row input-box">
                                 <div class="col-md-12">
                                     <div class="form-group label-floating is-empty">
@@ -39,8 +39,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="contact-item wechat-item">
-                            <div class="name col-md-4 text-right label-on-left"><span>微信二维码</span></div>
+                        <div class="contact-item wechat-item" *ngIf="isGranted(permissions.contentManage_PictureCreate)">
+                            <div class="name col-md-4 text-right label-on-left"><span>{{l('Contactor.WeChat')}}</span></div>
                             <div class="col-md-8 row input-box">
                                 <div class="col-md-12 flex-item">
                                     <div class="form-group">
@@ -53,8 +53,9 @@
                             </div>
                         </div>
                         <div class="contact-item submit-item">
-                            <button type="submit" class="btn primary-bgcolor" (click)="save()" [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
-                            <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
+                            <button type="submit" *ngIf="isGranted(permissions.organization_ContactorEdit)" class="btn primary-bgcolor" (click)="save()"
+                                [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
+                            <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
                         </div>
                     </div>
                 </div>
@@ -67,8 +68,8 @@
                             <div class="xiaoyuyue-title-box">
                                 {{ contactItem.name }}
                                 <div class="btn-action-wrap">
-                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': contactItem.isDefault, 'vapps-icon-app-no-defalut': !contactItem.isDefault }"></span>
-                                    <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
+                                    <span class="icon" (click)="selectDefaultContact(index)" *ngIf="isGranted(permissions.organization_ContactorEdit)" [ngClass]="{'vapps-icon-app-default': contactItem.isDefault, 'vapps-icon-app-no-defalut': !contactItem.isDefault }"></span>
+                                    <span class="icon vapps-icon-app-edit" *ngIf="isGranted(permissions.organization_ContactorEdit)" (click)="editContact(index)"></span>
                                 </div>
                             </div>
                             <div class="wechat-img-wrap" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></div>
@@ -88,8 +89,8 @@
                                 <div class="xiaoyuyue-title-box">
                                     {{ contactItem.name }}
                                     <div class="btn-action-wrap">
-                                        <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
-                                        <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
+                                        <span class="icon" *ngIf="isGranted(permissions.organization_ContactorEdit)" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
+                                        <span class="icon vapps-icon-app-edit" *ngIf="isGranted(permissions.organization_ContactorEdit)" (click)="editContact(index)"></span>
                                     </div>
                                 </div>
                                 <div class="wechat-img-wrap" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></div>

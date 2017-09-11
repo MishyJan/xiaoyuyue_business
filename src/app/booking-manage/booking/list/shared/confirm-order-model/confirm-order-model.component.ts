@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { BatchComfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
+import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
@@ -18,9 +18,9 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
-    confirmOrderText = this.l('BookingOrder.Batch');
+    confirmOrderText = this.l('Batch');
 
-    batchComfirmInput: BatchComfirmInput = new BatchComfirmInput();
+    batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
     batchConfirmCount = 0;
     bookingDate: Moment;
     bookingId: number;
@@ -35,8 +35,8 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     isShowModelFlag = false;
     phoneNumber: string;
     startMinute: number;
-    status: Status[] = [OrgBookingOrderStatus.State1];
-    wait4ComfirmOrderListData: any;
+    status: Status[] = [OrgBookingOrderStatus.WaitConfirm];
+    wait4ConfirmOrderListData: any;
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
     constructor(
@@ -48,8 +48,8 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     ngOnInit() {
-        this.wait4ComfirmOrderListData = this._orgConfirmOrderGridDataResult;
-        this.batchComfirmInput.ids = [];
+        this.wait4ConfirmOrderListData = this._orgConfirmOrderGridDataResult;
+        this.batchConfirmInput.ids = [];
     }
 
     loadData(): void {
@@ -83,50 +83,50 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     // 确认预约订单
-    comfirmBookingOrderHander(confirmBookingId: number): void {
+    confirmBookingOrderHander(confirmBookingId: number): void {
         const input: EntityDtoOfInt64 = new EntityDtoOfInt64();
         input.id = confirmBookingId;
         this._orgBookingOrderServiceProxy
-            .comfirmBookingOrder(input)
+            .confirmBookingOrder(input)
             .subscribe(() => {
-                this.notify.success(this.l('Booking.Comfirm.Success'));
+                this.notify.success(this.l('Booking.Confirm.Success'));
                 this.loadData()
             })
     }
 
-    batchComfirmBookingOrderHandler(): void {
+    batchConfirmBookingOrderHandler(): void {
 
         this.isBatchConfirmFlag = !this.isBatchConfirmFlag;
-        if (this.batchComfirmInput.ids.length === 0) {
-            this.confirmOrderText === this.l('Cancel') ? this.confirmOrderText = this.l('BookingOrder.Batch') : this.confirmOrderText = this.l('Cancel');
+        if (this.batchConfirmInput.ids.length === 0) {
+            this.confirmOrderText === this.l('Cancel') ? this.confirmOrderText = this.l('Batch') : this.confirmOrderText = this.l('Cancel');
             return;
         } else {
-            this.confirmOrderText = this.l('Comfirm');
+            this.confirmOrderText = this.l('Confirm');
         }
 
         if (!this.isBatchConfirmFlag) {
             this._orgBookingOrderServiceProxy
-                .batchComfirmBookingOrder(this.batchComfirmInput)
+                .batchConfirmBookingOrder(this.batchConfirmInput)
                 .subscribe(() => {
-                    this.confirmOrderText = this.l('BookingOrder.Batch');
-                    this.batchComfirmInput.ids = [];
-                    this.notify.success(this.l('Booking.Comfirm.Success'));
+                    this.confirmOrderText = this.l('Batch');
+                    this.batchConfirmInput.ids = [];
+                    this.notify.success(this.l('Booking.Confirm.Success'));
                     this.loadData()
                 })
         }
     }
 
     // 批量确认预约订单
-    batchComfirmBookingOrder(check: boolean, value: number): void {
+    batchConfirmBookingOrder(check: boolean, value: number): void {
 
         if (check) {
-            this.batchComfirmInput.ids.push(value);
-            this.confirmOrderText = this.l('Comfirm');
+            this.batchConfirmInput.ids.push(value);
+            this.confirmOrderText = this.l('Confirm');
         } else {
-            if (this.batchComfirmInput.ids.length <= 1) {
+            if (this.batchConfirmInput.ids.length <= 1) {
                 this.confirmOrderText = this.l('Cancel');
             }
-            this.removeByValue(this.batchComfirmInput.ids, value);
+            this.removeByValue(this.batchConfirmInput.ids, value);
         }
     }
 

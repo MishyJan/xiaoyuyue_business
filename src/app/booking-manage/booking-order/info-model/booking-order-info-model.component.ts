@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { BatchComfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderInfolDto, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
+import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderInfolDto, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
@@ -22,7 +22,11 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
     isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl = 'assets/common/images/default-profile-picture.png';
-    bookingOrderStatusName: string[] = ['待确认', '已确认', '待评价', '已取消', '已完成'];
+    bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
+    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
+    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
+    this.l(OrgBookingOrderStatus.CancelLocalization),
+    this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
@@ -64,7 +68,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
             .subscribe(() => {
-                this.notify.success('备注已修改');
+                this.notify.success(this.l('UpdateSuccess'));
             });
     }
 
@@ -73,11 +77,11 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
         const input = new EntityDtoOfInt64();
         input.id = this.dataItem.id;
         this._orgBookingOrderServiceProxy
-            .comfirmBookingOrder(input)
+            .confirmBookingOrder(input)
             .subscribe(() => {
                 this.hideModel();
                 this.isShowModelHander.emit(false);
-                this.notify.success('订单已确认');
+                this.notify.success(this.l('Booking.Confirm.Success'));
             });
     }
 

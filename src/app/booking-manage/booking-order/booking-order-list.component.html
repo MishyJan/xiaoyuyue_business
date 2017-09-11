@@ -99,14 +99,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('BookingOrder.CreationTime.ChooseStart')}}"
+                                                <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
                                                     data-input>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('BookingOrder.CreationTime.ChooseEnd')}}"
+                                                <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
                                                     data-input>
                                             </div>
                                         </div>
@@ -139,21 +139,13 @@
                 </form>
             </div>
         </div>
-
-        <!-- <div class="col-lg-12" *ngIf="organizationBookingResultData">
-            <div class="pull-right">
-                <div class="has-text-centered">
-                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="上一页" nextLabel="下一页" autoHide="false"></pagination-controls>
-                </div>
-            </div>
-        </div> -->
     </div>
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card no-top-margin">
                 <div class="card-content no-padding">
-                        <!-- [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }" -->
+                    <!-- [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }" -->
                     <kendo-grid GridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
                         [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                         [sortable]="false" (dataStateChange)="dataStateChange($event)" [scrollable]="'none'">
@@ -223,4 +215,4 @@
         </div>
     </div>
 </div>
-<xiaoyuyue-customer-info-model #customerForEditModelComponent (isShowModelHander)="isShowComfirmOrderModelHander($event)"></xiaoyuyue-customer-info-model>
+<xiaoyuyue-customer-info-model #customerForEditModelComponent (isShowModelHander)="isShowConfirmOrderModelHander($event)"></xiaoyuyue-customer-info-model>
