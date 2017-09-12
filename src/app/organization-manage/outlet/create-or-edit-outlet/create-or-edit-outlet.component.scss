@@ -91,10 +91,21 @@
     .outlet-bg {
         .content-wrap {
             height: 200px;
-            .upload-tips {
+            position: relative;
+            .upload-area {
+                width: 100%;
+                height: 100%;
                 position: relative;
+                z-index: 2;
+                background-size: cover;
+                background-position: center;
+            }
+            .upload-tips {
+                position: absolute;
                 top: 50%;
-                transform: translateY(-50%);
+                left: 50%;
+                z-index: 1;
+                transform: translate(-50%, -50%);
                 text-align: center;
                 .vapps-icon {
                     width: 70px;

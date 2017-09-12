@@ -11,6 +11,7 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
     styleUrls: ['./contact-info.component.scss']
 })
 export class ContactInfoComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    actionFlag: boolean[] = [];
     uploadPicInfo: UploadPictureDto = new UploadPictureDto();
     currentIndex: number;
     editingContact = false;
@@ -51,6 +52,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     ngAfterViewInit() {
         let self = this;
         if (!this.outletId) {
+            this.isCreateContact = true;
             return;
         }
         setTimeout(function () {
@@ -63,7 +65,11 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
 
     save(): void {
         this.localSingleContact.isDefault = this.localSingleContact.isDefault || false;
-        this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        if (!this.isMobile()) {
+            this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        } else {
+            this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
+        }
         if (this.editingContact) {
             this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
             this.insertContact(this.currentIndex, this.localSingleContact);
@@ -154,4 +160,27 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
         this.uploadPicInfo = uploadPicInfo;
     }
 
+    /* 移动端代码 */
+    getQrCodePicInfo(qrcodePicInfo: UploadPictureDto): void {
+        this.uploadPicInfo.pictureId = qrcodePicInfo.pictureId;
+        this.uploadPicInfo.pictureUrl = qrcodePicInfo.pictureUrl;
+    }
+
+    setActionFlag(index: number) {
+        this.actionFlag[index] = !this.actionFlag[index];
+        this.actionFlag.forEach((element, i) => {
+            if (i !== index) {
+                this.actionFlag[i] = false;
+            } else {
+                this.actionFlag[index] = !!this.actionFlag[index];
+            }
+        });
+    }
+
+    isMobile(): boolean {
+        if ($('.mobile-contact-info').length > 0) {
+            return true;
+        };
+        return false;
+    }
 }

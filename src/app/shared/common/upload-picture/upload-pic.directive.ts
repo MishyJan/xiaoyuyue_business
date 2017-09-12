@@ -82,13 +82,13 @@ export class UploadPicDirective implements AfterViewInit {
                                 // 文件添加进队列后,处理相关的事情
 
                                 // 上传之前本地预览
-                                for (let i = 0; i < files.length; i++) {
-                                    const fileItem = files[i].getNative(),
-                                        url = window.URL;
-                                    const src = url.createObjectURL(fileItem);
+                                // for (let i = 0; i < files.length; i++) {
+                                //     const fileItem = files[i].getNative(),
+                                //         url = window.URL;
+                                //     const src = url.createObjectURL(fileItem);
 
-                                    self._$browseButtonEle.css('background-image', 'url(' + src + ')');
-                                }
+                                //     self._$browseButtonEle.css('background-image', 'url(' + src + ')');
+                                // }
                             });
                         },
                         'BeforeUpload': function (up, file) {

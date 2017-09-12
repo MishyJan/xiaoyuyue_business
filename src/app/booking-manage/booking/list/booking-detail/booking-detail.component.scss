@@ -13,6 +13,8 @@
             color: #333;
             height: 30px;
             line-height: 30px;
+            border: none;
+            background-color: transparent;
             cursor: pointer;
             .availNum {
                 padding: 1px 6px 1px 5px;
@@ -20,6 +22,9 @@
                 background-color: #FF0000;
                 border-radius: 12px;
             }
+        }
+        .disabled-style {
+            color: #AAA;
         }
     }
     .tenant-wrap {
