@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, Input, OnChanges, OnInit } from '@angular/core';
 import { BookingAccessChannelDto, BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -18,10 +18,13 @@ export class SeriesItem {
     styleUrls: ['./booking-access-time.component.scss']
 })
 
-export class BookingAccessTimeComponent extends AppComponentBase implements OnInit, AfterViewInit {
-    echartsIntance: any;
-    seriesData: SeriesItem[] = [];
+export class BookingAccessTimeComponent extends AppComponentBase implements OnChanges {
+
+    @Input()
     bookingAccessTimeData: BookingAccessChannelDto[] = [];
+
+    bookingAccessTimeChartsIntance;
+    echartsIntance: any;
     bookingAccessTimeDate: string;
     chartOption: object = {};
     count = 0;
@@ -34,100 +37,76 @@ export class BookingAccessTimeComponent extends AppComponentBase implements OnIn
         super(injector);
     }
 
-    ngOnInit() {
-        const date = new Date();
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
-        date.setDate(date.getDate() - 2);
-        this.bookingAccessTimeDate = this.dateToString(date);
-        this.loadData();
+    ngOnChanges() {
+        this.initChart();
     }
 
-    ngAfterViewInit() {
+    onChartInit(ec) {
+        this.bookingAccessTimeChartsIntance = ec;
     }
 
-    loadData(): void {
-        this.showloading = true;
-        this._bookingDataStatisticsServiceProxy
-            .getBookingAccessTime(this.bookingAccessTimeDate)
-            .finally(() => { this.showloading = false })
-            .subscribe((result) => {
-                this.bookingAccessTimeData = result;
-                this.chartOption = {
-                    // title: {
-                    //     // text: '折线图堆叠'
-                    // },
-                    tooltip: {
-                        trigger: 'axis'
-                    },
-                    legend: {
-                        data: ['微信', '微博', 'QQ', '二维码', '其他']
-                    },
-                    grid: {
-                        top: '60px',
-                        left: '3%',
-                        right: '4%',
-                        bottom: '60px',
-                        containLabel: true
-                    },
-                    // toolbox: {
-                    //     feature: {
-                    //         saveAsImage: {}
-                    //     }
-                    // },
-                    xAxis: {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: (() => {
-                            const res = [];
-                            if (this.bookingAccessTimeData.length > 0) {
-                                this.bookingAccessTimeData[0].times.forEach(element => {
-                                    res.push(element.hour);
-                                });
-                            }
-                            return res;
-                        })()
-                    },
-                    yAxis: {
-                        type: 'value',
-                        minInterval: 1
-                    },
-                    series: (() => {
-                        if (this.bookingAccessTimeData.length > 0) {
-                            this.bookingAccessTimeData.forEach(element => {
-                                const res = new SeriesItem();
-                                res.stack = '总量';
-                                res.type = 'line';
-                                res.name = element.name;
-                                element.times.forEach(element => {
-                                    res.data.push(element.num);
-                                });
+    initChart(): void {
+        this.chartOption = {
+            // title: {
+            //     // text: '折线图堆叠'
+            // },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: [this.l('WeChat'), this.l('WeiBo'), this.l('QQ'), this.l('QrCode'), this.l('Other')]
+            },
+            grid: {
+                top: '60px',
+                left: '3%',
+                right: '4%',
+                bottom: '0px',
+                containLabel: true
+            },
+            // toolbox: {
+            //     feature: {
+            //         saveAsImage: {}
+            //     }
+            // },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: (() => {
+                    const res = [];
+                    if (this.bookingAccessTimeData.length > 0) {
+                        this.bookingAccessTimeData[0].times.forEach(element => {
+                            res.push(element.hour);
+                        });
+                    }
+                    return res;
+                })()
+            },
+            yAxis: {
+                type: 'value',
+                minInterval: 1
+            },
+            series: (() => {
+                const seriesData = []
+                if (this.bookingAccessTimeData.length > 0) {
+                    this.bookingAccessTimeData.forEach(element => {
+                        const res = new SeriesItem();
+                        res.stack = this.l('Total');
+                        res.type = 'line';
+                        res.name = element.name;
+                        element.times.forEach(element => {
+                            res.data.push(element.num);
+                        });
 
-                                this.seriesData.push(res);
-                            });
-                        }
-                        return this.seriesData;
-                    })()
-                };
-
-                if (result.length <= 0) {
-                    const myChart = echarts.init(document.getElementById('bookingAccessTimeEcharts'));
-                    myChart.setOption(this.chartOption);
+                        seriesData.push(res);
+                    });
                 }
-            })
-    }
+                return seriesData;
+            })()
+        };
 
-    dateToString(date: Date): string {
-        let temp = '';
-        if (date instanceof Date) {
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            temp = `${year}-${month}-${day}`;
+        if (this.bookingAccessTimeChartsIntance) {
+            this.bookingAccessTimeChartsIntance.setOption(this.chartOption);
         }
-        return temp;
     }
 }
 

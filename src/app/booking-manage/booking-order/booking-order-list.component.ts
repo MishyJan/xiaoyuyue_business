@@ -83,7 +83,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     ngAfterViewInit() {
         this.loadData();
-        this.cBookingOrderDate = new flatpickr('#bookingDate', {
+        this.cBookingOrderDate = $('#bookingDate').flatpickr({
             'locale': 'zh'
         })
         this.cStartCreationTime = $('#startCreationTime').flatpickr({

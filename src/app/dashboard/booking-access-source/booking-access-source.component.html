@@ -3,4 +3,4 @@
         <h6 class="card-title">{{l('Dashboard.AccessSource')}}</h6>
     </div>
 </div>
-<div id="bookingAccessSourceEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="demo-chart"></div>
+<div id="bookingAccessSourceEcharts" echarts [options]="chartOption" theme="shine" class="dashboard-chart" (chartInit)="onChartInit($event)"></div>

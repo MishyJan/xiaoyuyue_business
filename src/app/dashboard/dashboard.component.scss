@@ -1,5 +1,6 @@
 .customer-center {
     .flatpickr {
+        height: 33px;
         .input-button {
             .vapps-icon {
                 font-size: 14px;
@@ -13,6 +14,7 @@
             background: transparent;
             color: #FFF;
             cursor: pointer;
+            padding-bottom: 10px;
         }
     }
     p {

@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
-import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
+import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
@@ -10,10 +10,11 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
     styleUrls: ['./dashboard.component.scss'],
     animations: [appModuleAnimation()],
 })
-export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     tenantBaseInfoData: TenantInfoEditDto;
-    bookingDataStatistics: BookingDataStatisticsDto;
-    bookingStatisticalDate: string;
+    dataStatistics: BusCenterDataStatisticsDto;
+    dateSelected: string;
+    dateFlatpickr;
     constructor(
         injector: Injector,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
@@ -22,28 +23,34 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         super(injector);
     }
 
-    ngAfterViewInit(): void {
-        $('.flatpickr').flatpickr({
-            wrap: true,
-            defaultDate: this.bookingStatisticalDate,
-            maxDate: this.bookingStatisticalDate,
-            onChange: (selectedDates, dateStr, instance) => {
-                this.bookingStatisticalDate = moment(new Date(selectedDates)).local().format('YYYY-MM-DD');
-                this.loadData();
-            }
-        })
-    }
     ngOnInit() {
-        this.bookingStatisticalDate = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
+        this.dateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
         this.loadData();
         this.getTenantInfo();
     }
 
+    ngAfterViewInit(): void {
+        this.dateFlatpickr = $('.flatpickr').flatpickr({
+            'locale': 'zh',
+            wrap: true,
+            defaultDate: this.dateSelected,
+            maxDate: this.dateSelected,
+            onChange: (selectedDates, dateStr, instance) => {
+                this.dateSelected = moment(new Date(selectedDates)).local().format('YYYY-MM-DD');
+                this.loadData();
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.dateFlatpickr.destroy();
+    }
+
     loadData(): void {
         this._bookingDataStatisticsServiceProxy
-            .getBookingData(this.bookingStatisticalDate)
+            .getBusCenterDataStatistics(this.dateSelected)
             .subscribe((result) => {
-                this.bookingDataStatistics = result;
+                this.dataStatistics = result;
             });
     }
 
