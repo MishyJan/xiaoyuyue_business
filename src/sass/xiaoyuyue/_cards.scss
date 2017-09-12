@@ -1,0 +1,34 @@
+@import '_variables';
+@import '_mixin';
+.rotating-container {
+    @include perspective(800px);
+    .rotating {
+        @include transition-transform(.6s, $transition-bezier-rotating-card);
+        @include transform-style(preserve-3d);
+        position: relative;
+        .front,
+        .back {
+            @include backface-visibility(hidden);
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .front {
+            position: relative;
+            z-index: 2;
+        }
+        .back {
+            @include rotateY-180();
+            // @include shadow-big();
+            z-index: 3;
+            // background-color: $white-color;
+            border-radius: $border-radius-large;
+        }
+    }
+    &.filp-active {
+        .rotating {
+            @include rotateY-180();
+        }
+    }
+}

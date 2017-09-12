@@ -1,0 +1,97 @@
+<div class="booking-detail" *ngIf="bookingForEditData">
+    <div class="command-wrap card">
+        <button class="item">待确认<span class="availNum">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
+        <button class="item" *ngIf="bookingForEditData.isActive" (click)="disabledBookingClass()">禁用预约</button>
+        <button class="item" *ngIf="!bookingForEditData.isActive" (click)="beforeBookingClass()">激活预约</button>
+        <button class="item" (click)="removeBooking()">删除预约</button>
+        <button class="item" [ngClass]="{'disabled-style': !bookingForEditData.isActive}" [disabled]="!bookingForEditData.isActive" (click)="showShareModel()">分享预约</button>
+    </div>
+
+    <div class="tenant-wrap card">
+        <div class="tenant-bg-wrap" *ngIf="bookingPictures.length > 0"><img [src]="bookingPictures[0]" width="100%" alt="tenant-bg"></div>
+        <div class="tenant-info">
+            <div class="name">{{ bookingForEditData.name }}</div>
+
+            <div class="flex-item"  *ngIf="availableBookingTime.length > 0">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">预约时间</span>
+                        <span class="item-right">{{ availableBookingTime[0] }}</span>
+                    </div>
+                </div>
+                <div class="item-right text-center">
+                    <a><span class=""></span></a>
+                </div>
+            </div>
+
+            <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">预约进度</span>
+                        <span class="item-right">{{ bookingForEditData.subBookedNum }} / {{ bookingForEditData.subMaxBookingNum }}</span>
+                    </div>
+                </div>
+                <div class="item-right"></div>
+            </div>
+
+            <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">应约人数</span>
+                        <span class="item-right">{{ bookingForEditData.subBookedNum }}</span>
+                    </div>
+                </div>
+                <div class="item-right text-center">
+                    <a><span class=""></span></a>
+                </div>
+            </div>
+
+            <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">排队人数</span>
+                        <span class="item-right">{{ bookingForEditData.wait4ConfirmNum }}</span>
+                    </div>
+                </div>
+                <div class="item-right text-center"></div>
+            </div>
+
+            <!-- <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">温馨提示</span>
+                        <span class="item-right">嘻嘻嘻</span>
+                    </div>
+                </div>
+                <div class="item-right text-center"></div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="org-info-wrap card" *ngIf="outletData">
+        <div class="card-item org-info">
+            <div class="top-wrap">
+                <div class="title">门店信息</div>
+            </div>
+            <div class="content">
+                <div class="content-item">
+                    <span class="name">门店名称 : </span>
+                    <span class="desc">{{ bookingForEditData.outlet }}</span>
+                </div>
+                <div class="content-item">
+                    <span class="name">营业时间 : </span>
+                    <span class="desc">{{ bookingForEditData.businessHours }}</span>
+                </div>
+                <div class="content-item">
+                    <span class="name">联系人 : </span>
+                    <span class="desc">{{ bookingForEditData.contactor }}</span>
+                </div>
+                <div class="content-item">
+                    <span class="name">门店地址 : </span>
+                    <span class="desc">{{ bookingForEditData.outletAddress }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<xiaoyuyue-mobile-share-booking-model #mobileShareBookingModel></xiaoyuyue-mobile-share-booking-model>

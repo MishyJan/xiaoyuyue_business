@@ -1,11 +1,12 @@
 <div class="share-booking">
-    <div bsModal #shareBookingModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="shareBookingModel" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div bsModal #shareBookingModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="shareBookingModel"
+        aria-hidden="true" [config]="{backdrop: 'static'}">
         <div class="modal-dialog">
-            <div class="xiaoyuyue-title-box">保存成功</div>
+            <div class="xiaoyuyue-title-box">{{l('SavaSuccess')}}</div>
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="share-source-wrap">
-                        <p class="share-title">分享预约</p>
+                        <p class="share-title">{{l('Booking.ShareTitle')}}</p>
                         <!-- <div class="share-btn-wrap">
                             <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/wechat-x2.png" alt="wechat" width="100%"></span></a>
                             <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/friends-x2.png" alt="friends" width="100%"></span></a>
@@ -13,16 +14,16 @@
                             <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/qzone-x2.png" alt="qzone" width="100%"></span></a>
                             <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/weibo-x2.png" alt="weibo" width="100%"></span></a>
                         </div> -->
-                        <p class="share-url-text" title="单击复制链接"> {{ shareUrl }}</p>
+                        <p class="share-url-text" title="{{l('Booking.Share.Copy')}}"> {{ shareUrl }}</p>
                         <div class="qr-code-wrap">
                             <qr-code [value]="shareUrl" [size]="200"></qr-code>
-                            <p>分享预约,让更多人参与</p>
+                            <p>{{l('Booking.CreateSuccess.Tip3')}}</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn primary-bgcolor" (click)="close()"><span class="vapps-icon vapps-icon-app-confirm"></span>关闭</button>
+                    <button type="submit" class="btn primary-bgcolor" (click)="close()"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Close')}}</button>
                 </div>
             </div>
         </div>

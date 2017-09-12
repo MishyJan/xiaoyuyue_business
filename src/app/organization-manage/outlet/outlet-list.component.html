@@ -1,94 +1,151 @@
-<div class="manage-org" [@routerTransition]>
-    <div class="row margin-bottom-5">
-        <div class="col-xs-6">
-            <div class="page-head">
-                <div class="page-title">
-                    <h1>
-                        <span>{{l("BusinessCenter.Menu.OrgInfo")}}</span>
-                    </h1>
-                    <div></div>
+<div *hideItBootstrap="['xs','sm']">
+    <div class="manage-org" [@routerTransition]>
+        <div class="row margin-bottom-5">
+            <div class="col-xs-6">
+                <div class="page-head">
+                    <div class="page-title">
+                        <h1>
+                            <span>{{l('Menu.Org.OutletManage')}}</span>
+                        </h1>
+                        <div>
+                            <breadcrumb></breadcrumb>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="col-xs-6 text-right">
+                <button (click)="createOutlet()" *ngIf="isGranted(permissions.organization_OutletCreate)" class="btn primary-bgcolor"><i class="vapps-icon-app-outlet-image"></i>{{l('Outlet.Create')}}</button>
+            </div>
         </div>
-        <div class="col-xs-6 text-right">
-            <button (click)="createOutlet()" class="btn primary-bgcolor"><i class="vapps-icon-app-outlet-image"></i>新增门店</button>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <form class="form-horizontal">
-                    <div class="card-header card-header-text" data-background-color="orange">
-                        <h6 class="card-title">{{l("Search")}}</h6>
-                    </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <form class="form-horizontal">
+                        <div class="card-header card-header-text" data-background-color="orange">
+                            <h6 class="card-title">{{l("Search")}}</h6>
+                        </div>
 
-                    <div class="card-content">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label class="col-sm-3 label-on-left">门店名称</label>
-                                <div class="col-sm-9">
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label"></label>
-                                        <input class="form-control common-max-width" [(ngModel)]="outletName" type="text" name="outletName" placeholder="门店名称">
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="col-sm-3 label-on-left">{{l('Outlet.Name')}}</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control common-max-width" [(ngModel)]="outletName" type="text" name="outletName" placeholder="{{l('Outlet.Name')}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row search-btn-wrap">
+                                <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
+                                    <div class="text-center filter-action">
+                                        <button class="btn btn-block primary-bgcolor" (click)="loadData()"><i class="fa fa-search"></i> {{l("Search")}}</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </form>
 
-                        <div class="row search-btn-wrap">
-                            <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
-                                <div class="text-center filter-action">
-                                    <button class="btn btn-block primary-bgcolor" (click)="loadData()"><i class="fa fa-search"></i> {{l("Search")}}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
+                </div>
             </div>
-        </div>
 
-        <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
-            <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }">
-                <div class="item box-shadow">
-                    <div class="top-wrap box-shadow" [ngStyle]="{'background-image': 'url(' + getOutletBgUrl(outletItem.pictureUrl) + ')'}">
-                    </div>
-                    <div class="content-wrap">
-                        <div class="content-item clearfix">
-                            <span class="flex-right" [title]="outletItem.name">{{ outletItem.name }}</span>
-                            <span class="vapps-icon-app-edit flex-left orange-icon" (click)="editHandler(outletItem.id)" title="编辑"></span>
+            <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
+                <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }">
+                    <div class="item box-shadow">
+                        <div class="top-wrap box-shadow" [ngStyle]="{'background-image': 'url(' + getOutletBgUrl(outletItem.pictureUrl) + ')'}">
                         </div>
+                        <div class="content-wrap">
+                            <div class="content-item clearfix">
+                                <span class="flex-right" [title]="outletItem.name">{{ outletItem.name }}</span>
+                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)"
+                                    title="{{l('Edit')}}"></span>
+                            </div>
 
-                        <div class="content-item clearfix">
-                            <span class="flex-right" title="营业时间">
-                                <span class="vapps-icon-app-shop-hours flex-right"></span><span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
-                            </span>
-                            <span class="flex-left"></span>
-                        </div>
+                            <div class="content-item clearfix">
+                                <span class="flex-right" title="{{l('Outlet.BusinessHours')}}">
+                                            <span class="vapps-icon-app-shop-hours flex-right"></span>
+                                <span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
+                                </span>
+                                <span class="flex-left"></span>
+                            </div>
 
-                        <div class="content-item clearfix">
-                            <span class="flex-right" title="地址">
-                                <span class="vapps-icon-app-location flex-right"></span><span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress }}</span>
-                            </span>
-                            <span class="vapps-icon-app-phone flex-left orange-icon"></span>
-                        </div>
+                            <div class="content-item clearfix">
+                                <span class="flex-right" title="{{l('Outlet.Address')}}">
+                                            <span class="vapps-icon-app-location flex-right"></span>
+                                <span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress
+                                            }}</span>
+                                </span>
+                                <span class="vapps-icon-app-phone flex-left orange-icon"></span>
+                            </div>
 
-                        <div class="content-item clearfix">
-                            <span class="flex-right" title="联系人">
-                                <span class="vapps-icon-app-contact flex-right"></span><span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
-                            </span>
-                            <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
+                            <div class="content-item clearfix">
+                                <span class="flex-right" title="{{l('Outlet.Contactor')}}">
+                                            <span class="vapps-icon-app-contact flex-right"></span>
+                                <span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
+                                </span>
+                                <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-lg-12 pagination-wrap" *ngIf="allOutlets">
-            <div class="pull-right">
-                <div class="has-text-centered">
-                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
+            <div class="col-lg-12 pagination-wrap" *ngIf="allOutlets">
+                <div class="pull-right">
+                    <div class="has-text-centered">
+                        <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *showItBootstrap="['xs','sm']">
+    <div class="manage-org mobile" [@routerTransition]>
+        <div class="row">
+            <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
+                <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets">
+                    <div class="item box-shadow">
+                        <div class="top-wrap box-shadow" [ngStyle]="{'background-image': 'url(' + getOutletBgUrl(outletItem.pictureUrl) + ')'}">
+                        </div>
+                        <div class="content-wrap">
+                            <div class="content-item clearfix">
+                                <span class="flex-right outlet-name" [title]="outletItem.name">{{ outletItem.name }}</span>
+                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)"
+                                    title="{{l('Edit')}}"></span>
+                            </div>
+
+                            <div class="content-item clearfix">
+                                <span class="flex-right" title="{{l('Outlet.BusinessHours')}}">
+                                                    <span class="vapps-icon-app-shop-hours flex-right"></span>
+                                <span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
+                                </span>
+                                <span class="flex-left"></span>
+                            </div>
+
+                            <div class="content-item clearfix">
+                                <span class="flex-right" title="{{l('Outlet.Contactor')}}">
+                                                    <span class="vapps-icon-app-contact flex-right"></span>
+                                <span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
+                                </span>
+                                <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
+                            </div>
+
+                            <div class="content-item clearfix">
+                                <span class="flex-right" title="{{l('Outlet.Address')}}">
+                                                        <span class="vapps-icon-app-location flex-right"></span>
+                                <span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress
+                                                        }}</span>
+                                </span>
+                                <span class="vapps-icon-app-phone flex-left orange-icon"></span>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

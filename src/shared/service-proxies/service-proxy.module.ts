@@ -1,31 +1,19 @@
-﻿import { NgModule } from '@angular/core';
+﻿import * as ApiServiceProxies from './service-proxies';
 
-import * as ApiServiceProxies from './service-proxies';
+import { NgModule } from '@angular/core';
 
 @NgModule({
     providers: [
-        ApiServiceProxies.AuditLogServiceProxy,
-        ApiServiceProxies.CachingServiceProxy,
-        ApiServiceProxies.ChatServiceProxy,
-        ApiServiceProxies.CommonLookupServiceProxy,
-        ApiServiceProxies.EditionServiceProxy,
-        ApiServiceProxies.FriendshipServiceProxy,
-        ApiServiceProxies.HostSettingsServiceProxy,
         ApiServiceProxies.LanguageServiceProxy,
         ApiServiceProxies.NotificationServiceProxy,
-        ApiServiceProxies.OrganizationUnitServiceProxy,
         ApiServiceProxies.PermissionServiceProxy,
         ApiServiceProxies.ProfileServiceProxy,
-        ApiServiceProxies.RoleServiceProxy,
         ApiServiceProxies.SessionServiceProxy,
         ApiServiceProxies.TenantServiceProxy,
-        ApiServiceProxies.TenantDashboardServiceProxy,
         ApiServiceProxies.TenantSettingsServiceProxy,
         ApiServiceProxies.TimingServiceProxy,
         ApiServiceProxies.UserServiceProxy,
-        ApiServiceProxies.UserLinkServiceProxy,
         ApiServiceProxies.UserLoginServiceProxy,
-        ApiServiceProxies.WebLogServiceProxy,
         ApiServiceProxies.AccountServiceProxy,
         ApiServiceProxies.TokenAuthServiceProxy,
         ApiServiceProxies.TenantRegistrationServiceProxy,
@@ -34,10 +22,8 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.TenantInfoServiceProxy,
         ApiServiceProxies.OutletServiceServiceProxy,
         ApiServiceProxies.OrgBookingServiceProxy,
-        ApiServiceProxies.PerBookingOrderServiceProxy,
         ApiServiceProxies.PictureServiceProxy,
         ApiServiceProxies.StateServiceServiceProxy,
-        ApiServiceProxies.BookingServiceProxy,
         ApiServiceProxies.SMSServiceProxy,
     ]
 })

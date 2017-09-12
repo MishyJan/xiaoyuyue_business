@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, GetBookingSaturationOutput, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { Moment } from 'moment';
 
 @Component({
@@ -8,7 +9,7 @@ import { Moment } from 'moment';
     templateUrl: './booking-saturation.component.html',
     styleUrls: ['./booking-saturation.component.scss']
 })
-export class BookingSaturationComponent implements OnInit, AfterViewInit {
+export class BookingSaturationComponent extends AppComponentBase implements OnInit, AfterViewInit {
     bookingStatisticsData: GetBookingSaturationOutput = new GetBookingSaturationOutput();
     outletDefaultListItem: any;
     outletSelectListData: SelectListItemDto[];
@@ -19,9 +20,11 @@ export class BookingSaturationComponent implements OnInit, AfterViewInit {
     showloading = true;
 
     constructor(
+        injector: Injector,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
+        super(injector);
     }
 
     ngOnInit() {

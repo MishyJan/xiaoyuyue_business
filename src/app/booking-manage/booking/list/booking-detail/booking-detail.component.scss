@@ -1,0 +1,112 @@
+.booking-detail {
+    width: 100%;
+    .command-wrap {
+        display: flex;
+        padding: 10px 0;
+        .item + .item {
+            border-left: 1px solid #DAD9D9;
+        }
+        .item {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            height: 30px;
+            line-height: 30px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            .availNum {
+                padding: 1px 6px 1px 5px;
+                color: #FFF;
+                background-color: #FF0000;
+                border-radius: 12px;
+            }
+        }
+        .disabled-style {
+            color: #AAA;
+        }
+    }
+    .tenant-wrap {
+        border-radius: 4px;
+        background-color: #FFF;
+        overflow: hidden;
+        .tenant-bg-wrap {
+            margin-bottom: 15px;
+        }
+        .tenant-info {
+            padding: 15px;
+            .name {
+                color: #FF9641;
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+            .flex-item {
+                display: flex;
+                color: #333;
+                .item-left {
+                    flex: 1;
+                    .left-wrap {
+                        display: flex;
+                        .item-left {
+                            width: 60px;
+                            flex: 0 0 60px;
+                            transform: translateY(2px);
+                            margin-right: 16px;
+                        }
+                        .item-right {
+                            flex: 1;
+                            color: #FF9641;
+                        }
+                    }
+                }
+                .item-right {
+                    width: 42px;
+                    flex: 0 0 42px;
+                    span {
+                        font-size: 22px;
+                    }
+                }
+            }
+        }
+    }
+    .card-item {
+        padding: 0 15px 0;
+        background-color: #FFF;
+        border-radius: 4px;
+        .top-wrap {
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+        .content {
+            padding: 20px 0;
+            .content-item {
+                .name {
+                    margin-right: 10px;
+                }
+                .desc {
+                    color: #FF9641;
+                }
+            }
+            .content-item+.content-item {
+                margin-top: 10px;
+            }
+        }
+    }
+    .org-info-wrap {
+        .content {
+            width: 100%;
+            .content-item {
+                display: flex;
+                .name {
+                    width: 70px;
+                    flex: 0 0 70px;
+                }
+                .desc {
+                    flex: 1;
+                }
+            }
+        }
+    }
+}

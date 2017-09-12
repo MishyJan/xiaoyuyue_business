@@ -1,95 +1,76 @@
-<div class="contact-info">
-    <div class="card">
-        <form #contactInfo="ngForm" class="form-horizontal">
-            <div class="clearfix">
-                <div class="card-header card-header-text pull-left" data-background-color="orange">
-                    <h6 class="card-title">联系人</h6>
-                </div>
-                <div class="caption pull-right add-time">
-                    <span (click)="openCreateContact()" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>添加</span>
-                </div>
-            </div>
-
-            <div class="card-content">
-                <!-- 创建时间段 -->
-                <div style="width: 100%;" *ngIf="isCreateContact" class="clearfix">
-                    <div class="col-md-4 contact-info-wrap box-shadow border-radius-14 pull-left paddingTop-32">
-                        <div class="xiaoyuyue-title-box">{{ contactName }}</div>
-                        <div class="contact-item clearfix">
-                            <div class="name col-md-4 text-right label-on-left"><span>姓名</span></div>
-                            <div class="col-md-8 row input-box">
-                                <div class="col-md-12">
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label"></label>
-                                        <input class="form-control" type="text" [(ngModel)]="localSingleContact.name" name="name" required autofocus>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="name col-md-4 text-right label-on-left"><span>电话</span></div>
-                            <div class="col-md-8 row input-box">
-                                <div class="col-md-12">
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label"></label>
-                                        <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber"
-                                            pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
-                                        <!-- <small [hidden]="phoneNum.valid || (phoneNum.pristine && !f.submitted)" class="text-danger">无效的手机号</small> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contact-item wechat-item">
-                            <div class="name col-md-4 text-right label-on-left"><span>微信二维码</span></div>
-                            <div class="col-md-8 row input-box">
-                                <div class="col-md-12 flex-item">
-                                    <div class="form-group">
-                                        <span class="qr-code-wrap" (click)="uploadPicModel()">
-                                            <img *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" width="100%" height="100%" alt="qr-code">
-                                            <!-- <span *ngIf="uploadPicInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></span>                                        -->
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contact-item submit-item">
-                            <button type="submit" class="btn primary-bgcolor" (click)="save()" [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>保存</button>
-                            <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>取消</button>
-                        </div>
+<div *hideItBootstrap="['xs','sm']">
+    <div class="contact-info">
+        <div class="card">
+            <form #contactInfo="ngForm" class="form-horizontal">
+                <div class="clearfix">
+                    <div class="card-header card-header-text pull-left" data-background-color="orange">
+                        <h6 class="card-title">{{l('Contactor')}}</h6>
+                    </div>
+                    <div class="caption pull-right add-time">
+                        <span (click)="openCreateContact()" *ngIf="isGranted(permissions.organization_ContactorCreate)" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>{{l('Add')}}</span>
                     </div>
                 </div>
 
-                <!-- 创建状态的展示段 -->
-                <!-- 本地数据 -->
-                <div *ngIf="!isLocalOrOnline; else hasOnline" class="row">
-                    <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
-                        <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
-                            <div class="xiaoyuyue-title-box">
-                                {{ contactItem.name }}
-                                <div class="btn-action-wrap">
-                                    <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': contactItem.isDefault, 'vapps-icon-app-no-defalut': !contactItem.isDefault }"></span>
-                                    <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
+                <div class="card-content">
+                    <!-- 创建时间段 -->
+                    <div style="width: 100%;" *ngIf="isCreateContact" class="clearfix">
+                        <div class="col-md-4 contact-info-wrap box-shadow border-radius-14 pull-left paddingTop-32">
+                            <div class="xiaoyuyue-title-box">{{ contactName }}</div>
+                            <div class="contact-item clearfix">
+                                <div class="name col-md-4 text-right label-on-left"><span>{{l('Contactor.Name')}}</span></div>
+                                <div class="col-md-8 row input-box">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control" type="text" [(ngModel)]="localSingleContact.name" name="name" required autofocus>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="wechat-img-wrap" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></div>
-                            <div class="contact-wrap">
-                                <span><span class="vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}</span>
+                            <div class="contact-item">
+                                <div class="name col-md-4 text-right label-on-left"><span>{{l('Contactor.Telephone')}}</span></div>
+                                <div class="col-md-8 row input-box">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber"
+                                                pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
+                                            <!-- <small [hidden]="phoneNum.valid || (phoneNum.pristine && !f.submitted)" class="text-danger">无效的手机号</small> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contact-item wechat-item" *ngIf="isGranted(permissions.contentManage_PictureCreate)">
+                                <div class="name col-md-4 text-right label-on-left"><span>{{l('Contactor.WeChat')}}</span></div>
+                                <div class="col-md-8 row input-box">
+                                    <div class="col-md-12 flex-item">
+                                        <div class="form-group">
+                                            <span class="qr-code-wrap" (click)="uploadPicModel()">
+                                                        <img *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" width="100%" height="100%" alt="qr-code">
+                                                        <!-- <span *ngIf="uploadPicInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></span>                                            -->
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contact-item submit-item">
+                                <button type="submit" *ngIf="isGranted(permissions.organization_ContactorEdit)" class="btn primary-bgcolor" (click)="save()"
+                                    [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
+                                <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- 编辑状态的展示段 -->
-                <!-- 线上数据 -->
-                <ng-template #hasOnline>
-                    <div class="row">
+                    <!-- 创建状态的展示段 -->
+                    <!-- 本地数据 -->
+                    <div *ngIf="!isLocalOrOnline; else hasOnline" class="row">
                         <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
                             <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
                                 <div class="xiaoyuyue-title-box">
                                     {{ contactItem.name }}
                                     <div class="btn-action-wrap">
-                                        <span class="icon" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
-                                        <span class="icon vapps-icon-app-edit" (click)="editContact(index)"></span>
+                                        <span class="icon" (click)="selectDefaultContact(index)" *ngIf="isGranted(permissions.organization_ContactorEdit)" [ngClass]="{'vapps-icon-app-default': contactItem.isDefault, 'vapps-icon-app-no-defalut': !contactItem.isDefault }"></span>
+                                        <span class="icon vapps-icon-app-edit" *ngIf="isGranted(permissions.organization_ContactorEdit)" (click)="editContact(index)"></span>
                                     </div>
                                 </div>
                                 <div class="wechat-img-wrap" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></div>
@@ -99,10 +80,164 @@
                             </div>
                         </div>
                     </div>
-                </ng-template>
 
+                    <!-- 编辑状态的展示段 -->
+                    <!-- 线上数据 -->
+                    <ng-template #hasOnline>
+                        <div class="row">
+                            <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
+                                <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
+                                    <div class="xiaoyuyue-title-box">
+                                        {{ contactItem.name }}
+                                        <div class="btn-action-wrap">
+                                            <span class="icon" *ngIf="isGranted(permissions.organization_ContactorEdit)" (click)="selectDefaultContact(index)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
+                                            <span class="icon vapps-icon-app-edit" *ngIf="isGranted(permissions.organization_ContactorEdit)" (click)="editContact(index)"></span>
+                                        </div>
+                                    </div>
+                                    <div class="wechat-img-wrap" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></div>
+                                    <div class="contact-wrap">
+                                        <span><span class="vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </div>
+            </form>
+        </div>
+        <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
+    </div>
+</div>
+
+
+<div *showItBootstrap="['xs','sm']">
+    <div class="mobile-contact-info">
+        <form #mobileContactInfo="ngForm">
+            <!-- 创建时间段 -->
+            <div style="width: 100%;" *ngIf="isCreateContact" class="clearfix">
+                <div class="card">
+                    <div class="col-md-4 contact-info-wrap paddingTop-32">
+                        <div class="contact-item clearfix">
+                            <div class="col-md-8 row input-box">
+                                <div class="col-md-12">
+                                    <div class="form-group label-floating" [ngClass]="{'is-empty': !localSingleContact.name}">
+                                        <label class="control-label">{{l('Contactor.Name')}}</label>
+                                        <input class="form-control" type="text" [(ngModel)]="localSingleContact.name" name="name" required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="col-md-8 row input-box">
+                                <div class="col-md-12">
+                                    <div class="form-group label-floating" [ngClass]="{'is-empty': !localSingleContact.phoneNum}">
+                                        <label class="control-label">{{l('Contactor.Telephone')}}</label>
+                                        <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber"
+                                            pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
+                                        <!-- <small [hidden]="phoneNum.valid || (phoneNum.pristine && !f.submitted)" class="text-danger">无效的手机号</small> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-item wechat-item" *ngIf="isGranted(permissions.contentManage_PictureCreate)">
+                            <div class="col-md-8 row input-box">
+                                <div class="col-md-12 flex-item">
+                                    <div class="form-group">
+                                        <p class="control-label">微信二维码上传</p>
+                                        <div class="qr-code-wrap" UploadPicture (picUploadInfoHandler)="getQrCodePicInfo($event)" [browseButtonEle]="'#contactQrCodeArea'"
+                                            [groupId]="1">
+                                            <span class="icon vapps-icon-cb-add-img"></span>
+                                            <div id="contactQrCodeArea" class="qrcode-area" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-item submit-item">
+                            <div class="col-xs-6">
+                                <button class="btn btn-block btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
+                            </div>
+                            <div class="col-xs-6">
+                                <button type="submit" *ngIf="isGranted(permissions.organization_ContactorEdit)" class="btn btn-block primary-bgcolor" (click)="save()"
+                                    [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
+
+        <!-- 创建状态的展示段 -->
+        <!-- 本地数据 -->
+        <div *ngIf="!isLocalOrOnline; else hasOnline" class="row">
+            <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}"
+                            *ngIf="hideContactIndex != index">
+                            <div class="contact-name">{{ contactItem.name }}</div>
+                            <div class="wechat-img-wrap pull-right">
+                                <img class="img-wechat" src="assets/common/images/social/wechat-x2.png" style="width:25px" alt="wechat">
+                                <span class="img-bg" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></span>
+                            </div>
+                            <div class="contact-wrap pull-left">
+                                <span class="vapps-icon vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}
+                            </div>
+                        </div>
+
+                        <div class="bottom-action" *ngIf="actionFlag[index]">
+                            <span class="action-item" *ngIf="contactItem.isDefault"><span class="icon vapps-icon-app-no-defalut"></span>默认</span>
+                            <span class="action-item" *ngIf="!contactItem.isDefault" (click)="selectDefaultContact(index)"><span class="icon vapps-icon-app-default"></span>设为默认</span>
+                            <span class="line">|</span>
+                            <span class="action-item" (click)="editContact(index)">
+                                <a><span class="icon vapps-icon-app-edit"></span>编辑</a>
+                            </span>
+                            <span class="line">|</span>
+                            <span class="action-item"><span class="icon vapps-icon-app-delete"></span> 删除</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑状态的展示段 -->
+        <!-- 线上数据 -->
+        <ng-template #hasOnline>
+            <div class="row">
+                <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}"
+                                *ngIf="hideContactIndex != index">
+                                <div class="contact-name">{{ contactItem.name }}</div>
+                                <div class="wechat-img-wrap pull-right">
+                                    <img class="img-wechat" src="assets/common/images/social/wechat-x2.png" style="width:25px" alt="wechat">
+                                    <span class="img-bg" [ngStyle]="{'background-image': 'url(' + contactItem.wechatQrcodeUrl + ')'}"></span>
+                                </div>
+                                <div class="contact-wrap pull-left">
+                                    <span class="vapps-icon vapps-icon-app-phone"></span>{{ contactItem.phoneNum }}
+                                </div>
+                            </div>
+
+                            <div class="bottom-action" *ngIf="actionFlag[index]">
+                                <span class="action-item" *ngIf="contactItem.isDefault"><span class="icon vapps-icon-app-no-defalut"></span>默认</span>
+                                <span class="action-item" *ngIf="!contactItem.isDefault" (click)="selectDefaultContact(index)"><span class="icon vapps-icon-app-default"></span>设为默认</span>
+                                <span class="line">|</span>
+                                <span class="action-item" (click)="editContact(index)">
+                                            <a><span class="icon vapps-icon-app-edit"></span>编辑</a>
+                                </span>
+                                <span class="line">|</span>
+                                <span class="action-item"><span class="icon vapps-icon-app-delete"></span> 删除</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <div class="add-time-btn">
+            <span class="icon vapps-icon-cb-add-time" (click)="openCreateContact()" *ngIf="isGranted(permissions.organization_ContactorCreate)"></span>
+        </div>
     </div>
-    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
 </div>

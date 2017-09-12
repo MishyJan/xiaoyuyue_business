@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingAccessRegionDto, BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
 
+import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 
 export class BookingAccessRegion {
@@ -13,7 +14,7 @@ export class BookingAccessRegion {
     templateUrl: './booking-access-region.component.html',
     styleUrls: ['./booking-access-region.component.scss']
 })
-export class BookingAccessRegionComponent implements OnInit, AfterViewInit {
+export class BookingAccessRegionComponent extends AppComponentBase implements OnInit, AfterViewInit {
     bookingAccessRegionEchartsData: BookingAccessRegion = new BookingAccessRegion();
     bookingAccessRegionData: BookingAccessRegionDto[];
     resData: object[] = [];
@@ -23,8 +24,10 @@ export class BookingAccessRegionComponent implements OnInit, AfterViewInit {
     showloading = true;
 
     constructor(
+        injector: Injector,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
+        super(injector);
     }
 
     ngOnInit() {

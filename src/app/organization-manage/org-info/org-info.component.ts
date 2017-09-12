@@ -14,6 +14,8 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     animations: [accountModuleAnimation()],
 })
 export class OrgInfoComponent extends AppComponentBase implements OnInit {
+    uploaded: boolean = false;
+    filpActive = true;
     savingAndEditing: boolean;
     saving = false;
     updatedOrgBgPicture = false;
@@ -126,5 +128,27 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
         this.updatedOrgLogoPicture = true;
         this.input.logoId = orgLogoInfo.pictureId;
         this.input.logoUrl = orgLogoInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+    }
+
+    /* 移动端代码 */
+
+    // 取消编辑机构信息
+    cancel(): void {
+        // this.input = new CurrentUserProfileEditDto(this.userProfileData);
+        this.filpActive = true;
+        this.uploaded = false;
+    }
+
+    // 机构信息详情翻转
+    showEdit(): void {
+        this.filpActive = false;
+        this.uploaded = false;
+    }
+
+    // 获取上传logo图片信息
+    getLogoUploadHandler(picInfo: UploadPictureDto): void {
+        this.sendOrgLogoInfo.pictureId = picInfo.pictureId;
+        this.sendOrgLogoInfo.pictureUrl = picInfo.pictureUrl;
+        this.uploaded = true;
     }
 }

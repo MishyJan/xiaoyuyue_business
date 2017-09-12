@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AfterViewInit, Component, ElementRef, Injector, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injector, OnInit, Output, ViewChild, ViewEncapsulation, transition } from '@angular/core';
 import { AuthenticateModel, AuthenticateResultModel, ExternalLoginProviderInfoModel, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CodeSendInput, PhoneAuthenticateModel, SMSServiceProxy } from 'shared/service-proxies/service-proxies';
 import { ExternalLoginProvider, LoginService } from 'shared/services/login.service';
@@ -46,7 +46,9 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         private _ngxAni: NgxAni
     ) {
         super(injector);
+        loginService.rememberMe = true;
     }
+
 
     ngAfterViewInit(): void {
         const self = this;

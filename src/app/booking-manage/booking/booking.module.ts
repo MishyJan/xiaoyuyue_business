@@ -4,21 +4,25 @@ import { ModalModule, PopoverModule, TabsModule, TooltipModule } from 'ngx-boots
 
 import { AppCommonModule } from 'app/shared/common/app-common.module';
 import { BaseInfoComponent } from 'app/booking-manage/booking/create-or-edit/base-info/base-info.component';
-import { BookingCustomModelComponent } from 'app/booking-manage/booking/list/booking-custom-model/booking-custom-model.component';
-import { BookingListComponent } from 'app/booking-manage/booking/list/booking-list.component';
+import { BookingCustomModelComponent } from './list/shared/booking-custom-model/booking-custom-model.component';
+import { BookingDetailComponent } from './list/booking-detail/booking-detail.component';
+import { BookingListComponent } from './list/booking-list.component';
 import { BookingRoutingModule } from './booking-routing.module';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { CommonModule } from '@angular/common';
-import { ConfirmOrderModelComponent } from 'app/booking-manage/booking/list/confirm-order-model/confirm-order-model.component';
-import { CreateOrEditBookingComponent } from 'app/booking-manage/booking/create-or-edit/create-or-edit-booking.component';
+import { ConfirmOrderModelComponent } from './list/shared/confirm-order-model/confirm-order-model.component';
+import { CreateOrEditBookingComponent } from './create-or-edit/create-or-edit-booking.component';
+import { CreateSucceededComponent } from './create-or-edit/create-succeeded/create-succeeded.component';
 import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridDataResultsModule } from 'shared/grid-data-results/grid-result.modules';
+import { MobileShareBookingModelComponent } from './list/shared/mobile-share-booking-model/share-booking-model.component';
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PictureManageComponent } from 'app/booking-manage/booking/create-or-edit/picture-manage/picture-manage.component';
 import { QRCodeModule } from 'angular2-qrcode';
+import { ResponsiveModule } from 'ng2-responsive';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { TimeInfoComponent } from 'app/booking-manage/booking/create-or-edit/time-info/time-info.component';
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -45,7 +49,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         DateInputModule,
         QRCodeModule,
         NgxPaginationModule,
-        GridDataResultsModule
+        GridDataResultsModule,
+        ResponsiveModule,
     ],
     declarations: [
         BaseInfoComponent,
@@ -56,6 +61,9 @@ import { UtilsModule } from '@shared/utils/utils.module';
         CreateOrEditBookingComponent,
         ConfirmOrderModelComponent,
         BookingCustomModelComponent,
+        CreateSucceededComponent,
+        BookingDetailComponent,
+        MobileShareBookingModelComponent
     ],
     providers: [
 
