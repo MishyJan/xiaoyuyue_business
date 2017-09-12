@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Injector, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Breadcrumb, BreadcrumbService } from 'shared/services/bread-crumb.service';
 
-import { AppComponentBase } from "shared/common/app-component-base";
-import { Breadcrumb } from 'angular-crumbs';
-import { BreadcrumbService } from 'shared/services/bread-crumb.service';
+import { AppComponentBase } from 'shared/common/app-component-base';
 
 @Component({
     // tslint:disable-next-line:component-selector
