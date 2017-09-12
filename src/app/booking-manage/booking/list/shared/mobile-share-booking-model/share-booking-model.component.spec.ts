@@ -1,23 +1,23 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
-import { ShareBookingModelComponent } from './share-booking-model.component';
+import { MobileShareBookingModelComponent } from './share-booking-model.component';
 
 describe('ShareBookingModelComponent', () => {
-  let component: ShareBookingModelComponent;
-  let fixture: ComponentFixture<ShareBookingModelComponent>;
+  let component: MobileShareBookingModelComponent;
+  let fixture: ComponentFixture<MobileShareBookingModelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShareBookingModelComponent ]
+      declarations: [ MobileShareBookingModelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShareBookingModelComponent);
+    fixture = TestBed.createComponent(MobileShareBookingModelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

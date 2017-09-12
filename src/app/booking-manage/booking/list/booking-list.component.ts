@@ -8,6 +8,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { AppStorageService } from 'shared/services/storage.service';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
+import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-model/share-booking-model.component';
 import { Moment } from 'moment';
 import { NgxAni } from 'ngxani';
 import { Observable } from 'rxjs/Rx';
@@ -65,6 +66,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     @ViewChild('bookingCustomModelComponent') BookingCustomModelComponent: BookingCustomModelComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
     @ViewChild('bookingBg') bookingBgElement: ElementRef;
+    @ViewChild('mobileShareBookingModel') mobileShareBookingModel: MobileShareBookingModelComponent;
 
     constructor(
         injector: Injector,
@@ -335,6 +337,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 this.actionFlag[index] = !!this.actionFlag[index];
             }
         });
+    }
+
+    showShareModel(bookingId: number): void {
+        const shareUrl = AppConsts.shareBaseUrl + '/booking/' + bookingId;
+        this.mobileShareBookingModel.show(shareUrl);
     }
 
     /* 公用代码 */
