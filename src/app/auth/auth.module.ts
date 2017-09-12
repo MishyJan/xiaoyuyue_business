@@ -24,6 +24,7 @@ import { NgModule } from '@angular/core';
 import { PhoneValidateComponent } from 'app/auth/shared/phone-validate/phone-validate.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './password/reset-password.component';
+import { ResponsiveModule } from 'ng2-responsive';
 import { SendTwoFactorCodeComponent } from './login/send-two-factor-code.component';
 import { TenantChangeComponent } from './shared/tenant-change.component';
 import { TenantChangeModalComponent } from './shared/tenant-change-modal.component';
@@ -48,7 +49,7 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
 
         UtilsModule,
         AuthRoutingModule,
-
+        ResponsiveModule
     ],
     declarations: [
         AuthComponent,

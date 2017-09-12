@@ -1,8 +1,16 @@
 <div [@routerTransition]>
     <form #registerForm="ngForm" method="post">
         <div class="register-wrap portlet">
-            <div class="register-title">
-                <div class="title"><img class="logo" src="/assets/common/images/login/logo-x2.png" alt=""></div>
+            <div *hideItBootstrap="['xs','sm']">
+
+                <div class="register-title">
+                    <div class="title"><img class="logo" src="/assets/common/images/login/logo-x2.png" alt=""></div>
+                </div>
+            </div>
+            <div *showItBootstrap="['xs','sm']">
+                <div class="logo-wrap">
+                    <img class="ng-tns-c1-0" alt="logo" src="/assets/common/images/login/logo-colorized.png" width="40px">
+                </div>
             </div>
             <div class="register-body">
                 <div class="row">
@@ -65,7 +73,8 @@
                     </div>
                 </div>
                 <div class="register-btn-wrap">
-                    <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!registerForm.form.valid" [buttonBusy]="saving" [busyText]="'注册中...'"><i></i><span>{{l("CreateAnAccount")}}</span></button>
+                    <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!registerForm.form.valid" [buttonBusy]="saving"
+                        [busyText]="'注册中...'"><i></i><span>{{l("CreateAnAccount")}}</span></button>
                 </div>
             </div>
             <div class="register-footer"></div>
