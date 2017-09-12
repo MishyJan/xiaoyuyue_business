@@ -52,18 +52,20 @@ export abstract class AppComponentBase {
     }
 
     private createTitle(routesCollection: Breadcrumb[]) {
-        const title = this.l('Xiaoyuyue');
+        const title = `${this.l('BusinessCenter')} - ${this.l('Xiaoyuyue')}`;
+
         const titles = routesCollection.filter((route) => route.displayName);
 
         if (!titles.length) { return title; }
 
         const routeTitle = this.titlesToString(titles);
-        return `${routeTitle} ${title}`;
+        return `${routeTitle} - ${title}`;
     }
 
     private titlesToString(titles) {
         return titles.reduce((prev, curr) => {
-            return `${this.l(curr.displayName)} - ${prev}`;
+            // return `${this.l(curr.displayName)} - ${prev}`;
+            return `${this.l(curr.displayName)}`;
         }, '');
     }
 
