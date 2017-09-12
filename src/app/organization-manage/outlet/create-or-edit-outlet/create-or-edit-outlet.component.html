@@ -138,7 +138,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !startShopHours}">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !startShopHours}">
                                             <label class="control-label">起始时间</label>
                                             <input class="form-control" type="time" [(ngModel)]="startShopHours" name="mobileStartShopHours" placeholder="{{l('StartTime')}}"
                                                 required>
@@ -146,7 +146,7 @@
                                     </div>
 
                                     <div class="col-xs-6">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !endShopHours}">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !endShopHours}">
                                             <label class="control-label">结束时间</label>
                                             <input class="form-control" type="time" [(ngModel)]="endShopHours" name="mobileEndShopHours" placeholder="{{l('EndTime')}}"
                                                 required>
@@ -204,8 +204,9 @@
                 <div class="outlet-bg">
                     <div class="card">
                         <div class="card-content">
-                            <div class="content-wrap">
-                                <div class="upload-tips">
+                            <div class="content-wrap" UploadPicture (picUploadInfoHandler)="getOutletBgInfo($event)" [browseButtonEle]="'#uploadArea'" [groupId]="1">
+                                <div id="uploadArea" class="upload-area"  [ngStyle]="{'background-image': 'url(' + outetInfo.pictureUrl + ')'}"></div>
+                                <div class="upload-tips" *ngIf="!(outetInfo.pictureUrl || outetInfo.pictureUrl  === '')">
                                     <span class="vapps-icon vapps-icon-cb-add-img"></span>
                                     <p class="text">请上传代表本店形象的照片</p>
                                 </div>
@@ -220,6 +221,8 @@
                 </div>
             </tab>
         </tabset>
-        <button class="btn btn-block next-step primary-bgcolor" (click)="nextStep()">{{l('NextStep')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()">{{l('Submit')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="saveAndEdit()">{{l('Update')}}</button>
     </div>
 </div>

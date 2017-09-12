@@ -40,8 +40,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
     outetInfo: OutletEditDto = new OutletEditDto();
 
-    startShopHours: any = '';
-    endShopHours: any;
+    startShopHours: any = '00:00';
+    endShopHours: any = '00:00';
 
     pictureInfo: UploadPictureDto = new UploadPictureDto();
 
@@ -235,5 +235,17 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     updateNextIndex(index: number): void {
         this.nextIndex = index;
         // this.refreshData();
+    }
+
+    getOutletBgInfo(outletBgInfo: UploadPictureDto): void {
+        this.outetInfo.pictureId = outletBgInfo.pictureId;
+        this.outetInfo.pictureUrl = outletBgInfo.pictureUrl;
+    }
+
+    isShowConfirm(): boolean {
+        if (this.nextIndex === 3) {
+            return true;
+        }
+        return false;
     }
 }
