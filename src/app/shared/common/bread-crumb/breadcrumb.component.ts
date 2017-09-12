@@ -10,7 +10,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
     `<div #template>
     <ng-content></ng-content>
 </div>
-<div class="container" *ngIf="template.children.length == 0">
+<div class="" *ngIf="template.children.length == 0">
     <div class="nav-wrapper">
         <div class="breadcrumb" *ngFor="let route of breadcrumbs" [ngClass]="{'last': route.terminal}">
             <!-- disable link of last item -->

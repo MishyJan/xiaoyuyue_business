@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
 
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { Moment } from 'moment';
 
 @Component({
@@ -8,7 +9,7 @@ import { Moment } from 'moment';
     templateUrl: './booking-date-statistics.component.html',
     styleUrls: ['./booking-date-statistics.component.scss']
 })
-export class BookingDateStatisticsComponent implements OnInit, AfterViewInit {
+export class BookingDateStatisticsComponent extends AppComponentBase implements OnInit, AfterViewInit {
     bookingStatisticalData: BookingConverRateDto[] = [];
     bookingStatisticalDate: string;
     chartOption: object = {};
@@ -16,8 +17,10 @@ export class BookingDateStatisticsComponent implements OnInit, AfterViewInit {
     showloading = true;
 
     constructor(
+        injector: Injector,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
+        super(injector);
     }
 
     ngOnInit() {

@@ -1,6 +1,6 @@
 <div class="header clearfix">
     <div class="card-header card-header-text pull-left" data-background-color="orange">
-        <h6 class="card-title">预约饱和度</h6>
+        <h6 class="card-title">{{l('Dashboard.BookingSaturation')}}</h6>
     </div>
     <span class="dropdown-list pull-right">
             <kendo-dropdownlist [data]="outletSelectListData"  (valueChange)="outletSelectListDataChangeHandler($event)" textField="text" valueField="value" [valuePrimitive]="true" [value]="outletDefaultListItem"></kendo-dropdownlist> 
@@ -11,7 +11,7 @@
     <div class="top-view clearfix">
         <div class="item left-item">
             <span class="text-data">
-                    <p class="text">可预约总人数</p>
+                    <p class="text">{{l('Dashboard.SubMaxBookingNum')}}</p>
                     <span class="total">{{ bookingStatisticsData.subMaxBookingNum }}</span>
             </span>
             <span class="icon vapps-icon-app-booking-total"></span>
@@ -19,7 +19,7 @@
         <div class="item right-item">
             <span class="icon vapps-icon-app-booking-new-join"></span>
             <span class="text-data">
-                    <p class="text">新参与人数</p>
+                    <p class="text">{{l('Dashboard.SubNewBookingNum')}}</p>
                     <span class="total">{{ bookingStatisticsData.subBookingNum }}</span>
             </span>
         </div>
@@ -27,10 +27,10 @@
 
     <div class="table-list">
         <div class="table-head">
-            <span class="head-item">项目名</span>
-            <span class="head-item">预约进度</span>
-            <span class="head-item">饱和度</span>
-            <span class="head-item">排队人数</span>
+            <span class="head-item">{{l('Booking.Name')}}</span>
+            <span class="head-item">{{l('Dashboard.BookingRate')}}</span>
+            <span class="head-item">{{l('Dashboard.BookingPercent')}}</span>
+            <span class="head-item">{{l('Dashboard.SubQueueNum')}}</span>
         </div>
         <div class="table-content" *ngFor="let item of bookingStatisticsData.bookings">
             <span class="content-item item-name text-overflow">{{ item.name }}</span>

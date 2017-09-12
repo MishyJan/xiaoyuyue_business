@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, GetBookingAccessSourceOutput } from 'shared/service-proxies/service-proxies';
 
+import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 
 @Component({
@@ -8,7 +9,7 @@ import { Moment } from 'moment';
     templateUrl: './booking-access-source.component.html',
     styleUrls: ['./booking-access-source.component.scss']
 })
-export class BookingAccessSourceComponent implements OnInit, AfterViewInit {
+export class BookingAccessSourceComponent extends AppComponentBase implements OnInit, AfterViewInit {
     resData: object[] = [];
     bookingAccessSourceData: GetBookingAccessSourceOutput = new GetBookingAccessSourceOutput();
     bookingAccessSourceDate: string;
@@ -17,8 +18,10 @@ export class BookingAccessSourceComponent implements OnInit, AfterViewInit {
     showloading = true;
 
     constructor(
+        injector: Injector,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
+        super(injector);
     }
 
     ngOnInit() {

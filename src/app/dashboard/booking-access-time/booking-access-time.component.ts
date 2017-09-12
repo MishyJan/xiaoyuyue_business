@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingAccessChannelDto, BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
 
+import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 import { element } from 'protractor';
 
@@ -17,7 +18,7 @@ export class SeriesItem {
     styleUrls: ['./booking-access-time.component.scss']
 })
 
-export class BookingAccessTimeComponent implements OnInit, AfterViewInit {
+export class BookingAccessTimeComponent extends AppComponentBase implements OnInit, AfterViewInit {
     echartsIntance: any;
     seriesData: SeriesItem[] = [];
     bookingAccessTimeData: BookingAccessChannelDto[] = [];
@@ -27,8 +28,10 @@ export class BookingAccessTimeComponent implements OnInit, AfterViewInit {
     showloading = true;
 
     constructor(
+        injector: Injector,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
+        super(injector);
     }
 
     ngOnInit() {
