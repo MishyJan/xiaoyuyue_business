@@ -7,6 +7,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { AuthComponent } from 'app/auth/auth.component';
 import { AuthRoutingModule } from 'app/auth/auth-routing.module';
 import { BackgroundImgComponent } from 'app/auth/layout/background-img/background-img.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
@@ -46,7 +47,8 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
         CommonModule,
 
         UtilsModule,
-        AuthRoutingModule
+        AuthRoutingModule,
+
     ],
     declarations: [
         AuthComponent,

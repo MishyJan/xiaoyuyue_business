@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
         RouterModule.forChild([
             {
                 path: '',
-                data: { title: 'Menu.Dashboard', permission: Permissions.Dashboard },
+                data: { breadcrumb: 'Menu.Dashboard', permission: Permissions.Dashboard },
                 canActivate: [AppRouteGuard],
                 canActivateChild: [AppRouteGuard],
                 component: DashboardComponent,

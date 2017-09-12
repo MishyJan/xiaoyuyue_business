@@ -48,6 +48,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         super(injector);
     }
 
+
     ngAfterViewInit(): void {
         const self = this;
         $(document).click(() => {

@@ -19,7 +19,6 @@
     "mobile": false,
     "styles": [
       "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-
       "assets/md-pro/css/material-dashboard.css",
       "assets/metronic/admin/layout4/css/themes/light.css",
       "assets/metronic/admin/layout4/css/layout.css",
