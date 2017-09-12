@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 
 export class AnchorsDto {
@@ -15,11 +16,14 @@ export class AnchorsDto {
     providers: [AnchorsDto]
 })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent extends AppComponentBase implements OnInit {
 
     constructor(
+        injector: Injector,
         public anchorsLinksData: AnchorsDto = new AnchorsDto()
-    ) { }
+    ) {
+        super(injector);
+    }
 
     ngOnInit() {
         this.init();
