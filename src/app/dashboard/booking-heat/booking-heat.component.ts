@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BookingHeatDto, OrgBookingServiceProxy, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { Moment } from 'moment';
 import { element } from 'protractor';
 
@@ -9,7 +10,7 @@ import { element } from 'protractor';
     templateUrl: './booking-heat.component.html',
     styleUrls: ['./booking-heat.component.scss']
 })
-export class BookingHeatComponent implements OnInit, AfterViewInit {
+export class BookingHeatComponent extends AppComponentBase implements OnInit, AfterViewInit {
     bookingHeatData: BookingHeatDto[];
     bookingId: number;
     orgBookingSelectListData: SelectListItemDto[];
@@ -19,9 +20,11 @@ export class BookingHeatComponent implements OnInit, AfterViewInit {
     showloading = true;
 
     constructor(
+        injector: Injector,
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
+        super(injector);
     }
 
     ngOnInit() {
@@ -31,7 +34,6 @@ export class BookingHeatComponent implements OnInit, AfterViewInit {
     ngAfterViewInit() {
     }
 
-
     loadData(): void {
         this.showloading = true;
         this._bookingDataStatisticsServiceProxy
@@ -39,7 +41,6 @@ export class BookingHeatComponent implements OnInit, AfterViewInit {
             .finally(() => { this.showloading = false })
             .subscribe((result) => {
                 this.bookingHeatData = result;
-
 
                 this.chartOption = {
                     color: ['#3398DB'],
@@ -53,17 +54,21 @@ export class BookingHeatComponent implements OnInit, AfterViewInit {
                         top: '60px',
                         left: '3%',
                         right: '4%',
-                        bottom: '60px',
+                        bottom: '0px',
                         containLabel: true
                     },
                     xAxis: [
                         {
                             type: 'category',
                             data: (() => {
-                                let res = [];
-                                this.bookingHeatData.forEach(element => {
-                                    res.push(element.hourOfDay);
-                                });
+                                const res = [];
+                                if (this.bookingHeatData.length > 0) {
+                                    this.bookingHeatData.forEach(element => {
+                                        res.push(element.hourOfDay);
+                                    });
+                                } else {
+                                    res.push(this.l('NoData'));
+                                }
                                 return res;
                             })(),
                             axisTick: {
@@ -78,26 +83,33 @@ export class BookingHeatComponent implements OnInit, AfterViewInit {
                     ],
                     series: [
                         {
-                            name: '时间热度',
+                            name: this.l('Dashboard.BookingHeat'),
                             type: 'bar',
                             barWidth: '20px',
                             itemStyle: {
                                 normal: {
-                                    color: "#FF9641"
+                                    color: '#FF9641'
                                 }
                             },
                             data: (() => {
-                                let res = [];
-                                this.bookingHeatData.forEach(element => {
-                                    res.push(element.bookingOrderNum);
-                                });
+                                const res = [];
+                                if (this.bookingHeatData.length > 0) {
+                                    this.bookingHeatData.forEach(element => {
+                                        res.push(element.bookingOrderNum);
+                                    });
+                                } else {
+                                    res.push(0);
+                                }
                                 return res;
                             })(),
                         }
                     ]
                 };
 
-
+                if (this.bookingHeatData.length <= 0) {
+                    const myChart = echarts.init(document.getElementById('bookingAccessHeatEcharts'));
+                    myChart.setOption(this.chartOption);
+                }
             })
     }
 

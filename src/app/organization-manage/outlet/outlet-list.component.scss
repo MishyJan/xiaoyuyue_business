@@ -58,4 +58,38 @@
             }
         }
     }
+    /* 移动端样式 */
+    &.mobile {
+        .outlet-list-wrap {
+            margin-top: 0;
+            .outlet-item {
+                margin-bottom: 20px;
+                .item {
+                    padding: 0;
+                }
+                .top-wrap {
+                    margin-top: 0;
+                    border-radius: 0;
+                }
+                .content-wrap {
+                    padding: 15px;
+                    .content-item + .content-item {
+                        margin-top: 20px;
+                    }
+                    .content-item {
+                        .outlet-name {
+                            color: #FF9641;
+                            font-size: 16px;
+                        }
+                        >.flex-right {
+                            .flex-right {
+                                color: #CCC;
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

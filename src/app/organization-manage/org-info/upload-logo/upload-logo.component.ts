@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
 
@@ -8,18 +9,25 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
   templateUrl: './upload-logo.component.html',
   styleUrls: ['./upload-logo.component.scss']
 })
-export class UploadOrgLogoComponent implements OnInit {
+export class UploadOrgLogoComponent extends AppComponentBase implements OnInit {
   picUrl: string;
   uploadUid: number = Math.round(new Date().valueOf() * Math.random());
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
   @Output() orgLogoIngoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
   @Input() orgLogoUrl: string;
-  constructor() { }
+  constructor(injector: Injector) {
+    super(
+      injector
+    );
+  }
 
   ngOnInit() {
   }
+
   uploadOrgLogo(): void {
-    this.uploadPictureNoneGalleryModel.show();
+    if (this.isGranted(this.permissions.organization_BaseInfo)) {
+      this.uploadPictureNoneGalleryModel.show();
+    }
   }
 
   getPicUploadInfoHandler(picInfo: UploadPictureDto) {

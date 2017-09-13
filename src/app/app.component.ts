@@ -1,4 +1,5 @@
-import { Component, ViewContainerRef, OnInit, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewContainerRef } from '@angular/core';
+
 import { AppConsts } from '@shared/AppConsts';
 
 @Component({
@@ -30,16 +31,16 @@ export class AppComponent implements OnInit, AfterViewInit {
      * 如果菜单栏为空就不显示，并且把page-content宽度设置为100%
      */
     sidebarIsShow() {
-        this.sidebarListShow = $("#sidebar .page-sidebar-menu").children().length;
+        this.sidebarListShow = $('#sidebar .page-sidebar-menu').children().length;
         if (this.sidebarListShow < 1) {
-            $("#sidebar").children().eq(0).css({
+            $('#sidebar').children().eq(0).css({
                 width: 0
             })
 
-            $(".page-content-wrapper .page-content").css({
-                width: "100%",
+            $('.page-content-wrapper .page-content').css({
+                width: '100%',
                 left: 0,
-                paddingLeft: "20px",
+                paddingLeft: '20px',
                 marginLeft: 0
             })
         }

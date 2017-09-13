@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, Input, OnChanges, OnInit } from '@angular/core';
 import { BookingAccessRegionDto, BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
 
+import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 
 export class BookingAccessRegion {
@@ -13,9 +14,11 @@ export class BookingAccessRegion {
     templateUrl: './booking-access-region.component.html',
     styleUrls: ['./booking-access-region.component.scss']
 })
-export class BookingAccessRegionComponent implements OnInit, AfterViewInit {
-    bookingAccessRegionEchartsData: BookingAccessRegion = new BookingAccessRegion();
+export class BookingAccessRegionComponent extends AppComponentBase implements OnChanges {
+
+    @Input()
     bookingAccessRegionData: BookingAccessRegionDto[];
+    bookingAccessRegionChart;
     resData: object[] = [];
     bookingAccessRegionDate: string;
     chartOption: object = {};
@@ -23,114 +26,73 @@ export class BookingAccessRegionComponent implements OnInit, AfterViewInit {
     showloading = true;
 
     constructor(
+        injector: Injector,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
+        super(injector);
     }
 
-    ngOnInit() {
-        const date = new Date();
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        date.setMilliseconds(0);
-        date.setDate(date.getDate() - 1);
-        this.bookingAccessRegionDate = this.dateToString(date);
-        this.loadData();
+    ngOnChanges() {
+        this.initChart();
     }
 
-    ngAfterViewInit() {
+    onChartInit(ec) {
+        this.bookingAccessRegionChart = ec;
     }
 
-    loadData(): void {
-        this.showloading = true;
-        this._bookingDataStatisticsServiceProxy
-            .getBookingAccessRegion(this.bookingAccessRegionDate)
-            .finally(() => { this.showloading = false })
-            .subscribe((result) => {
-                this.bookingAccessRegionData = result;
-
-                this.chartOption = {
-                    title: {
-                        // text: 'iphone销量',
-                        // subtext: '纯属虚构',
-                        left: 'center'
-                    },
-                    tooltip: {
-                        trigger: 'item'
-                    },
-                    // legend: {
-                    //     orient: 'vertical',
-                    //     left: 'left',
-                    //     data: ['iphone3', 'iphone4', 'iphone5']
-                    // },
-                    visualMap: {
-                        min: 0,
-                        max: 2500,
-                        left: 'left',
-                        top: 'top',
-                        text: ['高', '低'],           // 文本，默认为数值文本
-                        calculable: true
-                    },
-                    // toolbox: {
-                    //     show: true,
-                    //     orient: 'vertical',
-                    //     left: 'right',
-                    //     top: 'center',
-                    //     feature: {
-                    //         dataView: { readOnly: false },
-                    //         restore: {},
-                    //         saveAsImage: {}
-                    //     }
-                    // },
-                    series: [
-                        {
-                            name: '访问人分布',
-                            type: 'map',
-                            mapType: 'china',
-                            roam: false,
-                            label: {
-                                normal: {
-                                    show: false
-                                },
-                                emphasis: {
-                                    show: true
-                                }
-                            },
-                            data: (() => {
-                                const res = [];
-                                this.bookingAccessRegionData.forEach(element => {
-                                    this.bookingAccessRegionEchartsData = new BookingAccessRegion();
-                                    this.bookingAccessRegionEchartsData.name = element.name;
-                                    this.bookingAccessRegionEchartsData.value = element.num;
-                                    res.push(this.bookingAccessRegionEchartsData);
-                                });
-                                return res;
-                            })(),
-                            // data: [
-                            //     { name: '北京', value: Math.round(Math.random() * 1000) },
-                            // ]
+    initChart(): void {
+        this.chartOption = {
+            title: {
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            visualMap: {
+                min: 0,
+                max: 2500,
+                left: 'left',
+                top: 'top',
+                text: [this.l('High'), this.l('Low')],           // 文本，默认为数值文本
+                calculable: true
+            },
+            series: [
+                {
+                    name: this.l('Dashboard.AccessRegion'),
+                    type: 'map',
+                    mapType: 'china',
+                    roam: false,
+                    label: {
+                        normal: {
+                            show: false
                         },
-                    ]
-                };
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    data: (() => {
+                        const res = [];
 
-                if (result.length <= 0) {
-                    const myChart = echarts.init(document.getElementById('bookingAccessRegionEcharts'));
-                    myChart.setOption(this.chartOption);
-                }
+                        if (this.bookingAccessRegionData.length > 0) {
+                            this.bookingAccessRegionData.forEach(element => {
+                                const item = new BookingAccessRegion();
+                                item.name = element.name;
+                                item.value = element.num;
+                                res.push(item);
+                            });
+                        } else {
+                            res.push(new BookingAccessRegion());
+                        }
+                        return res;
+                    })(),
+                },
+            ]
+        };
 
-            })
-    }
-
-    dateToString(date: Date): string {
-        let temp = '';
-        if (date instanceof Date) {
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            temp = `${year}-${month}-${day}`;
+        if (this.bookingAccessRegionChart) {
+            this.bookingAccessRegionChart.setOption(this.chartOption);
+            this.bookingAccessRegionChart.resize();
         }
-        return temp;
     }
-
 }
 

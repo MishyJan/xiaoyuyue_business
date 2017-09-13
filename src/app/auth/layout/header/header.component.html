@@ -2,17 +2,17 @@
     <div class="menu-wrap pull-left">
         <div class="menu-item">
             <div class="item">
-                <a href="#"><img class="logo" src="/assets/common/images/login/logo-x1.png" alt="">小预约</a>
+                <a href="#"><img class="logo" src="/assets/common/images/login/logo-x1.png" alt="">{{l('Xiaoyuyue')}}</a>
             </div>
-            <div class="item"><a [href]="anchorsLinksData.aboutLink">关于我们</a></div>
-            <div class="item"><a [href]="anchorsLinksData.howUsed">如何使用</a></div>
-            <div class="item"><a [href]="anchorsLinksData.contactUs">联系我们</a></div>
+            <div class="item"><a [href]="anchorsLinksData.aboutLink">{{l('AboutUs')}}</a></div>
+            <div class="item"><a [href]="anchorsLinksData.howUsed">{{l('HowToUse')}}</a></div>
+            <div class="item"><a [href]="anchorsLinksData.contactUs">{{l('ContactUs')}}</a></div>
         </div>
     </div>
     <div class="login-or-register-wrap pull-right">
         <div class="menu-item">
-            <div class="item"><a routerLink="/auth/login">登录</a></div>
-            <div class="item"><a routerLink="/auth/register">注册</a></div>
+            <div class="item"><a routerLink="/auth/login">{{l('LogIn')}}</a></div>
+            <div class="item"><a routerLink="/auth/register">{{l('Register')}}</a></div>
         </div>
     </div>
 </div>

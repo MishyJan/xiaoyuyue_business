@@ -1,113 +1,228 @@
-<div class="create-outlet" [@routerTransition]>
-    <form #createBookingForm="ngForm">
-        <div class="row margin-bottom-5">
-            <div class="col-xs-6">
-                <div class="page-head">
-                    <div class="page-title">
-                        <h1>
-                            <span>新增门店</span>
-                            <small routerLink="/org" class="back-btn">
-                                <span class="vapps-icon-app-back"></span>
-                                <span class="text">返回</span>
-                            </small>
-                        </h1>
+<div *hideItBootstrap="['xs','sm']">
+    <div class="create-outlet" [@routerTransition]>
+        <form #createBookingForm="ngForm">
+            <div class="row margin-bottom-5">
+                <div class="col-xs-6">
+                    <div class="page-head">
+                        <div class="page-title">
+                            <h1>
+                                <span>{{l('Outlet.Create')}}</span>
+                                <small routerLink="/org" class="back-btn">
+                                            <span class="vapps-icon-app-back"></span>
+                                            <span class="text">{{l('Back')}}</span>
+                                        </small>
+                            </h1>
+                        </div>
                     </div>
                 </div>
+                <div class="col-xs-6 text-right">
+                    <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="save()" class="btn primary-bgcolor"
+                        [buttonBusy]="saving" [busyText]="l('Saving')"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                    <button type="botton" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="saveAndEdit()" class="btn primary-bgcolor"><i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
+                    <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
+                </div>
             </div>
-            <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
-                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor">{{l("BusinessCenter.SavingAndEditing")}}</button>
-                <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <!-- 门店信息 -->
-                <div class="card">
-                    <div class="form-horizontal">
-                        <div class="card-header card-header-text" data-background-color="orange">
-                            <h6 class="card-title">{{l("General")}}</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- 门店信息 -->
+                    <div class="card">
+                        <div class="form-horizontal">
+                            <div class="card-header card-header-text" data-background-color="orange">
+                                <h6 class="card-title">{{l("General")}}</h6>
+                            </div>
+                            <div class="card-content">
+                                <!-- 门店名称 -->
+                                <div class="row">
+                                    <label class="col-sm-2 label-on-left">{{l('Outlet.Name')}}</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="{{l('Outlet.Name')}}"
+                                                required autofocus>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 营业时间 -->
+                                <div class="row">
+                                    <label class="col-md-2 label-on-left">{{l('Outlet.BusinessHours')}}</label>
+                                    <div class="col-md-10">
+                                        <div class="label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <span class="col-md-6 no-left-padding shop-hours-start">
+                                                <input class="form-control" type="time" [(ngModel)]="startShopHours" name="startShopHours" placeholder="{{l('StartTime')}}" required>
+                                            </span>
+                                            <span class="col-md-6 no-right-padding shop-hours-end">
+                                                <input class="form-control" type="time" [(ngModel)]="endShopHours" name="endShopHours" placeholder="{{l('EndTime')}}" required>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 门店地址 -->
+                                <div class="row">
+                                    <label class="col-md-2 label-on-left">{{l('Outlet.Address')}}</label>
+                                    <div class="col-md-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <div class="select-address-wrap clearfix">
+                                                <div class="col-md-4 item no-left-padding">
+                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
+                                                        [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
+                                                </div>
+                                                <div class="col-md-4 item no-lr-padding">
+                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                                    </kendo-dropdownlist>
+                                                </div>
+                                                <div class="col-md-4 item no-right-padding">
+                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                                    </kendo-dropdownlist>
+                                                </div>
+                                            </div>
+                                            <div class="detailed-address-wrap">
+                                                <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="detailAddress" placeholder="详细地址"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 固定电话 -->
+                                <div class="row">
+                                    <label class="col-sm-2 label-on-left">{{l('Outlet.PhoneNum')}}</label>
+                                    <div class="col-sm-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <xiaoyuyue-outlet-image [pictureInfo]="pictureInfo" (pictureInfoHandler)="getPictureInfo($event)"></xiaoyuyue-outlet-image>
+                </div>
+                <div class="col-md-12">
+                    <xiaoyuyue-contact-info [onlineAllContactors]="onlineAllContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
+                </div>
+            </div>
+        </form>
+        <!--<xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>-->
+    </div>
+</div>
+
+<div *showItBootstrap="['xs','sm']">
+    <div class="mobile-create-outlet" [@routerTransition]>
+        <tabset class="side-bar" #staticTabs>
+            <tab heading="门店信息" (select)="updateNextIndex(1)">
+                <div class="outlet-info">
+                    <div class="card">
+                        <form #mobileOutletInfo="ngForm">
+                            <div class="card-content">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.name}">
+                                            <label class="control-label">门店名称</label>
+                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="mobileOutletName" autofocus required>
+                                            <!-- <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
+                                                <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
+                                                <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',20)}}</small>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !startShopHours}">
+                                            <label class="control-label">起始时间</label>
+                                            <input class="form-control" type="time" [(ngModel)]="startShopHours" name="mobileStartShopHours" placeholder="{{l('StartTime')}}"
+                                                required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !endShopHours}">
+                                            <label class="control-label">结束时间</label>
+                                            <input class="form-control" type="time" [(ngModel)]="endShopHours" name="mobileEndShopHours" placeholder="{{l('EndTime')}}"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group label-floating">
+                                            <div class="select-address-wrap clearfix">
+                                                <div class="col-xs-4 item no-left-padding">
+                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
+                                                        [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
+                                                </div>
+                                                <div class="col-xs-4 item no-lr-padding">
+                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                                    </kendo-dropdownlist>
+                                                </div>
+                                                <div class="col-xs-4 item no-right-padding">
+                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                                    </kendo-dropdownlist>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.detailAddress}">
+                                            <label class="control-label">详细地址</label>
+                                            <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="mobileDetailAddress"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.phoneNum}">
+                                            <label class="control-label">固定电话</label>
+                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="mobileLandlinePhone" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </tab>
+            <tab heading="门店形象" (select)="updateNextIndex(2)">
+                <div class="outlet-bg">
+                    <div class="card">
                         <div class="card-content">
-                            <!-- 门店名称 -->
-                            <div class="row">
-                                <label class="col-sm-2 label-on-left">门店名称</label>
-                                <div class="col-sm-10">
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label"></label>
-                                        <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="门店名称"
-                                            required autofocus>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 营业时间 -->
-                            <div class="row">
-                                <label class="col-md-2 label-on-left">营业时间</label>
-                                <div class="col-md-10">
-                                    <div class="label-floating is-empty">
-                                        <label class="control-label"></label>
-                                        <span class="col-md-6 no-left-padding shop-hours-start">
-                                            <input class="form-control" type="time" [(ngModel)]="startShopHours" name="startShopHours" placeholder="起始时间" required>
-                                        </span>
-                                        <span class="col-md-6 no-right-padding shop-hours-end">
-                                            <input class="form-control" type="time" [(ngModel)]="endShopHours" name="endShopHours" placeholder="结束时间" required>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 门店地址 -->
-                            <div class="row">
-                                <label class="col-md-2 label-on-left">门店地址</label>
-                                <div class="col-md-10">
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label"></label>
-                                        <div class="select-address-wrap clearfix">
-                                            <div class="col-md-4 item no-left-padding">
-                                                <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
-                                                    [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
-                                            </div>
-                                            <div class="col-md-4 item no-lr-padding">
-                                                <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
-                                                    [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
-                                                </kendo-dropdownlist>
-                                            </div>
-                                            <div class="col-md-4 item no-right-padding">
-                                                <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
-                                                    [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
-                                                </kendo-dropdownlist>
-                                            </div>
-                                        </div>
-                                        <div class="detailed-address-wrap">
-                                            <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="detailAddress" placeholder="详细地址"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 固定电话 -->
-                            <div class="row">
-                                <label class="col-sm-2 label-on-left">固定电话</label>
-                                <div class="col-sm-10">
-                                    <div class="form-group label-floating is-empty">
-                                        <label class="control-label"></label>
-                                        <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="固定电话"
-                                            required>
-                                    </div>
+                            <div class="content-wrap" UploadPicture (picUploadInfoHandler)="getOutletBgInfo($event)" [browseButtonEle]="'#uploadArea'" [groupId]="1">
+                                <div id="uploadArea" class="upload-area"  [ngStyle]="{'background-image': 'url(' + outetInfo.pictureUrl + ')'}"></div>
+                                <div class="upload-tips" *ngIf="!(outetInfo.pictureUrl || outetInfo.pictureUrl  === '')">
+                                    <span class="vapps-icon vapps-icon-cb-add-img"></span>
+                                    <p class="text">请上传代表本店形象的照片</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <xiaoyuyue-outlet-image [pictureInfo]="pictureInfo" (pictureInfoHandler)="getPictureInfo($event)"></xiaoyuyue-outlet-image>
-            </div>
-            <div class="col-md-12">
-                <xiaoyuyue-contact-info [onlineAllContactors]="onlineAllContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
-            </div>
-        </div>
-    </form>
-    <!--<xiaoyuyue-share-booking-model #shareBookingModel></xiaoyuyue-share-booking-model>-->
+            </tab>
+            <tab heading="联系人" (select)="updateNextIndex(3)">
+                <div class="outlet-contact">
+                    <xiaoyuyue-contact-info [onlineAllContactors]="onlineAllContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
+                </div>
+            </tab>
+        </tabset>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()">{{l('Submit')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="saveAndEdit()">{{l('Update')}}</button>
+    </div>
 </div>

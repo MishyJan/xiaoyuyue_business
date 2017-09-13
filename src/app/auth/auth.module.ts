@@ -7,6 +7,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { AuthComponent } from 'app/auth/auth.component';
 import { AuthRoutingModule } from 'app/auth/auth-routing.module';
 import { BackgroundImgComponent } from 'app/auth/layout/background-img/background-img.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
@@ -23,6 +24,7 @@ import { NgModule } from '@angular/core';
 import { PhoneValidateComponent } from 'app/auth/shared/phone-validate/phone-validate.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './password/reset-password.component';
+import { ResponsiveModule } from 'ng2-responsive';
 import { SendTwoFactorCodeComponent } from './login/send-two-factor-code.component';
 import { TenantChangeComponent } from './shared/tenant-change.component';
 import { TenantChangeModalComponent } from './shared/tenant-change-modal.component';
@@ -46,7 +48,8 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
         CommonModule,
 
         UtilsModule,
-        AuthRoutingModule
+        AuthRoutingModule,
+        ResponsiveModule
     ],
     declarations: [
         AuthComponent,

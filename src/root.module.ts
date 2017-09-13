@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
 import { NgxAniModule } from 'ngxani';
+import { ResponsiveModule } from 'ng2-responsive'
 import { RootComponent } from './root.component';
 import { RootRoutingModule } from './root-routing.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
@@ -34,7 +35,6 @@ export function appInitializerFactory(injector: Injector) {
                         } else {
                             $('body').attr('class', 'page-md login');
                         }
-
 
                         abp.ui.clearBusy();
                         resolve(result);
@@ -71,8 +71,9 @@ function handleLogoutRequest(authService: AppAuthService) {
         ServiceProxyModule,
         ServicesModule,
         RootRoutingModule,
+        ResponsiveModule,
+        NgxAniModule,
 
-        NgxAniModule
     ],
     declarations: [
         RootComponent

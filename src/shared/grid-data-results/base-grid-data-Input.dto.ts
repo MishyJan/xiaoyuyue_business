@@ -12,7 +12,7 @@ export class BaseGridDataInputDto {
     Sorting: Array<SortDescriptor> = [];
     Scrollable = 'none';
     Sortable = false;
-    constructor(buttonCount = 5, pageSizes = true, previousNext = true, info = true, scrollable = 'none', sortable = false) {
+    constructor(buttonCount = 5, pageSizes = false, previousNext = true, info = true, scrollable = 'none', sortable = false) {
         this.ButtonCount = buttonCount;
         this.PageSizes = pageSizes;
         this.PreviousNext = previousNext;

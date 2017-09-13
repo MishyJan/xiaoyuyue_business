@@ -10,6 +10,7 @@ import { NgModule } from '@angular/core';
             {
                 path: '',
                 component: AppComponent,
+                data: { breadcrumb: 'Home' },
                 children: [
                     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 
@@ -25,12 +26,12 @@ import { NgModule } from '@angular/core';
                     },
                     {
                         path: 'booking',
-                        loadChildren: 'app/booking-manage/booking/booking.module#BookingModule', // Lazy load admin module
+                        loadChildren: 'app/booking-manage/booking/booking.module#BookingModule', // Lazy load booking module
                         data: { preload: true }
                     },
                     {
-                        path: 'customer',
-                        loadChildren: 'app/booking-manage/customer/customer.module#CustomerModule', // Lazy load admin module
+                        path: 'bookingorder',
+                        loadChildren: 'app/booking-manage/booking-order/booking-order.module#BookingOrderModule', // Lazy load booking order module
                         data: { preload: true }
                     },
                     {

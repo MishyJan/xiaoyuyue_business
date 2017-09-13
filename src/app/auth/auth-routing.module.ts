@@ -1,9 +1,11 @@
-import { AppRouteGuard } from "app/shared/common/auth/auth-route-guard";
+import { AppConsts } from "shared/AppConsts";
 import { AuthComponent } from './auth.component';
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
-import { ExternalLoginGuard } from "app/shared/common/auth/external-login-guard";
+import { ExternalLoginGuard } from 'app/shared/common/auth/external-login-guard';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
+import { LocalizationService } from '@abp/localization/localization.service';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { RegisterComponent } from './register/register.component';
@@ -19,14 +21,14 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
                 path: '',
                 component: AuthComponent,
                 children: [
-                    { path: 'login', component: LoginComponent},
-                    { path: 'register', component: RegisterComponent },
-                    { path: 'forgot-password', component: ForgotPasswordComponent },
-                    { path: 'reset-password', component: ResetPasswordComponent },
-                    { path: 'email-activation', component: EmailActivationComponent },
-                    { path: 'confirm-email', component: ConfirmEmailComponent },
-                    { path: 'send-code', component: SendTwoFactorCodeComponent },
-                    { path: 'verify-code', component: ValidateTwoFactorCodeComponent }
+                    { path: 'login', component: LoginComponent, data: { breadcrumb: 'LogIn' } },
+                    { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Register' } },
+                    { path: 'forgot-password', component: ForgotPasswordComponent, data: { breadcrumb: 'ForgotPassword' } },
+                    { path: 'reset-password', component: ResetPasswordComponent, data: { breadcrumb: 'ResetPassword' } },
+                    { path: 'email-activation', component: EmailActivationComponent, data: { breadcrumb: 'EmailActivation' } },
+                    { path: 'confirm-email', component: ConfirmEmailComponent, data: { breadcrumb: 'ConfirmEmail' } },
+                    { path: 'send-code', component: SendTwoFactorCodeComponent, data: { breadcrumb: 'SendCode' } },
+                    { path: 'verify-code', component: ValidateTwoFactorCodeComponent, data: { breadcrumb: 'VerifyCode' } }
                 ]
             }
         ])
@@ -38,4 +40,29 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
         ExternalLoginGuard
     ]
 })
-export class AuthRoutingModule { }
+
+export class AuthRoutingModule {
+
+    constructor(private localization: LocalizationService) {
+
+    }
+
+    public l(key: string, ...args: any[]): string {
+        let localizedText = this.localization.localize(key, AppConsts.localization.defaultLocalizationSourceName);
+
+        if (localizedText === key) {
+            localizedText = this.localization.localize(key, AppConsts.localization.commonLocalizationSourceName);
+        }
+
+        if (!localizedText) {
+            localizedText = key;
+        }
+
+        if (!args || !args.length) {
+            return localizedText;
+        }
+
+        args.unshift(localizedText);
+        return abp.utils.formatString.apply(this, args);
+    }
+}

@@ -1,11 +1,12 @@
 <div class="card">
     <div class="clearfix">
         <div class="card-header card-header-text pull-left" data-background-color="orange">
-            <h6 class="card-title">图片管理</h6>
+            <h6 class="card-title">{{l('PictureManage')}}</h6>
         </div>
-        <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="uploadPicModel()"><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
+        <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" *ngIf="isGranted(permissions.contentManage_PictureCreate)"
+            (click)="uploadPicModel()"><span class="vapps-icon vapps-icon-app-upload"></span>{{l('PictureGallery.LocalUpload')}}</button>
     </div>
- 
+
     <div class="card-content">
         <div class="row">
             <div class="gallery-wrap col-md-12">
@@ -13,7 +14,7 @@
                     <img alt="outletPicUrl" *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" height="100%">
                 </div>
             </div>
-<!-- <div class="gallery-action col-md-12">
+            <!-- <div class="gallery-action col-md-12">
                 <div class="upload-wrap">
                     <button class="upload btn btn-border-radius light-bgcolor" (click)="uploadPicModel()"><span class="vapps-icon vapps-icon-app-upload"></span>本地上传</button>
                 </div>
@@ -21,4 +22,5 @@
         </div>
     </div>
 </div>
-<xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
+<xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)"
+    [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>

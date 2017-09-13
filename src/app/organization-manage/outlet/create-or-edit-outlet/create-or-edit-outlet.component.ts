@@ -1,10 +1,11 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { PictureUrlHelper } from './../../../../shared/helpers/PictureUrlHelper';
+import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
+import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
@@ -13,8 +14,10 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     templateUrl: './create-or-edit-outlet.component.html',
     styleUrls: ['./create-or-edit-outlet.component.scss'],
     animations: [accountModuleAnimation()],
+    encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+    nextIndex: number = 1;
     savingAndEditing: boolean;
     saving = false;
     onlineAllContactors: ContactorEditDto[];
@@ -37,13 +40,15 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
     outetInfo: OutletEditDto = new OutletEditDto();
 
-    startShopHours: any;
-    endShopHours: any;
+    startShopHours: any = '00:00';
+    endShopHours: any = '00:00';
 
     pictureInfo: UploadPictureDto = new UploadPictureDto();
 
     href: string = document.location.href;
     outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
+
+    @ViewChild('staticTabs') staticTabs: TabsetComponent;
     constructor(
         injector: Injector,
         private _router: Router,
@@ -219,5 +224,28 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     getContactorEdit(contactorEdit: ContactorEditDto[]) {
         this.contactorEdit = contactorEdit;
+    }
+
+    /* 移动端代码 */
+    nextStep(): void {
+        this.staticTabs.tabs[this.nextIndex].active = true;
+    }
+
+    // tab点击的时候更新tab索引值 
+    updateNextIndex(index: number): void {
+        this.nextIndex = index;
+        // this.refreshData();
+    }
+
+    getOutletBgInfo(outletBgInfo: UploadPictureDto): void {
+        this.outetInfo.pictureId = outletBgInfo.pictureId;
+        this.outetInfo.pictureUrl = outletBgInfo.pictureUrl;
+    }
+
+    isShowConfirm(): boolean {
+        if (this.nextIndex === 3) {
+            return true;
+        }
+        return false;
     }
 }

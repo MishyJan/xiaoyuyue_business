@@ -7,6 +7,7 @@ import { ModalModule, } from 'ngx-bootstrap';
 import { NgModule } from '@angular/core';
 import { OrgInfoComponent } from './org-info.component';
 import { OrganizationRoutingModule } from './organization-routing.module';
+import { ResponsiveModule } from 'ng2-responsive'
 import { UploadOrgBgComponent } from './upload-bg/upload-bg.component';
 import { UploadOrgLogoComponent } from './upload-logo/upload-logo.component';
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -21,6 +22,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UtilsModule,
         AppCommonModule,
         DropDownsModule,
+        ResponsiveModule
     ],
     declarations: [
         OrgInfoComponent,

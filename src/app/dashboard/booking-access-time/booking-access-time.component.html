@@ -1,6 +1,7 @@
 <div class="header clearfix">
     <div class="card-header card-header-text pull-left" data-background-color="orange">
-        <h6 class="card-title">访问时间分布</h6>
+        <h6 class="card-title">{{l('Dashboard.AccessTime')}}</h6>
     </div>
 </div>
-<div id="bookingAccessTimeEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="demo-chart"></div>
+<div id="bookingAccessTimeEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="dashboard-chart"
+    (chartInit)="onChartInit($event)"></div>

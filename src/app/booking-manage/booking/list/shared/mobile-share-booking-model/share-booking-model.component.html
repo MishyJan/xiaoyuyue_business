@@ -1,0 +1,17 @@
+<div class="modal fade" bsModal #shareBookingModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <h4 class="modal-title pull-left">Static modal</h4> -->
+                <!-- <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button> -->
+            </div>
+            <div class="modal-body">
+                    <qr-code [value]="shareUrl" [size]="150"></qr-code>
+                    <p class="text">长按保存二维码 让更多人参与预约吧</p>
+            </div>
+        </div>
+    </div>
+</div>

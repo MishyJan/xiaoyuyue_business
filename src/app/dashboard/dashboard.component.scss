@@ -1,8 +1,31 @@
 .customer-center {
+    .flatpickr {
+        height: 33px;
+        .input-button {
+            .vapps-icon {
+                font-size: 14px;
+                display: inline-block;
+                transform: translateY(2px);
+            }
+        }
+        input {
+            width: 66px;
+            border: 0;
+            background: transparent;
+            color: #FFF;
+            cursor: pointer;
+            padding-bottom: 10px;
+        }
+        .vapps-icon-dc-calendar:before {
+            background-color: #FF9641;
+            color: #fff;
+        }
+    }
     p {
         margin: 24px 0;
     }
     .content {
+        padding-top: 5px;
         .left-content {
             .content-item {
                 .item :nth-of-type(1) {

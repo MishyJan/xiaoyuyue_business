@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
@@ -10,17 +10,16 @@ import { element } from 'protractor';
     templateUrl: './picture-manage.component.html',
     styleUrls: ['./picture-manage.component.scss']
 })
-export class PictureManageComponent extends AppComponentBase implements OnInit {
-    isMutliPic: boolean = true;
+export class PictureManageComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
+    isMutliPic = true;
     existingPicNum: number;
     pictrueIndex: number;
-    displayOrder: number = 0;
+    displayOrder = 0;
     allPictureEdit: BookingPictureEditDto[] = [];
 
-    @Input() pictureInfo: BookingPictureEditDto[];
+    @Input() pictureInfo: BookingPictureEditDto[] = [];
     @Output() sendAllPictureForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureGalleryComponent;
-
 
     constructor(
         injector: Injector
@@ -32,12 +31,10 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
     }
 
     ngAfterViewInit() {
-        let self = this;
-        setTimeout(function () {
-            if (self.pictureInfo) {
-                self.allPictureEdit = self.pictureInfo;
-            }
-        }, 1000)
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        this.allPictureEdit = this.pictureInfo;
     }
 
     uploadPicHandler(): void {
@@ -114,5 +111,4 @@ export class PictureManageComponent extends AppComponentBase implements OnInit {
         }
         arr.splice(index, 1);
     }
-
 }

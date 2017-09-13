@@ -101,3 +101,110 @@
         }
     }
 }
+
+.mobile-contact-info {
+    padding: 15px;
+    .card-content {
+        padding: 15px 20px 0px;
+    }
+    .add-time-btn {
+        position: fixed;
+        right: 10px;
+        bottom: 60px;
+        z-index: 1000;
+        .icon {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 50%;
+            background-color: #FF9641;
+            color: #FFF;
+            font-size: 18px;
+        }
+    }
+    .qr-code-wrap {
+        width: 92px;
+        height: 92px;
+        border: 1px dashed #CCC;
+        flex: 0 0 92px;
+        display: block;
+        overflow: hidden;
+        margin-right: 10px;
+        position: relative;
+        cursor: pointer;
+        background-size: cover;
+        background-position: center center;
+        text-align: center;
+        .qrcode-area {
+            width: 90px;
+            height: 90px;
+            background-size: cover;
+            background-position: center;
+        }
+        .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            line-height: 92px;
+            font-size: 24px;
+            color: #CCC;
+        }
+    }
+    .bottom-action {
+        height: 40px;
+        line-height: 40px;
+        display: flex;
+        border-top: 1px solid #E5E5E5;
+        .action-item {
+            flex: 1;
+            text-align: center;
+            color: #333;
+            .icon {
+                display: inline-block;
+                margin-right: 6px;
+                color: #FF9641;
+                vertical-align: text-bottom;
+            }
+            a {
+                color: #333;
+            }
+        }
+    }
+    .create-local-wrap {
+        .contact-name {
+            height: 40px;
+            line-height: 40px;
+            color: #FFF;
+            background-color: #FF9641;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 15px;
+        }
+        .contact-wrap {
+            position: relative;
+            height: 100px;
+            line-height: 100px;
+            font-size: 16px;
+        }
+        .wechat-img-wrap {
+            height: 100px;
+            .img-wechat {
+                position: relative;
+                bottom: 36px;
+                right: 16px;
+            }
+            .img-bg {
+                width: 80px;
+                height: 80px;
+                margin-top: 10px;
+                display: inline-block;
+                background-size: cover;
+                background-position: center center;
+            }
+        }
+    }
+}
