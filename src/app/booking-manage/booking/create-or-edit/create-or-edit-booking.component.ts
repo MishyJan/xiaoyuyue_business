@@ -19,7 +19,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
     templateUrl: './create-or-edit-booking.component.html',
     styleUrls: ['./create-or-edit-booking.component.less'],
     animations: [appModuleSlowAnimation()],
-    encapsulation: ViewEncapsulation.None
+    // encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit {
     timeBaseIngoForm: FormGroup;
