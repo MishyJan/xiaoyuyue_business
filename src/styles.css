@@ -926,8 +926,7 @@ Dropdown Menu
 ***/
 
 .dropdown-menu {
-    left: 0/*rtl:auto*/
-    ;
+    left: 0;
     min-width: 175px;
     position: absolute;
     z-index: 1000;

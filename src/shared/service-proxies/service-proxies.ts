@@ -4208,6 +4208,58 @@ export class OrgBookingServiceProxy {
     }
 
     /**
+     * 获取可用预约时间(下拉框)
+     * @return Success
+     */
+    getBookingItemSelectList(id: number): Observable<SelectListItemDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetBookingItemSelectList?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = {
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processGetBookingItemSelectList(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processGetBookingItemSelectList(response_);
+                } catch (e) {
+                    return <Observable<SelectListItemDto[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<SelectListItemDto[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetBookingItemSelectList(response: Response): Observable<SelectListItemDto[]> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const _responseText = response.text();
+            let result200: SelectListItemDto[] = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(SelectListItemDto.fromJS(item));
+            }
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText);
+        }
+        return Observable.of<SelectListItemDto[]>(<any>null);
+    }
+
+    /**
      * 获取预约详情(编辑)
      * @return Success
      */
@@ -7870,19 +7922,19 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
-     * @sorting 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
+     * @sorting 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {

@@ -1,19 +1,21 @@
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { BookingOrderListDtoStatus, PagedResultDtoOfOrgBookingOrderListDto } from '@shared/service-proxies/service-proxies';
 import { DataStateChangeEvent, EditEvent } from '@progress/kendo-angular-grid';
-import { Gender, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
+import { Gender, OrgBookingOrderListDto, OrgBookingOrderServiceProxy, OrgBookingServiceProxy, RemarkBookingOrderInput, SelectListItemDto, Status } from 'shared/service-proxies/service-proxies';
 
+import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
-import { BookingOrderListDtoStatus } from '@shared/service-proxies/service-proxies';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
+import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import timeago from 'timeago.js';
 
 export class SingleBookingStatus {
     value: any;
@@ -28,6 +30,11 @@ export class SingleBookingStatus {
 })
 
 export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    mobileCustomerListData: OrgBookingOrderListDto[];
+    bookingCustomerDate: string;
+    bookingDateSelectDefaultItem: SelectListItemDto;
+    bookingItemSelectListData: SelectListItemDto[];
+    bookingCustomerFlatpickr: any;
     cEndCreationTime: any;
     cStartCreationTime: any;
     cBookingOrderDate: any;
@@ -71,32 +78,67 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     constructor(
         injector: Injector,
+        private _route: ActivatedRoute,
+        private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this.bookingCustomerDate = moment().local().format('YYYY-MM-DD');
+        this.bookingDateSelectDefaultItem = SelectHelper.DefaultSelectList();
         this.searchActiveSelectDefaultItem = SelectHelper.DefaultList();
         this.getOrderStatusSelectList();
     }
 
     ngAfterViewInit() {
-        this.loadData();
-        this.cBookingOrderDate = new flatpickr('#bookingDate', {
-            'locale': 'zh'
-        })
-        this.cStartCreationTime = $('#startCreationTime').flatpickr({
-            'locale': 'zh'
-        });
-        this.cEndCreationTime = $('#endCreationTime').flatpickr({
-            'locale': 'zh'
-        });
+        const self = this;
+        if (this.isMobile()) {
+            // $('.time-ago').timeago();
+            this.bookingCustomerFlatpickr = new flatpickr('#bookingCustomerFlatpickr', {
+                'locale': 'zh',
+                defaultDate: self.bookingCustomerDate,
+                onChange: function(selectedDates, dateStr, instance) {
+                    self.bookingCustomerDate = dateStr;
+                    self.creationStartDate = moment(dateStr).local();
+                    self.mobileLoadData();
+                }
+            })
+            this.getBookingId();
+        } else {
+
+            this.loadData();
+            this.cBookingOrderDate = new flatpickr('#bookingDate', {
+                'locale': 'zh'
+            })
+            this.cStartCreationTime = $('#startCreationTime').flatpickr({
+                'locale': 'zh'
+            });
+            this.cEndCreationTime = $('#endCreationTime').flatpickr({
+                'locale': 'zh'
+            });
+        }
     }
     ngOnDestroy() {
-        this.cBookingOrderDate.destroy();
-        this.cStartCreationTime.destroy();
-        this.cEndCreationTime.destroy();
+        if (this.isMobile()) {
+            return;
+        } else {
+            this.destroyDesktopFlatpickr();
+        }
+    }
+
+    destroyMobileFlatpickr(): void {
+        if (this.bookingCustomerFlatpickr) {
+            this.bookingCustomerFlatpickr.destroy();
+        }
+    }
+    destroyDesktopFlatpickr(): void {
+        if (this.cBookingOrderDate && this.cStartCreationTime && this.cEndCreationTime) {
+            this.cBookingOrderDate.destroy();
+            this.cStartCreationTime.destroy();
+            this.cEndCreationTime.destroy();
+        }
     }
 
     loadData(): void {
@@ -128,7 +170,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         if (typeof this.creationEndDate === 'object') {
             this.creationEndDate = this.creationEndDate.format('YYYY-MM-DD');
         }
-
     }
 
     showCustomerForEditHander(dataItemId: any): void {
@@ -206,6 +247,73 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
         this.loadData();
+    }
+
+    /* 移动端代码 */
+    isMobile(): boolean {
+        if ($('.mobile-custom-list').length > 0) {
+            return true;
+        };
+        return false;
+    }
+    // PC端是返回的kendo的数据格式，移动端重写获取数据方法
+    getBookingId(): void {
+        this._route.queryParams
+            .subscribe(params => {
+                this.bookingId = params['bookingId'];
+                this.getBookingDateSeletcList();
+                this.mobileLoadData();
+            })
+    }
+
+    mobileLoadData(): void {
+        this._orgBookingOrderServiceProxy
+            .getOrders(this.bookingId,
+            this.bookingName,
+            this.customerName,
+            this.bookingDate,
+            this.startMinute,
+            this.endMinute,
+            this.phoneNumber,
+            this.gender,
+            this.creationStartDate,
+            this.creationEndDate,
+            this.bookingOrderStatus,
+            this.gridParam.GetSortingString(),
+            this.gridParam.MaxResultCount,
+            this.gridParam.SkipCount)
+            .subscribe(result => {
+                this.mobileCustomerListData = result.items;
+                console.log(this.mobileCustomerListData);
+            })
+    }
+
+    // 获取时间下拉框数据源
+    getBookingDateSeletcList(): void {
+        this._orgBookingServiceProxy
+            .getBookingItemSelectList(this.bookingId)
+            .subscribe(result => {
+                this.bookingItemSelectListData = result;
+                // this.bookingItemSelectListData.unshift(this.bookingDateSelectDefaultItem)
+                console.log(this.bookingItemSelectListData);
+            })
+    }
+
+    getProfilePictureUrl(profilePictureUrl: string): string {
+        const defaultAvatar = 'assets/common/images/default-profile-picture.png';
+        if (profilePictureUrl === '') {
+            return defaultAvatar;
+        }
+        return profilePictureUrl;
+    }
+
+    getTimeAgo(time: any): string {
+        const timeagoInstance  = timeago(moment().local().format('YYYY-MM-DD hh:mm:ss'));
+        return timeagoInstance.format(time.local().format('YYYY-MM-DD hh:mm:ss'), 'zh_CN');
+    }
+
+    public bookingTimeChangeHandler(value: any): void {
+        console.log(value);
     }
 }
 

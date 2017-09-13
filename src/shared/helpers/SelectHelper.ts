@@ -12,7 +12,6 @@ export class SelectHelper {
         const input = new SelectListItemDto();
         input.text = '请选择';
         input.value = '0';
-
         return input;
     };
 

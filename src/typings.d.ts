@@ -120,4 +120,5 @@ interface String {
 // }
 
 declare var moment: any;
+declare var timeago: any;
 declare var Push: any;

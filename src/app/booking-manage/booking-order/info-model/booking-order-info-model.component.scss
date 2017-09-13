@@ -95,4 +95,12 @@
         height: 100%;
         background-color: rgba(0, 0, 0, .4);
     }
+
+    &.mobile {
+        .confirm-model {
+            width: 94%;
+            height: 280px;
+            border-radius: 4px;
+        }
+    }
 }
