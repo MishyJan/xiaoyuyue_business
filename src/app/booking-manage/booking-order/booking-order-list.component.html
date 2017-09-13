@@ -74,7 +74,10 @@
                                     <div class="col-md-9">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control common-max-width" id="bookingDate" [(ngModel)]="bookingDate" type="text" name="bookingDate" placeholder="{{l('BookingOrder.Date')}}">
+                                            <div class="flatpickr-wrap">
+                                                <input class="form-control common-max-width" id="bookingDate" [(ngModel)]="bookingDate" type="text" name="bookingDate" placeholder="{{l('BookingOrder.Date')}}">
+                                                <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i> </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -101,15 +104,21 @@
                                         <div class="col-md-6">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
-                                                    data-input>
+                                                <div class="flatpickr-wrap">
+                                                    <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
+                                                        data-input>
+                                                    <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i></a>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
-                                                    data-input>
+                                                <div class="flatpickr-wrap">
+                                                    <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
+                                                        data-input>
+                                                    <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

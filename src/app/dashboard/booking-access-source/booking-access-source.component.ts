@@ -1,5 +1,5 @@
+import { AfterViewInit, Component, Injector, Input, OnChanges } from '@angular/core';
 import { BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, GetBookingAccessSourceOutput } from 'shared/service-proxies/service-proxies';
-import { Component, Injector, Input, OnChanges } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
@@ -9,8 +9,7 @@ import { Moment } from 'moment';
     templateUrl: './booking-access-source.component.html',
     styleUrls: ['./booking-access-source.component.scss']
 })
-export class BookingAccessSourceComponent extends AppComponentBase implements OnChanges {
-
+export class BookingAccessSourceComponent extends AppComponentBase implements AfterViewInit, OnChanges {
     @Input()
     bookingAccessSourceData: GetBookingAccessSourceOutput = new GetBookingAccessSourceOutput();
     bookingAccessSourceChart;
@@ -26,12 +25,23 @@ export class BookingAccessSourceComponent extends AppComponentBase implements On
         super(injector);
     }
 
+    ngAfterViewInit() {
+        this.setOption();
+    }
+
     ngOnChanges() {
         this.initChart();
     }
 
     onChartInit(ec) {
         this.bookingAccessSourceChart = ec;
+    }
+
+    setOption(): void {
+        if (this.bookingAccessSourceChart) {
+            this.bookingAccessSourceChart.setOption(this.chartOption);
+            this.bookingAccessSourceChart.hideLoading();
+        }
     }
 
     initChart(): void {
@@ -98,9 +108,7 @@ export class BookingAccessSourceComponent extends AppComponentBase implements On
             ]
         };
 
-        if (this.bookingAccessSourceChart) {
-            this.bookingAccessSourceChart.setOption(this.chartOption);
-        }
+        this.setOption();
     }
 }
 

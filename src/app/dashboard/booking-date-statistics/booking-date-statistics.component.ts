@@ -1,5 +1,5 @@
+import { AfterViewInit, Component, Injector, Input, OnChanges } from '@angular/core';
 import { BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy } from 'shared/service-proxies/service-proxies';
-import { Component, Injector, Input, OnChanges } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { Moment } from 'moment';
@@ -9,11 +9,11 @@ import { Moment } from 'moment';
     templateUrl: './booking-date-statistics.component.html',
     styleUrls: ['./booking-date-statistics.component.scss']
 })
-export class BookingDateStatisticsComponent extends AppComponentBase implements OnChanges {
+export class BookingDateStatisticsComponent extends AppComponentBase implements AfterViewInit, OnChanges {
     @Input()
     bookingStatisticalData: BookingConverRateDto[] = [];
 
-    bookingStatisticalChartsIntance;
+    bookingStatisticalCharts;
     bookingStatisticalDate: string;
     chartOption: object = {};
     count = 0;
@@ -26,12 +26,23 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
         super(injector);
     }
 
+    ngAfterViewInit() {
+        this.setOption();
+    }
+
     ngOnChanges() {
         this.initChart();
     }
 
+    setOption(): void {
+        if (this.bookingStatisticalCharts) {
+            this.bookingStatisticalCharts.setOption(this.chartOption);
+            this.bookingStatisticalCharts.hideLoading();
+        }
+    }
+
     onChartInit(ec) {
-        this.bookingStatisticalChartsIntance = ec;
+        this.bookingStatisticalCharts = ec;
     }
 
     initChart(): void {
@@ -127,8 +138,6 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
             ]
         };
 
-        if (this.bookingStatisticalChartsIntance) {
-            this.bookingStatisticalChartsIntance.setOption(this.chartOption);
-        }
+        this.setOption();
     }
 }

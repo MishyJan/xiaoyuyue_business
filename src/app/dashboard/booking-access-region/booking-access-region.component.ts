@@ -94,17 +94,5 @@ export class BookingAccessRegionComponent extends AppComponentBase implements On
             this.bookingAccessRegionChart.resize();
         }
     }
-
-    dateToString(date: Date): string {
-        let temp = '';
-        if (date instanceof Date) {
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            temp = `${year}-${month}-${day}`;
-        }
-        return temp;
-    }
-
 }
 

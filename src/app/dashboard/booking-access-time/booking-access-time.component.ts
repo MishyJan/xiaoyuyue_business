@@ -18,12 +18,12 @@ export class SeriesItem {
     styleUrls: ['./booking-access-time.component.scss']
 })
 
-export class BookingAccessTimeComponent extends AppComponentBase implements OnChanges {
+export class BookingAccessTimeComponent extends AppComponentBase implements AfterViewInit, OnChanges {
 
     @Input()
     bookingAccessTimeData: BookingAccessChannelDto[] = [];
 
-    bookingAccessTimeChartsIntance;
+    bookingAccessTimeCharts;
     echartsIntance: any;
     bookingAccessTimeDate: string;
     chartOption: object = {};
@@ -37,19 +37,27 @@ export class BookingAccessTimeComponent extends AppComponentBase implements OnCh
         super(injector);
     }
 
+    ngAfterViewInit() {
+        this.setOption();
+    }
+
     ngOnChanges() {
         this.initChart();
     }
 
     onChartInit(ec) {
-        this.bookingAccessTimeChartsIntance = ec;
+        this.bookingAccessTimeCharts = ec;
+    }
+
+    setOption(): void {
+        if (this.bookingAccessTimeCharts) {
+            this.bookingAccessTimeCharts.setOption(this.chartOption);
+            this.bookingAccessTimeCharts.hideLoading();
+        }
     }
 
     initChart(): void {
         this.chartOption = {
-            // title: {
-            //     // text: '折线图堆叠'
-            // },
             tooltip: {
                 trigger: 'axis'
             },
@@ -63,11 +71,6 @@ export class BookingAccessTimeComponent extends AppComponentBase implements OnCh
                 bottom: '0px',
                 containLabel: true
             },
-            // toolbox: {
-            //     feature: {
-            //         saveAsImage: {}
-            //     }
-            // },
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
@@ -104,9 +107,7 @@ export class BookingAccessTimeComponent extends AppComponentBase implements OnCh
             })()
         };
 
-        if (this.bookingAccessTimeChartsIntance) {
-            this.bookingAccessTimeChartsIntance.setOption(this.chartOption);
-        }
+        this.setOption();
     }
 }
 
