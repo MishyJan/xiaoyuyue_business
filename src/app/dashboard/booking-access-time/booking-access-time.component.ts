@@ -9,6 +9,7 @@ export class SeriesItem {
     name: string;
     type: string;
     stack: string;
+    smooth: boolean;
     data: number[] = [];
 }
 
@@ -96,6 +97,7 @@ export class BookingAccessTimeComponent extends AppComponentBase implements Afte
                         res.stack = this.l('Total');
                         res.type = 'line';
                         res.name = element.name;
+                        res.smooth = true;
                         element.times.forEach(element => {
                             res.data.push(element.num);
                         });

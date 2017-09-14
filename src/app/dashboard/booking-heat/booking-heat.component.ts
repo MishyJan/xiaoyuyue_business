@@ -2,6 +2,8 @@ import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BookingHeatDto, OrgBookingServiceProxy, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { AppConsts } from 'shared/AppConsts';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { Moment } from 'moment';
 import { element } from 'protractor';
 
@@ -22,7 +24,8 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
     constructor(
         injector: Injector,
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
-        private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
+        private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy,
+        private _localStorageService: LocalStorageService
     ) {
         super(injector);
     }
@@ -114,14 +117,15 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
     }
 
     getBookingSelectListData(): void {
-        this._orgBookingServiceProxy
-            .getBookingSelectList()
-            .subscribe(result => {
-                this.orgBookingDefaultListItem = result[0].value;
-                this.bookingId = +this.orgBookingDefaultListItem;
-                this.orgBookingSelectListData = result;
-                this.loadData();
-            });
+        this._localStorageService.getItem(AppConsts.bookingSelectListCache, () => {
+            return this._orgBookingServiceProxy.getBookingSelectList()
+        }).then(result => {
+            // 添加请选择数据源
+            this.orgBookingDefaultListItem = result[0].value;
+            this.bookingId = +this.orgBookingDefaultListItem;
+            this.orgBookingSelectListData = result;
+            this.loadData();
+        });
     }
 
     orgBookingSelectListDataChangeHandler(result): void {
