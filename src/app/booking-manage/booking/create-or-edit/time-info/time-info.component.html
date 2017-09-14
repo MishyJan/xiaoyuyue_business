@@ -1,6 +1,6 @@
 <div class="time-info">
     <div class="card ">
-        <form #timeInfoForm="ngForm" class="form-horizontal" [formGroup]="timeBaseIngoForm">
+        <form #timeInfoForm="ngForm" class="form-horizontal">
             <div class="clearfix">
                 <div class="card-header card-header-text pull-left" data-background-color="orange">
                     <h6 class="card-title">{{l("Booking.TimeInfo")}}</h6>
@@ -12,7 +12,7 @@
 
             <div class="card-content clearfix">
                 <!-- 创建时间段 -->
-                <div style="width: 100%;" *ngIf="isCreateTimeField" class="clearfix">
+                <div style="width: 100%;" [formGroup]="timeBaseIngoForm" *ngIf="isCreateTimeField" class="clearfix">
                     <div class="col-md-6 time-info-wrap create-time-info box-shadow border-radius-14 pull-left paddingTop-32">
                         <div class="xiaoyuyue-title-box"></div>
                         <div class="time-item clearfix clearfix">
@@ -35,9 +35,9 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="number" name="maxQueueNum" formControlName="maxBookingNum" required>
-                                        <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
-                                            <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
+                                        <input class="form-control" type="number" name="maxQueueNum" formControlName="maxQueueNum" required>
+                                        <div *ngIf="maxQueueNum.invalid && (maxQueueNum.dirty || maxQueueNum.touched)">
+                                            <small class="text-danger" *ngIf="maxQueueNum.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -50,8 +50,8 @@
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <div id="timeInfoFlatpickr" class="flatpickr-wrap">
-                                            <input class="form-control" type="text" name="bookingDate" placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}" [(ngModel)]="localSingleBookingItem.availableDates"
-                                                data-input>
+                                            <input class="form-control" type="text" name="bookingDate" placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}"
+                                                [(ngModel)]="localSingleBookingItem.availableDates" data-input required>
 
                                             <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                 <i class="icon-calendar"></i>
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="time-item clearfix submit-item">
-                            <button class="btn primary-bgcolor" (click)="save()" [(disabled)]="!timeInfoForm.form.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
+                            <button class="btn primary-bgcolor" [disabled]="timeBaseIngoForm.invalid" (click)="save()"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
                             <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
                         </div>
                     </div>

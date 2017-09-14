@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './shared/layout/header.component';
 import { HeaderNotificationsComponent } from './shared/layout/notifications/header-notifications.component';
 import { LoginAttemptsModalComponent } from '@app/shared/layout/login-attempts-modal.component';
+import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-side-bar.component';
 import { MySettingsModalComponent } from '@app/shared/layout/profile/my-settings-modal.component';
 import { NgModule } from '@angular/core';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
@@ -36,6 +37,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         ChangeProfilePictureModalComponent,
         MySettingsModalComponent,
         NotificationSettingsModalCompoent,
+        MobileSideBarComponent
     ],
     imports: [
         ngCommon.CommonModule,
