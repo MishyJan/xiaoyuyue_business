@@ -107,20 +107,20 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             ])
         });
 
-        this.timeBaseIngoForm = new FormGroup({
-            maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
-                Validators.required,
-            ]),
-            maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
-                Validators.required,
-            ])
-        });
+        // this.timeBaseIngoForm = new FormGroup({
+        //     maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
+        //         Validators.required,
+        //     ]),
+        //     maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
+        //         Validators.required,
+        //     ])
+        // });
     }
     get bookingName() { return this.bookingBaseIngoForm.get('bookingName'); }
     get bookingDescription() { return this.bookingBaseIngoForm.get('bookingDescription'); }
 
-    get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
-    get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
+    // get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
+    // get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
 
     /**
     * desktop
@@ -190,6 +190,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     save() {
+        this.baseInfo.name = this.bookingBaseIngoForm.value.bookingName;
+        this.baseInfo.description = this.bookingBaseIngoForm.value.bookingDescription;
+
         this.input.booking.id = this.bookingId ? this.bookingId : 0;
         this.input.booking = this.baseInfo;
         this.input.booking.outletId = this.selectOutletId;

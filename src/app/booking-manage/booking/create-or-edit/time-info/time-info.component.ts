@@ -25,8 +25,8 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     href: string = document.location.href;
     bookingId: number;
 
-    bookingStart = new Date();
-    bookingEnd = new Date();
+    bookingStart = new Date(this.setZeroDate());
+    bookingEnd = new Date(this.setZeroDate());
 
     // 保存本地时间段
     localSingleBookingItem: BookingItemEditDto = new BookingItemEditDto();
@@ -37,7 +37,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     @Input() timeInfo: BookingItemEditDto[];
     @Input() timeInfoFormVaild = false;
-    isCreateTimeField = false;
+    isCreateTimeField = true;
     isShowTimeField = false;
     isCreateOrEdit: boolean;
 
@@ -60,16 +60,27 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         bookingTime[1] = this.bookingEnd;
         this.allBookingTime.push(bookingTime);
         this.initFormValidation();
+        this.initFlatpickr(undefined);
     }
 
     initFlatpickr(defaultD: any) {
         let defaultDate: string[] = [];
         defaultDate = defaultD ? defaultD : defaultDate;
-        $('#timeInfoFlatpickr').flatpickr({
-            wrap: true,
-            'locale': 'zh',
-            defaultDate: defaultDate
-        })
+        setTimeout(() => {
+            $('#timeInfoFlatpickr').flatpickr({
+                wrap: true,
+                'locale': 'zh',
+                defaultDate: defaultDate
+            })
+        }, 100);
+    }
+
+    setZeroDate(): string {
+        let date = new Date();
+        let fullYear = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        return `${fullYear}-${month}-${day}`;
     }
 
     // 响应式表单验证
@@ -83,8 +94,12 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
             ])
         })
     }
-    get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
-    get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
+    get maxBookingNum() {
+        return this.timeBaseIngoForm.get('maxBookingNum');
+    }
+    get maxQueueNum() {
+        return this.timeBaseIngoForm.get('maxQueueNum');
+    }
 
     cancel() {
         this.isCreateTimeField = false;
@@ -102,6 +117,9 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     save() {
         this.isCreateTimeField = false;
         this.isShowTimeField = true;
+
+        this.localSingleBookingItem.maxBookingNum = this.timeBaseIngoForm.value.maxBookingNum;
+        this.localSingleBookingItem.maxQueueNum = this.timeBaseIngoForm.value.maxQueueNum;
 
         const allBookingTimeItem = this.bookingTimeToString(this.allBookingTime);
         const timeField = new BookingItemEditDto();
@@ -166,21 +184,17 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 点击创建按钮，显示创建时段面板
     createTimeField() {
-        const self = this;
         // 点击创建按钮时，创建面板的内容应置空
-        this.localSingleBookingItem.maxBookingNum = null;
-        this.localSingleBookingItem.maxQueueNum = null;
+        this.localSingleBookingItem = new BookingItemEditDto();
 
-        setTimeout(function () {
-            self.initFlatpickr(undefined);
-        }, 10);
+        this.initFlatpickr(undefined);
 
         // 表示时间信息表单有新增，需要再次验证，传递给父组件为false
+        this.isCreateTimeField = true;
         this.editingBooking = false;
         this.timeInfoFormVaild = false;
         this.newTimeField = true;
         this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
-        this.isCreateTimeField = true;
     }
 
 

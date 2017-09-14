@@ -106,4 +106,8 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
     showShareModel(): void {
         this.mobileShareBookingModel.show(this.shareUrl);
     }
+
+    bookingCustomerList(bookingId: number): void {
+        this._router.navigate(['/bookingorder/list'], { queryParams: { bookingId: bookingId } });
+    }
 }
