@@ -1,11 +1,10 @@
 ﻿import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Breadcrumb, BreadcrumbService } from 'shared/services/bread-crumb.service';
 import { Injector, OnInit } from '@angular/core';
 
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
 import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from '@shared/common/session/app-session.service';
-import { Breadcrumb } from 'angular-crumbs';
-import { BreadcrumbService } from 'shared/services/bread-crumb.service';
 import { FeatureCheckerService } from '@abp/features/feature-checker.service';
 import { LocalizationService } from '@abp/localization/localization.service';
 import { MessageService } from '@abp/message/message.service';

@@ -1203,6 +1203,18 @@ a:focus {
     color: #FF9641;
 }
 
+.flatpickr-wrap,
+.time-point-wrap {
+    position: relative;
+}
+
+.flatpickr-wrap .flatpickr-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
 
 /* 覆盖分页插件样式 */
 

@@ -46,15 +46,25 @@
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
-                                                    <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
-                                                        [(ngModel)]="startCreationTime" data-input>
+                                                    <div class="flatpickr-wrap">
+                                                        <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
+                                                            [(ngModel)]="startCreationTime" data-input>
+                                                        <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                                            <i class="vapps-icon-dc-calendar"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
-                                                    <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
-                                                        [(ngModel)]="endCreationTime" data-input>
+                                                    <div class="flatpickr-wrap">
+                                                        <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
+                                                            [(ngModel)]="endCreationTime" data-input>
+                                                        <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                                            <i class="vapps-icon-dc-calendar"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -34,7 +34,6 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
     ngAfterViewInit() {
     }
 
-
     loadData(): void {
         this.showloading = true;
         this._bookingDataStatisticsServiceProxy
@@ -42,7 +41,6 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
             .finally(() => { this.showloading = false })
             .subscribe((result) => {
                 this.bookingHeatData = result;
-
 
                 this.chartOption = {
                     color: ['#3398DB'],
@@ -56,17 +54,21 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
                         top: '60px',
                         left: '3%',
                         right: '4%',
-                        bottom: '60px',
+                        bottom: '0px',
                         containLabel: true
                     },
                     xAxis: [
                         {
                             type: 'category',
                             data: (() => {
-                                let res = [];
-                                this.bookingHeatData.forEach(element => {
-                                    res.push(element.hourOfDay);
-                                });
+                                const res = [];
+                                if (this.bookingHeatData.length > 0) {
+                                    this.bookingHeatData.forEach(element => {
+                                        res.push(element.hourOfDay);
+                                    });
+                                } else {
+                                    res.push(this.l('NoData'));
+                                }
                                 return res;
                             })(),
                             axisTick: {
@@ -81,26 +83,33 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
                     ],
                     series: [
                         {
-                            name: '时间热度',
+                            name: this.l('Dashboard.BookingHeat'),
                             type: 'bar',
                             barWidth: '20px',
                             itemStyle: {
                                 normal: {
-                                    color: "#FF9641"
+                                    color: '#FF9641'
                                 }
                             },
                             data: (() => {
-                                let res = [];
-                                this.bookingHeatData.forEach(element => {
-                                    res.push(element.bookingOrderNum);
-                                });
+                                const res = [];
+                                if (this.bookingHeatData.length > 0) {
+                                    this.bookingHeatData.forEach(element => {
+                                        res.push(element.bookingOrderNum);
+                                    });
+                                } else {
+                                    res.push(0);
+                                }
                                 return res;
                             })(),
                         }
                     ]
                 };
 
-
+                if (this.bookingHeatData.length <= 0) {
+                    const myChart = echarts.init(document.getElementById('bookingAccessHeatEcharts'));
+                    myChart.setOption(this.chartOption);
+                }
             })
     }
 
