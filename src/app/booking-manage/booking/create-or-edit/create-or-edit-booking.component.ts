@@ -22,8 +22,8 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit {
-    timeBaseIngoForm: FormGroup;
-    bookingBaseIngoForm: FormGroup;
+    timeBaseInfoForm: FormGroup;
+    bookingBaseInfoForm: FormGroup;
     editingIndex: boolean[] = [];
     startHourOfDay = '00:00';
     endHourOfDay = '00:00';
@@ -96,7 +96,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 响应式表单验证
     initFormValidation(): void {
-        this.bookingBaseIngoForm = new FormGroup({
+        this.bookingBaseInfoForm = new FormGroup({
             bookingName: new FormControl(this.baseInfo.name, [
                 Validators.required,
                 Validators.maxLength(20),
@@ -107,20 +107,20 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             ])
         });
 
-        // this.timeBaseIngoForm = new FormGroup({
-        //     maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
-        //         Validators.required,
-        //     ]),
-        //     maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
-        //         Validators.required,
-        //     ])
-        // });
+        this.timeBaseInfoForm = new FormGroup({
+            maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
+                Validators.required,
+            ]),
+            maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
+                Validators.required,
+            ])
+        });
     }
-    get bookingName() { return this.bookingBaseIngoForm.get('bookingName'); }
-    get bookingDescription() { return this.bookingBaseIngoForm.get('bookingDescription'); }
+    get bookingName() { return this.bookingBaseInfoForm.get('bookingName'); }
+    get bookingDescription() { return this.bookingBaseInfoForm.get('bookingDescription'); }
 
-    // get maxBookingNum() { return this.timeBaseIngoForm.get('maxBookingNum'); }
-    // get maxQueueNum() { return this.timeBaseIngoForm.get('maxQueueNum'); }
+    get maxBookingNum() { return this.timeBaseInfoForm.get('maxBookingNum'); }
+    get maxQueueNum() { return this.timeBaseInfoForm.get('maxQueueNum'); }
 
     /**
     * desktop
@@ -160,6 +160,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.baseInfo = result.booking;
                 this.timeInfo = result.items;
                 this.pictureInfo = result.bookingPictures;
+                this.initFormValidation();
                 if (this.isMobile()) {
                     this.allBookingTime = result.items;
                     this.isNew = false;
@@ -190,8 +191,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     save() {
-        this.baseInfo.name = this.bookingBaseIngoForm.value.bookingName;
-        this.baseInfo.description = this.bookingBaseIngoForm.value.bookingDescription;
+        this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
+        this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 
         this.input.booking.id = this.bookingId ? this.bookingId : 0;
         this.input.booking = this.baseInfo;
@@ -315,8 +316,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.isNew = false;
         this.localSingleBookingItem.isActive = true;
         this.localSingleBookingItem.hourOfDay = this.startHourOfDay + '-' + this.endHourOfDay;
-        this.localSingleBookingItem.maxBookingNum = this.timeBaseIngoForm.value.maxBookingNum;
-        this.localSingleBookingItem.maxQueueNum = this.timeBaseIngoForm.value.maxQueueNum;
+        this.localSingleBookingItem.maxBookingNum = this.timeBaseInfoForm.value.maxBookingNum;
+        this.localSingleBookingItem.maxQueueNum = this.timeBaseInfoForm.value.maxQueueNum;
         this.allBookingTime.push(this.localSingleBookingItem);
         this.startHourOfDay = '00:00';
         this.endHourOfDay = '00:00';
@@ -346,8 +347,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 刷新数据（由于使用模型驱动表单验证，所以需要更新数据到DTO）
     refreshData(): void {
-        this.baseInfo.name = this.bookingBaseIngoForm.value.bookingName;
-        this.baseInfo.description = this.bookingBaseIngoForm.value.bookingDescription;
+        this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
+        this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
     }
 
 

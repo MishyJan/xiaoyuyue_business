@@ -38,9 +38,10 @@
         visibility: hidden;
         background-color: rgba(255, 255, 255, 0.9);
         transition: all .15s;
-        .sidebar-menu-item+.sidebar-menu-item {
-            border-top: 1px solid #d8d8d8;
-            ;
+        li+li {
+            .sidebar-menu-item {
+                border-top: 1px solid #d8d8d8;
+            }
         }
         .sidebar-menu-item {
             height: 52px;
