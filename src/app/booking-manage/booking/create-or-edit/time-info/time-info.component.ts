@@ -37,7 +37,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     @Input() timeInfo: BookingItemEditDto[];
     @Input() timeInfoFormVaild = false;
-    isCreateTimeField = true;
+    isCreateTimeField = false;
     isShowTimeField = false;
     isCreateOrEdit: boolean;
 

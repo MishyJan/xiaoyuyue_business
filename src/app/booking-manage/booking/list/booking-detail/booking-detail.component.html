@@ -1,16 +1,19 @@
 <div class="booking-detail" *ngIf="bookingForEditData">
     <div class="command-wrap card">
         <button class="item">待确认<span class="availNum">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
+        <button class="item" [ngClass]="{'disabled-style': !bookingForEditData.subBookedNum > 0}" [disabled]="!bookingForEditData.subBookedNum > 0"  (click)="bookingCustomerList(bookingForEditData.id)">应约人列表</button>
         <button class="item" *ngIf="bookingForEditData.isActive" (click)="disabledBookingClass()">禁用预约</button>
         <button class="item" *ngIf="!bookingForEditData.isActive" (click)="beforeBookingClass()">激活预约</button>
         <button class="item" (click)="removeBooking()">删除预约</button>
-        <button class="item" [ngClass]="{'disabled-style': !bookingForEditData.isActive}" [disabled]="!bookingForEditData.isActive" (click)="showShareModel()">分享预约</button>
     </div>
 
     <div class="tenant-wrap card">
         <div class="tenant-bg-wrap" *ngIf="bookingPictures.length > 0"><img [src]="bookingPictures[0]" width="100%" alt="tenant-bg"></div>
         <div class="tenant-info">
-            <div class="name">{{ bookingForEditData.name }}</div>
+            <div class="name clearfix">
+                <span class="pull-left">{{ bookingForEditData.name }}</span>
+                <span class="pull-right vapps-icon-app-edit" [routerLink]="'/booking/edit/'+bookingForEditData.id"></span>
+            </div>
 
             <div class="flex-item"  *ngIf="availableBookingTime.length > 0">
                 <div class="item-left">
@@ -41,8 +44,7 @@
                         <span class="item-right">{{ bookingForEditData.subBookedNum }}</span>
                     </div>
                 </div>
-                <div class="item-right text-center" (click)="bookingCustomerList(bookingForEditData.id)">
-                    <span class="vapps-icon-app-user-center"></span>
+                <div class="item-right text-center">
                 </div>
             </div>
 

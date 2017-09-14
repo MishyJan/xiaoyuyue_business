@@ -12,6 +12,7 @@ import { ChangeProfilePictureModalComponent } from './profile/change-profile-pic
 import { LocalizationService } from '@abp/localization/localization.service';
 import { Location } from '@angular/common';
 import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
+import { MobileSideBarComponent } from './mobile-side-bar/mobile-side-bar.component';
 import { MySettingsModalComponent } from './profile/my-settings-modal.component'
 import { NotificationSettingsModalCompoent } from '@app/shared/layout/notifications/notification-settings-modal.component';
 import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNotificationHelper';
@@ -32,6 +33,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     @ViewChild('changePasswordModal') changePasswordModal: ChangePasswordModalComponent;
     @ViewChild('changeProfilePictureModal') changeProfilePictureModal: ChangeProfilePictureModalComponent;
     @ViewChild('mySettingsModal') mySettingsModal: MySettingsModalComponent;
+    @ViewChild('mobileSideBarModel') mobileSideBarModel: MobileSideBarComponent;
 
     languages: abp.localization.ILanguageInfo[];
     currentLanguage: abp.localization.ILanguageInfo;
@@ -150,6 +152,10 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
 
     back(): void {
         this._location.back();
+    }
+
+    showSidebar(): void {
+        this.mobileSideBarModel.show();
     }
 
     onMySettingsModalSaved(): void {

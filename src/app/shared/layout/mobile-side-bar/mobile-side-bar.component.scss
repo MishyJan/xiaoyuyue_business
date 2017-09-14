@@ -1,0 +1,68 @@
+.mobile-sidebar {
+    ul,
+    li {
+        padding: 0;
+        margin: 0;
+    }
+    li {
+        list-style: none;
+    } // 侧边栏动画
+    &.fade-in {
+        .sidebar-menu {
+            transform: translateX(0);
+            visibility: visible;
+        }
+        .bg-cover {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    &.fade-out {
+        .sidebar-menu {
+            transform: translateX(250px);
+            visibility: hidden;
+        }
+        .bg-cover {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+    .sidebar-menu {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1001;
+        transform: translateX(250px);
+        visibility: hidden;
+        background-color: rgba(255, 255, 255, 0.9);
+        transition: all .15s;
+        li+li {
+            .sidebar-menu-item {
+                border-top: 1px solid #d8d8d8;
+            }
+        }
+        .sidebar-menu-item {
+            height: 52px;
+            line-height: 52px;
+            text-align: center;
+            cursor: pointer;
+            &.active {
+                color: #FF9641;
+            }
+        }
+    }
+    .bg-cover {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        background-color: rgba(0, 0, 0, 0.48);
+        transition: all .15s;
+    }
+}

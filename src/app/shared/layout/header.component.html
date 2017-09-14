@@ -72,14 +72,15 @@
                 </ul>
             </div>
         </div>
+        <loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
+        <changePasswordModal #changePasswordModal></changePasswordModal>
+        <changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
+        <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
+        <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
     </div>
 
     <div class="page-header-inner" *showItBootstrap="['xs','sm']">
         <a href="javascript:;" class="vapps-icon-app-prev-page back-icon pull-left" (click)="back()"></a>
-        <a href="javascript:;" class="menu-toggler responsive-toggler"></a>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" (click)="showSidebar()"></a>
+        <xiaoyuyue-mobile-side-bar #mobileSideBarModel></xiaoyuyue-mobile-side-bar>
     </div>
-    <loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
-    <changePasswordModal #changePasswordModal></changePasswordModal>
-    <changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
-    <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
-    <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
