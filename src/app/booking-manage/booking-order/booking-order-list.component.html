@@ -67,14 +67,16 @@
                                     </div>
                                 </div>
 
-                                <!-- 预约日期  -->
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l('BookingOrder.Date')}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
+                            <!-- 预约日期  -->
+                            <div class="col-xs-6">
+                                <div class="common-max-width">
+                                    <label class="col-md-3 label-on-left">{{l('BookingOrder.Date')}}</label>
+                                    <div class="col-md-9">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <div class="flatpickr-wrap">
                                                 <input class="form-control common-max-width" id="bookingDate" [(ngModel)]="bookingDate" type="text" name="bookingDate" placeholder="{{l('BookingOrder.Date')}}">
+                                                <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i> </a>
                                             </div>
                                         </div>
                                     </div>
@@ -93,23 +95,28 @@
                                     </div>
                                 </div>
 
-                                <!-- 创建时间  -->
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l('BookingOrder.CreationTime')}}</label>
-                                        <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
-                                            <div class="col-md-6">
-                                                <div class="form-group label-floating is-empty">
-                                                    <label class="control-label"></label>
+                            <!-- 创建时间  -->
+                            <div class="col-xs-6">
+                                <div class="common-max-width">
+                                    <label class="col-md-3 label-on-left">{{l('BookingOrder.CreationTime')}}</label>
+                                    <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating is-empty">
+                                                <label class="control-label"></label>
+                                                <div class="flatpickr-wrap">
                                                     <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
                                                         data-input>
+                                                    <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i></a>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group label-floating is-empty">
-                                                    <label class="control-label"></label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group label-floating is-empty">
+                                                <label class="control-label"></label>
+                                                <div class="flatpickr-wrap">
                                                     <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
                                                         data-input>
+                                                    <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i></a>
                                                 </div>
                                             </div>
                                         </div>

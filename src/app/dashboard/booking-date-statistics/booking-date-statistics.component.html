@@ -3,4 +3,5 @@
         <h6 class="card-title">{{l('Dashboard.BookingConver')}}</h6>
     </div>
 </div>
-<div id="bookingDateStatisticEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="demo-chart"></div>
+<div id="bookingDateStatisticEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="dashboard-chart"
+    (chartInit)="onChartInit($event)"></div>
