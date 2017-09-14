@@ -1,0 +1,14 @@
+<div class="mobile-sidebar" [ngClass]="{'fade-in': toggleSidebarFlag, 'fade-out': !toggleSidebarFlag}">
+
+    <ul class="sidebar-menu">
+        <li *ngFor="let menuItem of mobileMenu.items" (click)="hide()">
+            <div class="sidebar-menu-item" *ngIf="showMenuItem(menuItem)" routerLinkActive="active" [routerLink]="menuItem.route" [title]="l(menuItem.name)">
+                <span class="icon" [class]="menuItem.icon"></span>
+                <span class="text">{{ l(menuItem.name) }}</span>
+            </div>
+        </li>
+    </ul>
+
+    <div class="bg-cover" (click)="hide()"></div>
+
+</div>

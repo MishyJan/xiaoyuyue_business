@@ -1,28 +1,28 @@
-<header></header>
+<div *hideItBootstrap="['xs','sm']">
+    <header></header>
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            <side-bar id="sidebar"></side-bar>
+        </div>
 
-<div class="clearfix">
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+
+    </div>
 </div>
 
-<!-- <div class="page-container" *showItDevice="['tablet','desktop']"> -->
-<div class="page-container">
 
-    <div class="page-sidebar-wrapper">
-        <side-bar id="sidebar"></side-bar>
-    </div>
-
+<div *showItBootstrap="['xs','sm']">
+    <header></header>
     <div class="page-content-wrapper">
         <div class="page-content">
             <router-outlet></router-outlet>
         </div>
     </div>
-
 </div>
-
-<!-- 
-<div class="page-container" *showItDevice="['mobile']">
-
-
-</div> -->
 
 
 <!-- <footer></footer> -->
