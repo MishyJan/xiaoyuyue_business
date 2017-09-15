@@ -173,6 +173,23 @@
             }
         }
     }
+    .add-time-btn {
+        position: fixed;
+        right: 10px;
+        bottom: 60px;
+        z-index: 1000;
+        .icon {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 50%;
+            background-color: #FF9641;
+            color: #FFF;
+            font-size: 18px;
+        }
+    }
     .content-wrap {
         .manage-center-teb-content {
             .card-wrap {

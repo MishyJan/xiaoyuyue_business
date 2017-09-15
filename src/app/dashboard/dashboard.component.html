@@ -134,6 +134,9 @@
 
 <div *showItBootstrap="['xs','sm']">
     <div class="mobile-org-center">
+        <div class="add-time-btn">
+            <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
+        </div>
         <div class="header" *ngIf="tenantBaseInfoData">
             <div class="tenant-base-info" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.backgroundPictureUrl + ')'}">
                 <div class="info-wrap">
