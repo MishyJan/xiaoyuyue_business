@@ -4,9 +4,9 @@ import { ProfileServiceProxy, UpdateProfilePictureInput } from '@shared/service-
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { CookiesService } from 'shared/services/cookies.service';
 import { IAjaxResponse } from '@abp/abpHttp';
 import { ModalDirective } from 'ngx-bootstrap';
-import { TokenService } from '@abp/auth/token.service';
 
 @Component({
     selector: 'changeProfilePictureModal',
@@ -30,7 +30,7 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
     constructor(
         injector: Injector,
         private _profileService: ProfileServiceProxy,
-        private _tokenService: TokenService
+        private _cookiesService: CookiesService
     ) {
         super(injector);
     }
@@ -49,7 +49,7 @@ export class ChangeProfilePictureModalComponent extends AppComponentBase {
         let self = this;
         self.uploader = new FileUploader({ url: AppConsts.remoteServiceBaseUrl + '/Profile/UploadProfilePicture' });
         self._uploaderOptions.autoUpload = true;
-        self._uploaderOptions.authToken = 'Bearer ' + self._tokenService.getToken();
+        self._uploaderOptions.authToken = 'Bearer ' + self._cookiesService.getToken();
         self._uploaderOptions.removeAfterUpload = true;
         self.uploader.onAfterAddingFile = (file) => {
             file.withCredentials = false;

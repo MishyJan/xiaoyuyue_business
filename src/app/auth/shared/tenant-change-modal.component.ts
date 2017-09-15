@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
-import { AppComponentBase } from '@shared/common/app-component-base';
-import { ModalDirective } from 'ngx-bootstrap';
+import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+
 import { AccountServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppTenantAvailabilityState } from 'shared/AppEnums';
+import { CookiesService } from 'shared/services/cookies.service';
 import { IsTenantAvailableInput } from '@shared/service-proxies/service-proxies';
-import { AppTenantAvailabilityState } from "shared/AppEnums";
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'tenantChangeModal',
@@ -14,12 +16,13 @@ export class TenantChangeModalComponent extends AppComponentBase {
     @ViewChild('tenantChangeModal') modal: ModalDirective;
     @ViewChild('tenancyNameInput') tenancyNameInput: ElementRef;
 
-    tenancyName: string = '';
-    active: boolean = false;
-    saving: boolean = false;
+    tenancyName = '';
+    active = false;
+    saving = false;
 
     constructor(
         private _accountService: AccountServiceProxy,
+        private _cookiesService: CookiesService,
         injector: Injector
     ) {
         super(injector);
@@ -38,13 +41,13 @@ export class TenantChangeModalComponent extends AppComponentBase {
     save(): void {
 
         if (!this.tenancyName) {
-            abp.multiTenancy.setTenantIdCookie(undefined);;
+            this._cookiesService.setTenantIdCookie(undefined);
             this.close();
             location.reload();
             return;
         }
 
-        var input = new IsTenantAvailableInput();
+        const input = new IsTenantAvailableInput();
         input.tenancyName = this.tenancyName;
 
         this.saving = true;
@@ -53,14 +56,14 @@ export class TenantChangeModalComponent extends AppComponentBase {
             .subscribe((result) => {
                 switch (result.state) {
                     case AppTenantAvailabilityState.Available:
-                        abp.multiTenancy.setTenantIdCookie(result.tenantId);
+                        this._cookiesService.setTenantIdCookie(result.tenantId);
                         this.close();
                         location.reload();
                         return;
                     case AppTenantAvailabilityState.InActive:
                         this.message.warn(this.l('TenantIsNotActive', this.tenancyName));
                         break;
-                    case AppTenantAvailabilityState.NotFound: //NotFound
+                    case AppTenantAvailabilityState.NotFound: // NotFound
                         this.message.warn(this.l('ThereIsNoTenantDefinedWithName{0}', this.tenancyName));
                         break;
                 }

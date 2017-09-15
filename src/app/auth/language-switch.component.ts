@@ -3,6 +3,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { CookiesService } from 'shared/services/cookies.service';
 
 @Component({
     selector: 'languageSwitch',
@@ -13,7 +14,8 @@ export class LanguageSwitchComponent extends AppComponentBase implements OnInit 
     currentLanguage: abp.localization.ILanguageInfo;
     languages: abp.localization.ILanguageInfo[] = [];
 
-    constructor(injector: Injector) {
+    constructor(injector: Injector,
+        private _cookiesService: CookiesService) {
         super(injector);
     }
 
@@ -23,7 +25,7 @@ export class LanguageSwitchComponent extends AppComponentBase implements OnInit 
     }
 
     changeLanguage(language: abp.localization.ILanguageInfo) {
-        abp.utils.setCookieValue(
+        this._cookiesService.setCookieValue(
             'Abp.Localization.CultureName',
             language.name,
             new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
