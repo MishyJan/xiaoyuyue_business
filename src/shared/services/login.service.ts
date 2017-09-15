@@ -85,11 +85,11 @@ export class LoginService {
 
     phoneNumAuth(model: PhoneAuthenticateModel, finallyCallback?: () => void): void {
         this._tokenAuthService
-        .phoneNumAuthenticate(model)
-        .finally(finallyCallback)
-        .subscribe((result: AuthenticateResultModel) => {
-            this.processAuthenticateResult(result);
-        });
+            .phoneNumAuthenticate(model)
+            .finally(finallyCallback)
+            .subscribe((result: AuthenticateResultModel) => {
+                this.processAuthenticateResult(result);
+            });
     }
 
     externalAuthenticate(provider: ExternalLoginProvider): void {
@@ -163,7 +163,7 @@ export class LoginService {
 
     private login(tenantId: number, accessToken: string, encryptedAccessToken: string, expireInSeconds: number, rememberMe?: boolean, twoFactorRememberClientToken?: string, redirectUrl?: string): void {
 
-        var tokenExpireDate = rememberMe ? (new Date(new Date().getTime() + 1000 * expireInSeconds)) : undefined;
+        const tokenExpireDate = rememberMe ? (new Date(new Date().getTime() + 1000 * expireInSeconds)) : undefined;
 
         this._tokenService.setToken(
             accessToken,

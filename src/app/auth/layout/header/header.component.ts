@@ -35,4 +35,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.anchorsLinksData.contactUs = AppConsts.shareBaseUrl + '/#contact';
     }
 
+    goToHome(): void {
+        (window as any).location.href = '/';
+    }
 }

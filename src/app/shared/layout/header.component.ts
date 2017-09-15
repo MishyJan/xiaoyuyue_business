@@ -6,9 +6,9 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { AppStorageService } from 'shared/services/storage.service';
 import { ChangePasswordModalComponent } from './profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { LocalizationService } from '@abp/localization/localization.service';
 import { Location } from '@angular/common';
 import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
@@ -56,7 +56,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _userServiceProxy: UserServiceProxy,
         private _authService: AppAuthService,
         private _userNotificationHelper: UserNotificationHelper,
-        private _appStorageService: AppStorageService,
+        private _localStorageService: LocalStorageService,
         private _location: Location
     ) {
         super(injector);
@@ -89,8 +89,12 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
             this.chatConnected = true;
         });
 
+        abp.event.on('outletListSelectChanged', () => {
+            this._localStorageService.removeItem(AppConsts.outletSelectListCache);
+        });
+
         abp.event.on('bookingListSelectChanged', () => {
-            this._appStorageService.removeItem(AppConsts.outletSelectListCache);
+            this._localStorageService.removeItem(AppConsts.bookingSelectListCache);
         });
     }
 

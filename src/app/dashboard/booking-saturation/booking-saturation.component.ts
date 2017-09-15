@@ -2,6 +2,8 @@ import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, GetBookingSaturationOutput, OutletServiceServiceProxy, SelectListItemDto } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { AppConsts } from 'shared/AppConsts';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { Moment } from 'moment';
 
 @Component({
@@ -22,7 +24,8 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
     constructor(
         injector: Injector,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
-        private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
+        private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy,
+        private _localStorageService: LocalStorageService
     ) {
         super(injector);
     }
@@ -52,13 +55,14 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
     }
 
     getOutletSelectListData(): void {
-        this._outletServiceServiceProxy
-            .getOutletSelectList()
-            .subscribe(result => {
-                this.outletDefaultListItem = result[0].value;
-                this.outletSelectListData = result;
-                this.loadData();
-            });
+        this._localStorageService.getItem(AppConsts.outletSelectListCache, () => {
+            return this._outletServiceServiceProxy.getOutletSelectList()
+        }).then(result => {
+            // 添加请选择数据源
+            this.outletDefaultListItem = result[0].value;
+            this.outletSelectListData = result;
+            this.loadData();
+        });
     }
 
     outletSelectListDataChangeHandler(result): void {

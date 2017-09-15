@@ -1,7 +1,8 @@
 <div class="booking-detail" *ngIf="bookingForEditData">
     <div class="command-wrap card">
         <button class="item">待确认<span class="availNum">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
-        <button class="item" [ngClass]="{'disabled-style': !bookingForEditData.subBookedNum > 0}" [disabled]="!bookingForEditData.subBookedNum > 0"  (click)="bookingCustomerList(bookingForEditData.id)">应约人列表</button>
+        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.subBookedNum === 0}" [disabled]="bookingForEditData.subBookedNum === 0"
+            (click)="bookingCustomerList(bookingForEditData.id)">应约人列表</button>
         <button class="item" *ngIf="bookingForEditData.isActive" (click)="disabledBookingClass()">禁用预约</button>
         <button class="item" *ngIf="!bookingForEditData.isActive" (click)="beforeBookingClass()">激活预约</button>
         <button class="item" (click)="removeBooking()">删除预约</button>
@@ -15,7 +16,7 @@
                 <span class="pull-right vapps-icon-app-edit" [routerLink]="'/booking/edit/'+bookingForEditData.id"></span>
             </div>
 
-            <div class="flex-item"  *ngIf="availableBookingTime.length > 0">
+            <div class="flex-item" *ngIf="availableBookingTime.length > 0">
                 <div class="item-left">
                     <div class="left-wrap">
                         <span class="item-left">预约时间</span>

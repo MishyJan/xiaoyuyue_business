@@ -29,6 +29,8 @@ export class AppConsts {
     };
 
     static outletSelectListCache = 'OutletSelectListCache';
+
+    static bookingSelectListCache = 'BookingSelectListCache';
 }
 
 export class MediaCompressFormat {

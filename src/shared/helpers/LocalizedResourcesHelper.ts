@@ -18,12 +18,12 @@ export class LocalizedResourcesHelper {
             $('html').attr('dir', 'rtl');
         }
 
-        return $.Deferred().resolve();
+        return $.Deferred().resolve().promise();
     }
 
     private static loadLocalizedScripts(): JQueryPromise<any> {
         if (!abp.session.userId) {
-            return $.Deferred().resolve();
+            return $.Deferred().resolve().promise();
         }
 
         const currentCulture = abp.localization.currentLanguage.name;

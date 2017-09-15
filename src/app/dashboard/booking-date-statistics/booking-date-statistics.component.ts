@@ -52,8 +52,10 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
                 // subtext: ''
             },
             tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {c}'
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
             },
             legend: {
                 data: [this.l('Booking.ResponderNumber'), this.l('Dashboard.AccessNum')]
@@ -112,6 +114,13 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
                     type: 'bar',
                     xAxisIndex: 0,
                     yAxisIndex: 1,
+                    itemStyle: {
+                        normal: {
+                            color: '#FF9641'
+                        },
+                    },
+                    barMaxWidth: '30px',
+                    barWidth: '50%',
                     data: (() => {
                         const res = [];
                         if (this.bookingStatisticalData.length > 0) {
@@ -125,6 +134,7 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
                 {
                     name: this.l('Booking.ResponderNumber'),
                     type: 'line',
+                    smooth: true,
                     data: (() => {
                         const res = [];
                         if (this.bookingStatisticalData.length > 0) {
