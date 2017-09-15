@@ -159,7 +159,7 @@
     <xiaoyuyue-tips *ngIf="isShowImperfectTip"></xiaoyuyue-tips>
 </div>
 
-<div class="mobile-create-booking" [@routerTransition] *showItBootstrap="['xs','sm']">
+<div class="mobile-create-booking common-container" [@routerTransition] *showItBootstrap="['xs','sm']">
     <tabset class="side-bar" #staticTabs>
         <tab heading="{{l('Booking.BaseInfo')}}" (select)="updateNextIndex(1)">
             <div class="booking-info">

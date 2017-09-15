@@ -16,7 +16,7 @@
             border: none;
             background-color: transparent;
             cursor: pointer;
-            .availNum {
+            .avail-num {
                 padding: 1px 6px 1px 5px;
                 color: #FFF;
                 background-color: #FF0000;
@@ -30,6 +30,7 @@
     .tenant-wrap {
         border-radius: 4px;
         background-color: #FFF;
+        margin: 15px 0 0 0;
         overflow: hidden;
         .tenant-bg-wrap {
             margin-bottom: 15px;
@@ -95,6 +96,7 @@
         }
     }
     .org-info-wrap {
+        margin: 15px 0 0 0;
         .content {
             width: 100%;
             .content-item {
