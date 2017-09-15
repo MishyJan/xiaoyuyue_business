@@ -19,7 +19,7 @@
             <div class="flex-item" *ngIf="availableBookingTime.length > 0">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">预约时间</span>
+                        <span class="item-left">预约时间 : </span>
                         <span class="item-right">{{ availableBookingTime[0] }}</span>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
             <div class="flex-item">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">预约进度</span>
+                        <span class="item-left">预约进度 : </span>
                         <span class="item-right">{{ bookingForEditData.subBookedNum }} / {{ bookingForEditData.subMaxBookingNum }}</span>
                     </div>
                 </div>
@@ -41,18 +41,17 @@
             <div class="flex-item">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">应约人数</span>
+                        <span class="item-left">应约人数 : </span>
                         <span class="item-right">{{ bookingForEditData.subBookedNum }}</span>
                     </div>
                 </div>
-                <div class="item-right text-center">
-                </div>
+                <div class="item-right text-center"></div>
             </div>
 
             <div class="flex-item">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">排队人数</span>
+                        <span class="item-left">排队人数 : </span>
                         <span class="item-right">{{ bookingForEditData.wait4ConfirmNum }}</span>
                     </div>
                 </div>
