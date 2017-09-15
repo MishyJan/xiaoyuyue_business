@@ -22,7 +22,7 @@ import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNot
     templateUrl: './header.component.html',
     selector: 'header',
     styleUrls: [
-        './header.component.less'
+        './header.component.scss'
     ],
     encapsulation: ViewEncapsulation.None
 })
