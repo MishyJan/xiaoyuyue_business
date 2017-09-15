@@ -270,7 +270,7 @@
     </div>
 
     <div *showItBootstrap="['xs','sm']">
-        <div class="mobile-manage-booking" *ngIf="organizationBookingResultData.length>0">
+        <div class="mobile-manage-booking common-container" *ngIf="organizationBookingResultData.length>0">
             <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
                 <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-wrap clearfix">

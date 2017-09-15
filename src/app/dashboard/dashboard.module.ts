@@ -14,6 +14,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { ResponsiveModule } from 'ng2-responsive';
 import { UtilsModule } from '@shared/utils/utils.module';
 
 @NgModule({
@@ -27,7 +28,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UtilsModule,
         DashboardRoutingModule,
         AngularEchartsModule,
-        DropDownsModule
+        DropDownsModule,
+        ResponsiveModule
     ],
     declarations: [
         DashboardComponent,

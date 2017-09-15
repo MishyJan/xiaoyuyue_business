@@ -11,6 +11,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
     animations: [appModuleAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    mobileDateSelected: string;
     tenantBaseInfoData: TenantInfoEditDto;
     dataStatistics: BusCenterDataStatisticsDto;
     dateSelected: string;
@@ -25,11 +26,16 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
     ngOnInit() {
         this.dateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
+        // 为移动端单独保存昨日的时间，和PC端不共用一个变量
+        this.mobileDateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
         this.loadData();
         this.getTenantInfo();
     }
 
     ngAfterViewInit(): void {
+        if (this.isMobile()) {
+            return;
+        }
         this.dateFlatpickr = $('.flatpickr').flatpickr({
             'locale': 'zh',
             wrap: true,
@@ -43,10 +49,15 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngOnDestroy() {
-        this.dateFlatpickr.destroy();
+        if (!this.isMobile() && this.dateFlatpickr) {
+            this.dateFlatpickr.destroy();
+        }
     }
 
     loadData(): void {
+        if (this.isMobile()) {
+            this.dateSelected = this.mobileDateSelected;
+        }
         this._bookingDataStatisticsServiceProxy
             .getBusCenterDataStatistics(this.dateSelected)
             .subscribe((result) => {
@@ -60,5 +71,13 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             .subscribe(result => {
                 this.tenantBaseInfoData = result;
             });
+    }
+
+    /* 移动端代码 */
+    isMobile(): boolean {
+        if ($('.mobile-org-center').length > 0) {
+            return true;
+        };
+        return false;
     }
 }
