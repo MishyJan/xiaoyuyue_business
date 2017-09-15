@@ -1,6 +1,7 @@
 import { ApplicationInfoDto, GetCurrentLoginInformationsOutput, SessionServiceProxy, TenantLoginInfoDto, UserLoginInfoDto } from '@shared/service-proxies/service-proxies'
 
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service'
+import { CookiesService } from './../../services/cookies.service';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -13,6 +14,7 @@ export class AppSessionService {
 
     constructor(
         private _sessionService: SessionServiceProxy,
+        private _cookiesService: CookiesService,
         private _abpMultiTenancyService: AbpMultiTenancyService) {
     }
 
@@ -58,7 +60,7 @@ export class AppSessionService {
             return false;
         }
 
-        abp.multiTenancy.setTenantIdCookie(tenantId);
+        this._cookiesService.setTenantIdCookie(tenantId);
         location.reload();
         return true;
     }
