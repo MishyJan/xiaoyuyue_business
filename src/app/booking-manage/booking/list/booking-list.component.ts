@@ -8,6 +8,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
+import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-model/share-booking-model.component';
 import { Moment } from 'moment';
 import { NgxAni } from 'ngxani';
@@ -18,14 +19,14 @@ import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
-import { appModuleAnimation } from 'shared/animations/routerTransition';
+import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 import { element } from 'protractor';
 
 @Component({
     selector: 'app-manage-booking',
     templateUrl: './booking-list.component.html',
     styleUrls: ['./booking-list.component.scss'],
-    animations: [appModuleAnimation()]
+    animations: [appModuleSlowAnimation()]
     //   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -67,6 +68,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
     @ViewChild('bookingBg') bookingBgElement: ElementRef;
     @ViewChild('mobileShareBookingModel') mobileShareBookingModel: MobileShareBookingModelComponent;
+    @ViewChild('mobileConfirmOrderModel') mobileConfirmOrderModel: MobileConfirmOrderModelComponent;
 
     constructor(
         injector: Injector,
@@ -323,6 +325,12 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.loadData();
     }
 
+    batchConfirmStateHanlder(batchConfirmState: boolean): void {
+        if (batchConfirmState) {
+            this.loadData();
+        }
+    }
+
     /* 移动端 */
     showDetail(id: number): void {
         this._router.navigate(['/booking/detail', id]);
@@ -342,6 +350,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     showShareModel(bookingId: number): void {
         const shareUrl = AppConsts.shareBaseUrl + '/booking/' + bookingId;
         this.mobileShareBookingModel.show(shareUrl);
+    }
+
+    showMobileConfirmOrderModel(bookingId: number): void {
+        this.mobileConfirmOrderModel.show(bookingId);
     }
 
     /* 公用代码 */

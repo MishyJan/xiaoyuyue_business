@@ -352,7 +352,7 @@
                 right: -18px;
                 bottom: 20px;
             }
-            .flex-left{
+            .flex-left {
                 width: 80px;
                 flex: 0 0 80px;
                 .booking-progress {
@@ -427,7 +427,7 @@
                     }
                 }
             }
-            .flex-right{
+            .flex-right {
                 flex: 1;
                 .content-item {
                     padding: 4px 0;
@@ -445,6 +445,12 @@
             line-height: 40px;
             display: flex;
             border-top: 1px solid #E5E5E5;
+            .avail-num {
+                padding: 1px 6px 1px 5px;
+                color: #FFF;
+                background-color: #FF0000;
+                border-radius: 12px;
+            }
             .action-item {
                 flex: 1;
                 text-align: center;
