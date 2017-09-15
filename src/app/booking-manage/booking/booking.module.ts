@@ -17,6 +17,7 @@ import { DateInputModule } from '@progress/kendo-angular-dateinputs';
 import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridDataResultsModule } from 'shared/grid-data-results/grid-result.modules';
+import { MobileConfirmOrderModelComponent } from './list/shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from './list/shared/mobile-share-booking-model/share-booking-model.component';
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -63,7 +64,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         BookingCustomModelComponent,
         CreateSucceededComponent,
         BookingDetailComponent,
-        MobileShareBookingModelComponent
+        MobileShareBookingModelComponent,
+        MobileConfirmOrderModelComponent
     ],
     providers: [
 

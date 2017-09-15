@@ -1,0 +1,23 @@
+<div class="modal fade" bsModal #mobileConfirmOrderModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div *ngIf="orgBookingOrderData.length > 0">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">订单确认</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="order-item text-overflow" *ngFor="let orgBookingOrderItem of orgBookingOrderData">
+                        <img class="item" [src]="getProfilePictureUrl(orgBookingOrderItem.profilePictureUrl)" width="30px" height="30px">
+                        <span class="item">{{ orgBookingOrderItem.customerName }}</span>
+                        <span class="item">{{ t(orgBookingOrderItem.bookingDate, 'YYYY-HH-DD') }}</span>
+                        <span class="item">{{ orgBookingOrderItem.hourOfDay }}</span>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn confirm-btn primary-bgcolor" (click)="batchConfirmBookingOrder()">一键确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

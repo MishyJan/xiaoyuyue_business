@@ -16,7 +16,7 @@
             border: none;
             background-color: transparent;
             cursor: pointer;
-            .availNum {
+            .avail-num {
                 padding: 1px 6px 1px 5px;
                 color: #FFF;
                 background-color: #FF0000;
@@ -30,6 +30,7 @@
     .tenant-wrap {
         border-radius: 4px;
         background-color: #FFF;
+        margin: 15px 0 0 0;
         overflow: hidden;
         .tenant-bg-wrap {
             margin-bottom: 15px;
@@ -41,6 +42,9 @@
                 font-size: 15px;
                 margin-bottom: 15px;
             }
+            .flex-item + .flex-item {
+                margin-top: 10px;
+            }
             .flex-item {
                 display: flex;
                 color: #333;
@@ -49,8 +53,8 @@
                     .left-wrap {
                         display: flex;
                         .item-left {
-                            width: 60px;
-                            flex: 0 0 60px;
+                            width:70px;
+                            flex: 0 0 70px;
                             transform: translateY(2px);
                             margin-right: 16px;
                         }
@@ -95,6 +99,7 @@
         }
     }
     .org-info-wrap {
+        margin: 15px 0 0 0;
         .content {
             width: 100%;
             .content-item {

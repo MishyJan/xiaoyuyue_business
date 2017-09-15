@@ -6,6 +6,7 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { Breadcrumb } from 'shared/services/bread-crumb.service';
 import { ChangePasswordModalComponent } from './profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
 import { CookiesService } from './../../../shared/services/cookies.service';
@@ -22,7 +23,7 @@ import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNot
     templateUrl: './header.component.html',
     selector: 'header',
     styleUrls: [
-        './header.component.less'
+        './header.component.scss'
     ],
     encapsulation: ViewEncapsulation.None
 })
@@ -39,7 +40,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     languages: abp.localization.ILanguageInfo[];
     currentLanguage: abp.localization.ILanguageInfo;
     isImpersonatedLogin = false;
-
+    title: string;
     shownLoginNameTitle = '';
     shownLoginName = '';
     profilePicture = '/assets/common/images/default-profile-picture.png';
@@ -62,6 +63,10 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _cookiesService: CookiesService
     ) {
         super(injector);
+
+        this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
+            this.title = this.createHearderTitle(crumbs);
+        });
     }
 
     ngOnInit() {
@@ -170,5 +175,19 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
 
     get chatEnabled(): boolean {
         return (!this._sessionService.tenantId || this.feature.isEnabled('App.ChatFeature'));
+    }
+
+    createHearderTitle(routesCollection: Breadcrumb[]): string {
+
+        const titles = routesCollection.filter((route) => route.displayName);
+
+        return this.hearderTitlesToString(titles);
+    }
+
+    hearderTitlesToString(titles) {
+        return titles.reduce((prev, curr) => {
+            // return `${this.l(curr.displayName)} - ${prev}`;
+            return `${this.l(curr.displayName)}`;
+        }, '');
     }
 }

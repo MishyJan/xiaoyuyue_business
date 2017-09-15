@@ -1,31 +1,32 @@
-﻿<div class="customer-center" [@routerTransition]>
-    <div class="row margin-bottom-5">
-        <div class="col-md-6">
-            <div class="page-head">
-                <div class="page-title">
-                    <h1>{{l('Menu.Dashboard')}}</h1>
+﻿<div *hideItBootstrap="['xs','sm']">
+    <div class="org-center" [@routerTransition]>
+        <div class="row margin-bottom-5">
+            <div class="col-md-6">
+                <div class="page-head">
+                    <div class="page-title">
+                        <h1>{{l('Menu.Dashboard')}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 text-right">
+                <div class="flatpickr btn primary-bgcolor">
+                    <a class="input-button" title="{{l('SwitchTime')}}" data-toggle>
+                    <i class="vapps-icon light-bgcolor vapps-icon-dc-calendar"></i>
+                </a>
+                    <input type="text" [(ngModel)]="dateSelected" readonly data-input>
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 text-right">
-            <div class="flatpickr btn primary-bgcolor">
-                <a class="input-button" title="{{l('SwitchTime')}}" data-toggle>
-                    <i class="vapps-icon light-bgcolor vapps-icon-dc-calendar"></i>
-                </a>
-                <input type="text" [(ngModel)]="dateSelected" readonly data-input>
-            </div>
-        </div>
-    </div>
 
-    <div class="content row">
-        <div class="col-md-12 row no-right-padding">
-            <div class="left-content col-md-3">
-                <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
-                    <div class="org-bg" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.logoUrl + ')'}">
-                        <!-- <img [src]="tenantBaseInfoData.logoUrl" width="100%" alt="logo"> -->
-                    </div>
-                    <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
-                    <!-- <div class="edition-info clearfix">
+        <div class="content row">
+            <div class="col-md-12 row no-right-padding">
+                <div class="left-content col-md-3">
+                    <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
+                        <div class="org-bg" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.logoUrl + ')'}">
+                            <!-- <img [src]="tenantBaseInfoData.logoUrl" width="100%" alt="logo"> -->
+                        </div>
+                        <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
+                        <!-- <div class="edition-info clearfix">
                         <span class="col-md-4 edition-name">专业版</span>
                         <span class="col-md-8 edition-time">2018-01-01 <span>到期</span></span>
                     </div>
@@ -39,93 +40,172 @@
                             <p>20</p>
                         </div>
                     </div> -->
+                    </div>
+
+                    <div class="org-data box-shadow content-item clearfix" *ngIf="dataStatistics">
+                        <div class="col-md-6 item">
+                            <p style="color: #00B200;">{{ dataStatistics.bookingData.today.pv }}</p>
+                            <p>{{l('Dashboard.TodayPv')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #00B200;">{{ dataStatistics.bookingData.today.uv }}</p>
+                            <p>{{l('Dashboard.TodayUv')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #FF9641;">{{ dataStatistics.bookingData.history.pv }}</p>
+                            <p>{{l('Dashboard.HistoryPv')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #FF9641;">{{ dataStatistics.bookingData.history.uv }}</p>
+                            <p>{{l('Dashboard.HistoryUv')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #02AFF3;">{{ dataStatistics.bookingData.history.bookingNum }}</p>
+                            <p>{{l('Dashboard.HistoryBookingNum')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #E32600;">{{ dataStatistics.bookingData.today.waitConfirmNum }}</p>
+                            <p>{{l('Dashboard.WaitConfirmNum')}}</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="org-data box-shadow content-item clearfix" *ngIf="dataStatistics">
-                    <div class="col-md-6 item">
-                        <p style="color: #00B200;">{{ dataStatistics.bookingData.today.pv }}</p>
-                        <p>{{l('Dashboard.TodayPv')}}</p>
+                <div class="right-content col-md-9 no-right-padding" *ngIf="dataStatistics">
+                    <div class="booking-order-data  data-item">
+                        <div class="top-bar box-shadow">
+                            <h5 class="top-title">{{l('Dashboard.BookingOrderData')}}</h5>
+                        </div>
+                        <div class="content row">
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-saturation></xiaoyuyue-booking-saturation>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-date-statistics [bookingStatisticalData]="dataStatistics.bookingConverRates"></xiaoyuyue-booking-date-statistics>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 item">
-                        <p style="color: #00B200;">{{ dataStatistics.bookingData.today.uv }}</p>
-                        <p>{{l('Dashboard.TodayUv')}}</p>
+
+                    <div class="booking-time-data  data-item">
+                        <div class="top-bar box-shadow">
+                            <h5 class="top-title">{{l('Dashboard.BookingTimeData')}}</h5>
+                        </div>
+
+                        <div class="content row">
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-heat></xiaoyuyue-booking-heat>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-access-time [bookingAccessTimeData]="dataStatistics.bookingAccessTimes"></xiaoyuyue-booking-access-time>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 item">
-                        <p style="color: #FF9641;">{{ dataStatistics.bookingData.history.pv }}</p>
-                        <p>{{l('Dashboard.HistoryPv')}}</p>
-                    </div>
-                    <div class="col-md-6 item">
-                        <p style="color: #FF9641;">{{ dataStatistics.bookingData.history.uv }}</p>
-                        <p>{{l('Dashboard.HistoryUv')}}</p>
-                    </div>
-                    <div class="col-md-6 item">
-                        <p style="color: #02AFF3;">{{ dataStatistics.bookingData.history.bookingNum }}</p>
-                        <p>{{l('Dashboard.HistoryBookingNum')}}</p>
-                    </div>
-                    <div class="col-md-6 item">
-                        <p style="color: #E32600;">{{ dataStatistics.bookingData.today.waitConfirmNum }}</p>
-                        <p>{{l('Dashboard.WaitConfirmNum')}}</p>
+
+                    <div class="booking-customer-data  data-item">
+                        <div class="top-bar box-shadow">
+                            <h5 class="top-title">{{l('Dashboard.BookingCustomerData')}}</h5>
+                        </div>
+
+                        <div class="content row">
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-access-source [bookingAccessSourceData]="dataStatistics.bookingAccessSources"></xiaoyuyue-booking-access-source>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-access-region [bookingAccessRegionData]="dataStatistics.bookingAccessRegions"></xiaoyuyue-booking-access-region>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <div class="right-content col-md-9 no-right-padding" *ngIf="dataStatistics">
-                <div class="booking-order-data  data-item">
-                    <div class="top-bar box-shadow">
-                        <h5 class="top-title">{{l('Dashboard.BookingOrderData')}}</h5>
-                    </div>
-                    <div class="content row">
-                        <div class="col-md-6">
-                            <div class="content-item card">
-                                <xiaoyuyue-booking-saturation></xiaoyuyue-booking-saturation>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="content-item card">
-                                <xiaoyuyue-booking-date-statistics [bookingStatisticalData]="dataStatistics.bookingConverRates"></xiaoyuyue-booking-date-statistics>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="booking-time-data  data-item">
-                    <div class="top-bar box-shadow">
-                        <h5 class="top-title">{{l('Dashboard.BookingTimeData')}}</h5>
+<div *showItBootstrap="['xs','sm']">
+    <div class="mobile-org-center">
+        <div class="add-time-btn">
+            <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
+        </div>
+        <div class="header" *ngIf="tenantBaseInfoData">
+            <div class="tenant-base-info" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.backgroundPictureUrl + ')'}">
+                <div class="info-wrap">
+                    <div class="top">
+                        <img class="tenant-logo" [src]="tenantBaseInfoData.logoUrl" width="60px" height="60px">
+                        <span class="tenant-name">{{ tenantBaseInfoData.tenancyName }}</span>
                     </div>
 
-                    <div class="content row">
-                        <div class="col-md-6">
-                            <div class="content-item card">
-                                <xiaoyuyue-booking-heat></xiaoyuyue-booking-heat>
-                            </div>
+                    <div class="bottom">
+                        <div class="flex-item">
+                            <p>{{ dataStatistics.bookingData.history.pv }}</p>
+                            <p>昨日访问量</p>
                         </div>
-                        <div class="col-md-6">
-                            <div class="content-item card">
-                                <xiaoyuyue-booking-access-time [bookingAccessTimeData]="dataStatistics.bookingAccessTimes"></xiaoyuyue-booking-access-time>
-                            </div>
+                        <div class="flex-item">
+                            <p>{{ dataStatistics.bookingData.history.uv }}</p>
+                            <p>首次访问</p>
+                        </div>
+                        <div class="flex-item">
+                            <p>{{ dataStatistics.bookingData.history.bookingNum }}</p>
+                            <p>昨日预约量</p>
+                        </div>
+                        <div class="flex-item">
+                            <p>{{ dataStatistics.bookingData.today.waitConfirmNum }}</p>
+                            <p>待确认</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="booking-customer-data  data-item">
-                    <div class="top-bar box-shadow">
-                        <h5 class="top-title">{{l('Dashboard.BookingCustomerData')}}</h5>
-                    </div>
+                <div class="bg-cover"></div>
+            </div>
+        </div>
 
-                    <div class="content row">
-                        <div class="col-md-6">
-                            <div class="content-item card">
-                                <xiaoyuyue-booking-access-source [bookingAccessSourceData]="dataStatistics.bookingAccessSources"></xiaoyuyue-booking-access-source>
+        <div class="content-wrap">
+            <div class="manage-center-teb-content">
+                <div class="card-wrap col-xs-4 col-sm-3">
+                    <div class="card" routerLink="/booking/list">
+                        <div class="item">
+                            <div class="content">
+                                <span class="icon vapps-icon-app-booking-menu"></span>
+                                <p class="text">预约管理</p>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="content-item card">
-                                <xiaoyuyue-booking-access-region [bookingAccessRegionData]="dataStatistics.bookingAccessRegions"></xiaoyuyue-booking-access-region>
+                    </div>
+                </div>
+                <div class="card-wrap col-xs-4 col-sm-3">
+                    <div class="card" routerLink="/organization/info">
+                        <div class="item">
+                            <div class="content">
+                                <span class="icon vapps-icon-app-org-info-menu"></span>
+                                <p class="text">机构信息</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-wrap col-xs-4 col-sm-3">
+                    <div class="card" routerLink="/outlet/list">
+                        <div class="item">
+                            <div class="content">
+                                <span class="icon vapps-icon-app-outlet-menu"></span>
+                                <p class="text">门店管理</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="footer">
+
         </div>
     </div>
 </div>

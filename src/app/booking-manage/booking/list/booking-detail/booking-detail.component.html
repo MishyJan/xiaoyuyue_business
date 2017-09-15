@@ -1,8 +1,8 @@
-<div class="booking-detail" *ngIf="bookingForEditData">
-    <div class="command-wrap card">
-        <button class="item">待确认<span class="availNum">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
-        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.subBookedNum === 0}" [disabled]="bookingForEditData.subBookedNum === 0"
-            (click)="bookingCustomerList(bookingForEditData.id)">应约人列表</button>
+<div class="booking-detail common-container" *ngIf="bookingForEditData">
+    <div class="command-wrap card no-margin">
+            <button class="item" [ngClass]="{'disabled-style': bookingForEditData.wait4ConfirmNum == 0}" [disabled]="bookingForEditData.wait4ConfirmNum == 0"
+            (click)="showMobileConfirmOrderModel(bookingForEditData.id)"><span class="icon vapps-icon-app-confirm-2"></span>待确认<span class="avail-num" *ngIf="bookingForEditData.wait4ConfirmNum !== 0">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
+        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.subBookedNum == 0}" [disabled]="bookingForEditData.subBookedNum == 0"  (click)="bookingCustomerList(bookingForEditData.id)">应约人列表</button>
         <button class="item" *ngIf="bookingForEditData.isActive" (click)="disabledBookingClass()">禁用预约</button>
         <button class="item" *ngIf="!bookingForEditData.isActive" (click)="beforeBookingClass()">激活预约</button>
         <button class="item" (click)="removeBooking()">删除预约</button>
@@ -19,7 +19,7 @@
             <div class="flex-item" *ngIf="availableBookingTime.length > 0">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">预约时间</span>
+                        <span class="item-left">预约时间 : </span>
                         <span class="item-right">{{ availableBookingTime[0] }}</span>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
             <div class="flex-item">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">预约进度</span>
+                        <span class="item-left">预约进度 : </span>
                         <span class="item-right">{{ bookingForEditData.subBookedNum }} / {{ bookingForEditData.subMaxBookingNum }}</span>
                     </div>
                 </div>
@@ -41,18 +41,17 @@
             <div class="flex-item">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">应约人数</span>
+                        <span class="item-left">应约人数 : </span>
                         <span class="item-right">{{ bookingForEditData.subBookedNum }}</span>
                     </div>
                 </div>
-                <div class="item-right text-center">
-                </div>
+                <div class="item-right text-center"></div>
             </div>
 
             <div class="flex-item">
                 <div class="item-left">
                     <div class="left-wrap">
-                        <span class="item-left">排队人数</span>
+                        <span class="item-left">排队人数 : </span>
                         <span class="item-right">{{ bookingForEditData.wait4ConfirmNum }}</span>
                     </div>
                 </div>
@@ -98,3 +97,4 @@
     </div>
 </div>
 <xiaoyuyue-mobile-share-booking-model #mobileShareBookingModel></xiaoyuyue-mobile-share-booking-model>
+<xiaoyuyue-mobile-confirm-order-model #mobileConfirmOrderModel (batchConfirmStateHanlder)="batchConfirmStateHanlder($event)"></xiaoyuyue-mobile-confirm-order-model>
