@@ -4,6 +4,7 @@ import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { MobileConfirmOrderModelComponent } from '../shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from 'app/booking-manage/booking/list/shared/mobile-share-booking-model/share-booking-model.component';
 
 @Component({
@@ -22,6 +23,7 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
     bookingForEditData: GetBookingDetailOutput = new GetBookingDetailOutput();
     bookingId: string;
 
+    @ViewChild('mobileConfirmOrderModel') mobileConfirmOrderModel: MobileConfirmOrderModelComponent;
     @ViewChild('mobileShareBookingModel') mobileShareBookingModel: MobileShareBookingModelComponent;
     constructor(
         private injector: Injector,
@@ -101,6 +103,16 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
                     })
             }
         })
+    }
+
+    showMobileConfirmOrderModel(bookingId: number): void {
+        this.mobileConfirmOrderModel.show(bookingId);
+    }
+
+    batchConfirmStateHanlder(batchConfirmState: boolean): void {
+        if (batchConfirmState) {
+            this.getBookingDetailData();
+        }
     }
 
     showShareModel(): void {

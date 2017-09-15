@@ -200,8 +200,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
-        // this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
-        this.input.items = this.allBookingTime ? this.allBookingTime : this.timeInfo;
+        this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
         // 判断是否上传过图片
         if (this.allPictureForEdit) {
             this.input.bookingPictures = this.allPictureForEdit;
@@ -222,26 +221,27 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     saveAndEdit() {
+        this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
+        this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
+
         this.input.booking.id = this.bookingId ? this.bookingId : 0;
         this.input.booking = this.baseInfo;
         this.input.booking.outletId = this.selectOutletId;
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
-        this.input.items = !this.allBookingTime ? this.timeInfo : this.allBookingTime;
+        this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
         // 判断是否上传过图片
         if (this.allPictureForEdit) {
             this.input.bookingPictures = this.allPictureForEdit;
         } else {
             this.input.bookingPictures = this.pictureInfo;
         }
+        this.saving = true;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
-            .finally(() => { this.savingAndEditing = false })
+            .finally(() => { this.saving = false })
             .subscribe((result) => {
-                this.notify.success(this.l('SavaSuccess'));
-                this.bookingId = result.id;
-                this.loadData();
             });
     }
 

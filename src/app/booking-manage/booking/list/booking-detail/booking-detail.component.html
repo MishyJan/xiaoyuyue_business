@@ -1,6 +1,7 @@
 <div class="booking-detail common-container" *ngIf="bookingForEditData">
     <div class="command-wrap card">
-        <button class="item">待确认<span class="availNum">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
+            <button class="item" [ngClass]="{'disabled-style': bookingForEditData.wait4ConfirmNum == 0}" [disabled]="bookingForEditData.wait4ConfirmNum == 0"
+            (click)="showMobileConfirmOrderModel(bookingForEditData.id)"><span class="icon vapps-icon-app-confirm-2"></span>待确认<span class="avail-num" *ngIf="bookingForEditData.wait4ConfirmNum !== 0">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
         <button class="item" [ngClass]="{'disabled-style': bookingForEditData.subBookedNum == 0}" [disabled]="bookingForEditData.subBookedNum == 0"  (click)="bookingCustomerList(bookingForEditData.id)">应约人列表</button>
         <button class="item" *ngIf="bookingForEditData.isActive" (click)="disabledBookingClass()">禁用预约</button>
         <button class="item" *ngIf="!bookingForEditData.isActive" (click)="beforeBookingClass()">激活预约</button>
@@ -97,3 +98,4 @@
     </div>
 </div>
 <xiaoyuyue-mobile-share-booking-model #mobileShareBookingModel></xiaoyuyue-mobile-share-booking-model>
+<xiaoyuyue-mobile-confirm-order-model #mobileConfirmOrderModel (batchConfirmStateHanlder)="batchConfirmStateHanlder($event)"></xiaoyuyue-mobile-confirm-order-model>
