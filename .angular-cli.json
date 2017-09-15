@@ -66,7 +66,6 @@
       "../node_modules/spin.js/jquery.spin.js",
 
       "../node_modules/jquery-slimscroll/jquery.slimscroll.min.js",
-      "../node_modules/timeago/jquery.timeago.js",
       "../node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
       "../node_modules/push.js/bin/push.min.js",
 

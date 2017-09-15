@@ -5,6 +5,7 @@ export class AppConsts {
     static readonly tenancyNamePlaceHolderInUrl = '{TENANCY_NAME}';
     static remoteServiceBaseUrl: string;
     static remoteServiceBaseUrlFormat: string;
+
     static appBaseUrl: string;
     static shareBaseUrl: string;
     static appBaseUrlFormat: string;
@@ -29,6 +30,8 @@ export class AppConsts {
     };
 
     static outletSelectListCache = 'OutletSelectListCache';
+
+    static bookingSelectListCache = 'BookingSelectListCache';
 }
 
 export class MediaCompressFormat {

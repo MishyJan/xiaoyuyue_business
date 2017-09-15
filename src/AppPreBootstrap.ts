@@ -3,6 +3,7 @@
 import { CompilerOptions, NgModuleRef, Type } from '@angular/core';
 
 import { AppConsts } from '@shared/AppConsts';
+import { CookiesService } from 'shared/services/cookies.service';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
 import { SubdomainTenancyNameFinder } from '@shared/helpers/SubdomainTenancyNameFinder';
@@ -12,7 +13,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 declare var $: any;
 export class AppPreBootstrap {
-
+    static cookiesService = new CookiesService();
     static run(callback: () => void): void {
         $.material.init();
         // $('select option:selected').css({
@@ -76,7 +77,7 @@ export class AppPreBootstrap {
     }
 
     private static impersonatedAuthenticate(impersonationToken: string, tenantId: number, callback: () => void): JQueryPromise<any> {
-        abp.multiTenancy.setTenantIdCookie(tenantId);
+        this.cookiesService.setTenantIdCookie(tenantId);
         const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
         return abp.ajax({
             url: AppConsts.remoteServiceBaseUrl + '/api/TokenAuth/ImpersonatedAuthenticate?impersonationToken=' + impersonationToken,
@@ -94,7 +95,7 @@ export class AppPreBootstrap {
     }
 
     private static linkedAccountAuthenticate(switchAccountToken: string, tenantId: number, callback: () => void): JQueryPromise<any> {
-        abp.multiTenancy.setTenantIdCookie(tenantId);
+        this.cookiesService.setTenantIdCookie(tenantId);
         const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
         return abp.ajax({
             url: AppConsts.remoteServiceBaseUrl + '/api/TokenAuth/LinkedAccountAuthenticate?switchAccountToken=' + switchAccountToken,
@@ -139,7 +140,7 @@ export class AppPreBootstrap {
     }
 
     private static setEncryptedTokenCookie(encryptedToken: string) {
-        new UtilsService().setCookieValue(AppConsts.authorization.encrptedAuthTokenName,
+        new CookiesService().setCookieValue(AppConsts.authorization.encrptedAuthTokenName,
             encryptedToken,
             new Date(new Date().getTime() + 365 * 86400000), // 1 year
             abp.appPath

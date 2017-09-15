@@ -63,15 +63,16 @@ export class BookingAccessSourceComponent extends AppComponentBase implements Af
                 containLabel: true
             },
             legend: {
-                orient: 'horizontal',
+                orient: 'vertical',
                 left: 'left',
+                top: '10px',
                 data: [this.l('WeChat'), this.l('WeiBo'), this.l('QQ'), this.l('QrCode'), this.l('Other')]
             },
             series: [
                 {
                     name: this.l('Dashboard.AccessSource'),
                     type: 'pie',
-                    radius: '84%',
+                    radius: '75%',
                     center: ['50%', '50%'],
                     label: {
                         normal: {

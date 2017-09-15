@@ -212,6 +212,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .createOrUpdateBooking(this.input)
             .finally(() => { this.saving = false })
             .subscribe((result) => {
+                abp.event.trigger('bookingListSelectChanged');
                 if (!this.isMobile()) {
                     this.shareBookingModel.show(result.id);
                 } else {

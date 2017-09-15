@@ -9,7 +9,6 @@ import { AppConsts } from 'shared/AppConsts';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { IAjaxResponse } from 'abp-ng2-module/src/abpHttp';
 import { ModalDirective } from 'ngx-bootstrap';
-import { TokenService } from 'abp-ng2-module/src/auth/token.service';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { element } from 'protractor';
 
@@ -78,7 +77,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     constructor(
         injector: Injector,
-        private _tokenService: TokenService,
         private _pictureServiceProxy: PictureServiceProxy,
         private sanitizer: DomSanitizer
     ) {

@@ -33,10 +33,6 @@ interface JQuery {
     slimScroll(...any): any;
 }
 
-interface JQuery {
-    timeago(...any): any;
-}
-
 /**
  * jQuery selectpicker
  */

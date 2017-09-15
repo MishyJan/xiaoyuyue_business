@@ -5,9 +5,9 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
-import { AppStorageService } from 'shared/services/storage.service';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-model/share-booking-model.component';
 import { Moment } from 'moment';
@@ -76,7 +76,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _router: Router,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
-        private _appStorageService: AppStorageService,
+        private _localStorageService: LocalStorageService,
         private _title: Title,
     ) {
         super(injector);
@@ -257,9 +257,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 获取可用下拉框数据源
     private loadSelectListData(): void {
-        this._appStorageService.getItem(AppConsts.outletSelectListCache, () => {
+        this._localStorageService.getItem(AppConsts.outletSelectListCache, () => {
             return this._outletServiceServiceProxy.getOutletSelectList()
-        }).subscribe(result => {
+        }).then(result => {
             // 添加请选择数据源
             this.outletSelectListData = result;
             this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
