@@ -3,20 +3,26 @@
     <ul class="sidebar-menu">
         <li (click)="toOfficialSite()">
             <div class="sidebar-menu-item" title="首页">
-                <span class="icon"></span>
-                <span class="text">首页</span>
+                <div class="content">
+                    <span class="icon vapps-icon-app-home-menu"></span>
+                    <span class="text">首页</span>
+                </div>
             </div>
         </li>
         <li *ngFor="let menuItem of mobileMenu.items" (click)="hide()">
             <div class="sidebar-menu-item" *ngIf="showMenuItem(menuItem)" routerLinkActive="active" [routerLink]="menuItem.route" [title]="l(menuItem.name)">
-                <span class="icon" [class]="menuItem.icon"></span>
-                <span class="text">{{ l(menuItem.name) }}</span>
+                <div class="content">
+                    <span class="icon" [class]="menuItem.icon"></span>
+                    <span class="text">{{ l(menuItem.name) }}</span>
+                </div>
             </div>
         </li>
         <li (click)="logout()">
             <div class="sidebar-menu-item" title="退出账户">
-                <span class="icon"></span>
-                <span class="text">退出账户</span>
+                <div class="content">
+                    <span class="icon vapps-icon-app-logout-menu"></span>
+                    <span class="text">退出账户</span>
+                </div>
             </div>
         </li>
     </ul>
