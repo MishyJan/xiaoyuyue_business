@@ -145,7 +145,7 @@
                         <span class="tenant-name">{{ tenantBaseInfoData.tenancyName }}</span>
                     </div>
 
-                    <div class="bottom">
+                    <div class="bottom" *ngIf="dataStatistics">
                         <div class="flex-item">
                             <p>{{ dataStatistics.bookingData.history.pv }}</p>
                             <p>昨日访问量</p>

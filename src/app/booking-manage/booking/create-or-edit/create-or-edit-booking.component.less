@@ -101,6 +101,41 @@
             background-size: cover;
             background-position: center;
         }
+        .img-wrap {
+            .img {
+                // display: inline-block;
+                float: left; // width: calc(100% / 3);
+                position: relative;
+                padding: 10px;
+                .item {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    background: #FFF;
+                    font-size: 34px;
+                    overflow: hidden;
+                    &:before {
+                        content: "";
+                        display: inline-block;
+                        padding-bottom: 100%;
+                        width: .1px;
+                        vertical-align: middle;
+                    }
+                    .content {
+                        position: absolute;
+                        width: 90%;
+                        height: 90%;
+                        top: 15px;
+                        left: 0;
+                        /* -webkit-transform: translate(-50%, -50%); */
+                        /* transform: translate(-50%, -50%); */
+                        text-align: center;
+                        background-size: cover;
+                        background-position: center;
+                    }
+                }
+            }
+        }
     }
     .time-create {
         .add-time-btn {

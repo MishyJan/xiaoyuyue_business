@@ -21,9 +21,15 @@
             </div>
             <div class="col-xs-6 text-right">
                 <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
-                    [buttonBusy]="saving" [busyText]="l('Saving')"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l('Save')}}</span></button>
+                    [buttonBusy]="saving" [busyText]="l('Saving')">
+                    <i class="vapps-icon vapps-icon-app-submit"></i>
+                    <span>{{l('Save')}}</span>
+                </button>
                 <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
-                    [buttonBusy]="savingAndEditing" [busyText]="l('Saving')"><i class="vapps-icon-save"></i><span>{{l('SavingAndEditing')}}</span></button>
+                    [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">
+                    <i class="vapps-icon-save"></i>
+                    <span>{{l('SavingAndEditing')}}</span>
+                </button>
                 <!-- <button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button> -->
             </div>
         </div>
@@ -90,7 +96,9 @@
                             </div>
                             <!--应约人所需信息选项-->
                             <div class="info-checkbox-row row">
-                                <div class="info-checkbox name col-md-3 text-right label-on-left"><span>{{l('Booking.InfoOptions')}}</span></div>
+                                <div class="info-checkbox name col-md-3 text-right label-on-left">
+                                    <span>{{l('Booking.InfoOptions')}}</span>
+                                </div>
                                 <div class="col-md-9 row content">
                                     <div class="margin-top-14">
                                         <div class="col-md-4 col-lg-2 item">
@@ -229,6 +237,13 @@
                                     <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#uploadArea'"
                                         [groupId]="1" [dropEle]="" [containerEle]="">
                                         <div id="uploadArea" class="upload-area"></div>
+                                        <div class="img-wrap">
+                                            <div class="img col-xs-3 col-sm-3" *ngFor="let pictureItem of pictureInfo">
+                                                <div class="item">
+                                                    <div class="content" [ngStyle]="{'background-image': 'url(' + pictureItem.pictureUrl + ')'}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -302,8 +317,8 @@
                                                         data-input required>
 
                                                     <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                    <i class="icon-calendar"></i>
-                                                </a>
+                                                        <i class="icon-calendar"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -375,13 +390,13 @@
                                         <span class="text">复制</span>
                                     </div> -->
                                         <button class="col-xs-4 col-xs-offset-2 command-item" *ngIf="!editingIndex[index]" (click)="editingTimeField(index)">
-                                        <span class="vapps-icon-app-edit icon"></span>
-                                        <span class="text">{{l('Edit')}}</span>
-                                    </button>
+                                            <span class="vapps-icon-app-edit icon"></span>
+                                            <span class="text">{{l('Edit')}}</span>
+                                        </button>
                                         <button class="col-xs-4 col-xs-offset-2 command-item" [disabled]="!timeViewForm.form.valid" *ngIf="editingIndex[index]" (click)="saveTimeField(index)">
-                                        <span class="vapps-icon-app-edit icon"></span>
-                                        <span class="text">{{l('Save')}}</span>
-                                    </button>
+                                            <span class="vapps-icon-app-edit icon"></span>
+                                            <span class="text">{{l('Save')}}</span>
+                                        </button>
                                         <div class="col-xs-4 command-item" (click)="deleteTimeField(index)">
                                             <span class="vapps-icon-app-delete icon"></span>
                                             <span class="text">{{l('Delete')}}</span>
