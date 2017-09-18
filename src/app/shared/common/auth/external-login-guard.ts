@@ -1,16 +1,19 @@
-import { Injectable } from '@angular/core';
-import { PermissionCheckerService } from "@abp/auth/permission-checker.service";
-import { AppSessionService } from '@shared/common/session/app-session.service';
-import { AdminPermissions } from '@shared/AdminPermissions';
-import { UrlHelper } from '@shared/helpers/UrlHelper';
-
 import {
-    CanActivate, Router,
+    ActivatedRoute,
     ActivatedRouteSnapshot,
-    RouterStateSnapshot,
-    CanActivateChild, Params, ActivatedRoute
+    CanActivate,
+    CanActivateChild,
+    Params,
+    Router,
+    RouterStateSnapshot
 } from '@angular/router';
+
+import { AdminPermissions } from '@shared/AdminPermissions';
+import { AppSessionService } from '@shared/common/session/app-session.service';
+import { Injectable } from '@angular/core';
 import { LoginService } from "shared/services/login.service";
+import { PermissionCheckerService } from "@abp/auth/permission-checker.service";
+import { UrlHelper } from '@shared/helpers/UrlHelper';
 
 @Injectable()
 export class ExternalLoginGuard implements CanActivate {
@@ -22,7 +25,7 @@ export class ExternalLoginGuard implements CanActivate {
         private _activatedRoute: ActivatedRoute,
     ) { }
 
-    canActivate(params: Params): boolean { 
+    canActivate(params: Params): boolean {
         var providerName = undefined;
 
         this._activatedRoute.queryParams.subscribe((params: Params) => {

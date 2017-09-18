@@ -200,7 +200,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
-        this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
+        this.input.items = this.allBookingTime;
         // 判断是否上传过图片
         if (this.allPictureForEdit) {
             this.input.bookingPictures = this.allPictureForEdit;
@@ -322,16 +322,22 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.allBookingTime.push(this.localSingleBookingItem);
         this.startHourOfDay = '00:00';
         this.endHourOfDay = '00:00';
-        console.log(this.localSingleBookingItem);
+        console.log(this.allBookingTime);
 
         this.localSingleBookingItem = new BookingItemEditDto();
     }
 
     getPicUploadInfoHandler(picUploadInfo: UploadPictureDto): void {
+        if (this.pictureInfo.length >= 4) {
+            this.notify.warn('不能超过四张');
+            return;
+        }
         let temp = new BookingPictureEditDto();
         temp.pictureId = picUploadInfo.pictureId;
         temp.pictureUrl = picUploadInfo.pictureUrl;
         this.pictureInfo.push(temp)
+        console.log(this.pictureInfo);
+        
     }
 
     editingTimeField(index: number): void {
