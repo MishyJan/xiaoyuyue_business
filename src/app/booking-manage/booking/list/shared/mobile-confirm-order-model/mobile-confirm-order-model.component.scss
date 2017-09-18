@@ -1,7 +1,7 @@
 .modal {
     width: 94%;
     margin: 0 auto;
-    .order-item + .order-item{
+    .order-item+.order-item {
         border-top: 1px solid #E1E1E1;
     }
     .order-item:first-child {
@@ -22,5 +22,33 @@
         position: relative;
         left: -50%;
         transform: translateX(50%);
+    }
+    .prev-icon {
+        position: absolute;
+        width: 40px;
+        height: 100%;
+        top: 0;
+        left: 0;
+        .icon {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            font-size: 30px;
+        }
+    }
+    .next-icon {
+        position: absolute;
+        width: 40px;
+        height: 100%;
+        top: 0;
+        right: 0;
+        .icon {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            font-size: 30px;
+        }
     }
 }
