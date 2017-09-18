@@ -277,7 +277,8 @@
         <xiaoyuyue-booking-custom-model #bookingCustomModelComponent></xiaoyuyue-booking-custom-model>
     </div>
 
-    <div *showItBootstrap="['xs','sm']">
+    <div *showItBootstrap="['xs','sm']" infinite-scroll [scrollWindow]="true" [infiniteScrollDistance]="infiniteScrollDistance"
+    [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
         <div class="mobile-manage-booking common-container" *ngIf="organizationBookingResultData.length>0">
             <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
                 <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">

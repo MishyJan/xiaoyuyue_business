@@ -31,6 +31,10 @@ import { element } from 'protractor';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+
+    infiniteScrollDistance: number = 2;
+    infiniteScrollThrottle: number = 300;
+
     actionFlag: boolean[] = [];
     bEndCreationTime: any;
     bStartCreationTime: any;
@@ -354,6 +358,18 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     showMobileConfirmOrderModel(bookingId: number): void {
         this.mobileConfirmOrderModel.show(bookingId);
+    }
+
+    public onScrollDown(): void {
+        console.log(true);
+
+        if (this.skipCount > (this.totalItems - this.maxResultCount)) {
+            // this.isLoaded = true;
+            return;
+        }
+        this.skipCount += this.maxResultCount;
+        this.loadData();
+
     }
 
     /* 公用代码 */
