@@ -13,10 +13,10 @@ import { AppConsts } from '@shared/AppConsts';
 export class MobileSideBarComponent extends AppComponentBase implements OnInit {
     toggleSidebarFlag: boolean = false;
     mobileMenu: SideBarMenu = new SideBarMenu('Menu', 'Menu', [
-        new SideBarMenuItem('机构中心', this.permissions.Dashboard, '', '/dashboard'),
-        new SideBarMenuItem('预约管理', this.permissions.bookingManage_Bookings, '', '/booking/list'),
-        new SideBarMenuItem('机构信息', this.permissions.organization_BaseInfo, '', '/organization/info'),
-        new SideBarMenuItem('门店管理', this.permissions.organization_Outlets, '', '/outlet/list')
+        new SideBarMenuItem('机构中心', this.permissions.Dashboard, 'vapps-icon-app-org-center-menu', '/dashboard'),
+        new SideBarMenuItem('预约管理', this.permissions.bookingManage_Bookings, 'vapps-icon-app-booking-menu', '/booking/list'),
+        new SideBarMenuItem('机构信息', this.permissions.organization_BaseInfo, 'vapps-icon-app-org-info-menu', '/organization/info'),
+        new SideBarMenuItem('门店管理', this.permissions.organization_Outlets, 'vapps-icon-app-outlet-menu', '/outlet/list')
     ]);
     constructor(
         private injector: Injector,
