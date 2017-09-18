@@ -13,6 +13,7 @@ import { OrgBookingOrderStatus } from 'shared/AppEnums';
     styleUrls: ['./mobile-confirm-order-model.component.scss']
 })
 export class MobileConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    totalItems: number;
     orderIds: number[] = [];
     orgBookingOrderData: OrgBookingOrderListDto[] = [];
     bookingDate: Moment;
@@ -27,6 +28,8 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
     startMinute: number;
     status: Status[] = [OrgBookingOrderStatus.WaitConfirm];
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
+    currentPage: number = 0;
+    maxResultCount: number;
 
     @ViewChild('mobileConfirmOrderModel') mobileConfirmOrderModel: ModalDirective;
     @Output() batchConfirmStateHanlder: EventEmitter<boolean> = new EventEmitter();
@@ -38,6 +41,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
     }
 
     ngOnInit() {
+        this.maxResultCount = this.gridParam.MaxResultCount;
     }
 
     ngAfterViewInit() {
@@ -63,6 +67,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             this.gridParam.SkipCount
             )
             .subscribe(result => {
+                this.totalItems = result.totalCount;
                 this.orgBookingOrderData = result.items;
             })
     }
@@ -82,12 +87,39 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
         });
         input.ids = this.orderIds
         this._orgBookingOrderServiceProxy.batchConfirmBookingOrder(input)
-        .subscribe( result => {
-            this.notify.success('确认成功');
-            this.hide();
-            this.orderIds = [];
-            this.batchConfirmStateHanlder.emit(true);
-        })
+            .subscribe(result => {
+                this.notify.success('确认成功');
+                this.hide();
+                this.orderIds = [];
+                this.batchConfirmStateHanlder.emit(true);
+                this.loadData();
+            })
+    }
+
+    prevPage(): void {
+        if (this.currentPage <= 0) {
+            this.notify.warn('已经是第一页');
+            return;
+        }
+        this.currentPage--;
+        this.gridParam.SkipCount = this.maxResultCount * this.currentPage;
+        this.loadData();
+    }
+
+    nextPage(): void {
+        if (this.currentPage >= (this.totalItems / this.maxResultCount - 1)) {
+            this.notify.warn('已经是最后一页');
+            return;
+        }
+        this.currentPage++;
+        this.gridParam.SkipCount = this.maxResultCount * this.currentPage;
+        this.loadData();
+    }
+
+    onPageChange(index: number): void {
+        this.currentPage = index;
+        this.gridParam.SkipCount = this.maxResultCount * this.currentPage - 1;
+        this.loadData();
     }
 
     show(bookingId: number): void {

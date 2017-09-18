@@ -51,7 +51,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         QRCodeModule,
         NgxPaginationModule,
         GridDataResultsModule,
-        ResponsiveModule,
+        ResponsiveModule
     ],
     declarations: [
         BaseInfoComponent,
