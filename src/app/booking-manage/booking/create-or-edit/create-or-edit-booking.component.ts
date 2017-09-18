@@ -313,6 +313,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this.initFlatpickr();
         }, 100);
     }
+    
     savePanelTimeField(): void {
         this.isNew = false;
         this.localSingleBookingItem.isActive = true;
