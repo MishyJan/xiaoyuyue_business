@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChangePasswordModalComponent } from '@app/shared/layout/profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
-import { FeedbackComponent } from './feedback/feedback.component';
 import { FileUploadModule } from '@node_modules/ng2-file-upload';
 import { FooterComponent } from './shared/layout/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -41,7 +40,6 @@ import { UtilsModule } from '@shared/utils/utils.module';
         NotificationSettingsModalCompoent,
         MobileSideBarComponent,
         PageNotFoundComponent,
-        FeedbackComponent
     ],
     imports: [
         ngCommon.CommonModule,

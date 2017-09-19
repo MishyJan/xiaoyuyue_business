@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
+import { AccountSecurityComponent } from './account-security/account-security.component';
 import { AppComponent } from './app.component';
 import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
 import { FeedbackComponent } from './feedback/feedback.component';
@@ -16,8 +17,13 @@ import { NgModule } from '@angular/core';
                     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
                     {
                         path: 'feedback',
-                        data: { breadcrumb: '意见反馈' },
-                        component: FeedbackComponent
+                        loadChildren: 'app/feedback/feedback.module#FeedbackModule', // Lazy load main module
+                        data: { preload: true }
+                    },
+                    {
+                        path: 'security',
+                        loadChildren: 'app/account-security/account-security.module#AccountSecurityModule', // Lazy load main module
+                        data: { preload: true }
                     },
                     {
                         path: 'notifications',

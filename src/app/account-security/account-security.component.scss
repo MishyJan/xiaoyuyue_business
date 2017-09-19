@@ -1,0 +1,29 @@
+.account-security {
+    .content-item {
+        line-height: 80px;
+        .left-item {
+            .not-set {
+                color: #E6000F;
+            }
+            .already-set {
+                color: #03AE3F;
+            }
+        }
+    }
+    .security-info {
+        .content-item {
+            .tip-title {
+                font-size: 16px;
+                color: #808080;
+                margin-right: 24px;
+            }
+        }
+    }
+    .account-linked {
+        .content-item {
+            .tip-icon {
+                margin-right: 24px;
+            }
+        }
+    }
+}
