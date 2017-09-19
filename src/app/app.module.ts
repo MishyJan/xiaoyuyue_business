@@ -19,6 +19,7 @@ import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-s
 import { MySettingsModalComponent } from '@app/shared/layout/profile/my-settings-modal.component';
 import { NgModule } from '@angular/core';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ResponsiveModule } from 'ng2-responsive';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SideBarComponent } from './shared/layout/side-bar.component';
@@ -37,7 +38,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         ChangeProfilePictureModalComponent,
         MySettingsModalComponent,
         NotificationSettingsModalCompoent,
-        MobileSideBarComponent
+        MobileSideBarComponent,
+        PageNotFoundComponent
     ],
     imports: [
         ngCommon.CommonModule,
