@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -13,7 +14,11 @@ import { NgModule } from '@angular/core';
                 data: { breadcrumb: 'Home' },
                 children: [
                     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-
+                    {
+                        path: 'feedback',
+                        data: { breadcrumb: '意见反馈' },
+                        component: FeedbackComponent
+                    },
                     {
                         path: 'notifications',
                         loadChildren: 'app/notifications/notifications.module#NotificationsModule', // Lazy load main module

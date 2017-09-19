@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChangePasswordModalComponent } from '@app/shared/layout/profile/change-password-modal.component';
 import { ChangeProfilePictureModalComponent } from '@app/shared/layout/profile/change-profile-picture-modal.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { FileUploadModule } from '@node_modules/ng2-file-upload';
 import { FooterComponent } from './shared/layout/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +20,7 @@ import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-s
 import { MySettingsModalComponent } from '@app/shared/layout/profile/my-settings-modal.component';
 import { NgModule } from '@angular/core';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './shared/layout/page-not-found/page-not-found.component';
 import { ResponsiveModule } from 'ng2-responsive';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SideBarComponent } from './shared/layout/side-bar.component';
@@ -39,7 +40,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         MySettingsModalComponent,
         NotificationSettingsModalCompoent,
         MobileSideBarComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        FeedbackComponent
     ],
     imports: [
         ngCommon.CommonModule,
