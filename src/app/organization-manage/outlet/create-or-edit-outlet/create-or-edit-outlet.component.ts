@@ -1,9 +1,9 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
-import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
@@ -17,6 +17,9 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+    deleting: boolean = false;
+    isCreateOrEditFlag: boolean;
+    outletId: string;
     nextIndex: number = 1;
     savingAndEditing: boolean;
     saving = false;
@@ -45,12 +48,13 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     pictureInfo: UploadPictureDto = new UploadPictureDto();
 
-    href: string = document.location.href;
-    outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
+    // href: string = document.location.href;
+    // outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
 
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     constructor(
         injector: Injector,
+        private _route: ActivatedRoute,
         private _router: Router,
         private _stateServiceServiceProxy: StateServiceServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy
@@ -61,18 +65,20 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     ngOnInit() {
+        this.outletId = this._route.snapshot.paramMap.get('id');
+        this.isCreateOrEditState();
         this.provinceSelectListData.unshift(SelectHelper.DefaultSelectList());
         this.selectedProvinceId = this.provinceSelectListData[0].value;
         this.loadData();
     }
 
     loadData(): void {
-        if (!this.outletId) {
+        if (!this.isCreateOrEditFlag) {
             return;
         }
 
         this._outletServiceServiceProxy
-            .getOutletForEdit(this.outletId)
+            .getOutletForEdit(+this.outletId)
             .subscribe(result => {
                 this.contactorEdit = this.onlineAllContactors = result.contactors;
 
@@ -107,7 +113,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     save(): void {
 
-        this.outetInfo.id = this.outletId ? this.outletId : 0;
+        this.outetInfo.id = +this.outletId ? +this.outletId : 0;
 
         this.outetInfo.businessHours = this.startShopHours + ' - ' + this.endShopHours;
         this.outetInfo.provinceId = this.provinceId;
@@ -130,7 +136,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     saveAndEdit() {
-        this.outetInfo.id = this.outletId ? this.outletId : 0;
+        this.outetInfo.id = +this.outletId ? +this.outletId : 0;
 
         this.outetInfo.businessHours = this.startShopHours + ' ' + this.endShopHours;
         this.outetInfo.provinceId = this.provinceId;
@@ -149,6 +155,25 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             });
     }
 
+    removeOutlet(): void {
+        this.message.confirm('确定要删除此门店?', (result) => {
+            if (result) {
+                this.deleting = true;
+                this._outletServiceServiceProxy
+                    .deleteOutlet(+this.outletId)
+                    .finally(() => { this.deleting = false })
+                    .subscribe(() => {
+                        this.notify.success('门店删除成功');
+                        this._router.navigate(['/outlet/list']);
+                    })
+            }
+        })
+    }
+
+    //判断新建门店还是编辑门店状态
+    isCreateOrEditState() {
+        this.isCreateOrEditFlag = this.outletId == null ? false : true;
+    }
 
     getProvinceSelectList(provinceId?: number): void {
         this._stateServiceServiceProxy

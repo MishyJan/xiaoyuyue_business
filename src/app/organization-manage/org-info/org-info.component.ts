@@ -45,7 +45,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
 
     ngAfterViewInit() {
         const self = this;
-        this.getUploadOrgWrap();
+        setTimeout(function() {
+            self.getUploadOrgWrap();
+        }, 100);
 
         window.addEventListener('resize', function () {
             self.getUploadOrgWrap();

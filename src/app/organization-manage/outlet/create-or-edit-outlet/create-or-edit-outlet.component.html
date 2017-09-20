@@ -6,19 +6,29 @@
                     <div class="page-head">
                         <div class="page-title">
                             <h1>
-                                <span>{{l('Outlet.Create')}}</span>
+                                <span *ngIf="!isCreateOrEditFlag">{{l('Outlet.Create')}}</span>
+                                <span *ngIf="isCreateOrEditFlag">编辑门店</span>
                                 <small routerLink="/org" class="back-btn">
-                                            <span class="vapps-icon-app-back"></span>
-                                            <span class="text">{{l('Back')}}</span>
-                                        </small>
+                                    <span class="vapps-icon-app-back"></span>
+                                    <span class="text">{{l('Back')}}</span>
+                                </small>
                             </h1>
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
+                    <button type="button" *ngIf="isCreateOrEditFlag && isGranted(permissions.organization_OutletDelete)" (click)="removeOutlet()" class="btn primary-bgcolor"
+                        [buttonBusy]="deleting" [busyText]="'删除中...'">
+                        <i class="vapps-icon vapps-icon-app-delete"></i>
+                        <span>删除门店</span>
+                    </button>
                     <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="save()" class="btn primary-bgcolor"
-                        [buttonBusy]="saving" [busyText]="l('Saving')"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
-                    <button type="botton" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="saveAndEdit()" class="btn primary-bgcolor"><i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
+                        [buttonBusy]="saving" [busyText]="l('Saving')">
+                        <i class="vapps-icon vapps-icon-app-submit"></i>
+                        <span>{{l("Save")}}</span>
+                    </button>
+                    <button type="botton" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="saveAndEdit()" class="btn primary-bgcolor">
+                        <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
             </div>
@@ -50,7 +60,8 @@
                                         <div class="label-floating is-empty">
                                             <label class="control-label"></label>
                                             <span class="col-md-6 no-left-padding shop-hours-start">
-                                                <input class="form-control" type="time" [(ngModel)]="startShopHours" name="startShopHours" placeholder="{{l('StartTime')}}" required>
+                                                <input class="form-control" type="time" [(ngModel)]="startShopHours" name="startShopHours" placeholder="{{l('StartTime')}}"
+                                                    required>
                                             </span>
                                             <span class="col-md-6 no-right-padding shop-hours-end">
                                                 <input class="form-control" type="time" [(ngModel)]="endShopHours" name="endShopHours" placeholder="{{l('EndTime')}}" required>
@@ -204,8 +215,9 @@
                 <div class="outlet-bg">
                     <div class="card">
                         <div class="card-content">
-                            <div class="content-wrap" UploadPicture (picUploadInfoHandler)="getOutletBgInfo($event)" [browseButtonEle]="'#uploadArea'" [groupId]="1">
-                                <div id="uploadArea" class="upload-area"  [ngStyle]="{'background-image': 'url(' + outetInfo.pictureUrl + ')'}"></div>
+                            <div class="content-wrap" UploadPicture (picUploadInfoHandler)="getOutletBgInfo($event)" [browseButtonEle]="'#uploadArea'"
+                                [groupId]="1">
+                                <div id="uploadArea" class="upload-area" [ngStyle]="{'background-image': 'url(' + outetInfo.pictureUrl + ')'}"></div>
                                 <div class="upload-tips" *ngIf="!(outetInfo.pictureUrl || outetInfo.pictureUrl  === '')">
                                     <span class="vapps-icon vapps-icon-cb-add-img"></span>
                                     <p class="text">请上传代表本店形象的照片</p>
