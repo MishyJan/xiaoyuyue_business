@@ -78,6 +78,7 @@
     "ng2-responsive": "^0.8.4",
     "ngx-bootstrap": "^1.8.1",
     "ngx-echarts": "^1.2.3",
+    "ngx-infinite-scroll": "^0.5.1",
     "ngx-pagination": "^3.0.1",
     "ngxani": "^1.2.2",
     "plupload": "^2.3.2",

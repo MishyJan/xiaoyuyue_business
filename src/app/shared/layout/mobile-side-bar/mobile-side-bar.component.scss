@@ -46,10 +46,14 @@
         .sidebar-menu-item {
             height: 52px;
             line-height: 52px;
-            text-align: center;
             cursor: pointer;
             &.active {
                 color: #FF9641;
+            }
+            .content {
+                width: 74px;
+                margin: 0 auto;
+                text-align: left;
             }
         }
     }

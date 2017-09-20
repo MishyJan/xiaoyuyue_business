@@ -51,8 +51,8 @@
                                                             <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
                                                                 [(ngModel)]="startCreationTime" data-input>
                                                             <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                            <i class="vapps-icon-dc-calendar"></i>
-                                                        </a>
+                                                                <i class="vapps-icon-dc-calendar"></i>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -63,8 +63,8 @@
                                                             <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
                                                                 [(ngModel)]="endCreationTime" data-input>
                                                             <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                            <i class="vapps-icon-dc-calendar"></i>
-                                                        </a>
+                                                                <i class="vapps-icon-dc-calendar"></i>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -101,7 +101,8 @@
                                 <div class="row search-btn-wrap">
                                     <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
                                         <div class="text-center">
-                                            <button class="btn btn-block primary-bgcolor" (click)="loadData()"><i class="fa fa-search"></i> {{l("Search")}}</button>
+                                            <button class="btn btn-block primary-bgcolor" (click)="loadData()">
+                                                <i class="fa fa-search"></i> {{l("Search")}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -134,13 +135,16 @@
                                     </div>
                                     <div class="booking-info pull-right">
                                         <div class="info-row-item">
-                                            <span class="key">{{l('Booking.BookedNum')}}</span><span class="value">{{bookingResultItem.subBookedNum}}</span>
+                                            <span class="key">{{l('Booking.BookedNum')}}</span>
+                                            <span class="value">{{bookingResultItem.subBookedNum}}</span>
                                         </div>
                                         <div class="info-row-item">
-                                            <span class="key">{{l('Booking.AvailBookingNum')}}</span><span class="value">{{bookingResultItem.subAvailBookingNum}}</span>
+                                            <span class="key">{{l('Booking.AvailBookingNum')}}</span>
+                                            <span class="value">{{bookingResultItem.subAvailBookingNum}}</span>
                                         </div>
                                         <div class="info-row-item">
-                                            <span class="key">{{l('Booking.QueueNum')}}</span><span class="value">{{bookingResultItem.subQueueNum}}</span>
+                                            <span class="key">{{l('Booking.QueueNum')}}</span>
+                                            <span class="value">{{bookingResultItem.subQueueNum}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -152,28 +156,30 @@
                                 </div>
                                 <div class="handle-wrap">
                                     <div class="handle-item-1 row">
-                                        <span class="item col-md-6 col-sm-6 col-xs-6" *ngIf="isGranted(permissions.bookingManage_BookingDisable)" (click)="disabledBookingClass(index)"><i class="vapps-icon-app-disabled"></i>{{l('Booking.Disabled')}}</span>
-                                        <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)"><i class="vapps-icon-app-share"></i>{{l('Booking.Share')}}</span>
+                                        <span class="item col-md-6 col-sm-6 col-xs-6" *ngIf="isGranted(permissions.bookingManage_BookingDisable)" (click)="disabledBookingClass(index)">
+                                            <i class="vapps-icon-app-disabled"></i>{{l('Booking.Disabled')}}</span>
+                                        <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)">
+                                            <i class="vapps-icon-app-share"></i>{{l('Booking.Share')}}</span>
                                     </div>
                                     <div class="handle-item-2 pull-right">
                                         <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="{{l('Booking.Edit')}}">
-                                    <span class="show-icon vapps-icon-app-edit"></span>
-                                        <span class="show-text">{{l('Edit')}}</span>
+                                            <span class="show-icon vapps-icon-app-edit"></span>
+                                            <span class="show-text">{{l('Edit')}}</span>
                                         </span>
 
                                         <span class="btn item-wrap" (click)="copyBooking(index)" title="{{l('Booking.Copy')}}">
-                                    <span class="show-icon vapps-icon-app-copy-1"></span>
-                                        <span class="show-text">{{l('Copy')}}</span>
+                                            <span class="show-icon vapps-icon-app-copy-1"></span>
+                                            <span class="show-text">{{l('Copy')}}</span>
                                         </span>
 
                                         <span class="btn item-wrap" (click)="flipToBack(flipAni, $event)" title="{{l('Booking.Detail')}}">
-                                    <span class="show-icon vapps-icon-app-detail"></span>
-                                        <span class="show-text">{{l('Detail')}}</span>
+                                            <span class="show-icon vapps-icon-app-detail"></span>
+                                            <span class="show-text">{{l('Detail')}}</span>
                                         </span>
 
                                         <span class="btn item-wrap" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}">
-                                    <span class="show-icon vapps-icon-app-delete"></span>
-                                        <span class="show-text">{{l('Delete')}}</span>
+                                            <span class="show-icon vapps-icon-app-delete"></span>
+                                            <span class="show-text">{{l('Delete')}}</span>
                                         </span>
                                     </div>
                                 </div>
@@ -182,25 +188,25 @@
                                 <div class="handle-wrap">
                                     <div class="handle-item-1 row">
                                         <span class="item col-md-6 active" (click)="beforeBookingClass(index)">
-                                    <i class="vapps-icon-app-active"></i>{{l('Active')}}
-                                </span>
+                                            <i class="vapps-icon-app-active"></i>{{l('Active')}}
+                                        </span>
                                     </div>
                                     <div class="handle-item-2 pull-right">
                                         <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingResultItem.id)"
                                             title="{{l('Booking.Edit')}}">
-                                    <span class="show-icon vapps-icon-app-edit"></span>
-                                        <span class="show-text">{{l('Edit')}}</span>
+                                            <span class="show-icon vapps-icon-app-edit"></span>
+                                            <span class="show-text">{{l('Edit')}}</span>
                                         </span>
 
                                         <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingCopy)" (click)="flipToBack(flipAni, $event)"
                                             title="{{l('Booking.Detail')}}">
-                                    <span class="show-icon vapps-icon-app-detail"></span>
-                                        <span class="show-text">{{l('Detail')}}</span>
+                                            <span class="show-icon vapps-icon-app-detail"></span>
+                                            <span class="show-text">{{l('Detail')}}</span>
                                         </span>
 
                                         <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingDelete)" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}">
-                                    <span class="show-icon vapps-icon-app-delete"></span>
-                                        <span class="show-text">{{l('Delete')}}</span>
+                                            <span class="show-icon vapps-icon-app-delete"></span>
+                                            <span class="show-text">{{l('Delete')}}</span>
                                         </span>
                                     </div>
                                 </div>
@@ -243,7 +249,9 @@
                                         <div class="desc text-overflow">{{bookingResultItem.contactorPhoneNum}}</div>
                                     </div>
                                     <div class="content-item">
-                                        <div class="name"><span class="booking-custom-btn light-bgcolor btn" (click)="showBookingCostomHandler(bookingResultItem)">{{l('BookingOrder.List')}}</span></div>
+                                        <div class="name">
+                                            <span class="booking-custom-btn light-bgcolor btn" (click)="showBookingCostomHandler(bookingResultItem)">{{l('BookingOrder.List')}}</span>
+                                        </div>
                                     </div>
                                     <div class="back clearfix" (click)="flipToFront(flipAni, $event)">
                                         <span class="vapps-icon-app-back btn btn-xs  light-bgcolor pull-right"></span>
@@ -269,14 +277,17 @@
         <xiaoyuyue-booking-custom-model #bookingCustomModelComponent></xiaoyuyue-booking-custom-model>
     </div>
 
-    <div *showItBootstrap="['xs','sm']">
+    <div *showItBootstrap="['xs','sm']" infinite-scroll [scrollWindow]="true" [infiniteScrollDistance]="infiniteScrollDistance"
+    [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
         <div class="mobile-manage-booking common-container" *ngIf="organizationBookingResultData.length>0">
             <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
                 <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                     <div class="top-wrap clearfix">
                         <div class="title pull-left">{{bookingResultItem.name}}</div>
                         <!-- <div class="title pull-left">{{dataItem.bookingName}} <span class="tips" [ngClass]="setTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status] }}</span></div> -->
-                        <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[index], 'rotate-360': !actionFlag[index]}"><span class="vapps-icon-app-drop-down"></span></div>
+                        <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[index], 'rotate-360': !actionFlag[index]}">
+                            <span class="vapps-icon-app-drop-down"></span>
+                        </div>
                     </div>
                     <div class="content">
                         <div class="flex-left">
@@ -295,7 +306,7 @@
                             </div>
                             <div class="content-item">
                                 <span class="name">预约进度 : </span>
-                                <span class="desc">{{bookingResultItem.subBookedNum}} /  {{bookingResultItem.subMaxBookingNum}}</span>
+                                <span class="desc">{{bookingResultItem.subBookedNum}} / {{bookingResultItem.subMaxBookingNum}}</span>
                             </div>
                             <div class="content-item">
                                 <span class="name">应约人数 : </span>
@@ -312,13 +323,19 @@
                     </div>
                 </div>
                 <div class="bottom-action" *ngIf="actionFlag[index]">
-                    <button class="action-item" (click)="showDetail(bookingResultItem.id)"><span class="icon vapps-icon-app-detail"></span>查看详情</button>
+                    <button class="action-item" (click)="showDetail(bookingResultItem.id)">
+                        <span class="icon vapps-icon-app-detail"></span>查看详情</button>
                     <span class="line">|</span>
-                    <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)"><span class="icon vapps-icon-app-cancel"></span>禁用预约</button>
-                    <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)"><span class="icon vapps-icon-app-active"></span>激活预约</button>
+                    <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)">
+                        <span class="icon vapps-icon-app-cancel"></span>禁用预约</button>
+                    <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)">
+                        <span class="icon vapps-icon-app-active"></span>激活预约</button>
                     <span class="line">|</span>
                     <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0"
-                        (click)="showMobileConfirmOrderModel(bookingResultItem.id)"><span class="icon vapps-icon-app-confirm-2"></span>待确认<span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span></button>
+                        (click)="showMobileConfirmOrderModel(bookingResultItem.id)">
+                        <span class="icon vapps-icon-app-confirm-2"></span>待确认
+                        <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
+                    </button>
                 </div>
             </div>
             <!-- <xiaoyuyue-booking-cancel (isCancelBooking)="getIsCancelBooking($event)" #cancelBookingModal></xiaoyuyue-booking-cancel> -->

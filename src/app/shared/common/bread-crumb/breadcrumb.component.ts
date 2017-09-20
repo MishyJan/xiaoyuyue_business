@@ -23,8 +23,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 export class BreadcrumbComponent extends AppComponentBase implements OnDestroy {
     breadcrumbs: Breadcrumb[];
 
-    constructor(injector: Injector,
-        breadcrumbService: BreadcrumbService) {
+    constructor(injector: Injector, breadcrumbService: BreadcrumbService) {
         super(injector);
 
         this.breadcrumbs = this.breadcrumbService.breadcrumbs;
