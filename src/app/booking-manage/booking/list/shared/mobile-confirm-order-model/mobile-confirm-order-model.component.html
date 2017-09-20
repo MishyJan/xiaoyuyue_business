@@ -7,7 +7,7 @@
                     <h4 class="modal-title">订单确认</h4>
                 </div>
                 <div class="modal-body">
-                    <p class="order-item text-overflow" *ngFor="let orgBookingOrderItem of orgBookingOrderData">
+                    <p class="order-item text-overflow" *ngFor="let orgBookingOrderItem of orgBookingOrderData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }">
                         <img class="item" [src]="getProfilePictureUrl(orgBookingOrderItem.profilePictureUrl)" width="30px" height="30px">
                         <span class="item">{{ orgBookingOrderItem.customerName }}</span>
                         <span class="item">{{ t(orgBookingOrderItem.bookingDate, 'YYYY-HH-DD') }}</span>
@@ -16,7 +16,18 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn confirm-btn primary-bgcolor" (click)="batchConfirmBookingOrder()">一键确认</button>
+                    <div class="col-lg-12 pagination-wrap" *ngIf="!orgBookingOrderData">
+                        <div class="pull-right">
+                            <div class="has-text-centered">
+                                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                
+                <span class="prev-icon" (click)="prevPage()"><i class="icon vapps-icon-app-prev-page"></i></span>
+                <span class="next-icon" (click)="nextPage()"><i class="icon vapps-icon-app-next-page"></i></span>
             </div>
         </div>
     </div>

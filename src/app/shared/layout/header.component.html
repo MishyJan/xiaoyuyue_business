@@ -23,10 +23,11 @@
                                 <i *ngIf="isImpersonatedLogin" class="icon-action-undo font-red-sunglo"></i>
                                 {{shownLoginName}}
                             </span>
-                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture" />
+                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture"
+                            />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default clearfix">
-                            <li class="item">
+                            <li class="item" routerLink="/organization/info">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-profile"></span>
                                     <div>{{l('Menu.Account.BaseInfo')}}</div>
@@ -38,13 +39,13 @@
                                     <div>实名认证</div>
                                 </div>
                             </li> -->
-                            <li class="item">
+                            <li class="item" routerLink="/security">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-security"></span>
                                     <div>{{l('Menu.Account.Security')}}</div>
                                 </div>
                             </li>
-                            <li class="item">
+                            <li class="item" routerLink="/feedback">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-feedback"></span>
                                     <div>{{l('Menu.Account.Feedback')}}</div>
