@@ -50,8 +50,9 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
 
     picturyDestroy(): void {
         this.uploadPictureInfo = new UploadPictureDto();
-        this._$profilePicture.removeAttr('src');
-        this._$profilePicture.removeAttr('width');
+        this._$profilePicture.css({
+            'background-image': 'url("")'
+        })
     }
 
     initFileUploader(): void {
@@ -107,8 +108,9 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                                     const fileItem = files[i].getNative(),
                                         url = window.URL;
                                     const src = url.createObjectURL(fileItem);
-                                    self._$profilePicture.attr('src', src);
-                                    self._$profilePicture.attr('width', '100%');
+                                    self._$profilePicture.css({
+                                        'background-image': 'url(' + src + ')'
+                                    })
                                 }
                             });
                         },
@@ -144,6 +146,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         },
                         'UploadComplete': function () {
                             uploader.destroy();
+                            self.picturyDestroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
                         'Key': function (up, file) {
@@ -164,9 +167,10 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                 $('#confirmUpload' + self.uploadUid).on('click', function () {
                     uploader.start();
                 });
-                // 销毁实例
-                $('#cancelUpload' + self.uploadUid).on('click', function () {
+
+                $('#cancelUpload' + self.uploadUid).on('click', () => {
                     uploader.destroy();
+                    this.picturyDestroy();
                 });
             });
     }

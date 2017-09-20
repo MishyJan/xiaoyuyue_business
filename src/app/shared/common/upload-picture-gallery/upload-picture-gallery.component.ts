@@ -304,8 +304,9 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                                     // self.temporaryPictureUrl = src;
                                     // self.safeTemporaryPictureUrl = self.sanitizer.bypassSecurityTrustResourceUrl(self.temporaryPictureUrl);
                                     // self.allPictureUrl.push(self.safeTemporaryPictureUrl);
-                                    self._$profilePicture.attr('src', src);
-                                    self._$profilePicture.attr('width', '100%');
+                                    self._$profilePicture.css({
+                                        'background-image': 'url(' + src + ')'
+                                    })
                                 }
                             });
                         },
@@ -339,14 +340,11 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         'Error': (up, err, errTip) => {
                             // 上传出错时,处理相关的事情
                             self.loading = false;
-                            self.picturyDestroy();
                             self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': () => {
                             // 队列文件处理完毕后,处理相关的事情
                             self.pictureForEdit = new BookingPictureEditDto();
-                            self._$profilePicture.removeAttr('src');
-                            self._$profilePicture.removeAttr('width');
                             self.close();
                         },
                         'Key': (up, file) => {
@@ -368,9 +366,9 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                 $('#confirmUpload').on('click', () => {
                     uploader.start();
                 })
-                // 销毁实例
+
                 $('#cancelUpload').on('click', () => {
-                    uploader.destroy();
+                    this.picturyDestroy();
                 });
             });
     }
@@ -398,7 +396,8 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     // 在下次本地上传弹窗时，销毁已上传的数据
     picturyDestroy(): void {
         this.pictureForEdit = new BookingPictureEditDto();
-        this._$profilePicture.removeAttr('src');
-        this._$profilePicture.removeAttr('width');
+        this._$profilePicture.css({
+            'background-image': 'url("")'
+        })
     }
 }
