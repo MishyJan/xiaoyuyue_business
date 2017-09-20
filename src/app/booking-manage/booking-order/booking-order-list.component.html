@@ -235,15 +235,15 @@
         <div class="top-action-wrap">
             <div class="flex-right">
                 <div class="col-xs-6">
-                    <div class="item" id="bookingCustomerFlatpickr">
-                        <input class="input" type="text" [(ngModel)]="bookingCustomerDate" readonly data-input>
-                        <span class="icon vapps-icon-dc-calendar"></span>
+                    <div class="item">
+                        <input class="input" type="date" ngModel (ngModelChange)="dateSelectHandler($event)">
+                        <!-- <span class="icon vapps-icon-dc-calendar"></span> -->
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="item">
                         <kendo-dropdownlist [data]="bookingItemSelectListData" (valueChange)="bookingTimeChangeHandler($event)" [textField]="'text'"
-                            [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
+                            [valueField]="'text'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
                     </div>
                 </div>
             </div>
@@ -251,7 +251,7 @@
         </div>
 
         <div class="content-wrap">
-            <div class="card">
+            <div class="card" *ngIf="mobileCustomerListData.length > 0">
                 <div class="card-content">
                     <div class="flex-item" (click)="showCustomerForEditHander(customerListItem.id)" *ngFor="let customerListItem of mobileCustomerListData">
                         <div class="flex-left">

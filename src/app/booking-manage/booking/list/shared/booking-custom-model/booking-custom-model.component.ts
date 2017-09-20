@@ -18,6 +18,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./booking-custom-model.component.scss']
 })
 export class BookingCustomModelComponent extends AppComponentBase implements OnInit {
+    hourOfDay: string;
     batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
     batchConfirmCount = 0;
     bookingCustomListData = new AppGridData();
@@ -58,6 +59,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 this.bookingName,
                 this.customerName,
                 this.bookingDate,
+                this.hourOfDay,
                 this.startMinute,
                 this.endMinute,
                 this.phoneNumber,

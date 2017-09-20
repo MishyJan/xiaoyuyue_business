@@ -3,9 +3,9 @@
         <h6 class="card-title">机构Logo</h6>
     </div>
     <div class="card-content">
-        <div class="upload-logo-pic-wrap" (click)="uploadOrgLogo()">
-            <img width="100%" *ngIf="orgLogoUrl" [src]="orgLogoUrl">
+        <div class="upload-logo-pic-wrap" [ngStyle]="{'background-image': 'url(' + orgLogoUrl + ')'}" (click)="uploadOrgLogo()">
         </div>
     </div>
-    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
+    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)"
+        [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
 </div>

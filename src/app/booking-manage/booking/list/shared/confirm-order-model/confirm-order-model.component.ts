@@ -18,6 +18,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    hourOfDay: string;
     confirmOrderText = this.l('Batch');
 
     batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
@@ -60,6 +61,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
                 this.bookingName,
                 this.customerName,
                 this.bookingDate,
+                this.hourOfDay,
                 this.startMinute,
                 this.endMinute,
                 this.phoneNumber,
