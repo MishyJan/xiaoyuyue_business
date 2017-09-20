@@ -33,23 +33,23 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     // 传给图片管理组件
     pictureInfo: BookingPictureEditDto[] = [];
-
+    
     allPictureForEdit: BookingPictureEditDto[];
     outletSelectListData: SelectListItemDto[];
     contactorSelectListData: SelectListItemDto[];
-
+    
     formVaild: boolean;
     allBookingTime: BookingItemEditDto[] = [];
     infoFormValid: boolean;
     bookingDataForEdit: GetBookingForEditOutput;
     baseInfo: BookingEditDto = new BookingEditDto();
     timeInfo: BookingItemEditDto[];
-
+    
     href: string = document.location.href;
     bookingId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
-
+    
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
-
+    
     selectOutletId: number;
     selectContactorId: number;
     saving = false;
@@ -238,10 +238,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         } else {
             this.input.bookingPictures = this.pictureInfo;
         }
-        this.saving = true;
+        this.savingAndEditing = true;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
-            .finally(() => { this.saving = false })
+            .finally(() => { this.savingAndEditing = false })
             .subscribe((result) => {
             });
     }
