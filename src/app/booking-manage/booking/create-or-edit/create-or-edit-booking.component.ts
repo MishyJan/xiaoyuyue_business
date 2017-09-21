@@ -200,7 +200,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
-        this.input.items = this.allBookingTime;
+        this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
         // 判断是否上传过图片
         if (this.allPictureForEdit) {
             this.input.bookingPictures = this.allPictureForEdit;
