@@ -30,7 +30,8 @@ export class SingleBookingStatus {
 })
 
 export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
-    mobileCustomerListData: OrgBookingOrderListDto[];
+    hourOfDay: string;
+    mobileCustomerListData: OrgBookingOrderListDto[] = [];
     bookingCustomerDate: string;
     bookingDateSelectDefaultItem: SelectListItemDto;
     bookingItemSelectListData: SelectListItemDto[];
@@ -95,16 +96,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     ngAfterViewInit() {
         const self = this;
         if (this.isMobile()) {
-            // $('.time-ago').timeago();
-            this.bookingCustomerFlatpickr = new flatpickr('#bookingCustomerFlatpickr', {
-                'locale': 'zh',
-                defaultDate: self.bookingCustomerDate,
-                onChange: function(selectedDates, dateStr, instance) {
-                    self.bookingCustomerDate = dateStr;
-                    self.creationStartDate = moment(dateStr).local();
-                    self.mobileLoadData();
-                }
-            })
             this.getBookingId();
         } else {
             this.loadData();
@@ -127,11 +118,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
     }
 
-    destroyMobileFlatpickr(): void {
-        if (this.bookingCustomerFlatpickr) {
-            this.bookingCustomerFlatpickr.destroy();
-        }
-    }
     destroyDesktopFlatpickr(): void {
         if (this.cBookingOrderDate && this.cStartCreationTime && this.cEndCreationTime) {
             this.cBookingOrderDate.destroy();
@@ -150,6 +136,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                 this.bookingName,
                 this.customerName,
                 this.bookingDate,
+                this.hourOfDay,
                 this.startMinute,
                 this.endMinute,
                 this.phoneNumber,
@@ -255,6 +242,18 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         };
         return false;
     }
+
+    //获取日期搜索
+    dateSelectHandler(date: string): void {
+        if (date === '') {
+            this.bookingDate = undefined;
+            this.mobileLoadData();
+            return;
+        }
+        this.bookingDate = moment(date).local();
+        this.mobileLoadData();
+    }
+
     // PC端是返回的kendo的数据格式，移动端重写获取数据方法
     getBookingId(): void {
         this._route.queryParams
@@ -271,6 +270,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.bookingName,
             this.customerName,
             this.bookingDate,
+            this.hourOfDay,
             this.startMinute,
             this.endMinute,
             this.phoneNumber,
@@ -283,7 +283,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.gridParam.SkipCount)
             .subscribe(result => {
                 this.mobileCustomerListData = result.items;
-                console.log(this.mobileCustomerListData);
             })
     }
 
@@ -294,7 +293,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             .subscribe(result => {
                 this.bookingItemSelectListData = result;
                 // this.bookingItemSelectListData.unshift(this.bookingDateSelectDefaultItem)
-                console.log(this.bookingItemSelectListData);
             })
     }
 
@@ -307,12 +305,22 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     }
 
     getTimeAgo(time: any): string {
-        const timeagoInstance  = timeago(moment().local().format('YYYY-MM-DD hh:mm:ss'));
+        const timeagoInstance = timeago(moment().local().format('YYYY-MM-DD hh:mm:ss'));
         return timeagoInstance.format(time.local().format('YYYY-MM-DD hh:mm:ss'), 'zh_CN');
     }
 
+    private isHourOfDate(str: string): boolean {
+        let temp = str.split('-')
+        return;
+    }
+
     public bookingTimeChangeHandler(value: any): void {
-        console.log(value);
+        if (value === '请选择') {
+            this.hourOfDay = undefined;
+            return;
+        }
+        this.hourOfDay = value;
+        this.mobileLoadData();
     }
 }
 

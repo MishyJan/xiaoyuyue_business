@@ -13,6 +13,7 @@ import { OrgBookingOrderStatus } from 'shared/AppEnums';
     styleUrls: ['./mobile-confirm-order-model.component.scss']
 })
 export class MobileConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    hourOfDay: string;
     totalItems: number;
     orderIds: number[] = [];
     orgBookingOrderData: OrgBookingOrderListDto[] = [];
@@ -55,6 +56,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             this.bookingName,
             this.customerName,
             this.bookingDate,
+            this.hourOfDay,
             this.startMinute,
             this.endMinute,
             this.phoneNumber,
