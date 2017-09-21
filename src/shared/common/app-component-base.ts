@@ -45,29 +45,6 @@ export abstract class AppComponentBase {
         this.activatedRoute = injector.get(ActivatedRoute);
         this.titleService = injector.get(Title);
         this.breadcrumbService = injector.get(BreadcrumbService);
-        // this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
-        //     this.titleService.setTitle(this.createTitle(crumbs));
-        // });
-
-        this.titleService.setTitle(this.createTitle(this.breadcrumbService.breadcrumbs));
-    }
-
-    private createTitle(routesCollection: Breadcrumb[]) {
-        const title = `${this.l('BusinessCenter')} - ${this.l('Xiaoyuyue')}`;
-
-        const titles = routesCollection.filter((route) => route.displayName);
-
-        if (!titles.length) { return title; }
-
-        const routeTitle = this.titlesToString(titles);
-        return `${routeTitle} - ${title}`;
-    }
-
-    private titlesToString(titles) {
-        return titles.reduce((prev, curr) => {
-            // return `${this.l(curr.displayName)} - ${prev}`;
-            return `${this.l(curr.displayName)}`;
-        }, '');
     }
 
     l(key: string, ...args: any[]): string {
@@ -92,7 +69,6 @@ export abstract class AppComponentBase {
     isGranted(permissionName: string): boolean {
         return this.permission.isGranted(permissionName);
     }
-
 
     t(momentTime: Moment, format: string = 'YYYY-MM-DD HH:mm'): string {
         if (momentTime === undefined) {

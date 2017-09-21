@@ -43,7 +43,7 @@ export class CookiesService {
      * @param {Date} expireDate (optional). If not specified the cookie will expire at the end of session.
      * @param {string} path (optional)
      */
-    setCookieValue(key, value, expireDate, path) {
+    setCookieValue(key: string, value: string, expireDate?: Date, path?: string): void {
         let cookieValue = encodeURIComponent(key) + '=';
 
         if (value) {
@@ -70,7 +70,7 @@ export class CookiesService {
      * @param {string} key
      * @returns {string} Cookie value or null
      */
-    getCookieValue(key): string {
+    getCookieValue(key: string): string {
         const equalities = document.cookie.split('; ');
         for (let i = 0; i < equalities.length; i++) {
             if (!equalities[i]) {
@@ -97,7 +97,7 @@ export class CookiesService {
     * @param {string} key
     * @param {string} path (optional)
     */
-    deleteCookie(key, path) {
+    deleteCookie(key: string, path?: string): void {
         let cookieValue = encodeURIComponent(key) + '=';
 
         cookieValue = cookieValue + '; expires=' + (new Date(new Date().getTime() - 86400000)).toUTCString();
@@ -109,7 +109,7 @@ export class CookiesService {
         document.cookie = cookieValue;
     }
 
-    setTenantIdCookie(tenantId) {
+    setTenantIdCookie(tenantId?: number): void {
         if (tenantId) {
             this.setCookieValue(
                 this.tenantIdCookieName,
@@ -122,7 +122,7 @@ export class CookiesService {
         }
     };
 
-    getTenantIdCookie() {
+    getTenantIdCookie(): number {
         const value = this.getCookieValue(this.tenantIdCookieName);
         if (!value) {
             return null;
@@ -132,16 +132,15 @@ export class CookiesService {
     }
 
 
-    setToken(authToken, expireDate) {
+    setToken(authToken: string, expireDate?: Date) {
         this.setCookieValue(this.tokenCookieName, authToken, expireDate, abp.appPath);
     };
 
-    getToken() {
+    getToken(): string {
         return this.getCookieValue(this.tokenCookieName);
     }
 
-    clearToken() {
+    clearToken(): void {
         this.setToken(undefined, undefined);
     }
-
 }
