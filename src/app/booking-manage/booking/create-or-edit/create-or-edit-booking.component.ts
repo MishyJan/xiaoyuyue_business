@@ -337,8 +337,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         temp.pictureId = picUploadInfo.pictureId;
         temp.pictureUrl = picUploadInfo.pictureUrl;
         this.pictureInfo.push(temp)
-        console.log(this.pictureInfo);
-        
     }
 
     editingTimeField(index: number): void {
