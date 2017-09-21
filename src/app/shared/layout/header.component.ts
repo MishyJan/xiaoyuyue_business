@@ -64,6 +64,10 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     ) {
         super(injector);
 
+        this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
+            this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);
+        });
+
         this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);
     }
 
