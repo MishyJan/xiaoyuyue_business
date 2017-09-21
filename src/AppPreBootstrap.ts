@@ -87,7 +87,7 @@ export class AppPreBootstrap {
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
-            abp.auth.setToken(result.accessToken);
+            this.cookiesService.setToken(result.accessToken);
             AppPreBootstrap.setEncryptedTokenCookie(result.encryptedAccessToken);
             location.search = '';
             callback();
@@ -105,7 +105,7 @@ export class AppPreBootstrap {
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
-            abp.auth.setToken(result.accessToken);
+            this.cookiesService.setToken(result.accessToken);
             AppPreBootstrap.setEncryptedTokenCookie(result.encryptedAccessToken);
             location.search = '';
             callback();

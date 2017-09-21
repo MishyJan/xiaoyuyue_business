@@ -2,6 +2,7 @@ import { ActivatedRouteSnapshot, Event, NavigationEnd, Router } from '@angular/r
 import { EventEmitter, Injectable } from '@angular/core';
 
 import { AppServiceBase } from 'shared/services/base.service';
+import { TitleService } from 'shared/services/title.service';
 
 export declare class Breadcrumb {
     displayName: string;
@@ -15,8 +16,13 @@ export class BreadcrumbService {
 
     public breadcrumbs = new Array<Breadcrumb>();
 
-    constructor(private router: Router) {
+    constructor(private router: Router,
+        private titleService: TitleService) {
         this.router.events.subscribe((routeEvent) => { this.onRouteEvent(routeEvent); });
+
+        this.breadcrumbChanged.subscribe((crumbs) => {
+            this.titleService.setTitle(crumbs);
+        });
     }
 
     public changeBreadcrumb(route: ActivatedRouteSnapshot, name: string) {
@@ -52,6 +58,7 @@ export class BreadcrumbService {
         }
 
         this.breadcrumbChanged.emit(this.breadcrumbs);
+
     }
 
     private createBreadcrumb(route: ActivatedRouteSnapshot, url: string): Breadcrumb {

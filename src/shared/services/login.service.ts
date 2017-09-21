@@ -103,7 +103,7 @@ export class LoginService {
                 });
             } else if (provider.name === ExternalLoginProvider.WECHAT) {
                 jQuery.getScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
-                    var wxLogin = new WxLogin({
+                    const wxLogin = new WxLogin({
                         id: 'external_login_container',
                         appid: provider.clientId,
                         scope: 'snsapi_login',
@@ -275,7 +275,7 @@ export class LoginService {
 
     private facebookLoginStatusChangeCallback(resp) {
         if (resp.status === 'connected') {
-            var model = new ExternalAuthenticateModel();
+            const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.FACEBOOK;
             model.providerAccessCode = resp.authResponse.accessToken;
             model.providerKey = resp.authResponse.userID;
@@ -293,7 +293,7 @@ export class LoginService {
 
     private googleLoginStatusChangeCallback(isSignedIn) {
         if (isSignedIn) {
-            var model = new ExternalAuthenticateModel();
+            const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.GOOGLE;
             model.providerAccessCode = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
             model.providerKey = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getId();
@@ -310,7 +310,7 @@ export class LoginService {
     }
 
     private wechatLogin(params: Params) {
-        var model = new ExternalAuthenticateModel();
+        const model = new ExternalAuthenticateModel();
         model.authProvider = ExternalLoginProvider.WECHAT;
         model.providerAccessCode = params['code'];
         model.providerKey = params['code'];
@@ -330,7 +330,7 @@ export class LoginService {
     */
     private microsoftLogin() {
         this._logService.debug(WL.getSession());
-        var model = new ExternalAuthenticateModel();
+        const model = new ExternalAuthenticateModel();
         model.authProvider = ExternalLoginProvider.MICROSOFT;
         model.providerAccessCode = WL.getSession().access_token;
         model.providerKey = WL.getSession().id; // How to get id?
@@ -353,16 +353,6 @@ export class LoginService {
         url_ = url_.replace(/[?&]$/, '');
 
         const content_ = JSON.stringify(model ? model.toJSON() : null);
-
-        // let options_ = {
-        //     body: content_,
-        //     method: "post",
-        //     headers: new Headers({
-        //         "Content-Type": "application/json; charset=UTF-8",
-        //         "Accept": "application/json; charset=UTF-8"
-        //     })
-        // };
-        var defer = $.Deferred();
 
         return abp.ajax({
             url: url_,
