@@ -38,6 +38,11 @@
     transform: rotateY( 180deg);
 }
 
+@mixin sidebar-toggle($range, $delay, $transType) {
+    transform: translateX($range);
+    @include transition-transform($delay, $transType);
+}
+
 @mixin shadow-big() {
     box-shadow: 0 16px 38px -12px rgba(0, 0, 0, $mdb-shadow-key-penumbra-opacity * 4), 0 4px 25px 0px rgba(0, 0, 0, $mdb-shadow-ambient-shadow-opacity), 0 8px 10px -5px rgba(0, 0, 0, $mdb-shadow-key-umbra-opacity);
 }

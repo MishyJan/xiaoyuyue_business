@@ -1,19 +1,30 @@
-import { AfterViewInit, Component, OnInit, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { AppConsts } from '@shared/AppConsts';
+import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-side-bar.component';
+import { SidebarService } from 'shared/services/side-bar.service';
 
 @Component({
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
+    toggleSidebarFlag: boolean = false;
     sidebarListShow: number;
 
     private viewContainerRef: ViewContainerRef;
 
+    @ViewChild('mobileSideBarModel') mobileSideBarModel: MobileSideBarComponent;
+
     public constructor(
         viewContainerRef: ViewContainerRef,
+        private _sidebarService: SidebarService
     ) {
         this.viewContainerRef = viewContainerRef; // You need this small hack in order to catch application root view container ref (required by ng2 bootstrap modal)
+        this._sidebarService
+        .toggleSidebarFlag.subscribe( flag => {
+            this.toggleSidebarFlag = flag;
+        })
     }
 
     ngOnInit(): void {

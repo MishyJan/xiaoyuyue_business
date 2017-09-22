@@ -1,0 +1,10 @@
+@import '_variables';
+@import '_mixin';
+.side-bar.ani {
+    &.fade-out {
+        @include sidebar-toggle(0, 0.6s, cubic-bezier(0.13, 0.41, 0, 1.17));
+    }
+    &.fade-in {
+        @include sidebar-toggle(-250px, 0.6s, cubic-bezier(0.13, 0.41, 0, 1.17));
+    }
+}

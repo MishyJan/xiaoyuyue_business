@@ -4,6 +4,7 @@ import { SideBarMenu, SideBarMenuItem } from '../side-bar-menu';
 import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { SidebarService } from 'shared/services/side-bar.service';
 
 @Component({
     selector: 'xiaoyuyue-mobile-side-bar',
@@ -20,9 +21,16 @@ export class MobileSideBarComponent extends AppComponentBase implements OnInit {
     ]);
     constructor(
         private injector: Injector,
-        private _authService: AppAuthService
+        private _authService: AppAuthService,
+        private _sidebarService: SidebarService
     ) {
         super(injector);
+        this._sidebarService
+            .toggleSidebarFlag.subscribe(flag => {
+                this.toggleSidebarFlag = flag
+                console.log(flag);
+                
+            })
     }
 
     ngOnInit() {
@@ -30,6 +38,7 @@ export class MobileSideBarComponent extends AppComponentBase implements OnInit {
 
     hide(): void {
         this.toggleSidebarFlag = false;
+        this._sidebarService.toggleSidebarFlag.emit(false);
     }
 
     show(): void {

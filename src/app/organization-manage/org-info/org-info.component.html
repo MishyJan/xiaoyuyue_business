@@ -88,8 +88,8 @@
         <div class="rotating-container" [ngClass]="{'filp-active': filpActive}">
             <!-- <div class="rotating-container"> -->
             <form #userProfile="ngForm" [@routerTransition]>
-                <div class="rotating clearfix">
-                    <div class="col-md-12 front" *ngIf="!filpActive">
+                <div class="rotating">
+                    <div class="front" *ngIf="!filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
                                 <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#uploadArea'" [groupId]="1">
@@ -140,7 +140,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12 back" (click)="showEdit()" *ngIf="filpActive">
+                    <div class="back" (click)="showEdit()" *ngIf="filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
                                 <div class="img" *ngIf="sendOrgLogoInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>

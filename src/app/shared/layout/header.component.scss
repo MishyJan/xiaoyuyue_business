@@ -67,39 +67,33 @@
 }
 
 @media (max-width: 768px) {
-    .page-header.navbar {
-        height: 55px;
-        min-height: 55px;
-    }
-    .page-header.navbar .back-icon {
-        margin-top: 10px;
-        margin-left: 0px;
-    }
-    .page-header.navbar .menu-toggler.responsive-toggler {
-        margin-top: 20px;
-        margin-right: 10px;
-    }
-    .top-title {
-        width: 100%;
-        height: 55px;
-        line-height: 55px;
+    #fixed-header {
+        position: relative;
+        z-index: 1000;
         background: url("/assets/common/images/booking/header-bg.png") #FF9641;
         background-size: cover;
-        text-align: center;
-        padding: 0 15px;
-        .title-text {
-            font-size: 19px;
-            color: #FFF;
-        }
-        .back-icon {
-            margin-top: 20px;
-            margin-left: 10px;
-            font-size: 18px;
-        }
-        .menu-icon {
-            margin-top: 20px;
-            margin-right: 10px;
-            font-size: 18px;
+        .top-title {
+            width: 100%;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+            padding: 0 15px;
+            .title-text {
+                font-size: 19px;
+                color: #FFF;
+            }
+            .back-icon {
+                margin-top: 10px;
+                margin-left: -8px;
+                font-size: 34px;
+                color: #FFF;
+            }
+            .menu-icon {
+                margin-top: 20px;
+                margin-right: 5px;
+                font-size: 16px;
+                color: #FFF;
+            }
         }
     }
 }
