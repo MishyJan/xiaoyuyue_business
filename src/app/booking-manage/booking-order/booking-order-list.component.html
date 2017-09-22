@@ -60,8 +60,7 @@
                                         <div class="col-md-9">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="genderSelectListData" (valueChange)="genderChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="genderSelectListData" (valueChange)="genderChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>
@@ -105,8 +104,7 @@
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
                                                     <div class="flatpickr-wrap">
-                                                        <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
-                                                            data-input>
+                                                        <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}" data-input>
                                                         <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i></a>
                                                     </div>
                                                 </div>
@@ -115,8 +113,7 @@
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
                                                     <div class="flatpickr-wrap">
-                                                        <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
-                                                            data-input>
+                                                        <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}" data-input>
                                                         <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle> <i class="vapps-icon-dc-calendar"></i></a>
                                                     </div>
                                                 </div>
@@ -132,8 +129,7 @@
                                         <div class="col-md-9">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="orderStatusSelectList" (valueChange)="orderStatusChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="orderStatusSelectList" (valueChange)="orderStatusChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>
@@ -158,12 +154,10 @@
                 <div class="card no-top-margin">
                     <div class="card-content no-padding">
                         <!-- [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }" -->
-                        <kendo-grid GridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
-                            [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
+                        <kendo-grid GridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                             [sortable]="false" (dataStateChange)="dataStateChange($event)" [scrollable]="'none'">
-                            <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
-                                pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
-                                pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+                            <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}" pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}" pagerFirstPage="{{l('FirstPage')}}"
+                                pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
 
                             <!-- 订单状态  -->
                             <kendo-grid-column title="{{l('BookingOrder.Status')}}" width="84px">
@@ -232,18 +226,17 @@
 
 <div *showItBootstrap="['xs','sm']">
     <div class="mobile-custom-list common-container">
-        <div class="top-action-wrap">
+        <div class="top-action-wrap row">
             <div class="flex-right">
                 <div class="col-xs-6">
                     <div class="item">
-                        <input class="input" type="date" ngModel (ngModelChange)="dateSelectHandler($event)">
-                        <!-- <span class="icon vapps-icon-dc-calendar"></span> -->
+                        <kendo-dropdownlist [data]="availableDatesSelectListData" (valueChange)="bookingDateChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
                     </div>
                 </div>
+
                 <div class="col-xs-6">
                     <div class="item">
-                        <kendo-dropdownlist [data]="bookingItemSelectListData" (valueChange)="bookingTimeChangeHandler($event)" [textField]="'text'"
-                            [valueField]="'text'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
+                        <kendo-dropdownlist [data]="availableTimesSelectListData" (valueChange)="bookingTimeChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
                     </div>
                 </div>
             </div>

@@ -4288,11 +4288,11 @@ export class OrgBookingServiceProxy {
     }
 
     /**
-     * 获取可用预约时间(下拉框)
+     * 获取可用预约日期和时间(下拉框)
      * @return Success
      */
-    getBookingItemSelectList(id: number): Observable<SelectListItemDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetBookingItemSelectList?";
+    getAvailableBookingDateAndTime(id: number): Observable<GetBookingDateAndTimeOutput> {
+        let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetAvailableBookingDateAndTime?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -4306,20 +4306,20 @@ export class OrgBookingServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_) => {
-            return this.processGetBookingItemSelectList(response_);
+            return this.processGetAvailableBookingDateAndTime(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processGetBookingItemSelectList(response_);
+                    return this.processGetAvailableBookingDateAndTime(response_);
                 } catch (e) {
-                    return <Observable<SelectListItemDto[]>><any>Observable.throw(e);
+                    return <Observable<GetBookingDateAndTimeOutput>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<SelectListItemDto[]>><any>Observable.throw(response_);
+                return <Observable<GetBookingDateAndTimeOutput>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetBookingItemSelectList(response: Response): Observable<SelectListItemDto[]> {
+    protected processGetAvailableBookingDateAndTime(response: Response): Observable<GetBookingDateAndTimeOutput> {
         const status = response.status; 
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -4327,17 +4327,13 @@ export class OrgBookingServiceProxy {
             const _responseText = response.text();
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(SelectListItemDto.fromJS(item));
-            }
+            result200 = resultData200 ? GetBookingDateAndTimeOutput.fromJS(resultData200) : new GetBookingDateAndTimeOutput();
             return Observable.of(result200);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<SelectListItemDto[]>(<any>null);
+        return Observable.of<GetBookingDateAndTimeOutput>(<any>null);
     }
 
     /**
@@ -8076,19 +8072,19 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
+     * @sorting 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
-     * @sorting 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
@@ -18053,6 +18049,65 @@ export interface IBookingListDto {
     /** 预约图片 */
     pictureUrl: string;
     id: number;
+}
+
+export class GetBookingDateAndTimeOutput implements IGetBookingDateAndTimeOutput {
+    /** 可用预约日期 */
+    availableDates: SelectListItemDto[];
+    /** 可用预约时间 */
+    availableTimes: SelectListItemDto[];
+
+    constructor(data?: IGetBookingDateAndTimeOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["availableDates"] && data["availableDates"].constructor === Array) {
+                this.availableDates = [];
+                for (let item of data["availableDates"])
+                    this.availableDates.push(SelectListItemDto.fromJS(item));
+            }
+            if (data["availableTimes"] && data["availableTimes"].constructor === Array) {
+                this.availableTimes = [];
+                for (let item of data["availableTimes"])
+                    this.availableTimes.push(SelectListItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetBookingDateAndTimeOutput {
+        let result = new GetBookingDateAndTimeOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.availableDates && this.availableDates.constructor === Array) {
+            data["availableDates"] = [];
+            for (let item of this.availableDates)
+                data["availableDates"].push(item.toJSON());
+        }
+        if (this.availableTimes && this.availableTimes.constructor === Array) {
+            data["availableTimes"] = [];
+            for (let item of this.availableTimes)
+                data["availableTimes"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetBookingDateAndTimeOutput {
+    /** 可用预约日期 */
+    availableDates: SelectListItemDto[];
+    /** 可用预约时间 */
+    availableTimes: SelectListItemDto[];
 }
 
 export class GetBookingForEditOutput implements IGetBookingForEditOutput {

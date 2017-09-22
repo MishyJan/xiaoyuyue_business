@@ -3,7 +3,7 @@
 html,
 body {
     width: 100%;
-    overflow-y: hidden;
+    overflow-x: hidden;
     padding-right: 0!important;
 }
 
@@ -74,9 +74,12 @@ textarea {
 .modal-dialog {
     margin: 160px auto;
 }
-.modal-backdrop, .modal-backdrop.fade.in {
+
+.modal-backdrop,
+.modal-backdrop.fade.in {
     opacity: .8;
 }
+
 @media (min-width: 768px) {
     .modal-dialog {
         margin: 160px auto;
