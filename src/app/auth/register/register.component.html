@@ -87,11 +87,11 @@
 
                 <div class="row">
                     <div class="form-group">
-                        <div class="checkbox col-md-5 col-xs-6">
+                        <div class="checkbox col-md-12">
                             <label>
                                 <input type="checkbox" name="aboutTerms" value="true" />{{l('ReadAndAgree')}}
-                                <span></span>
                             </label>
+                            <span><a href="javascript:;" (click)="readProtocolModal()">《小预约平台网络服务协议》</a></span>
                         </div>
                     </div>
                 </div>
@@ -105,4 +105,5 @@
             <div class="register-footer"></div>
         </div>
     </form>
+    <xiaoyuyue-protocol-model #protocolModal></xiaoyuyue-protocol-model>
 </div>
