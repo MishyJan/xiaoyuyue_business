@@ -110,76 +110,77 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
      * desktop
      */
     initFlatpickr() {
-        this.bStartCreationTime = new flatpickr('.startCreationTime', {
+        this.bStartCreationTime = $('.startCreationTime').flatpickr({
             'locale': 'zh',
             // clickOpens: false,
             onClose: (element) => {
                 $(this.bStartCreationTime.input).blur();
             }
         })
-        this.bEndCreationTime = new flatpickr('.endCreationTime', {
-            'locale': 'zh',
-            // clickOpens: false,
-            onClose: (element) => {
-                $(this.bEndCreationTime.input).blur();
-            }
-        })
-    }
+
+            this.bEndCreationTime = $('.endCreationTime').flatpickr({
+                'locale': 'zh',
+                // clickOpens: false,
+                onClose: (element) => {
+                    $(this.bEndCreationTime.input).blur();
+                }
+            })
+        }
 
     // 正面翻转到背面
     flipToBack(flipAni: any, event) {
-        this._ngxAni.to(flipAni, .6, {
-            transform: 'rotateY(180deg)',
-            transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
-        });
-    }
+                this._ngxAni.to(flipAni, .6, {
+                    transform: 'rotateY(180deg)',
+                    transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
+                });
+            }
 
     // 背面翻转到正面
     flipToFront(flipAni: any, event) {
-        this._ngxAni.to(flipAni, .6, {
-            transform: 'rotateY(0)',
-            transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
-        });
-    }
+                this._ngxAni.to(flipAni, .6, {
+                    transform: 'rotateY(0)',
+                    transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
+                });
+            }
 
     // 禁用预约样式
     disabledBookingClass(index) {
-        // this._ngxAni.to(disabledAni, .6, {
-        //     // 'filter': 'grayscale(100%)'
-        // });
-        this.activeOrDisable.id = this.organizationBookingResultData[index].id;
-        this.activeOrDisable.isActive = false;
-        this._organizationBookingServiceProxy
-            .activedOrDisableBooking(this.activeOrDisable)
-            .subscribe(result => {
-                this.notify.success('已关闭预约!');
-                this.loadData();
-            });
-    }
+                // this._ngxAni.to(disabledAni, .6, {
+                //     // 'filter': 'grayscale(100%)'
+                // });
+                this.activeOrDisable.id = this.organizationBookingResultData[index].id;
+                this.activeOrDisable.isActive = false;
+                this._organizationBookingServiceProxy
+                    .activedOrDisableBooking(this.activeOrDisable)
+                    .subscribe(result => {
+                        this.notify.success('已关闭预约!');
+                        this.loadData();
+                    });
+            }
 
     // 显示禁用之前预约样式
     beforeBookingClass(index) {
-        // this._ngxAni.to(disabledAni, .6, {
-        //     'filter': 'grayscale(0)'
-        // });
-        this.activeOrDisable.id = this.organizationBookingResultData[index].id;
-        this.activeOrDisable.isActive = true;
-        this._organizationBookingServiceProxy
-            .activedOrDisableBooking(this.activeOrDisable)
-            .subscribe(result => {
-                this.notify.success('已开启预约!');
-                this.loadData();
-            });
-    }
+                // this._ngxAni.to(disabledAni, .6, {
+                //     'filter': 'grayscale(0)'
+                // });
+                this.activeOrDisable.id = this.organizationBookingResultData[index].id;
+                this.activeOrDisable.isActive = true;
+                this._organizationBookingServiceProxy
+                    .activedOrDisableBooking(this.activeOrDisable)
+                    .subscribe(result => {
+                        this.notify.success('已开启预约!');
+                        this.loadData();
+                    });
+            }
 
     // 显示待确认model
     showConfirmOrderHandler(bookingId: number): void {
-        this.ConfirmOrderModelComponent.showModel(bookingId);
-    }
+                this.ConfirmOrderModelComponent.showModel(bookingId);
+            }
 
     // 待确认model弹窗，若关闭应该刷新数据
     isShowComfirmOrderModelHandler(flag: boolean): void {
-        if (!flag) {
+                if(!flag) {
             this.loadData();
         }
     }

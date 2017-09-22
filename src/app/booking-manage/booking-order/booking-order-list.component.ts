@@ -102,9 +102,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.getBookingId();
         } else {
             this.loadData();
-            this.cBookingOrderDate = new flatpickr('#bookingDate', {
+            this.cBookingOrderDate = $('#bookingDate').flatpickr({
                 'locale': 'zh'
-            })
+            });
             this.cStartCreationTime = $('#startCreationTime').flatpickr({
                 'locale': 'zh'
             });
