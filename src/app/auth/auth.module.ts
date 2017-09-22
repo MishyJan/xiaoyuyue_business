@@ -32,6 +32,7 @@ import { TenantRegistrationHelperService } from './register/tenant-registration-
 import { TooltipModule } from 'ngx-bootstrap';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
+import { SupplyRegisterComponent } from './supply-register/supply-register.component';
 
 @NgModule({
     imports: [
@@ -69,7 +70,8 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
 
         HeaderComponent,
         FooterComponent,
-        BackgroundImgComponent
+        BackgroundImgComponent,
+        SupplyRegisterComponent
     ],
     providers: [
         LoginService,

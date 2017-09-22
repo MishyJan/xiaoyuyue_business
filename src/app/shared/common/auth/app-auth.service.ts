@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class AppAuthService {
 
     constructor(
-        private _cookiesService: CookiesService
+        private _cookiesService: CookiesService,
     ) { }
 
     logout(reload?: boolean, returnUrl?: string): void {

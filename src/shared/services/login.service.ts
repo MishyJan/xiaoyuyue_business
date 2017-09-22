@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { AuthenticateModel, AuthenticateResultModel, ExternalAuthenticateModel, ExternalAuthenticateResultModel, ExternalLoginProviderInfoModel, TokenAuthServiceProxy, WebLogServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AuthenticateModel, AuthenticateResultModel, ExternalAuthenticateModel, ExternalAuthenticateResultModel, ExternalLoginProviderInfoModel, TokenAuthServiceProxy, WebLogServiceProxy, SupplementAuthModel, SupplementAuthResultModel } from '@shared/service-proxies/service-proxies';
 import { Headers, Http, Response } from '@angular/http';
 import { Params, Router } from '@angular/router';
 
@@ -37,7 +37,9 @@ export class ExternalLoginProvider extends ExternalLoginProviderInfoModel {
         return providerName;
     }
 
-    constructor(providerInfo: ExternalLoginProviderInfoModel) {
+    constructor(
+        private providerInfo: ExternalLoginProviderInfoModel,
+    ) {
         super();
 
         this.name = providerInfo.name;
@@ -63,7 +65,8 @@ export class LoginService {
         private _router: Router,
         private _messageService: MessageService,
         private _logService: LogService,
-        private _cookiesService: CookiesService
+        private _cookiesService: CookiesService,
+        private _tokenAuthServiceProxy: TokenAuthServiceProxy
     ) {
         this.clear();
     }
@@ -89,6 +92,14 @@ export class LoginService {
             .subscribe((result: AuthenticateResultModel) => {
                 this.processAuthenticateResult(result);
             });
+    }
+
+    supplRregister(model: SupplementAuthModel): void {
+        this._tokenAuthServiceProxy
+            .supplementAuth(model)
+            .subscribe((result: SupplementAuthResultModel) => {
+                this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
+            })
     }
 
     externalAuthenticate(provider: ExternalLoginProvider): void {
