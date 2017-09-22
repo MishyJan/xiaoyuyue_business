@@ -1,5 +1,5 @@
 import { Router, Params } from '@angular/router';
-import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy, CurrentUserProfileEditDto } from '@shared/service-proxies/service-proxies';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
@@ -85,12 +85,15 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.getCurrentLoginInformations();
         this.getProfilePicture();
         this.registerToEvents();
-        console.log(this.isResetHeaderStyleFlag);
     }
 
     registerToEvents() {
         abp.event.on('profilePictureChanged', () => {
             this.getProfilePicture();
+        });
+
+        abp.event.on('userNameChanged', () => {
+            this.getCurrentLoginInformations();
         });
 
         abp.event.on('app.chat.unreadMessageCountChanged', messageCount => {
@@ -127,7 +130,11 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     getCurrentLoginInformations(): void {
-        this.shownLoginName = this.appSession.getShownLoginName();
+        this._profileServiceProxy
+        .getCurrentUserProfileForEdit()
+        .subscribe( (result:CurrentUserProfileEditDto) => {
+            this.shownLoginName = result.userName;
+        })
     }
 
     getShownUserName(linkedUser: LinkedUserDto): string {
