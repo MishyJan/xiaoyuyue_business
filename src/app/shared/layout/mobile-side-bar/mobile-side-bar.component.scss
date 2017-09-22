@@ -1,4 +1,12 @@
+@import '../../../../sass/xiaoyuyue/_mixin';
 .mobile-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1001;
+    width: 250px;
+    height: 100vh;
+    transform: translateX(250px);
     ul,
     li {
         padding: 0;
@@ -8,20 +16,14 @@
         list-style: none;
     } // 侧边栏动画
     &.fade-in {
-        .sidebar-menu {
-            transform: translateX(0);
-            visibility: visible;
-        }
+        @include sidebar-toggle(0, 0.6s, cubic-bezier(0.13, 0.41, 0, 1.17));
         .bg-cover {
             opacity: 1;
             visibility: visible;
         }
     }
     &.fade-out {
-        .sidebar-menu {
-            transform: translateX(250px);
-            visibility: hidden;
-        }
+        @include sidebar-toggle(250px, 0.6s, cubic-bezier(0.13, 0.41, 0, 1.17));
         .bg-cover {
             opacity: 0;
             visibility: hidden;
@@ -34,10 +36,7 @@
         top: 0;
         right: 0;
         z-index: 1001;
-        transform: translateX(250px);
-        visibility: hidden;
         background-color: rgba(255, 255, 255, 0.9);
-        transition: all .15s;
         li+li {
             .sidebar-menu-item {
                 border-top: 1px solid #d8d8d8;
@@ -68,5 +67,6 @@
         visibility: hidden;
         background-color: rgba(0, 0, 0, 0.48);
         transition: all .15s;
+        transform: translateX(-250px);
     }
 }

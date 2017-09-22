@@ -1,5 +1,5 @@
-<div class="page-header navbar navbar-fixed-top md-shadow-zero-light">
-    <div class="page-header-inner" *hideItBootstrap="['xs','sm']">
+<div class="page-header navbar navbar-fixed-top md-shadow-zero-light" *hideItBootstrap="['xs','sm']">
+    <div class="page-header-inner">
         <div class="page-logo" title="{{l('BusinessCenter')}}">
             <a routerLink="/" target="_blank" class="logo-wrap">
                 <span class="vapps-icon-app-logo logo"></span>
@@ -23,8 +23,7 @@
                                 <i *ngIf="isImpersonatedLogin" class="icon-action-undo font-red-sunglo"></i>
                                 {{shownLoginName}}
                             </span>
-                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture"
-                            />
+                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default clearfix">
                             <li class="item" routerLink="/organization/info">
@@ -79,10 +78,12 @@
         <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
         <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
     </div>
+</div>
 
+<div id="fixed-header">
     <div class="top-title clearfix" *showItBootstrap="['xs','sm']">
         <span class="title-text" id="headerTitle">{{ title }}</span>
         <a href="javascript:;" class="vapps-icon-app-prev-page back-icon pull-left" (click)="back()"></a>
-        <a href="javascript:;" class="menu-toggler responsive-toggler" (click)="showSidebar()"></a>
-        <xiaoyuyue-mobile-side-bar #mobileSideBarModel></xiaoyuyue-mobile-side-bar>
+        <a href="javascript:;" class="vapps-icon-app-menu menu-icon pull-right" (click)="showSidebar()"></a>
     </div>
+</div>
