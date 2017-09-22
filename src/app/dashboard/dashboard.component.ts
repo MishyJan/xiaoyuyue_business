@@ -4,6 +4,7 @@ import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterD
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { NavigationEnd } from '@angular/router';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -34,6 +35,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
     ngAfterViewInit(): void {
         if (this.isMobile()) {
+            this.resetHeaderStyle();
             return;
         }
         this.dateFlatpickr = $('.flatpickr').flatpickr({
@@ -51,7 +53,29 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     ngOnDestroy() {
         if (!this.isMobile() && this.dateFlatpickr) {
             this.dateFlatpickr.destroy();
+        } else {
+            this.beforeHeaderStyle();
         }
+    }
+
+    resetHeaderStyle(): void {
+        $('#fixed-header').css({
+            background: 'transparent'
+        });
+
+        $('.mobile-page-content').css({
+            top: 0
+        })
+    }
+
+    beforeHeaderStyle(): void {
+        $('#fixed-header').css({
+            background: 'url("/assets/common/images/booking/header-bg.png") #FF9641'
+        });
+
+        $('.mobile-page-content').css({
+            top: '55px'
+        })
     }
 
     loadData(): void {

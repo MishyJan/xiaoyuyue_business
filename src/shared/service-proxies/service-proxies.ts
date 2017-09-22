@@ -4288,11 +4288,11 @@ export class OrgBookingServiceProxy {
     }
 
     /**
-     * 获取可用预约时间(下拉框)
+     * 获取可用预约日期和时间(下拉框)
      * @return Success
      */
-    getBookingItemSelectList(id: number): Observable<SelectListItemDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetBookingItemSelectList?";
+    getAvailableBookingDateAndTime(id: number): Observable<GetBookingDateAndTimeOutput> {
+        let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetAvailableBookingDateAndTime?";
         if (id !== undefined)
             url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -4306,20 +4306,20 @@ export class OrgBookingServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_) => {
-            return this.processGetBookingItemSelectList(response_);
+            return this.processGetAvailableBookingDateAndTime(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processGetBookingItemSelectList(response_);
+                    return this.processGetAvailableBookingDateAndTime(response_);
                 } catch (e) {
-                    return <Observable<SelectListItemDto[]>><any>Observable.throw(e);
+                    return <Observable<GetBookingDateAndTimeOutput>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<SelectListItemDto[]>><any>Observable.throw(response_);
+                return <Observable<GetBookingDateAndTimeOutput>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetBookingItemSelectList(response: Response): Observable<SelectListItemDto[]> {
+    protected processGetAvailableBookingDateAndTime(response: Response): Observable<GetBookingDateAndTimeOutput> {
         const status = response.status; 
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -4327,17 +4327,13 @@ export class OrgBookingServiceProxy {
             const _responseText = response.text();
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(SelectListItemDto.fromJS(item));
-            }
+            result200 = resultData200 ? GetBookingDateAndTimeOutput.fromJS(resultData200) : new GetBookingDateAndTimeOutput();
             return Observable.of(result200);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<SelectListItemDto[]>(<any>null);
+        return Observable.of<GetBookingDateAndTimeOutput>(<any>null);
     }
 
     /**
@@ -8076,19 +8072,19 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
+     * @sorting 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
-     * @sorting 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
@@ -10367,11 +10363,57 @@ export class TokenAuthServiceProxy {
     }
 
     /**
-     * 补充注册
+     * 第三方账号绑定
      * @return Success
      */
-    supplementaryExternalAuthenticate(model: SupplementaryExternalAuthModel): Observable<SupplementaryExternalAuthResultModel> {
-        let url_ = this.baseUrl + "/api/TokenAuth/SupplementaryExternalAuthenticate";
+    externalBinging(model: ExternalBingingModel): Observable<void> {
+        let url_ = this.baseUrl + "/api/TokenAuth/ExternalBinging";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processExternalBinging(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processExternalBinging(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processExternalBinging(response: Response): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * 补充注册(机构用户,需要登录)
+     * @return Success
+     */
+    supplementAuth(model: SupplementAuthModel): Observable<SupplementAuthResultModel> {
+        let url_ = this.baseUrl + "/api/TokenAuth/SupplementAuth";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -10386,20 +10428,20 @@ export class TokenAuthServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_) => {
-            return this.processSupplementaryExternalAuthenticate(response_);
+            return this.processSupplementAuth(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processSupplementaryExternalAuthenticate(response_);
+                    return this.processSupplementAuth(response_);
                 } catch (e) {
-                    return <Observable<SupplementaryExternalAuthResultModel>><any>Observable.throw(e);
+                    return <Observable<SupplementAuthResultModel>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<SupplementaryExternalAuthResultModel>><any>Observable.throw(response_);
+                return <Observable<SupplementAuthResultModel>><any>Observable.throw(response_);
         });
     }
 
-    protected processSupplementaryExternalAuthenticate(response: Response): Observable<SupplementaryExternalAuthResultModel> {
+    protected processSupplementAuth(response: Response): Observable<SupplementAuthResultModel> {
         const status = response.status; 
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -10407,13 +10449,13 @@ export class TokenAuthServiceProxy {
             const _responseText = response.text();
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? SupplementaryExternalAuthResultModel.fromJS(resultData200) : new SupplementaryExternalAuthResultModel();
+            result200 = resultData200 ? SupplementAuthResultModel.fromJS(resultData200) : new SupplementAuthResultModel();
             return Observable.of(result200);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<SupplementaryExternalAuthResultModel>(<any>null);
+        return Observable.of<SupplementAuthResultModel>(<any>null);
     }
 
     /**
@@ -18055,6 +18097,65 @@ export interface IBookingListDto {
     id: number;
 }
 
+export class GetBookingDateAndTimeOutput implements IGetBookingDateAndTimeOutput {
+    /** 可用预约日期 */
+    availableDates: SelectListItemDto[];
+    /** 可用预约时间 */
+    availableTimes: SelectListItemDto[];
+
+    constructor(data?: IGetBookingDateAndTimeOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["availableDates"] && data["availableDates"].constructor === Array) {
+                this.availableDates = [];
+                for (let item of data["availableDates"])
+                    this.availableDates.push(SelectListItemDto.fromJS(item));
+            }
+            if (data["availableTimes"] && data["availableTimes"].constructor === Array) {
+                this.availableTimes = [];
+                for (let item of data["availableTimes"])
+                    this.availableTimes.push(SelectListItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetBookingDateAndTimeOutput {
+        let result = new GetBookingDateAndTimeOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.availableDates && this.availableDates.constructor === Array) {
+            data["availableDates"] = [];
+            for (let item of this.availableDates)
+                data["availableDates"].push(item.toJSON());
+        }
+        if (this.availableTimes && this.availableTimes.constructor === Array) {
+            data["availableTimes"] = [];
+            for (let item of this.availableTimes)
+                data["availableTimes"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetBookingDateAndTimeOutput {
+    /** 可用预约日期 */
+    availableDates: SelectListItemDto[];
+    /** 可用预约时间 */
+    availableTimes: SelectListItemDto[];
+}
+
 export class GetBookingForEditOutput implements IGetBookingForEditOutput {
     /** 预约基本信息 */
     booking: BookingEditDto;
@@ -25351,20 +25452,15 @@ export interface IExternalAuthenticateResultModel {
     needSupplementary: boolean;
 }
 
-/** 补充认证 */
-export class SupplementaryExternalAuthModel implements ISupplementaryExternalAuthModel {
-    /** 用户Id */
-    userId: number;
-    /** 邮箱地址 */
-    emailAddress: string;
-    /** 用户名 */
-    userName: string;
-    /** 手机号 */
-    phoneNumber: string;
-    /** 密码 */
-    password: string;
+export class ExternalBingingModel implements IExternalBingingModel {
+    /** 认证类型 */
+    authProvider: string;
+    /** 认证秘钥 */
+    providerKey: string;
+    /** 认证访问码 */
+    providerAccessCode: string;
 
-    constructor(data?: ISupplementaryExternalAuthModel) {
+    constructor(data?: IExternalBingingModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -25375,50 +25471,84 @@ export class SupplementaryExternalAuthModel implements ISupplementaryExternalAut
 
     init(data?: any) {
         if (data) {
-            this.userId = data["userId"];
-            this.emailAddress = data["emailAddress"];
-            this.userName = data["userName"];
-            this.phoneNumber = data["phoneNumber"];
-            this.password = data["password"];
+            this.authProvider = data["authProvider"];
+            this.providerKey = data["providerKey"];
+            this.providerAccessCode = data["providerAccessCode"];
         }
     }
 
-    static fromJS(data: any): SupplementaryExternalAuthModel {
-        let result = new SupplementaryExternalAuthModel();
+    static fromJS(data: any): ExternalBingingModel {
+        let result = new ExternalBingingModel();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["emailAddress"] = this.emailAddress;
-        data["userName"] = this.userName;
-        data["phoneNumber"] = this.phoneNumber;
-        data["password"] = this.password;
+        data["authProvider"] = this.authProvider;
+        data["providerKey"] = this.providerKey;
+        data["providerAccessCode"] = this.providerAccessCode;
+        return data; 
+    }
+}
+
+export interface IExternalBingingModel {
+    /** 认证类型 */
+    authProvider: string;
+    /** 认证秘钥 */
+    providerKey: string;
+    /** 认证访问码 */
+    providerAccessCode: string;
+}
+
+/** 补充认证 */
+export class SupplementAuthModel implements ISupplementAuthModel {
+    /** 机构名称 */
+    tenantName: string;
+
+    constructor(data?: ISupplementAuthModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.tenantName = data["tenantName"];
+        }
+    }
+
+    static fromJS(data: any): SupplementAuthModel {
+        let result = new SupplementAuthModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tenantName"] = this.tenantName;
         return data; 
     }
 }
 
 /** 补充认证 */
-export interface ISupplementaryExternalAuthModel {
-    /** 用户Id */
-    userId: number;
-    /** 邮箱地址 */
-    emailAddress: string;
-    /** 用户名 */
-    userName: string;
-    /** 手机号 */
-    phoneNumber: string;
-    /** 密码 */
-    password: string;
+export interface ISupplementAuthModel {
+    /** 机构名称 */
+    tenantName: string;
 }
 
-export class SupplementaryExternalAuthResultModel implements ISupplementaryExternalAuthResultModel {
+export class SupplementAuthResultModel implements ISupplementAuthResultModel {
     /** 能否登陆 */
     canLogin: boolean;
+    tenantId: number;
+    accessToken: string;
+    encryptedAccessToken: string;
+    expireInSeconds: number;
 
-    constructor(data?: ISupplementaryExternalAuthResultModel) {
+    constructor(data?: ISupplementAuthResultModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -25430,11 +25560,15 @@ export class SupplementaryExternalAuthResultModel implements ISupplementaryExter
     init(data?: any) {
         if (data) {
             this.canLogin = data["canLogin"];
+            this.tenantId = data["tenantId"];
+            this.accessToken = data["accessToken"];
+            this.encryptedAccessToken = data["encryptedAccessToken"];
+            this.expireInSeconds = data["expireInSeconds"];
         }
     }
 
-    static fromJS(data: any): SupplementaryExternalAuthResultModel {
-        let result = new SupplementaryExternalAuthResultModel();
+    static fromJS(data: any): SupplementAuthResultModel {
+        let result = new SupplementAuthResultModel();
         result.init(data);
         return result;
     }
@@ -25442,13 +25576,21 @@ export class SupplementaryExternalAuthResultModel implements ISupplementaryExter
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["canLogin"] = this.canLogin;
+        data["tenantId"] = this.tenantId;
+        data["accessToken"] = this.accessToken;
+        data["encryptedAccessToken"] = this.encryptedAccessToken;
+        data["expireInSeconds"] = this.expireInSeconds;
         return data; 
     }
 }
 
-export interface ISupplementaryExternalAuthResultModel {
+export interface ISupplementAuthResultModel {
     /** 能否登陆 */
     canLogin: boolean;
+    tenantId: number;
+    accessToken: string;
+    encryptedAccessToken: string;
+    expireInSeconds: number;
 }
 
 export class PagedResultDtoOfUserListDto implements IPagedResultDtoOfUserListDto {

@@ -15,8 +15,7 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving"
-                        [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                     <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"><i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -88,15 +87,15 @@
         <div class="rotating-container" [ngClass]="{'filp-active': filpActive}">
             <!-- <div class="rotating-container"> -->
             <form #userProfile="ngForm" [@routerTransition]>
-                <div class="rotating clearfix">
-                    <div class="col-md-12 front" *ngIf="!filpActive">
+                <div class="rotating">
+                    <div class="front" *ngIf="!filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
                                 <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#uploadArea'" [groupId]="1">
-                                    <div class="img" id="uploadArea"></div>
+                                    <div class="img" id="uploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>
                                 </div>
                                 <!-- <div class="img" *ngIf="localPictureUrl" id="uploadArea" [ngStyle]="{'background-image': 'url(' + localPictureUrl + ')'}"></div> -->
-                                <span class="vapps-icon vapps-icon-cb-add-img" *ngIf="!uploaded"></span>
+                                <span class="vapps-icon vapps-icon-cb-add-img" *ngIf="!sendOrgLogoInfo.pictureUrl"></span>
 
                             </div>
                             <div class="card-content">
@@ -133,14 +132,14 @@
                                         <button class="btn btn-block" type="button" (click)="cancel()">取消</button>
                                     </div>
                                     <div class="col-xs-6">
-                                        <button class="btn btn-block btn-warning" type="submit" (click)="save()" [disabled]="!userProfile.form.valid">保存</button>
+                                        <button class="btn btn-block btn-warning" type="submit" (click)="saveAndEdit()" [disabled]="!userProfile.form.valid">保存</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-12 back" (click)="showEdit()" *ngIf="filpActive">
+                    <div class="back" (click)="showEdit()" *ngIf="filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
                                 <div class="img" *ngIf="sendOrgLogoInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>

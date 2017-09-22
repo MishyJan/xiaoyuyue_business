@@ -11,6 +11,8 @@ import { AppSessionService } from '@shared/common/session/app-session.service';
 import { Injectable } from '@angular/core';
 import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
+import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
+import { AbpSessionService } from '@abp/session/abp-session.service';
 
 @Injectable()
 export class AppRouteGuard implements CanActivate, CanActivateChild {
@@ -19,6 +21,7 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
         private _permissionChecker: PermissionCheckerService,
         private _router: Router,
         private _sessionService: AppSessionService,
+        private _appAuthService: AppAuthService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -47,6 +50,8 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
     selectBestRoute(): string {
         if (!this._sessionService.user) {
             return '/auth/login';
+        } else if (!this._sessionService.tenantId) {
+            return '/auth/supply-register';
         }
 
         if (this._permissionChecker.isGranted(AdminPermissions.tenantDashboard)) {

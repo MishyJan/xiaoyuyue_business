@@ -6,6 +6,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { RegisterModel } from './register.model';
 import { LoginService } from "shared/services/login.service";
 import { VerificationCodeType } from "shared/AppEnums";
+import { ProtocolModelComponent } from './protocol-model/protocol-model.component';
 
 @Component({
     templateUrl: './register.component.html',
@@ -13,6 +14,7 @@ import { VerificationCodeType } from "shared/AppEnums";
     animations: [accountModuleAnimation()]
 })
 export class RegisterComponent extends AppComponentBase implements OnInit {
+    protocolText: string;
     phoneNumber: string;
     isSendSMS: boolean = false;
     confirmPasswd: string;
@@ -23,6 +25,8 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     saving: boolean = false;
 
     @ViewChild('smsBtn') _smsBtn: ElementRef;
+    @ViewChild('protocolModal') protocolModal: ProtocolModelComponent;
+    
     constructor(
         injector: Injector,
         private _accountService: AccountServiceProxy,
@@ -48,6 +52,10 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     // get useCaptcha(): boolean {
     //     return this.setting.getBoolean('App.UserManagement.UseCaptchaOnRegistration');
     // }
+
+    readProtocolModal(): void {
+        this.protocolModal.show();
+    }
 
     register(): void {
         this.saving = true;

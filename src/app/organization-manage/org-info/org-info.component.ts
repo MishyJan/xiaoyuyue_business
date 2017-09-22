@@ -14,6 +14,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     animations: [accountModuleAnimation()],
 })
 export class OrgInfoComponent extends AppComponentBase implements OnInit {
+    currentUserName: string;
     uploaded: boolean = false;
     filpActive = true;
     savingAndEditing: boolean;
@@ -45,7 +46,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
 
     ngAfterViewInit() {
         const self = this;
-        setTimeout(function() {
+        setTimeout(function () {
             self.getUploadOrgWrap();
         }, 100);
 
@@ -61,7 +62,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
                 if (!result) {
                     return;
                 }
-                this.input.tenancyName = result.tenancyName;
+                this.currentUserName = this.input.tenancyName = result.tenancyName;
                 this.input.tagline = result.tagline;
                 this.input.description = result.description;
 
@@ -96,7 +97,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
             .updateTenantInfo(this.input)
             .finally(() => { this.saving = false })
             .subscribe(result => {
-                this.notify.success('信息已完善');
+                abp.event.trigger('userNameChanged');
                 this._router.navigate(['/outlet/list']);
             })
     }
@@ -111,14 +112,34 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
             this.input.logoId = this.sendOrgLogoInfo.pictureId;
             this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
         }
+        if (this.currentUserName !== this.input.tenancyName) {
+            this.message.confirm('是否更改您的用户名?', (result) => {
+                if (result) {
+                    this.updateData(() => {
+                        abp.event.trigger('userNameChanged');
+                    })
+                }
+            })
+        } else {
+            this.updateData(() => {
+                this.filpActive = true;
+            })
+        }
+
+    }
+
+    private updateData(callback: any): void {
         this.savingAndEditing = true;
+        this.currentUserName = this.input.tenancyName;
         this._tenantInfoServiceProxy
             .updateTenantInfo(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
+                callback();
                 this.notify.success('保存成功!');
             });
     }
+
 
     orgBgInfo(orgBgInfo: UploadPictureDto): void {
         this.updatedOrgBgPicture = true;

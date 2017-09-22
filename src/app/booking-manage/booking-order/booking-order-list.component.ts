@@ -16,6 +16,7 @@ import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
+import * as moment from 'moment';
 
 export class SingleBookingStatus {
     value: any;
@@ -30,6 +31,8 @@ export class SingleBookingStatus {
 })
 
 export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    availableTimesSelectListData: SelectListItemDto[];
+    availableDatesSelectListData: SelectListItemDto[];
     hourOfDay: string;
     mobileCustomerListData: OrgBookingOrderListDto[] = [];
     bookingCustomerDate: string;
@@ -99,9 +102,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.getBookingId();
         } else {
             this.loadData();
-            this.cBookingOrderDate = new flatpickr('#bookingDate', {
+            this.cBookingOrderDate = $('#bookingDate').flatpickr({
                 'locale': 'zh'
-            })
+            });
             this.cStartCreationTime = $('#startCreationTime').flatpickr({
                 'locale': 'zh'
             });
@@ -286,16 +289,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             })
     }
 
-    // 获取时间下拉框数据源
-    getBookingDateSeletcList(): void {
-        this._orgBookingServiceProxy
-            .getBookingItemSelectList(this.bookingId)
-            .subscribe(result => {
-                this.bookingItemSelectListData = result;
-                // this.bookingItemSelectListData.unshift(this.bookingDateSelectDefaultItem)
-            })
-    }
-
     getProfilePictureUrl(profilePictureUrl: string): string {
         const defaultAvatar = 'assets/common/images/default-profile-picture.png';
         if (profilePictureUrl === '') {
@@ -314,9 +307,30 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         return;
     }
 
+    // 获取可用日期和时间下拉框数据源
+    getBookingDateSeletcList(): void {
+        this._orgBookingServiceProxy
+            .getAvailableBookingDateAndTime(this.bookingId)
+            .subscribe(result => {
+                this.availableDatesSelectListData = result.availableDates;
+                this.availableTimesSelectListData = result.availableTimes;
+            })
+    }
+
+    public bookingDateChangeHandler(value: any): void {
+        if (value === '0' || value === '') {
+            this.bookingDate = undefined;
+            this.mobileLoadData();
+            return;
+        }
+        this.bookingDate = moment(value).local();
+        this.mobileLoadData();
+    }
+
     public bookingTimeChangeHandler(value: any): void {
-        if (value === '请选择') {
+        if (value === '0' || value === '') {
             this.hourOfDay = undefined;
+            this.mobileLoadData();
             return;
         }
         this.hourOfDay = value;

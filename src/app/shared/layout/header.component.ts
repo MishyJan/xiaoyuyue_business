@@ -1,4 +1,5 @@
-import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Router, Params } from '@angular/router';
+import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy, CurrentUserProfileEditDto } from '@shared/service-proxies/service-proxies';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
@@ -17,6 +18,7 @@ import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
 import { MobileSideBarComponent } from './mobile-side-bar/mobile-side-bar.component';
 import { MySettingsModalComponent } from './profile/my-settings-modal.component'
 import { NotificationSettingsModalCompoent } from '@app/shared/layout/notifications/notification-settings-modal.component';
+import { SidebarService } from 'shared/services/side-bar.service';
 import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNotificationHelper';
 
 @Component({
@@ -28,6 +30,8 @@ import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNot
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent extends AppComponentBase implements OnInit {
+    isResetHeaderStyleFlag: any;
+    isDashboardFlag: boolean;
 
     @ViewChild('notificationSettingsModal') notificationSettingsModal: NotificationSettingsModalCompoent;
 
@@ -35,7 +39,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     @ViewChild('changePasswordModal') changePasswordModal: ChangePasswordModalComponent;
     @ViewChild('changeProfilePictureModal') changeProfilePictureModal: ChangeProfilePictureModalComponent;
     @ViewChild('mySettingsModal') mySettingsModal: MySettingsModalComponent;
-    @ViewChild('mobileSideBarModel') mobileSideBarModel: MobileSideBarComponent;
 
     languages: abp.localization.ILanguageInfo[];
     currentLanguage: abp.localization.ILanguageInfo;
@@ -60,13 +63,15 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _userNotificationHelper: UserNotificationHelper,
         private _localStorageService: LocalStorageService,
         private _location: Location,
-        private _cookiesService: CookiesService
+        private _cookiesService: CookiesService,
+        private _sidebarService: SidebarService,
     ) {
         super(injector);
 
         this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
-            this.title = this.createHearderTitle(crumbs);
+            this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);
         });
+        this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);
     }
 
     ngOnInit() {
@@ -79,13 +84,16 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l('YouCanBackToYourAccount') : '';
         this.getCurrentLoginInformations();
         this.getProfilePicture();
-
         this.registerToEvents();
     }
 
     registerToEvents() {
         abp.event.on('profilePictureChanged', () => {
             this.getProfilePicture();
+        });
+
+        abp.event.on('userNameChanged', () => {
+            this.getCurrentLoginInformations();
         });
 
         abp.event.on('app.chat.unreadMessageCountChanged', messageCount => {
@@ -122,7 +130,11 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     getCurrentLoginInformations(): void {
-        this.shownLoginName = this.appSession.getShownLoginName();
+        this._profileServiceProxy
+        .getCurrentUserProfileForEdit()
+        .subscribe( (result:CurrentUserProfileEditDto) => {
+            this.shownLoginName = result.userName;
+        })
     }
 
     getShownUserName(linkedUser: LinkedUserDto): string {
@@ -166,7 +178,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     showSidebar(): void {
-        this.mobileSideBarModel.show();
+        this._sidebarService.toggleSidebarFlag.emit(true);
     }
 
     onMySettingsModalSaved(): void {

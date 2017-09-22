@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { ResponsiveModule } from 'ng2-responsive';
 import { UtilsModule } from '@shared/utils/utils.module';
+import { ServicesModule } from 'shared/services/services.module';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         DashboardRoutingModule,
         AngularEchartsModule,
         DropDownsModule,
-        ResponsiveModule
+        ResponsiveModule,
+        ServicesModule
     ],
     declarations: [
         DashboardComponent,
@@ -39,6 +41,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         BookingSaturationComponent,
         BookingHeatComponent,
         BookingAccessRegionComponent,
+    ],
+    providers: [
     ]
 })
 export class DashboardModule { }
