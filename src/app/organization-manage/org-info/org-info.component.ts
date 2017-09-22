@@ -98,7 +98,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
             .finally(() => { this.saving = false })
             .subscribe(result => {
                 abp.event.trigger('userNameChanged');
-                this.notify.success('信息已完善');
                 this._router.navigate(['/outlet/list']);
             })
     }
@@ -116,20 +115,31 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
         if (this.currentUserName !== this.input.tenancyName) {
             this.message.confirm('是否更改您的用户名?', (result) => {
                 if (result) {
-                    this.savingAndEditing = true;
-                    this.currentUserName = this.input.tenancyName;
-                    this._tenantInfoServiceProxy
-                        .updateTenantInfo(this.input)
-                        .finally(() => { this.savingAndEditing = false })
-                        .subscribe(() => {
-                            abp.event.trigger('userNameChanged');
-                            this.notify.success('保存成功!');
-                        });
+                    this.updateData(() => {
+                        abp.event.trigger('userNameChanged');
+                    })
                 }
+            })
+        } else {
+            this.updateData(() => {
+                this.filpActive = true;
             })
         }
 
     }
+
+    private updateData(callback: any): void {
+        this.savingAndEditing = true;
+        this.currentUserName = this.input.tenancyName;
+        this._tenantInfoServiceProxy
+            .updateTenantInfo(this.input)
+            .finally(() => { this.savingAndEditing = false })
+            .subscribe(() => {
+                callback();
+                this.notify.success('保存成功!');
+            });
+    }
+
 
     orgBgInfo(orgBgInfo: UploadPictureDto): void {
         this.updatedOrgBgPicture = true;
