@@ -13,6 +13,7 @@ import { ShareBookingModelComponent } from './share-booking-model/share-booking-
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -33,23 +34,23 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     // 传给图片管理组件
     pictureInfo: BookingPictureEditDto[] = [];
-    
+
     allPictureForEdit: BookingPictureEditDto[];
     outletSelectListData: SelectListItemDto[];
     contactorSelectListData: SelectListItemDto[];
-    
+
     formVaild: boolean;
     allBookingTime: BookingItemEditDto[] = [];
     infoFormValid: boolean;
     bookingDataForEdit: GetBookingForEditOutput;
     baseInfo: BookingEditDto = new BookingEditDto();
     timeInfo: BookingItemEditDto[];
-    
+
     href: string = document.location.href;
     bookingId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
-    
+
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
-    
+
     selectOutletId: number;
     selectContactorId: number;
     saving = false;
@@ -76,6 +77,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
+        private _weChatShareTimelineService: WeChatShareTimelineService
     ) {
         super(injector);
     }
@@ -167,6 +169,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 }
                 // this.pictureManageModel.refreshAllPictrueEdit();
                 this.loadOutletData();
+                this.initWechatShareConfig();
             });
     }
 
@@ -296,7 +299,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.staticTabs.tabs[this.nextIndex].active = true;
     }
 
-    // tab点击的时候更新tab索引值 
+    // tab点击的时候更新tab索引值
     updateNextIndex(index: number): void {
         this.nextIndex = index;
         this.refreshData();
@@ -314,7 +317,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this.initFlatpickr();
         }, 100);
     }
-    
+
     savePanelTimeField(): void {
         this.isNew = false;
         this.localSingleBookingItem.isActive = true;
@@ -334,7 +337,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this.notify.warn('不能超过四张');
             return;
         }
-        let temp = new BookingPictureEditDto();
+        const temp = new BookingPictureEditDto();
         temp.pictureId = picUploadInfo.pictureId;
         temp.pictureUrl = picUploadInfo.pictureUrl;
         this.pictureInfo.push(temp)
@@ -358,9 +361,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
     }
 
-
     // PC端代码
-
     /* 业务代码 */
     // 判断是否有移动端的DOM元素
     isMobile(): boolean {
@@ -368,5 +369,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return true;
         };
         return false;
+    }
+
+    initWechatShareConfig() {
+        if (this.baseInfo && this.isWeiXin()) {
+            this._weChatShareTimelineService.input.sourceUrl = document.location.href;
+            this._weChatShareTimelineService.input.title = this.l('ShareMyBooking', this.baseInfo.name);
+            this._weChatShareTimelineService.input.desc = this.l(this.baseInfo.name);
+            this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
+            this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+            this._weChatShareTimelineService.initWeChatShareConfig();
+        }
     }
 }

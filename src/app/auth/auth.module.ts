@@ -3,6 +3,7 @@ import * as ngCommon from '@angular/common';
 import { HttpModule, JsonpModule } from '@angular/http';
 
 import { AbpModule } from '@abp/abp.module';
+import { AppCommonModule } from 'app/shared/common/app-common.module';
 import { AppConsts } from '@shared/AppConsts';
 import { AuthComponent } from 'app/auth/auth.component';
 import { AuthRoutingModule } from 'app/auth/auth-routing.module';
@@ -22,18 +23,18 @@ import { LuosimaoCaptcha } from 'app/auth/shared/luosimao-captcha/luosimao-captc
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgModule } from '@angular/core';
 import { PhoneValidateComponent } from 'app/auth/shared/phone-validate/phone-validate.component';
+import { ProtocolModelComponent } from './register/protocol-model/protocol-model.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './password/reset-password.component';
 import { ResponsiveModule } from 'ng2-responsive';
 import { SendTwoFactorCodeComponent } from './login/send-two-factor-code.component';
+import { SupplyRegisterComponent } from './supply-register/supply-register.component';
 import { TenantChangeComponent } from './shared/tenant-change.component';
 import { TenantChangeModalComponent } from './shared/tenant-change-modal.component';
 import { TenantRegistrationHelperService } from './register/tenant-registration-helper.service';
 import { TooltipModule } from 'ngx-bootstrap';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
-import { SupplyRegisterComponent } from './supply-register/supply-register.component';
-import { ProtocolModelComponent } from './register/protocol-model/protocol-model.component';
 
 @NgModule({
     imports: [
@@ -44,7 +45,7 @@ import { ProtocolModelComponent } from './register/protocol-model/protocol-model
 
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
-
+        AppCommonModule.forRoot(),
         AbpModule,
 
         CommonModule,
