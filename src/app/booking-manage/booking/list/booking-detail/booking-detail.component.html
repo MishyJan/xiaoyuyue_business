@@ -1,8 +1,7 @@
-<div class="booking-detail common-container" *ngIf="bookingForEditData">
+<div [@routerTransition] class="booking-detail common-container" *ngIf="bookingForEditData">
     <div class="command-wrap card no-margin">
-            <button class="item" [ngClass]="{'disabled-style': bookingForEditData.wait4ConfirmNum == 0}" [disabled]="bookingForEditData.wait4ConfirmNum == 0"
-            (click)="showMobileConfirmOrderModel(bookingForEditData.id)">待确认<span class="avail-num" *ngIf="bookingForEditData.wait4ConfirmNum !== 0">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
-        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.subBookedNum == 0}" [disabled]="bookingForEditData.subBookedNum == 0"  (click)="bookingCustomerList(bookingForEditData.id)">应约列表</button>
+        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.wait4ConfirmNum == 0}" [disabled]="bookingForEditData.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingForEditData.id)">待确认<span class="avail-num" *ngIf="bookingForEditData.wait4ConfirmNum !== 0">{{ bookingForEditData.wait4ConfirmNum }}</span></button>
+        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.subBookedNum == 0}" [disabled]="bookingForEditData.subBookedNum == 0" (click)="bookingCustomerList(bookingForEditData.id)">应约列表</button>
         <button class="item" *ngIf="bookingForEditData.isActive" (click)="disabledBookingClass()">禁用预约</button>
         <button class="item" *ngIf="!bookingForEditData.isActive" (click)="beforeBookingClass()">激活预约</button>
         <button class="item" (click)="removeBooking()">删除预约</button>
