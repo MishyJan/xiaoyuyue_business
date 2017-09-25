@@ -3,13 +3,13 @@ import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterD
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { NavigationEnd } from '@angular/router';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    animations: [appModuleAnimation()],
+    animations: [accountModuleAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     mobileDateSelected: string;

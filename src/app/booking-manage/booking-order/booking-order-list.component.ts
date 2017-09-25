@@ -14,9 +14,9 @@ import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
 import * as moment from 'moment';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 export class SingleBookingStatus {
     value: any;
@@ -27,7 +27,7 @@ export class SingleBookingStatus {
     selector: 'xiaoyuyue-customer-list',
     templateUrl: './booking-order-list.component.html',
     styleUrls: ['./booking-order-list.component.scss'],
-    animations: [appModuleAnimation()]
+    animations: [accountModuleAnimation()]
 })
 
 export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Injector, Input, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { appModuleAnimation, appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';

@@ -1,13 +1,13 @@
 import { Component, Injector, OnInit } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-feedback',
     templateUrl: './feedback.component.html',
     styleUrls: ['./feedback.component.scss'],
-    animations: [appModuleAnimation()]
+    animations: [accountModuleAnimation()]
 })
 export class FeedbackComponent extends AppComponentBase implements OnInit {
 
