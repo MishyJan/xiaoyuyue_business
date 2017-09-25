@@ -7,11 +7,13 @@ import { AppConsts } from '@shared/AppConsts';
 import { MobileConfirmOrderModelComponent } from '../shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from 'app/booking-manage/booking/list/shared/mobile-share-booking-model/share-booking-model.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-booking-detail',
     templateUrl: './booking-detail.component.html',
-    styleUrls: ['./booking-detail.component.scss']
+    styleUrls: ['./booking-detail.component.scss'],
+    animations: [accountModuleAnimation()],
 })
 export class BookingDetailComponent extends AppComponentBase implements OnInit {
     shareUrl: string;
