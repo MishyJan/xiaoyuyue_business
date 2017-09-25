@@ -12,13 +12,13 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { AppUserNotificationState } from 'shared/AppEnums';
 import { Moment } from 'moment';
 import { Observable } from 'rxjs/Observable';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     templateUrl: './notifications.component.html',
     styleUrls: ['./notifications.component.less'],
     encapsulation: ViewEncapsulation.None,
-    animations: [appModuleAnimation()]
+    animations: [accountModuleAnimation()]
 })
 export class NotificationsComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
