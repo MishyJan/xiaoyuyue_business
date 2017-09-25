@@ -33,8 +33,8 @@ export function slideFromBottom() {
 
 export function slideFromUp() {
     return trigger('routerTransition', [
-        state('void', style({ 'margin-top': '-10px', opacity: '0' })),
-        state('*', style({ 'margin-top': '0px', opacity: '1' })),
+        state('void', style({ 'margin-top': '20px', opacity: '0' })),
+        state('*', style({ 'margin-top': '0', opacity: '1' })),
         transition(':enter', [
             animate('0.2s ease-out', style({ opacity: '1', 'margin-top': '0px' }))
         ])
