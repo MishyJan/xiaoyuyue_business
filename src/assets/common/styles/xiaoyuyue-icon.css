@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'xiaoyuyue';
-  src:  url('../fonts/xiaoyuyue.eot?xydwdz');
-  src:  url('../fonts/xiaoyuyue.eot?xydwdz#iefix') format('embedded-opentype'),
-    url('../fonts/xiaoyuyue.ttf?xydwdz') format('truetype'),
-    url('../fonts/xiaoyuyue.woff?xydwdz') format('woff'),
-    url('../fonts/xiaoyuyue.svg?xydwdz#xiaoyuyue') format('svg');
+  src:  url('../fonts/xiaoyuyue.eot?n49ddf');
+  src:  url('../fonts/xiaoyuyue.eot?n49ddf#iefix') format('embedded-opentype'),
+    url('../fonts/xiaoyuyue.ttf?n49ddf') format('truetype'),
+    url('../fonts/xiaoyuyue.woff?n49ddf') format('woff'),
+    url('../fonts/xiaoyuyue.svg?n49ddf#xiaoyuyue') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-back-left:before {
+  content: "\e951";
+}
 .vapps-icon-app-active:before {
   content: "\e900";
 }
