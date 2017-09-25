@@ -8,13 +8,13 @@ import { AppConsts } from 'shared/AppConsts';
 import { PictureUrlHelper } from 'shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
+import { accountModuleAnimation, appModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-outlet-list',
     templateUrl: './outlet-list.component.html',
     styleUrls: ['./outlet-list.component.scss'],
-    animations: [accountModuleAnimation()],
+    animations: [appModuleAnimation()],
 })
 export class OutletListComponent extends AppComponentBase implements OnInit, AfterViewInit {
     outletName: string;
