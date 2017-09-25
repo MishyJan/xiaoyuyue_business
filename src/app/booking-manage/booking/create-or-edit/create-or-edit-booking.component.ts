@@ -13,6 +13,7 @@ import { ShareBookingModelComponent } from './share-booking-model/share-booking-
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -33,23 +34,23 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     // 传给图片管理组件
     pictureInfo: BookingPictureEditDto[] = [];
-    
-    allPictureForEdit: BookingPictureEditDto[];
+
+    allPictureForEdit: BookingPictureEditDto[] = [];
     outletSelectListData: SelectListItemDto[];
     contactorSelectListData: SelectListItemDto[];
-    
+
     formVaild: boolean;
     allBookingTime: BookingItemEditDto[] = [];
     infoFormValid: boolean;
     bookingDataForEdit: GetBookingForEditOutput;
     baseInfo: BookingEditDto = new BookingEditDto();
     timeInfo: BookingItemEditDto[];
-    
+
     href: string = document.location.href;
     bookingId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
-    
+
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
-    
+
     selectOutletId: number;
     selectContactorId: number;
     saving = false;
@@ -59,7 +60,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     /* 移动端代码开始 */
     // 保存本地时间段
-    dafaultDate: string = moment().format('YYYY-MM-DD');
+    dafaultDate: string;
     localSingleBookingItem: BookingItemEditDto = new BookingItemEditDto();
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
@@ -76,6 +77,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
+        private _weChatShareTimelineService: WeChatShareTimelineService
     ) {
         super(injector);
     }
@@ -84,6 +86,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.loadData();
         this.getTenantInfo();
         this.initFormValidation();
+        this.localSingleBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
     }
 
     ngAfterViewInit() {
@@ -167,6 +170,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 }
                 // this.pictureManageModel.refreshAllPictrueEdit();
                 this.loadOutletData();
+                this.initWechatShareConfig();
             });
     }
 
@@ -207,18 +211,37 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         } else {
             this.input.bookingPictures = this.pictureInfo;
         }
-        this.saving = true;
-        this._organizationBookingServiceProxy
-            .createOrUpdateBooking(this.input)
-            .finally(() => { this.saving = false })
-            .subscribe((result) => {
-                abp.event.trigger('bookingListSelectChanged');
-                if (!this.isMobile()) {
-                    this.shareBookingModel.show(result.id);
-                } else {
+
+        if (this.isMobile()) {
+            if (this.bookingBaseInfoForm.invalid) {
+                this.message.warn('预约信息未完善');
+                this.staticTabs.tabs[0].active = true;
+                return;
+            }
+
+            if (this.allBookingTime.length < 1) {
+                this.message.warn('时间信息未完善');
+                this.staticTabs.tabs[1].active = true;
+                return;
+            }
+            this.saving = true;
+            this._organizationBookingServiceProxy
+                .createOrUpdateBooking(this.input)
+                .finally(() => { this.saving = false })
+                .subscribe((result) => {
+                    abp.event.trigger('bookingListSelectChanged');
                     this._router.navigate(['/booking/succeed', result.id]);
-                }
-            });
+                });
+        } else {
+            this.saving = true;
+            this._organizationBookingServiceProxy
+                .createOrUpdateBooking(this.input)
+                .finally(() => { this.saving = false })
+                .subscribe((result) => {
+                    abp.event.trigger('bookingListSelectChanged');
+                    this.shareBookingModel.show(result.id);
+                });
+        }
     }
 
     saveAndEdit() {
@@ -233,11 +256,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         // 判断是否有添加新的时间信息
         this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
         // 判断是否上传过图片
-        if (this.allPictureForEdit) {
-            this.input.bookingPictures = this.allPictureForEdit;
-        } else {
-            this.input.bookingPictures = this.pictureInfo;
-        }
+        this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
+
         this.savingAndEditing = true;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
@@ -246,12 +266,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.notify.success('保存成功');
             });
     }
-
-    // 表单验证
-    // bookingFormVaild(): boolean {
-    //   this.formVaild = !this.infoFormValid || !(this.baseInfo.name || this.baseInfo.description);
-    //   return this.formVaild;
-    // }
 
     getTimeInfoInput(allBookingTime: BookingItemEditDto[]) {
         this.allBookingTime = allBookingTime;
@@ -296,7 +310,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.staticTabs.tabs[this.nextIndex].active = true;
     }
 
-    // tab点击的时候更新tab索引值 
+    // tab点击的时候更新tab索引值
     updateNextIndex(index: number): void {
         this.nextIndex = index;
         this.refreshData();
@@ -310,11 +324,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
     createTimeField(): void {
         this.isNew = true;
+        this.localSingleBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
+        this.initFormValidation();
         setTimeout(() => {
             this.initFlatpickr();
         }, 100);
     }
-    
+
     savePanelTimeField(): void {
         this.isNew = false;
         this.localSingleBookingItem.isActive = true;
@@ -324,7 +340,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.allBookingTime.push(this.localSingleBookingItem);
         this.startHourOfDay = '00:00';
         this.endHourOfDay = '00:00';
-        console.log(this.allBookingTime);
 
         this.localSingleBookingItem = new BookingItemEditDto();
     }
@@ -334,7 +349,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this.notify.warn('不能超过四张');
             return;
         }
-        let temp = new BookingPictureEditDto();
+        const temp = new BookingPictureEditDto();
         temp.pictureId = picUploadInfo.pictureId;
         temp.pictureUrl = picUploadInfo.pictureUrl;
         this.pictureInfo.push(temp)
@@ -358,9 +373,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
     }
 
-
     // PC端代码
-
     /* 业务代码 */
     // 判断是否有移动端的DOM元素
     isMobile(): boolean {
@@ -368,5 +381,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return true;
         };
         return false;
+    }
+
+    initWechatShareConfig() {
+        if (this.baseInfo && this.isWeiXin()) {
+            this._weChatShareTimelineService.input.sourceUrl = document.location.href;
+            this._weChatShareTimelineService.input.title = this.l('ShareMyBooking', this.baseInfo.name);
+            this._weChatShareTimelineService.input.desc = this.l(this.baseInfo.name);
+            this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
+            this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+            this._weChatShareTimelineService.initWeChatShareConfig();
+        }
     }
 }

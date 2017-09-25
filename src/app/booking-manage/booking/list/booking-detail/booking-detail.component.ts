@@ -1,16 +1,19 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActiveOrDisableInput, BookingEditDto, BookingPictureEditDto, ContactorEditDto, GetBookingDetailOutput, OrgBookingServiceProxy, OutletEditDto, OutletServiceServiceProxy } from 'shared/service-proxies/service-proxies';
-import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { MobileConfirmOrderModelComponent } from '../shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from 'app/booking-manage/booking/list/shared/mobile-share-booking-model/share-booking-model.component';
+import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-booking-detail',
     templateUrl: './booking-detail.component.html',
-    styleUrls: ['./booking-detail.component.scss']
+    styleUrls: ['./booking-detail.component.scss'],
+    animations: [accountModuleAnimation()],
 })
 export class BookingDetailComponent extends AppComponentBase implements OnInit {
     shareUrl: string;
@@ -25,12 +28,14 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
 
     @ViewChild('mobileConfirmOrderModel') mobileConfirmOrderModel: MobileConfirmOrderModelComponent;
     @ViewChild('mobileShareBookingModel') mobileShareBookingModel: MobileShareBookingModelComponent;
+
     constructor(
         private injector: Injector,
         private _router: Router,
         private _route: ActivatedRoute,
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
+        private _weChatShareTimelineService: WeChatShareTimelineService
     ) {
         super(injector);
     }
@@ -53,6 +58,7 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
                 this.bookingForEditData = result;
                 this.availableBookingTime = this.bookingForEditData.availableBookingTime;
                 this.bookingPictures = this.bookingForEditData.pictures;
+                this.initWechatShareConfig();
             });
     }
 
@@ -121,5 +127,16 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
 
     bookingCustomerList(bookingId: number): void {
         this._router.navigate(['/bookingorder/list'], { queryParams: { bookingId: bookingId } });
+    }
+
+    initWechatShareConfig() {
+        if (this.bookingForEditData && this.isWeiXin()) {
+            this._weChatShareTimelineService.input.sourceUrl = document.location.href;
+            this._weChatShareTimelineService.input.title = this.l('ShareMyBooking', this.bookingForEditData.name);
+            this._weChatShareTimelineService.input.desc = this.l(this.bookingForEditData.name);
+            this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
+            this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+            this._weChatShareTimelineService.initWeChatShareConfig();
+        }
     }
 }
