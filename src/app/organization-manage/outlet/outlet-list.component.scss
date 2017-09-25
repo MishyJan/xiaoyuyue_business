@@ -60,6 +60,23 @@
     }
     /* 移动端样式 */
     &.mobile {
+        .add-outlet-btn {
+            position: fixed;
+            right: 10px;
+            bottom: 60px;
+            z-index: 1;
+            .icon {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                display: inline-block;
+                border-radius: 50%;
+                background-color: #FF9641;
+                color: #FFF;
+                font-size: 18px;
+            }
+        }
         .outlet-list-wrap {
             margin-top: 0;
             .outlet-item {
@@ -73,7 +90,7 @@
                 }
                 .content-wrap {
                     padding: 15px;
-                    .content-item + .content-item {
+                    .content-item+.content-item {
                         margin-top: 20px;
                     }
                     .content-item {

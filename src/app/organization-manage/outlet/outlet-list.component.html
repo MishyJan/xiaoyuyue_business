@@ -60,8 +60,7 @@
                         <div class="content-wrap">
                             <div class="content-item clearfix">
                                 <span class="flex-right" [title]="outletItem.name">{{ outletItem.name }}</span>
-                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)"
-                                    title="{{l('Edit')}}"></span>
+                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)" title="{{l('Edit')}}"></span>
                             </div>
 
                             <div class="content-item clearfix">
@@ -106,6 +105,9 @@
 
 <div *showItBootstrap="['xs','sm']">
     <div class="manage-org mobile common-container" [@routerTransition]>
+        <div class="add-outlet-btn">
+            <span class="icon vapps-icon-cb-add-time" routerLink="/outlet/create"></span>
+        </div>
         <div class="row">
             <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
                 <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets">
@@ -115,8 +117,7 @@
                         <div class="content-wrap">
                             <div class="content-item clearfix">
                                 <span class="flex-right outlet-name" [title]="outletItem.name">{{ outletItem.name }}</span>
-                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)"
-                                    title="{{l('Edit')}}"></span>
+                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)" title="{{l('Edit')}}"></span>
                             </div>
 
                             <div class="content-item clearfix">
