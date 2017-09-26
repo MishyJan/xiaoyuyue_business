@@ -31,6 +31,7 @@ import { element } from 'protractor';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    allOrganizationBookingResultData: any[] = [];
 
     infiniteScrollDistance: number = 2;
     infiniteScrollThrottle: number = 300;
@@ -60,7 +61,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId: number;
     bookingName: string;
 
-    maxResultCount = 8;
+    maxResultCount = AppConsts.grid.defaultPageSize;
     skipCount = 0;
     sorting: string;
     totalItems = 0;
@@ -236,13 +237,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.shareBookingModel.show(bookingId);
     }
 
-    /**
-     * mobile
-     */
-
-    /**
-     * data
-     */
     loadData(): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
@@ -253,6 +247,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 const self = this;
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
+                this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
+                console.log(this.allOrganizationBookingResultData);
+                
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
@@ -362,8 +359,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     public onScrollDown(): void {
-        console.log(true);
-
         if (this.skipCount > (this.totalItems - this.maxResultCount)) {
             // this.isLoaded = true;
             return;
