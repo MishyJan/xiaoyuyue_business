@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 
 import { AccountSecurityComponent } from './account-security/account-security.component';
 import { AppComponent } from './app.component';
@@ -61,4 +61,17 @@ import { NgModule } from '@angular/core';
     ],
     exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+    constructor(private router: Router) {
+        router.events.subscribe((event: NavigationEnd) => {
+            if (!(event instanceof NavigationEnd)) { return; }
+            setTimeout(() => {
+                this.resetYAxial();
+            }, 0);
+        });
+    }
+
+    resetYAxial(): void {
+        $('html,body').animate({ 'scrollTop': 0 });
+    }
+}
