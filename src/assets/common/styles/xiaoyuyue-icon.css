@@ -1,274 +1,353 @@
 @font-face {
-  font-family: 'xiaoyuyue';
-  src:  url('../fonts/xiaoyuyue.eot?n49ddf');
-  src:  url('../fonts/xiaoyuyue.eot?n49ddf#iefix') format('embedded-opentype'),
-    url('../fonts/xiaoyuyue.ttf?n49ddf') format('truetype'),
-    url('../fonts/xiaoyuyue.woff?n49ddf') format('woff'),
-    url('../fonts/xiaoyuyue.svg?n49ddf#xiaoyuyue') format('svg');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'xiaoyuyue';
+    src: url('../fonts/xiaoyuyue.eot?n49ddf');
+    src: url('../fonts/xiaoyuyue.eot?n49ddf#iefix') format('embedded-opentype'), url('../fonts/xiaoyuyue.ttf?n49ddf') format('truetype'), url('../fonts/xiaoyuyue.woff?n49ddf') format('woff'), url('../fonts/xiaoyuyue.svg?n49ddf#xiaoyuyue') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
-[class^="vapps-icon-"], [class*=" vapps-icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'xiaoyuyue' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+[class^="vapps-icon-"],
+[class*=" vapps-icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'xiaoyuyue' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: middle;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .vapps-icon-app-back-left:before {
-  content: "\e951";
+    content: "\e951";
 }
+
 .vapps-icon-app-active:before {
-  content: "\e900";
+    content: "\e900";
 }
+
 .vapps-icon-app-add-booking-item:before {
-  content: "\e901";
+    content: "\e901";
 }
+
 .vapps-icon-app-add-outlet:before {
-  content: "\e902";
+    content: "\e902";
 }
+
 .vapps-icon-app-address:before {
-  content: "\e903";
+    content: "\e903";
 }
+
 .vapps-icon-app-add-time-field:before {
-  content: "\e904";
+    content: "\e904";
 }
+
 .vapps-icon-app-back:before {
-  content: "\e905";
+    content: "\e905";
 }
+
 .vapps-icon-app-booking-menu:before {
-  content: "\e906";
+    content: "\e906";
 }
+
 .vapps-icon-app-booking-new-join:before {
-  content: "\e907";
+    content: "\e907";
 }
+
 .vapps-icon-app-booking-total:before {
-  content: "\e908";
+    content: "\e908";
 }
+
 .vapps-icon-app-cancel:before {
-  content: "\e909";
+    content: "\e909";
 }
+
 .vapps-icon-app-confirm:before {
-  content: "\e90a";
+    content: "\e90a";
 }
+
 .vapps-icon-app-confirm-2:before {
-  content: "\e90b";
+    content: "\e90b";
 }
+
 .vapps-icon-app-contact:before {
-  content: "\e90c";
+    content: "\e90c";
 }
+
 .vapps-icon-app-copy-1:before {
-  content: "\e90d";
+    content: "\e90d";
 }
+
 .vapps-icon-app-copy-2:before {
-  content: "\e90e";
+    content: "\e90e";
 }
+
 .vapps-icon-app-custom-menu:before {
-  content: "\e90f";
+    content: "\e90f";
 }
+
 .vapps-icon-app-default:before {
-  content: "\e910";
+    content: "\e910";
 }
+
 .vapps-icon-app-delete:before {
-  content: "\e911";
+    content: "\e911";
 }
+
 .vapps-icon-app-delete-time-field:before {
-  content: "\e912";
+    content: "\e912";
 }
+
 .vapps-icon-app-detail:before {
-  content: "\e913";
+    content: "\e913";
 }
+
 .vapps-icon-app-detail-2:before {
-  content: "\e914";
+    content: "\e914";
 }
+
 .vapps-icon-app-disable:before {
-  content: "\e915";
+    content: "\e915";
 }
+
 .vapps-icon-app-disabled:before {
-  content: "\e916";
+    content: "\e916";
 }
+
 .vapps-icon-app-drop-down:before {
-  content: "\e917";
+    content: "\e917";
 }
+
 .vapps-icon-app-edit:before {
-  content: "\e918";
+    content: "\e918";
 }
+
 .vapps-icon-app-first-page:before {
-  content: "\e919";
+    content: "\e919";
 }
+
 .vapps-icon-app-home-menu:before {
-  content: "\e91a";
+    content: "\e91a";
 }
+
 .vapps-icon-app-last-page:before {
-  content: "\e91b";
+    content: "\e91b";
 }
+
 .vapps-icon-app-location:before {
-  content: "\e91c";
+    content: "\e91c";
 }
+
 .vapps-icon-app-login-code:before {
-  content: "\e91d";
+    content: "\e91d";
 }
+
 .vapps-icon-app-login-name:before {
-  content: "\e91e";
+    content: "\e91e";
 }
+
 .vapps-icon-app-login-passwd:before {
-  content: "\e91f";
+    content: "\e91f";
 }
+
 .vapps-icon-app-login-phone:before {
-  content: "\e920";
+    content: "\e920";
 }
+
 .vapps-icon-app-logo:before {
-  content: "\e921";
+    content: "\e921";
 }
+
 .vapps-icon-app-logo-text:before {
-  content: "\e922";
+    content: "\e922";
 }
+
 .vapps-icon-app-logout-menu:before {
-  content: "\e923";
+    content: "\e923";
 }
+
 .vapps-icon-app-manage:before {
-  content: "\e924";
+    content: "\e924";
 }
+
 .vapps-icon-app-menu:before {
-  content: "\e925";
+    content: "\e925";
 }
+
 .vapps-icon-app-message:before {
-  content: "\e926";
+    content: "\e926";
 }
+
 .vapps-icon-app-mode-toggle-1:before {
-  content: "\e927";
+    content: "\e927";
 }
+
 .vapps-icon-app-mode-toggle-2:before {
-  content: "\e928";
+    content: "\e928";
 }
+
 .vapps-icon-app-multitask:before {
-  content: "\e929";
+    content: "\e929";
 }
+
 .vapps-icon-app-next-page:before {
-  content: "\e92a";
+    content: "\e92a";
 }
+
 .vapps-icon-app-no-defalut:before {
-  content: "\e92b";
+    content: "\e92b";
 }
+
 .vapps-icon-app-org-center-menu:before {
-  content: "\e92c";
+    content: "\e92c";
 }
+
 .vapps-icon-app-org-info-menu:before {
-  content: "\e92d";
+    content: "\e92d";
 }
+
 .vapps-icon-app-outlet-image:before {
-  content: "\e92e";
+    content: "\e92e";
 }
+
 .vapps-icon-app-outlet-menu:before {
-  content: "\e92f";
+    content: "\e92f";
 }
+
 .vapps-icon-app-phone:before {
-  content: "\e930";
+    content: "\e930";
 }
+
 .vapps-icon-app-preview:before {
-  content: "\e931";
+    content: "\e931";
 }
+
 .vapps-icon-app-prev-page:before {
-  content: "\e932";
+    content: "\e932";
 }
+
 .vapps-icon-app-qr-code:before {
-  content: "\e933";
+    content: "\e933";
 }
+
 .vapps-icon-app-refurbish:before {
-  content: "\e934";
+    content: "\e934";
 }
+
 .vapps-icon-app-search:before {
-  content: "\e935";
+    content: "\e935";
 }
+
 .vapps-icon-app-settings-menu:before {
-  content: "\e936";
+    content: "\e936";
 }
+
 .vapps-icon-app-share:before {
-  content: "\e937";
+    content: "\e937";
 }
+
 .vapps-icon-app-share-2:before {
-  content: "\e938";
-  color: #000;
+    content: "\e938";
+    color: #000;
 }
+
 .vapps-icon-app-shop-hours:before {
-  content: "\e939";
+    content: "\e939";
 }
+
 .vapps-icon-app-submit:before {
-  content: "\e93a";
+    content: "\e93a";
 }
+
 .vapps-icon-app-upload:before {
-  content: "\e93b";
+    content: "\e93b";
 }
+
 .vapps-icon-app-user-auth:before {
-  content: "\e93c";
+    content: "\e93c";
 }
+
 .vapps-icon-app-user-center:before {
-  content: "\e93d";
+    content: "\e93d";
 }
+
 .vapps-icon-app-user-feedback:before {
-  content: "\e93e";
+    content: "\e93e";
 }
+
 .vapps-icon-app-user-logout:before {
-  content: "\e93f";
+    content: "\e93f";
 }
+
 .vapps-icon-app-user-profile:before {
-  content: "\e940";
+    content: "\e940";
 }
+
 .vapps-icon-app-user-security:before {
-  content: "\e941";
+    content: "\e941";
 }
+
 .vapps-icon-bm-menu:before {
-  content: "\e942";
+    content: "\e942";
 }
+
 .vapps-icon-cb-add-img:before {
-  content: "\e943";
+    content: "\e943";
 }
+
 .vapps-icon-cb-add-time:before {
-  content: "\e944";
+    content: "\e944";
 }
+
 .vapps-icon-cb-calendar:before {
-  content: "\e945";
+    content: "\e945";
 }
+
 .vapps-icon-cb-menu:before {
-  content: "\e946";
+    content: "\e946";
 }
+
 .vapps-icon-dc-calendar:before {
-  content: "\e947";
+    content: "\e947";
 }
+
 .vapps-icon-dc-customer-vip:before {
-  content: "\e948";
-  color: #000;
+    content: "\e948";
+    color: #000;
 }
+
 .vapps-icon-dc-menu:before {
-  content: "\e949";
+    content: "\e949";
 }
+
 .vapps-icon-download:before {
-  content: "\e94a";
+    content: "\e94a";
 }
+
 .vapps-icon-female:before {
-  content: "\e94b";
+    content: "\e94b";
 }
+
 .vapps-icon-leading-out:before {
-  content: "\e94c";
+    content: "\e94c";
 }
+
 .vapps-icon-male:before {
-  content: "\e94d";
+    content: "\e94d";
 }
+
 .vapps-icon-oi-menu:before {
-  content: "\e94e";
+    content: "\e94e";
 }
+
 .vapps-icon-print:before {
-  content: "\e94f";
+    content: "\e94f";
 }
+
 .vapps-icon-save:before {
-  content: "\e950";
+    content: "\e950";
 }
