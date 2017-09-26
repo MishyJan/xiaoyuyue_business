@@ -60,7 +60,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
     resetHeaderStyle(): void {
         $('#fixed-header').css({
-            background: 'transparent'
+            'background-image': 'none',
+            'background-color': 'transparent'
         });
 
         $('.mobile-page-content').css({
@@ -70,7 +71,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
     beforeHeaderStyle(): void {
         $('#fixed-header').css({
-            background: 'url("/assets/common/images/booking/header-bg.png") #FF9641'
+            'background-image': 'url("/assets/common/images/booking/header-bg.png")',
+            'background-color': '#FF9641'
+            
         });
 
         $('.mobile-page-content').css({
