@@ -304,6 +304,30 @@
     // 移动端
     // .booking-item-wrap {
     // margin-bottom: 10px;
+    width: 100%;
+    height: calc(100vh - 55px);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    .add-time-btn {
+        position: fixed;
+        right: 10px;
+        bottom: 60px;
+        z-index: 1;
+        .icon {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            display: inline-block;
+            border-radius: 50%;
+            background-color: #FF9641;
+            color: #FFF;
+            font-size: 18px;
+        }
+    }
     .booking-item+.booking-item {
         margin-top: 10px;
     }

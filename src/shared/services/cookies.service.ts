@@ -106,6 +106,8 @@ export class CookiesService {
             cookieValue = cookieValue + '; path=' + path;
         }
 
+        cookieValue = cookieValue + '; domain=' + this.domain;
+
         document.cookie = cookieValue;
     }
 
