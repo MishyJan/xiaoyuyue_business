@@ -41,7 +41,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
         UploadPicDirective,
-        BreadcrumbComponent
+        BreadcrumbComponent,
     ],
     exports: [
         TimeZoneComboComponent,
@@ -52,7 +52,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         TipsComponent,
         UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
-        BreadcrumbComponent
+        BreadcrumbComponent,
     ]
 })
 export class AppCommonModule {

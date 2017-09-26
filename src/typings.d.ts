@@ -118,3 +118,4 @@ interface String {
 declare var moment: any;
 declare var timeago: any;
 declare var Push: any;
+declare var wx: any;

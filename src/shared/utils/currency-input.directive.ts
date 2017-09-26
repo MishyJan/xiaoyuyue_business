@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Output, AfterViewInit, Renderer } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Output, Renderer } from '@angular/core';
 
 @Directive({ selector: '[currencyInput]' })
 export class CurrencyInputDirective implements AfterViewInit {
@@ -16,16 +16,16 @@ export class CurrencyInputDirective implements AfterViewInit {
             return;
         }
 
-        $(this._element.nativeElement).inputmask("numeric", {
-            radixPoint: ".",
-            groupSeparator: ",",
+        $(this._element.nativeElement).inputmask('numeric', {
+            radixPoint: '.',
+            groupSeparator: ',',
             digits: 2,
             autoGroup: true,
             prefix: '$ ',
             rightAlign: false,
             showMaskOnHover: false,
             showMaskOnFocus: false,
-            placeholder: "_",
+            placeholder: '_',
             removeMaskOnSubmit: true,
             autoUnmask: true,
             oncomplete: () => {
