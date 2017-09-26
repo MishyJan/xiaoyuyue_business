@@ -12,6 +12,7 @@ import { NgModule } from '@angular/core';
             {
                 path: '',
                 component: AppComponent,
+                data: { breadcrumb: 'Home' },
                 children: [
                     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
                     {
