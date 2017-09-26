@@ -1,4 +1,4 @@
-﻿import { BookingOrderListDtoStatus, ChatMessageDtoReadState, ChatMessageDtoSide, CodeSendInputCodeType, DefaultTimezoneScope, FriendDtoState, IsTenantAvailableOutputState, UserNotificationState } from '@shared/service-proxies/service-proxies';
+﻿import { BookingAccessRecordInputSource, BookingAccessRecordInputWeChatSource, BookingOrderListDtoStatus, ChatMessageDtoReadState, ChatMessageDtoSide, CodeSendInputCodeType, DefaultTimezoneScope, FriendDtoState, IsTenantAvailableOutputState, UserNotificationState } from '@shared/service-proxies/service-proxies';
 
 export class AppChatMessageReadState {
     static Unread: number = ChatMessageDtoReadState._1;
@@ -63,4 +63,50 @@ export class VerificationCodeType {
     static ChangeEmail: number = CodeSendInputCodeType._40;
     static PhoneBinding: number = CodeSendInputCodeType._50;
     static PhoneVerify: number = CodeSendInputCodeType._60;
+}
+
+
+export class BookingAccessSourceType {
+
+    static WeChat: number = BookingAccessRecordInputSource._10;
+    static WeiBo: number = BookingAccessRecordInputSource._20;
+    static QQ: number = BookingAccessRecordInputSource._30;
+    static QrCode: number = BookingAccessRecordInputSource._40;
+    static Other: number = BookingAccessRecordInputSource._50;
+
+    static getType(source: string): number {
+        switch (source) {
+            case 'WeChat':
+                return this.WeChat;
+            case 'WeiBo':
+                return this.WeiBo;
+            case 'QQ':
+                return this.QQ;
+            case 'QrCode':
+                return this.QrCode;
+            default:
+                return this.Other;
+        }
+    }
+}
+
+export class WeChatAccessSourceType {
+
+    static SingleMessage: number = BookingAccessRecordInputWeChatSource._10;
+    static GroupMessage: number = BookingAccessRecordInputWeChatSource._20;
+    static TimeLine: number = BookingAccessRecordInputWeChatSource._30;
+    static Other: number = BookingAccessRecordInputWeChatSource._40;
+
+    static getType(source: string): number {
+        switch (source) {
+            case 'SingleMessage':
+                return this.SingleMessage;
+            case 'GroupMessage':
+                return this.GroupMessage;
+            case 'TimeLine':
+                return this.TimeLine;
+            default:
+                return this.Other;
+        }
+    }
 }

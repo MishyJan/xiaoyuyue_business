@@ -1,6 +1,7 @@
 ﻿import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Breadcrumb, BreadcrumbService } from 'shared/services/bread-crumb.service';
-import { Injector, OnInit } from '@angular/core';
+import { Injector, OnInit, ViewChild } from '@angular/core';
+import { WeChatShareInputDto, WeChatShareResultDto } from 'app/shared/utils/wechat-share-timeline.input.dto';
 
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
 import { AppConsts } from '@shared/AppConsts';
@@ -14,12 +15,14 @@ import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { Permissions } from '@shared/Permissions';
 import { SettingService } from '@abp/settings/setting.service';
 import { Title } from '@angular/platform-browser';
+import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 
 export abstract class AppComponentBase {
 
     localizationSourceName = AppConsts.localization.defaultLocalizationSourceName;
     commonlocalizationSourceName = AppConsts.localization.commonLocalizationSourceName;
     permissions = Permissions;
+
     localization: LocalizationService;
     permission: PermissionCheckerService;
     feature: FeatureCheckerService;
@@ -32,6 +35,7 @@ export abstract class AppComponentBase {
     activatedRoute: ActivatedRoute;
     titleService: Title;
     breadcrumbService: BreadcrumbService;
+
     constructor(injector: Injector) {
         this.localization = injector.get(LocalizationService);
         this.permission = injector.get(PermissionCheckerService);
@@ -81,5 +85,14 @@ export abstract class AppComponentBase {
 
     omitString(str: string): string {
         return abp.utils.truncateStringWithPostfix(str, 20);
+    }
+
+    isWeiXin() {
+        const ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
