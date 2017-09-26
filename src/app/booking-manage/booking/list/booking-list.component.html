@@ -272,6 +272,9 @@
 
     <div *showItBootstrap="['xs','sm']">
         <div class="mobile-manage-booking common-container" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="infiniteScrollDistance" [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
+            <div class="add-time-btn">
+                <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
+            </div>
             <div *ngIf="allOrganizationBookingResultData.length>0">
                 <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData">
                     <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
