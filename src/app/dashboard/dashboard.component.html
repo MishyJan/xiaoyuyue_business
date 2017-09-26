@@ -11,8 +11,8 @@
             <div class="col-xs-6 text-right">
                 <div class="flatpickr btn primary-bgcolor">
                     <a class="input-button" title="{{l('SwitchTime')}}" data-toggle>
-                    <i class="vapps-icon light-bgcolor vapps-icon-dc-calendar"></i>
-                </a>
+                        <i class="vapps-icon light-bgcolor vapps-icon-dc-calendar"></i>
+                    </a>
                     <input type="text" [(ngModel)]="dateSelected" readonly data-input>
                 </div>
             </div>
@@ -170,7 +170,16 @@
         </div>
 
         <div class="content-wrap">
-            <div class="manage-center-teb-content">
+            <div [@routerTransition] *ngIf="tabToggle" class="org-center-tab-content">
+                <div class="wrap">
+                    <h4 class="title">近7天应约数统计图</h4>
+                    <div class="content">
+                        <div class="echarts" echarts [options]="forSevenDaysOptions" [loading]="showloading" theme="shine"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div [@routerTransition] *ngIf="!tabToggle" class="manage-center-tab-content">
                 <div class="card-wrap col-xs-4 col-sm-3">
                     <div class="card" routerLink="/booking/list">
                         <div class="item">
@@ -204,8 +213,15 @@
             </div>
         </div>
 
-        <div class="footer">
-
+        <div class="footer-tab">
+            <div class="item active col-xs-6" [class.active]="tabToggle" (click)="switchTabs(true)">
+                <span class="icon vapps-icon-app-home-menu"></span>
+                <p class="text">机构中心</p>
+            </div>
+            <div class="item col-xs-6" [class.active]="!tabToggle" (click)="switchTabs(false)">
+                <span class="icon vapps-icon-app-manage"></span>
+                <p class="text">管理中心</p>
+            </div>
         </div>
     </div>
 </div>
