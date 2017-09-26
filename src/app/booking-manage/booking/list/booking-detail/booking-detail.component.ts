@@ -69,7 +69,6 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
             .subscribe(result => {
                 this.outletData = result.outlet;
                 this.contactData = result.contactors;
-                console.log(this.contactData);
             })
     }
 

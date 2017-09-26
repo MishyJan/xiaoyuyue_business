@@ -29,7 +29,6 @@ export class WeChatShareTimelineService {
         const timestamp = moment().unix();
         const self = this;
         self._wechatJSService.getJsApiSignature(self.input.sourceUrl, nonceStr, timestamp).subscribe(result => {
-            console.log('注册微信分享');
             wx.config({
                 appId: result.appId,
                 timestamp: timestamp,

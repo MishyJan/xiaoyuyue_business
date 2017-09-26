@@ -248,7 +248,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
                 this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
-                console.log(this.allOrganizationBookingResultData);
 
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
