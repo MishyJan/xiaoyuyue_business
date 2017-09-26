@@ -119,3 +119,8 @@ declare var moment: any;
 declare var timeago: any;
 declare var Push: any;
 declare var wx: any;
+
+declare var radialIndicator: any;
+interface JQuery {
+    radialIndicator(...any): any;
+}

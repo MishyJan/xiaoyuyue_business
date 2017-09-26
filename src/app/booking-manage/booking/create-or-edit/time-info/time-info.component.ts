@@ -150,7 +150,6 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
             this.localSingleBookingItem.hourOfDay = allBookingTimeItem[0];
             this.localAllBookingItem.push(this.localSingleBookingItem);
             this.localSingleBookingItem = new BookingItemEditDto();
-            console.log(this.localAllBookingItem);
 
             this.changeInput.emit(this.localAllBookingItem);
             return;
@@ -174,7 +173,6 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.localSingleBookingItem.isActive = true;
         this.localSingleBookingItem.hourOfDay = allBookingTimeItem[0];
         this.timeInfo.push(this.localSingleBookingItem);
-        console.log(this.timeInfo);
 
         this.localSingleBookingItem = new BookingItemEditDto();
 

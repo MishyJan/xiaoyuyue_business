@@ -28,8 +28,6 @@ export class MobileSideBarComponent extends AppComponentBase implements OnInit {
         this._sidebarService
             .toggleSidebarFlag.subscribe(flag => {
                 this.toggleSidebarFlag = flag
-                console.log(flag);
-                
             })
     }
 
