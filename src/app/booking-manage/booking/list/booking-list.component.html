@@ -270,64 +270,65 @@
         <xiaoyuyue-booking-custom-model #bookingCustomModelComponent></xiaoyuyue-booking-custom-model>
     </div>
 
-    <div *showItBootstrap="['xs','sm']" infinite-scroll [scrollWindow]="true" [infiniteScrollDistance]="infiniteScrollDistance" [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
-        <div class="mobile-manage-booking common-container">
-            <div *ngIf="organizationBookingResultData.length>0">
-                <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
-                    <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
-                        <div class="top-wrap clearfix">
-                            <div class="title pull-left">{{bookingResultItem.name}}</div>
-                            <!-- <div class="title pull-left">{{dataItem.bookingName}} <span class="tips" [ngClass]="setTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status] }}</span></div> -->
-                            <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[index], 'rotate-360': !actionFlag[index]}">
-                                <span class="vapps-icon-app-drop-down"></span>
+    <div *showItBootstrap="['xs','sm']">
+        <div class="mobile-manage-booking common-container" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="infiniteScrollDistance" [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
+            <div class="add-time-btn">
+                <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
+            </div>
+            <div *ngIf="allOrganizationBookingResultData.length>0">
+                <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData">
+                    <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
+                        <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
+                            <div class="top-wrap clearfix">
+                                <div class="title pull-left">{{bookingResultItem.name}}</div>
+                                <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[index], 'rotate-360': !actionFlag[index]}">
+                                    <span class="vapps-icon-app-drop-down"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="content">
-                            <div class="flex-left">
-                                <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)">
-                                    <div class="wave">
-                                        <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)+'px'}"></span>
-                                        <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)-2+'px'}"></span>
+                            <div class="content">
+                                <div class="flex-left">
+                                    <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)">
+                                        <div class="wave">
+                                            <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)+'px'}"></span>
+                                            <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)-2+'px'}"></span>
+                                        </div>
+                                    </div>
+                                    <p class="booking-progress">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}}</p>
+                                </div>
+                                <div class="flex-right">
+                                    <div class="content-item">
+                                        <span class="name">所属门店 : </span>
+                                        <span class="desc">门店名称</span>
+                                    </div>
+                                    <div class="content-item">
+                                        <span class="name">预约进度 : </span>
+                                        <span class="desc">{{bookingResultItem.subBookedNum}} / {{bookingResultItem.subMaxBookingNum}}</span>
+                                    </div>
+                                    <div class="content-item">
+                                        <span class="name">应约人数 : </span>
+                                        <span class="desc">{{bookingResultItem.subBookedNum}}</span>
+                                    </div>
+                                    <div class="content-item">
+                                        <span class="name">排队人数 : </span>
+                                        <span class="desc">{{bookingResultItem.subQueueNum}}</span>
                                     </div>
                                 </div>
-                                <p class="booking-progress">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}}</p>
                             </div>
-                            <div class="flex-right">
-                                <div class="content-item">
-                                    <span class="name">所属门店 : </span>
-                                    <span class="desc">门店名称</span>
-                                </div>
-                                <div class="content-item">
-                                    <span class="name">预约进度 : </span>
-                                    <span class="desc">{{bookingResultItem.subBookedNum}} / {{bookingResultItem.subMaxBookingNum}}</span>
-                                </div>
-                                <div class="content-item">
-                                    <span class="name">应约人数 : </span>
-                                    <span class="desc">{{bookingResultItem.subBookedNum}}</span>
-                                </div>
-                                <div class="content-item">
-                                    <span class="name">排队人数 : </span>
-                                    <span class="desc">{{bookingResultItem.subQueueNum}}</span>
-                                </div>
-                            </div>
-                            <!-- <div class="stick-booking">
-                    <img src="/assets/common/images/booking/stick-booking.svg" alt="stick">
-                </div> -->
                         </div>
-                    </div>
-                    <div class="bottom-action" *ngIf="actionFlag[index]">
-                        <button class="action-item" (click)="showDetail(bookingResultItem.id)">
+                        <div class="bottom-action" *ngIf="actionFlag[index]">
+                            <button class="action-item" (click)="showDetail(bookingResultItem.id)">
                         <span class="icon vapps-icon-app-detail"></span>查看详情</button>
-                        <span class="line">|</span>
-                        <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)">
+                            <span class="line">|</span>
+                            <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)">
                         <span class="icon vapps-icon-app-cancel"></span>禁用预约</button>
-                        <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)">
+                            <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)">
                         <span class="icon vapps-icon-app-active"></span>激活预约</button>
-                        <span class="line">|</span>
-                        <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id)">
+                            <span class="line">|</span>
+                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id)">
                         <span class="icon vapps-icon-app-confirm-2"></span>待确认
                         <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
                     </button>
+                        </div>
                     </div>
                 </div>
             </div>
