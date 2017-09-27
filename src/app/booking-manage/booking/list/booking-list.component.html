@@ -125,7 +125,7 @@
                                                 <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)-2+'px'}"></span>
                                             </div>
                                         </div>
-                                        <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}}
+                                        <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}}%
                                         </div>
                                     </div>
                                     <div class="booking-info pull-right">
@@ -287,13 +287,8 @@
                             </div>
                             <div class="content">
                                 <div class="flex-left">
-                                    <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)">
-                                        <div class="wave">
-                                            <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)+'px'}"></span>
-                                            <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)-2+'px'}"></span>
-                                        </div>
+                                    <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)" [class]="'booking-overbrim indicator-container-'+bookingResultItem.id">
                                     </div>
-                                    <p class="booking-progress">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}}</p>
                                 </div>
                                 <div class="flex-right">
                                     <div class="content-item">

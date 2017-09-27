@@ -17,7 +17,7 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
     bookingStatisticalDate: string;
     chartOption: object = {};
     count = 0;
-    showloading = true;
+    showloading = false;
 
     constructor(
         injector: Injector,

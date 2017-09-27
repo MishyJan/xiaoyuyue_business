@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild, QueryList } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
@@ -119,69 +119,69 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             }
         })
 
-            this.bEndCreationTime = $('.endCreationTime').flatpickr({
-                'locale': 'zh',
-                // clickOpens: false,
-                onClose: (element) => {
-                    $(this.bEndCreationTime.input).blur();
-                }
-            })
-        }
+        this.bEndCreationTime = $('.endCreationTime').flatpickr({
+            'locale': 'zh',
+            // clickOpens: false,
+            onClose: (element) => {
+                $(this.bEndCreationTime.input).blur();
+            }
+        })
+    }
 
     // 正面翻转到背面
     flipToBack(flipAni: any, event) {
-                this._ngxAni.to(flipAni, .6, {
-                    transform: 'rotateY(180deg)',
-                    transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
-                });
-            }
+        this._ngxAni.to(flipAni, .6, {
+            transform: 'rotateY(180deg)',
+            transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
+        });
+    }
 
     // 背面翻转到正面
     flipToFront(flipAni: any, event) {
-                this._ngxAni.to(flipAni, .6, {
-                    transform: 'rotateY(0)',
-                    transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
-                });
-            }
+        this._ngxAni.to(flipAni, .6, {
+            transform: 'rotateY(0)',
+            transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
+        });
+    }
 
     // 禁用预约样式
     disabledBookingClass(index) {
-                // this._ngxAni.to(disabledAni, .6, {
-                //     // 'filter': 'grayscale(100%)'
-                // });
-                this.activeOrDisable.id = this.organizationBookingResultData[index].id;
-                this.activeOrDisable.isActive = false;
-                this._organizationBookingServiceProxy
-                    .activedOrDisableBooking(this.activeOrDisable)
-                    .subscribe(result => {
-                        this.notify.success('已关闭预约!');
-                        this.loadData();
-                    });
-            }
+        // this._ngxAni.to(disabledAni, .6, {
+        //     // 'filter': 'grayscale(100%)'
+        // });
+        this.activeOrDisable.id = this.organizationBookingResultData[index].id;
+        this.activeOrDisable.isActive = false;
+        this._organizationBookingServiceProxy
+            .activedOrDisableBooking(this.activeOrDisable)
+            .subscribe(result => {
+                this.notify.success('已关闭预约!');
+                this.loadData();
+            });
+    }
 
     // 显示禁用之前预约样式
     beforeBookingClass(index) {
-                // this._ngxAni.to(disabledAni, .6, {
-                //     'filter': 'grayscale(0)'
-                // });
-                this.activeOrDisable.id = this.organizationBookingResultData[index].id;
-                this.activeOrDisable.isActive = true;
-                this._organizationBookingServiceProxy
-                    .activedOrDisableBooking(this.activeOrDisable)
-                    .subscribe(result => {
-                        this.notify.success('已开启预约!');
-                        this.loadData();
-                    });
-            }
+        // this._ngxAni.to(disabledAni, .6, {
+        //     'filter': 'grayscale(0)'
+        // });
+        this.activeOrDisable.id = this.organizationBookingResultData[index].id;
+        this.activeOrDisable.isActive = true;
+        this._organizationBookingServiceProxy
+            .activedOrDisableBooking(this.activeOrDisable)
+            .subscribe(result => {
+                this.notify.success('已开启预约!');
+                this.loadData();
+            });
+    }
 
     // 显示待确认model
     showConfirmOrderHandler(bookingId: number): void {
-                this.ConfirmOrderModelComponent.showModel(bookingId);
-            }
+        this.ConfirmOrderModelComponent.showModel(bookingId);
+    }
 
     // 待确认model弹窗，若关闭应该刷新数据
     isShowComfirmOrderModelHandler(flag: boolean): void {
-                if(!flag) {
+        if (!flag) {
             this.loadData();
         }
     }
@@ -192,10 +192,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 获取预约完成百分比
-    public getOverbrimValue(val1, val2): string {
-        if (val1 <= 0 || val2 <= 0) { return '0%'; };
-        this.bookingOverbrimValue = Math.round(100 - val1 / (val1 + val2) * 100);
-        return this.bookingOverbrimValue + '%';
+    public getOverbrimValue(val1, val2): number {
+        if (val1 <= 0 || val2 <= 0) { return 0; };
+        this.bookingOverbrimValue = Math.round(val2 / val1 * 100);
+        return this.bookingOverbrimValue;
     }
 
     private countOverbrimTop(val1, val2): number {
@@ -248,12 +248,12 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
                 this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
-                console.log(this.allOrganizationBookingResultData);
-                
+
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
                 }
+
             });
     }
 
