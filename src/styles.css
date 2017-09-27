@@ -1278,3 +1278,11 @@ a:focus {
     margin: 0 10px 0 8px;
     -webkit-font-smoothing: antialiased;
 }
+
+
+/* 七牛上传SDK */
+
+.moxie-shim {
+    width: 100% !important;
+    height: 100% !important;
+}
