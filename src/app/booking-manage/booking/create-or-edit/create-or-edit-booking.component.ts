@@ -206,11 +206,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         // 判断是否有添加新的时间信息
         this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
         // 判断是否上传过图片
-        if (this.allPictureForEdit) {
-            this.input.bookingPictures = this.allPictureForEdit;
-        } else {
-            this.input.bookingPictures = this.pictureInfo;
-        }
+        this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
 
         if (this.isMobile()) {
             if (this.bookingBaseInfoForm.invalid) {
@@ -306,6 +302,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             })
         }
     }
+
+    removeBookingPic(picIndex: number): void {
+        this.pictureInfo.splice(picIndex, 1);
+        console.log(this.pictureInfo);
+        
+    }
+
     nextStep(): void {
         this.staticTabs.tabs[this.nextIndex].active = true;
     }
