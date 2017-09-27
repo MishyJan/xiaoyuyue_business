@@ -90,7 +90,7 @@
                 <div class="rotating">
                     <div class="front" *ngIf="!filpActive">
                         <div class="card">
-                            <div class="avatar-wrap">
+                            <div class="avatar-wrap form-group">
                                 <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#orgLogoUploadArea'" [groupId]="1">
                                     <div class="img" id="orgLogoUploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>
                                 </div>
