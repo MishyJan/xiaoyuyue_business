@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild, QueryList } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
@@ -33,8 +33,8 @@ import { element } from 'protractor';
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     allOrganizationBookingResultData: any[] = [];
 
-    infiniteScrollDistance: number = 2;
-    infiniteScrollThrottle: number = 300;
+    infiniteScrollDistance = 2;
+    infiniteScrollThrottle = 300;
 
     actionFlag: boolean[] = [];
     bEndCreationTime: any;
@@ -66,6 +66,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     sorting: string;
     totalItems = 0;
     currentPage = 0;
+    slogan = '啥都没有，赶紧去创建预约吧';
 
     shareBaseUrl: string = AppConsts.shareBaseUrl + '/booking/';
     @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
@@ -247,7 +248,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 const self = this;
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
-                this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
+
+                if (this.organizationBookingResultData.length > 0) {
+                    this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
+                }
 
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');

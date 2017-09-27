@@ -9,7 +9,9 @@ import { BreadcrumbComponent } from './bread-crumb/breadcrumb.component';
 import { CommonModule } from '@shared/common/common.module';
 import { DatePickerComponent } from './timing/date-picker.component';
 import { DateRangePickerComponent } from './timing/date-range-picker.component';
+import { EmptyPageComponent } from 'app/shared/common/empty-page/empty-page.component';
 import { FormsModule } from '@angular/forms';
+import { IndicatorDirective } from './indicator/indicator.directive';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -20,7 +22,6 @@ import { UploadPicDirective } from './upload-picture/upload-pic.directive';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
-import { IndicatorDirective } from './indicator/indicator.directive';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { IndicatorDirective } from './indicator/indicator.directive';
         UploadPictureNoneGalleryComponent,
         UploadPicDirective,
         BreadcrumbComponent,
-        IndicatorDirective
+        IndicatorDirective,
+        EmptyPageComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -55,7 +57,8 @@ import { IndicatorDirective } from './indicator/indicator.directive';
         UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
         BreadcrumbComponent,
-        IndicatorDirective
+        IndicatorDirective,
+        EmptyPageComponent
     ]
 })
 export class AppCommonModule {

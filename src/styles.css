@@ -1153,6 +1153,14 @@ fieldset[disabled] .form-group .form-control {
     border-bottom: 1px solid #D2D2D2;
 }
 
+.empty-wrap {
+    margin-top: 40px;
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
+
 @media (max-width: 767px) {
     /* 767px */
     .navbar-nav .open .dropdown-menu {
@@ -1171,6 +1179,13 @@ fieldset[disabled] .form-group .form-control {
     .navbar-nav .open .dropdown-menu>li>a:hover,
     .navbar-nav .open .dropdown-menu>li>a:active {
         background-color: #eee;
+    }
+    .empty-wrap {
+        margin-top: 0px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
 

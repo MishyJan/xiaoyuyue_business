@@ -60,6 +60,13 @@
     }
     /* 移动端样式 */
     &.mobile {
+        width: 100%;
+        height: calc(100vh - 55px);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
         .add-outlet-btn {
             position: fixed;
             right: 10px;
