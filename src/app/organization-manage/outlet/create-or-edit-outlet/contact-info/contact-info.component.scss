@@ -103,6 +103,10 @@
 }
 
 .mobile-contact-info {
+    margin-bottom: 40px;
+    .card {
+        margin-bottom: 0px;
+    } // padding: 15px;
     .card-content {
         padding: 15px 20px 0px;
     }
