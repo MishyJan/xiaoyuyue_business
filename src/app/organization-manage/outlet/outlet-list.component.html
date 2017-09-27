@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
+            <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets.length>0; else empty">
                 <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }">
                     <div class="item box-shadow">
                         <div class="top-wrap box-shadow" [ngStyle]="{'background-image': 'url(' + getOutletBgUrl(outletItem.pictureUrl) + ')'}">
@@ -60,7 +60,8 @@
                         <div class="content-wrap">
                             <div class="content-item clearfix">
                                 <span class="flex-right" [title]="outletItem.name">{{ outletItem.name }}</span>
-                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)" title="{{l('Edit')}}"></span>
+                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)"
+                                    title="{{l('Edit')}}"></span>
                             </div>
 
                             <div class="content-item clearfix">
@@ -92,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-12 pagination-wrap" *ngIf="allOutlets">
+            <div class="col-lg-12 pagination-wrap" *ngIf="allOutlets.length>0">
                 <div class="pull-right">
                     <div class="has-text-centered">
                         <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
@@ -109,7 +110,7 @@
             <span class="icon vapps-icon-cb-add-time" routerLink="/outlet/create"></span>
         </div>
         <div class="row">
-            <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets">
+            <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets.length>0; else empty">
                 <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets">
                     <div class="item box-shadow">
                         <div class="top-wrap box-shadow" [ngStyle]="{'background-image': 'url(' + getOutletBgUrl(outletItem.pictureUrl) + ')'}">
@@ -117,7 +118,8 @@
                         <div class="content-wrap">
                             <div class="content-item clearfix">
                                 <span class="flex-right outlet-name" [title]="outletItem.name">{{ outletItem.name }}</span>
-                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)" title="{{l('Edit')}}"></span>
+                                <span class="vapps-icon-app-edit flex-left orange-icon" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="editHandler(outletItem.id)"
+                                    title="{{l('Edit')}}"></span>
                             </div>
 
                             <div class="content-item clearfix">
@@ -152,3 +154,7 @@
         </div>
     </div>
 </div>
+
+<ng-template #empty>
+    <xiaoyuyue-empty-page [text]="slogan"></xiaoyuyue-empty-page>
+</ng-template>

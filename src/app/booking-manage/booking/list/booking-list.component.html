@@ -48,7 +48,8 @@
                                                     <div class="form-group label-floating is-empty">
                                                         <label class="control-label"></label>
                                                         <div class="flatpickr-wrap">
-                                                            <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}" [(ngModel)]="startCreationTime" data-input>
+                                                            <input class="form-control startCreationTime" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
+                                                                [(ngModel)]="startCreationTime" data-input>
                                                             <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                                 <i class="vapps-icon-dc-calendar"></i>
                                                             </a>
@@ -59,7 +60,8 @@
                                                     <div class="form-group label-floating is-empty">
                                                         <label class="control-label"></label>
                                                         <div class="flatpickr-wrap">
-                                                            <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}" [(ngModel)]="endCreationTime" data-input>
+                                                            <input class="form-control endCreationTime" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
+                                                                [(ngModel)]="endCreationTime" data-input>
                                                             <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                                 <i class="vapps-icon-dc-calendar"></i>
                                                             </a>
@@ -76,7 +78,8 @@
                                             <div class="col-md-9">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
-                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,7 +91,8 @@
                                             <div class="col-md-9">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
-                                                    <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                    <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'"
+                                                        [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,9 +111,10 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12 booking-list-wrap" *ngIf="organizationBookingResultData">
+                <div class="col-lg-12 booking-list-wrap" *ngIf="organizationBookingResultData.length>0; else empty">
                     <!-- 翻转最外层，包含翻转前front-wrap / 翻转后back-wrap -->
-                    <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems };let index = index" class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
+                    <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems };let index = index"
+                        class="col-lg-3 col-md-4 col-sm-4 booking-item flip" #flipAni>
                         <!--翻转前-->
                         <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                             <div class="top-banner-wrap">
@@ -187,12 +192,14 @@
                                         </span>
                                     </div>
                                     <div class="handle-item-2 pull-right">
-                                        <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingResultItem.id)" title="{{l('Booking.Edit')}}">
+                                        <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingResultItem.id)"
+                                            title="{{l('Booking.Edit')}}">
                                             <span class="show-icon vapps-icon-app-edit"></span>
                                         <span class="show-text">{{l('Edit')}}</span>
                                         </span>
 
-                                        <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingCopy)" (click)="flipToBack(flipAni, $event)" title="{{l('Booking.Detail')}}">
+                                        <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingCopy)" (click)="flipToBack(flipAni, $event)"
+                                            title="{{l('Booking.Detail')}}">
                                             <span class="show-icon vapps-icon-app-detail"></span>
                                         <span class="show-text">{{l('Detail')}}</span>
                                         </span>
@@ -256,7 +263,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12" *ngIf="organizationBookingResultData">
+                <div class="col-lg-12" *ngIf="organizationBookingResultData.length>0">
                     <div class="pull-right">
                         <div class="has-text-centered">
                             <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
@@ -271,11 +278,12 @@
     </div>
 
     <div *showItBootstrap="['xs','sm']">
-        <div class="mobile-manage-booking common-container" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="infiniteScrollDistance" [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
+        <div class="mobile-manage-booking common-container" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="infiniteScrollDistance"
+            [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
             <div class="add-time-btn">
                 <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
             </div>
-            <div *ngIf="allOrganizationBookingResultData.length>0">
+            <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
                 <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData">
                     <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
                         <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
@@ -287,7 +295,8 @@
                             </div>
                             <div class="content">
                                 <div class="flex-left">
-                                    <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)" [class]="'booking-overbrim indicator-container-'+bookingResultItem.id">
+                                    <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)"
+                                        [class]="'booking-overbrim indicator-container-'+bookingResultItem.id">
                                     </div>
                                 </div>
                                 <div class="flex-right">
@@ -319,7 +328,8 @@
                             <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)">
                         <span class="icon vapps-icon-app-active"></span>激活预约</button>
                             <span class="line">|</span>
-                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id)">
+                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0"
+                                (click)="showMobileConfirmOrderModel(bookingResultItem.id)">
                         <span class="icon vapps-icon-app-confirm-2"></span>待确认
                         <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
                     </button>
@@ -331,5 +341,10 @@
         </div>
         <xiaoyuyue-mobile-confirm-order-model #mobileConfirmOrderModel (batchConfirmStateHanlder)="batchConfirmStateHanlder($event)"></xiaoyuyue-mobile-confirm-order-model>
         <!-- <xiaoyuyue-mobile-share-booking-model #mobileShareBookingModel></xiaoyuyue-mobile-share-booking-model> -->
+
     </div>
 </div>
+
+<ng-template #empty>
+    <xiaoyuyue-empty-page [text]="slogan"></xiaoyuyue-empty-page>
+</ng-template>
