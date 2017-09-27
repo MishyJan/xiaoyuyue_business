@@ -29,8 +29,6 @@ export class UploadPicDirective implements AfterViewInit {
     ngAfterViewInit(): void {
         this._$uploadPicWrap = $(this._element.nativeElement);
         this._$browseButtonEle = this._$uploadPicWrap.find(this.browseButtonEle);
-
-
         this.initFileUploader();
     }
 

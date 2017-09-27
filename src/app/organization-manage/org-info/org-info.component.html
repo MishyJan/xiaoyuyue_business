@@ -91,12 +91,11 @@
                     <div class="front" *ngIf="!filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
-                                <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#uploadArea'" [groupId]="1">
-                                    <div class="img" id="uploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>
+                                <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#orgLogoUploadArea'" [groupId]="1">
+                                    <div class="img" id="orgLogoUploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>
                                 </div>
-                                <!-- <div class="img" *ngIf="localPictureUrl" id="uploadArea" [ngStyle]="{'background-image': 'url(' + localPictureUrl + ')'}"></div> -->
-                                <span class="vapps-icon vapps-icon-cb-add-img" *ngIf="!sendOrgLogoInfo.pictureUrl"></span>
-
+                                <div class="bg-cover"></div>
+                                <span class="vapps-icon vapps-icon-cb-add-img"></span>
                             </div>
                             <div class="card-content">
                                 <div class="row">
@@ -123,6 +122,21 @@
                                             <label class="control-label">机构简介</label>
                                             <textarea name="backOrgDescription" class="form-control" [(ngModel)]="input.description" rows="4"></textarea>
                                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="org-bg-wrap col-xs-12">
+                                        <div class="form-group">
+                                            <p class="control-label">机构背景图</p>
+                                            <div class="img-wrap" UploadPicture (picUploadInfoHandler)="getOrgBgUploadHandler($event)" [browseButtonEle]="'#orgBgUploadArea'" [groupId]="1">
+                                                <div class="img" id="orgBgUploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgBgInfo.pictureUrl + ')'}"></div>
+                                                <div class="bg-cover"></div>
+                                                <div class="upload-tips">
+                                                    <span class="vapps-icon vapps-icon-cb-add-img"></span>
+                                                    <!-- <p class="text">点击上传机构背景图</p> -->
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +182,16 @@
                                         <div class="form-group label-floating is-focused">
                                             <label class="control-label">机构简介</label>
                                             <textarea name="backOrgDescription" class="form-control" rows="4" [(ngModel)]="input.description" readonly disabled></textarea>
-                                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="org-bg-wrap col-xs-12">
+                                        <div class="form-group">
+                                            <p class="control-label">机构背景图</p>
+                                            <div class="img-wrap">
+                                                <div class="img" [ngStyle]="{'background-image': 'url(' + sendOrgBgInfo.pictureUrl + ')'}"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
