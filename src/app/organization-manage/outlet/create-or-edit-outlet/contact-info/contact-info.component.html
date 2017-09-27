@@ -117,7 +117,7 @@
             <!-- 创建时间段 -->
             <div style="width: 100%;" *ngIf="isCreateContact" class="clearfix">
                 <div class="card">
-                    <div class="col-md-4 contact-info-wrap paddingTop-32">
+                    <div class="contact-info-wrap paddingTop-32">
                         <div class="contact-item clearfix">
                             <div class="col-md-8 row input-box">
                                 <div class="col-md-12">
@@ -171,7 +171,7 @@
         <!-- 创建状态的展示段 -->
         <!-- 本地数据 -->
         <div *ngIf="!isLocalOrOnline; else hasOnline" class="row">
-            <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
+            <div *ngFor="let contactItem of localAllContact, let index = index">
                 <div class="card">
                     <div class="card-content">
                         <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}"
