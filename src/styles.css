@@ -225,7 +225,7 @@ textarea {
 }
 
 .k-dropdown-wrap .k-input {
-    padding: 0;
+    /* padding: 0; */
     height: auto;
 }
 

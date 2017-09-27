@@ -145,9 +145,11 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             //         saveAsImage: {}
             //     }
             // },
+            color: ['#FF9641'],
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
+                minInterval: 1,
                 data: (() => {
                     const res = [];
                     if (this.currentlyBookingData.length > 0) {
@@ -159,13 +161,17 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
                 })()
             },
             yAxis: {
-                type: 'value'
+                type: 'value',
+                splitLine: {
+                    show: false
+                }
             },
             series: [
                 {
                     name:'近七天统计量',
                     type:'line',
                     stack: '统计量',
+                    smooth: true,
                     data: (() => {
                         const res = [];
                         if (this.currentlyBookingData.length > 0) {
