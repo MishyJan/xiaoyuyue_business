@@ -321,12 +321,12 @@
                         </div>
                         <div class="bottom-action" *ngIf="actionFlag[index]">
                             <button class="action-item" (click)="showDetail(bookingResultItem.id)">
-                        <span class="icon vapps-icon-app-detail"></span>查看详情</button>
+                            <span class="icon vapps-icon-app-detail"></span>查看详情</button>
                             <span class="line">|</span>
                             <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)">
-                        <span class="icon vapps-icon-app-cancel"></span>禁用预约</button>
+                            <span class="icon vapps-icon-app-cancel"></span>禁用预约</button>
                             <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)">
-                        <span class="icon vapps-icon-app-active"></span>激活预约</button>
+                            <span class="icon vapps-icon-app-active"></span>激活预约</button>
                             <span class="line">|</span>
                             <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0"
                                 (click)="showMobileConfirmOrderModel(bookingResultItem.id)">

@@ -484,8 +484,7 @@
                 .icon {
                     display: inline-block;
                     margin-right: 6px;
-                    color: #FF9641;
-                    vertical-align: text-bottom;
+                    color: #FF9641; // transform: translateY(-1px);
                 }
                 a {
                     color: #333;

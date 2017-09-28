@@ -18,6 +18,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     mobileDateSelected: string;
     tenantBaseInfoData: TenantInfoEditDto;
     dataStatistics: BusCenterDataStatisticsDto;
+    bookingData: BookingDataStatisticsDto;
     dateSelected: string;
     dateFlatpickr;
     showloading = true;
@@ -88,12 +89,19 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     loadData(): void {
         if (this.isMobile()) {
             this.dateSelected = this.mobileDateSelected;
+            this._bookingDataStatisticsServiceProxy
+                .getBookingData(this.dateSelected)
+                .subscribe((result) => {
+                    this.bookingData = result;
+                });
+        } else {
+            this._bookingDataStatisticsServiceProxy
+                .getBusCenterDataStatistics(this.dateSelected)
+                .subscribe((result) => {
+                    this.dataStatistics = result;
+                    this.bookingData = result.bookingData;
+                });
         }
-        this._bookingDataStatisticsServiceProxy
-            .getBusCenterDataStatistics(this.dateSelected)
-            .subscribe((result) => {
-                this.dataStatistics = result;
-            });
     }
 
     getTenantInfo(): void {
@@ -134,9 +142,10 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
                 data: []
             },
             grid: {
+                top: '5%',
                 left: '3%',
-                right: '4%',
-                bottom: '20%',
+                right: '8%',
+                bottom: '5%',
                 containLabel: true
             },
             // toolbox: {
@@ -149,6 +158,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
                 type: 'category',
                 boundaryGap: false,
                 minInterval: 1,
+                nameTextStyle: {
+                    align: 'center'
+                },
                 data: (() => {
                     const res = [];
                     if (this.currentlyBookingData.length > 0) {
@@ -161,9 +173,10 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             },
             yAxis: {
                 type: 'value',
+                minInterval: 1,
                 splitLine: {
                     show: false
-                }
+                },
             },
             series: [
                 {

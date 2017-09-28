@@ -6,13 +6,15 @@
     RouterStateSnapshot
 } from '@angular/router';
 
+import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AdminPermissions } from '@shared/AdminPermissions';
+import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
+import { AppConsts } from 'shared/AppConsts';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { Injectable } from '@angular/core';
 import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
-import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
-import { AbpSessionService } from '@abp/session/abp-session.service';
+import { element } from 'protractor';
 
 @Injectable()
 export class AppRouteGuard implements CanActivate, CanActivateChild {
@@ -27,7 +29,12 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         if (!this._sessionService.user) {
             UrlHelper.redirectUrl = location.href;
-            this._router.navigate(['/auth/login']);
+
+            if (this.isWeiXin()) {
+                location.href = AppConsts.shareBaseUrl + '/auth/login';
+            } else {
+                this._router.navigate(['/auth/login']);
+            }
             return false;
         }
 
@@ -49,7 +56,11 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
 
     selectBestRoute(): string {
         if (!this._sessionService.user) {
-            return '/auth/login';
+            if (this.isWeiXin()) {
+                location.href = AppConsts.shareBaseUrl + '/auth/login';
+            } else {
+                this._router.navigate(['/auth/login']);
+            }
         } else if (!this._sessionService.tenantId) {
             return '/auth/supply-register';
         }
@@ -59,5 +70,14 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
         }
 
         return '/auth/login';
+    }
+
+    isWeiXin() {
+        const ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
