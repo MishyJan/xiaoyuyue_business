@@ -89,13 +89,12 @@
             }
         }
     }
+    .pic-upload-title {
+        margin-top: 20px;
+    }
     .upload-pic-wrap {
         .upload-area {
-            width: 70px;
-            height: 70px;
             border: 1px dashed #CCC;
-            background-size: cover;
-            background-position: center;
         }
         .img-wrap {
             .img {
@@ -128,6 +127,23 @@
                         text-align: center;
                         background-size: cover;
                         background-position: center;
+                        .triangle {
+                            position: absolute;
+                            top: -5px;
+                            right: -22px;
+                            width: 0;
+                            height: 0;
+                            border-right: 34px solid transparent;
+                            border-bottom: 34px solid rgba(0, 0, 0, 0.51);
+                            border-left: 34px solid transparent;
+                            transform: rotate(45deg);
+                            .close-icon {
+                                font-size: 14px;
+                                color: #FFF;
+                                display: inline-block;
+                                transform: translate(-6px,6px);
+                            }
+                        }
                     }
                 }
             }

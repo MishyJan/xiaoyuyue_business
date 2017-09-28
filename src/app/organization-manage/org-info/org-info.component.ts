@@ -174,4 +174,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
         this.sendOrgLogoInfo.pictureUrl = picInfo.pictureUrl;
         this.uploaded = true;
     }
+
+    // 获取上传logo图片信息
+    getOrgBgUploadHandler(picInfo: UploadPictureDto): void {
+        this.sendOrgBgInfo.pictureId = picInfo.pictureId;
+        this.sendOrgBgInfo.pictureUrl = picInfo.pictureUrl;
+    }
 }

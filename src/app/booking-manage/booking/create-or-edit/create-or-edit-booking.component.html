@@ -225,13 +225,22 @@
 
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <p>{{l('PictureUpload')}}</p>
-                                    <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#uploadArea'" [groupId]="1" [dropEle]="" [containerEle]="">
-                                        <div id="uploadArea" class="upload-area"></div>
+                                    <p class="pic-upload-title">{{l('PictureUpload')}}</p>
+                                    <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#bookingUploadArea'" [groupId]="1" [dropEle]="" [containerEle]="">
+                                        <!-- <div id="uploadArea" class="upload-area"></div> -->
                                         <div class="img-wrap">
-                                            <div class="img col-xs-3 col-sm-3" *ngFor="let pictureItem of pictureInfo">
+                                            <div class="img col-xs-3 col-sm-3">
                                                 <div class="item">
-                                                    <div class="content" [ngStyle]="{'background-image': 'url(' + pictureItem.pictureUrl + ')'}"></div>
+                                                    <div id="bookingUploadArea" class="content upload-area"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="img-wrap">
+                                            <div class="img col-xs-3 col-sm-3" *ngFor="let pictureItem of pictureInfo; let picIndex = index;">
+                                                <div class="item">
+                                                    <div class="content" [ngStyle]="{'background-image': 'url(' + pictureItem.pictureUrl + ')'}">
+                                                        <span class="triangle" (click)="removeBookingPic(picIndex)"><span class="close-icon vapps-icon-cb-add-img"></span></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -229,14 +229,20 @@
         <div class="top-action-wrap row">
             <div class="flex-right">
                 <div class="col-xs-6">
-                    <div class="item">
-                        <kendo-dropdownlist [data]="availableDatesSelectListData" (valueChange)="bookingDateChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
+                    <div class="item clearfix">
+                        <span class="pull-left">日期</span>
+                        <span class="select pull-right">
+                            <kendo-dropdownlist [data]="availableDatesSelectListData" (valueChange)="bookingDateChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
+                        </span>
                     </div>
                 </div>
 
                 <div class="col-xs-6">
-                    <div class="item">
-                        <kendo-dropdownlist [data]="availableTimesSelectListData" (valueChange)="bookingTimeChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
+                    <div class="item clearfix">
+                        <span class="pull-left">时间</span>
+                        <span class="select pull-right">
+                            <kendo-dropdownlist [data]="availableTimesSelectListData" (valueChange)="bookingTimeChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
+                        </span>
                     </div>
                 </div>
             </div>

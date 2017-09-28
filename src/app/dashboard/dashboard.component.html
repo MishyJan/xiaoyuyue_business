@@ -147,19 +147,19 @@
 
                     <div class="bottom" *ngIf="dataStatistics">
                         <div class="flex-item">
-                            <p>{{ dataStatistics.bookingData.history.pv }}</p>
+                            <p class="amount">{{ dataStatistics.bookingData.history.pv }}</p>
                             <p>昨日访问量</p>
                         </div>
                         <div class="flex-item">
-                            <p>{{ dataStatistics.bookingData.history.uv }}</p>
+                            <p class="amount">{{ dataStatistics.bookingData.history.uv }}</p>
                             <p>首次访问</p>
                         </div>
                         <div class="flex-item">
-                            <p>{{ dataStatistics.bookingData.history.bookingNum }}</p>
+                            <p class="amount">{{ dataStatistics.bookingData.history.bookingNum }}</p>
                             <p>昨日预约量</p>
                         </div>
                         <div class="flex-item">
-                            <p>{{ dataStatistics.bookingData.today.waitConfirmNum }}</p>
+                            <p class="amount">{{ dataStatistics.bookingData.today.waitConfirmNum }}</p>
                             <p>待确认</p>
                         </div>
                     </div>
