@@ -1,0 +1,51 @@
+<div class="passwd-wrap">
+    <div [@routerTransition]>
+        <div class="card">
+            <form #changePwFrom="ngForm">
+                <div class="card-header card-header-text" data-background-color="orange">
+                    <span class="title-icon vapps-icon-app-login-passwd"></span>
+                </div>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">原密码</label>
+                                <input type="password" class="form-control" name="currentPassword" [(ngModel)]="input.currentPassword" required>
+                                <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">新密码</label>
+                                <input type="password" class="form-control" name="currenPasswd" name="newPassword" [(ngModel)]="input.newPassword" required>
+                                <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">确认密码</label>
+                                <input type="password" class="form-control" name="repeatPasswd" [(ngModel)]="input.repeatPasswd">
+                                <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- <div class="col-xs-6">
+                                <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
+                            </div> -->
+                        <div class="col-xs-12">
+                            <button class="btn btn-block btn-warning" type="submit" (click)="save()">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,5 @@
 import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 
-import { AccountSecurityComponent } from './account-security/account-security.component';
 import { AppComponent } from './app.component';
 import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
 import { FeedbackComponent } from './feedback/feedback.component';
@@ -21,8 +20,8 @@ import { NgModule } from '@angular/core';
                         data: { preload: true }
                     },
                     {
-                        path: 'security',
-                        loadChildren: 'app/account-security/account-security.module#AccountSecurityModule', // Lazy load main module
+                        path: 'settings',
+                        loadChildren: 'app/account-settings/account-settings.module#AccountSecurityModule', // Lazy load main module
                         data: { preload: true }
                     },
                     {

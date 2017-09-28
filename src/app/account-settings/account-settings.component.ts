@@ -5,9 +5,9 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { ChangePasswdModelComponent } from './change-passwd-model/change-passwd-model.component';
 
 @Component({
-    selector: 'xiaoyuyue-acount-security',
-    templateUrl: './account-security.component.html',
-    styleUrls: ['./account-security.component.scss'],
+    selector: 'xiaoyuyue-acount-settings',
+    templateUrl: './account-settings.component.html',
+    styleUrls: ['./account-settings.component.scss'],
     animations: [accountModuleAnimation()]
 })
 export class AccountSecurityComponent extends AppComponentBase implements OnInit {

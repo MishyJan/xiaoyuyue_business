@@ -32,6 +32,8 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
 
     hide(): void {
         this.changePasswdModel.hide();
+        this.input = new RepeatPasswdDto();
+        
     }
 
     changePasswd(): void {
