@@ -225,7 +225,7 @@ textarea {
 }
 
 .k-dropdown-wrap .k-input {
-    padding: 0;
+    /* padding: 0; */
     height: auto;
 }
 
@@ -1159,6 +1159,10 @@ fieldset[disabled] .form-group .form-control {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); */
+}
+
+.hidden {
+    display: none;
 }
 
 @media (max-width: 767px) {

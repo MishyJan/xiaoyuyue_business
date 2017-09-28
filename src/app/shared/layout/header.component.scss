@@ -16,13 +16,6 @@
             }
         }
     }
-    .back-icon {
-        margin-top: 20px;
-        margin-left: 10px;
-        font-size: 32px;
-        color: #FFF;
-        cursor: pointer;
-    }
     .page-top {
         .create-bespeak {
             width: 130px;
@@ -66,6 +59,15 @@
     }
 }
 
+#fixed-header {
+    .back-icon {
+        margin-left: -14px;
+    }
+    .menu-icon {
+        margin-right: -14px;
+    }
+}
+
 @media (max-width: 768px) {
     #fixed-header {
         position: relative;
@@ -87,7 +89,6 @@
             .menu-icon {
                 padding: 14px;
                 margin-top: 6px;
-                margin-right: -14px;
                 font-size: 16px;
                 color: #FFF;
             }

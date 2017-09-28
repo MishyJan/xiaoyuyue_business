@@ -18,10 +18,12 @@ import { RootRoutingModule } from './root-routing.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { ServicesModule } from 'shared/services/services.module';
 import { UrlHelper } from './shared/helpers/UrlHelper';
+import { appLoadingBusy } from './shared/animations/loadingTransition';
 
 export function appInitializerFactory(injector: Injector) {
     return () => {
-        abp.ui.setBusy();
+        // abp.ui.setBusy();
+        appLoadingBusy.setBusy();
         handleLogoutRequest(injector.get(AppAuthService));
         return new Promise<boolean>((resolve, reject) => {
             AppPreBootstrap.run(() => {
@@ -36,11 +38,13 @@ export function appInitializerFactory(injector: Injector) {
                             $('body').attr('class', 'page-md login');
                         }
 
-                        abp.ui.clearBusy();
+                        // abp.ui.clearBusy();
+                        appLoadingBusy.clearBusy();
                         resolve(result);
                     },
                     (err) => {
-                        abp.ui.clearBusy();
+                        // abp.ui.clearBusy();
+                        appLoadingBusy.clearBusy();
                         reject(err);
                     }
                 );
