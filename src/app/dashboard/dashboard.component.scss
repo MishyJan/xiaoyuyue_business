@@ -192,10 +192,10 @@
         }
     }
     .content-wrap {
-        height: calc(100vh - 210px);
-        padding-bottom: 50px;
+        height: calc(100vh - 220px);
+        padding-bottom: 60px;
         .manage-center-tab-content {
-            height: calc(100vh - 260px);
+            height: calc(100vh - 270px);
             .card-wrap {
                 // display: inline-block;
                 float: left; // width: calc(100% / 3);
@@ -240,7 +240,7 @@
             }
         }
         .org-center-tab-content {
-            height: calc(100vh - 260px);
+            height: calc(100vh - 270px);
             padding: 10px;
             .wrap {
                 height: 100%;
@@ -264,7 +264,7 @@
     }
     .footer-tab {
         width: 100vw;
-        height: 50px;
+        height: 60px;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -278,13 +278,14 @@
         }
         .item {
             height: 100%;
+            margin-bottom: 10px;
             &.active {
                 color: #FF9641;
             }
             .icon {
                 font-size: 22px;
                 display: inline-block;
-                margin-top: 4px;
+                margin-top: 10px;
             }
             .text {
                 font-size: 14px;
