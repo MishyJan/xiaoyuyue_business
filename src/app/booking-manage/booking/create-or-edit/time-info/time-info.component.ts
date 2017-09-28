@@ -184,7 +184,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     createTimeField() {
         // 点击创建按钮时，创建面板的内容应置空
         this.localSingleBookingItem = new BookingItemEditDto();
-
+        this.initFormValidation();
         this.initFlatpickr(undefined);
 
         // 表示时间信息表单有新增，需要再次验证，传递给父组件为false
@@ -252,6 +252,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.localSingleBookingItem.maxQueueNum = temp.maxQueueNum;
         this.localSingleBookingItem.availableDates = temp.availableDates;
         this.localSingleBookingItem.hourOfDay = temp.hourOfDay;
+        this.initFormValidation()
         this.removeBookingItem(index);
 
     }
