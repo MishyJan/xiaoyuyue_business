@@ -9,7 +9,7 @@
     width: 100%;
     max-width: 480px;
     min-height: 100vh;
-    margin: 0 auto;
+    margin: 20px auto;
     .rotating {
         width: 100%;
         max-width: 480px;
@@ -105,5 +105,8 @@
     }
     .op-btn {
         margin-top: 10px;
+    }
+    .org-info-title {
+        font-size: 12px;
     }
 }

@@ -15,7 +15,8 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving"
+                        [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                     <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"><i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -129,7 +130,8 @@
                                     <div class="org-bg-wrap col-xs-12">
                                         <div class="form-group">
                                             <p class="control-label">机构背景图</p>
-                                            <div class="img-wrap" UploadPicture (picUploadInfoHandler)="getOrgBgUploadHandler($event)" [browseButtonEle]="'#orgBgUploadArea'" [groupId]="1">
+                                            <div class="img-wrap" UploadPicture (picUploadInfoHandler)="getOrgBgUploadHandler($event)" [browseButtonEle]="'#orgBgUploadArea'"
+                                                [groupId]="1">
                                                 <div class="img" id="orgBgUploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgBgInfo.pictureUrl + ')'}"></div>
                                                 <div class="bg-cover"></div>
                                                 <div class="upload-tips">
@@ -188,7 +190,7 @@
                                 <div class="row">
                                     <div class="org-bg-wrap col-xs-12">
                                         <div class="form-group">
-                                            <p class="control-label">机构背景图</p>
+                                            <p class="control-label org-info-title">机构背景图</p>
                                             <div class="img-wrap">
                                                 <div class="img" [ngStyle]="{'background-image': 'url(' + sendOrgBgInfo.pictureUrl + ')'}"></div>
                                             </div>
