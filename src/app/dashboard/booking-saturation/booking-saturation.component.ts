@@ -59,9 +59,11 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
             return this._outletServiceServiceProxy.getOutletSelectList()
         }).then(result => {
             // 添加请选择数据源
-            this.outletDefaultListItem = result[0].value;
-            this.outletSelectListData = result;
-            this.loadData();
+            if (result.length > 0) {
+                this.outletDefaultListItem = result[0].value;
+                this.outletSelectListData = result;
+                this.loadData();
+            }
         });
     }
 

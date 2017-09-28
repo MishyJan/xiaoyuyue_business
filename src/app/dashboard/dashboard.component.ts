@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, TenantInfoEditDto, TenantInfoServiceProxy, CurrentlyBookingDataDto } from 'shared/service-proxies/service-proxies';
+import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, CurrentlyBookingDataDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
@@ -14,7 +14,7 @@ import { appModuleAnimation } from 'shared/animations/routerTransition';
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     currentlyBookingData: CurrentlyBookingDataDto[] = [];
     forSevenDaysOptions: object = {};
-    tabToggle: boolean = true;
+    tabToggle = true;
     mobileDateSelected: string;
     tenantBaseInfoData: TenantInfoEditDto;
     dataStatistics: BusCenterDataStatisticsDto;
@@ -71,19 +71,18 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
         $('.mobile-page-content').css({
             top: 0
-        })
+        });
     }
 
     beforeHeaderStyle(): void {
         $('#fixed-header').css({
             'background-image': 'url("/assets/common/images/booking/header-bg.png")',
             'background-color': '#FF9641'
-            
         });
 
         $('.mobile-page-content').css({
             top: '55px'
-        })
+        });
     }
 
     loadData(): void {
@@ -114,12 +113,12 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     getCurrentlyBookingData(): void {
         this.showloading = true;
         this._bookingDataStatisticsServiceProxy
-        .getCurrentlyBookingData()
-        .finally( () => { this.showloading = false; })
-        .subscribe( result => {
-            this.currentlyBookingData = result;
-            this.initForSevenDaysEcharts();
-        })
+            .getCurrentlyBookingData()
+            .finally(() => { this.showloading = false; })
+            .subscribe(result => {
+                this.currentlyBookingData = result;
+                this.initForSevenDaysEcharts();
+            })
     }
 
     // 初始化echarts
@@ -132,7 +131,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
                 trigger: 'axis'
             },
             legend: {
-                data:[]
+                data: []
             },
             grid: {
                 left: '3%',
@@ -163,8 +162,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             },
             series: [
                 {
-                    name:'近七天统计量',
-                    type:'line',
+                    name: '近七天统计量',
+                    type: 'line',
                     stack: '统计量',
                     data: (() => {
                         const res = [];
@@ -178,7 +177,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
                 }
             ]
         };
-        
+
     }
 
     isMobile(): boolean {
