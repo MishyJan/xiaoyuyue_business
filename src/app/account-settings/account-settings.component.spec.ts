@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-variable */
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
-import { AccountSecurityComponent } from './account-security.component';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { AccountSecurityComponent } from './account-settings.component';
 
 describe('AccountSecurityComponent', () => {
   let component: AccountSecurityComponent;

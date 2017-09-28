@@ -94,7 +94,7 @@
             "../node_modules/echarts/map/js/china.js",
             "../node_modules/echarts/theme/shine.js",
             "../src/assets/common/js/jweixin-1.2.0.js",
-            "../external_libs/radialIndicator/radialIndicator.js"
+            "../external_libs/radialIndicator/radialIndicator.min.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

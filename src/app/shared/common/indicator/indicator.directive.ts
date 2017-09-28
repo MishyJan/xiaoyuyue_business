@@ -22,6 +22,9 @@ export class IndicatorDirective {
     initIndicator(id: string): void {
         const self = this;
         this.barColor = this.switchColorState(this.criticalValue);
+        // var radialObj = radialIndicator('.indicator-container-' + id + '');       
+        // console.log(radialObj);
+        
         $('.indicator-container-' + id + '').radialIndicator({
             minValue: 0,
             maxValue: 100,

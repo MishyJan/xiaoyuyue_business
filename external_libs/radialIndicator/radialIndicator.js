@@ -272,7 +272,6 @@
 
     /** Initializer function **/
     function radialIndicator(container, options) {
-        console.log(container);
         var progObj = new Indicator(container, options);
         progObj.init();
         return progObj;
