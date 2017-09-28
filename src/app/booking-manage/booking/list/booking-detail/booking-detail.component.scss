@@ -3,7 +3,7 @@
     .command-wrap {
         display: flex;
         padding: 10px 0;
-        .item + .item {
+        .item+.item {
             border-left: 1px solid #DAD9D9;
         }
         .item {
@@ -30,8 +30,7 @@
     .tenant-wrap {
         border-radius: 4px;
         background-color: #FFF;
-        margin: 15px 0 0 0;
-        overflow: hidden;
+        margin: 10px 0 0 0;
         .tenant-bg-wrap {
             margin-bottom: 15px;
         }
@@ -42,7 +41,7 @@
                 font-size: 15px;
                 margin-bottom: 15px;
             }
-            .flex-item + .flex-item {
+            .flex-item+.flex-item {
                 margin-top: 10px;
             }
             .flex-item {
@@ -53,9 +52,8 @@
                     .left-wrap {
                         display: flex;
                         .item-left {
-                            width:70px;
+                            width: 70px;
                             flex: 0 0 70px;
-                            transform: translateY(2px);
                             margin-right: 16px;
                         }
                         .item-right {
@@ -99,7 +97,7 @@
         }
     }
     .org-info-wrap {
-        margin: 15px 0 0 0;
+        margin: 10px 0 0 0;
         .content {
             width: 100%;
             .content-item {

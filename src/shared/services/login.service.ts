@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { AuthenticateModel, AuthenticateResultModel, ExternalAuthenticateModel, ExternalAuthenticateResultModel, ExternalLoginProviderInfoModel, TokenAuthServiceProxy, WebLogServiceProxy, SupplementAuthModel, SupplementAuthResultModel } from '@shared/service-proxies/service-proxies';
+import { AuthenticateModel, AuthenticateResultModel, ExternalAuthenticateModel, ExternalAuthenticateResultModel, ExternalLoginProviderInfoModel, SupplementAuthModel, SupplementAuthResultModel, TokenAuthServiceProxy, WebLogServiceProxy } from '@shared/service-proxies/service-proxies';
 import { Headers, Http, Response } from '@angular/http';
 import { Params, Router } from '@angular/router';
 
@@ -118,7 +118,7 @@ export class LoginService {
                         id: 'external_login_container',
                         appid: provider.clientId,
                         scope: 'snsapi_login',
-                        redirect_uri: AppConsts.appBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT,/*暂用测试域名*/
+                        redirect_uri: AppConsts.shareBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT,/*暂用测试域名*/
                         state: 'xiaoyuyue',
                         style: 'black',
                         href: 'https://static.vapps.com.cn/vappszero/wechat-login.css'

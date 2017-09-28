@@ -8,6 +8,7 @@ import { FriendProfilePictureComponent } from './friend-profile-picture.componen
 import { GridRowClickDirective } from 'shared/utils/grid-row-click.directive';
 import { LocalStorageService } from './local-storage.service';
 import { MinValueValidator } from './validation/min-value-validator.directive';
+import { MobileHeaderDirective } from 'shared/utils/mobile-header.directive';
 import { MomentFormatPipe } from './moment-format.pipe';
 import { NgModule } from '@angular/core';
 import { PasswordComplexityValidator } from './validation/password-complexity-validator.directive'
@@ -27,7 +28,8 @@ import { PasswordComplexityValidator } from './validation/password-complexity-va
         FriendProfilePictureComponent,
         MomentFormatPipe,
         GridRowClickDirective,
-        CurrencyInputDirective
+        CurrencyInputDirective,
+        MobileHeaderDirective
     ],
     exports: [
         EqualValidator,
@@ -39,7 +41,8 @@ import { PasswordComplexityValidator } from './validation/password-complexity-va
         FriendProfilePictureComponent,
         MomentFormatPipe,
         GridRowClickDirective,
-        CurrencyInputDirective
+        CurrencyInputDirective,
+        MobileHeaderDirective
     ]
 })
 export class UtilsModule { }

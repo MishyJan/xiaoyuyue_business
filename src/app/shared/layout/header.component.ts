@@ -1,6 +1,6 @@
-import { Router, Params } from '@angular/router';
-import { ChangeUserLanguageDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy, CurrentUserProfileEditDto } from '@shared/service-proxies/service-proxies';
-import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeUserLanguageDto, CurrentUserProfileEditDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Params, Router } from '@angular/router';
 
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
 import { AbpSessionService } from '@abp/session/abp-session.service';
@@ -67,14 +67,14 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         private _sidebarService: SidebarService,
     ) {
         super(injector);
+    }
 
+    ngOnInit() {
         this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
             this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);
         });
         this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);
-    }
 
-    ngOnInit() {
         this._userNotificationHelper.settingsModal = this.notificationSettingsModal;
 
         this.languages = this.localization.languages;
@@ -131,10 +131,10 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
 
     getCurrentLoginInformations(): void {
         this._profileServiceProxy
-        .getCurrentUserProfileForEdit()
-        .subscribe( (result:CurrentUserProfileEditDto) => {
-            this.shownLoginName = result.userName;
-        })
+            .getCurrentUserProfileForEdit()
+            .subscribe((result: CurrentUserProfileEditDto) => {
+                this.shownLoginName = result.userName;
+            })
     }
 
     getShownUserName(linkedUser: LinkedUserDto): string {

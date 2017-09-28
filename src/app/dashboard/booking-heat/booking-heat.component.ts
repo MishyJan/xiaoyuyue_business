@@ -121,10 +121,12 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
             return this._orgBookingServiceProxy.getBookingSelectList()
         }).then(result => {
             // 添加请选择数据源
-            this.orgBookingDefaultListItem = result[0].value;
-            this.bookingId = +this.orgBookingDefaultListItem;
-            this.orgBookingSelectListData = result;
-            this.loadData();
+            if (result.length > 0) {
+                this.orgBookingDefaultListItem = result[0].value;
+                this.bookingId = +this.orgBookingDefaultListItem;
+                this.orgBookingSelectListData = result;
+                this.loadData();
+            }
         });
     }
 

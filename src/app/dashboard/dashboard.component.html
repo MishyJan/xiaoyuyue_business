@@ -44,27 +44,27 @@
 
                     <div class="org-data box-shadow content-item clearfix" *ngIf="dataStatistics">
                         <div class="col-md-6 item">
-                            <p style="color: #00B200;">{{ dataStatistics.bookingData.today.pv }}</p>
+                            <p style="color: #00B200;">{{ bookingData.today.pv }}</p>
                             <p>{{l('Dashboard.TodayPv')}}</p>
                         </div>
                         <div class="col-md-6 item">
-                            <p style="color: #00B200;">{{ dataStatistics.bookingData.today.uv }}</p>
+                            <p style="color: #00B200;">{{ bookingData.today.uv }}</p>
                             <p>{{l('Dashboard.TodayUv')}}</p>
                         </div>
                         <div class="col-md-6 item">
-                            <p style="color: #FF9641;">{{ dataStatistics.bookingData.history.pv }}</p>
+                            <p style="color: #FF9641;">{{ bookingData.history.pv }}</p>
                             <p>{{l('Dashboard.HistoryPv')}}</p>
                         </div>
                         <div class="col-md-6 item">
-                            <p style="color: #FF9641;">{{ dataStatistics.bookingData.history.uv }}</p>
+                            <p style="color: #FF9641;">{{ bookingData.history.uv }}</p>
                             <p>{{l('Dashboard.HistoryUv')}}</p>
                         </div>
                         <div class="col-md-6 item">
-                            <p style="color: #02AFF3;">{{ dataStatistics.bookingData.history.bookingNum }}</p>
+                            <p style="color: #02AFF3;">{{ bookingData.history.bookingNum }}</p>
                             <p>{{l('Dashboard.HistoryBookingNum')}}</p>
                         </div>
                         <div class="col-md-6 item">
-                            <p style="color: #E32600;">{{ dataStatistics.bookingData.today.waitConfirmNum }}</p>
+                            <p style="color: #E32600;">{{ bookingData.today.waitConfirmNum }}</p>
                             <p>{{l('Dashboard.WaitConfirmNum')}}</p>
                         </div>
                     </div>
@@ -147,19 +147,19 @@
 
                     <div class="bottom" *ngIf="dataStatistics">
                         <div class="flex-item">
-                            <p class="amount">{{ dataStatistics.bookingData.history.pv }}</p>
+                            <p class="amount">{{ bookingData.history.pv }}</p>
                             <p>昨日访问量</p>
                         </div>
                         <div class="flex-item">
-                            <p class="amount">{{ dataStatistics.bookingData.history.uv }}</p>
+                            <p class="amount">{{ bookingData.history.uv }}</p>
                             <p>首次访问</p>
                         </div>
                         <div class="flex-item">
-                            <p class="amount">{{ dataStatistics.bookingData.history.bookingNum }}</p>
+                            <p class="amount">{{ bookingData.history.bookingNum }}</p>
                             <p>昨日预约量</p>
                         </div>
                         <div class="flex-item">
-                            <p class="amount">{{ dataStatistics.bookingData.today.waitConfirmNum }}</p>
+                            <p class="amount">{{ bookingData.today.waitConfirmNum }}</p>
                             <p>待确认</p>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
         <div class="content-wrap">
             <div [@routerTransition] *ngIf="tabToggle" class="org-center-tab-content">
                 <div class="wrap">
-                    <h4 class="title">近7天应约数统计图</h4>
+                    <h4 class="title">近7天应约数</h4>
                     <div class="content">
                         <div class="echarts" echarts [options]="forSevenDaysOptions" [loading]="showloading" theme="shine"></div>
                     </div>
