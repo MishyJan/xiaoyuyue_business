@@ -17,11 +17,13 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="button" *ngIf="isCreateOrEditFlag && isGranted(permissions.organization_OutletDelete)" (click)="removeOutlet()" class="btn primary-bgcolor" [buttonBusy]="deleting" [busyText]="'删除中...'">
+                    <button type="button" *ngIf="isCreateOrEditFlag && isGranted(permissions.organization_OutletDelete)" (click)="removeOutlet()"
+                        class="btn primary-bgcolor" [buttonBusy]="deleting" [busyText]="'删除中...'">
                         <i class="vapps-icon vapps-icon-app-delete"></i>
                         <span>删除门店</span>
                     </button>
-                    <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="l('Saving')">
+                    <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="save()" class="btn primary-bgcolor"
+                        [buttonBusy]="saving" [busyText]="l('Saving')">
                         <i class="vapps-icon vapps-icon-app-submit"></i>
                         <span>{{l("Save")}}</span>
                     </button>
@@ -46,7 +48,8 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="{{l('Outlet.Name')}}" required autofocus>
+                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="{{l('Outlet.Name')}}"
+                                                required autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -75,14 +78,17 @@
                                             <label class="control-label"></label>
                                             <div class="select-address-wrap clearfix">
                                                 <div class="col-md-4 item no-left-padding">
-                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
+                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
+                                                        [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
                                                 </div>
                                                 <div class="col-md-4 item no-lr-padding">
-                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
                                                     </kendo-dropdownlist>
                                                 </div>
                                                 <div class="col-md-4 item no-right-padding">
-                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
                                                     </kendo-dropdownlist>
                                                 </div>
                                             </div>
@@ -99,7 +105,8 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}" required>
+                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -143,15 +150,17 @@
                                 <div class="row">
                                     <div class="col-xs-6">
                                         <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !startShopHours}">
-                                            <label class="control-label">起始时间</label>
-                                            <input class="form-control" type="time" [(ngModel)]="startShopHours" name="mobileStartShopHours" placeholder="{{l('StartTime')}}" required>
+                                            <label class="control-label">{{l('OpenTime')}}</label>
+                                            <input class="form-control" type="time" [(ngModel)]="startShopHours" name="mobileStartShopHours" placeholder="{{l('OpenTime')}}"
+                                                required>
                                         </div>
                                     </div>
 
                                     <div class="col-xs-6">
                                         <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !endShopHours}">
-                                            <label class="control-label">结束时间</label>
-                                            <input class="form-control" type="time" [(ngModel)]="endShopHours" name="mobileEndShopHours" placeholder="{{l('EndTime')}}" required>
+                                            <label class="control-label">{{l('CloseTime')}}</label>
+                                            <input class="form-control" type="time" [(ngModel)]="endShopHours" name="mobileEndShopHours" placeholder="{{l('CloseTime')}}"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -161,14 +170,17 @@
                                         <div class="form-group label-floating">
                                             <div class="select-address-wrap clearfix">
                                                 <div class="col-xs-4 item no-left-padding">
-                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
+                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
+                                                        [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
                                                 </div>
                                                 <div class="col-xs-4 item no-lr-padding">
-                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
                                                     </kendo-dropdownlist>
                                                 </div>
                                                 <div class="col-xs-4 item no-right-padding">
-                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
                                                     </kendo-dropdownlist>
                                                 </div>
                                             </div>
