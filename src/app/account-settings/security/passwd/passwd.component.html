@@ -41,7 +41,7 @@
                                 <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
                             </div> -->
                         <div class="col-xs-12">
-                            <button class="btn btn-block btn-warning" type="submit" (click)="save()">保存</button>
+                            <button class="btn btn-block btn-warning" type="submit" [disabled]="!changePwFrom.form.valid" (click)="changePasswd()">确认</button>
                         </div>
                     </div>
                 </div>
