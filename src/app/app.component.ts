@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Injector, OnInit, ViewChild, ViewContainerRef
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { Meta } from '@angular/platform-browser';
 import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-side-bar.component';
 import { SidebarService } from 'shared/services/side-bar.service';
 import { WeChatShareResultDto } from 'app/shared/utils/wechat-share-timeline.input.dto';
@@ -23,14 +24,18 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
         injector: Injector,
         viewContainerRef: ViewContainerRef,
         private _sidebarService: SidebarService,
-        private _weChatShareTimelineService: WeChatShareTimelineService
+        private _weChatShareTimelineService: WeChatShareTimelineService,
+        private meta: Meta
     ) {
         super(injector);
+        this.meta.updateTag({ name: 'generator', content: this.l('MetaGenerator') });
+        this.meta.updateTag({ name: 'keywords', content: this.l('MetaKey') });
+        this.meta.updateTag({ name: 'description', content: this.l('MetaDescription') });
         this.viewContainerRef = viewContainerRef; // You need this small hack in order to catch application root view container ref (required by ng2 bootstrap modal)
         this._sidebarService
             .toggleSidebarFlag.subscribe(flag => {
                 this.toggleSidebarFlag = flag;
-            })
+            });
     }
 
     ngOnInit(): void {
