@@ -105,11 +105,11 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         });
 
         abp.event.on('outletListSelectChanged', () => {
-            this._localStorageService.removeItem(AppConsts.outletSelectListCache);
+            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId));
         });
 
         abp.event.on('bookingListSelectChanged', () => {
-            this._localStorageService.removeItem(AppConsts.bookingSelectListCache);
+            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this._sessionService.tenantId));
         });
     }
 
