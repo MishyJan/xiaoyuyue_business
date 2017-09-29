@@ -33,8 +33,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber"
-                                                pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
+                                            <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
                                             <!-- <small [hidden]="phoneNum.valid || (phoneNum.pristine && !f.submitted)" class="text-danger">无效的手机号</small> -->
                                         </div>
                                     </div>
@@ -47,15 +46,14 @@
                                         <div class="form-group">
                                             <span class="qr-code-wrap" (click)="uploadPicModel()">
                                                         <img *ngIf="uploadPicInfo.pictureUrl" [src]="uploadPicInfo.pictureUrl" width="100%" height="100%" alt="qr-code">
-                                                        <!-- <span *ngIf="uploadPicInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></span>                                            -->
+                                                        <!-- <span *ngIf="uploadPicInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></span> -->
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="contact-item submit-item">
-                                <button type="submit" *ngIf="isGranted(permissions.organization_ContactorEdit)" class="btn primary-bgcolor" (click)="save()"
-                                    [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
+                                <button type="submit" *ngIf="isGranted(permissions.organization_ContactorEdit)" class="btn primary-bgcolor" (click)="save()" [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
                                 <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
                             </div>
                         </div>
@@ -133,8 +131,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group label-floating" [ngClass]="{'is-empty': !localSingleContact.phoneNum}">
                                         <label class="control-label">{{l('Contactor.Telephone')}}</label>
-                                        <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber"
-                                            pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
+                                        <input class="form-control" type="number" [(ngModel)]="localSingleContact.phoneNum" #phoneNum="ngModel" name="phoneNumber" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" required>
                                         <!-- <small [hidden]="phoneNum.valid || (phoneNum.pristine && !f.submitted)" class="text-danger">无效的手机号</small> -->
                                     </div>
                                 </div>
@@ -145,11 +142,15 @@
                                 <div class="col-md-12 flex-item">
                                     <div class="form-group">
                                         <p class="control-label">微信二维码上传</p>
-                                        <div class="qr-code-wrap" UploadPicture (picUploadInfoHandler)="getQrCodePicInfo($event)" [browseButtonEle]="'#contactQrCodeArea'"
+                                        <!-- <div class="qr-code-wrap" UploadPicture (picUploadInfoHandler)="getQrCodePicInfo($event)" [browseButtonEle]="'#contactQrCodeArea'"
                                             [groupId]="1">
                                             <span class="icon vapps-icon-cb-add-img"></span>
                                             <div id="contactQrCodeArea" class="qrcode-area" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></div>
+                                        </div> -->
+                                        <div class="qr-code-wrap">
+                                            <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="1" [existedPicUrl]="uploadPicInfo.pictureUrl" (picUploadInfoHandler)="getQrCodePicInfo($event)"></xiaoyuyue-mobile-upload-picture>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -159,8 +160,7 @@
                                 <button class="btn btn-block btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
                             </div>
                             <div class="col-xs-6">
-                                <button type="submit" *ngIf="isGranted(permissions.organization_ContactorEdit)" class="btn btn-block primary-bgcolor" (click)="save()"
-                                    [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
+                                <button type="submit" *ngIf="isGranted(permissions.organization_ContactorEdit)" class="btn btn-block primary-bgcolor" (click)="save()" [disabled]="!phoneNum.valid"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
                             </div>
                         </div>
                     </div>
@@ -174,8 +174,7 @@
             <div *ngFor="let contactItem of localAllContact, let index = index">
                 <div class="card">
                     <div class="card-content">
-                        <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}"
-                            *ngIf="hideContactIndex != index">
+                        <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
                             <div class="contact-name">{{ contactItem.name }}</div>
                             <div class="wechat-img-wrap pull-right">
                                 <img class="img-wechat" src="assets/common/images/social/wechat-x2.png" style="width:25px" alt="wechat">
@@ -208,8 +207,7 @@
                 <div *ngFor="let contactItem of localAllContact, let index = index" class="col-md-4">
                     <div class="card">
                         <div class="card-content">
-                            <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}"
-                                *ngIf="hideContactIndex != index">
+                            <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
                                 <div class="contact-name">{{ contactItem.name }}</div>
                                 <div class="wechat-img-wrap pull-right">
                                     <img class="img-wechat" src="assets/common/images/social/wechat-x2.png" style="width:25px" alt="wechat">

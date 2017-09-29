@@ -15,8 +15,7 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving"
-                        [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                     <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"><i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -92,11 +91,12 @@
                     <div class="front" *ngIf="!filpActive">
                         <div class="card">
                             <div class="avatar-wrap form-group">
-                                <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#orgLogoUploadArea'" [groupId]="1">
+                                <!-- <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#orgLogoUploadArea'" [groupId]="1">
                                     <div class="img" id="orgLogoUploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>
                                 </div>
                                 <div class="bg-cover"></div>
-                                <span class="vapps-icon vapps-icon-cb-add-img"></span>
+                                <span class="vapps-icon vapps-icon-cb-add-img"></span> -->
+                                <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="1" [existedPicUrl]="sendOrgLogoInfo.pictureUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                             </div>
                             <div class="card-content">
                                 <div class="row">
@@ -130,13 +130,16 @@
                                     <div class="org-bg-wrap col-xs-12">
                                         <div class="form-group">
                                             <p class="control-label">机构背景图</p>
-                                            <div class="img-wrap" UploadPicture (picUploadInfoHandler)="getOrgBgUploadHandler($event)" [browseButtonEle]="'#orgBgUploadArea'"
-                                                [groupId]="1">
+                                            <!-- <div class="img-wrap" UploadPicture (picUploadInfoHandler)="getOrgBgUploadHandler($event)" [browseButtonEle]="'#orgBgUploadArea'" [groupId]="1">
                                                 <div class="img" id="orgBgUploadArea" [ngStyle]="{'background-image': 'url(' + sendOrgBgInfo.pictureUrl + ')'}"></div>
                                                 <div class="bg-cover"></div>
                                                 <div class="upload-tips">
                                                     <span class="vapps-icon vapps-icon-cb-add-img"></span>
-                                                    <!-- <p class="text">点击上传机构背景图</p> -->
+                                                </div>
+                                            </div> -->
+                                            <div class="img-wrap">
+                                                <div class="img">
+                                                    <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="1" [existedPicUrl]="sendOrgBgInfo.pictureUrl" (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                                                 </div>
                                             </div>
                                         </div>

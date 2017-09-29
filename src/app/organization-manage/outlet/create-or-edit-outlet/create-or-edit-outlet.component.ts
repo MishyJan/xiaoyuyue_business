@@ -83,7 +83,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 this.contactorEdit = this.onlineAllContactors = result.contactors;
 
                 this.outetInfo.pictureId = this.pictureInfo.pictureId = result.outlet.pictureId;
-                this.outetInfo.pictureUrl = this.pictureInfo.pictureUrl = PictureUrlHelper.getMinProfilePicCompressUrl(result.outlet.pictureUrl);
+                this.outetInfo.pictureUrl = this.pictureInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.outlet.pictureUrl);
 
                 this.outetInfo.name = result.outlet.name;
                 this.outetInfo.detailAddress = result.outlet.detailAddress;

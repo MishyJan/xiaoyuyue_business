@@ -88,41 +88,5 @@
             }
         }
     }
-    .outlet-bg {
-        .content-wrap {
-            height: 200px;
-            position: relative;
-            .upload-area {
-                width: 100%;
-                height: 100%;
-                position: relative;
-                z-index: 2;
-                background-size: cover;
-                background-position: center;
-            }
-            .upload-tips {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                z-index: 1;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                .vapps-icon {
-                    width: 70px;
-                    height: 70px;
-                    line-height: 70px;
-                    display: inline-block;
-                    border-radius: 50%;
-                    color: #CCC;
-                    border: 1px dashed #CCC;
-                    text-align: center;
-                    font-size: 24px;
-                }
-                .text {
-                    margin-top: 10px;
-                    color: #CCC;
-                }
-            }
-        }
-    }
+    .outlet-bg {}
 }
