@@ -15,7 +15,9 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
     uploadUid: number = Math.round(new Date().valueOf() * Math.random());
     tempUrl: string;
 
-    @Input() groupId: string;
+    @Input() width: string = '100%';
+    @Input() height: string = '100%';
+    @Input() groupId: string = '1';
     @Input() slogan: string;
     @Input() existedPicUrl: string;
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();

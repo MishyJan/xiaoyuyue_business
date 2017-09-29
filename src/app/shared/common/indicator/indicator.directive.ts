@@ -33,7 +33,8 @@ export class IndicatorDirective {
             barWidth: 4,
             initValue: self.criticalValue,
             roundCorner: true,
-            percentage: true
+            percentage: true,
+            fontWeight: 'normal'
         });
     }
 
