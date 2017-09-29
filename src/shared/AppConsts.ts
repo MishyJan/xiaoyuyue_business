@@ -38,16 +38,6 @@ export class AppConsts {
     static bookingSelectListCache = 'BookingSelectListCache';
 }
 
-export class StaticMediaSource {
-    static bookingListFormat = 'imageView2/2/w/600/q/100|imageslim';
-    static bookingInfoFormat = 'imageView2/2/w/800/q/100|imageslim';
-    static outletListFormat = 'imageView2/2/w/600/q/100|imageslim';
-    static outletInfoFormat = 'imageView2/2/w/800/q/100|imageslim';
-    static contactorFormat = 'imageView2/2/w/400/q/100|imageslim';
-    static minProfilePictureFormat = 'imageView2/2/w/100/q/100|imageslim';
-}
-
-
 export class MediaCompressFormat {
     static bookingListFormat = 'imageView2/2/w/600/q/100|imageslim';
     static bookingInfoFormat = 'imageView2/2/w/800/q/100|imageslim';

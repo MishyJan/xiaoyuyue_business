@@ -1312,3 +1312,7 @@ a:focus {
     width: 100% !important;
     height: 100% !important;
 }
+
+.toast-success {
+    background-color: #FF9641;
+}
