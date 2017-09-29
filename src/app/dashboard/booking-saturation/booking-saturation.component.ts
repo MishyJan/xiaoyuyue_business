@@ -3,6 +3,7 @@ import { BookingAccessSourceDto, BookingConverRateDto, BookingDataStatisticsDto,
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { Moment } from 'moment';
 
@@ -25,7 +26,8 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
         injector: Injector,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy,
-        private _localStorageService: LocalStorageService
+        private _localStorageService: LocalStorageService,
+        private _sessionService: AppSessionService
     ) {
         super(injector);
     }
@@ -55,7 +57,7 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
     }
 
     getOutletSelectListData(): void {
-        this._localStorageService.getItem(AppConsts.outletSelectListCache, () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId), () => {
             return this._outletServiceServiceProxy.getOutletSelectList()
         }).then(result => {
             // 添加请选择数据源

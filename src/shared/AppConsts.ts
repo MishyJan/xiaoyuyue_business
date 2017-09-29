@@ -33,9 +33,9 @@ export class AppConsts {
         bookings: 'access_bookings'
     };
 
-    static outletSelectListCache = 'OutletSelectListCache';
+    static outletSelectListCache = 'OutletSelectListCache-{0}';
 
-    static bookingSelectListCache = 'BookingSelectListCache';
+    static bookingSelectListCache = 'BookingSelectListCache-{0}';
 }
 
 export class MediaCompressFormat {

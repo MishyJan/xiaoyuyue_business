@@ -5,6 +5,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
@@ -84,6 +85,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
         private _localStorageService: LocalStorageService,
         private _title: Title,
+        private _sessionService: AppSessionService
     ) {
         super(injector);
     }
@@ -263,7 +265,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 获取可用下拉框数据源
     private loadSelectListData(): void {
-        this._localStorageService.getItem(AppConsts.outletSelectListCache, () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId), () => {
             return this._outletServiceServiceProxy.getOutletSelectList()
         }).then(result => {
             // 添加请选择数据源
