@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
     styleUrls: ['./time-info.component.scss']
 })
 export class TimeInfoComponent extends AppComponentBase implements OnInit {
+    timeInfoFlatpickr: any;
     timeBaseIngoForm: any;
     newTimeField: boolean;
     editingBooking: boolean;
@@ -67,7 +68,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         let defaultDate: string[] = [];
         defaultDate = defaultD ? defaultD : defaultDate;
         setTimeout(() => {
-            $('#timeInfoFlatpickr').flatpickr({
+            this.timeInfoFlatpickr = $('#timeInfoFlatpickr').flatpickr({
                 wrap: true,
                 'locale': 'zh',
                 defaultDate: defaultDate
@@ -195,6 +196,16 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
     }
 
+    multipleDateHandler(isMultipleDateFlag: boolean): void {
+        console.log(isMultipleDateFlag);
+        if (isMultipleDateFlag && this.timeInfoFlatpickr) {
+            console.log(this.timeInfoFlatpickr);
+            this.timeInfoFlatpickr.set('mode', 'multiple');
+        } else if (this.timeInfoFlatpickr) {
+            this.timeInfoFlatpickr.destroy();
+            this.initFlatpickr(undefined);
+        }
+    }
 
     // 增加预约时间段
     addTimeField() {
