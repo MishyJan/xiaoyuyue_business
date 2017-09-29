@@ -47,17 +47,17 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
 
     ngOnInit() {
         this.loadData();
-    }
-
-    ngAfterViewInit() {
-        let self = this;
         if (!this.outletId) {
             this.isCreateContact = true;
             return;
         }
+        let self = this;
         setTimeout(function () {
             self.localAllContact = self.onlineAllContactors;
         }, 1000)
+    }
+
+    ngAfterViewInit() {
     }
 
     loadData(): void {

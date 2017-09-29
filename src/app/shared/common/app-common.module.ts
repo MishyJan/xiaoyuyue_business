@@ -22,6 +22,7 @@ import { UploadPicDirective } from './upload-picture/upload-pic.directive';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
+import { MobileUploadPictureComponent } from './mobile-upload-picture/mobile-upload-picture.component';
 
 @NgModule({
     imports: [
@@ -45,7 +46,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UploadPicDirective,
         BreadcrumbComponent,
         IndicatorDirective,
-        EmptyPageComponent
+        EmptyPageComponent,
+        MobileUploadPictureComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -58,7 +60,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         UploadPictureNoneGalleryComponent,
         BreadcrumbComponent,
         IndicatorDirective,
-        EmptyPageComponent
+        EmptyPageComponent,
+        MobileUploadPictureComponent
     ]
 })
 export class AppCommonModule {

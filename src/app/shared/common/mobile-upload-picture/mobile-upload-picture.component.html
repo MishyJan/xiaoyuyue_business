@@ -1,0 +1,14 @@
+<div class="upload-wrap">
+    <div class="upload-area-wrap">
+        <div class="upload-area" [ngStyle]="{'background-image': 'url(' + tempUrl + ')'}"></div>
+    </div>
+    <div [id]="'uploadAreaWrap-'+uploadUid" class="touch-area-wrap">
+        <div [id]="'uploadArea-'+uploadUid" class="touch-area">
+            <div class="upload-tips">
+                <span class="icon vapps-icon-cb-add-img"></span>
+                <p class="text" *ngIf="slogan">{{ slogan }}</p>
+            </div>
+            <div class="bg-cover"></div>
+        </div>
+    </div>
+</div>
