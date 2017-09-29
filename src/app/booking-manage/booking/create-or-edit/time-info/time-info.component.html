@@ -58,6 +58,14 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-3">
+                                    <div class="checkbox multiple-date-checkbox">
+                                        <label>
+                                            <input type="checkbox" name="optionsCheckboxes" ngModel (ngModelChange)="multipleDateHandler($event)" [ngModelOptions]="{standalone: true}"> 多选
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="time-item clearfix booking-time-item clearfix clearfix" style="height: 100%">
