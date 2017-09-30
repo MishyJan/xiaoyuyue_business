@@ -41,3 +41,34 @@
         }
     }
 }
+
+@media screen and (max-width: 767px) {
+    .tip-wrap {
+        .tip-content {
+            width: 80vw;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1101;
+            padding: 50px 50px 20px;
+            transform: translate3d(-50%, -50%, 0);
+            background-color: #FFF;
+            text-align: center;
+            border-radius: 4px;
+            .tip-head {
+                width: 80%;
+                line-height: 64px;
+                border-radius: 8px;
+            }
+            .tip-body {
+                color: #FF9641;
+            }
+            .tip-footer {
+                margin-top: 10px;
+                .btn-orange {
+                    background-color: #FF9641;
+                }
+            }
+        }
+    }
+}
