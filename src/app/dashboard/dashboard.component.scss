@@ -130,6 +130,10 @@
             position: relative;
             background-size: cover;
             background-position: center;
+            &.reset-style {
+                background-size: initial;
+                background-position: initial;
+            }
             .bg-cover {
                 position: absolute;
                 top: 0;
@@ -250,9 +254,9 @@
                 border-radius: 6px;
                 box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
                 .content {
-                    height: 300px;
+                    height: calc(100vh - 265px - 80px);
                     .echarts {
-                        height: 300px;
+                        height: calc(100vh - 265px - 80px);
                     }
                 }
                 .title {

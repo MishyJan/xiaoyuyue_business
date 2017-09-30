@@ -12,11 +12,13 @@ import { appModuleAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    defaultTenantBgUrl: string = '../../assets/common/images/booking/center-bg.jpg';
+    defaultTenantLogoUrl: string = 'assets/common/images/logo.jpg';
     currentlyBookingData: CurrentlyBookingDataDto[] = [];
     forSevenDaysOptions: object = {};
     tabToggle = true;
     mobileDateSelected: string;
-    tenantBaseInfoData: TenantInfoEditDto;
+    tenantBaseInfoData: TenantInfoEditDto = new TenantInfoEditDto();
     dataStatistics: BusCenterDataStatisticsDto;
     bookingData: BookingDataStatisticsDto;
     dateSelected: string;
@@ -197,6 +199,14 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             ]
         };
 
+    }
+
+    getTenantLogoUrl(): string {
+        return this.tenantBaseInfoData.logoUrl ? this.tenantBaseInfoData.logoUrl : this.defaultTenantLogoUrl;
+    }
+
+    getTenantBgurl(): string {
+        return this.tenantBaseInfoData.backgroundPictureUrl ? this.tenantBaseInfoData.backgroundPictureUrl : this.defaultTenantBgUrl;
     }
 
     isMobile(): boolean {
