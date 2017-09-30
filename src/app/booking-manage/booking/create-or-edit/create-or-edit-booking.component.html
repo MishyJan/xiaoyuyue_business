@@ -480,8 +480,10 @@
         </tab>
     </tabset>
     <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()">{{l('Submit')}}</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="save()">{{l('Update')}}</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()" [buttonBusy]="savingAndEditing"
+        [busyText]="l('Saving')">{{l('Submit')}}</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="save()" [buttonBusy]="savingAndEditing"
+        [busyText]="l('Saving')">{{l('Update')}}</button>
 </div>
 
 <xiaoyuyue-tips *ngIf="isShowImperfectTip" [slogen]="'您需要完善机构信息才能发起预约哦'" [redirectRoute]="'/organization/info'"></xiaoyuyue-tips>

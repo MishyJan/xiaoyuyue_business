@@ -64,7 +64,6 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     }
 
     save(): void {
-        debugger;
         this.localSingleContact.isDefault = this.localSingleContact.isDefault || false;
         if (!this.isMobile()) {
             this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
