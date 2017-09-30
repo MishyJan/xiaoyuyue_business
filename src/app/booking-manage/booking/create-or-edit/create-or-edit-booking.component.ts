@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, Injector, Input, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Injector, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation, transition } from '@angular/core';
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
@@ -14,6 +13,7 @@ import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descript
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
+import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -22,7 +22,7 @@ import { WeChatShareTimelineService } from 'shared/services/wechat-share-timelin
     animations: [appModuleSlowAnimation()],
     encapsulation: ViewEncapsulation.None
 })
-export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
     timeBaseInfoForm: FormGroup;
     bookingBaseInfoForm: FormGroup;
     editingIndex: boolean[] = [];
@@ -57,7 +57,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     savingAndEditing = false;
     //   是否显示完善机构信息弹窗
     isShowImperfectTip = false;
-
+    //   是否显示补充门店信息弹窗
+    needImperfectOutlet = false;
     /* 移动端代码开始 */
     // 保存本地时间段
     dafaultDate: string;
@@ -179,35 +180,27 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this._outletServiceServiceProxy
             .getOutletSelectList()
             .subscribe(outletResult => {
-                this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
-                this.outletSelectListData = outletResult;
-                this.selectOutletId = +outletResult[0].value;
+                if (outletResult.length <= 0) {
+                    this.needImperfectOutlet = true;
+                } else {
+                    this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
+                    this.outletSelectListData = outletResult;
+                    this.selectOutletId = +outletResult[0].value;
 
-                // 获取联系人下拉框数据源
-                this._outletServiceServiceProxy
-                    .getContactorSelectList(parseInt(this.outletSelectDefaultItem))
-                    .subscribe(contactorResult => {
-                        this.contactorSelectListData = contactorResult;
-                        this.contactorSelectDefaultItem = contactorResult[0].value;
-                        this.selectContactorId = +contactorResult[0].value;
-                    });
+                    // 获取联系人下拉框数据源
+                    this._outletServiceServiceProxy
+                        .getContactorSelectList(parseInt(this.outletSelectDefaultItem))
+                        .subscribe(contactorResult => {
+                            if (contactorResult.length <= 0) { return; }
+                            this.contactorSelectListData = contactorResult;
+                            this.contactorSelectDefaultItem = contactorResult[0].value;
+                            this.selectContactorId = +contactorResult[0].value;
+                        });
+                }
             });
     }
 
     save() {
-        this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
-        this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
-
-        this.input.booking.id = this.bookingId ? this.bookingId : 0;
-        this.input.booking = this.baseInfo;
-        this.input.booking.outletId = this.selectOutletId;
-        this.input.booking.contactorId = this.selectContactorId;
-        this.input.booking.isActive = true;
-        // 判断是否有添加新的时间信息
-        this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
-        // 判断是否上传过图片
-        this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
-
         if (this.isMobile()) {
             if (this.bookingBaseInfoForm.invalid) {
                 this.message.warn('预约信息未完善');
@@ -220,27 +213,19 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.staticTabs.tabs[1].active = true;
                 return;
             }
-            this.saving = true;
-            this._organizationBookingServiceProxy
-                .createOrUpdateBooking(this.input)
-                .finally(() => { this.saving = false })
-                .subscribe((result) => {
-                    abp.event.trigger('bookingListSelectChanged');
-                    this._router.navigate(['/booking/succeed', result.id]);
-                });
-        } else {
-            this.saving = true;
-            this._organizationBookingServiceProxy
-                .createOrUpdateBooking(this.input)
-                .finally(() => { this.saving = false })
-                .subscribe((result) => {
-                    abp.event.trigger('bookingListSelectChanged');
-                    this.shareBookingModel.show(result.id);
-                });
         }
+
+        this.saving = true;
+        this.createOrUpdateBooking();
     }
 
     saveAndEdit() {
+        this.savingAndEditing = true;
+
+        this.createOrUpdateBooking(true);
+    }
+
+    createOrUpdateBooking(saveAndEdit: boolean = false) {
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 
@@ -254,12 +239,22 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         // 判断是否上传过图片
         this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
 
-        this.savingAndEditing = true;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe((result) => {
-                this.notify.success('保存成功');
+                this.bookingId = result.id;
+                abp.event.trigger('bookingListSelectChanged');
+                if (saveAndEdit) {
+                    this.notify.success('保存成功');
+                    return;
+                }
+
+                if (this.isMobile()) {
+                    this._router.navigate(['/booking/succeed', result.id]);
+                } else {
+                    this.shareBookingModel.show(result.id);
+                }
             });
     }
 
@@ -306,7 +301,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     removeBookingPic(picIndex: number): void {
         this.pictureInfo.splice(picIndex, 1);
         console.log(this.pictureInfo);
-        
+
     }
 
     nextStep(): void {

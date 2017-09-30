@@ -202,7 +202,8 @@
             <tab heading="门店形象" (select)="updateNextIndex(2)">
                 <div class="outlet-bg">
                     <div class="card">
-                        <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="1" [existedPicUrl]="outetInfo.pictureUrl" (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
+                        <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="1" [existedPicUrl]="outetInfo.pictureUrl"
+                            (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
                     </div>
                 </div>
             </tab>
@@ -213,7 +214,9 @@
             </tab>
         </tabset>
         <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()">{{l('Submit')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="saveAndEdit()">{{l('Update')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()" [buttonBusy]="saving"
+            [busyText]="l('Saving')">{{l('Submit')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="save()" [buttonBusy]="saving"
+            [busyText]="l('Saving')">{{l('Update')}}</button>
     </div>
 </div>
