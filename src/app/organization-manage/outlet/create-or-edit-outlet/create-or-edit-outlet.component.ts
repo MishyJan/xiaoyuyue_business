@@ -17,10 +17,10 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
-    deleting: boolean = false;
+    deleting = false;
     isCreateOrEditFlag: boolean;
     outletId: string;
-    nextIndex: number = 1;
+    nextIndex = 1;
     savingAndEditing: boolean;
     saving = false;
     onlineAllContactors: ContactorEditDto[];
@@ -112,32 +112,17 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     save(): void {
-
-        this.outetInfo.id = +this.outletId ? +this.outletId : 0;
-
-        this.outetInfo.businessHours = this.startShopHours + ' - ' + this.endShopHours;
-        this.outetInfo.provinceId = this.provinceId;
-        this.outetInfo.cityId = this.cityId;
-        this.outetInfo.districtId = this.districtId;
-        this.outetInfo.isActive = true;
-
-        this.input.outlet = this.outetInfo;
-        this.input.contactors = this.contactorEdit;
-
         this.saving = true;
-        this._outletServiceServiceProxy
-            .createOrUpdateOutlet(this.input)
-            .finally(() => this.saving = false)
-            .subscribe(result => {
-                abp.event.trigger('outletListSelectChanged');
-                this.notify.success('保存成功');
-                this._router.navigate(['/outlet/list']);
-            })
+        this.createOrUpdateOutlet();
     }
 
     saveAndEdit() {
-        this.outetInfo.id = +this.outletId ? +this.outletId : 0;
+        this.savingAndEditing = true;
+        this.createOrUpdateOutlet(true);
+    }
 
+    createOrUpdateOutlet(saveAndEdit: boolean = false) {
+        this.outetInfo.id = +this.outletId ? +this.outletId : 0;
         this.outetInfo.businessHours = this.startShopHours + ' ' + this.endShopHours;
         this.outetInfo.provinceId = this.provinceId;
         this.outetInfo.cityId = this.cityId;
@@ -146,12 +131,13 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
         this.input.outlet = this.outetInfo;
         this.input.contactors = this.contactorEdit;
-        this.savingAndEditing = true;
         this._outletServiceServiceProxy
             .createOrUpdateOutlet(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
+                abp.event.trigger('outletListSelectChanged');
                 this.notify.success('保存成功!');
+                if (!saveAndEdit) { this._router.navigate(['/outlet/list']); }
             });
     }
 
@@ -170,7 +156,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         })
     }
 
-    //判断新建门店还是编辑门店状态
+    // 判断新建门店还是编辑门店状态
     isCreateOrEditState() {
         this.isCreateOrEditFlag = this.outletId == null ? false : true;
     }
