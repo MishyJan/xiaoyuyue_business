@@ -15,7 +15,8 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
+                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving"
+                        [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
                     <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"><i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -52,7 +53,7 @@
                                 </div>
                                 <!-- 机构简介 -->
                                 <div class="row">
-                                    <label class="col-sm-2 label-on-left">机构宣传语</label>
+                                    <label class="col-sm-2 label-on-left">机构简介</label>
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
@@ -139,7 +140,8 @@
                                             </div> -->
                                             <div class="img-wrap">
                                                 <div class="img">
-                                                    <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="sendOrgBgInfo.pictureUrl" (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                                                    <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="sendOrgBgInfo.pictureUrl"
+                                                        (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                                                 </div>
                                             </div>
                                         </div>
