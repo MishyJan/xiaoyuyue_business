@@ -21,11 +21,11 @@
                         <i class="vapps-icon vapps-icon-app-delete"></i>
                         <span>删除门店</span>
                     </button>
-                    <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="l('Saving')">
+                    <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" [disabled]="!createBookingForm.form.valid" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="l('Saving')">
                         <i class="vapps-icon vapps-icon-app-submit"></i>
                         <span>{{l("Save")}}</span>
                     </button>
-                    <button type="botton" *ngIf="isGranted(permissions.organization_OutletEdit)" (click)="saveAndEdit()" class="btn primary-bgcolor">
+                    <button type="botton" *ngIf="isGranted(permissions.organization_OutletEdit)" [disabled]="!createBookingForm.form.valid" (click)="saveAndEdit()" class="btn primary-bgcolor">
                         <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -87,7 +87,7 @@
                                                 </div>
                                             </div>
                                             <div class="detailed-address-wrap">
-                                                <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="detailAddress" placeholder="详细地址"></textarea>
+                                                <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="detailAddress" placeholder="详细地址" required></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}" required>
+                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -202,8 +202,7 @@
             <tab heading="门店形象" (select)="updateNextIndex(2)">
                 <div class="outlet-bg">
                     <div class="card">
-                        <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="1" [existedPicUrl]="outetInfo.pictureUrl"
-                            (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
+                        <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="1" [existedPicUrl]="outetInfo.pictureUrl" (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
                     </div>
                 </div>
             </tab>
@@ -214,9 +213,7 @@
             </tab>
         </tabset>
         <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()" [buttonBusy]="saving"
-            [busyText]="l('Saving')">{{l('Submit')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="save()" [buttonBusy]="saving"
-            [busyText]="l('Saving')">{{l('Update')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()" [buttonBusy]="saving" [busyText]="l('Saving')">{{l('Submit')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="save()" [buttonBusy]="saving" [busyText]="l('Saving')">{{l('Update')}}</button>
     </div>
 </div>
