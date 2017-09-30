@@ -28,7 +28,7 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         if (!this._sessionService.user) {
-            UrlHelper.redirectUrl = location.href;
+            this._appAuthService.recordRedirectUrl();
 
             if (this.isWeiXin()) {
                 location.href = AppConsts.shareBaseUrl + '/auth/login';
