@@ -8,7 +8,7 @@
                             <h1>
                                 <span *ngIf="!isCreateOrEditFlag">{{l('Outlet.Create')}}</span>
                                 <span *ngIf="isCreateOrEditFlag">编辑门店</span>
-                                <small routerLink="/org" class="back-btn">
+                                <small routerLink="/outlet/list" class="back-btn">
                                     <span class="vapps-icon-app-back"></span>
                                     <span class="text">{{l('Back')}}</span>
                                 </small>
@@ -214,7 +214,8 @@
             <tab heading="门店形象" (select)="updateNextIndex(2)">
                 <div class="outlet-bg">
                     <div class="card">
-                        <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="1" [existedPicUrl]="outetInfo.pictureUrl" (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
+                        <xiaoyuyue-mobile-upload-picture [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="1" [existedPicUrl]="outetInfo.pictureUrl"
+                            (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
                     </div>
                 </div>
             </tab>
