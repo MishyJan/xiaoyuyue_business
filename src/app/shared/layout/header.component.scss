@@ -60,15 +60,18 @@
 }
 
 #fixed-header {
-    .back-icon {
-        margin-left: -14px;
-    }
-    .menu-icon {
-        margin-right: -14px;
+    .top-title {
+        .back-icon {
+            margin-left: -14px;
+        }
+        .menu-icon {
+            margin-right: -14px;
+            text-align: right;
+        }
     }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     #fixed-header {
         position: relative;
         z-index: 1000;
@@ -79,8 +82,12 @@
             width: 100%;
             height: 55px;
             line-height: 55px;
-            text-align: center;
+            text-align: left;
             padding: 0 15px;
+            display: flex;
+            .flex-item {
+                flex: 1;
+            }
             .title-text {
                 font-size: 19px;
                 color: #FFF;
