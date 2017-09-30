@@ -226,7 +226,9 @@
             </tab>
         </tabset>
         <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()">{{l('Submit')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="saveAndEdit()">{{l('Update')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()" [buttonBusy]="saving"
+            [busyText]="l('Saving')">{{l('Submit')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="save()" [buttonBusy]="saving"
+            [busyText]="l('Saving')">{{l('Update')}}</button>
     </div>
 </div>
