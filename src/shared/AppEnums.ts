@@ -62,7 +62,8 @@ export class VerificationCodeType {
     static ChangePassword: number = CodeSendInputCodeType._30;
     static ChangeEmail: number = CodeSendInputCodeType._40;
     static PhoneBinding: number = CodeSendInputCodeType._50;
-    static PhoneVerify: number = CodeSendInputCodeType._60;
+    static PhoneUnBinding: number = CodeSendInputCodeType._60;
+    static PhoneVerify: number = CodeSendInputCodeType._70;
 }
 
 

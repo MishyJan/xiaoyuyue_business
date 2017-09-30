@@ -1,0 +1,28 @@
+.modal-dialog {
+    .modal-content {
+        .modal-header {
+            position: relative;
+            .xiaoyuyue-title-box {
+                width: 90%;
+                height: 64px;
+                line-height: 64px;
+            }
+        }
+        .modal-body {
+            .validate-code-wrap {
+                position: relative;
+                .get-sms-btn {
+                    position: absolute;
+                    right: 14px;
+                    bottom: 0;
+                    .btn {
+                        background-color: #ff9742;
+                    }
+                }
+            }
+        }
+        .modal-footer {
+            text-align: center;
+        }
+    }
+}
