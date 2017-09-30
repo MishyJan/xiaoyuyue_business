@@ -108,7 +108,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             bookingDescription: new FormControl(this.baseInfo.description, [
                 Validators.required,
                 Validators.minLength(10),
-                Validators.minLength(24)
+                Validators.maxLength(24)
             ])
         });
 
