@@ -18,7 +18,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 @Component({
     selector: 'app-create-or-edit-booking',
     templateUrl: './create-or-edit-booking.component.html',
-    styleUrls: ['./create-or-edit-booking.component.less'],
+    styleUrls: ['./create-or-edit-booking.component.scss'],
     animations: [appModuleSlowAnimation()],
     encapsulation: ViewEncapsulation.None
 })
