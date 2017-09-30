@@ -243,6 +243,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe((result) => {
+                this.bookingId = result.id;
                 abp.event.trigger('bookingListSelectChanged');
                 if (saveAndEdit) {
                     this.notify.success('保存成功');
