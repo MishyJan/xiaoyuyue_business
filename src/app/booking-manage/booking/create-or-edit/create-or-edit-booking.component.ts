@@ -18,7 +18,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 @Component({
     selector: 'app-create-or-edit-booking',
     templateUrl: './create-or-edit-booking.component.html',
-    styleUrls: ['./create-or-edit-booking.component.less'],
+    styleUrls: ['./create-or-edit-booking.component.scss'],
     animations: [appModuleSlowAnimation()],
     encapsulation: ViewEncapsulation.None
 })
@@ -201,19 +201,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     save() {
-        this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
-        this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
-
-        this.input.booking.id = this.bookingId ? this.bookingId : 0;
-        this.input.booking = this.baseInfo;
-        this.input.booking.outletId = this.selectOutletId;
-        this.input.booking.contactorId = this.selectContactorId;
-        this.input.booking.isActive = true;
-        // 判断是否有添加新的时间信息
-        this.input.items = this.allBookingTime ? this.timeInfo : this.allBookingTime;
-        // 判断是否上传过图片
-        this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
-
         if (this.isMobile()) {
             if (this.bookingBaseInfoForm.invalid) {
                 this.message.warn('预约信息未完善');
@@ -226,27 +213,19 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.staticTabs.tabs[1].active = true;
                 return;
             }
-            this.saving = true;
-            this._organizationBookingServiceProxy
-                .createOrUpdateBooking(this.input)
-                .finally(() => { this.saving = false })
-                .subscribe((result) => {
-                    abp.event.trigger('bookingListSelectChanged');
-                    this._router.navigate(['/booking/succeed', result.id]);
-                });
-        } else {
-            this.saving = true;
-            this._organizationBookingServiceProxy
-                .createOrUpdateBooking(this.input)
-                .finally(() => { this.saving = false })
-                .subscribe((result) => {
-                    abp.event.trigger('bookingListSelectChanged');
-                    this.shareBookingModel.show(result.id);
-                });
         }
+
+        this.saving = true;
+        this.createOrUpdateBooking();
     }
 
     saveAndEdit() {
+        this.savingAndEditing = true;
+
+        this.createOrUpdateBooking(true);
+    }
+
+    createOrUpdateBooking(saveAndEdit: boolean = false) {
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 
@@ -260,12 +239,22 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         // 判断是否上传过图片
         this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
 
-        this.savingAndEditing = true;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe((result) => {
-                this.notify.success('保存成功');
+                this.bookingId = result.id;
+                abp.event.trigger('bookingListSelectChanged');
+                if (saveAndEdit) {
+                    this.notify.success('保存成功');
+                    return;
+                }
+
+                if (this.isMobile()) {
+                    this._router.navigate(['/booking/succeed', result.id]);
+                } else {
+                    this.shareBookingModel.show(result.id);
+                }
             });
     }
 
