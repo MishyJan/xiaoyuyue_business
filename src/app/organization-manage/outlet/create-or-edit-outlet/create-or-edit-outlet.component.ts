@@ -131,7 +131,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
         this.input.outlet = this.outetInfo;
         this.input.contactors = this.contactorEdit;
-        debugger;
         if (this.input.contactors.length < 1) {
             this.notify.warn('请添加联系人');
             this.savingAndEditing = false

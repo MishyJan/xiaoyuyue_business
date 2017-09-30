@@ -301,8 +301,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     removeBookingPic(picIndex: number): void {
         this.pictureInfo.splice(picIndex, 1);
-        console.log(this.pictureInfo);
-
     }
 
     nextStep(): void {

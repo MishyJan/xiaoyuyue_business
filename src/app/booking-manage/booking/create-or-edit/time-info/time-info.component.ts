@@ -197,9 +197,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     }
 
     multipleDateHandler(isMultipleDateFlag: boolean): void {
-        console.log(isMultipleDateFlag);
         if (isMultipleDateFlag && this.timeInfoFlatpickr) {
-            console.log(this.timeInfoFlatpickr);
             this.timeInfoFlatpickr.set('mode', 'multiple');
         } else if (this.timeInfoFlatpickr) {
             this.timeInfoFlatpickr.destroy();
