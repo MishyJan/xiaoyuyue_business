@@ -232,11 +232,9 @@
                                     <p class="pic-upload-title">{{l('PictureUpload')}}</p>
                                     <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#bookingUploadArea'" [groupId]="1" [dropEle]="" [containerEle]="'#bookingUploadAreaWrap'">
                                         <!-- <div id="uploadArea" class="upload-area"></div> -->
-                                        <div class="img-wrap" id="bookingUploadAreaWrap">
-                                            <div class="img col-xs-3 col-sm-3">
-                                                <div class="item">
-                                                    <div id="bookingUploadArea" class="content upload-area"></div>
-                                                </div>
+                                        <div class="upload" id="bookingUploadAreaWrap">
+                                            <div id="bookingUploadArea" class="upload-area">
+                                                <span class="icon vapps-icon-cb-add-img"></span>
                                             </div>
                                         </div>
                                         <div class="img-wrap">
