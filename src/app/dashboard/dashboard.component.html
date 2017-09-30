@@ -137,11 +137,11 @@
         <div class="add-time-btn">
             <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
         </div>
-        <div class="header" *ngIf="tenantBaseInfoData">
-            <div class="tenant-base-info" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.backgroundPictureUrl + ')'}">
+        <div class="header">
+            <div class="tenant-base-info" [ngClass]="{'reset-style': !tenantBaseInfoData.backgroundPictureUrl}" [ngStyle]="{'background-image': 'url(' + getTenantBgurl() + ')'}">
                 <div class="info-wrap">
                     <div class="top">
-                        <img class="tenant-logo" [src]="tenantBaseInfoData.logoUrl" width="60px" height="60px">
+                        <img class="tenant-logo" [src]="getTenantLogoUrl()" width="60px" height="60px">
                         <span class="tenant-name">{{ tenantBaseInfoData.tenancyName }}</span>
                     </div>
 
@@ -165,7 +165,7 @@
                     </div>
                 </div>
 
-                <div class="bg-cover"></div>
+                <div class="bg-cover" *ngIf="tenantBaseInfoData.backgroundPictureUrl"></div>
             </div>
         </div>
 
