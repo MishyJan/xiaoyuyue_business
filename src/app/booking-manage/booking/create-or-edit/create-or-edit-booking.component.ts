@@ -107,7 +107,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             ]),
             bookingDescription: new FormControl(this.baseInfo.description, [
                 Validators.required,
-                Validators.minLength(10)
+                Validators.minLength(10),
+                Validators.minLength(24)
             ])
         });
 
@@ -300,8 +301,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     removeBookingPic(picIndex: number): void {
         this.pictureInfo.splice(picIndex, 1);
-        console.log(this.pictureInfo);
-
     }
 
     nextStep(): void {

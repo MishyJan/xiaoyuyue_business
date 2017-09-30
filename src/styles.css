@@ -1308,13 +1308,11 @@ a:focus {
 
 /* 七牛上传SDK */
 
-
-/* .moxie-shim {
+.moxie-shim {
     width: 100% !important;
     height: 100% !important;
     top: 0 !important;
 }
-*/
 
 .toast-success {
     background-color: #FF9641;

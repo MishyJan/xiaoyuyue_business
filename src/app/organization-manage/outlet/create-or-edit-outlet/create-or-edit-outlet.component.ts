@@ -23,8 +23,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     nextIndex = 1;
     savingAndEditing: boolean;
     saving = false;
-    onlineAllContactors: ContactorEditDto[];
-    contactorEdit: ContactorEditDto[];
+    onlineAllContactors: ContactorEditDto[] = [];
+    contactorEdit: ContactorEditDto[] = [];
     selectedDistrictId: string;
     selectedCityId: string;
     selectedProvinceId: string;
@@ -131,6 +131,11 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
         this.input.outlet = this.outetInfo;
         this.input.contactors = this.contactorEdit;
+        if (this.input.contactors.length < 1) {
+            this.notify.warn('请添加联系人');
+            this.savingAndEditing = false
+            return;
+        }
         this._outletServiceServiceProxy
             .createOrUpdateOutlet(this.input)
             .finally(() => { this.savingAndEditing = false })
