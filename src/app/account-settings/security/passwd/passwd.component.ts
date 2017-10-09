@@ -3,6 +3,8 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { ChangePasswordInput, ProfileServiceProxy, ChangePasswordByPhoneInput, SMSServiceProxy, CodeSendInput } from '@shared/service-proxies/service-proxies';
 import { VerificationCodeType } from 'shared/AppEnums';
+import { AppSessionService } from '@shared/common/session/app-session.service';
+import { Router } from '@angular/router';
 
 export class RepeatPasswdDto extends ChangePasswordInput {
     repeatPasswd: string;
@@ -15,6 +17,7 @@ export class RepeatPasswdDto extends ChangePasswordInput {
     animations: [accountModuleAnimation()]
 })
 export class PasswdComponent extends AppComponentBase implements OnInit {
+    encryptPhoneNum: string;
     isSendSMS: boolean = false;
     input: RepeatPasswdDto = new RepeatPasswdDto();
     byPhoneInput: ChangePasswordByPhoneInput = new ChangePasswordByPhoneInput();
@@ -27,13 +30,15 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
     constructor(
         private injector: Injector,
         private _SMSServiceProxy: SMSServiceProxy,
-        private _profileServiceProxy: ProfileServiceProxy
-
+        private _router: Router,
+        private _profileServiceProxy: ProfileServiceProxy,
+        private _appSessionService: AppSessionService
     ) {
         super(injector);
     }
 
     ngOnInit() {
+
     }
     // 使用旧密码更改密码
     oldPasswdChangeHandler(): void {
@@ -66,6 +71,10 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
         this.phoneChangePasswd = false;
     }
     usePhoneChangeEle(): void {
+        let result = this.isBindingPhoneHandler();
+        if (!result) {
+            return;
+        }
         this.showCommandWrap = false;
         this.oldPasswdChangePasswd = false;
         this.phoneChangePasswd = true;
@@ -99,5 +108,37 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
             self.isSendSMS = false;
             self._smsBtn.nativeElement.innerHTML = this.l("AgainSendValidateCode");
         }, 60000);
+    }
+
+    // getUserPhoneNum(): void {
+    //     this._profileServiceProxy
+    //         .getCurrentUserProfileForEdit()
+    //         .subscribe(result => {
+    //             this.phoneNum = result.phoneNumber;
+    //             this.encrypt();
+    //         })
+    // }
+
+    isBindingPhoneHandler(): boolean {
+        if (this._appSessionService.user.phoneNumber != null) {
+            this.phoneNum = this._appSessionService.user.phoneNumber;
+            this.encrypt();
+            return true;
+        } else {
+            this.message.confirm('您当前未绑定手机，绑定手机号才能更改密码', (result) => {
+                if (result) {
+                    this._router.navigate(['/settings/phone']);
+                } else {
+                    return false;
+                }
+            })
+        }
+    }
+
+    private encrypt(): void {
+        if (!this.phoneNum) {
+            return;
+        }
+        this.encryptPhoneNum = "•••••••" + this.phoneNum.substr(this.phoneNum.length - 4);
     }
 }

@@ -11,6 +11,7 @@ import { PasswdComponent } from './security/passwd/passwd.component';
 import { BindingPhoneModelComponent } from './phone-model/binding-phone-model/binding-phone-model.component';
 import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
 import { CommonModule } from '@angular/common';
+import { PhoneComponent } from './security/phone/phone.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { CommonModule } from '@angular/common';
         PasswdComponent,
         SecurityComponent,
         UnbindingPhoneModelComponent,
-        BindingPhoneModelComponent
+        BindingPhoneModelComponent,
+        PhoneComponent
     ]
 })
 export class AccountSecurityModule { }
