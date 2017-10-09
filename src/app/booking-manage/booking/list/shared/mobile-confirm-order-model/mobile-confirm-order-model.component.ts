@@ -13,6 +13,7 @@ import { OrgBookingOrderStatus } from 'shared/AppEnums';
     styleUrls: ['./mobile-confirm-order-model.component.scss']
 })
 export class MobileConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    confirming: boolean = false;
     hourOfDay: string;
     totalItems: number;
     orderIds: number[] = [];
@@ -43,10 +44,10 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
 
     ngOnInit() {
         this.maxResultCount = this.gridParam.MaxResultCount;
+        // this.registerToEvents();
     }
 
     ngAfterViewInit() {
-
     }
 
     loadData(): void {
@@ -74,6 +75,13 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             })
     }
 
+    // abp.event.trigger('bookingOrdersChanged');
+    // registerToEvents() {
+    //     abp.event.on('bookingOrdersChanged', () => {
+    //         this.loadData();
+    //     });
+    // }
+
     getProfilePictureUrl(profilePictureUrl: string): string {
         const defaultAvatar = 'assets/common/images/default-profile-picture.png';
         if (profilePictureUrl === '') {
@@ -88,13 +96,14 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             this.orderIds.push(element.id);
         });
         input.ids = this.orderIds
-        this._orgBookingOrderServiceProxy.batchConfirmBookingOrder(input)
+        this.confirming = true;
+        this._orgBookingOrderServiceProxy
+            .batchConfirmBookingOrder(input)
+            .finally( () => { this.confirming = false; })
             .subscribe(result => {
                 this.notify.success('确认成功');
                 this.hide();
                 this.orderIds = [];
-                this.batchConfirmStateHanlder.emit(true);
-                this.loadData();
             })
     }
 
@@ -132,6 +141,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
 
     hide(): void {
         this.mobileConfirmOrderModel.hide();
+        this.batchConfirmStateHanlder.emit(true);
     }
 
 }
