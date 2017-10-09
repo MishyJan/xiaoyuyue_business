@@ -114,9 +114,13 @@ export class AppPreBootstrap {
 
     private static getUserConfiguration(callback: () => void): JQueryPromise<any> {
         const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
+        const data = {
+            sourcename: AppConsts.localization.defaultLocalizationSourceName
+        };
         return abp.ajax({
-            url: AppConsts.remoteServiceBaseUrl + '/AbpUserConfiguration/GetAll',
+            url: AppConsts.remoteServiceBaseUrl + '/api/UserConfiguration/GetAll',
             method: 'GET',
+            data: data,
             headers: {
                 Authorization: 'Bearer ' + abp.auth.getToken(),
                 '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
