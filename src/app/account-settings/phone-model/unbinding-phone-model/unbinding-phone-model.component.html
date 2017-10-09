@@ -1,0 +1,37 @@
+<div class="modal fade" bsModal #unbindingPhoneModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form #currentPhoneFrom="ngForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="xiaoyuyue-title-box">修改手机</div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="text" name="currentPassword" [(ngModel)]="phoneNumText" readonly required>
+                                <label class="control-label">原手机</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 validate-code-wrap">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="number" name="newPassword" [(ngModel)]="code" required>
+                                <label class="control-label">验证码</label>
+                            </div>
+                            <div class="get-sms-btn">
+                                <button type="button" class="btn" (click)="send()" [disabled]="isSendSMS" #smsBtn>{{l('GetVerificationCode')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn primary-bgcolor" (click)="unbindingPhone()" [disabled]="!currentPhoneFrom.form.valid">确认</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>

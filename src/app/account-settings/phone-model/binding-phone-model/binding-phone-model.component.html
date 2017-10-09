@@ -1,0 +1,35 @@
+<div class="modal fade" bsModal #bindingPhoneModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="xiaoyuyue-title-box">绑定手机</div>
+            </div>
+            <div class="modal-body">
+                <form #currentPhoneFrom="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="text" name="newPassword" [(ngModel)]="model.targetNumber">
+                                <label class="control-label">新手机</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 validate-code-wrap">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="number" name="validateCode" [(ngModel)]="code">
+                                <label class="control-label">验证码</label>
+                            </div>
+                            <div class="get-sms-btn">
+                                <button type="button" class="btn" (click)="send()" [disabled]="isSendSMS" #smsBtn>{{l('GetVerificationCode')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn primary-bgcolor" (click)="bindingPhone()" [disabled]="!currentPhoneFrom.form.valid">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

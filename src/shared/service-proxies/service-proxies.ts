@@ -4681,7 +4681,7 @@ export class OrgBookingServiceProxy {
      * 获取时间
      * @return Success
      */
-    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNum: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
+    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNum: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_IsDeleted: boolean, contactor_DeleterUserId: number, contactor_DeletionTime: moment.Moment, contactor_LastModificationTime: moment.Moment, contactor_LastModifierUserId: number, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
         let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetItemDatetime?";
         if (tenantId !== undefined)
             url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&"; 
@@ -4707,6 +4707,16 @@ export class OrgBookingServiceProxy {
             url_ += "Contactor.OutletId=" + encodeURIComponent("" + contactor_OutletId) + "&"; 
         if (contactor_IsDefault !== undefined)
             url_ += "Contactor.IsDefault=" + encodeURIComponent("" + contactor_IsDefault) + "&"; 
+        if (contactor_IsDeleted !== undefined)
+            url_ += "Contactor.IsDeleted=" + encodeURIComponent("" + contactor_IsDeleted) + "&"; 
+        if (contactor_DeleterUserId !== undefined)
+            url_ += "Contactor.DeleterUserId=" + encodeURIComponent("" + contactor_DeleterUserId) + "&"; 
+        if (contactor_DeletionTime !== undefined)
+            url_ += "Contactor.DeletionTime=" + encodeURIComponent(contactor_DeletionTime ? "" + contactor_DeletionTime.toJSON() : "null") + "&"; 
+        if (contactor_LastModificationTime !== undefined)
+            url_ += "Contactor.LastModificationTime=" + encodeURIComponent(contactor_LastModificationTime ? "" + contactor_LastModificationTime.toJSON() : "null") + "&"; 
+        if (contactor_LastModifierUserId !== undefined)
+            url_ += "Contactor.LastModifierUserId=" + encodeURIComponent("" + contactor_LastModifierUserId) + "&"; 
         if (contactor_CreationTime !== undefined)
             url_ += "Contactor.CreationTime=" + encodeURIComponent(contactor_CreationTime ? "" + contactor_CreationTime.toJSON() : "null") + "&"; 
         if (contactor_CreatorUserId !== undefined)
@@ -6878,6 +6888,52 @@ export class ProfileServiceProxy {
     }
 
     /**
+     * 使用手机修改密码
+     * @return Success
+     */
+    changePasswordByPhone(input: ChangePasswordByPhoneInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Profile/ChangePasswordByPhone";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processChangePasswordByPhone(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processChangePasswordByPhone(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processChangePasswordByPhone(response: Response): Observable<void> {
+        const status = response.status; 
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
      * 绑定手机
      * @return Success
      */
@@ -8123,19 +8179,19 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
+     * @sorting 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
-     * @sorting 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
             url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         if (skipCount !== undefined)
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = {
@@ -18869,6 +18925,11 @@ export class Contactor implements IContactor {
     tenantId: number;
     outletId: number;
     isDefault: boolean;
+    isDeleted: boolean;
+    deleterUserId: number;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
+    lastModifierUserId: number;
     creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
@@ -18890,6 +18951,11 @@ export class Contactor implements IContactor {
             this.tenantId = data["tenantId"];
             this.outletId = data["outletId"];
             this.isDefault = data["isDefault"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.creatorUserId = data["creatorUserId"];
             this.id = data["id"];
@@ -18910,6 +18976,11 @@ export class Contactor implements IContactor {
         data["tenantId"] = this.tenantId;
         data["outletId"] = this.outletId;
         data["isDefault"] = this.isDefault;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
@@ -18924,6 +18995,11 @@ export interface IContactor {
     tenantId: number;
     outletId: number;
     isDefault: boolean;
+    isDeleted: boolean;
+    deleterUserId: number;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
+    lastModifierUserId: number;
     creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
@@ -21536,6 +21612,49 @@ export interface IChangePasswordInput {
     newPassword: string;
 }
 
+export class ChangePasswordByPhoneInput implements IChangePasswordByPhoneInput {
+    /** 手机验证码 */
+    code: string;
+    /** 新密码 */
+    newPassword: string;
+
+    constructor(data?: IChangePasswordByPhoneInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.newPassword = data["newPassword"];
+        }
+    }
+
+    static fromJS(data: any): ChangePasswordByPhoneInput {
+        let result = new ChangePasswordByPhoneInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["newPassword"] = this.newPassword;
+        return data; 
+    }
+}
+
+export interface IChangePasswordByPhoneInput {
+    /** 手机验证码 */
+    code: string;
+    /** 新密码 */
+    newPassword: string;
+}
+
 export class BindingPhoneNumInput implements IBindingPhoneNumInput {
     /** 手机号码 */
     phoneNum: string;
@@ -22159,6 +22278,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
     userName: string;
     emailAddress: string;
     profilePictureId: string;
+    phoneNumber: string;
     id: number;
 
     constructor(data?: IUserLoginInfoDto) {
@@ -22177,6 +22297,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
             this.userName = data["userName"];
             this.emailAddress = data["emailAddress"];
             this.profilePictureId = data["profilePictureId"];
+            this.phoneNumber = data["phoneNumber"];
             this.id = data["id"];
         }
     }
@@ -22194,6 +22315,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["userName"] = this.userName;
         data["emailAddress"] = this.emailAddress;
         data["profilePictureId"] = this.profilePictureId;
+        data["phoneNumber"] = this.phoneNumber;
         data["id"] = this.id;
         return data; 
     }
@@ -22205,6 +22327,7 @@ export interface IUserLoginInfoDto {
     userName: string;
     emailAddress: string;
     profilePictureId: string;
+    phoneNumber: string;
     id: number;
 }
 

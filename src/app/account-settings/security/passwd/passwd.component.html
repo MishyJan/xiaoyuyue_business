@@ -1,51 +1,124 @@
-<div class="passwd-wrap">
-    <div [@routerTransition]>
-        <div class="card">
-            <form #changePwFrom="ngForm">
-                <div class="card-header card-header-text" data-background-color="orange">
-                    <span class="title-icon vapps-icon-app-login-passwd"></span>
+<div class="passwd-wrap" [@routerTransition] *ngIf="showCommandWrap">
+    <div class="card-wrap col-xs-4 col-sm-3">
+        <div class="card" (click)="usePhoneChangeEle()">
+            <div class="item">
+                <div class="content">
+                    <span class="icon vapps-icon-app-login-phone"></span>
+                    <p class="text">通过手机验证方式</p>
                 </div>
-                <div class="card-content">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group label-floating">
-                                <label class="control-label">原密码</label>
-                                <input type="password" class="form-control" name="currentPassword" [(ngModel)]="input.currentPassword" required>
-                                <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
-                            </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-wrap col-xs-4 col-sm-3">
+        <div class="card" (click)="showUseOldPasswdEle()">
+            <div class="item">
+                <div class="content">
+                    <span class="icon vapps-icon-app-login-passwd"></span>
+                    <p class="text">通过旧密码方式</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="use-old-passwd" *ngIf="oldPasswdChangePasswd" [@routerTransition]>
+    <div class="card">
+        <form #changePwFrom="ngForm">
+            <div class="card-header card-header-text" data-background-color="orange">
+                <span class="title-icon vapps-icon-app-login-passwd"></span>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">原密码</label>
+                            <input type="password" class="form-control" name="currentPassword" [(ngModel)]="input.currentPassword" required>
+                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group label-floating">
-                                <label class="control-label">新密码</label>
-                                <input type="password" class="form-control" name="currenPasswd" name="newPassword" [(ngModel)]="input.newPassword" required>
-                                <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
-                            </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">新密码</label>
+                            <input type="password" class="form-control" name="currenPasswd" name="newPassword" [(ngModel)]="input.newPassword" required>
+                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group label-floating">
-                                <label class="control-label">确认密码</label>
-                                <input type="password" class="form-control" name="repeatPasswd" [(ngModel)]="input.repeatPasswd">
-                                <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
-                            </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">确认密码</label>
+                            <input type="password" class="form-control" name="repeatPasswd" [(ngModel)]="input.repeatPasswd">
+                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <!-- <div class="col-xs-6">
+                <div class="row">
+                    <!-- <div class="col-xs-6">
                                 <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
                             </div> -->
-                        <div class="col-xs-12">
-                            <button class="btn btn-block btn-warning" type="submit" [disabled]="!changePwFrom.form.valid" (click)="changePasswd()">确认</button>
+                    <div class="col-xs-12">
+                        <button class="btn btn-block btn-warning" type="submit" [disabled]="!changePwFrom.form.valid" (click)="oldPasswdChangeHandler()">确认</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="use-phone" *ngIf="phoneChangePasswd" [@routerTransition]>
+    <div class="card">
+        <form #changePwFrom="ngForm">
+            <div class="card-header card-header-text" data-background-color="orange">
+                <span class="title-icon vapps-icon-app-login-passwd"></span>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">手机号</label>
+                            <input type="text" class="form-control" name="currentPassword" [(ngModel)]="encryptPhoneNum" readonly>
+                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+
+                <div class="row">
+                    <div class="col-sm-12 validate-code-wrap">
+                        <div class="form-group label-floating">
+                            <label class="control-label">验证码</label>
+                            <input type="number" class="form-control" name="repeatPasswd" [(ngModel)]="byPhoneInput.code">
+                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                        </div>
+                        <div class="get-sms-btn">
+                            <button type="button" class="btn" (click)="send()" [disabled]="isSendSMS" #smsBtn>{{l('GetVerificationCode')}}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group label-floating">
+                            <label class="control-label">新密码</label>
+                            <input type="password" class="form-control" name="repeatPasswd" [(ngModel)]="byPhoneInput.newPassword">
+                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- <div class="col-xs-6">
+                                    <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
+                                </div> -->
+                    <div class="col-xs-12">
+                        <button class="btn btn-block btn-warning" type="submit" [disabled]="!changePwFrom.form.valid" (click)="phoneChangeHandler()">确认</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

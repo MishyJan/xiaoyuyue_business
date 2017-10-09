@@ -37,12 +37,12 @@
                                 <div class="verify-phone content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-title pull-left">验证手机</span>
-                                        <span class="pull-left not-set">未设置</span>
-                                        <!-- <span class="pull-left already-set">已设置</span> -->
+                                        <span class="pull-left not-set" *ngIf="!isBindingPhone()">未设置</span>
+                                        <span class="pull-left already-set" *ngIf="isBindingPhone()">已设置</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <!-- <button type="button" class="btn primary-bgcolor">修改</button> -->
-                                        <button type="button" class="btn primary-bgcolor">设置</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="isBindingPhone()" (click)="showChangePhoneModel()">修改</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!isBindingPhone()" (click)="showBindingPhoneModel()">设置</button>
                                     </div>
                                 </div>
 
@@ -111,6 +111,8 @@
             </div>
         </form>
         <xiaoyuyue-change-passwd-model #changePasswdModel></xiaoyuyue-change-passwd-model>
+        <xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>
+        <xiaoyuyue-unbinding-phone-model #unbindingPhoneModel></xiaoyuyue-unbinding-phone-model>
     </div>
 </div>
 
