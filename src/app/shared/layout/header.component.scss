@@ -73,7 +73,11 @@
 
 @media screen and (max-width: 768px) {
     #fixed-header {
-        position: relative;
+        width: 100vw;
+        height: 55px;
+        position: fixed;
+        top: 0;
+        left: 0;
         z-index: 1000;
         background-image: url("/assets/common/images/booking/header-bg.png");
         background-color: #FF9641;
