@@ -29,7 +29,7 @@ import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNot
     ],
     encapsulation: ViewEncapsulation.None
 })
-export class HeaderComponent extends AppComponentBase implements OnInit {
+export class HeaderComponent extends AppComponentBase implements OnInit, AfterViewInit {
     isResetHeaderStyleFlag: any;
     isDashboardFlag: boolean;
 
@@ -82,9 +82,13 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
         this.isImpersonatedLogin = this._sessionService.impersonatorUserId > 0;
 
         this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l('YouCanBackToYourAccount') : '';
+
+        this.registerToEvents();
+    }
+
+    ngAfterViewInit() {
         this.getCurrentLoginInformations();
         this.getProfilePicture();
-        this.registerToEvents();
     }
 
     registerToEvents() {
@@ -130,6 +134,8 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     getCurrentLoginInformations(): void {
+        if (this.isMobile()) { return; }
+
         this._profileServiceProxy
             .getCurrentUserProfileForEdit()
             .subscribe((result: CurrentUserProfileEditDto) => {
@@ -146,6 +152,8 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     }
 
     getProfilePicture(): void {
+        if (this.isMobile()) { return; }
+
         this._profileServiceProxy.getProfilePicture().subscribe(result => {
             if (result && result.profilePicture) {
                 this.profilePicture = result.profilePicture;
@@ -201,5 +209,12 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
             // return `${this.l(curr.displayName)} - ${prev}`;
             return `${this.l(curr.displayName)}`;
         }, '');
+    }
+
+    isMobile(): boolean {
+        if ($('.mobile-header').length > 0) {
+            return true;
+        };
+        return false;
     }
 }
