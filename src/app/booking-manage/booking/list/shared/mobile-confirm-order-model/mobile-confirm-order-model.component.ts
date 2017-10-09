@@ -44,10 +44,10 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
 
     ngOnInit() {
         this.maxResultCount = this.gridParam.MaxResultCount;
+        // this.registerToEvents();
     }
 
     ngAfterViewInit() {
-
     }
 
     loadData(): void {
@@ -75,6 +75,13 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             })
     }
 
+    // abp.event.trigger('bookingOrdersChanged');
+    // registerToEvents() {
+    //     abp.event.on('bookingOrdersChanged', () => {
+    //         this.loadData();
+    //     });
+    // }
+
     getProfilePictureUrl(profilePictureUrl: string): string {
         const defaultAvatar = 'assets/common/images/default-profile-picture.png';
         if (profilePictureUrl === '') {
@@ -97,8 +104,6 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
                 this.notify.success('确认成功');
                 this.hide();
                 this.orderIds = [];
-                this.batchConfirmStateHanlder.emit(true);
-                this.loadData();
             })
     }
 
@@ -136,6 +141,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
 
     hide(): void {
         this.mobileConfirmOrderModel.hide();
+        this.batchConfirmStateHanlder.emit(true);
     }
 
 }
