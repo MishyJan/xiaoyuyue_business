@@ -1,5 +1,4 @@
-<div class="modal fade" bsModal #mobileConfirmOrderModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-    aria-hidden="true">
+<div class="modal fade" bsModal #mobileConfirmOrderModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div *ngIf="orgBookingOrderData.length > 0">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -15,7 +14,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn confirm-btn primary-bgcolor" (click)="batchConfirmBookingOrder()">一键确认</button>
+                    <button type="button" class="btn confirm-btn primary-bgcolor" (click)="batchConfirmBookingOrder()" [buttonBusy]="confirming" [busyText]="'确认中...'"><i></i><span>一键确认</span></button>
                     <div class="col-lg-12 pagination-wrap" *ngIf="!orgBookingOrderData">
                         <div class="pull-right">
                             <div class="has-text-centered">
@@ -25,7 +24,7 @@
                     </div>
                 </div>
 
-                
+
                 <span class="prev-icon" (click)="prevPage()"><i class="icon vapps-icon-app-prev-page"></i></span>
                 <span class="next-icon" (click)="nextPage()"><i class="icon vapps-icon-app-next-page"></i></span>
             </div>

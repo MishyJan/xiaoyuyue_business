@@ -13,6 +13,7 @@ import { OrgBookingOrderStatus } from 'shared/AppEnums';
     styleUrls: ['./mobile-confirm-order-model.component.scss']
 })
 export class MobileConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    confirming: boolean = false;
     hourOfDay: string;
     totalItems: number;
     orderIds: number[] = [];
@@ -88,7 +89,10 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             this.orderIds.push(element.id);
         });
         input.ids = this.orderIds
-        this._orgBookingOrderServiceProxy.batchConfirmBookingOrder(input)
+        this.confirming = true;
+        this._orgBookingOrderServiceProxy
+            .batchConfirmBookingOrder(input)
+            .finally( () => { this.confirming = false; })
             .subscribe(result => {
                 this.notify.success('确认成功');
                 this.hide();
