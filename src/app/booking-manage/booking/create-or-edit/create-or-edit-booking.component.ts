@@ -186,16 +186,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 } else {
                     this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
                     this.outletSelectListData = outletResult;
-                    this.selectOutletId = +outletResult[0].value;
+                    this.selectOutletId = +this.outletSelectDefaultItem;
 
                     // 获取联系人下拉框数据源
                     this._outletServiceServiceProxy
                         .getContactorSelectList(parseInt(this.outletSelectDefaultItem))
                         .subscribe(contactorResult => {
                             if (contactorResult.length <= 0) { return; }
+                            this.contactorSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.contactorId.toString() : contactorResult[0].value;
                             this.contactorSelectListData = contactorResult;
-                            this.contactorSelectDefaultItem = contactorResult[0].value;
-                            this.selectContactorId = +contactorResult[0].value;
+                            this.selectContactorId = +this.contactorSelectDefaultItem;
                         });
                 }
             });
