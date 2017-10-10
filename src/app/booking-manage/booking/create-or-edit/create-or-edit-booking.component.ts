@@ -44,7 +44,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     infoFormValid: boolean;
     bookingDataForEdit: GetBookingForEditOutput;
     baseInfo: BookingEditDto = new BookingEditDto();
-    timeInfo: BookingItemEditDto[];
+    timeInfo: BookingItemEditDto[] = [];
 
     href: string = document.location.href;
     bookingId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
@@ -166,8 +166,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.timeInfo = result.items;
                 this.pictureInfo = result.bookingPictures;
                 this.initFormValidation();
+                this.allBookingTime = result.items;
                 if (this.isMobile()) {
-                    this.allBookingTime = result.items;
                     this.isNew = false;
                 }
                 // this.pictureManageModel.refreshAllPictrueEdit();
