@@ -20,11 +20,11 @@
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)" [buttonBusy]="saving" [busyText]="l('Saving')">
+                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="!createBookingForm.form.valid" [buttonBusy]="saving" [busyText]="l('Saving')">
                     <i class="vapps-icon vapps-icon-app-submit"></i>
                     <span>{{l('Save')}}</span>
                 </button>
-                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)" [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">
+                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="!createBookingForm.form.valid" [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">
                     <i class="vapps-icon-save"></i>
                     <span>{{l('SavingAndEditing')}}</span>
                 </button>
@@ -50,7 +50,7 @@
                                         <input class="form-control " type="text" formControlName="bookingName" placeholder="{{l('Booking.Name')}}" required autofocus>
                                         <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
                                             <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',12)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',10)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
                                             <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
                                             <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',20)}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',24)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">项目简介不得超过100字</small>
                                         </div>
                                     </div>
                                 </div>
@@ -180,7 +180,7 @@
                                         <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Name')}}" formControlName="bookingName" required>
                                         <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
                                             <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',20)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',10)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -197,8 +197,8 @@
                                         <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Des')}}" formControlName="bookingDescription" required>
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
                                             <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',10)}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',24)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',20)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">项目简介不得超过100字</small>
                                         </div>
                                     </div>
                                 </div>

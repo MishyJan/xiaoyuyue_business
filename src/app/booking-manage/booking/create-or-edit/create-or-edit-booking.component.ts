@@ -103,12 +103,12 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.bookingBaseInfoForm = new FormGroup({
             bookingName: new FormControl(this.baseInfo.name, [
                 Validators.required,
-                Validators.maxLength(20),
+                Validators.maxLength(10),
             ]),
             bookingDescription: new FormControl(this.baseInfo.description, [
                 Validators.required,
-                Validators.minLength(10),
-                Validators.maxLength(24)
+                Validators.minLength(20),
+                Validators.maxLength(100)
             ])
         });
 

@@ -12,6 +12,7 @@ import { BindingPhoneModelComponent } from './phone-model/binding-phone-model/bi
 import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
 import { CommonModule } from '@angular/common';
 import { PhoneComponent } from './security/phone/phone.component';
+import { UtilsModule } from '@shared/utils/utils.module';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { PhoneComponent } from './security/phone/phone.component';
         FormsModule,
         ReactiveFormsModule,
         ModalModule.forRoot(),
-        ResponsiveModule
+        ResponsiveModule,
+        UtilsModule
     ],
     declarations: [
         AccountSecurityComponent,
