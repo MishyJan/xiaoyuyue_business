@@ -27,8 +27,8 @@ import { element } from 'protractor';
     selector: 'app-manage-booking',
     templateUrl: './booking-list.component.html',
     styleUrls: ['./booking-list.component.scss'],
-    animations: [appModuleSlowAnimation()]
-    //   changeDetection: ChangeDetectionStrategy.OnPush
+    animations: [appModuleSlowAnimation()],
+    changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
@@ -202,15 +202,15 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     private countOverbrimTop(val1, val2): number {
-        if (val1 <= 0 || val2 <= 0) { return 30; };
+        if (val1 <= 0 || val2 <= 0) { return 32; };
         const maxResult = 74;
         const ratio = maxResult / 100;
-        this.countOverbrimTopValue = Math.round(32 - ((100 - val1 / (val1 + val2) * 100)) * ratio);
+        this.countOverbrimTopValue = -Math.round(((val2 / val1 * 100)) * ratio - 32);
         return this.countOverbrimTopValue;
     }
 
     private countOverbrimState(val1, val2): any {
-        let temp = Math.round(100 - val1 / (val1 + val2) * 100);
+        let temp = Math.round(val2 / val1 * 100);
         (val1 === 0 || val2 === 0) && (temp = 0);
         const state = {
             state1: 0 <= temp && temp <= 30,

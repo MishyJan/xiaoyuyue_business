@@ -116,6 +116,8 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
 
     batchConfirmStateHanlder(batchConfirmState: boolean): void {
         if (batchConfirmState) {
+            console.log(batchConfirmState);
+            
             this.getBookingDetailData();
         }
     }
