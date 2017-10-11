@@ -20,12 +20,12 @@
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="(!infoFormValid || !createBookingForm.form.valid)"
+                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)"
                     [buttonBusy]="saving" [busyText]="l('Saving')">
                     <i class="vapps-icon vapps-icon-app-submit"></i>
                     <span>{{l('Save')}}</span>
                 </button>
-                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="(!infoFormValid || !createBookingForm.form.valid)"
+                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)"
                     [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">
                     <i class="vapps-icon-save"></i>
                     <span>{{l('SavingAndEditing')}}</span>

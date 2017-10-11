@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewInit, Component, Injector, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation, transition } from '@angular/core';
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -7,7 +8,6 @@ import { AppConsts } from 'shared/AppConsts';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
 import { PictureManageComponent } from './picture-manage/picture-manage.component';
-import { Router } from '@angular/router';
 import { ShareBookingModelComponent } from './share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -24,6 +24,7 @@ import { element } from 'protractor';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
+    bookingId;
     timeBaseInfoForm: FormGroup;
     bookingBaseInfoForm: FormGroup;
     editingIndex: boolean[] = [];
@@ -35,30 +36,26 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     // 传给图片管理组件
     pictureInfo: BookingPictureEditDto[] = [];
-
     allPictureForEdit: BookingPictureEditDto[] = [];
     outletSelectListData: SelectListItemDto[];
     contactorSelectListData: SelectListItemDto[];
 
     formVaild: boolean;
+    timeInfoFormValid: boolean;
     allBookingTime: BookingItemEditDto[] = [];
-    infoFormValid: boolean;
     bookingDataForEdit: GetBookingForEditOutput;
     baseInfo: BookingEditDto = new BookingEditDto();
-
-    href: string = document.location.href;
-    bookingId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
-
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
 
     selectOutletId: number;
     selectContactorId: number;
     saving = false;
     savingAndEditing = false;
-    //   是否显示完善机构信息弹窗
+    // 是否显示完善机构信息弹窗
     isShowImperfectTip = false;
-    //   是否显示补充门店信息弹窗
+    // 是否显示补充门店信息弹窗
     needImperfectOutlet = false;
+
     /* 移动端代码开始 */
     // 保存本地时间段
     dafaultDate: string;
@@ -78,12 +75,14 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
-        private _weChatShareTimelineService: WeChatShareTimelineService
+        private _weChatShareTimelineService: WeChatShareTimelineService,
+        private _route: ActivatedRoute
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this.bookingId = +this._route.snapshot.paramMap.get('id');
         this.loadData();
         this.getTenantInfo();
         this.initFormValidation();
@@ -174,7 +173,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.loadOutletData();
                 this.initWechatShareConfig();
 
-                this.infoFormValid = true;
+                this.timeInfoFormValid = true;
             });
     }
 
@@ -238,6 +237,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return;
         }
 
+        if (!this.timeInfoFormValid) {
+            this.message.error('', '时间信息尚未保存!');
+            this.saving = false;
+            this.savingAndEditing = false;
+            return;
+        }
+
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 
@@ -274,8 +280,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.allBookingTime = allBookingTime;
     }
 
-    getInfoFormValid(infoFormValid: boolean) {
-        this.infoFormValid = infoFormValid;
+    getInfoFormValid(timeInfoFormValid: boolean) {
+        this.timeInfoFormValid = timeInfoFormValid;
     }
 
     public outletChange(outlet: any): void {
