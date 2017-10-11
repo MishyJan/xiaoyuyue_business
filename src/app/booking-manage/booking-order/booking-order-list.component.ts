@@ -14,9 +14,8 @@ import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import timeago from 'timeago.js';
-import * as moment from 'moment';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
+import timeago from 'timeago.js';
 
 export class SingleBookingStatus {
     value: any;

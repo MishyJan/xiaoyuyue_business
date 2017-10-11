@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingItemEditDto } from 'shared/service-proxies/service-proxies';
 import { Location } from '@angular/common';
+import { element } from 'protractor';
 
 @Component({
     selector: 'app-time-info',
@@ -16,31 +17,22 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     timeBaseIngoForm: any;
     newTimeField: boolean;
     editingBooking: boolean;
-    // 存储正在编辑的时间信息索引值
-    private editIndex = 0;
-    index = 0;
+    editIndex = 0;  // 存储正在编辑的时间信息索引值
+    bookingId: number; // 正在编辑的预约id
+
+    // 修改中的时间段
+    editingBookingItem: BookingItemEditDto = new BookingItemEditDto();
+
+    // 已经存在的时间段
+    @Input() timeInfo: BookingItemEditDto[] = [];
+    @Input() timeInfoFormVaild = false;
     @Output() changeInput: EventEmitter<BookingItemEditDto[]> = new EventEmitter();
     @Output() timeInfoFormDisabled: EventEmitter<boolean> = new EventEmitter();
-
-    disabled: boolean;
-    href: string = document.location.href;
-    bookingId: number;
-
-    bookingStart = new Date(this.setZeroDate());
-    bookingEnd = new Date(this.setZeroDate());
-
-    // 保存本地时间段
-    localSingleBookingItem: BookingItemEditDto = new BookingItemEditDto();
-    localAllBookingItem: BookingItemEditDto[] = [];
 
     allBookingTime: Array<any> = [];
     singleTimeInfo: Array<BookingItemEditDto>;
 
-    @Input() timeInfo: BookingItemEditDto[];
-    @Input() timeInfoFormVaild = false;
-    isCreateTimeField = false;
-    isShowTimeField = false;
-    isCreateOrEdit: boolean;
+    isTimeEditing = false; // 是否在编辑中
 
     public bookingDate: Date = new Date();
 
@@ -55,11 +47,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     ngOnInit() {
         this.bookingId = +this._route.snapshot.paramMap.get('id');
-        this.isCreateOrEdit = this.bookingId ? false : true;
-        const bookingTime = new Array();
-        bookingTime[0] = this.bookingStart;
-        bookingTime[1] = this.bookingEnd;
-        this.allBookingTime.push(bookingTime);
+        this.allBookingTime.push(new Array(this.getZeroDate(0), this.getZeroDate(12)));
         this.initFormValidation();
         this.initFlatpickr(undefined);
     }
@@ -76,25 +64,26 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         }, 100);
     }
 
-    setZeroDate(): string {
-        let date = new Date();
-        let fullYear = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        return `${fullYear}-${month}-${day}`;
+    getZeroDate(hour): Date {
+        const date = new Date();
+        const fullYear = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return new Date(`${fullYear}-${month}-${day} ${hour}:00`);
     }
 
     // 响应式表单验证
     initFormValidation(): void {
         this.timeBaseIngoForm = new FormGroup({
-            maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
+            maxBookingNum: new FormControl(this.editingBookingItem.maxBookingNum, [
                 Validators.required,
             ]),
-            maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
+            maxQueueNum: new FormControl(this.editingBookingItem.maxQueueNum, [
                 Validators.required,
             ])
         })
     }
+
     get maxBookingNum() {
         return this.timeBaseIngoForm.get('maxBookingNum');
     }
@@ -102,25 +91,10 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         return this.timeBaseIngoForm.get('maxQueueNum');
     }
 
-    cancel() {
-        this.isCreateTimeField = false;
-        this.timeInfoFormVaild = true;
-        this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
-        if (!this.bookingId) {
-            // if (this.localSingleBookingItem) {
-            //     this.localAllBookingItem.push(this.localSingleBookingItem)
-            // }
-            return;
-        }
-        this.editingBooking && this.timeInfo.push(this.localSingleBookingItem);
-    }
-
     save() {
-        this.isCreateTimeField = false;
-        this.isShowTimeField = true;
-
-        this.localSingleBookingItem.maxBookingNum = this.timeBaseIngoForm.value.maxBookingNum;
-        this.localSingleBookingItem.maxQueueNum = this.timeBaseIngoForm.value.maxQueueNum;
+        this.isTimeEditing = false;
+        this.editingBookingItem.maxBookingNum = this.timeBaseIngoForm.value.maxBookingNum;
+        this.editingBookingItem.maxQueueNum = this.timeBaseIngoForm.value.maxQueueNum;
 
         const allBookingTimeItem = this.bookingTimeToString(this.allBookingTime);
         const timeField = new BookingItemEditDto();
@@ -129,72 +103,68 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.timeInfoFormVaild = true;
         this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
 
-        // 判断是创建或者编辑的状态
-        if (!this.bookingId) {
-            // 如果有多个预约时间段，将拆开单个保存数组
-            if (allBookingTimeItem.length > 1) {
-                const maxBookingNum = this.localSingleBookingItem.maxBookingNum;
-                const maxQueueNum = this.localSingleBookingItem.maxQueueNum;
-                const availableDates = this.localSingleBookingItem.availableDates;
-                for (let i = 0; i < allBookingTimeItem.length; i++) {
-                    this.localSingleBookingItem = new BookingItemEditDto();
-                    this.localSingleBookingItem.maxBookingNum = maxBookingNum;
-                    this.localSingleBookingItem.maxQueueNum = maxQueueNum;
-                    this.localSingleBookingItem.availableDates = availableDates;
-                    this.localSingleBookingItem.isActive = true;
-                    this.localSingleBookingItem.hourOfDay = allBookingTimeItem[i];
-                    this.localAllBookingItem.push(this.localSingleBookingItem);
-                }
-                return;
-            }
-            this.localSingleBookingItem.isActive = true;
-            this.localSingleBookingItem.hourOfDay = allBookingTimeItem[0];
-            this.localAllBookingItem.push(this.localSingleBookingItem);
-            this.localSingleBookingItem = new BookingItemEditDto();
-
-            this.changeInput.emit(this.localAllBookingItem);
-            return;
-        }
-
-        // 编辑状态
+        // 多时间段处理
         if (allBookingTimeItem.length > 1) {
-            const maxBookingNum = this.localSingleBookingItem.maxBookingNum;
-            const maxQueueNum = this.localSingleBookingItem.maxQueueNum;
             for (let i = 0; i < allBookingTimeItem.length; i++) {
-                this.localSingleBookingItem = new BookingItemEditDto();
-                this.localSingleBookingItem.maxBookingNum = maxBookingNum;
-                this.localSingleBookingItem.maxQueueNum = maxQueueNum;
-                this.localSingleBookingItem.hourOfDay = allBookingTimeItem[i];
-                this.localSingleBookingItem.isActive = true;
-                this.localSingleBookingItem.bookingId = this.bookingId;
-                this.timeInfo.push(this.localSingleBookingItem);
+                const bookingItem = new BookingItemEditDto();
+                bookingItem.maxBookingNum = this.editingBookingItem.maxBookingNum;
+                bookingItem.maxQueueNum = this.editingBookingItem.maxQueueNum;
+                bookingItem.availableDates = this.editingBookingItem.availableDates;
+                bookingItem.hourOfDay = allBookingTimeItem[i];
+                bookingItem.isActive = true;
+                if (!this.bookingId) {
+                    bookingItem.bookingId = this.bookingId; // 编辑状态下不应该出现多个时间段，此处不会被执行
+                }
+                this.timeInfo.push(bookingItem);
             }
-            return;
+        } else {
+            this.editingBookingItem.isActive = true;
+            this.editingBookingItem.hourOfDay = allBookingTimeItem[0];
+            const reg = new RegExp('; ', 'g');
+            this.editingBookingItem.availableDates = this.editingBookingItem.availableDates.replace(reg, ',');
+            this.timeInfo.push(this.editingBookingItem);
         }
-        this.localSingleBookingItem.isActive = true;
-        this.localSingleBookingItem.hourOfDay = allBookingTimeItem[0];
-        this.timeInfo.push(this.localSingleBookingItem);
-
-        this.localSingleBookingItem = new BookingItemEditDto();
 
         this.changeInput.emit(this.timeInfo);
 
+        // 置空
+        this.editingBookingItem = new BookingItemEditDto();
     }
 
     // 点击创建按钮，显示创建时段面板
     createTimeField() {
-        // 点击创建按钮时，创建面板的内容应置空
-        this.localSingleBookingItem = new BookingItemEditDto();
-        this.initFormValidation();
-        this.initFlatpickr(undefined);
+        if (this.isTimeEditing) {
+            this.message.confirm('', '请先保存编辑中的时间!', (isDelete) => {
+                return; // 添加时间中再点击添加按钮，不做任何操作
+            });
+        } else {
+            // 创建面板的内容置空
+            this.editingBookingItem = new BookingItemEditDto();
+            this.allBookingTime = new Array(new Array(this.getZeroDate(0), this.getZeroDate(12)));
+            this.initFormValidation();
+            this.initFlatpickr(undefined);
 
-        // 表示时间信息表单有新增，需要再次验证，传递给父组件为false
-        this.isCreateTimeField = true;
-        this.editingBooking = false;
-        this.timeInfoFormVaild = false;
-        this.newTimeField = true;
-        this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
+            // 表示时间信息表单有新增，需要再次验证，传递给父组件为false
+            this.isTimeEditing = true;
+            this.editingBooking = false;
+            this.timeInfoFormVaild = false;
+            this.newTimeField = true;
+            this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
+        }
     }
+
+    cancel() {
+        this.isTimeEditing = false;
+        this.timeInfoFormVaild = true;
+        this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
+        if (!this.bookingId) {
+            return;
+        }
+
+        // 把对象重新插入数组
+        this.editingBooking && this.timeInfo.push(this.editingBookingItem);
+    }
+
 
     multipleDateHandler(isMultipleDateFlag: boolean): void {
         if (isMultipleDateFlag && this.timeInfoFlatpickr) {
@@ -207,16 +177,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 增加预约时间段
     addTimeField() {
-        this.index++;
-
-        const date = new Array();
-        const bookingStart = new Date();
-        const bookingEnd = new Date();
-        date[0] = bookingStart;
-        date[1] = bookingEnd;
-        date[0].setMinutes(date[0].getMinutes() + this.index);
-        date[1].setMinutes(date[1].getMinutes() + this.index);
-        this.allBookingTime.push(date);
+        this.allBookingTime.push(new Array(this.getZeroDate(0), this.getZeroDate(12)));
     }
 
     // 移除预约时间
@@ -226,52 +187,38 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 复制整个时段(单个)
     copyBookingItem(index) {
-        if (!this.bookingId) {
-            const temp = this.localAllBookingItem[index];
-            this.localAllBookingItem.push(temp);
-        }
-        const temp = this.timeInfo[index];
-        this.timeInfo.push(temp);
+        this.timeInfo.push(this.timeInfo[index]);
     }
 
     // 编辑整个时段(单个)
     editBookingItem(index) {
         const self = this;
         this.editIndex = index;
-        const defaultDate = this.localAllBookingItem.length ? this.localAllBookingItem[index].availableDates : this.timeInfo[index].availableDates;
+        const defaultDate = this.timeInfo.length ? this.timeInfo[index].availableDates : this.timeInfo[index].availableDates;
         setTimeout(function () {
             self.initFlatpickr(defaultDate);
         }, 10);
-        this.localSingleBookingItem = new BookingItemEditDto();
+        this.editingBookingItem = new BookingItemEditDto();
         this.allBookingTime = [];
         this.editingBooking = true;
-        this.isCreateTimeField = true;
-        let temp;
-        if (!this.bookingId) {
-            temp = this.localAllBookingItem[index];
-        } else {
-            temp = this.timeInfo[index];
-        }
+        this.isTimeEditing = true;
+        const temp = this.timeInfo[index];
 
         this.bookingDate = this.stringToDate(temp.availableDates);
         this.allBookingTime.push(this.stringToBookingTime(this.bookingDate, temp.hourOfDay));
-        this.localSingleBookingItem.isActive = true;
-        this.localSingleBookingItem.id = temp.id;
-        this.localSingleBookingItem.maxBookingNum = temp.maxBookingNum;
-        this.localSingleBookingItem.maxQueueNum = temp.maxQueueNum;
-        this.localSingleBookingItem.availableDates = temp.availableDates;
-        this.localSingleBookingItem.hourOfDay = temp.hourOfDay;
+        this.editingBookingItem.isActive = true;
+        this.editingBookingItem.id = temp.id;
+        this.editingBookingItem.maxBookingNum = temp.maxBookingNum;
+        this.editingBookingItem.maxQueueNum = temp.maxQueueNum;
+        const reg = new RegExp(',', 'g');
+        this.editingBookingItem.availableDates = temp.availableDates.replace(reg, '; ');
+        this.editingBookingItem.hourOfDay = temp.hourOfDay;
         this.initFormValidation()
         this.removeBookingItem(index);
-
     }
 
     // 移除整个时段(单个)
     removeBookingItem(index) {
-        if (!this.bookingId) {
-            this.localAllBookingItem.splice(index, 1);
-            return;
-        }
         this.timeInfo.splice(index, 1);
     }
 
@@ -284,9 +231,6 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         return index === 0 ? true : false;
     }
 
-    back(): void {
-        this.location.back();
-    }
     // 日期转为指定格式
     dateToString(date: Date): string {
         const year = date.getFullYear();
@@ -338,8 +282,6 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
             date.setHours(parseInt(temp[i].split(':')[0]), parseInt(temp[i].split(':')[1]));
             allBookingTime.push(date);
         }
-
         return allBookingTime;
     }
-
 }
