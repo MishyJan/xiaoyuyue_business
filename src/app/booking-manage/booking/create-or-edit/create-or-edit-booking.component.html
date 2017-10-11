@@ -20,12 +20,12 @@
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
+                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)"
                     [buttonBusy]="saving" [busyText]="l('Saving')">
                     <i class="vapps-icon vapps-icon-app-submit"></i>
                     <span>{{l('Save')}}</span>
                 </button>
-                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="bookingId?false:(!infoFormValid || !createBookingForm.form.valid)"
+                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)"
                     [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">
                     <i class="vapps-icon-save"></i>
                     <span>{{l('SavingAndEditing')}}</span>
@@ -160,7 +160,7 @@
                 <app-picture-manage #pictureManageModel (sendAllPictureForEdit)="getAllPictureForEdit($event)" [pictureInfo]="pictureInfo"></app-picture-manage>
             </div>
             <div class="col-lg-12">
-                <app-time-info (changeInput)="getTimeInfoInput($event)" (timeInfoFormDisabled)="getInfoFormValid($event)" [timeInfo]="timeInfo"></app-time-info>
+                <app-time-info (changeInput)="getTimeInfoInput($event)" (timeInfoFormDisabled)="getInfoFormValid($event)" [timeInfo]="allBookingTime"></app-time-info>
             </div>
         </div>
     </form>
