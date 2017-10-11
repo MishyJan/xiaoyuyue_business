@@ -15,6 +15,13 @@ export class SelectHelper {
         return input;
     };
 
+    static ProvinceSelectList(): SelectListItemDto {
+        const input = new SelectListItemDto();
+        input.text = '省/市';
+        input.value = '0';
+        return input;
+    };
+
 
     static BoolList(): Object[] {
         return [
