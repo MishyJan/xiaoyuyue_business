@@ -32,7 +32,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-lg-5">
                     <!-- 门店信息 -->
                     <div class="card">
                         <div class="form-horizontal">
@@ -67,28 +67,12 @@
                                     </div>
                                 </div>
 
-                                <!-- 门店地址 -->
+                                <!-- 门店形象 -->
                                 <div class="row">
-                                    <label class="col-md-2 label-on-left">{{l('Outlet.Address')}}</label>
-                                    <div class="col-md-10">
-                                        <div class="form-group label-floating is-empty">
-                                            <label class="control-label"></label>
-                                            <div class="select-address-wrap clearfix">
-                                                <div class="col-md-4 item no-left-padding">
-                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
-                                                </div>
-                                                <div class="col-md-4 item no-lr-padding">
-                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
-                                                    </kendo-dropdownlist>
-                                                </div>
-                                                <div class="col-md-4 item no-right-padding">
-                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
-                                                    </kendo-dropdownlist>
-                                                </div>
-                                            </div>
-                                            <div class="detailed-address-wrap">
-                                                <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="detailAddress" placeholder="详细地址" required></textarea>
-                                            </div>
+                                    <label class="col-sm-2 label-on-left">门店形象</label>
+                                    <div class="col-sm-10 outlet-image-wrap">
+                                        <div class="outlet-image">
+                                            <xiaoyuyue-outlet-image [pictureInfo]="pictureInfo" (pictureInfoHandler)="getPictureInfo($event)"></xiaoyuyue-outlet-image>
                                         </div>
                                     </div>
                                 </div>
@@ -103,14 +87,15 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <xiaoyuyue-outlet-image [pictureInfo]="pictureInfo" (pictureInfoHandler)="getPictureInfo($event)"></xiaoyuyue-outlet-image>
+                <div class="col-md-6 col-lg-7">
+                    <xiaoyuyue-outlet-address [outletForEdit]="outletForEdit" (getOutletInfoHandler)="getOutletInfoHandler($event)"></xiaoyuyue-outlet-address>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 col-lg-12">
                     <xiaoyuyue-contact-info [onlineAllContactors]="onlineAllContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
                 </div>
             </div>

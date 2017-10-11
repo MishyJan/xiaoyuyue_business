@@ -13,6 +13,7 @@ import { OutletListComponent } from './outlet-list.component';
 import { OutletRoutingModule } from './outlet-routing.module';
 import { ResponsiveModule } from 'ng2-responsive'
 import { UtilsModule } from '@shared/utils/utils.module';
+import { OutletAddressComponent } from './create-or-edit-outlet/outlet-address/outlet-address.component';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         OutletListComponent,
         OutletImageComponent,
         ContactInfoComponent,
+        OutletAddressComponent
     ],
     providers: [
 

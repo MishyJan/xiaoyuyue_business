@@ -276,8 +276,8 @@
                 <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
             </div>
             <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
-                <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData">
-                    <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let index=index">
+                <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
+                    <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let indexJ=index">
                         <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                             <div class="top-wrap clearfix">
                                 <div class="title pull-left">{{bookingResultItem.name}}</div>
@@ -319,7 +319,7 @@
                             <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)">
                             <span class="icon vapps-icon-app-active"></span>激活预约</button>
                             <span class="line">|</span>
-                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id)">
+                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id, indexI, indexJ)">
                                 <span class="icon vapps-icon-app-confirm-2"></span>
                                 待确认
                                 <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
