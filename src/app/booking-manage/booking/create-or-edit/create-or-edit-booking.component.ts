@@ -14,6 +14,7 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { element } from 'protractor';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -44,7 +45,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     infoFormValid: boolean;
     bookingDataForEdit: GetBookingForEditOutput;
     baseInfo: BookingEditDto = new BookingEditDto();
-    timeInfo: BookingItemEditDto[] = [];
 
     href: string = document.location.href;
     bookingId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
@@ -163,7 +163,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .subscribe(result => {
                 this.bookingDataForEdit = result;
                 this.baseInfo = result.booking;
-                this.timeInfo = result.items;
+                this.allBookingTime = result.items;
                 this.pictureInfo = result.bookingPictures;
                 this.initFormValidation();
                 this.allBookingTime = result.items;
@@ -173,6 +173,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 // this.pictureManageModel.refreshAllPictrueEdit();
                 this.loadOutletData();
                 this.initWechatShareConfig();
+
+                this.infoFormValid = true;
             });
     }
 
@@ -202,31 +204,40 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     save() {
-        if (this.isMobile()) {
-            if (this.bookingBaseInfoForm.invalid) {
-                this.message.warn('预约信息未完善');
-                this.staticTabs.tabs[0].active = true;
-                return;
-            }
-
-            if (this.allBookingTime.length < 1) {
-                this.message.warn('时间信息未完善');
-                this.staticTabs.tabs[1].active = true;
-                return;
-            }
-        }
-
         this.saving = true;
         this.createOrUpdateBooking();
     }
 
     saveAndEdit() {
         this.savingAndEditing = true;
-
         this.createOrUpdateBooking(true);
     }
 
     createOrUpdateBooking(saveAndEdit: boolean = false) {
+        if (this.bookingBaseInfoForm.invalid) {
+            if (this.isMobile()) {
+                this.message.warn('预约信息未完善');
+                this.staticTabs.tabs[0].active = true;
+            } else {
+                this.message.error('', '预约信息未完善!');
+                this.saving = false;
+                this.savingAndEditing = false;
+            }
+            return;
+        }
+
+        if (this.allBookingTime.length < 1) {
+            if (this.isMobile()) {
+                this.message.warn('时间信息未完善');
+                this.staticTabs.tabs[1].active = true;
+            } else {
+                this.message.error('', '时间信息未完善!');
+                this.saving = false;
+                this.savingAndEditing = false;
+            }
+            return;
+        }
+
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 
@@ -236,7 +247,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
-        this.input.items = this.allBookingTime ? this.allBookingTime : this.timeInfo;
+        this.input.items = this.allBookingTime;
         // 判断是否上传过图片
         this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
 
