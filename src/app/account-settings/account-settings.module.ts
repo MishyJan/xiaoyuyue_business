@@ -1,18 +1,21 @@
-import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
-import { ChangePasswdModelComponent } from './change-passwd-model/change-passwd-model.component';
-import { ModalModule } from 'ngx-bootstrap';
-import { ResponsiveModule } from 'ng2-responsive';
-import { AccountSecurityRoutes } from './account-settings.routing';
+
 import { AccountSecurityComponent } from './account-settings.component';
-import { SecurityComponent } from './security/security.component';
-import { PasswdComponent } from './security/passwd/passwd.component';
+import { AccountSecurityRoutes } from './account-settings.routing';
+import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { BindingPhoneModelComponent } from './phone-model/binding-phone-model/binding-phone-model.component';
-import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
+import { ChangePasswdModelComponent } from './change-passwd-model/change-passwd-model.component';
 import { CommonModule } from '@angular/common';
+import { ExternalBindingModelComponent } from './external-auth/external-binding-model/external-binding-model.component';
+import { ModalModule } from 'ngx-bootstrap';
+import { NgModule } from '@angular/core';
+import { PasswdComponent } from './security/passwd/passwd.component';
 import { PhoneComponent } from './security/phone/phone.component';
-import { UtilsModule } from '@shared/utils/utils.module';
+import { QRCodeModule } from 'angular2-qrcode';
+import { ResponsiveModule } from 'ng2-responsive';
+import { SecurityComponent } from './security/security.component';
+import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
+import { UtilsModule } from 'shared/utils/utils.module';
 
 @NgModule({
     imports: [
@@ -22,8 +25,9 @@ import { UtilsModule } from '@shared/utils/utils.module';
         FormsModule,
         ReactiveFormsModule,
         ModalModule.forRoot(),
+        UtilsModule,
         ResponsiveModule,
-        UtilsModule
+        QRCodeModule
     ],
     declarations: [
         AccountSecurityComponent,
@@ -32,7 +36,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         SecurityComponent,
         UnbindingPhoneModelComponent,
         BindingPhoneModelComponent,
-        PhoneComponent
+        PhoneComponent,
+        ExternalBindingModelComponent
     ]
 })
 export class AccountSecurityModule { }

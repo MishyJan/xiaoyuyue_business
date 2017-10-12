@@ -38,7 +38,6 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     constructor(
         injector: Injector,
-        private location: Location,
         private _route: ActivatedRoute
 
     ) {

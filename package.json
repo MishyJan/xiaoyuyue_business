@@ -48,7 +48,6 @@
     "@types/toastr": "^2.1.34",
     "abp-ng2-module": "^1.2.0",
     "abp-web-resources": "^2.2.1",
-    "angular-qq-maps": "^1.0.0",
     "angular2-qrcode": "^2.0.1",
     "arrive": "^2.4.1",
     "block-ui": "^2.70.1",
