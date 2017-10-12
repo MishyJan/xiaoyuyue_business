@@ -1,0 +1,22 @@
+<div class="external-auth">
+  <div bsModal #externalBindingModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="externalBindingModel"
+    aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog">
+      <div class="xiaoyuyue-title-box">{{title}}</div>
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="external-source-wrap">
+            <p class="external-title">{{slogen}}</p>
+            <div class="qr-code-wrap">
+              <qr-code [value]="externalUrl" [size]="250"></qr-code>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn primary-bgcolor" (click)="close()"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Close')}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

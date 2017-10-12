@@ -17,7 +17,7 @@ import 'rxjs/add/operator/catch';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import { Inject, Injectable, OpaqueToken, Optional } from '@angular/core';
 
-import { Moment } from 'moment';
+import {Moment} from 'moment';
 import { Observable } from 'rxjs/Observable';
 
 export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
@@ -10275,8 +10275,8 @@ export class TokenAuthServiceProxy {
      * 第三方账号绑定
      * @return Success
      */
-    externalBinging(model: ExternalBingingModel): Observable<void> {
-        let url_ = this.baseUrl + "/api/TokenAuth/ExternalBinging";
+    externalBinding(model: ExternalBindingModel): Observable<void> {
+        let url_ = this.baseUrl + "/api/TokenAuth/ExternalBinding";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(model);
@@ -10290,11 +10290,11 @@ export class TokenAuthServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_) => {
-            return this.processExternalBinging(response_);
+            return this.processExternalBinding(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processExternalBinging(response_);
+                    return this.processExternalBinding(response_);
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -10303,7 +10303,52 @@ export class TokenAuthServiceProxy {
         });
     }
 
-    protected processExternalBinging(response: Response): Observable<void> {
+    protected processExternalBinding(response: Response): Observable<void> {
+        const status = response.status; 
+
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * 第三方账号解绑
+     * @return Success
+     */
+    externalUnBinding(model: ExternalUnBindingModel): Observable<void> {
+        let url_ = this.baseUrl + "/api/TokenAuth/ExternalUnBinding";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+        
+        let options_ = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_) => {
+            return this.processExternalUnBinding(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processExternalUnBinding(response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processExternalUnBinding(response: Response): Observable<void> {
         const status = response.status; 
 
         if (status === 200) {
@@ -22117,6 +22162,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
     emailAddress: string;
     profilePictureId: string;
     phoneNumber: string;
+    weChat: string;
     id: number;
 
     constructor(data?: IUserLoginInfoDto) {
@@ -22136,6 +22182,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
             this.emailAddress = data["emailAddress"];
             this.profilePictureId = data["profilePictureId"];
             this.phoneNumber = data["phoneNumber"];
+            this.weChat = data["weChat"];
             this.id = data["id"];
         }
     }
@@ -22154,6 +22201,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["emailAddress"] = this.emailAddress;
         data["profilePictureId"] = this.profilePictureId;
         data["phoneNumber"] = this.phoneNumber;
+        data["weChat"] = this.weChat;
         data["id"] = this.id;
         return data; 
     }
@@ -22166,6 +22214,7 @@ export interface IUserLoginInfoDto {
     emailAddress: string;
     profilePictureId: string;
     phoneNumber: string;
+    weChat: string;
     id: number;
 }
 
@@ -25507,7 +25556,7 @@ export interface IExternalAuthenticateResultModel {
     needSupplementary: boolean;
 }
 
-export class ExternalBingingModel implements IExternalBingingModel {
+export class ExternalBindingModel implements IExternalBindingModel {
     /** 认证类型 */
     authProvider: string;
     /** 认证秘钥 */
@@ -25515,7 +25564,7 @@ export class ExternalBingingModel implements IExternalBingingModel {
     /** 认证访问码 */
     providerAccessCode: string;
 
-    constructor(data?: IExternalBingingModel) {
+    constructor(data?: IExternalBindingModel) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -25532,8 +25581,8 @@ export class ExternalBingingModel implements IExternalBingingModel {
         }
     }
 
-    static fromJS(data: any): ExternalBingingModel {
-        let result = new ExternalBingingModel();
+    static fromJS(data: any): ExternalBindingModel {
+        let result = new ExternalBindingModel();
         result.init(data);
         return result;
     }
@@ -25547,13 +25596,50 @@ export class ExternalBingingModel implements IExternalBingingModel {
     }
 }
 
-export interface IExternalBingingModel {
+export interface IExternalBindingModel {
     /** 认证类型 */
     authProvider: string;
     /** 认证秘钥 */
     providerKey: string;
     /** 认证访问码 */
     providerAccessCode: string;
+}
+
+export class ExternalUnBindingModel implements IExternalUnBindingModel {
+    /** 认证类型 */
+    authProvider: string;
+
+    constructor(data?: IExternalUnBindingModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.authProvider = data["authProvider"];
+        }
+    }
+
+    static fromJS(data: any): ExternalUnBindingModel {
+        let result = new ExternalUnBindingModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["authProvider"] = this.authProvider;
+        return data; 
+    }
+}
+
+export interface IExternalUnBindingModel {
+    /** 认证类型 */
+    authProvider: string;
 }
 
 /** 补充认证 */

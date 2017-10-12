@@ -69,7 +69,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     public contactorSelectDefaultItem: string;
     constructor(
         injector: Injector,
-        private _locaition: Location,
         private _router: Router,
         private _pictureServiceProxy: PictureServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
@@ -130,7 +129,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     * desktop
     */
     back() {
-        // this._locaition.back();
         this._router.navigate(['/booking']);
     }
 
@@ -336,6 +334,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         }
         return false;
     }
+
     createTimeField(): void {
         this.isNew = true;
         this.localSingleBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
