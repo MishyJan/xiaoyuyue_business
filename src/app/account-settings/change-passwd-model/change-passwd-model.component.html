@@ -4,36 +4,45 @@
             <div class="modal-header">
                 <div class="xiaoyuyue-title-box">修改密码</div>
             </div>
-            <div class="modal-body">
-                <form class="">
+            <form #changePasswordModalForm="ngForm">
+                <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group label-floating">
-                                <input class="form-control edited" type="password" name="currentPassword" [(ngModel)]="input.currentPassword">
+                                <input class="form-control edited" type="password" name="currentPassword" [(ngModel)]="input.currentPassword" #CurrentPassword="ngModel" required>
                                 <label class="control-label">原密码</label>
                             </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group label-floating">
-                                <input class="form-control edited" type="password" name="newPassword" [(ngModel)]="input.newPassword">
-                                <label class="control-label">新密码</label>
+                            <div *ngIf="CurrentPassword.invalid && (CurrentPassword.dirty || CurrentPassword.touched)">
+                                <small class="text-danger" *ngIf="PasswordRepeat.errors.required">请输入旧密码</small>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group label-floating">
-                                <input class="form-control edited" type="password" name="repeatPasswd" [(ngModel)]="input.repeatPasswd">
+                                <input class="form-control edited" type="password" name="Password" [(ngModel)]="input.newPassword" #Password="ngModel" reverse="false" validateEqual="PasswordRepeat" required>
+                                <label class="control-label">新密码</label>
+                            </div>
+                            <div *ngIf="Password.invalid && (Password.dirty || Password.touched)">
+                                <small class="text-danger" *ngIf="Password.errors.required">请输入新密码</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="password" name="PasswordRepeat" [(ngModel)]="input.repeatPasswd" #PasswordRepeat="ngModel" reverse="true" validateEqual="Password" required>
                                 <label class="control-label">确认密码</label>
+                            </div>
+                            <div *ngIf="Password.invalid && Password.touched">
+                                <small class="text-danger">密码不匹配</small>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
 
-            <div class="modal-footer">
-                <button type="submit" class="btn primary-bgcolor" (click)="changePasswd()">确认</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn primary-bgcolor" (click)="changePasswd()" [disabled]="!changePasswordModalForm.form.valid">确认</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

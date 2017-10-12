@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ContactorEditDto, CreateOrUpdateOutletInput, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
+import { ContactorEditDto, CreateOrUpdateOutletInput, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy, GetOutletForEditDto } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
@@ -17,6 +17,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+    outletForEdit: GetOutletForEditDto = new GetOutletForEditDto();
     deleting = false;
     isCreateOrEditFlag: boolean;
     outletId: string;
@@ -80,6 +81,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this._outletServiceServiceProxy
             .getOutletForEdit(+this.outletId)
             .subscribe(result => {
+                this.outletForEdit = result;
                 this.contactorEdit = this.onlineAllContactors = result.contactors;
 
                 this.outetInfo.pictureId = this.pictureInfo.pictureId = result.outlet.pictureId;
@@ -231,6 +233,14 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     public openProvinceSledct(): void {
         this.getProvinceSelectList();
+    }
+
+    getOutletInfoHandler(outletInfo: OutletEditDto): void {
+        this.outetInfo.detailAddress = outletInfo.detailAddress;
+        this.outetInfo.provinceId = outletInfo.provinceId;
+        this.outetInfo.cityId = outletInfo.cityId;
+        this.outetInfo.districtId = outletInfo.districtId;
+        this.outetInfo.longitude = outletInfo.longitude;
     }
 
     getPictureInfo(uploadPicInfo: UploadPictureDto): void {

@@ -32,9 +32,10 @@ import { element } from 'protractor';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    updateDataIndex: number;
     allOrganizationBookingResultData: any[] = [];
 
-    infiniteScrollDistance = 2;
+    infiniteScrollDistance = 1;
     infiniteScrollThrottle = 300;
 
     actionFlag: boolean[] = [];
@@ -251,9 +252,14 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
 
-                if (this.organizationBookingResultData.length > 0) {
+                if (this.organizationBookingResultData.length > 0 && !this.updateDataIndex) {
                     this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
+                } else {
+                    this.allOrganizationBookingResultData[this.updateDataIndex] = this.organizationBookingResultData;
                 }
+
+                console.log(this.allOrganizationBookingResultData);
+                
 
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
@@ -335,6 +341,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     batchConfirmStateHanlder(batchConfirmState: boolean): void {
         if (batchConfirmState) {
+            this.skipCount -= this.maxResultCount;
             this.loadData();
         }
     }
@@ -360,7 +367,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.mobileShareBookingModel.show(shareUrl);
     }
 
-    showMobileConfirmOrderModel(bookingId: number): void {
+    showMobileConfirmOrderModel(bookingId: number, i: number, j: number): void {
+        this.updateDataIndex = i;
         this.mobileConfirmOrderModel.show(bookingId);
     }
 
