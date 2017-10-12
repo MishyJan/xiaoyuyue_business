@@ -77,8 +77,12 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
             this.districtId = changes.outletForEdit.currentValue.outlet.districtId;
 
             this.detailAddress = changes.outletForEdit.currentValue.outlet.detailAddress;
-            this.lat = changes.outletForEdit.currentValue.outlet.longitude.split(',')[0];
-            this.lng = changes.outletForEdit.currentValue.outlet.longitude.split(',')[1];
+            let longitude = changes.outletForEdit.currentValue.outlet.longitude;
+            if (longitude !== null) {
+                let temp = longitude.split(',');
+                this.lat = temp[0];
+                this.lng = temp[1];
+            }
 
             this.mapsReady();
 
@@ -95,6 +99,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
             .subscribe(result => {
                 this.provinceSelectListData = result;
                 this.provinceId = parseInt(this.selectedProvinceId, null);
+             
             })
     }
 
@@ -110,7 +115,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
                 this.cityId = parseInt(this.selectedCityId, null);
                 this.getDistrictsSelectList(this.cityId);
             })
-
     }
 
     getDistrictsSelectList(cityId: number): void {
@@ -129,6 +133,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
                     this.selectedDistrictId = this.districtSelectListData[0].value;
                     this.districtId = parseInt(this.selectedDistrictId, null);
                 }
+                this.codeAddress();
             })
     }
 
@@ -141,6 +146,10 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
     codeAddress() {
         let geocoder = new qq.maps.Geocoder();
         let address = this.transformAddress() + this.detailAddress;
+
+        if (address === undefined) {
+            return;
+        }
 
         //对指定地址进行解析
         geocoder.getLocation(address);
@@ -215,9 +224,9 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
     }
 
     public provinceSelectHandler(provinceId: any): void {
+        debugger
         this.outletInfo.provinceId = this.provinceId = parseInt(provinceId, null);
         this.selectedProvinceId = provinceId;
-        this.codeAddress();
         if (this.provinceId <= 0) {
             this.isCitySelect = false;
             this.isDistrictSelect = false;
@@ -230,8 +239,8 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
     public citySelectHandler(cityId: any): void {
         this.outletInfo.provinceId = this.cityId = parseInt(cityId, null);
         this.selectedCityId = cityId;
-        this.codeAddress();
         this.getDistrictsSelectList(cityId);
+        this.codeAddress();
     }
 
     public districtSelectHandler(districtId: any): void {
