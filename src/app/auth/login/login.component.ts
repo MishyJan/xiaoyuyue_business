@@ -49,7 +49,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         loginService.rememberMe = true;
     }
 
-
     ngAfterViewInit(): void {
         const self = this;
         $(document).click(() => {
@@ -75,7 +74,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
         return this.setting.getBoolean('App.UserManagement.AllowSelfRegistration');
     }
-
 
     login(): void {
         if (!this.loginService.authenticateModel.loginCertificate || !this.loginService.authenticateModel.password) {
@@ -106,7 +104,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
     externalLogin(provider: ExternalLoginProvider, elementRef: object, externalContent: object, $event) {
         $event.cancelBubble = true;
-        this.flag && this.loginService.externalAuthenticate(provider); //执行第三方登陆逻辑
+        this.flag && this.loginService.externalAuthenticate(provider); // 执行第三方登陆逻辑
 
         if (provider.name == 'WeChat' && this.flag) {
             // 由于每次点击都回去请求微信，但是微信图片隐藏时没必要也去请求
@@ -133,7 +131,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
             }
         });
     }
-
 
     private animationHide(externalAni, externalContent) {
         this._ngxAni.to(externalAni, .4, {
@@ -184,5 +181,4 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
             self._smsBtn.nativeElement.innerHTML = this.l('AgainSendValidateCode');
         }, 60000);
     }
-
 }
