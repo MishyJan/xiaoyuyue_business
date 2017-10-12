@@ -1,0 +1,49 @@
+.external-auth {
+    position: relative;
+    p {
+        margin: 20px 0;
+    }
+    .xiaoyuyue-title-box {
+        width: calc(100% - 40px);
+        height: 64px;
+        line-height: 64px;
+        text-align: center;
+        z-index: 12000;
+    }
+    .external-source-wrap {
+        .external-title {}
+        .external-btn-wrap {
+            height: 50px;
+            display: flex;
+            margin-bottom: 16px;
+            .btn-item {
+                flex: 1;
+                text-align: center;
+                span {
+                    width: 50px;
+                    height: 50px;
+                    position: relative;
+                    display: inline-block;
+                    margin: 0 auto;
+                    border-radius: 50%;
+                    background-color: #E5E5E5;
+                    img {
+                        width: 25px;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+        }
+        .external-url-text {
+            font-size: 24px;
+            text-align: center;
+            color: #FF9641;
+        }
+        .qr-code-wrap {
+            text-align: center;
+        }
+    }
+}
