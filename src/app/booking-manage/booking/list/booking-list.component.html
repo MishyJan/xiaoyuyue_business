@@ -277,11 +277,11 @@
             </div>
             <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
                 <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
-                    <div class="booking-item box-shadow" (click)="setActionFlag(index)" *ngFor="let bookingResultItem of organizationBookingResultData; let indexJ=index">
+                    <div class="booking-item box-shadow" (click)="setActionFlag(indexJ)" *ngFor="let bookingResultItem of organizationBookingResultData; let indexJ=index">
                         <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
                             <div class="top-wrap clearfix">
                                 <div class="title pull-left">{{bookingResultItem.name}}</div>
-                                <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[index], 'rotate-360': !actionFlag[index]}">
+                                <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[indexJ], 'rotate-360': !actionFlag[indexJ]}">
                                     <span class="vapps-icon-app-drop-down"></span>
                                 </div>
                             </div>
@@ -310,16 +310,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="bottom-action">
+                        <div class="bottom-action" *ngIf="actionFlag[indexJ]">
                             <button class="action-item" (click)="showDetail(bookingResultItem.id)">
                             <span class="icon vapps-icon-app-detail"></span>查看详情</button>
                             <span class="line">|</span>
-                            <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(index)">
+                            <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
                             <span class="icon vapps-icon-app-cancel"></span>禁用预约</button>
-                            <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(index)">
+                            <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(indexI, indexJ)">
                             <span class="icon vapps-icon-app-active"></span>激活预约</button>
                             <span class="line">|</span>
-                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id, indexI, indexJ)">
+                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id, indexI)">
                                 <span class="icon vapps-icon-app-confirm-2"></span>
                                 待确认
                                 <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>

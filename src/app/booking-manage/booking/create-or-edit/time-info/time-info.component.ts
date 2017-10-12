@@ -13,6 +13,7 @@ import { element } from 'protractor';
     styleUrls: ['./time-info.component.scss']
 })
 export class TimeInfoComponent extends AppComponentBase implements OnInit {
+    isMultipleDateFlag: boolean;
     timeInfoFlatpickr: any;
     timeBaseIngoForm: any;
     newTimeField: boolean;
@@ -176,6 +177,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 增加预约时间段
     addTimeField() {
+        if (this.editingBooking) { return; }
         this.allBookingTime.push(new Array(this.getZeroDate(0), this.getZeroDate(12)));
     }
 
@@ -192,8 +194,8 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     // 编辑整个时段(单个)
     editBookingItem(index) {
         const self = this;
+        const defaultDate = this.timeInfo.length > 0 && this.timeInfo[index].availableDates;
         this.editIndex = index;
-        const defaultDate = this.timeInfo.length ? this.timeInfo[index].availableDates : this.timeInfo[index].availableDates;
         setTimeout(function () {
             self.initFlatpickr(defaultDate);
         }, 10);
@@ -203,7 +205,6 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.isTimeEditing = true;
         const temp = this.timeInfo[index];
 
-        this.bookingDate = this.stringToDate(temp.availableDates);
         this.allBookingTime.push(this.stringToBookingTime(this.bookingDate, temp.hourOfDay));
         this.editingBookingItem.isActive = true;
         this.editingBookingItem.id = temp.id;
@@ -211,6 +212,9 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.editingBookingItem.maxQueueNum = temp.maxQueueNum;
         const reg = new RegExp(',', 'g');
         this.editingBookingItem.availableDates = temp.availableDates.replace(reg, '; ');
+        if (this.editingBookingItem.availableDates.split(';').length > 1) {
+            this.isMultipleDateFlag = true;
+        }
         this.editingBookingItem.hourOfDay = temp.hourOfDay;
         this.initFormValidation()
         this.removeBookingItem(index);
