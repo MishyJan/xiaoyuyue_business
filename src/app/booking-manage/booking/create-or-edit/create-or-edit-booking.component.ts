@@ -16,6 +16,11 @@ import { WeChatShareTimelineService } from 'shared/services/wechat-share-timelin
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 import { element } from 'protractor';
 
+export class BookingInfoOptions {
+    needGender: boolean;
+    needAge: boolean;
+    needEmail: boolean;
+}
 @Component({
     selector: 'app-create-or-edit-booking',
     templateUrl: './create-or-edit-booking.component.html',
@@ -24,7 +29,10 @@ import { element } from 'protractor';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
-    bookingId;
+
+    needInfoOptions: BookingInfoOptions = new BookingInfoOptions();
+    
+    bookingId: number;
     timeBaseInfoForm: FormGroup;
     bookingBaseInfoForm: FormGroup;
     editingIndex: boolean[] = [];
@@ -164,6 +172,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.pictureInfo = result.bookingPictures;
                 this.initFormValidation();
                 this.allBookingTime = result.items;
+                this.needInfoOptions.needAge = result.booking.needAge;
+                this.needInfoOptions.needGender = result.booking.needGender;
+                this.needInfoOptions.needEmail = result.booking.needEmail;
                 if (this.isMobile()) {
                     this.isNew = false;
                 }
@@ -242,6 +253,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return;
         }
 
+        this.baseInfo.needAge = this.needInfoOptions.needAge;
+        this.baseInfo.needGender = this.needInfoOptions.needGender;
+        this.baseInfo.needEmail = this.needInfoOptions.needEmail;
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 

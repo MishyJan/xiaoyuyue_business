@@ -1316,6 +1316,18 @@ a:focus {
     top: 0 !important;
 }
 
+
+/* toast提示框 */
+
 .toast-success {
     background-color: #FF9641;
+}
+
+
+/* sweet-alert弹窗 */
+
+.sweet-alert {
+    left: 15px;
+    right: 15px;
+    margin: auto;
 }
