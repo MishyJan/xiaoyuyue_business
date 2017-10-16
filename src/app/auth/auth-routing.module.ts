@@ -22,7 +22,7 @@ import { SupplyRegisterComponent } from './supply-register/supply-register.compo
                 path: '',
                 component: AuthComponent,
                 children: [
-                    { path: 'login', component: LoginComponent, data: { breadcrumb: 'LogIn' } },
+                    { path: 'login', component: LoginComponent, canActivate: [ExternalLoginGuard], data: { breadcrumb: 'LogIn' } },
                     { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Register' } },
                     { path: 'supply-register', component: SupplyRegisterComponent, data: { breadcrumb: '补充注册' } },
                     { path: 'forgot-password', component: ForgotPasswordComponent, data: { breadcrumb: 'ForgotPassword' } },
