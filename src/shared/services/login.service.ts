@@ -331,8 +331,7 @@ export class LoginService {
                 // this._router.navigate(['/account/supplementary-external-register', result.userId]);
                 return;
             }
-
-            // this.login(result.accessToken, result.encryptedAccessToken, result.expireInSeconds);
+            this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
         });
     }
 

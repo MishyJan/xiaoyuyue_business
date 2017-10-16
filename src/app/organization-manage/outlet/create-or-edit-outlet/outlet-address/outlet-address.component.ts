@@ -99,7 +99,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
             .subscribe(result => {
                 this.provinceSelectListData = result;
                 this.provinceId = parseInt(this.selectedProvinceId, null);
-             
             })
     }
 
@@ -114,6 +113,8 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
                 this.selectedCityId = this.citysSelectListData[0].value;
                 this.cityId = parseInt(this.selectedCityId, null);
                 this.getDistrictsSelectList(this.cityId);
+                this.outletInfo.cityId = this.cityId;
+                this.getOutletInfoHandler.emit(this.outletInfo);
             })
     }
 
@@ -134,6 +135,8 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
                     this.districtId = parseInt(this.selectedDistrictId, null);
                 }
                 this.codeAddress();
+                this.outletInfo.districtId = this.districtId;
+                this.getOutletInfoHandler.emit(this.outletInfo);
             })
     }
 
@@ -224,7 +227,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
     }
 
     public provinceSelectHandler(provinceId: any): void {
-        debugger
         this.outletInfo.provinceId = this.provinceId = parseInt(provinceId, null);
         this.selectedProvinceId = provinceId;
         if (this.provinceId <= 0) {
@@ -234,19 +236,22 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
             this.isCitySelect = true;
             this.isDistrictSelect = true;
             this.getCitysSelectList(provinceId);
+            this.getOutletInfoHandler.emit(this.outletInfo);
         }
     }
     public citySelectHandler(cityId: any): void {
-        this.outletInfo.provinceId = this.cityId = parseInt(cityId, null);
+        this.outletInfo.cityId = this.cityId = parseInt(cityId, null);
         this.selectedCityId = cityId;
         this.getDistrictsSelectList(cityId);
         this.codeAddress();
+        this.getOutletInfoHandler.emit(this.outletInfo);
     }
 
     public districtSelectHandler(districtId: any): void {
         this.outletInfo.districtId = this.selectedDistrictId = districtId;
         this.districtId = parseInt(districtId, null);
         this.codeAddress();
+        this.getOutletInfoHandler.emit(this.outletInfo);
     }
 
     public openProvinceSledct(): void {
