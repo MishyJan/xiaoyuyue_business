@@ -1331,3 +1331,20 @@ a:focus {
     right: 15px;
     margin: auto;
 }
+
+.sweet-alert button.confirm {
+    background-color: #FF9641 !important;
+}
+
+
+/* icon样式 */
+
+[class^="vapps-icon-"],
+[class*=" vapps-icon-"] {
+    transform: translateY(1px);
+    display: inline-block;
+}
+
+::-webkit-calendar-picker-indicator {
+    display: none;
+}

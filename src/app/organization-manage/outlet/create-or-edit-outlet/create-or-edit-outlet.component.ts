@@ -168,79 +168,12 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.isCreateOrEditFlag = this.outletId == null ? false : true;
     }
 
-    getProvinceSelectList(provinceId?: number): void {
-        this._stateServiceServiceProxy
-            .getProvinceSelectList()
-            .subscribe(result => {
-                this.provinceSelectListData = result;
-                this.provinceId = parseInt(this.selectedProvinceId, null);
-            })
-    }
-
-    getCitysSelectList(provinceId: number): void {
-        if (!provinceId) {
-            return;
-        }
-        this._stateServiceServiceProxy
-            .getCitySelectList(this.provinceId)
-            .subscribe(result => {
-                this.citysSelectListData = result;
-                this.selectedCityId = this.citysSelectListData[0].value;
-                this.cityId = parseInt(this.selectedCityId, null);
-                this.getDistrictsSelectList(this.cityId);
-            })
-
-    }
-
-    getDistrictsSelectList(cityId: number): void {
-        if (!cityId) {
-            return;
-        }
-        this._stateServiceServiceProxy
-            .getDistrictSelectList(cityId)
-            .subscribe(result => {
-                this.districtSelectListData = result;
-                if (result.length <= 0) {
-                    this.isDistrictSelect = false;
-                    this.selectedDistrictId = '';
-                    this.districtId = 0;
-                } else {
-                    this.selectedDistrictId = this.districtSelectListData[0].value;
-                    this.districtId = parseInt(this.selectedDistrictId, null);
-                }
-            })
-    }
-
-    public provinceSelectHandler(provinceId: any): void {
-        this.provinceId = parseInt(provinceId, null);
-        if (this.provinceId <= 0) {
-            this.isCitySelect = false;
-            this.isDistrictSelect = false;
-        } else {
-            this.isCitySelect = true;
-            this.isDistrictSelect = true;
-            this.getCitysSelectList(provinceId);
-        }
-    }
-    public citySelectHandler(cityId: any): void {
-        this.cityId = parseInt(cityId, null);
-        this.getDistrictsSelectList(cityId);
-    }
-
-    public districtSelectHandler(districtId: any): void {
-        this.districtId = parseInt(districtId, null);
-    }
-
-    public openProvinceSledct(): void {
-        this.getProvinceSelectList();
-    }
-
     getOutletInfoHandler(outletInfo: OutletEditDto): void {
-        this.outetInfo.detailAddress = outletInfo.detailAddress;
-        this.outetInfo.provinceId = outletInfo.provinceId;
-        this.outetInfo.cityId = outletInfo.cityId;
-        this.outetInfo.districtId = outletInfo.districtId;
-        this.outetInfo.longitude = outletInfo.longitude;
+        if (outletInfo.longitude) { this.outetInfo.longitude = outletInfo.longitude; }
+        if (outletInfo.detailAddress) { this.outetInfo.detailAddress = outletInfo.detailAddress; }
+        if (outletInfo.provinceId) { this.provinceId = outletInfo.provinceId; }
+        if (outletInfo.cityId) { this.cityId = outletInfo.cityId; }
+        if (outletInfo.districtId) { this.districtId = outletInfo.districtId; }
     }
 
     getPictureInfo(uploadPicInfo: UploadPictureDto): void {
