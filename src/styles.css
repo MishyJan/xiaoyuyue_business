@@ -1344,3 +1344,7 @@ a:focus {
     transform: translateY(1px);
     display: inline-block;
 }
+
+::-webkit-calendar-picker-indicator {
+    display: none;
+}
