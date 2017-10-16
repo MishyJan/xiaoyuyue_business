@@ -118,7 +118,7 @@ export class LoginService {
                         id: 'external_login_container',
                         appid: provider.clientId,
                         scope: 'snsapi_login',
-                        redirect_uri: AppConsts.shareBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT,/*暂用测试域名*/
+                        redirect_uri: AppConsts.appBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT,/*暂用测试域名*/
                         state: 'xiaoyuyue',
                         style: 'black',
                         href: 'https://static.vapps.com.cn/vappszero/wechat-login.css'
