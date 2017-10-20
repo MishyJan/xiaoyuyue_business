@@ -38,4 +38,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit {
     goToHome(): void {
         (window as any).location.href = '/';
     }
+
+
 }

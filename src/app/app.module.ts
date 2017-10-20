@@ -25,6 +25,7 @@ import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module
 import { SideBarComponent } from './shared/layout/side-bar.component';
 import { UserNotificationHelper } from './shared/layout/notifications/UserNotificationHelper';
 import { UtilsModule } from '@shared/utils/utils.module';
+import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         NotificationSettingsModalCompoent,
         MobileSideBarComponent,
         PageNotFoundComponent,
+        SupportedBrowsersComponent
     ],
     imports: [
         ngCommon.CommonModule,
