@@ -73,7 +73,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         });
 
         $('.mobile-page-content').css({
-            top: 0
+            'margin-top': 0
         });
     }
 
@@ -84,7 +84,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         });
 
         $('.mobile-page-content').css({
-            top: '55px'
+            'margin-top': '55px'
         });
     }
 
