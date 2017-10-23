@@ -1,0 +1,40 @@
+.supported-browsers-wrap {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: url('/assets/common/images/upgrade-browser/bg.jpg') repeat;
+    .content {
+        width: 800px;
+        height: 450px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        border-radius: 20px;
+        padding: 60px 100px;
+        color: #FFF;
+        background-color: rgba(255, 255, 255, 0.2);
+        text-align: center;
+        .top {
+            padding: 0 30px;
+        }
+        .tips-text {
+            font-size: 20px;
+            margin-top: 44px;
+            margin-bottom: 60px;
+        }
+        .optional-browser {
+            display: flex;
+            .flex-item {
+                flex: 1;
+                p {
+                    margin-top: 10px;
+                    color: #FFF;
+                }
+            }
+        }
+    }
+}

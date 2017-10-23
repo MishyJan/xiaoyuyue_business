@@ -95,4 +95,11 @@ export abstract class AppComponentBase {
             return false;
         }
     }
+
+    isMobile(jqueryDom: JQuery<HTMLElement>): boolean {
+        if (jqueryDom.length > 0) {
+            return true;
+        };
+        return false;
+    }
 }

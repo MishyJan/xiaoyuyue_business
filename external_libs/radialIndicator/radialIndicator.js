@@ -131,8 +131,17 @@
             //maximum text length;
             this.maxLength = indOption.percentage ? 4 : this.formatter(indOption.maxValue).length;
 
-            canElm.width = dim;
-            canElm.height = dim;
+            let width = canElm.width;
+            if (window.devicePixelRatio) {
+                canElm.style.width = width + "px";
+                canElm.style.height = width + "px";
+                canElm.height = width * window.devicePixelRatio;
+                canElm.width = width * window.devicePixelRatio;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            } else {
+                canElm.width = dim;
+                canElm.height = dim;
+            }
 
             //draw a grey circle
             ctx.strokeStyle = indOption.barBgColor; //background circle color

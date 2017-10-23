@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NgModule } from '@angular/core';
+import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
 
 @NgModule({
     imports: [
@@ -55,6 +56,10 @@ import { NgModule } from '@angular/core';
                         data: { preload: true }
                     }
                 ]
+            },
+            {
+                path: 'supported-browsers',
+                component: SupportedBrowsersComponent
             }
         ])
     ],
