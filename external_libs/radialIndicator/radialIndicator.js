@@ -131,7 +131,7 @@
             //maximum text length;
             this.maxLength = indOption.percentage ? 4 : this.formatter(indOption.maxValue).length;
 
-            let width = canElm.width;
+            var width = canElm.width;
             if (window.devicePixelRatio) {
                 canElm.style.width = width + "px";
                 canElm.style.height = width + "px";
