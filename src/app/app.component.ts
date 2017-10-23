@@ -131,8 +131,6 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
     }
 
     isOldBrowser(): void {
-        console.log(this.IEVersion(), this.webkitVersion());
-        
         if ((this.IEVersion() !== -1 && (this.IEVersion() < 10 || this.IEVersion() !== 'edge')) || this.webkitVersion() <= 49) {
             this.isOldBroFlag = true;
         } else {
