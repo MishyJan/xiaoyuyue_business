@@ -58,7 +58,6 @@ export class BreadcrumbService {
         }
 
         this.breadcrumbChanged.emit(this.breadcrumbs);
-
     }
 
     private createBreadcrumb(route: ActivatedRouteSnapshot, url: string): Breadcrumb {
