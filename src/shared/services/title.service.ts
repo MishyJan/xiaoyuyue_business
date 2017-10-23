@@ -18,14 +18,15 @@ export class TitleService {
     }
 
     setTitle(routesCollection: Breadcrumb[]) {
-        const title = `${this.l('Xiaoyuyue')}`;
-
+        const title = this.l('Xiaoyuyue');
+        alert(title);
         const titles = routesCollection.filter((route) => route.displayName);
 
         if (!titles.length) { return title; }
 
         const routeTitle = this.titlesToString(titles);
         this.titleService.setTitle(`${routeTitle} - ${title}`);
+        alert(`${routeTitle} - ${title}`);
     }
 
     private titlesToString(titles) {
