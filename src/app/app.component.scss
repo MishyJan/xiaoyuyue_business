@@ -28,12 +28,9 @@
 }
 
 .wrap {
-    height: 100vh;
     .mobile-page-content {
         width: 100%;
-        position: absolute;
-        top: 55px;
-        bottom: 0; // overflow-y: auto;
+        margin-top: 55px;
         -webkit-overflow-scrolling: touch;
     }
 }
