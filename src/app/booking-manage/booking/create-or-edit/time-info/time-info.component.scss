@@ -38,28 +38,12 @@
                         width: 240px;
                         height: 34px;
                     }
-                    .add-time-btn-wrap {
-                        width: 30px;
-                        height: 30px;
-                        position: relative;
+                    .add-time-btn-wrap,
+                    .del-time-btn-wrap {
+                        font-size: 30px;
+                        color: #FF9641;
                         margin-top: 2px;
-                        text-align: center;
-                        border-radius: 50%;
-                        border: 1px solid #ff9742;
-                        background-color: transparent;
                         cursor: pointer;
-                        .vapps-icon-cb-add-time {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            color: #ff9742;
-                            font-size: 15px;
-                        }
-                        .vapps-icon-dc-customer-vip {
-                            color: #ff9742;
-                            font-size: 15px;
-                        }
                     }
                     .name,
                     .view-box {

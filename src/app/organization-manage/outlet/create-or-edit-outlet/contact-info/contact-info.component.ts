@@ -65,7 +65,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
 
     save(): void {
         this.localSingleContact.isDefault = this.localSingleContact.isDefault || false;
-        if (!this.isMobile()) {
+        if (!this.isMobile($('.mobile-contact-info'))) {
             this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
         } else {
             this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
@@ -177,12 +177,5 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
                 this.actionFlag[index] = !!this.actionFlag[index];
             }
         });
-    }
-
-    isMobile(): boolean {
-        if ($('.mobile-contact-info').length > 0) {
-            return true;
-        };
-        return false;
     }
 }

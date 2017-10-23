@@ -50,10 +50,10 @@
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <div id="timeInfoFlatpickr" class="flatpickr-wrap">
-                                            <input class="form-control" type="text" name="bookingDate" placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}"
-                                                [(ngModel)]="editingBookingItem.availableDates" data-input required>
-
-                                            <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                            <input class="form-control" type="text" name="bookingDate" placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates" *ngIf="!editingBooking" data-input required>
+                                            <input class="form-control text-overflow" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [title]="editingBookingItem.availableDates" [(ngModel)]="editingBookingItem.availableDates" [disabled]="editingBooking" *ngIf="editingBooking"
+                                                required>
+                                            <a class="input-button flatpickr-toggle" *ngIf="!editingBooking" title="{{l('Switch')}}" data-toggle>
                                                 <i class="icon-calendar"></i>
                                             </a>
                                         </div>
@@ -63,7 +63,7 @@
                                 <div class="col-md-3">
                                     <div class="checkbox multiple-date-checkbox">
                                         <label>
-                                            <input type="checkbox" name="optionsCheckboxes" ngModel (ngModelChange)="multipleDateHandler($event)" [ngModelOptions]="{standalone: true}"> 多选
+                                            <input type="checkbox" name="optionsCheckboxes" ngModel (ngModelChange)="multipleDateHandler($event)" [disabled]="editingBooking" [(ngModel)]="isMultipleDateFlag" [ngModelOptions]="{standalone: true}"> 多选
                                         </label>
                                     </div>
                                 </div>
@@ -77,14 +77,14 @@
                                         <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
                                             <label class="control-label"></label>
                                             <div class="col-md-6">
-                                                <kendo-dateinput [format]="'HH:mm'" [(value)]="bookingTimeItem[0]"></kendo-dateinput>
+                                                <kendo-dateinput [format]="'HH:mm'" [(value)]="bookingTimeItem[0]" [disabled]="editingBooking"></kendo-dateinput>
                                             </div>
                                             <div class="col-md-6">
-                                                <kendo-dateinput [format]="'HH:mm'" [(value)]="bookingTimeItem[1]"></kendo-dateinput>
+                                                <kendo-dateinput [format]="'HH:mm'" [(value)]="bookingTimeItem[1]" [disabled]="editingBooking"></kendo-dateinput>
                                             </div>
                                         </div>
-                                        <div *ngIf="showAddTimeIcon(index)" class="add-time-btn-wrap pull-right box-shadow" (click)="addTimeField()"><span class="vapps-icon-cb-add-time"></span></div>
-                                        <div *ngIf="!showAddTimeIcon(index)" class="add-time-btn-wrap pull-right box-shadow" (click)="removeTimeField(index)"><span class="vapps-icon-dc-customer-vip"></span></div>
+                                        <div *ngIf="showAddTimeIcon(index)" class="add-time-btn-wrap pull-right vapps-icon-app-add-time-field" (click)="addTimeField()"></div>
+                                        <div *ngIf="!showAddTimeIcon(index)" class="del-time-btn-wrap pull-right vapps-icon-app-delete-time-field" (click)="removeTimeField(index)"></div>
                                     </div>
                                 </div>
                             </div>
@@ -135,11 +135,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 编辑状态的展示时间段 -->
-                <ng-template #hasTimeInfo>
-
-                </ng-template>
-                <!--<div (click)="createTimeField()" class="add-time-btn-wrap pull-left box-shadow"><span class="vapps-icon-cb-add-time"></span></div>-->
             </div>
         </form>
     </div>

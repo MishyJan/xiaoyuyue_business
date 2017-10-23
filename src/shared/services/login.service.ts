@@ -113,12 +113,12 @@ export class LoginService {
                     scope: ['wl.signin', 'wl.basic', 'wl.emails']
                 });
             } else if (provider.name === ExternalLoginProvider.WECHAT) {
-                jQuery.getScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
+                jQuery.getScript('https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
                     const wxLogin = new WxLogin({
                         id: 'external_login_container',
                         appid: provider.clientId,
                         scope: 'snsapi_login',
-                        redirect_uri: AppConsts.shareBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT,/*暂用测试域名*/
+                        redirect_uri: AppConsts.appBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT,/*暂用测试域名*/
                         state: 'xiaoyuyue',
                         style: 'black',
                         href: 'https://static.vapps.com.cn/vappszero/wechat-login.css'
@@ -331,8 +331,7 @@ export class LoginService {
                 // this._router.navigate(['/account/supplementary-external-register', result.userId]);
                 return;
             }
-
-            // this.login(result.accessToken, result.encryptedAccessToken, result.expireInSeconds);
+            this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
         });
     }
 

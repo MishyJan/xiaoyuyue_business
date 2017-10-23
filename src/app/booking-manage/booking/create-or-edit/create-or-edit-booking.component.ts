@@ -16,6 +16,11 @@ import { WeChatShareTimelineService } from 'shared/services/wechat-share-timelin
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 import { element } from 'protractor';
 
+export class BookingInfoOptions {
+    needGender: boolean;
+    needAge: boolean;
+    needEmail: boolean;
+}
 @Component({
     selector: 'app-create-or-edit-booking',
     templateUrl: './create-or-edit-booking.component.html',
@@ -24,7 +29,10 @@ import { element } from 'protractor';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
-    bookingId;
+
+    needInfoOptions: BookingInfoOptions = new BookingInfoOptions();
+    
+    bookingId: number;
     timeBaseInfoForm: FormGroup;
     bookingBaseInfoForm: FormGroup;
     editingIndex: boolean[] = [];
@@ -164,7 +172,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.pictureInfo = result.bookingPictures;
                 this.initFormValidation();
                 this.allBookingTime = result.items;
-                if (this.isMobile()) {
+                this.needInfoOptions.needAge = result.booking.needAge;
+                this.needInfoOptions.needGender = result.booking.needGender;
+                this.needInfoOptions.needEmail = result.booking.needEmail;
+                if (this.isMobile($('.mobile-create-booking'))) {
                     this.isNew = false;
                 }
                 // this.pictureManageModel.refreshAllPictrueEdit();
@@ -212,7 +223,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     createOrUpdateBooking(saveAndEdit: boolean = false) {
         if (this.bookingBaseInfoForm.invalid) {
-            if (this.isMobile()) {
+            if (this.isMobile($('.mobile-create-booking'))) {
                 this.message.warn('预约信息未完善');
                 this.staticTabs.tabs[0].active = true;
             } else {
@@ -224,7 +235,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         }
 
         if (this.allBookingTime.length < 1) {
-            if (this.isMobile()) {
+            if (this.isMobile($('.mobile-create-booking'))) {
                 this.message.warn('时间信息未完善');
                 this.staticTabs.tabs[1].active = true;
             } else {
@@ -242,6 +253,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return;
         }
 
+        this.baseInfo.needAge = this.needInfoOptions.needAge;
+        this.baseInfo.needGender = this.needInfoOptions.needGender;
+        this.baseInfo.needEmail = this.needInfoOptions.needEmail;
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
         this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 
@@ -266,7 +280,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                     return;
                 }
 
-                if (this.isMobile()) {
+                if (this.isMobile($('.mobile-create-booking'))) {
                     this._router.navigate(['/booking/succeed', result.id]);
                 } else {
                     this.shareBookingModel.show(result.id);
@@ -388,14 +402,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // PC端代码
     /* 业务代码 */
-    // 判断是否有移动端的DOM元素
-    isMobile(): boolean {
-        if ($('.mobile-create-booking').length > 0) {
-            return true;
-        };
-        return false;
-    }
-
     initWechatShareConfig() {
         if (this.baseInfo && this.isWeiXin()) {
             this._weChatShareTimelineService.input.sourceUrl = document.location.href;

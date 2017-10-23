@@ -32,7 +32,7 @@ import { element } from 'protractor';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
-    updateDataIndex: number;
+    updateDataIndex: number = -1;
     allOrganizationBookingResultData: any[] = [];
 
     infiniteScrollDistance = 1;
@@ -99,13 +99,13 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     ngAfterViewInit() {
         this.loadData();
-        if (!this.isMobile()) {
+        if (!this.isMobile($('.mobile-manage-booking'))) {
             this.initFlatpickr();
         }
     }
 
     ngOnDestroy() {
-        if (!this.isMobile() && this.bStartCreationTime && this.bEndCreationTime) {
+        if (!this.isMobile($('.mobile-manage-booking')) && this.bStartCreationTime && this.bEndCreationTime) {
             this.bStartCreationTime.destroy();
             this.bEndCreationTime.destroy();
         }
@@ -149,12 +149,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 禁用预约样式
-    disabledBookingClass(index) {
-        // this._ngxAni.to(disabledAni, .6, {
-        //     // 'filter': 'grayscale(100%)'
-        // });
-        this.activeOrDisable.id = this.organizationBookingResultData[index].id;
+    disabledBookingClass(indexI, indexJ) {
+        this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
         this.activeOrDisable.isActive = false;
+        this.updateDataIndex = indexI;
+        this.skipCount = this.maxResultCount * this.updateDataIndex;
         this._organizationBookingServiceProxy
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
@@ -164,12 +163,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 显示禁用之前预约样式
-    beforeBookingClass(index) {
-        // this._ngxAni.to(disabledAni, .6, {
-        //     'filter': 'grayscale(0)'
-        // });
-        this.activeOrDisable.id = this.organizationBookingResultData[index].id;
+    beforeBookingClass(indexI, indexJ) {
+        this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
         this.activeOrDisable.isActive = true;
+        this.updateDataIndex = indexI;
+        this.skipCount = this.maxResultCount * this.updateDataIndex;
         this._organizationBookingServiceProxy
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
@@ -244,6 +242,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     loadData(): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
+        if (this.skipCount < 0) { this.skipCount = 0 };
 
         this._organizationBookingServiceProxy
             .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
@@ -251,15 +250,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 const self = this;
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
-
-                if (this.organizationBookingResultData.length > 0 && !this.updateDataIndex) {
+                if (this.organizationBookingResultData.length > 0 && this.updateDataIndex < 0) {
                     this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
                 } else {
                     this.allOrganizationBookingResultData[this.updateDataIndex] = this.organizationBookingResultData;
                 }
-
-                console.log(this.allOrganizationBookingResultData);
-                
 
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
@@ -341,7 +336,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     batchConfirmStateHanlder(batchConfirmState: boolean): void {
         if (batchConfirmState) {
-            this.skipCount -= this.maxResultCount;
+            this.skipCount = this.maxResultCount * this.updateDataIndex;
             this.loadData();
         }
     }
@@ -367,27 +362,23 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.mobileShareBookingModel.show(shareUrl);
     }
 
-    showMobileConfirmOrderModel(bookingId: number, i: number, j: number): void {
-        this.updateDataIndex = i;
+    showMobileConfirmOrderModel(bookingId: number, indexI: number): void {
+        this.updateDataIndex = indexI;
         this.mobileConfirmOrderModel.show(bookingId);
     }
 
     public onScrollDown(): void {
-        if (this.skipCount > (this.totalItems - this.maxResultCount)) {
-            // this.isLoaded = true;
+        this.updateDataIndex = -1;
+        let totalCount = 0;
+        this.allOrganizationBookingResultData.forEach(organizationBookingResultData => {
+            organizationBookingResultData.forEach(element => {
+                totalCount++;
+            });
+        });
+        this.skipCount = totalCount;
+        if (this.skipCount >= this.totalItems) {
             return;
         }
-        this.skipCount += this.maxResultCount;
         this.loadData();
-
-    }
-
-    /* 公用代码 */
-    // 判断是否有移动端的DOM元素
-    isMobile(): boolean {
-        if ($('.mobile-manage-booking').length > 0) {
-            return true;
-        };
-        return false;
     }
 }

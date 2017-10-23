@@ -41,7 +41,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngAfterViewInit(): void {
-        if (this.isMobile()) {
+        if (this.isMobile($('.mobile-org-center'))) {
             this.resetHeaderStyle();
             this.getCurrentlyBookingData();
             return;
@@ -59,7 +59,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngOnDestroy() {
-        if (!this.isMobile() && this.dateFlatpickr) {
+        if (!this.isMobile($('.mobile-org-center')) && this.dateFlatpickr) {
             this.dateFlatpickr.destroy();
         } else {
             this.beforeHeaderStyle();
@@ -73,7 +73,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         });
 
         $('.mobile-page-content').css({
-            top: 0
+            'margin-top': 0
         });
     }
 
@@ -84,12 +84,12 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         });
 
         $('.mobile-page-content').css({
-            top: '55px'
+            'margin-top': '55px'
         });
     }
 
     loadData(): void {
-        if (this.isMobile()) {
+        if (this.isMobile($('.mobile-org-center'))) {
             this.dateSelected = this.mobileDateSelected;
             this._bookingDataStatisticsServiceProxy
                 .getBookingData(this.dateSelected)
@@ -209,10 +209,4 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         return this.tenantBaseInfoData.backgroundPictureUrl ? this.tenantBaseInfoData.backgroundPictureUrl : this.defaultTenantBgUrl;
     }
 
-    isMobile(): boolean {
-        if ($('.mobile-org-center').length > 0) {
-            return true;
-        };
-        return false;
-    }
 }

@@ -97,7 +97,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     ngAfterViewInit() {
         const self = this;
-        if (this.isMobile()) {
+        if (this.isMobile($('.mobile-custom-list'))) {
             this.getBookingId();
         } else {
             this.loadData();
@@ -113,7 +113,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
     }
     ngOnDestroy() {
-        if (this.isMobile()) {
+        if (this.isMobile($('.mobile-custom-list'))) {
             return;
         } else {
             this.destroyDesktopFlatpickr();
@@ -235,14 +235,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
         this.loadData();
-    }
-
-    /* 移动端代码 */
-    isMobile(): boolean {
-        if ($('.mobile-custom-list').length > 0) {
-            return true;
-        };
-        return false;
     }
 
     //获取日期搜索

@@ -307,7 +307,7 @@
     width: 100%;
     height: calc(100vh - 55px);
     position: absolute;
-    top: 0;
+    top: -10px;
     bottom: 0;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -328,11 +328,9 @@
             font-size: 18px;
         }
     }
-    .booking-item+.booking-item {
-        margin-top: 10px;
-    }
     .booking-item {
         padding: 0 15px 0;
+        margin-top: 10px;
         background-color: #FFF;
         border-radius: 4px;
         .top-wrap {

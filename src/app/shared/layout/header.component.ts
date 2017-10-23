@@ -134,7 +134,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     }
 
     getCurrentLoginInformations(): void {
-        if (this.isMobile()) { return; }
+        if (this.isMobile($('.mobile-header'))) { return; }
 
         this._profileServiceProxy
             .getCurrentUserProfileForEdit()
@@ -152,7 +152,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     }
 
     getProfilePicture(): void {
-        if (this.isMobile()) { return; }
+        if (this.isMobile($('.mobile-header'))) { return; }
 
         this._profileServiceProxy.getProfilePicture().subscribe(result => {
             if (result && result.profilePicture) {
@@ -211,10 +211,4 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
         }, '');
     }
 
-    isMobile(): boolean {
-        if ($('.mobile-header').length > 0) {
-            return true;
-        };
-        return false;
-    }
 }
