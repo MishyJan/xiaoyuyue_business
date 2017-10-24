@@ -31,7 +31,7 @@ export class BookingInfoOptions {
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
 
     needInfoOptions: BookingInfoOptions = new BookingInfoOptions();
-    
+
     bookingId: number;
     timeBaseInfoForm: FormGroup;
     bookingBaseInfoForm: FormGroup;

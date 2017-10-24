@@ -9,7 +9,7 @@ export class AppConsts {
     static appBaseUrl: string;
     static shareBaseUrl: string;
     static appBaseUrlFormat: string;
-    static readonly externalLoginUrl = '/auth/login';
+    static readonly externalLoginUrl = '/auth/external';
     static readonly userManagement = {
         defaultAdminUserName: 'admin'
     };

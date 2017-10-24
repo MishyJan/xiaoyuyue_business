@@ -95,7 +95,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
     is_weixn() {
         const ua = navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) + '' == 'micromessenger') {
+        if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
             return true;
         } else {
             return false;
@@ -106,7 +106,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         $event.cancelBubble = true;
         this.flag && this.loginService.externalAuthenticate(provider); // 执行第三方登陆逻辑
 
-        if (provider.name == 'WeChat' && this.flag) {
+        if (provider.name === 'WeChat' && this.flag) {
             // 由于每次点击都回去请求微信，但是微信图片隐藏时没必要也去请求
             this.animationShow(elementRef, externalContent);
         } else {

@@ -26,7 +26,8 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="form-group label-floating">
                                     <label class="control-label"></label>
-                                    <input class="form-control" type="text" placeholder="{{l('Certificate')}}" autofocus [(ngModel)]="loginService.authenticateModel.loginCertificate" name="loginCertificate" required>
+                                    <input class="form-control" type="text" placeholder="{{l('Certificate')}}" autofocus [(ngModel)]="loginService.authenticateModel.loginCertificate"
+                                        name="loginCertificate" required>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +38,8 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="form-group label-floating is-empty">
                                     <label class="control-label"></label>
-                                    <input class="form-control" type="password" placeholder="{{l('Pawwword')}}" [(ngModel)]="loginService.authenticateModel.password" name="password" required>
+                                    <input class="form-control" type="password" placeholder="{{l('Pawwword')}}" [(ngModel)]="loginService.authenticateModel.password"
+                                        name="password" required>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +53,8 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="form-group label-floating is-empty">
                                     <label class="control-label"></label>
-                                    <input class="form-control" type="number" autofocus name="phoneNumber" [(ngModel)]="model.phoneNum" maxlength="11" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" placeholder="{{l('PhoneNumber')}}" required>
+                                    <input class="form-control" type="number" autofocus name="phoneNumber" [(ngModel)]="model.phoneNum" maxlength="11" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}"
+                                        placeholder="{{l('PhoneNumber')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +97,8 @@
                         <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,externalAni,externalContent,$event)" title="{{provider.name}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,externalAni,externalContent,$event)"
+                                        title="{{provider.name}}"></a>
                                 </li>
                             </ul>
 
@@ -129,13 +133,15 @@
                 <div class="login-body">
                     <div class="form-item">
                         <div class="form-group label-floating">
-                            <input class="form-control" type="text" placeholder="用户名/手机号/邮箱" [(ngModel)]="loginService.authenticateModel.loginCertificate" name="UserName" required autofocus>
+                            <input class="form-control" type="text" placeholder="用户名/手机号/邮箱" [(ngModel)]="loginService.authenticateModel.loginCertificate"
+                                name="UserName" required autofocus>
                         </div>
                     </div>
 
                     <div class="form-item">
                         <div class="form-group label-floating">
-                            <input class="form-control" type="password" placeholder="密码" [(ngModel)]="loginService.authenticateModel.password" name="EmailAddress" required>
+                            <input class="form-control" type="password" placeholder="密码" [(ngModel)]="loginService.authenticateModel.password" name="EmailAddress"
+                                required>
                         </div>
                     </div>
 
