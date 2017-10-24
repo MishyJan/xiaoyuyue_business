@@ -113,7 +113,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
             this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
         }
         if (this.currentUserName !== this.input.tenancyName) {
-            this.message.confirm('是否更改您的用户名?', (result) => {
+            this.message.confirm('是否更改您的机构名称?', (result) => {
                 if (result) {
                     this.updateData(() => {
                         abp.event.trigger('userNameChanged');
@@ -125,7 +125,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
                 this.filpActive = true;
             })
         }
-
     }
 
     private updateData(callback: any): void {

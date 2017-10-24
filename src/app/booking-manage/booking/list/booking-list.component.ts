@@ -99,13 +99,13 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     ngAfterViewInit() {
         this.loadData();
-        if (!this.isMobile()) {
+        if (!this.isMobile($('.mobile-manage-booking'))) {
             this.initFlatpickr();
         }
     }
 
     ngOnDestroy() {
-        if (!this.isMobile() && this.bStartCreationTime && this.bEndCreationTime) {
+        if (!this.isMobile($('.mobile-manage-booking')) && this.bStartCreationTime && this.bEndCreationTime) {
             this.bStartCreationTime.destroy();
             this.bEndCreationTime.destroy();
         }
@@ -380,14 +380,5 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             return;
         }
         this.loadData();
-    }
-
-    /* 公用代码 */
-    // 判断是否有移动端的DOM元素
-    isMobile(): boolean {
-        if ($('.mobile-manage-booking').length > 0) {
-            return true;
-        };
-        return false;
     }
 }

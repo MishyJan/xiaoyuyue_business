@@ -91,9 +91,10 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 this.outetInfo.detailAddress = result.outlet.detailAddress;
                 this.outetInfo.phoneNum = result.outlet.phoneNum;
 
-                this.startShopHours = result.outlet.businessHours.split(' ')[0];
-                this.endShopHours = result.outlet.businessHours.split(' ')[1];
-
+                let hourOfDay = this.checkHourOfDay(result.outlet.businessHours);
+                this.startShopHours = hourOfDay.split(' - ')[0];
+                this.endShopHours = hourOfDay.split(' - ')[1];
+                
                 this.provinceSelectListData = result.availableProvinces;
                 this.selectedProvinceId = result.outlet.provinceId + '';
                 this.provinceId = result.outlet.provinceId;
@@ -125,7 +126,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     createOrUpdateOutlet(saveAndEdit: boolean = false) {
         this.outetInfo.id = +this.outletId ? +this.outletId : 0;
-        this.outetInfo.businessHours = this.startShopHours + ' ' + this.endShopHours;
+        this.outetInfo.businessHours = this.startShopHours + ' - ' + this.endShopHours;
         this.outetInfo.provinceId = this.provinceId;
         this.outetInfo.cityId = this.cityId;
         this.outetInfo.districtId = this.districtId;
@@ -183,6 +184,32 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     getContactorEdit(contactorEdit: ContactorEditDto[]) {
         this.contactorEdit = contactorEdit;
+    }
+
+    /* hourOfDay = '10:00 - 12:00' */
+    private checkHourOfDay(hourOfDay: string): string {
+        let tempHourOfDay = '';
+        let tempStart = '';
+        let tempEnd = '';
+        let hourOfDayArr = [];
+
+        hourOfDayArr = hourOfDay.split(' - ');
+        tempStart = hourOfDayArr[0];
+        tempEnd = hourOfDayArr[1];
+        if (!this.isTime(tempStart)) { tempStart = '00:00'; };
+        if (!this.isTime(tempEnd)) { tempEnd = '00:00'; };
+        tempHourOfDay = tempStart + ' - ' + tempEnd;
+
+        return tempHourOfDay;
+
+    }
+
+    private isTime(time: string): boolean {
+        let temp = [];
+        if (!time) { return; };
+        temp = time.split(':');
+        if (!isNaN(temp[0]) && !isNaN(temp[1])) { return true };
+        return false;
     }
 
     /* 移动端代码 */

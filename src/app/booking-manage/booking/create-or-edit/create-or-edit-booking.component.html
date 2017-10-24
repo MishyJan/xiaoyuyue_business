@@ -50,7 +50,7 @@
                                         <input class="form-control " type="text" formControlName="bookingName" placeholder="{{l('Booking.Name')}}" required autofocus>
                                         <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
                                             <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',12)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',10)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -64,8 +64,8 @@
                                         <textarea class="form-control " rows="5" name="projectIntro" minlength="10" formControlName="bookingDescription" placeholder="{{l('Booking.Des')}}" required></textarea>
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
                                             <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',20)}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',24)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',10)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',100)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +173,7 @@
                                         <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Name')}}" formControlName="bookingName" required>
                                         <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
                                             <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',20)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',10)}}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -191,7 +191,7 @@
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
                                             <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
                                             <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',10)}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',24)}}</small>
+                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',100)}}</small>
                                         </div>
                                     </div>
                                 </div>

@@ -1,5 +1,16 @@
 <div *hideItBootstrap="['xs','sm']">
-    <header></header>
+    <div class="tip-old-browser" *ngIf="isOldBroFlag">
+        <div class="content clearfix">
+            <div class="text-tips pull-left">
+                小预约将不再支持您的浏览器，建议您升级浏览器以获取最好的体验
+            </div>
+            <div class="command pull-right">
+                <button type="button" class="btn" routerLink="/supported-browsers">了解更多</button>
+                <button type="button" class="btn" (click)="hideTipOldBrowser()">忽略</button>
+            </div>
+        </div>
+    </div>
+    <header class="header-wrap" [ngClass]="{'down': isOldBroFlag}"></header>
     <div class="page-container">
         <div class="page-sidebar-wrapper">
             <side-bar id="sidebar"></side-bar>
