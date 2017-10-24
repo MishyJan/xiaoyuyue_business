@@ -113,7 +113,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             ]),
             bookingDescription: new FormControl(this.baseInfo.description, [
                 Validators.required,
-                Validators.minLength(20),
+                Validators.minLength(10),
                 Validators.maxLength(100)
             ])
         });
@@ -360,6 +360,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     savePanelTimeField(): void {
         this.isNew = false;
+        this.timeInfoFormValid = true;
         this.localSingleBookingItem.isActive = true;
         this.localSingleBookingItem.hourOfDay = this.startHourOfDay + '-' + this.endHourOfDay;
         this.localSingleBookingItem.maxBookingNum = this.timeBaseInfoForm.value.maxBookingNum;
