@@ -23,16 +23,16 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
                 path: '',
                 component: AuthComponent,
                 children: [
-                    { path: 'login', component: LoginComponent, data: { breadcrumb: 'LogIn' } },
+                    { path: 'login', component: LoginComponent, data: { breadcrumb: 'Page.Login' } },
                     { path: 'external', component: ExternalAuthComponent, data: { breadcrumb: 'Page.External' } },
-                    { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Register' } },
-                    { path: 'supply-register', component: SupplyRegisterComponent, data: { breadcrumb: '补充注册' } },
-                    { path: 'forgot-password', component: ForgotPasswordComponent, data: { breadcrumb: 'ForgotPassword' } },
-                    { path: 'reset-password', component: ResetPasswordComponent, data: { breadcrumb: 'ResetPassword' } },
-                    { path: 'email-activation', component: EmailActivationComponent, data: { breadcrumb: 'EmailActivation' } },
-                    { path: 'confirm-email', component: ConfirmEmailComponent, data: { breadcrumb: 'ConfirmEmail' } },
-                    { path: 'send-code', component: SendTwoFactorCodeComponent, data: { breadcrumb: 'SendCode' } },
-                    { path: 'verify-code', component: ValidateTwoFactorCodeComponent, data: { breadcrumb: 'VerifyCode' } }
+                    { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Page.Register' } },
+                    { path: 'supply-register', component: SupplyRegisterComponent, data: { breadcrumb: 'Page.SupplyRegister' } },
+                    { path: 'forgot-password', component: ForgotPasswordComponent, data: { breadcrumb: 'Page.ForgotPassword' } },
+                    { path: 'reset-password', component: ResetPasswordComponent, data: { breadcrumb: 'Page.ResetPassword' } },
+                    { path: 'email-activation', component: EmailActivationComponent, data: { breadcrumb: 'Page.EmailActivation' } },
+                    { path: 'confirm-email', component: ConfirmEmailComponent, data: { breadcrumb: 'Page.ConfirmEmail' } },
+                    { path: 'send-code', component: SendTwoFactorCodeComponent, data: { breadcrumb: 'Page.SendCode' } },
+                    { path: 'verify-code', component: ValidateTwoFactorCodeComponent, data: { breadcrumb: 'Page.VerifyCode' } }
                 ]
             }
         ])

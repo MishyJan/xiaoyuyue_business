@@ -110,12 +110,16 @@ export class LoginService {
                 const redirect_url = AppConsts.appBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.QQ + '&isAuthBind=false';
                 const response_type = 'code';
                 const state = 'xiaoyuyue';
-                let authUrl = `${authBaseUrl}?which=Login&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
+                let display;
+                if (this.outputUa.device.type === 'mobile') {
+                    display = 'mobile'
+                } else {
+                    display = 'pc'
+                }
+                const authUrl = `${authBaseUrl}?which=Login&display=${display}&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
 
                 // 是否需要展示手机端样式
-                if (this.outputUa.device.type === 'mobile') {
-                    authUrl += '&display=mobile'
-                }
+                console.log(authUrl);
                 window.location.href = authUrl;
             }
         });
