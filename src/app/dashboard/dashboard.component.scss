@@ -34,6 +34,7 @@
                 }
             }
             .content-item+.content-item {
+                border-radius: 6px;
                 margin-top: 15px;
             }
             .org-profile {
@@ -41,6 +42,7 @@
                 background-color: #FFF;
                 text-align: center;
                 overflow: hidden;
+                border-radius: 6px;
                 .org-bg {
                     width: 150px;
                     height: 150px;
@@ -87,6 +89,7 @@
             .data-item {
                 .top-bar {
                     background-color: #FFF;
+                    border-radius: 6px;
                     .top-title {
                         height: 72px;
                         line-height: 72px;

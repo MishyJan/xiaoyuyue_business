@@ -1,7 +1,8 @@
-import { AppConsts } from "shared/AppConsts";
+import { AppConsts } from 'shared/AppConsts';
 import { AuthComponent } from './auth.component';
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
+import { ExternalAuthComponent } from 'app/auth/external-auth/external-auth.component';
 import { ExternalLoginGuard } from 'app/shared/common/auth/external-login-guard';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
@@ -12,8 +13,8 @@ import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './password/reset-password.component';
 import { RouterModule } from '@angular/router';
 import { SendTwoFactorCodeComponent } from './login/send-two-factor-code.component';
-import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
 import { SupplyRegisterComponent } from './supply-register/supply-register.component';
+import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { SupplyRegisterComponent } from './supply-register/supply-register.compo
                 path: '',
                 component: AuthComponent,
                 children: [
-                    { path: 'login', component: LoginComponent, canActivate: [ExternalLoginGuard], data: { breadcrumb: 'LogIn' } },
+                    { path: 'login', component: LoginComponent, data: { breadcrumb: 'LogIn' } },
+                    { path: 'external', component: ExternalAuthComponent, data: { breadcrumb: 'Page.External' } },
                     { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Register' } },
                     { path: 'supply-register', component: SupplyRegisterComponent, data: { breadcrumb: '补充注册' } },
                     { path: 'forgot-password', component: ForgotPasswordComponent, data: { breadcrumb: 'ForgotPassword' } },
