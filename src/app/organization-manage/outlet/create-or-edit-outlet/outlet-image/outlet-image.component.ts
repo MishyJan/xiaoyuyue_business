@@ -28,6 +28,8 @@ export class OutletImageComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
     if (this.outletId) {
       this.loadData();
+    } else {
+        this.uploadPicInfo.pictureUrl = '';
     }
 
   }
