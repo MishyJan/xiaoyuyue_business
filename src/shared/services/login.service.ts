@@ -89,7 +89,6 @@ export class LoginService {
             })
     }
 
-
     externalAuthenticate(provider: ExternalLoginProvider): void {
         this.ensureExternalLoginProviderInitialized(provider, () => {
             if (provider.name === ExternalLoginProvider.WECHAT) {
@@ -239,19 +238,11 @@ export class LoginService {
     }
 
     public externalLoginCallback(params: Params): void {
-        this.wechatLogin(params);
-    }
-
-    public externalBindingCallback(params: Params): void {
-        this.wechatAuthBinding(params);
-    }
-
-    private wechatLogin(params: Params) {
         const model = new ExternalAuthenticateModel();
         model.authProvider = params['providerName'];
         model.providerAccessCode = params['code'];
         model.providerKey = params['code'];
-        this.externalAuthenticateAsync(model).done((result: ExternalAuthenticateResultModel) => {
+        this._tokenAuthService.externalAuthenticate(model).subscribe((result: ExternalAuthenticateResultModel) => {
             if (result.waitingForActivation) {
                 this._messageService.info('您已成功注册,请完善基本信息!');
                 // this._router.navigate(['/account/supplementary-external-register', result.userId]);
@@ -262,7 +253,7 @@ export class LoginService {
         });
     }
 
-    private wechatAuthBinding(params: Params) {
+    public externalBindingCallback(params: Params): void {
         const model = new ExternalAuthenticateModel();
         model.authProvider = params['providerName'];
         model.providerAccessCode = params['code'];
@@ -275,29 +266,7 @@ export class LoginService {
         });
     }
 
-    /**
-    * @return Success
-    */
-    externalAuthenticateAsync(model: ExternalAuthenticateModel): JQueryPromise<ExternalAuthenticateResultModel> {
-        let url_ = AppConsts.remoteServiceBaseUrl + '/api/TokenAuth/ExternalAuthenticate';
-        url_ = url_.replace(/[?&]$/, '');
 
-        const content_ = JSON.stringify(model ? model.toJSON() : null);
-
-        return abp.ajax({
-            url: url_,
-            method: 'POST',
-            data: content_,
-            async: false,
-            headers: {
-                'Accept-Language': abp.utils.getCookieValue('Abp.Localization.CultureName'),
-                'Abp.TenantId': abp.multiTenancy.getTenantIdCookie(),
-                Authorization: 'Bearer ' + this._cookiesService.getToken(),
-            }
-        }).done(response => {
-            return response;
-        });
-    }
 
     protected processExternalAuthenticate(response: Response): ExternalAuthenticateResultModel {
         const responseText = response.text();
