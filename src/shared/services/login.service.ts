@@ -24,10 +24,6 @@ export class ExternalLoginProvider extends ExternalLoginProviderInfoModel {
     private static getSocialIcon(providerName: string): string {
         providerName = providerName.toLowerCase();
 
-        if (providerName === 'google') {
-            providerName = 'googleplus';
-        }
-
         return providerName;
     }
 
@@ -37,7 +33,7 @@ export class ExternalLoginProvider extends ExternalLoginProviderInfoModel {
         this.name = providerInfo.name;
         this.clientId = providerInfo.clientId;
         this.icon = ExternalLoginProvider.getSocialIcon(this.name);
-        this.initialized = providerInfo.name === 'WeChat';
+        this.initialized = (providerInfo.name === 'WeChat' || providerInfo.name === 'QQ');
     }
 }
 
@@ -109,13 +105,12 @@ export class LoginService {
                     });
                 });
             } else if (provider.name === ExternalLoginProvider.QQ) {
-                debugger;
-                const authBaseUrl = 'https://graph.qq.com/oauth2.0/authorize';
+                const authBaseUrl = 'https://graph.qq.com/oauth/show';
                 const appid = provider.clientId;
                 const redirect_url = AppConsts.appBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.QQ + '&isAuthBind=false';
                 const response_type = 'code';
-                const scope = 'get_user_info';
-                let authUrl = `${authBaseUrl}?appid=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&scope=${scope}`;
+                const state = 'xiaoyuyue';
+                let authUrl = `${authBaseUrl}?which=Login&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
 
                 // 是否需要展示手机端样式
                 if (this.outputUa.device.type === 'mobile') {
