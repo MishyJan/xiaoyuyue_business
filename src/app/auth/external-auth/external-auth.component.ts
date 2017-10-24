@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Component, Injector, OnInit, transition } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit, transition } from '@angular/core';
 import { ExternalLoginProvider, LoginService } from 'shared/services/login.service';
 import { ExternalLoginProviderInfoModel, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 
@@ -15,7 +15,7 @@ import { element } from 'protractor';
     templateUrl: './external-auth.component.html',
     styleUrls: ['./external-auth.component.scss']
 })
-export class ExternalAuthComponent extends AppComponentBase implements OnInit {
+export class ExternalAuthComponent extends AppComponentBase implements OnInit, AfterViewInit {
     isAuthBind = 'false';
     constructor(
         injector: Injector,
@@ -29,6 +29,10 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
+
+    }
+
+    ngAfterViewInit(): void {
         this.externalLogin();
     }
 
