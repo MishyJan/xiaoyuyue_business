@@ -12,6 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
+import { ExternalAuthComponent } from 'app/auth/external-auth/external-auth.component';
 import { FooterComponent } from 'app/auth/layout/footer/footer.component';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { FormsModule } from '@angular/forms';
@@ -56,9 +57,11 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
     ],
     declarations: [
         AuthComponent,
+
         TenantChangeComponent,
         TenantChangeModalComponent,
         LoginComponent,
+        ExternalAuthComponent,
         RegisterComponent,
         ForgotPasswordComponent,
         ResetPasswordComponent,
