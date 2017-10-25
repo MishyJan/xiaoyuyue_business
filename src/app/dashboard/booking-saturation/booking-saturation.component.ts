@@ -13,6 +13,7 @@ import { Moment } from 'moment';
     styleUrls: ['./booking-saturation.component.scss']
 })
 export class BookingSaturationComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    bookingsDataLength: number;
     bookingStatisticsData: GetBookingSaturationOutput = new GetBookingSaturationOutput();
     outletDefaultListItem: any;
     outletSelectListData: SelectListItemDto[];
@@ -21,6 +22,7 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
     chartOption: object = {};
     count = 0;
     showloading = true;
+    slogan: string = '暂无数据';
 
     constructor(
         injector: Injector,
@@ -53,6 +55,7 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
             .finally(() => { this.showloading = false })
             .subscribe((result) => {
                 this.bookingStatisticsData = result;
+                this.bookingsDataLength = this.bookingStatisticsData.bookings.length;
             })
     }
 

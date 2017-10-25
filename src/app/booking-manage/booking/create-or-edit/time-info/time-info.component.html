@@ -50,7 +50,8 @@
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <div id="timeInfoFlatpickr" class="flatpickr-wrap">
-                                            <input class="form-control" type="text" name="bookingDate" placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates" *ngIf="!editingBooking" data-input required>
+                                            <input class="form-control text-overflow" style="padding-right: 26px;" type="text" name="bookingDate" [title]="editingBookingItem.availableDates" placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates"
+                                                *ngIf="!editingBooking" data-input required>
                                             <input class="form-control text-overflow" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [title]="editingBookingItem.availableDates" [(ngModel)]="editingBookingItem.availableDates" [disabled]="editingBooking" *ngIf="editingBooking"
                                                 required>
                                             <a class="input-button flatpickr-toggle" *ngIf="!editingBooking" title="{{l('Switch')}}" data-toggle>
