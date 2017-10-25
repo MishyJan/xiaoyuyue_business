@@ -12,8 +12,8 @@ import { appModuleAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
-    defaultTenantBgUrl: string = '../../assets/common/images/booking/center-bg.jpg';
-    defaultTenantLogoUrl: string = 'assets/common/images/logo.jpg';
+    defaultTenantBgUrl = '../../assets/common/images/booking/center-bg.jpg';
+    defaultTenantLogoUrl = 'assets/common/images/logo.jpg';
     currentlyBookingData: CurrentlyBookingDataDto[] = [];
     forSevenDaysOptions: object = {};
     tabToggle = true;
