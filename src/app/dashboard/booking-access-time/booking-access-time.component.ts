@@ -30,6 +30,7 @@ export class BookingAccessTimeComponent extends AppComponentBase implements Afte
     chartOption: object = {};
     count = 0;
     showloading = true;
+    slogan: string = '暂无数据';
 
     constructor(
         injector: Injector,
@@ -41,7 +42,7 @@ export class BookingAccessTimeComponent extends AppComponentBase implements Afte
     ngAfterViewInit() {
         this.setOption();
     }
-
+    
     ngOnChanges() {
         this.initChart();
     }
@@ -76,7 +77,7 @@ export class BookingAccessTimeComponent extends AppComponentBase implements Afte
                 type: 'category',
                 boundaryGap: false,
                 data: (() => {
-                    const res = [];
+                    let res = [];
                     if (this.bookingAccessTimeData.length > 0) {
                         this.bookingAccessTimeData[0].times.forEach(element => {
                             res.push(element.hour);
@@ -90,10 +91,10 @@ export class BookingAccessTimeComponent extends AppComponentBase implements Afte
                 minInterval: 1
             },
             series: (() => {
-                const seriesData = []
+                let seriesData = []
                 if (this.bookingAccessTimeData.length > 0) {
                     this.bookingAccessTimeData.forEach(element => {
-                        const res = new SeriesItem();
+                        let res = new SeriesItem();
                         res.type = 'line';
                         res.name = element.name;
                         res.smooth = true;

@@ -19,8 +19,8 @@
         <div class="item right-item">
             <span class="icon vapps-icon-app-booking-new-join"></span>
             <span class="text-data">
-                    <p class="text">{{l('Dashboard.SubNewBookingNum')}}</p>
-                    <span class="total">{{ bookingStatisticsData.subBookingNum }}</span>
+                <p class="text">{{l('Dashboard.SubNewBookingNum')}}</p>
+                <span class="total">{{ bookingStatisticsData.subBookingNum }}</span>
             </span>
         </div>
     </div>
@@ -32,11 +32,16 @@
             <span class="head-item">{{l('Dashboard.BookingPercent')}}</span>
             <span class="head-item">{{l('Dashboard.SubQueueNum')}}</span>
         </div>
-        <div class="table-content" *ngFor="let item of bookingStatisticsData.bookings">
-            <span class="content-item item-name text-overflow">{{ item.name }}</span>
-            <span class="content-item text-overflow">{{ item.subBookedNum}} / {{ item.subBookingNum }}</span>
-            <span class="content-item text-overflow">{{ getSaturationValue(item.subBookedNum, item.subBookingNum) }}</span>
-            <span class="content-item text-overflow">{{ item.subQueueNum }}</span>
+        <div *ngIf="bookingsDataLength > 0; else elseTemplate">
+            <div class="table-content" *ngFor="let item of bookingStatisticsData.bookings">
+                <span class="content-item item-name text-overflow">{{ item.name }}</span>
+                <span class="content-item text-overflow">{{ item.subBookedNum}} / {{ item.subBookingNum }}</span>
+                <span class="content-item text-overflow">{{ getSaturationValue(item.subBookedNum, item.subBookingNum) }}</span>
+                <span class="content-item text-overflow">{{ item.subQueueNum }}</span>
+            </div>
         </div>
+        <ng-template #elseTemplate>
+            <xiaoyuyue-empty-page [text]="slogan" [height]="'190px'"></xiaoyuyue-empty-page>
+        </ng-template>
     </div>
 </div>

@@ -73,6 +73,7 @@ export class LoginService {
     }
 
     phoneNumAuth(model: PhoneAuthenticateModel, finallyCallback?: () => void): void {
+        finallyCallback = finallyCallback || (() => { });
         this._tokenAuthService
             .phoneNumAuthenticate(model)
             .finally(finallyCallback)
@@ -81,9 +82,11 @@ export class LoginService {
             });
     }
 
-    supplRregister(model: SupplementAuthModel): void {
+    supplRregister(model: SupplementAuthModel, finallyCallback?: () => void): void {
+        finallyCallback = finallyCallback || (() => { });
         this._tokenAuthService
             .supplementAuth(model)
+            .finally(finallyCallback)
             .subscribe((result: SupplementAuthResultModel) => {
                 this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
             })
@@ -218,7 +221,6 @@ export class LoginService {
                 });
 
                 if (callback) {
-                    debugger;
                     callback(this.externalLoginProviders);
                 }
             });

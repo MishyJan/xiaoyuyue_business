@@ -3,5 +3,9 @@
         <h6 class="card-title">{{l('Dashboard.AccessTime')}}</h6>
     </div>
 </div>
-<div id="bookingAccessTimeEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="dashboard-chart"
-    (chartInit)="onChartInit($event)"></div>
+<ng-container *ngIf="bookingAccessTimeData.length > 0; else elseTemplate">
+    <div id="bookingAccessTimeEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="dashboard-chart" (chartInit)="onChartInit($event)"></div>
+</ng-container>
+<ng-template #elseTemplate>
+    <xiaoyuyue-empty-page [text]="slogan" [height]="'380px'"></xiaoyuyue-empty-page>
+</ng-template>

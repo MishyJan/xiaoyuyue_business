@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="register-btn-wrap">
-                    <button class="btn btn-register" type="submit" [disabled]="!(supplyRegisterForm.form.valid && readAndAgree)" (click)="supplRregisterHandler()">
+                    <button class="btn btn-register" type="submit" [disabled]="!(supplyRegisterForm.form.valid && readAndAgree)" (click)="supplRregisterHandler()" [buttonBusy]="registering" [busyText]="'补充注册中...'">
                             <i></i>
                             <span>补充注册</span>
                         </button>

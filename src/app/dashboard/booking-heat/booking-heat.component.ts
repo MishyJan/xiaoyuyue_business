@@ -14,13 +14,14 @@ import { element } from 'protractor';
     styleUrls: ['./booking-heat.component.scss']
 })
 export class BookingHeatComponent extends AppComponentBase implements OnInit, AfterViewInit {
-    bookingHeatData: BookingHeatDto[];
+    bookingHeatData: BookingHeatDto[] = [];
     bookingId: number;
-    orgBookingSelectListData: SelectListItemDto[];
+    orgBookingSelectListData: SelectListItemDto[] = [];
     orgBookingDefaultListItem: string;
     chartOption: object = {};
     count = 0;
     showloading = true;
+    slogan: string = '暂无数据';
 
     constructor(
         injector: Injector,
@@ -128,6 +129,9 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
                 this.bookingId = +this.orgBookingDefaultListItem;
                 this.orgBookingSelectListData = result;
                 this.loadData();
+            } else {
+                this.orgBookingSelectListData = [];
+                this.showloading = false;
             }
         });
     }
