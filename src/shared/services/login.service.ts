@@ -92,7 +92,7 @@ export class LoginService {
     externalAuthenticate(provider: ExternalLoginProvider): void {
         this.ensureExternalLoginProviderInitialized(provider, () => {
             if (provider.name === ExternalLoginProvider.WECHAT) {
-                jQuery.getScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
+                jQuery.getScript('https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
                     const wxLogin = new WxLogin({
                         id: 'external_login_container',
                         appid: provider.clientId,
@@ -117,8 +117,6 @@ export class LoginService {
                 }
                 const authUrl = `${authBaseUrl}?which=Login&display=${display}&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
 
-                // 是否需要展示手机端样式
-                console.log(authUrl);
                 window.location.href = authUrl;
             }
         });
