@@ -1,6 +1,5 @@
 import { ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 
-import { AngularEchartsModule } from 'ngx-echarts';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { CommonModule } from '@angular/common';

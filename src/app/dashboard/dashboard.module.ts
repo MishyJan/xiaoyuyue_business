@@ -15,8 +15,8 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { ResponsiveModule } from 'ng2-responsive';
-import { UtilsModule } from '@shared/utils/utils.module';
 import { ServicesModule } from 'shared/services/services.module';
+import { UtilsModule } from '@shared/utils/utils.module';
 
 @NgModule({
     imports: [

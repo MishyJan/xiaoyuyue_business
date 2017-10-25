@@ -55,7 +55,6 @@
             "../node_modules/moment/min/moment.min.js",
 
             "../external_libs/Jcrop/js/Jcrop.min.js",
-            "../node_modules/raphael/raphael.min.js",
             "../node_modules/jquery-backstretch/jquery.backstretch.min.js",
 
             "../src/assets/common/js/jquery.blockUI.min.js",
