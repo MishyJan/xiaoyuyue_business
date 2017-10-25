@@ -176,24 +176,25 @@
     }
 }
 
-// 添加微信登录样式
+// 添加第三方登录样式
 .social-icons-wrap {
     padding: 0;
+    li+li {
+        margin-left: 6px;
+    }
     li {
-        width: 28px;
-        height: 28px;
         display: inline-block;
         a {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             display: inline-block;
             &.wechat {
-                background: url('/assets/common/images/social/wechat-x2.png') no-repeat;
+                background: url('/assets/common/images/login/weChat-x2.png') no-repeat;
                 background-size: contain;
                 background-position: center;
             }
             &.qq {
-                background: url('/assets/common/images/social/qq-x2.png') no-repeat;
+                background: url('/assets/common/images/login/qq-x2.png') no-repeat;
                 background-size: contain;
                 background-position: center;
             }

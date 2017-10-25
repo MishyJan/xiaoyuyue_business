@@ -15,23 +15,26 @@
                     <div class="col-xs-11 col-sm-11">
                         <div class="form-group label-floating">
                             <label class="control-label"></label>
-                            <input class="form-control" placeholder="{{l('TenantName')}}" [(ngModel)]="model.tenantName" type="text" name="tenancyName" required autofocus>
+                            <input class="form-control" placeholder="{{l('TenantName')}}" [(ngModel)]="model.tenantName" #tenantName="ngModel" type="text" name="tenancyName" maxlength="10" required autofocus>
+                            <div *ngIf="tenantName.invalid && (tenantName.dirty || tenantName.touched)" class="text-danger">
+                                <div *ngIf="tenantName.errors.required">机构名称必填</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="clearfix">
                     <div class="form-group">
-                        <div class="checkbox col-md-5 col-xs-6">
+                        <div class="checkbox col-md-12">
                             <label>
-                                    <input type="checkbox" name="aboutTerms" value="true" />{{l('ReadAndAgree')}}
-                                    <span></span>
-                                </label>
+                                <input type="checkbox" name="readAndAgree" [(ngModel)]="readAndAgree" />{{l('ReadAndAgree')}}
+                            </label>
+                            <span><a href="javascript:;" (click)="readProtocolModal()">《小预约平台网络服务协议》</a></span>
                         </div>
                     </div>
                 </div>
                 <div class="register-btn-wrap">
-                    <button class="btn btn-register" type="submit" (click)="supplRregisterHandler()">
+                    <button class="btn btn-register" type="submit" [disabled]="!(supplyRegisterForm.form.valid && readAndAgree)" (click)="supplRregisterHandler()">
                             <i></i>
                             <span>补充注册</span>
                         </button>
@@ -40,4 +43,5 @@
             <div class="register-footer"></div>
         </div>
     </form>
+    <xiaoyuyue-protocol-model #protocolModal></xiaoyuyue-protocol-model>
 </div>

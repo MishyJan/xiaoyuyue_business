@@ -117,8 +117,6 @@ export class LoginService {
                 }
                 const authUrl = `${authBaseUrl}?which=Login&display=${display}&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
 
-                // 是否需要展示手机端样式
-                console.log(authUrl);
                 window.location.href = authUrl;
             }
         });

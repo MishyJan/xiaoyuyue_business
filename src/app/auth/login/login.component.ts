@@ -181,4 +181,8 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
             self._smsBtn.nativeElement.innerHTML = this.l('AgainSendValidateCode');
         }, 60000);
     }
+
+    mobileExternalLogin(provider: ExternalLoginProvider): void {
+        this.loginService.externalAuthenticate(provider);
+    }
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { TokenAuthServiceProxy, SupplementAuthModel, SupplementAuthResultModel } from '@shared/service-proxies/service-proxies';
 import { LoginService } from 'shared/services/login.service';
+import { ProtocolModelComponent } from 'app/auth/register/protocol-model/protocol-model.component';
 
 @Component({
     selector: 'xiaoyuyue-supply-register',
@@ -12,6 +13,9 @@ import { LoginService } from 'shared/services/login.service';
 })
 export class SupplyRegisterComponent extends AppComponentBase implements OnInit {
     model: SupplementAuthModel = new SupplementAuthModel();
+    readAndAgree: boolean = true;
+
+    @ViewChild('protocolModal') protocolModal: ProtocolModelComponent;
     constructor(
         private injector: Injector,
         private _loginService: LoginService
@@ -24,5 +28,9 @@ export class SupplyRegisterComponent extends AppComponentBase implements OnInit 
 
     supplRregisterHandler(): void {
         this._loginService.supplRregister(this.model);
+    }
+
+    readProtocolModal(): void {
+        this.protocolModal.show();
     }
 }
