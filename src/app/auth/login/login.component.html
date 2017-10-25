@@ -94,7 +94,7 @@
                         <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,externalAni,externalContent,$event)" title="{{provider.name}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,externalAni,externalContent,$event)" title="{{provider.name}}"></a>
                                 </li>
                             </ul>
 
@@ -148,14 +148,23 @@
                         <span class="pull-right">忘记密码?</span>
                     </div>
 
-                    <!-- <div class="extra-login">
-                                <div class="title-text"><span class="text">第三方平台登录</span></div>
-                                <div class="login-icon">
-                                    <span class="item"><img src="/assets/common/images/login/weChat-x2.png" width="38px" alt="weChat"></span>
-                                    <span class="item"><img src="/assets/common/images/login/qq-x2.png" width="38px" alt="weChat"></span>
-                                    <span class="item"><img src="/assets/common/images/login/weibo-x2.png" width="38px" alt="weChat"></span>
-                                </div>
-                            </div> -->
+                    <div class="extra-login">
+                        <div class="title-text"><span class="text">第三方平台登录</span></div>
+                        <!-- <div *ngIf="loginService.externalLoginProviders.length > 0">
+                            <ul class="social-icons-wrap">
+                                <li *ngFor="let provider of loginService.externalLoginProviders">
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}"></a>
+                                </li>
+                            </ul>
+                        </div> -->
+                        <div class="login-icon">
+                            <span class="item"><img src="/assets/common/images/login/weChat-x2.png" (click)="mobileExternalLogin(loginService.externalLoginProviders[0])" width="38px" alt="weChat"></span>
+                            <span class="item"><img src="/assets/common/images/login/qq-x2.png" (click)="mobileExternalLogin(loginService.externalLoginProviders[2])" width="38px" alt="weChat"></span>
+                            <span class="item">
+                                <!-- <img src="/assets/common/images/login/weibo-x2.png" width="38px" alt="weChat"> -->
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
