@@ -139,12 +139,13 @@
                         </div>
                     </div>
 
-                    <button class="btn primary-bgcolor btn-block login-btn-wrap" type="submit" (click)="login()">
-                        {{l("LogIn")}}
+                    <button class="btn primary-bgcolor btn-block login-btn-wrap" type="submit" (click)="login()" [disabled]="!loginForm.form.valid" [buttonBusy]="saving" [busyText]="l('Logging')">
+                            <i></i>
+                            <span>{{l("LogIn")}}</span>
                     </button>
 
                     <div class="form-item clearfix account-action">
-                        <span class="pull-left">快速注册</span>
+                        <span class="pull-left" routerLink="/auth/register">快速注册</span>
                         <span class="pull-right">忘记密码?</span>
                     </div>
 

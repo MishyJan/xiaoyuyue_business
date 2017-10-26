@@ -12,3 +12,7 @@
         </div>
     </div>
 </div>
+
+<div class="uploading-wrap" [style.width]="width" [style.height]="height" [style.line-height]="height" *ngIf="uploading">
+    <span class="fa fa-spin fa-spinner"></span>上传中...
+</div>
