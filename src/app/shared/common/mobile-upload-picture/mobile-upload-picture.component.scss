@@ -1,4 +1,6 @@
 .upload-wrap {
+    position: absolute;
+    z-index: 100;
     .upload-area-wrap {
         width: 100%;
         height: 100%;
@@ -8,7 +10,7 @@
             width: 100%;
             height: 100%;
             position: relative;
-            z-index: 2;
+            z-index: 1000;
             background-size: cover;
             background-position: center;
         }
@@ -54,4 +56,13 @@
             }
         }
     }
+}
+
+.uploading-wrap {
+    position: absolute;
+    z-index: 101;
+    text-align: center;
+    color: #FFF;
+    background-color: #999;
+    font-size: 14px;
 }

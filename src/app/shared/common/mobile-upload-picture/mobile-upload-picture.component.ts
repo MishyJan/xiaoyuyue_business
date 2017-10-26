@@ -14,6 +14,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
     uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
     uploadUid: number = Math.round(new Date().valueOf() * Math.random());
     tempUrl: string;
+    uploading: boolean = false;
 
     @Input() width: string = '100%';
     @Input() height: string = '100%';
@@ -98,7 +99,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                         },
                         'UploadProgress': function (up, file) {
                             // 每个文件上传时,处理相关的事情
-                            // self.loading = true;
+                            self.uploading = true;
                         },
                         'FileUploaded': function (up, file, info) {
                             // 每个文件上传成功后,处理相关的事情
@@ -110,13 +111,13 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                             self.uploadPictureInfo.pictureId = currentPicId;
 
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
-                            // self.loading = false;
+                            self.uploading = false;
                             // self.close();
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
-                            // self.loading = false;
-                            // self.notify.error('上传失败，请重新上传');
+                            self.uploading = false;
+                            self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
                             // uploader.destroy();

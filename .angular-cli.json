@@ -43,6 +43,7 @@
 
             "assets/common/styles/xiaoyuyue-icon.css",
             "assets/common/styles/flatpickr.css",
+            "assets/swiper/css/swiper.css",
             "sass/xiaoyuyue.scss",
             "styles.css"
         ],

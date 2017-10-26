@@ -1314,6 +1314,7 @@ a:focus {
     width: 100% !important;
     height: 100% !important;
     top: 0 !important;
+    z-index: 999 !important;
 }
 
 
