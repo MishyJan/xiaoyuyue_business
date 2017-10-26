@@ -12,8 +12,8 @@
                 <div class="flatpickr btn primary-bgcolor">
                     <a class="input-button" title="{{l('SwitchTime')}}" data-toggle>
                         <i class="vapps-icon light-bgcolor vapps-icon-dc-calendar"></i>
+                        <input type="text" [(ngModel)]="dateSelected" readonly data-input>
                     </a>
-                    <input type="text" [(ngModel)]="dateSelected" readonly data-input>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
             <div class="col-md-12 row no-right-padding">
                 <div class="left-content col-md-3">
                     <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
-                        <div class="org-bg" [ngStyle]="{'background-image': 'url(' + tenantBaseInfoData.logoUrl + ')'}">
+                        <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getTenantLogoUrl() + ')'}">
                             <!-- <img [src]="tenantBaseInfoData.logoUrl" width="100%" alt="logo"> -->
                         </div>
                         <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>

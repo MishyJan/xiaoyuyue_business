@@ -14,6 +14,7 @@ import { ProtocolModelComponent } from 'app/auth/register/protocol-model/protoco
 export class SupplyRegisterComponent extends AppComponentBase implements OnInit {
     model: SupplementAuthModel = new SupplementAuthModel();
     readAndAgree: boolean = true;
+    registering: boolean = false;
 
     @ViewChild('protocolModal') protocolModal: ProtocolModelComponent;
     constructor(
@@ -27,7 +28,8 @@ export class SupplyRegisterComponent extends AppComponentBase implements OnInit 
     }
 
     supplRregisterHandler(): void {
-        this._loginService.supplRregister(this.model);
+        this.registering = true;
+        this._loginService.supplRregister(this.model, () => this.registering = false);
     }
 
     readProtocolModal(): void {

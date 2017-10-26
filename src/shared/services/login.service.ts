@@ -73,6 +73,7 @@ export class LoginService {
     }
 
     phoneNumAuth(model: PhoneAuthenticateModel, finallyCallback?: () => void): void {
+        finallyCallback = finallyCallback || (() => { });
         this._tokenAuthService
             .phoneNumAuthenticate(model)
             .finally(finallyCallback)
@@ -81,9 +82,11 @@ export class LoginService {
             });
     }
 
-    supplRregister(model: SupplementAuthModel): void {
+    supplRregister(model: SupplementAuthModel, finallyCallback?: () => void): void {
+        finallyCallback = finallyCallback || (() => { });
         this._tokenAuthService
             .supplementAuth(model)
+            .finally(finallyCallback)
             .subscribe((result: SupplementAuthResultModel) => {
                 this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
             })
@@ -109,13 +112,12 @@ export class LoginService {
                 const redirect_url = AppConsts.appBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.QQ + '&isAuthBind=false';
                 const response_type = 'code';
                 const state = 'xiaoyuyue';
-                let display;
+                let authUrl;
                 if (this.outputUa.device.type === 'mobile') {
-                    display = 'mobile'
+                    authUrl = `https://xui.ptlogin2.qq.com/cgi-bin/xlogin?appid=716027609&pt_3rd_aid=${appid}&daid=383&pt_skey_valid=0&style=35&s_url=http%3A%2F%2Fconnect.qq.com&refer_cgi=authorize&which=&client_id=${appid}&response_type=${response_type}&scope=get_info%2Cget_user_info&redirect_uri=${encodeURIComponent(redirect_url)}&display=`;
                 } else {
-                    display = 'pc'
+                    authUrl = `https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
                 }
-                const authUrl = `${authBaseUrl}?which=Login&display=${display}&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
 
                 window.location.href = authUrl;
             }
@@ -218,7 +220,6 @@ export class LoginService {
                 });
 
                 if (callback) {
-                    debugger;
                     callback(this.externalLoginProviders);
                 }
             });

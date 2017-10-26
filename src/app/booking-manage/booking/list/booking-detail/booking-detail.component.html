@@ -11,7 +11,17 @@
     </div>
 
     <div class="tenant-wrap card">
-        <div class="tenant-bg-wrap" *ngIf="bookingPictures.length > 0"><img [src]="bookingPictures[0]" width="100%" alt="tenant-bg"></div>
+        <div class="tenant-bg-wrap" *ngIf="bookingPictures.length > 0">
+            <div class="swiper-container" id="tenantBgSwiperContainer">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" *ngFor="let bookingPicturesItem of bookingPictures">
+                        <span class="img-item" [ngStyle]="{'background-image': 'url(' + bookingPicturesItem + ')'}"></span>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <!-- <img [src]="bookingPictures[0]" width="100%" alt="tenant-bg"> -->
+        </div>
         <div class="tenant-info">
             <div class="name clearfix">
                 <span class="pull-left">{{ bookingForEditData.name }}</span>
@@ -22,11 +32,16 @@
                 <div class="item-left">
                     <div class="left-wrap">
                         <span class="item-left">预约时间 : </span>
-                        <span class="item-right">{{ availableBookingTime[0] }}</span>
+                        <div class="item-right">
+                            <div> {{ availableBookingTime[0] }} <span *ngIf="hasAvailableTime">...</span> </div>
+                            <div *ngIf="!hasAvailableTime">
+                                <div *ngFor="let item of availableBookingTime; let index = index;"> {{ availableBookingTime[index+1] }} </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="item-right text-center">
-                    <a><span class=""></span></a>
+                    <a class="rotate" [ngClass]="{'rotate-180': hasAvailableTime, 'rotate-360': !hasAvailableTime}"><span class="vapps-icon-app-drop-down" (click)="toggleAvailableTime()"></span></a>
                 </div>
             </div>
 

@@ -8,6 +8,9 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
     selector: '[UploadPicture]'
 })
 export class UploadPicDirective implements AfterViewInit {
+    uploadingIconClass: string;
+    _$uploadingIconEle: JQuery<HTMLElement>;
+    _$uploadingTextEle: JQuery<HTMLElement>;
     _$browseButtonEle: JQuery<HTMLElement>;
     _$uploadPicWrap: JQuery<HTMLElement>;
 
@@ -29,7 +32,23 @@ export class UploadPicDirective implements AfterViewInit {
     ngAfterViewInit(): void {
         this._$uploadPicWrap = $(this._element.nativeElement);
         this._$browseButtonEle = this._$uploadPicWrap.find(this.browseButtonEle);
+        this._$uploadingTextEle = this._$uploadPicWrap.find('.text');
+        this._$uploadingIconEle = this._$uploadPicWrap.find('.icon');
+        
         this.initFileUploader();
+    }
+
+    refreshState(isBusy: boolean): void {
+        if (isBusy) {
+            this.uploadingIconClass = this._$uploadingIconEle[0].className;
+            this._$uploadingIconEle.removeClass();
+            this._$uploadingIconEle.addClass('fa fa-spin fa-spinner');
+            this._$uploadingTextEle.text('上传中...');
+        } else {
+            this._$uploadingTextEle.text('');
+            this._$uploadingIconEle.removeClass();
+            this._$uploadingIconEle.addClass('icon vapps-icon-cb-add-img');
+        }
     }
 
     initFileUploader(): void {
@@ -94,7 +113,7 @@ export class UploadPicDirective implements AfterViewInit {
                         },
                         'UploadProgress': function (up, file) {
                             // 每个文件上传时,处理相关的事情
-                            // self.loading = true;
+                            self.refreshState(true);
                         },
                         'FileUploaded': function (up, file, info) {
                             // 每个文件上传成功后,处理相关的事情
@@ -113,12 +132,12 @@ export class UploadPicDirective implements AfterViewInit {
                             self.uploadPictureInfo.pictureId = currentPicId;
 
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
-                            // self.loading = false;
+                            self.refreshState(false);
                             // self.close();
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
-                            // self.loading = false;
+                            self.refreshState(false);
                             // self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {

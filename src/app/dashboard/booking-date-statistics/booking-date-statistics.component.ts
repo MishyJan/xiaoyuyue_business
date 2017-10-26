@@ -18,6 +18,7 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
     chartOption: object = {};
     count = 0;
     showloading = false;
+    slogan: string = '暂无数据';
 
     constructor(
         injector: Injector,
@@ -72,7 +73,7 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
                 top: '60px',
                 left: '8%',
                 right: '4%',
-                bottom: '0px',
+                bottom: '00px',
                 containLabel: true
             },
             xAxis: [
