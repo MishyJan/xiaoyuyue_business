@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="item-right text-center">
-                    <a class="rotate" [ngClass]="{'rotate-180': hasAvailableTime, 'rotate-360': !hasAvailableTime}"><span class="vapps-icon-app-drop-down" (click)="toggleAvailableTime()"></span></a>
+                    <a class="rotate" *ngIf="!(availableBookingTime.length <= 1)" [ngClass]="{'rotate-180': hasAvailableTime, 'rotate-360': !hasAvailableTime}"><span class="vapps-icon-app-drop-down" (click)="toggleAvailableTime()"></span></a>
                 </div>
             </div>
 
