@@ -1,3 +1,5 @@
+import 'assets/swiper/js/swiper.min'
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActiveOrDisableInput, BookingEditDto, BookingPictureEditDto, ContactorEditDto, GetBookingDetailOutput, OrgBookingServiceProxy, OutletEditDto, OutletServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 import { AfterViewInit, Component, Injector, OnInit, ViewChild } from '@angular/core';
@@ -9,13 +11,16 @@ import { MobileShareBookingModelComponent } from 'app/booking-manage/booking/lis
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
+declare var Swiper: any;
+
 @Component({
     selector: 'xiaoyuyue-booking-detail',
     templateUrl: './booking-detail.component.html',
     styleUrls: ['./booking-detail.component.scss'],
     animations: [accountModuleAnimation()],
 })
-export class BookingDetailComponent extends AppComponentBase implements OnInit {
+export class BookingDetailComponent extends AppComponentBase implements OnInit,AfterViewInit {
+    hasAvailableTime: boolean = false;
     shareUrl: string;
     bookingPictures: string[] = [];
     availableBookingTime: string[] = [];
@@ -45,6 +50,20 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
         this.getBookingDetailData();
     }
 
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.initSwiper();
+        }, 500);
+    }
+
+    initSwiper(): void {
+        // debugger
+        const swiper = new Swiper('#tenantBgSwiperContainer', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        });
+    }
+
     //   获取bookingID
     getBookingId(): void {
         this.bookingId = this._route.snapshot.paramMap.get('id');
@@ -57,9 +76,15 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit {
             .subscribe(result => {
                 this.bookingForEditData = result;
                 this.availableBookingTime = this.bookingForEditData.availableBookingTime;
+                if (this.availableBookingTime.length > 0) { this.hasAvailableTime = true; };
                 this.bookingPictures = this.bookingForEditData.pictures;
                 this.initWechatShareConfig();
             });
+    }
+
+    /* 显示或者隐藏多个预约时间 */
+    toggleAvailableTime(): void {
+        this.hasAvailableTime = !this.hasAvailableTime;
     }
 
     // 获取门店信息
