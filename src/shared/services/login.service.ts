@@ -107,17 +107,13 @@ export class LoginService {
                     });
                 });
             } else if (provider.name === ExternalLoginProvider.QQ) {
-                const authBaseUrl = 'https://graph.qq.com/oauth/show';
+                const authBaseUrl = 'https://graph.qq.com/oauth2.0/authorize';
                 const appid = provider.clientId;
                 const redirect_url = AppConsts.appBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.QQ + '&isAuthBind=false';
                 const response_type = 'code';
-                const state = 'xiaoyuyue';
-                let authUrl;
-                if (this.outputUa.device.type === 'mobile') {
-                    authUrl = `https://xui.ptlogin2.qq.com/cgi-bin/xlogin?appid=716027609&pt_3rd_aid=${appid}&daid=383&pt_skey_valid=0&style=35&s_url=http%3A%2F%2Fconnect.qq.com&refer_cgi=authorize&which=&client_id=${appid}&response_type=${response_type}&scope=get_info%2Cget_user_info&redirect_uri=${encodeURIComponent(redirect_url)}&display=`;
-                } else {
-                    authUrl = `https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&state=${state}`;
-                }
+                const scope = 'get_user_info';
+
+                const authUrl = `${authBaseUrl}?client_id=${appid}&response_type=${response_type}&scope=${scope}&redirect_uri=${encodeURIComponent(redirect_url)}&display=`;
 
                 window.location.href = authUrl;
             }
