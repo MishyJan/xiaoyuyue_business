@@ -188,15 +188,24 @@
             width: 32px;
             height: 32px;
             display: inline-block;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            transition: all .15s;
+            &:hover {
+                &.wechat {
+                    background-image: url('/assets/common/images/login/weChat-shadow-x2.png');
+                }
+                &.qq {
+                    background-image: url('/assets/common/images/login/qq-shadow-x2.png');
+                }
+            }
             &.wechat {
-                background: url('/assets/common/images/login/weChat-x2.png') no-repeat;
-                background-size: contain;
-                background-position: center;
+                background-image: url('/assets/common/images/login/weChat-x2.png');
             }
             &.qq {
-                background: url('/assets/common/images/login/qq-x2.png') no-repeat;
-                background-size: contain;
-                background-position: center;
+                background-image: url('/assets/common/images/login/qq-x2.png');
             }
         }
     }
