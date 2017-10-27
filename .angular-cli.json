@@ -88,9 +88,7 @@
             "../node_modules/arrive/minified/arrive.min.js",
             "../src/assets/md-pro/js/core/material.min.js",
 
-            "../external_libs/ECharts/js/echarts.min.js",
-            "../node_modules/echarts/map/js/china.js",
-            "../node_modules/echarts/theme/shine.js",
+
             "../src/assets/common/js/jweixin-1.2.0.js",
             "../external_libs/radialIndicator/radialIndicator.js"
         ],

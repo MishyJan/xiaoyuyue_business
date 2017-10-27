@@ -9,6 +9,25 @@ export class LocalizedResourcesHelper {
         });
     }
 
+    public static loadEChartLocalizedScripts(): JQueryPromise<any> {
+        if (!abp.session.userId) {
+            return $.Deferred().resolve().promise();
+        }
+
+
+        const echartScript = '/assets/common/js/echarts.min.js';
+        const echartChinaScript = '/assets/common/js/china.js';
+        const echartShineScript = '/assets/common/js/shine.js';
+        // var jqueryTimeago = "/assets/localization/jquery-timeago/jquery.timeago.{0}.js";
+
+        return $.when(
+            jQuery.getScript(echartScript),
+            jQuery.getScript(echartChinaScript),
+            jQuery.getScript(echartShineScript)
+            // jQuery.getScript(abp.utils.formatString(jqueryTimeago, currentCulture))
+        );
+    }
+
     private static loadLocalizedStlyes(): JQueryPromise<any> {
         const isRtl = rtlDetect.isRtlLang(abp.localization.currentLanguage.name);
         let cssPostfix = '';
@@ -27,7 +46,6 @@ export class LocalizedResourcesHelper {
         }
 
         const currentCulture = abp.localization.currentLanguage.name;
-
         // var bootstrapSelect = "/assets/localization/bootstrap-select/defaults-{0}.js";
         // var jqueryTimeago = "/assets/localization/jquery-timeago/jquery.timeago.{0}.js";
 
