@@ -10,7 +10,6 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { IAjaxResponse } from 'abp-ng2-module/src/abpHttp';
 import { ModalDirective } from 'ngx-bootstrap';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { element } from 'protractor';
 
 export class SelectedPicListDto {
     name: string;

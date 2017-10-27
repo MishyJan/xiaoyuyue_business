@@ -76,7 +76,7 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit,A
             .subscribe(result => {
                 this.bookingForEditData = result;
                 this.availableBookingTime = this.bookingForEditData.availableBookingTime;
-                if (this.availableBookingTime.length > 0) { this.hasAvailableTime = true; };
+                if (this.availableBookingTime.length > 1) { this.hasAvailableTime = true; };
                 this.bookingPictures = this.bookingForEditData.pictures;
                 this.initWechatShareConfig();
             });

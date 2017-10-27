@@ -14,7 +14,6 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { element } from 'protractor';
 
 export class BookingInfoOptions {
     needGender: boolean;
@@ -94,6 +93,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.getTenantInfo();
         this.initFormValidation();
         this.localSingleBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
+
     }
 
     ngAfterViewInit() {

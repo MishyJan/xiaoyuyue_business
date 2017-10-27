@@ -8,7 +8,6 @@ import { ExternalLoginProviderInfoModel, TokenAuthServiceProxy } from '@shared/s
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { CookiesService } from 'shared/services/cookies.service';
-import { element } from 'protractor';
 
 @Component({
     selector: 'xiaoyuyue-loading',
