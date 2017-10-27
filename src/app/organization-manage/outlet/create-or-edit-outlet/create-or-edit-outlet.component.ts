@@ -234,4 +234,72 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         }
         return false;
     }
+
+    getProvinceSelectList(provinceId?: number): void {
+        debugger
+        this._stateServiceServiceProxy
+            .getProvinceSelectList()
+            .subscribe(result => {
+                this.provinceSelectListData = result;
+                this.provinceId = parseInt(this.selectedProvinceId, null);
+            })
+    }
+
+    getCitysSelectList(provinceId: number): void {
+        if (!provinceId) {
+            return;
+        }
+        this._stateServiceServiceProxy
+            .getCitySelectList(this.provinceId)
+            .subscribe(result => {
+                this.citysSelectListData = result;
+                this.selectedCityId = this.citysSelectListData[0].value;
+                this.cityId = parseInt(this.selectedCityId, null);
+                this.getDistrictsSelectList(this.cityId);
+            })
+
+    }
+
+    getDistrictsSelectList(cityId: number): void {
+        if (!cityId) {
+            return;
+        }
+        this._stateServiceServiceProxy
+            .getDistrictSelectList(cityId)
+            .subscribe(result => {
+                this.districtSelectListData = result;
+                if (result.length <= 0) {
+                    this.isDistrictSelect = false;
+                    this.selectedDistrictId = '';
+                    this.districtId = 0;
+                } else {
+                    this.selectedDistrictId = this.districtSelectListData[0].value;
+                    this.districtId = parseInt(this.selectedDistrictId, null);
+                }
+            })
+    }
+
+    public provinceSelectHandler(provinceId: any): void {
+        this.provinceId = parseInt(provinceId, null);
+        if (this.provinceId <= 0) {
+            this.isCitySelect = false;
+            this.isDistrictSelect = false;
+        } else {
+            this.isCitySelect = true;
+            this.isDistrictSelect = true;
+            this.getCitysSelectList(provinceId);
+        }
+    }
+    public citySelectHandler(cityId: any): void {
+        this.cityId = parseInt(cityId, null);
+        this.getDistrictsSelectList(cityId);
+    }
+
+    public districtSelectHandler(districtId: any): void {
+        this.districtId = parseInt(districtId, null);
+    }
+
+    public openProvinceSledct(): void {
+        this.getProvinceSelectList();
+    }
 }
