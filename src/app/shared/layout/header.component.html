@@ -23,7 +23,8 @@
                                 <i *ngIf="isImpersonatedLogin" class="icon-action-undo font-red-sunglo"></i>
                                 {{shownLoginName}}
                             </span>
-                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture" />
+                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture"
+                            />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default clearfix">
                             <li class="item" routerLink="/organization/info">
@@ -72,10 +73,6 @@
                 </ul>
             </div>
         </div>
-        <loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
-        <changePasswordModal #changePasswordModal></changePasswordModal>
-        <changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
-        <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
         <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal>
     </div>
 </div>
