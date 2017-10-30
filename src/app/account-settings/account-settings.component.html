@@ -76,8 +76,7 @@
                                         <!-- <span class="pull-left already-set">微信名</span> -->
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="isBindingWeChat()" (click)="unBindWeChat()" [buttonBusy]="unBinding"
-                                            [busyText]="'解绑中'">解绑</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="isBindingWeChat()" (click)="unBindWeChat()" [buttonBusy]="unBinding" [busyText]="'解绑中'">解绑</button>
                                         <button type="button" class="btn primary-bgcolor" *ngIf="!isBindingWeChat()" (click)="bindWeChat()">绑定</button>
                                     </div>
                                 </div>
@@ -92,17 +91,17 @@
                                         <button type="button" class="btn primary-bgcolor">改绑</button>
                                         <button type="button" class="btn primary-bgcolor">绑定</button>
                                     </div>
-                                </div>
+                                </div>-->
 
-                                <div class="verify-email content-item clearfix">
+                                <!-- <div class="verify-email content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left"><img src="assets/common/images/social/qq-x2.png" style="width: 28px;" alt="qq"></span>
                                         <span class="pull-left not-set">未绑定</span>
-                                        <span class="pull-left already-set">微博账号</span>
+                                        <span class="pull-left already-set">QQ号</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor">改绑</button>
-                                        <button type="button" class="btn primary-bgcolor">绑定</button>
+                                        <button type="button" class="btn primary-bgcolor" (click)="unBindQQ()">解绑</button>
+                                        <button type="button" class="btn primary-bgcolor" (click)="bingQQ()">绑定</button>
                                     </div>
                                 </div> -->
 
@@ -116,7 +115,6 @@
         <xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>
         <xiaoyuyue-unbinding-phone-model #unbindingPhoneModel></xiaoyuyue-unbinding-phone-model>
         <xiaoyuyue-external-binding-model #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
-
     </div>
 </div>
 

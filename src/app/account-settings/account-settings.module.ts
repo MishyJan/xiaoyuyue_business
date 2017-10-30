@@ -16,6 +16,7 @@ import { ResponsiveModule } from 'ng2-responsive';
 import { SecurityComponent } from './security/security.component';
 import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
 import { UtilsModule } from 'shared/utils/utils.module';
+import { LoginService } from 'shared/services/login.service';
 
 @NgModule({
     imports: [
@@ -38,6 +39,9 @@ import { UtilsModule } from 'shared/utils/utils.module';
         BindingPhoneModelComponent,
         PhoneComponent,
         ExternalBindingModelComponent
+    ],
+    providers: [
+        LoginService
     ]
 })
 export class AccountSecurityModule { }

@@ -24,7 +24,6 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 })
 export class LoginComponent extends AppComponentBase implements AfterViewInit {
     externalLoginProviders: ExternalLoginProvider[];
-
     submitting = false;
     flag = true;
     // 普通登录或者手机验证登录，默认普通登录
