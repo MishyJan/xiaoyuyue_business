@@ -9,7 +9,7 @@ import { ExternalBindingModelComponent } from './external-auth/external-binding-
 import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { LoginService, ExternalLoginProvider } from 'shared/services/login.service';
-import { ExternalLoginProviderInfoModel } from '@shared/service-proxies/service-proxies';
+import { ExternalLoginProviderInfoModel, ProfileServiceProxy, UserSecurityInfoDto } from '@shared/service-proxies/service-proxies';
 import { CookiesService } from 'shared/services/cookies.service';
 import { AppConsts } from '@shared/AppConsts';
 
@@ -20,40 +20,39 @@ import { AppConsts } from '@shared/AppConsts';
     animations: [accountModuleAnimation()]
 })
 export class AccountSecurityComponent extends AppComponentBase implements OnInit {
+    userSecurityInfo: UserSecurityInfoDto = new UserSecurityInfoDto();
     @ViewChild('changePasswdModel') changePasswdModel: ChangePasswdModelComponent;
     @ViewChild('bindingPhoneModel') bindingPhoneModel: BindingPhoneModelComponent;
     @ViewChild('unbindingPhoneModel') unbindingPhoneModel: UnbindingPhoneModelComponent;
     @ViewChild('externalBindingModel') externalBindingModel: ExternalBindingModelComponent;
 
     unBinding = false;
-    wechatName: string;
     constructor(
         private injector: Injector,
         private _appSessionService: AppSessionService,
         private _tokenAuthService: TokenAuthServiceProxy,
         private _loginService: LoginService,
         private _cookiesService: CookiesService,
+        private _profileServiceProxy: ProfileServiceProxy
     ) {
         super(
             injector
         );
-
-
     }
 
     ngOnInit() {
         this._loginService.init();
-        this.wechatName = this._appSessionService.user.weChat;
+        this.getUserSecurityInfo();
     }
 
-    // 是否已绑定手机
-    isBindingPhone(): boolean {
-        return this._appSessionService.user.phoneNumber ? true : false;
-    }
-
-    // 是否已绑定微信
-    isBindingWeChat(): boolean {
-        return this._appSessionService.user.weChat ? true : false;
+    // 获取当前用户安全信息
+    getUserSecurityInfo(): void {
+        this._profileServiceProxy
+            .getCurrentUserSecurityInfo()
+            .subscribe(result => {
+                this.userSecurityInfo = result;
+                console.log(result);
+            })
     }
 
     bindWeChat() {
@@ -75,16 +74,16 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
                 const redirect_url = AppConsts.appBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.QQ + '&isAuthBind=true';
                 const response_type = 'code';
                 const scope = 'get_user_info';
-                
+
                 const authUrl = `${authBaseUrl}?client_id=${appid}&response_type=${response_type}&scope=${scope}&redirect_uri=${encodeURIComponent(redirect_url)}&display=`;
-                
+
                 window.location.href = authUrl;
             }
         }
     }
 
     bindWeChatResult(result) {
-        if (result) { this.wechatName = this._appSessionService.user.weChat; }
+        if (result) { this.getUserSecurityInfo(); }
     }
 
     // 解绑微信
@@ -93,8 +92,8 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
         const data = new ExternalUnBindingModel();
         data.authProvider = 'WeChat'
         this._tokenAuthService.externalUnBinding(data).subscribe(result => {
+            this.getUserSecurityInfo();
             this.notify.success('解绑成功');
-            this._appSessionService.init();
         });
     }
 
@@ -102,10 +101,9 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
         const data = new ExternalUnBindingModel();
         data.authProvider = 'QQ';
         this._tokenAuthService.externalUnBinding(data).subscribe(result => {
+            this.getUserSecurityInfo();
             this.notify.success('解绑成功');
-            this._appSessionService.init();
         });
-
     }
 
     showChangePasswdModel(): void {
