@@ -16,7 +16,6 @@
                             <breadcrumb></breadcrumb>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="col-xs-6 text-right">
@@ -63,6 +62,8 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
+                                        <div WangEditor></div>
+
                                         <textarea class="form-control " rows="5" name="projectIntro" minlength="10" formControlName="bookingDescription" placeholder="{{l('Booking.Des')}}"
                                             required></textarea>
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
@@ -158,10 +159,7 @@
         </div>
     </form>
     <xiaoyuyue-share-booking-model #shareBookingModel [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
-
 </div>
-
-
 
 <div class="mobile-create-booking common-container" [@routerTransition] *showItBootstrap="['xs','sm']">
     <tabset class="side-bar" #staticTabs>

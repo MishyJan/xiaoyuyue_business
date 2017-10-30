@@ -1,7 +1,8 @@
-import { Component, OnInit, Injector, Input, SimpleChanges, ElementRef, NgZone, Output, EventEmitter, ViewChild } from '@angular/core';
-import { AppComponentBase } from 'shared/common/app-component-base';
-import { SelectListItemDto, StateServiceServiceProxy, OutletEditDto } from 'shared/service-proxies/service-proxies';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { OutletEditDto, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
+
 import { ActivatedRoute } from '@angular/router';
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 
 declare const qq: any;
@@ -11,11 +12,11 @@ declare const qq: any;
     templateUrl: './outlet-address.component.html',
     styleUrls: ['./outlet-address.component.scss']
 })
-export class OutletAddressComponent extends AppComponentBase implements OnInit {
-    zoom: number = 12;
+export class OutletAddressComponent extends AppComponentBase implements OnInit, OnChanges, AfterViewInit {
+    zoom = 12;
     position: any;
-    lng: string = '116.397572';
-    lat: string = '39.908815';
+    lng = '116.397572';
+    lat = '39.908815';
     status: string;
     marker: any;
     map: any;
@@ -56,6 +57,10 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
     ngOnInit() {
         this.provinceSelectListData.unshift(SelectHelper.ProvinceSelectList());
         this.selectedProvinceId = this.provinceSelectListData[0].value;
+
+    }
+
+    ngAfterViewInit() {
         if (!this.outletId) {
             this.mapsReady();
         }
@@ -77,9 +82,9 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
             this.districtId = changes.outletForEdit.currentValue.outlet.districtId;
 
             this.detailAddress = changes.outletForEdit.currentValue.outlet.detailAddress;
-            let longitude = changes.outletForEdit.currentValue.outlet.longitude;
+            const longitude = changes.outletForEdit.currentValue.outlet.longitude;
             if (longitude !== null) {
-                let temp = longitude.split(',');
+                const temp = longitude.split(',');
                 this.lat = temp[0];
                 this.lng = temp[1];
             }
@@ -147,16 +152,16 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
 
     // 用户详细地址来获取经纬度
     codeAddress() {
-        let geocoder = new qq.maps.Geocoder();
-        let address = this.transformAddress() + this.detailAddress;
+        const geocoder = new qq.maps.Geocoder();
+        const address = this.transformAddress() + this.detailAddress;
 
         if (address === undefined) {
             return;
         }
 
-        //对指定地址进行解析
+        // 对指定地址进行解析
         geocoder.getLocation(address);
-        //设置服务请求成功的回调函数
+        // 设置服务请求成功的回调函数
         geocoder.setComplete((result) => {
             this.lat = result.detail.location.lat;
             this.lng = result.detail.location.lng;
@@ -166,14 +171,14 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
             this.zoom = 16;
             this.initOptions();
         });
-        //若服务请求失败，则运行以下函数
+        // 若服务请求失败，则运行以下函数
         geocoder.setError(() => {
-            this.notify.warn("地址未找到");
+            this.notify.warn('地址未找到');
         });
     }
 
     private initOptions(): void {
-        let position = new qq.maps.LatLng(this.lat, this.lng);
+        const position = new qq.maps.LatLng(this.lat, this.lng);
         this.map = new qq.maps.Map('mapContainer', {
             center: position,
             zoom: this.zoom,
@@ -187,11 +192,11 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
             position: position,
             map: this.map
         });
-        //设置Marker的可见性，为true时可见,false时不可见，默认属性为true
+        // 设置Marker的可见性，为true时可见,false时不可见，默认属性为true
         this.marker.setVisible(true);
-        //设置Marker的动画属性为从落下
+        // 设置Marker的动画属性为从落下
         this.marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
-        //设置Marker是否可以被拖拽，为true时可拖拽，false时不可拖拽，默认属性为false
+        // 设置Marker是否可以被拖拽，为true时可拖拽，false时不可拖拽，默认属性为false
         this.marker.setDraggable(true);
 
         qq.maps.event.addListener(this.marker, 'dragend', (event: any) => {
@@ -257,4 +262,5 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit {
     public openProvinceSledct(): void {
         this.getProvinceSelectList();
     }
+
 }

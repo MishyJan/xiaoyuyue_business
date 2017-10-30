@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { SidebarService } from 'shared/services/side-bar.service';
 import { TenantService } from './tenant.service';
 import { TitleService } from 'shared/services/title.service';
+import { UploadPictureService } from 'shared/services/upload-picture.service';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { WeChatShareTimelineService } from 'shared/services/wechat-share-timelin
         CookiesService,
         TitleService,
         SidebarService,
-        WeChatShareTimelineService
+        WeChatShareTimelineService,
+        UploadPictureService
     ]
 })
 export class ServicesModule { }

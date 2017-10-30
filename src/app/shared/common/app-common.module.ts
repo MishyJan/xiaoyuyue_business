@@ -13,6 +13,7 @@ import { EmptyPageComponent } from 'app/shared/common/empty-page/empty-page.comp
 import { FormsModule } from '@angular/forms';
 import { IndicatorDirective } from './indicator/indicator.directive';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
+import { MobileUploadPictureComponent } from './mobile-upload-picture/mobile-upload-picture.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
@@ -22,7 +23,7 @@ import { UploadPicDirective } from './upload-picture/upload-pic.directive';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
-import { MobileUploadPictureComponent } from './mobile-upload-picture/mobile-upload-picture.component';
+import { WangEditorDirective } from 'app/shared/common/wang-editor/wang-editor.directive';
 
 @NgModule({
     imports: [
@@ -47,7 +48,8 @@ import { MobileUploadPictureComponent } from './mobile-upload-picture/mobile-upl
         BreadcrumbComponent,
         IndicatorDirective,
         EmptyPageComponent,
-        MobileUploadPictureComponent
+        MobileUploadPictureComponent,
+        WangEditorDirective
     ],
     exports: [
         TimeZoneComboComponent,
@@ -61,7 +63,8 @@ import { MobileUploadPictureComponent } from './mobile-upload-picture/mobile-upl
         BreadcrumbComponent,
         IndicatorDirective,
         EmptyPageComponent,
-        MobileUploadPictureComponent
+        MobileUploadPictureComponent,
+        WangEditorDirective
     ]
 })
 export class AppCommonModule {
