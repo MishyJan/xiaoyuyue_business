@@ -8,15 +8,11 @@ import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { Breadcrumb } from 'shared/services/bread-crumb.service';
-import { ChangePasswordModalComponent } from './profile/change-password-modal.component';
-import { ChangeProfilePictureModalComponent } from './profile/change-profile-picture-modal.component';
 import { CookiesService } from './../../../shared/services/cookies.service';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { LocalizationService } from '@abp/localization/localization.service';
 import { Location } from '@angular/common';
-import { LoginAttemptsModalComponent } from './login-attempts-modal.component';
 import { MobileSideBarComponent } from './mobile-side-bar/mobile-side-bar.component';
-import { MySettingsModalComponent } from './profile/my-settings-modal.component'
 import { NotificationSettingsModalCompoent } from '@app/shared/layout/notifications/notification-settings-modal.component';
 import { SidebarService } from 'shared/services/side-bar.service';
 import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNotificationHelper';
@@ -34,11 +30,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     isDashboardFlag: boolean;
 
     @ViewChild('notificationSettingsModal') notificationSettingsModal: NotificationSettingsModalCompoent;
-
-    @ViewChild('loginAttemptsModal') loginAttemptsModal: LoginAttemptsModalComponent;
-    @ViewChild('changePasswordModal') changePasswordModal: ChangePasswordModalComponent;
-    @ViewChild('changeProfilePictureModal') changeProfilePictureModal: ChangeProfilePictureModalComponent;
-    @ViewChild('mySettingsModal') mySettingsModal: MySettingsModalComponent;
 
     languages: abp.localization.ILanguageInfo[];
     currentLanguage: abp.localization.ILanguageInfo;
@@ -159,22 +150,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
                 this.profilePicture = result.profilePicture;
             }
         });
-    }
-
-    showLoginAttempts(): void {
-        this.loginAttemptsModal.show();
-    }
-
-    changePassword(): void {
-        this.changePasswordModal.show();
-    }
-
-    changeProfilePicture(): void {
-        this.changeProfilePictureModal.show();
-    }
-
-    changeMySettings(): void {
-        this.mySettingsModal.show();
     }
 
     logout(): void {

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewEncapsulatio
 import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, CurrentlyBookingDataDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
 import { NavigationEnd } from '@angular/router';
 import { appModuleAnimation } from 'shared/animations/routerTransition';
@@ -33,6 +34,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngOnInit() {
+        LocalizedResourcesHelper.loadEChartLocalizedScripts();
         this.dateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
         // 为移动端单独保存昨日的时间，和PC端不共用一个变量
         this.mobileDateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');

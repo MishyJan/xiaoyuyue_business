@@ -3,7 +3,6 @@ import { BookingAccessChannelDto, BookingAccessSourceDto, BookingConverRateDto, 
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { Moment } from 'moment';
-import { element } from 'protractor';
 
 export class SeriesItem {
     name: string;
@@ -42,7 +41,7 @@ export class BookingAccessTimeComponent extends AppComponentBase implements Afte
     ngAfterViewInit() {
         this.setOption();
     }
-    
+
     ngOnChanges() {
         this.initChart();
     }

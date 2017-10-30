@@ -32,7 +32,6 @@
             "../node_modules/toastr/build/toastr.css",
             "../node_modules/sweetalert/dist/sweetalert.css",
             "../node_modules//@progress/kendo-theme-default/dist/all.css",
-            "../external_libs/Jcrop/css/Jcrop.css",
 
             "../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
             "../node_modules/bootstrap-select/dist/css/bootstrap-select.css",
@@ -55,7 +54,6 @@
 
             "../node_modules/moment/min/moment.min.js",
 
-            "../external_libs/Jcrop/js/Jcrop.min.js",
             "../node_modules/jquery-backstretch/jquery.backstretch.min.js",
 
             "../src/assets/common/js/jquery.blockUI.min.js",
@@ -90,9 +88,7 @@
             "../node_modules/arrive/minified/arrive.min.js",
             "../src/assets/md-pro/js/core/material.min.js",
 
-            "../external_libs/ECharts/js/echarts.min.js",
-            "../node_modules/echarts/map/js/china.js",
-            "../node_modules/echarts/theme/shine.js",
+
             "../src/assets/common/js/jweixin-1.2.0.js",
             "../external_libs/radialIndicator/radialIndicator.js"
         ],
