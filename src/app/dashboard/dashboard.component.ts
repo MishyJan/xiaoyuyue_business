@@ -34,7 +34,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngOnInit() {
-        LocalizedResourcesHelper.loadEChartLocalizedScripts();
         this.dateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
         // 为移动端单独保存昨日的时间，和PC端不共用一个变量
         this.mobileDateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
@@ -43,6 +42,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngAfterViewInit(): void {
+        this.getMapScript();
+
         if (this.isMobile($('.mobile-org-center'))) {
             this.resetHeaderStyle();
             this.getCurrentlyBookingData();
@@ -211,4 +212,14 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         return this.tenantBaseInfoData.backgroundPictureUrl ? this.tenantBaseInfoData.backgroundPictureUrl : this.defaultTenantBgUrl;
     }
 
+    getMapScript() {
+        const bodyEle = $('body');
+        const echartScript = $('<script src=\'/assets/common/js/echarts.min.js\'></script>');
+        const echartChinaScript = $('<script src=\'/assets/common/js/china.js\'></script>');
+        const echartShineScript = $('<script src=\'/assets/common/js/shine.js\'></script>');
+
+        bodyEle.append(echartScript);
+        bodyEle.append(echartChinaScript);
+        bodyEle.append(echartShineScript);
+    }
 }

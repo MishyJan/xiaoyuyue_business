@@ -14,17 +14,19 @@ export class LocalizedResourcesHelper {
             return $.Deferred().resolve().promise();
         }
 
-
         const echartScript = '/assets/common/js/echarts.min.js';
         const echartChinaScript = '/assets/common/js/china.js';
         const echartShineScript = '/assets/common/js/shine.js';
-        // var jqueryTimeago = "/assets/localization/jquery-timeago/jquery.timeago.{0}.js";
 
         return $.when(
-            jQuery.getScript(echartScript),
-            jQuery.getScript(echartChinaScript),
-            jQuery.getScript(echartShineScript)
-            // jQuery.getScript(abp.utils.formatString(jqueryTimeago, currentCulture))
+            $.getScript(echartScript).done(() => {
+                return $.when(
+                    jQuery.getScript(echartChinaScript),
+                    jQuery.getScript(echartShineScript)
+                )
+            }),
+            // jQuery.getScript(echartChinaScript),
+            // jQuery.getScript(echartShineScript)
         );
     }
 
