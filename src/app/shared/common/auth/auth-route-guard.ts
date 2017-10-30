@@ -14,7 +14,6 @@ import { AppSessionService } from '@shared/common/session/app-session.service';
 import { Injectable } from '@angular/core';
 import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
-import { element } from 'protractor';
 
 @Injectable()
 export class AppRouteGuard implements CanActivate, CanActivateChild {

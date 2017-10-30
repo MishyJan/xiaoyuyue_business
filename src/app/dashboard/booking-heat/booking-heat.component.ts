@@ -6,7 +6,6 @@ import { AppConsts } from 'shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { Moment } from 'moment';
-import { element } from 'protractor';
 
 @Component({
     selector: 'xiaoyuyue-booking-heat',
@@ -21,7 +20,7 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
     chartOption: object = {};
     count = 0;
     showloading = true;
-    slogan: string = '暂无数据';
+    slogan = '暂无数据';
 
     constructor(
         injector: Injector,

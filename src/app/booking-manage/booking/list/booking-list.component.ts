@@ -21,7 +21,6 @@ import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { element } from 'protractor';
 
 @Component({
     selector: 'app-manage-booking',

@@ -3,7 +3,6 @@ import { AfterViewInit, Component, EventEmitter, Injector, Input, OnChanges, OnI
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
 import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
-import { element } from 'protractor';
 
 @Component({
     selector: 'app-picture-manage',
@@ -81,7 +80,6 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
             maxDisplayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
         }
         if (this.isMutliPic) {
-
             picGalleryForEdit.forEach(element => {
                 element.displayOrder = ++maxDisplayOrder;
                 this.allPictureEdit.unshift(element);
