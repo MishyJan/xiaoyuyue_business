@@ -34,6 +34,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngOnInit() {
+        this.getMapScript();
+
         this.dateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
         // 为移动端单独保存昨日的时间，和PC端不共用一个变量
         this.mobileDateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
@@ -42,7 +44,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngAfterViewInit(): void {
-        this.getMapScript();
 
         if (this.isMobile($('.mobile-org-center'))) {
             this.resetHeaderStyle();
