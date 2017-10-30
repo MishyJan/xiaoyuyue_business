@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ContactorEditDto, CreateOrUpdateOutletInput, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy, GetOutletForEditDto } from 'shared/service-proxies/service-proxies';
+import { ContactorEditDto, CreateOrUpdateOutletInput, GetOutletForEditDto, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
@@ -94,7 +94,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 let hourOfDay = this.checkHourOfDay(result.outlet.businessHours);
                 this.startShopHours = hourOfDay.split(' - ')[0];
                 this.endShopHours = hourOfDay.split(' - ')[1];
-                
+
                 this.provinceSelectListData = result.availableProvinces;
                 this.selectedProvinceId = result.outlet.provinceId + '';
                 this.provinceId = result.outlet.provinceId;

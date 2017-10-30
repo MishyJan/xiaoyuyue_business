@@ -11,6 +11,7 @@ export class AppSessionService {
     private _tenant: TenantLoginInfoDto;
     private _application: ApplicationInfoDto;
     private _activeMenu: string;
+    private _uploadPictureToken: string;
 
     constructor(
         private _sessionService: SessionServiceProxy,

@@ -1,8 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { AfterViewInit, Component, Injector, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation, transition } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Injector, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation, transition } from '@angular/core';
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
+import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { Location } from '@angular/common';
@@ -74,9 +75,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     public outletSelectDefaultItem: string;
     public contactorSelectDefaultItem: string;
+    private editor: any;
+
+    @ViewChild('bookingDes') _bookingDes: ElementRef;
     constructor(
         injector: Injector,
         private _router: Router,
+        private _sessionService: AbpSessionService,
         private _pictureServiceProxy: PictureServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
@@ -97,6 +102,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     ngAfterViewInit() {
+        // this.initEditor();
         this.initFlatpickr();
     }
 
@@ -413,4 +419,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this._weChatShareTimelineService.initWeChatShareConfig();
         }
     }
+
+
+
 }
