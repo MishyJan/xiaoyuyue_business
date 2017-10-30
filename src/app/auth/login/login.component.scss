@@ -60,20 +60,6 @@
         }
     }
     .login-body {
-        .phone-login-wrap {
-            .validate-code-wrap {
-                position: relative;
-                .get-sms-btn {
-                    position: absolute;
-                    top: -12px;
-                    right: 0;
-                    .btn {
-                        font-size: 12px;
-                        background-color: #ff9742;
-                    }
-                }
-            }
-        }
         .login-btn-wrap {
             width: 100%;
             text-align: center;
@@ -172,6 +158,19 @@
                     flex: 1;
                 }
             }
+        }
+    }
+}
+
+.validate-code-wrap {
+    position: relative;
+    .get-sms-btn {
+        position: absolute;
+        top: -12px;
+        right: 0;
+        .btn {
+            font-size: 12px;
+            background-color: #ff9742;
         }
     }
 }

@@ -37,12 +37,12 @@
                                 <div class="verify-phone content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-title pull-left">验证手机</span>
-                                        <span class="pull-left not-set" *ngIf="!isBindingPhone()">未设置</span>
-                                        <span class="pull-left already-set" *ngIf="isBindingPhone()">已设置</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.phoneNumber">未设置</span>
+                                        <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber">已设置</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="isBindingPhone()" (click)="showChangePhoneModel()">修改</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!isBindingPhone()" (click)="showBindingPhoneModel()">设置</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">修改</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.phoneNumber" (click)="showBindingPhoneModel()">设置</button>
                                     </div>
                                 </div>
 
@@ -71,14 +71,13 @@
                                 <div class="login-passwd content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left"><img src="assets/common/images/social/wechat-x2.png" style="width: 36px;" alt="wechat"></span>
-                                        <span class="pull-left not-set" *ngIf="!isBindingWeChat()">未绑定</span>
-                                        <span class="pull-left already-set" *ngIf="isBindingWeChat()">{{wechatName}}</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.weChat">未绑定</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.weChat">{{ userSecurityInfo.weChat }}</span>
                                         <!-- <span class="pull-left already-set">微信名</span> -->
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="isBindingWeChat()" (click)="unBindWeChat()" [buttonBusy]="unBinding"
-                                            [busyText]="'解绑中'">解绑</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!isBindingWeChat()" (click)="bindWeChat()">绑定</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBinding" [busyText]=" '解绑中'">解绑</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.weChat" (click)="bindWeChat()">绑定</button>
                                     </div>
                                 </div>
 
@@ -92,19 +91,19 @@
                                         <button type="button" class="btn primary-bgcolor">改绑</button>
                                         <button type="button" class="btn primary-bgcolor">绑定</button>
                                     </div>
-                                </div>
+                                </div>-->
 
-                                <div class="verify-email content-item clearfix">
+                                <div class="verify-qq content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left"><img src="assets/common/images/social/qq-x2.png" style="width: 28px;" alt="qq"></span>
-                                        <span class="pull-left not-set">未绑定</span>
-                                        <span class="pull-left already-set">微博账号</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.qq">未绑定</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.qq">{{ userSecurityInfo.qq }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor">改绑</button>
-                                        <button type="button" class="btn primary-bgcolor">绑定</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()">解绑</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">绑定</button>
                                     </div>
-                                </div> -->
+                                </div>
 
                             </div>
                         </div>
@@ -115,12 +114,11 @@
         <xiaoyuyue-change-passwd-model #changePasswdModel></xiaoyuyue-change-passwd-model>
         <xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>
         <xiaoyuyue-unbinding-phone-model #unbindingPhoneModel></xiaoyuyue-unbinding-phone-model>
-        <xiaoyuyue-external-binding-model #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
-
+        <xiaoyuyue-external-binding-model [wechatName]="userSecurityInfo.weChat" #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
     </div>
 </div>
 
-<div *showItBootstrap="['xs','sm']">
+<div *showItBootstrap="[ 'xs', 'sm']">
     <div class="mobile-account-security" [@routerTransition]>
         <div class="card-wrap col-xs-4 col-sm-3">
             <div class="card" routerLink="/settings/security">

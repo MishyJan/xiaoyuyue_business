@@ -187,7 +187,8 @@ body {
         overflow: auto;
     }
     .user-login {
-        min-height: 50vh;
+        height: 100vh;
+        overflow: hidden;
         .mt-login-5-bsfix {
             width: 100%;
         }

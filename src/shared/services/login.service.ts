@@ -10,6 +10,7 @@ import { CookiesService } from 'shared/services/cookies.service';
 import { LogService } from '@abp/log/log.service';
 import { MessageService } from '@abp/message/message.service';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
+import { Observable } from 'rxjs/Observable';
 
 const UA = require('ua-device');
 
@@ -253,12 +254,21 @@ export class LoginService {
         model.authProvider = params['providerName'];
         model.providerAccessCode = params['code'];
         model.providerKey = params['code'];
-        this._tokenAuthService.externalBinding(model).subscribe(() => {
-            UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
-            this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-            const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
-            location.href = initialUrl;
-        });
+        this._tokenAuthService.externalBinding(model)
+            // .catch((error: any) => {
+            //     UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
+            //     this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
+            //     const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+            //     location.href = initialUrl;
+            //     return Observable.throw(error);
+            // })
+            .subscribe(() => {
+                UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
+                this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
+                const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+                location.href = initialUrl;
+            });
+
     }
 
 
