@@ -6,16 +6,29 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
 
-var Base64 = require('js-base64').Base64;
+const Base64 = require('js-base64').Base64;
 
 @Directive({
   selector: '[WangEditor]'
 })
+
+export class PictureEditDto {
+  picBase: string;
+  url: string;
+
+  constructor(picBase, url) {
+    this.picBase = picBase;
+    this.url = url;
+  }
+}
+
 export class WangEditorDirective implements AfterViewInit {
 
   private editor: any;
   private editorHtml: string;
-  _self = this;
+
+  private oldpictures: PictureEditDto[] = [];
+  private newpictures: PictureEditDto[] = [];
   constructor(private _element: ElementRef,
     private _sessionService: AbpSessionService,
     private _pictureServiceProxy: PictureServiceProxy,
@@ -32,6 +45,8 @@ export class WangEditorDirective implements AfterViewInit {
 
     this.editor.customConfig.uploadImgShowBase64 = true;
     this.editor.customConfig.zIndex = 100;
+    // 自定义 onchange 触发的延迟时间，默认为 200 ms
+    this.editor.customConfig.onchangeTimeout = 1000 // 单位 ms
     this.editor.customConfig.onchange = (html) => {
       this.editorOnChange(html);
     };
@@ -47,7 +62,7 @@ export class WangEditorDirective implements AfterViewInit {
       'foreColor',  // 文字颜色
       'link',  // 插入链接
       'justify',  // 对齐方式
-      'image',  // 插入图片
+      'picture',  // 插入图片
       'table',  // 表格
       'video',  // 插入视频
     ];
@@ -77,7 +92,7 @@ export class WangEditorDirective implements AfterViewInit {
           // 默认 false，key为文件名。若开启该选项，SDK会为每个文件自动生成key（文件名）
           // save_key: true,
           // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
-          domain: 'https://image.xiaoyuyue.com/',
+          domain: 'https://picture.xiaoyuyue.com/',
           get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
           // bucket 域名，下载资源时用到，**必需**
           container: containerId,           // 上传区域DOM ID，默认是browser_button的父元素，
@@ -155,19 +170,19 @@ export class WangEditorDirective implements AfterViewInit {
   }
 
   /*picBase是base64图片带头部的完整编码*/
-  putb642Qiniu(picBase, upToken) {
+  putb642Qiniu(picBase64, upToken) {
     /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
-    const picBaseWithOutHeader = picBase.substring(22);
+    const picBase64WithOutHeader = picBase64.substring(22);
     /*通过base64编码字符流计算文件流大小函数*/
     function fileSize(str) {
-      let fileSize;
+      let size;
       if (str.indexOf('=') > 0) {
         const indexOf = str.indexOf('=');
         str = str.substring(0, indexOf); // 把末尾的’=‘号去掉
       }
 
-      fileSize = parseInt((str.length - (str.length / 8) * 2).toString(), 0);
-      return fileSize;
+      size = parseInt((str.length - (str.length / 8) * 2).toString(), 0);
+      return size;
     }
 
     /*把字符串转换成json*/
@@ -176,7 +191,7 @@ export class WangEditorDirective implements AfterViewInit {
       return json;
     }
 
-    const url = 'http://up-z2.qiniu.com/putb64/' + fileSize(picBaseWithOutHeader);
+    const url = 'http://up-z2.qiniu.com/putb64/' + fileSize(picBase64WithOutHeader);
     const key = '/key/' + Base64.encode(this.getFileKey());
     const x_vars = '/x:groupid/' + Base64.encode('0');
     const xhr = new XMLHttpRequest();
@@ -184,16 +199,17 @@ export class WangEditorDirective implements AfterViewInit {
       if (xhr.readyState === 4) {
         const result = strToJson(xhr.responseText).result;
         const html = this.editor.txt.html();
-        this.editorHtml = html.replace(picBase, result.originalUrl)
         // 替换图片
-        // this.editor.txt.html(this.editorHtml);
+        this.editorHtml = html.replace(picBase64, result.originalUrl);
+        // 插入到新图片数组中
+        this.newpictures.unshift(new PictureEditDto(picBase64, result.originalUrl));
       }
     }
 
     xhr.open('POST', url + key + x_vars, true);
     xhr.setRequestHeader('Content-Type', 'application/octet-stream');
     xhr.setRequestHeader('Authorization', 'UpToken ' + upToken);
-    xhr.send(picBaseWithOutHeader);
+    xhr.send(picBase64WithOutHeader);
   }
 
   editorOnChange(html) {
@@ -208,15 +224,21 @@ export class WangEditorDirective implements AfterViewInit {
     const arr = html.match(imgReg);
     for (let i = 0; i < arr.length; i++) {
       const src = arr[i].match(srcReg);
-      // 检查图片路径是否是base64
-      if (reg.test(src[1])) {
+      const pictureSrc = src[1];
+
+      // 图片路径是否是base64,并且不在已存在的数组中
+      if (reg.test(pictureSrc) && !this.getPictureByBase64(this.newpictures, pictureSrc)) {
         this._uploadPictureService.getPictureUploadToken()
           .then((token) => {
-            this.putb642Qiniu(src[1], token);
+            this.putb642Qiniu(pictureSrc, token);
           });
+      } else if (!this.getPictureByUrl(this.newpictures, pictureSrc)) {
+        // 当前编辑器的图片
+        this.newpictures.unshift(new PictureEditDto(null, pictureSrc));
       }
     }
 
+    this.clearPicture();
   }
 
   getFileKey(): string {
@@ -226,5 +248,39 @@ export class WangEditorDirective implements AfterViewInit {
     const timeStamp = date.getTime().valueOf();
     const key = `${id}/${groupId}/${timeStamp}`;
     return key;
+  }
+
+  clearPicture() {
+    const picture2Delete: string[] = [];
+    for (let i of this.oldpictures) {
+      if (this.newpictures.indexOf(i) === -1) {
+        picture2Delete.unshift(i.url);
+      }
+    }
+
+    if (picture2Delete.length > 0) {
+      this._pictureServiceProxy.deleteByUrlAsync(picture2Delete).subscribe(() => {
+        this.oldpictures = this.newpictures;
+        this.newpictures = [];
+      });
+    }
+  }
+
+  getPictureByUrl(pictures: PictureEditDto[], url: string): PictureEditDto {
+    for (let picture of pictures) {
+      if (picture.url === url) {
+        return picture;
+      }
+    }
+    return null;
+  }
+
+  getPictureByBase64(pictures: PictureEditDto[], base: string): PictureEditDto {
+    for (let picture of pictures) {
+      if (picture.picBase === base) {
+        return picture;
+      }
+    }
+    return null;
   }
 }
