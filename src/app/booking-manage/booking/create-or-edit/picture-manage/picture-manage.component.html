@@ -30,6 +30,5 @@
             </div>
         </div>
     </div>
-    <xiaoyuyue-upload-picture-gallery #uploadPictureModel (sendPictureForEdit)="getPictureForEdit($event)" (sendPicGalleryForEdit)="getPicGalleryForEdit($event)"
-        [existingPicNum]="existingPicNum"></xiaoyuyue-upload-picture-gallery>
+    <xiaoyuyue-upload-picture-gallery #uploadPictureModel [groupId]="groupId" (sendPictureForEdit)="getPictureForEdit($event)" (sendPicGalleryForEdit)="getPicGalleryForEdit($event)" [existingPicNum]="existingPicNum"></xiaoyuyue-upload-picture-gallery>
 </div>

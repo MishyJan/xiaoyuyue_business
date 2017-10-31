@@ -4,6 +4,7 @@ import { ContactorEditDto, CreateOrUpdateOutletInput, OutletServiceServiceProxy 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 
 @Component({
     selector: 'xiaoyuyue-contact-info',
@@ -17,6 +18,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     editingContact = false;
     hideContactIndex: number;
     contactName = '';
+    groupId: number = DefaultUploadPictureGroundId.LinkmanGroup;
 
     input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
 
@@ -159,7 +161,8 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
 
     // 获取图片上传URL
     getPicUploadInfoHandler(uploadPicInfo: UploadPictureDto) {
-        this.uploadPicInfo = uploadPicInfo;
+        this.uploadPicInfo.pictureId = uploadPicInfo.pictureId
+        this.uploadPicInfo.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
     }
 
     /* 移动端代码 */

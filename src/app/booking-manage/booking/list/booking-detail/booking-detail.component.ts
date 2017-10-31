@@ -59,6 +59,8 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit,A
     initSwiper(): void {
         // debugger
         const swiper = new Swiper('#tenantBgSwiperContainer', {
+            autoplay : 2000,
+            loop: true,
             pagination: '.swiper-pagination',
             paginationClickable: true
         });

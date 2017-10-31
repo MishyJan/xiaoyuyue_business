@@ -3,6 +3,7 @@ import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } fro
 import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Directive({
     selector: '[UploadPicture]'
@@ -17,7 +18,7 @@ export class UploadPicDirective implements AfterViewInit {
     public uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
 
     @Input() browseButtonEle = '';
-    @Input() groupId: string;
+    @Input() groupId: number = 0;
     @Input() dropEle: string;
     @Input() containerEle = '';
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
@@ -25,6 +26,7 @@ export class UploadPicDirective implements AfterViewInit {
     constructor(
         private _element: ElementRef,
         private _sanitizer: DomSanitizer,
+        private _appSessionService: AppSessionService,
         private _pictureServiceProxy: PictureServiceProxy
     ) {
     }
@@ -144,17 +146,16 @@ export class UploadPicDirective implements AfterViewInit {
                             // uploader.destroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
-                        'Key': function (up, file) {
+                        'Key': (up, file) => {
                             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                             // 该配置必须要在 unique_names: false , save_key: false 时才生效
-                            const id = 1;
-                            const outletId = 3;
+                            const id = this._appSessionService.tenantId;
+                            const groupId = this.groupId;
                             const date = new Date();
                             const timeStamp = date.getTime().valueOf();
-                            const key = `${id}/${outletId}/${timeStamp}`;
+                            const key = `${id}/${groupId}/${timeStamp}`;
                             // do something with key here
 
-                            const domain = up.getOption('domain');
                             return key
                         }
                     }

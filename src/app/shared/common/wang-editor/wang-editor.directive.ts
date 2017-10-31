@@ -1,8 +1,9 @@
 import * as wangEditor from 'wangeditor/release/wangEditor.js'
 
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { AbpSessionService } from '@abp/session/abp-session.service';
+import { LanguageServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
 
@@ -12,23 +13,18 @@ const Base64 = require('js-base64').Base64;
   selector: '[WangEditor]'
 })
 
-export class PictureEditDto {
-  picBase: string;
-  url: string;
 
-  constructor(picBase, url) {
-    this.picBase = picBase;
-    this.url = url;
-  }
-}
-
-export class WangEditorDirective implements AfterViewInit {
+export class WangEditorDirective implements AfterViewInit, OnChanges {
 
   private editor: any;
   private editorHtml: string;
 
   private oldpictures: PictureEditDto[] = [];
   private newpictures: PictureEditDto[] = [];
+
+  @Input() baseInfoDesc: string;
+  @Output() sendEditorHTMLContent: EventEmitter<string> = new EventEmitter();
+
   constructor(private _element: ElementRef,
     private _sessionService: AbpSessionService,
     private _pictureServiceProxy: PictureServiceProxy,
@@ -37,6 +33,12 @@ export class WangEditorDirective implements AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.initEditor();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.baseInfoDesc) {
+      this.editor.txt.html(this.baseInfoDesc);
+    }
   }
 
   initEditor() {
@@ -49,6 +51,7 @@ export class WangEditorDirective implements AfterViewInit {
     this.editor.customConfig.onchangeTimeout = 1000 // 单位 ms
     this.editor.customConfig.onchange = (html) => {
       this.editorOnChange(html);
+      this.sendEditorHTMLContent.emit(html);
     };
 
     // 允许上传到七牛云存储
@@ -62,7 +65,7 @@ export class WangEditorDirective implements AfterViewInit {
       'foreColor',  // 文字颜色
       'link',  // 插入链接
       'justify',  // 对齐方式
-      'picture',  // 插入图片
+      'image',  // 插入图片
       'table',  // 表格
       'video',  // 插入视频
     ];
@@ -170,7 +173,7 @@ export class WangEditorDirective implements AfterViewInit {
   }
 
   /*picBase是base64图片带头部的完整编码*/
-  putb642Qiniu(picBase64, upToken) {
+  putb642Qiniu(picBase64, upToken, key) {
     /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
     const picBase64WithOutHeader = picBase64.substring(22);
     /*通过base64编码字符流计算文件流大小函数*/
@@ -192,7 +195,7 @@ export class WangEditorDirective implements AfterViewInit {
     }
 
     const url = 'http://up-z2.qiniu.com/putb64/' + fileSize(picBase64WithOutHeader);
-    const key = '/key/' + Base64.encode(this.getFileKey());
+    const fileKey = '/key/' + Base64.encode(key);
     const x_vars = '/x:groupid/' + Base64.encode('0');
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
@@ -201,12 +204,10 @@ export class WangEditorDirective implements AfterViewInit {
         const html = this.editor.txt.html();
         // 替换图片
         this.editorHtml = html.replace(picBase64, result.originalUrl);
-        // 插入到新图片数组中
-        this.newpictures.unshift(new PictureEditDto(picBase64, result.originalUrl));
       }
     }
 
-    xhr.open('POST', url + key + x_vars, true);
+    xhr.open('POST', url + fileKey + x_vars, true);
     xhr.setRequestHeader('Content-Type', 'application/octet-stream');
     xhr.setRequestHeader('Authorization', 'UpToken ' + upToken);
     xhr.send(picBase64WithOutHeader);
@@ -227,18 +228,31 @@ export class WangEditorDirective implements AfterViewInit {
       const pictureSrc = src[1];
 
       // 图片路径是否是base64,并且不在已存在的数组中
-      if (reg.test(pictureSrc) && !this.getPictureByBase64(this.newpictures, pictureSrc)) {
-        this._uploadPictureService.getPictureUploadToken()
-          .then((token) => {
-            this.putb642Qiniu(pictureSrc, token);
-          });
+      if (reg.test(pictureSrc)) {
+        if (!this.getPictureByBase64(this.oldpictures, pictureSrc)) {
+          this._uploadPictureService.getPictureUploadToken()
+            .then((token) => {
+              // 插入到新图片数组中
+              const key = this.getFileKey();
+              const url = 'https://image.xiaoyuyue.com/' + key;
+              this.newpictures.unshift(new PictureEditDto(pictureSrc, url));
+              this.putb642Qiniu(pictureSrc, token, key);
+            });
+        }
       } else if (!this.getPictureByUrl(this.newpictures, pictureSrc)) {
         // 当前编辑器的图片
         this.newpictures.unshift(new PictureEditDto(null, pictureSrc));
       }
     }
 
-    this.clearPicture();
+    if (this.oldpictures.length > 0) {
+      // 执行删除
+      this.clearPicture();
+    } else {
+      // 首次加载内容
+      this.oldpictures = this.newpictures;
+      this.newpictures = [];
+    }
   }
 
   getFileKey(): string {
@@ -282,5 +296,15 @@ export class WangEditorDirective implements AfterViewInit {
       }
     }
     return null;
+  }
+}
+
+class PictureEditDto {
+  picBase: string;
+  url: string;
+
+  constructor(picBase, url) {
+    this.picBase = picBase;
+    this.url = url;
   }
 }

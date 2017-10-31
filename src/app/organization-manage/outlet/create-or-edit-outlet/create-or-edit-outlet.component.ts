@@ -3,6 +3,7 @@ import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angu
 import { ContactorEditDto, CreateOrUpdateOutletInput, GetOutletForEditDto, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -17,6 +18,8 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+    groupId: number = DefaultUploadPictureGroundId.OutletGroup;
+
     outletForEdit: GetOutletForEditDto = new GetOutletForEditDto();
     deleting = false;
     isCreateOrEditFlag: boolean;

@@ -10,6 +10,7 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { IAjaxResponse } from 'abp-ng2-module/src/abpHttp';
 import { ModalDirective } from 'ngx-bootstrap';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 export class SelectedPicListDto {
     name: string;
@@ -42,7 +43,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     groupActiveIndex: number = 0;
     picGroupItemData: SelectedPicListDto[] = [];
-    groupId: number;
     defaultPicGalleryGroupId: number;
     picGalleryGroupData: PictureGroupListDto[];
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
@@ -68,6 +68,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     private temporaryPictureFileName: string;
     private _$profilePicture: JQuery;
 
+    @Input() groupId: number = 0;
     @Input() existingPicNum: number;
     @Output() getAllPictureUrl: EventEmitter<SafeUrl[]> = new EventEmitter();
     @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
@@ -77,6 +78,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     constructor(
         injector: Injector,
         private _pictureServiceProxy: PictureServiceProxy,
+        private _appSessionService: AppSessionService,
         private sanitizer: DomSanitizer
     ) {
         super(injector);
@@ -284,7 +286,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     auto_start: false,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                     x_vars: {
                         groupid: function (up, file) {
-                            return 1;
+                            return self.groupId;
                         }
                     },
                     /*x_vals: {
@@ -349,15 +351,11 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         'Key': (up, file) => {
                             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                             // 该配置必须要在 unique_names: false , save_key: false 时才生效
-                            const id = 1;
-                            const outletId = 4;
+                            const id = this._appSessionService.tenantId;
+                            const groupId = this.groupId;
                             const date = new Date();
                             const timeStamp = date.getTime().valueOf();
-                            const key = `${id}/${outletId}/${timeStamp}`;
-                            // do something with key here
-
-                            // var domain = up.getOption('domain');
-                            // self.pictureForEdit.pictureUrl = domain + key;
+                            const key = `${id}/${groupId}/${timeStamp}`;
                             return key
                         }
                     }
