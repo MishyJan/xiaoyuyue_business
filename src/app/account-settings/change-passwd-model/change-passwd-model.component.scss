@@ -6,11 +6,34 @@
                 width: 90%;
                 height: 64px;
                 line-height: 64px;
+                display: flex;
+                .flex-item {
+                    flex: 1;
+                    cursor: pointer;
+                    .text {
+                        &.active {
+                            border-bottom: 2px solid #FFF;
+                            padding-bottom: 2px;
+                        }
+                    }
+                }
             }
         }
         .modal-body {}
         .modal-footer {
             text-align: center;
+        }
+    }
+}
+
+.validate-code-wrap {
+    position: relative;
+    .get-sms-btn {
+        position: absolute;
+        right: 14px;
+        bottom: 0;
+        .btn {
+            background-color: #ff9742;
         }
     }
 }

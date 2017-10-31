@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, Input, SimpleChanges } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
@@ -20,7 +20,7 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
 
     @ViewChild('externalBindingModel') model: ModalDirective;
     @Output() weChatBindRsult: EventEmitter<boolean> = new EventEmitter();
-
+    @Input() wechatName: string;
     constructor(
         private injector: Injector,
         private _appSessionService: AppSessionService,
@@ -33,27 +33,22 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
 
     }
 
+    ngOnChanges(changes: SimpleChanges) {
+        if (this.wechatName) {
+            this.weChatBindRsult.emit(true);
+            this.close();
+        }
+    }
+
     show(provideName): void {
         this.title = this.l('Binding') + this.l(provideName)
         this.slogen = this.l('BindingSlogen', this.l(provideName));
         this.externalUrl = AppConsts.shareBaseUrl + '/auth/external?authToken=' + this._cookiesService.getToken() + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href);
         this.model.show();
-        this.checkIsBind();
     }
 
     close(): void {
         this.model.hide();
         clearInterval(this.checkTimer);
-    }
-
-    checkIsBind() {
-        this.checkTimer = setInterval(() => {
-            this._appSessionService.init();
-            if (this._appSessionService.user.weChat) {
-                clearInterval(this.checkTimer);
-                this.weChatBindRsult.emit(true);
-                this.close();
-            }
-        }, 1000);
     }
 }
