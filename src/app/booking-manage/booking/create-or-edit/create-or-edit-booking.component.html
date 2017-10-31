@@ -19,13 +19,11 @@
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)" [buttonBusy]="saving"
-                    [busyText]="l('Saving')">
+                <button type="submit" (click)="save()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)" [buttonBusy]="saving" [busyText]="l('Saving')">
                     <i class="vapps-icon vapps-icon-app-submit"></i>
                     <span>{{l('Save')}}</span>
                 </button>
-                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)" [buttonBusy]="savingAndEditing"
-                    [busyText]="l('Saving')">
+                <button type="botton" (click)="saveAndEdit()" class="btn primary-bgcolor" [disabled]="(!createBookingForm.form.valid)" [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">
                     <i class="vapps-icon-save"></i>
                     <span>{{l('SavingAndEditing')}}</span>
                 </button>
@@ -62,15 +60,7 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <div WangEditor></div>
-
-                                        <textarea class="form-control " rows="5" name="projectIntro" minlength="10" formControlName="bookingDescription" placeholder="{{l('Booking.Des')}}"
-                                            required></textarea>
-                                        <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
-                                            <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',10)}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',100)}}</small>
-                                        </div>
+                                        <div WangEditor (sendEditorHTMLContent)="getEditorHTMLContent($event)" [baseInfoDesc]="baseInfoDesc"></div>
                                     </div>
                                 </div>
                             </div>
@@ -83,15 +73,13 @@
                                     <div class="col-md-6 input-item no-left-padding">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'"
-                                                [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
                                         </div>
                                     </div>
                                     <div class="col-md-6 input-item no-right-padding">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'"
-                                                [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
+                                            <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
                                         </div>
                                     </div>
                                 </div>
@@ -190,8 +178,7 @@
                                 <div class="col-sm-7">
                                     <div class="form-group label-floating">
                                         <label class="control-label"></label>
-                                        <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Des')}}" formControlName="bookingDescription"
-                                            required>
+                                        <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Des')}}" formControlName="bookingDescription" required>
                                         <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
                                             <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
                                             <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',10)}}</small>
@@ -206,8 +193,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group label-floating">
                                         <label class="control-label"></label>
-                                        <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'"
-                                            [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                        <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>
@@ -217,8 +203,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group label-floating">
                                         <label class="control-label"></label>
-                                        <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'"
-                                            [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
+                                        <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>
@@ -226,14 +211,13 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <p class="pic-upload-title">{{l('PictureUpload')}}</p>
-                                    <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#bookingUploadArea'"
-                                        [groupId]="1" [dropEle]="" [containerEle]="'#bookingUploadAreaWrap'">
+                                    <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#bookingUploadArea'" [groupId]="1" [dropEle]="" [containerEle]="'#bookingUploadAreaWrap'">
                                         <!-- <div id="uploadArea" class="upload-area"></div> -->
                                         <div class="upload" id="bookingUploadAreaWrap">
                                             <div id="bookingUploadArea" class="upload-area">
                                                 <span class="icon-wrap">
                                                     <span class="icon vapps-icon-cb-add-img"></span>
-                                                    <span class="text"></span>
+                                                <span class="text"></span>
                                                 </span>
                                             </div>
                                         </div>
@@ -295,8 +279,7 @@
                                             <div class="form-group label-floating">
                                                 <label class="control-label">{{l('Booking.BookingStartTime')}}</label>
                                                 <div class="time-point-wrap">
-                                                    <input class="form-control" type="time" name="startHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="startHourOfDay"
-                                                        required>
+                                                    <input class="form-control" type="time" name="startHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="startHourOfDay" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -304,8 +287,7 @@
                                             <div class="form-group label-floating">
                                                 <label class="control-label">{{l('Booking.BookingEndTime')}}</label>
                                                 <div class="time-point-wrap">
-                                                    <input class="form-control" type="time" name="endHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="endHourOfDay"
-                                                        required>
+                                                    <input class="form-control" type="time" name="endHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="endHourOfDay" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -317,8 +299,7 @@
                                                 <label class="control-label">{{l('Booking.BookingDate')}}</label>
                                                 <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
                                                 <div id="createTimeFlatpickr" class="flatpickr-wrap">
-                                                    <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="localSingleBookingItem.availableDates"
-                                                        data-input required>
+                                                    <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="localSingleBookingItem.availableDates" data-input required>
 
                                                     <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                         <i class="icon-calendar"></i>
@@ -369,8 +350,7 @@
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">{{l('Booking.MaxBookingNum')}}</label>
-                                                <input class="form-control" type="text" name="maxBookingNum1" #maxBookingNum1="ngModel" [(ngModel)]="item.maxBookingNum"
-                                                    [readonly]="!editingIndex[index]" [disabled]="!editingIndex[index]" required>
+                                                <input class="form-control" type="text" name="maxBookingNum1" #maxBookingNum1="ngModel" [(ngModel)]="item.maxBookingNum" [readonly]="!editingIndex[index]" [disabled]="!editingIndex[index]" required>
                                                 <div *ngIf="maxBookingNum1.invalid && (maxBookingNum1.dirty || maxBookingNum1.touched)">
                                                     <small class="text-danger" *ngIf="maxBookingNum1.errors.required">{{l('Booking.MaxBookingNum.Required')}}</small>
                                                 </div>
@@ -379,8 +359,7 @@
                                         <div class="col-xs-6">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">{{l('Booking.MaxQueueNum')}}</label>
-                                                <input class="form-control" type="text" name="maxQueueNum1" #maxQueueNum1="ngModel" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
-                                                    [disabled]="!editingIndex[index]" required>
+                                                <input class="form-control" type="text" name="maxQueueNum1" #maxQueueNum1="ngModel" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]" [disabled]="!editingIndex[index]" required>
                                                 <div *ngIf="maxQueueNum1.invalid && (maxQueueNum1.dirty || maxQueueNum1.touched)">
                                                     <small class="text-danger" *ngIf="maxQueueNum1.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
                                                 </div>
@@ -466,10 +445,8 @@
         </tab>
     </tabset>
     <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()" [buttonBusy]="savingAndEditing"
-        [busyText]="l('Saving')">{{l('Submit')}}</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="save()" [buttonBusy]="savingAndEditing"
-        [busyText]="l('Saving')">{{l('Update')}}</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()" [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">{{l('Submit')}}</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="save()" [buttonBusy]="savingAndEditing" [busyText]="l('Saving')">{{l('Update')}}</button>
 </div>
 
 <xiaoyuyue-tips *ngIf="isShowImperfectTip" [slogen]="'您需要完善机构信息才能发起预约哦'" [redirectRoute]="'/organization/info'"></xiaoyuyue-tips>

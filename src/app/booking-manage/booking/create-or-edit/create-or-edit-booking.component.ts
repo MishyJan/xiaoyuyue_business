@@ -29,9 +29,8 @@ export class BookingInfoOptions {
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
-
+    baseInfoDesc: string;
     needInfoOptions: BookingInfoOptions = new BookingInfoOptions();
-
     bookingId: number;
     timeBaseInfoForm: FormGroup;
     bookingBaseInfoForm: FormGroup;
@@ -75,7 +74,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     public outletSelectDefaultItem: string;
     public contactorSelectDefaultItem: string;
-    private editor: any;
 
     @ViewChild('bookingDes') _bookingDes: ElementRef;
     constructor(
@@ -102,7 +100,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     ngAfterViewInit() {
-        // this.initEditor();
         this.initFlatpickr();
     }
 
@@ -117,11 +114,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 Validators.required,
                 Validators.maxLength(10),
             ]),
-            bookingDescription: new FormControl(this.baseInfo.description, [
-                Validators.required,
-                Validators.minLength(10),
-                Validators.maxLength(100)
-            ])
         });
 
         this.timeBaseInfoForm = new FormGroup({
@@ -134,21 +126,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         });
     }
     get bookingName() { return this.bookingBaseInfoForm.get('bookingName'); }
-    get bookingDescription() { return this.bookingBaseInfoForm.get('bookingDescription'); }
-
     get maxBookingNum() { return this.timeBaseInfoForm.get('maxBookingNum'); }
     get maxQueueNum() { return this.timeBaseInfoForm.get('maxQueueNum'); }
 
-    /**
-    * desktop
-    */
     back() {
         this._router.navigate(['/booking']);
     }
-
+    
     /**
-     * data
-     */
+    * desktop
+    */
     // 获取机构信息是否完善
     getTenantInfo(): void {
         this._tenantInfoServiceProxy
@@ -174,6 +161,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .subscribe(result => {
                 this.bookingDataForEdit = result;
                 this.baseInfo = result.booking;
+                this.baseInfoDesc = result.booking.description;
                 this.allBookingTime = result.items;
                 this.pictureInfo = result.bookingPictures;
                 this.initFormValidation();
@@ -263,7 +251,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.baseInfo.needGender = this.needInfoOptions.needGender;
         this.baseInfo.needEmail = this.needInfoOptions.needEmail;
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
-        this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
 
         this.input.booking.id = this.bookingId ? this.bookingId : 0;
         this.input.booking = this.baseInfo;
@@ -319,6 +306,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
         this.allPictureForEdit = pictureForEdit;
+    }
+
+    getEditorHTMLContent($event: string): void {
+        console.log(3);
+        this.baseInfo.description = $event;
     }
 
     // 移动端代码

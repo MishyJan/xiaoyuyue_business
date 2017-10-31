@@ -9,7 +9,7 @@ export class LocalizedResourcesHelper {
         });
     }
 
-    public static loadEChartLocalizedScripts(): JQueryPromise<any> {
+    public static loadEChartLocalizedScripts(): any {
         if (!abp.session.userId) {
             return $.Deferred().resolve().promise();
         }
