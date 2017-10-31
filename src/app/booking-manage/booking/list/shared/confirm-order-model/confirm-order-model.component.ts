@@ -18,6 +18,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./confirm-order-model.component.scss']
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
+    isFreshenData: boolean = false;
     hourOfDay: string;
     confirmOrderText = this.l('Batch');
 
@@ -92,6 +93,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
             .confirmBookingOrder(input)
             .subscribe(() => {
                 this.notify.success(this.l('Booking.Confirm.Success'));
+                this.isFreshenData = true;
                 this.loadData()
             })
     }
@@ -113,6 +115,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
                     this.confirmOrderText = this.l('Batch');
                     this.batchConfirmInput.ids = [];
                     this.notify.success(this.l('Booking.Confirm.Success'));
+                    this.isFreshenData = true;
                     this.loadData()
                 })
         }
@@ -147,12 +150,13 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
         }
         this.bookingId = bookingId;
         this.loadData();
+        this.isFreshenData = false;
         this.isShowModelFlag = true;
     }
 
     public hideModel(): void {
         this.isShowModelFlag = false;
-        this.isShowModelHander.emit(this.isShowModelFlag);
+        this.isShowModelHander.emit(this.isFreshenData);
     }
 
     public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {

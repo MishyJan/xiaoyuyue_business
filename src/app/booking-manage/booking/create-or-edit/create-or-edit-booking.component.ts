@@ -6,6 +6,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
 import { PictureManageComponent } from './picture-manage/picture-manage.component';
@@ -29,6 +30,7 @@ export class BookingInfoOptions {
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
+    groupId: number = DefaultUploadPictureGroundId.BookingGroup;
     baseInfoDesc: string;
     needInfoOptions: BookingInfoOptions = new BookingInfoOptions();
     bookingId: number;
@@ -309,7 +311,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     getEditorHTMLContent($event: string): void {
-        console.log(3);
         this.baseInfo.description = $event;
     }
 

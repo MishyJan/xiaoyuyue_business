@@ -3,6 +3,7 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 
 @Component({
   selector: 'xiaoyuyue-outlet-image',
@@ -12,6 +13,7 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
 export class OutletImageComponent extends AppComponentBase implements OnInit {
   uploadPicInfo: UploadPictureDto = new UploadPictureDto();
   uploadUid: number = new Date().valueOf();
+  groupId: number = DefaultUploadPictureGroundId.OutletGroup;
   href: string = document.location.href;
   outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
 

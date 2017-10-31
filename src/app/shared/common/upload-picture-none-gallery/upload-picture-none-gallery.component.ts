@@ -7,6 +7,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-upload-picture-none-gallery',
@@ -24,11 +25,13 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
 
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
     @Input() uploadUid: number;
+    @Input() groupId: number = 0;
     @ViewChild('uploadPictureNoneGalleryModel') modal: ModalDirective;
 
     constructor(
         injector: Injector,
         private _pictureServiceProxy: PictureServiceProxy,
+        private _appSessionService: AppSessionService,
         private _sanitizer: DomSanitizer
     ) {
         super(
@@ -92,7 +95,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     auto_start: false,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                     x_vars: {
                         groupid: function (up, file) {
-                            return 1;
+                            return self.groupId;
                         }
                     },
                     /*x_vals: {
@@ -149,17 +152,15 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             self.picturyDestroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
-                        'Key': function (up, file) {
+                        'Key': (up, file) => {
                             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                             // 该配置必须要在 unique_names: false , save_key: false 时才生效
-                            const id = 1;
-                            const outletId = 3;
+                            const id = this._appSessionService.tenantId;
+                            const groupId = this.groupId;
                             const date = new Date();
                             const timeStamp = date.getTime().valueOf();
-                            const key = `${id}/${outletId}/${timeStamp}`;
+                            const key = `${id}/${groupId}/${timeStamp}`;
                             // do something with key here
-
-                            const domain = up.getOption('domain');
                             return key
                         }
                     }

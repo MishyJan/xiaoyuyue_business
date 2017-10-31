@@ -211,7 +211,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <p class="pic-upload-title">{{l('PictureUpload')}}</p>
-                                    <div class="upload-pic-wrap" UploadPicture (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#bookingUploadArea'" [groupId]="1" [dropEle]="" [containerEle]="'#bookingUploadAreaWrap'">
+                                    <div class="upload-pic-wrap" UploadPicture [groupId]="groupId" (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#bookingUploadArea'" [groupId]="1" [dropEle]="" [containerEle]="'#bookingUploadAreaWrap'">
                                         <!-- <div id="uploadArea" class="upload-area"></div> -->
                                         <div class="upload" id="bookingUploadAreaWrap">
                                             <div id="bookingUploadArea" class="upload-area">

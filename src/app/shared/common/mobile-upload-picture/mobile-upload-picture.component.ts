@@ -3,6 +3,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-mobile-upload-picture',
@@ -18,7 +19,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
 
     @Input() width: string = '100%';
     @Input() height: string = '100%';
-    @Input() groupId: string = '1';
+    @Input() groupId: number = 0;
     @Input() slogan: string;
     @Input() existedPicUrl: string;
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
@@ -26,6 +27,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
     constructor(
         private injector: Injector,
         private _sanitizer: DomSanitizer,
+        private _appSessionService: AppSessionService,
         private _pictureServiceProxy: PictureServiceProxy
     ) {
         super(injector);
@@ -123,14 +125,13 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                             // uploader.destroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
-                        'Key': function (up, file) {
-                            const id = 1;
-                            const outletId = 3;
+                        'Key': (up, file) => {
+                            const id = this._appSessionService.tenantId;
+                            const groupId = this.groupId;
                             const date = new Date();
                             const timeStamp = date.getTime().valueOf();
-                            const key = `${id}/${outletId}/${timeStamp}`;
+                            const key = `${id}/${groupId}/${timeStamp}`;
 
-                            const domain = up.getOption('domain');
                             return key
                         }
                     }

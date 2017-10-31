@@ -176,13 +176,13 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 显示待确认model
-    showConfirmOrderHandler(bookingId: number): void {
+    showConfirmOrderHandler(bookingId: number): void { 
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
 
     // 待确认model弹窗，若关闭应该刷新数据
     isShowComfirmOrderModelHandler(flag: boolean): void {
-        if (!flag) {
+        if (flag) {
             this.loadData();
         }
     }

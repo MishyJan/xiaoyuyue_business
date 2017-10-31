@@ -7,5 +7,5 @@
             <img width="100%" *ngIf="orgBgUrl" [src]="orgBgUrl">
         </div>
     </div>
-    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
+    <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel [groupId]="groupId" (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
 </div>

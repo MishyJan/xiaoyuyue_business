@@ -104,7 +104,7 @@
                 </div>
             </form>
         </div>
-        <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
+        <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel [groupId]="groupId" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
     </div>
 </div>
 
@@ -148,7 +148,7 @@
                                             <div id="contactQrCodeArea" class="qrcode-area" [ngStyle]="{'background-image': 'url(' +uploadPicInfo.pictureUrl+ ')'}"></div>
                                         </div> -->
                                         <div class="qr-code-wrap">
-                                            <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="1" [existedPicUrl]="uploadPicInfo.pictureUrl" (picUploadInfoHandler)="getQrCodePicInfo($event)"></xiaoyuyue-mobile-upload-picture>
+                                            <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="groupId" [existedPicUrl]="uploadPicInfo.pictureUrl" (picUploadInfoHandler)="getQrCodePicInfo($event)"></xiaoyuyue-mobile-upload-picture>
                                         </div>
 
                                     </div>
