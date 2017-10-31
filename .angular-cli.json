@@ -75,7 +75,6 @@
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
-
             "../src/assets/common/js/plupload-2.1.9.full.min.js",
 
             "../src/assets/metronic/global/scripts/app.min.js",
