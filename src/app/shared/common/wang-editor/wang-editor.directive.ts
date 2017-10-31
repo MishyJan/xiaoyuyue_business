@@ -1,10 +1,12 @@
 import * as wangEditor from 'wangeditor/release/wangEditor.js'
 
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, EventEmitter, Output, SimpleChanges } from '@angular/core';
 
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
+
+const Base64 = require('js-base64').Base64;
 
 @Directive({
     selector: '[WangEditor]'
@@ -12,30 +14,42 @@ import { UploadPictureService } from 'shared/services/upload-picture.service';
 export class WangEditorDirective implements AfterViewInit {
 
     private editor: any;
-    @Output() sendEditorHTMLContent: EventEmitter<string> = new EventEmitter();
+    private editorHtml: string;
+
     @Input() baseInfoDesc: string;
-    constructor(private _element: ElementRef,
+    @Output() sendEditorHTMLContent: EventEmitter<string> = new EventEmitter();
+    constructor(
+        private _element: ElementRef,
         private _sessionService: AbpSessionService,
         private _pictureServiceProxy: PictureServiceProxy,
-        private _uploadPictureService: UploadPictureService) {
+        private _uploadPictureService: UploadPictureService
+    ) {
 
     }
     ngAfterViewInit(): void {
         this.initEditor();
     }
+
     ngOnChanges(changes: SimpleChanges) {
-        if (this.editor) {
+        if (this.baseInfoDesc) {
             this.editor.txt.html(this.baseInfoDesc);
         }
     }
+
     initEditor() {
         const editordom = this._element.nativeElement;
         this.editor = new wangEditor(editordom)
 
         this.editor.customConfig.uploadImgShowBase64 = true;
         this.editor.customConfig.zIndex = 100;
+        this.editor.customConfig.onchange = (html) => {
+            this.sendEditorHTMLContent.emit(html);
+            this.editorOnChange(html);
+        };
+
+        // 允许上传到七牛云存储
+        this.editor.customConfig.qiniu = true
         this.editor.customConfig.menus = [
-            // 'head',  // 标题
             'bold',  // 粗体
             'italic',  // 斜体
             'underline',  // 下划线
@@ -47,9 +61,6 @@ export class WangEditorDirective implements AfterViewInit {
             'table',  // 表格
             'video',  // 插入视频
         ];
-        this.editor.customConfig.onchange = (html) => {
-            this.sendEditorHTMLContent.emit(html);
-        }
         this.editor.create();
         this.uploaddInit();
     }
@@ -116,7 +127,7 @@ export class WangEditorDirective implements AfterViewInit {
                         },
                         'UploadProgress': function (up, file) {
                             // 显示进度
-                            self.printLog('进度' + file.percent)
+                            self.printLog('进度 ' + file.percent)
                         },
                         'FileUploaded': function (up, file, info) {
                             self.printLog(info);
@@ -138,16 +149,8 @@ export class WangEditorDirective implements AfterViewInit {
                         'Key': (up, file) => {
                             // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
                             // 该配置必须要在 unique_names: false , save_key: false 时才生效
-                            const tenantId = self._sessionService.tenantId;
-                            const groupId = 0;
-                            const date = new Date();
-                            const timeStamp = date.getTime().valueOf();
-                            const key = `${tenantId}/${groupId}/${timeStamp}`;
-                            // do something with key here
-
-                            // var domain = up.getOption('domain');
-                            // self.pictureForEdit.pictureUrl = domain + key;
-                            return key
+                            const key = self.getFileKey();
+                            return key;
                         }
                     }
                     // domain 为七牛空间（bucket)对应的域名，选择某个空间后，可通过"空间设置->基本设置->域名设置"查看获取
@@ -159,5 +162,79 @@ export class WangEditorDirective implements AfterViewInit {
     // 封装 console.log 函数
     printLog(title) {
         window.console && console.log(title);
+    }
+
+    /*picBase是base64图片带头部的完整编码*/
+    putb642Qiniu(picBase, upToken) {
+        /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
+        const picBaseWithOutHeader = picBase.substring(22);
+        /*通过base64编码字符流计算文件流大小函数*/
+        function fileSize(str) {
+            let fileSize;
+            if (str.indexOf('=') > 0) {
+                const indexOf = str.indexOf('=');
+                str = str.substring(0, indexOf); // 把末尾的’=‘号去掉
+            }
+
+            fileSize = parseInt((str.length - (str.length / 8) * 2).toString(), 0);
+            return fileSize;
+        }
+
+        /*把字符串转换成json*/
+        function strToJson(str) {
+            const json = eval('(' + str + ')');
+            return json;
+        }
+
+        const url = 'http://up-z2.qiniu.com/putb64/' + fileSize(picBaseWithOutHeader);
+        const key = '/key/' + Base64.encode(this.getFileKey());
+        const x_vars = '/x:groupid/' + Base64.encode('0');
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                const result = strToJson(xhr.responseText).result;
+                const html = this.editor.txt.html();
+                this.editorHtml = html.replace(picBase, result.originalUrl)
+                // 替换图片
+                // this.editor.txt.html(this.editorHtml);
+            }
+        }
+
+        xhr.open('POST', url + key + x_vars, true);
+        xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+        xhr.setRequestHeader('Authorization', 'UpToken ' + upToken);
+        xhr.send(picBaseWithOutHeader);
+    }
+
+    editorOnChange(html) {
+        // 1，匹配出图片img标签（即匹配出所有图片），过滤其他不需要的字符
+        // 2.从匹配出来的结果（img标签中）循环匹配出图片地址（即src属性）
+        // 匹配图片（g表示匹配所有结果i表示区分大小写）
+        const imgReg = /<img.*?(?:>|\/>)/gi;
+        // 匹配src属性
+        const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+        // 检测base
+        const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;
+        const arr = html.match(imgReg);
+        for (let i = 0; i < arr.length; i++) {
+            const src = arr[i].match(srcReg);
+            // 检查图片路径是否是base64
+            if (reg.test(src[1])) {
+                this._uploadPictureService.getPictureUploadToken()
+                    .then((token) => {
+                        this.putb642Qiniu(src[1], token);
+                    });
+            }
+        }
+
+    }
+
+    getFileKey(): string {
+        const id = this._sessionService.tenantId;;
+        const groupId = 0;
+        const date = new Date();
+        const timeStamp = date.getTime().valueOf();
+        const key = `${id}/${groupId}/${timeStamp}`;
+        return key;
     }
 }
