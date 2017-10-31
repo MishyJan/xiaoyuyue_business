@@ -3,7 +3,6 @@ import { GridModule, SharedModule } from '@progress/kendo-angular-grid';
 import { ModalModule, PopoverModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 
 import { AppCommonModule } from 'app/shared/common/app-common.module';
-import { BaseInfoComponent } from 'app/booking-manage/booking/create-or-edit/base-info/base-info.component';
 import { BookingCustomModelComponent } from './list/shared/booking-custom-model/booking-custom-model.component';
 import { BookingDetailComponent } from './list/booking-detail/booking-detail.component';
 import { BookingListComponent } from './list/booking-list.component';
@@ -56,7 +55,6 @@ import { UtilsModule } from '@shared/utils/utils.module';
         InfiniteScrollModule
     ],
     declarations: [
-        BaseInfoComponent,
         PictureManageComponent,
         TimeInfoComponent,
         BookingListComponent,

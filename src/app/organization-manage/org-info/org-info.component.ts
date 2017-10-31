@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
@@ -27,6 +28,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     orgLogoAreaWrapHeight: string;
     orgBgAreaWrapHeight: string;
     orgLogoWrapHeight: string;
+    groupId: number =  DefaultUploadPictureGroundId.OutletGroup;
 
     sendOrgBgInfo: UploadPictureDto = new UploadPictureDto();
     sendOrgLogoInfo: UploadPictureDto = new UploadPictureDto();

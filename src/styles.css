@@ -1318,6 +1318,17 @@ a:focus {
 }
 
 
+/* wangeditor样式 */
+
+.w-e-text-container img {
+    width: auto;
+}
+
+.w-e-toolbar .moxie-shim {
+    width: auto !important;
+}
+
+
 /* toast提示框 */
 
 .toast-success {

@@ -66,6 +66,15 @@ export class VerificationCodeType {
     static PhoneVerify: number = CodeSendInputCodeType._70;
 }
 
+// 默认图片上传分组ID
+export class DefaultUploadPictureGroundId {
+    static AllGroup: number = -1;
+    static NoGroup: number = 0;
+    static BookingGroup: number = 1;
+    static OutletGroup: number = 2;
+    static LinkmanGroup: number = 3;
+    static AvatarGroup: number = 4;
+}
 
 export class BookingAccessSourceType {
 

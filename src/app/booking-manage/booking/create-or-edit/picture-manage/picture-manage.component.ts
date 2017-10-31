@@ -3,6 +3,7 @@ import { AfterViewInit, Component, EventEmitter, Injector, Input, OnChanges, OnI
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
 import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 
 @Component({
     selector: 'app-picture-manage',
@@ -14,6 +15,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     existingPicNum: number;
     pictrueIndex: number;
     displayOrder = 0;
+    groupId: number = DefaultUploadPictureGroundId.BookingGroup;
     allPictureEdit: BookingPictureEditDto[] = [];
 
     @Input() pictureInfo: BookingPictureEditDto[] = [];

@@ -51,7 +51,6 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
             .getCurrentUserSecurityInfo()
             .subscribe(result => {
                 this.userSecurityInfo = result;
-                console.log(result);
             })
     }
 

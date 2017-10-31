@@ -3,6 +3,7 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 
 @Component({
   selector: 'xiaoyuyue-upload-bg',
@@ -12,6 +13,7 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
 export class UploadOrgBgComponent extends AppComponentBase implements OnInit {
   picUrl: string;
   uploadUid: number = Math.round(new Date().valueOf() * Math.random());
+  groupId: number = DefaultUploadPictureGroundId.OutletGroup;
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
   @Output() orgBgInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
   @Input() orgBgUrl: string;
