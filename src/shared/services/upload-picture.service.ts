@@ -13,6 +13,18 @@ export class UploadPictureService {
 
     }
 
+    // public getPictureUploadToken(): any {
+    //     if (this._uploadPictureToken) {
+    //         return this._uploadPictureToken;
+    //     } else {
+    //         return this._pictureServiceProxy.getPictureUploadToken().toPromise().then(result => {
+    //             this._uploadPictureToken = result.token;
+
+    //             return this._uploadPictureToken;
+    //         })
+    //     }
+    // }
+
     public getPictureUploadToken(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             if (this._uploadPictureToken) {

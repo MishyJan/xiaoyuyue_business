@@ -6,6 +6,8 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
 
+var Base64 = require('js-base64').Base64;
+
 @Directive({
   selector: '[WangEditor]'
 })
@@ -13,7 +15,7 @@ export class WangEditorDirective implements AfterViewInit {
 
   private editor: any;
   private editorHtml: string;
-
+  _self = this;
   constructor(private _element: ElementRef,
     private _sessionService: AbpSessionService,
     private _pictureServiceProxy: PictureServiceProxy,
@@ -30,7 +32,10 @@ export class WangEditorDirective implements AfterViewInit {
 
     this.editor.customConfig.uploadImgShowBase64 = true;
     this.editor.customConfig.zIndex = 100;
-    this.editor.customConfig.onchange = this.editorOnChange;
+    this.editor.customConfig.onchange = (html) => {
+      this.editorOnChange(html);
+    };
+
     // 允许上传到七牛云存储
     this.editor.customConfig.qiniu = true
     this.editor.customConfig.menus = [
@@ -134,16 +139,8 @@ export class WangEditorDirective implements AfterViewInit {
             'Key': (up, file) => {
               // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
               // 该配置必须要在 unique_names: false , save_key: false 时才生效
-              const tenantId = self._sessionService.tenantId;
-              const groupId = 0;
-              const date = new Date();
-              const timeStamp = date.getTime().valueOf();
-              const key = `${tenantId}/${groupId}/${timeStamp}`;
-              // do something with key here
-
-              // var domain = up.getOption('domain');
-              // self.pictureForEdit.pictureUrl = domain + key;
-              return key
+              const key = self.getFileKey();
+              return self.getFileKey()
             }
           }
           // domain 为七牛空间（bucket)对应的域名，选择某个空间后，可通过"空间设置->基本设置->域名设置"查看获取
@@ -158,23 +155,18 @@ export class WangEditorDirective implements AfterViewInit {
   }
 
   /*picBase是base64图片带头部的完整编码*/
-  putb642Qiniu(picBase, editorHtml) {
-
-    /*picUrl用来存储返回来的url*/
-    let picUrl;
-
+  putb642Qiniu(picBase, upToken) {
     /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
-    picBase = picBase.substring(22);
-
+    const picBaseWithOutHeader = picBase.substring(22);
     /*通过base64编码字符流计算文件流大小函数*/
     function fileSize(str) {
       let fileSize;
       if (str.indexOf('=') > 0) {
         const indexOf = str.indexOf('=');
-        str = str.substring(0, indexOf);// 把末尾的’=‘号去掉
+        str = str.substring(0, indexOf); // 把末尾的’=‘号去掉
       }
 
-      fileSize = str.length - (str.length / 8) * 2;
+      fileSize = parseInt((str.length - (str.length / 8) * 2).toString(), 0);
       return fileSize;
     }
 
@@ -184,62 +176,55 @@ export class WangEditorDirective implements AfterViewInit {
       return json;
     }
 
-    const url = 'http://up.qiniu.com/putb64/' + fileSize(picBase);
+    const url = 'http://up-z2.qiniu.com/putb64/' + fileSize(picBaseWithOutHeader);
+    const key = '/key/' + Base64.encode(this.getFileKey());
+    const x_vars = '/x:groupid/' + Base64.encode('0');
     const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () { replaceBase(picBase, editorHtml); }
-
-    function replaceBase(picBase, editorHtml) {
+    xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
-        const keyText = xhr.responseText;
-
-        /*返回的key是字符串，需要装换成json*/
-        const retsult = strToJson(keyText);
-
-        /* http://ojvh6i96g.bkt.clouddn.com/是我的七牛云空间网址，keyText.key 是返回的图片文件名*/
-        picUrl = 'https://image.xiaoyuyue.com/' + retsult.key;
-        editorHtml.replace(picBase, picUrl)
+        const result = strToJson(xhr.responseText).result;
+        const html = this.editor.txt.html();
+        this.editorHtml = html.replace(picBase, result.originalUrl)
+        // 替换图片
+        // this.editor.txt.html(this.editorHtml);
       }
     }
 
-    xhr.open('POST', url, true);
+    xhr.open('POST', url + key + x_vars, true);
     xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-    xhr.setRequestHeader('Authorization', 'UpToken 这里填写你的token（注意前面的UpToken后面有空格）');
-    xhr.send(picBase);
+    xhr.setRequestHeader('Authorization', 'UpToken ' + upToken);
+    xhr.send(picBaseWithOutHeader);
   }
 
   editorOnChange(html) {
-    this.editorHtml = html;
-    // html 即变化之后的内容
-    // 思路分两步：作者（yanue）.
     // 1，匹配出图片img标签（即匹配出所有图片），过滤其他不需要的字符
     // 2.从匹配出来的结果（img标签中）循环匹配出图片地址（即src属性）
     // 匹配图片（g表示匹配所有结果i表示区分大小写）
     const imgReg = /<img.*?(?:>|\/>)/gi;
     // 匹配src属性
     const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+    // 检测base
     const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;
     const arr = html.match(imgReg);
-    alert('所有已成功匹配图片的数组：' + arr);
     for (let i = 0; i < arr.length; i++) {
       const src = arr[i].match(srcReg);
       // 检查图片路径是否是base64
-      const result = reg.test(src[1])
       if (reg.test(src[1])) {
-        this.putb642Qiniu(src[1], this.editorHtml);
+        this._uploadPictureService.getPictureUploadToken()
+          .then((token) => {
+            this.putb642Qiniu(src[1], token);
+          });
       }
-
-      // // 获取图片地址
-      // if (src[1]) {
-      //   alert('已匹配的图片地址' + (i + 1) + '：' + src[1]);
-      // }
-      // // 当然你也可以替换src属性
-      // if (src[0]) {
-      //   let t = src[0].replace(/src/i, 'href');
-      //   src.input = src.input.replace(src[1], '');
-      //   alert(src.input);
-      // }
     }
 
-    this.editor.txt.html(this.editorHtml)
+  }
+
+  getFileKey(): string {
+    const id = this._sessionService.tenantId;;
+    const groupId = 0;
+    const date = new Date();
+    const timeStamp = date.getTime().valueOf();
+    const key = `${id}/${groupId}/${timeStamp}`;
+    return key;
   }
 }
