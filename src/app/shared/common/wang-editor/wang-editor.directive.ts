@@ -38,6 +38,7 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.baseInfoDesc) {
       this.editor.txt.html(this.baseInfoDesc);
+      this.editorOnChange(this.baseInfoDesc);
     }
   }
 
