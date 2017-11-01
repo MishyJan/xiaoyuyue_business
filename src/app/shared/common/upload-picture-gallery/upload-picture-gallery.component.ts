@@ -6,11 +6,11 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { IAjaxResponse } from 'abp-ng2-module/src/abpHttp';
 import { ModalDirective } from 'ngx-bootstrap';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 export class SelectedPicListDto {
     name: string;
@@ -295,8 +295,8 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     init: {
                         'FilesAdded': (up, files) => {
                             plupload.each(files, function (file) {
+                                self.loading = true;
                                 // 文件添加进队列后,处理相关的事情
-
                                 // 上传之前本地预览
                                 for (let i = 0; i < files.length; i++) {
                                     const fileItem = files[i].getNative(),
@@ -317,7 +317,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         },
                         'UploadProgress': (up, file) => {
                             // 每个文件上传时,处理相关的事情
-                            self.loading = true;
+
                         },
                         'FileUploaded': (up, file, info) => {
                             // 每个文件上传成功后,处理相关的事情
