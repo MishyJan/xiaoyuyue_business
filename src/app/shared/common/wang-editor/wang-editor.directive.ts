@@ -13,11 +13,11 @@ const Base64 = require('js-base64').Base64;
   selector: '[WangEditor]'
 })
 
-
 export class WangEditorDirective implements AfterViewInit, OnChanges {
 
+  private isSaveing = false;
   private editor: any;
-  private editorHtml: string;
+  private transformHtml: string;
 
   private oldpictures: PictureEditDto[] = [];
   private newpictures: PictureEditDto[] = [];
@@ -38,7 +38,14 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.baseInfoDesc) {
       this.editor.txt.html(this.baseInfoDesc);
+      this.editorOnChange(this.baseInfoDesc, true);
     }
+  }
+
+  save() {
+    this.isSaveing = true;
+    this.editorOnChange(this.editor.txt.html(), false);
+    this.isSaveing = false;
   }
 
   initEditor() {
@@ -47,17 +54,15 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
 
     this.editor.customConfig.uploadImgShowBase64 = true;
     this.editor.customConfig.zIndex = 100;
-    // 自定义 onchange 触发的延迟时间，默认为 200 ms
-    this.editor.customConfig.onchangeTimeout = 1000 // 单位 ms
+    this.editor.customConfig.onchangeTimeout = 500 // 单位 ms
     this.editor.customConfig.onchange = (html) => {
-      this.editorOnChange(html);
-      this.sendEditorHTMLContent.emit(html);
+      this.editorOnChange(html, false);
+      // this.sendEditorHTMLContent.emit(this.editorHtml);
     };
 
     // 允许上传到七牛云存储
     this.editor.customConfig.qiniu = true
     this.editor.customConfig.menus = [
-      'head',  // 标题
       'bold',  // 粗体
       'italic',  // 斜体
       'underline',  // 下划线
@@ -71,6 +76,33 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     ];
     this.editor.create();
     this.uploaddInit();
+  }
+
+  editorOnChange(html: string, init: boolean) {
+    this.transformHtml = html;
+    // 1，匹配出图片img标签（即匹配出所有图片），过滤其他不需要的字符
+    // 2.从匹配出来的结果（img标签中）循环匹配出图片地址（即src属性）
+    // 匹配图片（g表示匹配所有结果i表示区分大小写）
+    const imgReg = /<img.*?(?:>|\/>)/gi;
+    const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; // 匹配src属性
+    const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
+    const arr = html.match(imgReg);
+    if (arr === null) {
+      if (!init) { this.sendEditorHTMLContent.emit(this.transformHtml); }
+      if (this.oldpictures.length <= 0) { return; }
+    } else {
+      // 扫描所有image标签，非保存状态下上传图片
+      this.scanPicture(arr, !this.isSaveing);
+    }
+
+    if (this.oldpictures.length > 0 && this.isSaveing) {
+      // 执行删除
+      this.clearPicture();
+    } else {
+      // 首次加载内容
+      this.oldpictures = this.newpictures;
+      this.newpictures = [];
+    }
   }
 
   // 初始化七牛上传的方法
@@ -87,20 +119,11 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
         const uploader = Qiniu.uploader({
           runtimes: 'html5,flash,html4',    // 上传模式,依次退化
           browse_button: btnId,       // 上传选择的点选按钮，**必需**
-          // uptoken_url: '/uptoken',
-          // Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
           uptoken: result,
-          // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
-          // unique_names: true,
-          // 默认 false，key为文件名。若开启该选项，SDK会为每个文件自动生成key（文件名）
-          // save_key: true,
-          // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
-          domain: 'https://picture.xiaoyuyue.com/',
+          domain: 'https://image.xiaoyuyue.com/',
           get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
-          // bucket 域名，下载资源时用到，**必需**
           container: containerId,           // 上传区域DOM ID，默认是browser_button的父元素，
           max_file_size: '2mb',           // 最大文件体积限制
-          // flash_swf_url: '../js/plupload/Moxie.swf',  // 引入flash,相对路径
           filters: {
             mime_types: [
               // 只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
@@ -110,7 +133,7 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
           max_retries: 3,                   // 上传失败最大重试次数
           dragdrop: true,                   // 开启可拖曳上传
           drop_element: textElemId,        // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
-          chunk_size: '4mb',                // 分块上传时，每片的体积
+          chunk_size: '2mb',                // 分块上传时，每片的体积
           // resize: {
           //   crop: false,
           //   quality: 60,
@@ -124,21 +147,12 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
           },
           init: {
             'FilesAdded': function (up, files) {
-              plupload.each(files, function (file) {
-                // 文件添加进队列后,处理相关的事情
-                self.printLog('on FilesAdded');
-              });
             },
             'BeforeUpload': function (up, file) {
-              // 每个文件上传前,处理相关的事情
-              self.printLog('on BeforeUpload');
             },
             'UploadProgress': function (up, file) {
-              // 显示进度
-              self.printLog('进度 ' + file.percent)
             },
             'FileUploaded': function (up, file, info) {
-              self.printLog(info);
               const res = JSON.parse(info).result;
               const currentPicUrl = res.originalUrl;
               // 插入图片到editor
@@ -146,64 +160,67 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
             },
             'Error': function (up, err, errTip) {
               // 上传出错时,处理相关的事情
-              self.printLog('on Error');
             },
             'UploadComplete': function () {
               // 队列文件处理完毕后,处理相关的事情
-              self.printLog('on UploadComplete');
-            }
-            // Key 函数如果有需要自行配置，无特殊需要请注释
-            ,
+            },
             'Key': (up, file) => {
-              // 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-              // 该配置必须要在 unique_names: false , save_key: false 时才生效
               const key = self.getFileKey();
               return self.getFileKey()
             }
           }
-          // domain 为七牛空间（bucket)对应的域名，选择某个空间后，可通过"空间设置->基本设置->域名设置"查看获取
-          // uploader 为一个plupload对象，继承了所有plupload的方法，参考http://plupload.com/docs
         });
       });
   }
 
-  // 封装 console.log 函数
-  printLog(title) {
-    window.console && console.log(title);
+  scanPicture(imageTags: string[], upload: boolean) {
+    const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; // 匹配src属性
+    const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
+
+    for (let i = 0; i < imageTags.length; i++) {
+      const src = imageTags[i].match(srcReg);
+      const pictureSrc = src[1];
+      // 图片是否是base64
+      if (reg.test(pictureSrc)) {
+        let pic = this.getPictureByBase64(this.oldpictures, pictureSrc);
+        if (!pic && upload) { pic = this.replaceHtmlAndPutPic(pictureSrc); }
+        // 当前编辑器的的图片
+        this.newpictures.unshift(pic);
+      } else if (!this.getPictureByUrl(this.newpictures, pictureSrc)) {
+        // 当前编辑器的的图片
+        this.newpictures.unshift(new PictureEditDto(null, pictureSrc));
+      }
+    }
   }
 
-  /*picBase是base64图片带头部的完整编码*/
-  putb642Qiniu(picBase64, upToken, key) {
+  replaceHtmlAndPutPic(picBase64: string): PictureEditDto {
+    const key = this.getFileKey();
+    const url = 'https://image.xiaoyuyue.com/' + key;
+    const pic = new PictureEditDto(picBase64, url);
+    // 替换html
+    this.transformHtml = this.transformHtml.replace(picBase64, url);
+    this.sendEditorHTMLContent.emit(this.transformHtml);
+    // 上传图片
+    this._uploadPictureService.getPictureUploadToken().then((token) => {
+      this.putb642Qiniu(picBase64, token, key);
+    });
+
+    return pic;
+  }
+
+  /*picBase64是base64图片带头部的完整编码*/
+  putb642Qiniu(picBase64: string, upToken: string, key: string) {
     /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
     const picBase64WithOutHeader = picBase64.substring(22);
-    /*通过base64编码字符流计算文件流大小函数*/
-    function fileSize(str) {
-      let size;
-      if (str.indexOf('=') > 0) {
-        const indexOf = str.indexOf('=');
-        str = str.substring(0, indexOf); // 把末尾的’=‘号去掉
-      }
-
-      size = parseInt((str.length - (str.length / 8) * 2).toString(), 0);
-      return size;
-    }
-
-    /*把字符串转换成json*/
-    function strToJson(str) {
-      const json = eval('(' + str + ')');
-      return json;
-    }
-
-    const url = 'http://up-z2.qiniu.com/putb64/' + fileSize(picBase64WithOutHeader);
+    const url = 'http://up-z2.qiniu.com/putb64/' + this.fileSize(picBase64WithOutHeader);
     const fileKey = '/key/' + Base64.encode(key);
     const x_vars = '/x:groupid/' + Base64.encode('0');
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
-        const result = strToJson(xhr.responseText).result;
-        const html = this.editor.txt.html();
-        // 替换图片
-        this.editorHtml = html.replace(picBase64, result.originalUrl);
+        // const result = this.strToJson(xhr.responseText).result;
+        // const html = this.editor.txt.html();
+
       }
     }
 
@@ -211,48 +228,6 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     xhr.setRequestHeader('Content-Type', 'application/octet-stream');
     xhr.setRequestHeader('Authorization', 'UpToken ' + upToken);
     xhr.send(picBase64WithOutHeader);
-  }
-
-  editorOnChange(html) {
-    // 1，匹配出图片img标签（即匹配出所有图片），过滤其他不需要的字符
-    // 2.从匹配出来的结果（img标签中）循环匹配出图片地址（即src属性）
-    // 匹配图片（g表示匹配所有结果i表示区分大小写）
-    const imgReg = /<img.*?(?:>|\/>)/gi;
-    // 匹配src属性
-    const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-    // 检测base
-    const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;
-    const arr = html.match(imgReg);
-    if (arr == null) { return; }
-    for (let i = 0; i < arr.length; i++) {
-      const src = arr[i].match(srcReg);
-      const pictureSrc = src[1];
-      // 图片路径是否是base64,并且不在已存在的数组中
-      if (reg.test(pictureSrc)) {
-        if (!this.getPictureByBase64(this.oldpictures, pictureSrc)) {
-          this._uploadPictureService.getPictureUploadToken()
-            .then((token) => {
-              // 插入到新图片数组中
-              const key = this.getFileKey();
-              const url = 'https://image.xiaoyuyue.com/' + key;
-              this.newpictures.unshift(new PictureEditDto(pictureSrc, url));
-              this.putb642Qiniu(pictureSrc, token, key);
-            });
-        }
-      } else if (!this.getPictureByUrl(this.newpictures, pictureSrc)) {
-        // 当前编辑器的图片
-        this.newpictures.unshift(new PictureEditDto(null, pictureSrc));
-      }
-    }
-
-    if (this.oldpictures.length > 0) {
-      // 执行删除
-      this.clearPicture();
-    } else {
-      // 首次加载内容
-      this.oldpictures = this.newpictures;
-      this.newpictures = [];
-    }
   }
 
   getFileKey(): string {
@@ -277,6 +252,8 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
         this.oldpictures = this.newpictures;
         this.newpictures = [];
       });
+    } else {
+      this.newpictures = [];
     }
   }
 
@@ -297,7 +274,27 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     }
     return null;
   }
+
+  /*通过base64编码字符流计算文件流大小函数*/
+  fileSize(str) {
+    let size;
+    if (str.indexOf('=') > 0) {
+      const indexOf = str.indexOf('=');
+      str = str.substring(0, indexOf); // 把末尾的’=‘号去掉
+    }
+
+    size = parseInt((str.length - (str.length / 8) * 2).toString(), 0);
+    return size;
+  }
+
+  /*把字符串转换成json*/
+  strToJson(str) {
+    const json = eval('(' + str + ')');
+    return json;
+  }
 }
+
+
 
 class PictureEditDto {
   picBase: string;
