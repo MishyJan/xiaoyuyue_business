@@ -45,7 +45,13 @@
 // 小屏幕样式
 .mobile-create-booking {
     margin-bottom: 50px;
-    padding-top: 20px !important;
+    padding-top: 20px !important; // 移动端不显示富文本编辑器头部
+    .w-e-toolbar {
+        display: none;
+    }
+    .w-e-text-container {
+        border: 1px solid #ccc !important;
+    }
     .view-btn.btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
         line-height: 40px;
         font-size: 15px;
