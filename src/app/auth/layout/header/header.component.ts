@@ -10,13 +10,13 @@ export class AnchorsDto {
 }
 
 @Component({
-    selector: 'xiaoyuyue-header',
+    selector: 'xiaoyuyue-auth-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     providers: [AnchorsDto]
 })
 
-export class HeaderComponent extends AppComponentBase implements OnInit {
+export class AuthHeaderComponent extends AppComponentBase implements OnInit {
 
     constructor(
         injector: Injector,

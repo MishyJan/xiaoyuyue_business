@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { FileUploadModule } from '@node_modules/ng2-file-upload';
 import { FooterComponent } from './shared/layout/footer.component';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from './shared/layout/header.component';
 import { HeaderNotificationsComponent } from './shared/layout/notifications/header-notifications.component';
 import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-side-bar.component';
 import { NgModule } from '@angular/core';
@@ -22,6 +21,7 @@ import { SideBarComponent } from './shared/layout/side-bar.component';
 import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
 import { UserNotificationHelper } from './shared/layout/notifications/UserNotificationHelper';
 import { UtilsModule } from '@shared/utils/utils.module';
+import { HeaderComponent } from 'app/shared/layout/header.component';
 
 @NgModule({
     declarations: [

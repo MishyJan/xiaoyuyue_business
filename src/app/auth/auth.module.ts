@@ -16,7 +16,6 @@ import { ExternalAuthComponent } from 'app/auth/external-auth/external-auth.comp
 import { FooterComponent } from 'app/auth/layout/footer/footer.component';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from 'app/auth/layout/header/header.component';
 import { LanguageSwitchComponent } from './language-switch.component';
 import { LoginComponent } from './login/login.component';
 import { LoginService } from 'shared/services/login.service';
@@ -36,6 +35,7 @@ import { TenantRegistrationHelperService } from './register/tenant-registration-
 import { TooltipModule } from 'ngx-bootstrap';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
+import { AuthHeaderComponent } from 'app/auth/layout/header/header.component';
 
 @NgModule({
     imports: [
@@ -73,7 +73,7 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
         PhoneValidateComponent,
         LuosimaoCaptcha,
 
-        HeaderComponent,
+        AuthHeaderComponent,
         FooterComponent,
         BackgroundImgComponent,
         SupplyRegisterComponent,
