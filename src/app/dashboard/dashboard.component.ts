@@ -222,5 +222,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         bodyEle.append(echartScript);
         bodyEle.append(echartChinaScript);
         bodyEle.append(echartShineScript);
+
     }
 }
