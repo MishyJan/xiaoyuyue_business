@@ -177,13 +177,8 @@
                                 <label class="col-sm-2 label-on-left"></label>
                                 <div class="col-sm-7">
                                     <div class="form-group label-floating">
-                                        <label class="control-label"></label>
-                                        <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Des')}}" formControlName="bookingDescription" required>
-                                        <div *ngIf="bookingDescription.invalid && (bookingDescription.dirty || bookingDescription.touched)">
-                                            <small class="text-danger" *ngIf="bookingDescription.errors.required">{{l('Booking.Desc.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.minlength">{{l('Booking.Desc.MinLenth',10)}}</small>
-                                            <small class="text-danger" *ngIf=" bookingDescription.errors.maxlength">{{l('Booking.Name.MaxLenth',100)}}</small>
-                                        </div>
+                                        <label class="control-label" style="top: 4px;font-size: 14px;"><span *ngIf="!baseInfo.description">预约简介</span></label>
+                                        <div WangEditor (sendEditorHTMLContent)="getEditorHTMLContent($event)" [baseInfoDesc]="baseInfoDesc"></div>
                                     </div>
                                 </div>
                             </div>
