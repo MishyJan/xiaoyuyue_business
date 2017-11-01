@@ -223,10 +223,10 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     // 检测base
     const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;
     const arr = html.match(imgReg);
+    if (arr == null) { return; }
     for (let i = 0; i < arr.length; i++) {
       const src = arr[i].match(srcReg);
       const pictureSrc = src[1];
-
       // 图片路径是否是base64,并且不在已存在的数组中
       if (reg.test(pictureSrc)) {
         if (!this.getPictureByBase64(this.oldpictures, pictureSrc)) {
