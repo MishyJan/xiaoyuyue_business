@@ -14,6 +14,7 @@ import { ShareBookingModelComponent } from './share-booking-model/share-booking-
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
@@ -72,6 +73,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
     @ViewChild('pictureManageModel') pictureManageModel: PictureManageComponent;
+    @ViewChild('wangEditorModel') wangEditorModel: WangEditorComponent;
     /* 移动端代码结束 */
 
     public outletSelectDefaultItem: string;
@@ -134,7 +136,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     back() {
         this._router.navigate(['/booking']);
     }
-    
+
     /**
     * desktop
     */
@@ -209,11 +211,14 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     save() {
         this.saving = true;
+        this.wangEditorModel.save();
         this.createOrUpdateBooking();
     }
 
     saveAndEdit() {
+        console.log(this.wangEditorModel);
         this.savingAndEditing = true;
+        this.wangEditorModel.save();
         this.createOrUpdateBooking(true);
     }
 
