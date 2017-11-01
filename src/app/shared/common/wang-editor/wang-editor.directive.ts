@@ -38,13 +38,13 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.baseInfoDesc) {
       this.editor.txt.html(this.baseInfoDesc);
-      this.editorOnChange(this.baseInfoDesc);
+      this.editorOnChange(this.baseInfoDesc, true);
     }
   }
 
   save() {
     this.isSaveing = true;
-    this.editorOnChange(this.editor.txt.html());
+    this.editorOnChange(this.editor.txt.html(), false);
     this.isSaveing = false;
   }
 
@@ -56,14 +56,13 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     this.editor.customConfig.zIndex = 100;
     this.editor.customConfig.onchangeTimeout = 500 // 单位 ms
     this.editor.customConfig.onchange = (html) => {
-      this.editorOnChange(html);
+      this.editorOnChange(html, false);
       // this.sendEditorHTMLContent.emit(this.editorHtml);
     };
 
     // 允许上传到七牛云存储
     this.editor.customConfig.qiniu = true
     this.editor.customConfig.menus = [
-      'head',  // 标题
       'bold',  // 粗体
       'italic',  // 斜体
       'underline',  // 下划线
@@ -79,7 +78,7 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     this.uploaddInit();
   }
 
-  editorOnChange(html) {
+  editorOnChange(html: string, init: boolean) {
     this.transformHtml = html;
     // 1，匹配出图片img标签（即匹配出所有图片），过滤其他不需要的字符
     // 2.从匹配出来的结果（img标签中）循环匹配出图片地址（即src属性）
@@ -89,7 +88,7 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
     const arr = html.match(imgReg);
     if (arr === null) {
-      this.sendEditorHTMLContent.emit(this.transformHtml);
+      if (!init) { this.sendEditorHTMLContent.emit(this.transformHtml); }
       if (this.oldpictures.length <= 0) { return; }
     } else {
       // 扫描所有image标签，非保存状态下上传图片
@@ -181,21 +180,10 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     for (let i = 0; i < imageTags.length; i++) {
       const src = imageTags[i].match(srcReg);
       const pictureSrc = src[1];
-      // 图片路径是否是base64,并且不在已存在的数组中
+      // 图片是否是base64
       if (reg.test(pictureSrc)) {
         let pic = this.getPictureByBase64(this.oldpictures, pictureSrc);
-        if (!pic && upload) {
-          const key = this.getFileKey();
-          const url = 'https://image.xiaoyuyue.com/' + key;
-          pic = new PictureEditDto(pictureSrc, url);
-          // 替换html
-          this.transformHtml = this.transformHtml.replace(pictureSrc, url);
-          this.sendEditorHTMLContent.emit(this.transformHtml);
-          // 上传图片
-          this._uploadPictureService.getPictureUploadToken().then((token) => {
-            this.putb642Qiniu(pictureSrc, token, key);
-          });
-        }
+        if (!pic && upload) { pic = this.replaceHtmlAndPutPic(pictureSrc); }
         // 当前编辑器的的图片
         this.newpictures.unshift(pic);
       } else if (!this.getPictureByUrl(this.newpictures, pictureSrc)) {
@@ -205,8 +193,23 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     }
   }
 
+  replaceHtmlAndPutPic(picBase64: string): PictureEditDto {
+    const key = this.getFileKey();
+    const url = 'https://image.xiaoyuyue.com/' + key;
+    const pic = new PictureEditDto(picBase64, url);
+    // 替换html
+    this.transformHtml = this.transformHtml.replace(picBase64, url);
+    this.sendEditorHTMLContent.emit(this.transformHtml);
+    // 上传图片
+    this._uploadPictureService.getPictureUploadToken().then((token) => {
+      this.putb642Qiniu(picBase64, token, key);
+    });
+
+    return pic;
+  }
+
   /*picBase64是base64图片带头部的完整编码*/
-  putb642Qiniu(picBase64, upToken, key) {
+  putb642Qiniu(picBase64: string, upToken: string, key: string) {
     /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
     const picBase64WithOutHeader = picBase64.substring(22);
     const url = 'http://up-z2.qiniu.com/putb64/' + this.fileSize(picBase64WithOutHeader);
@@ -226,7 +229,6 @@ export class WangEditorDirective implements AfterViewInit, OnChanges {
     xhr.setRequestHeader('Authorization', 'UpToken ' + upToken);
     xhr.send(picBase64WithOutHeader);
   }
-
 
   getFileKey(): string {
     const id = this._sessionService.tenantId;;
