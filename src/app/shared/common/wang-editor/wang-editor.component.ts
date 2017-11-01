@@ -1,6 +1,7 @@
+import * as _ from 'lodash';
 import * as wangEditor from 'wangeditor/release/wangEditor.js'
 
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, Component } from '@angular/core';
+import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { LanguageServiceProxy } from './../../../../shared/service-proxies/service-proxies';
@@ -16,7 +17,6 @@ const Base64 = require('js-base64').Base64;
 
 export class WangEditorComponent implements AfterViewInit, OnChanges {
 
-    private isSaveing = false;
     private editor: any;
     private transformHtml: string;
 
@@ -39,15 +39,12 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (this.baseInfoDesc) {
             this.editor.txt.html(this.baseInfoDesc);
-            this.editorOnChange(this.baseInfoDesc, true);
+            this.editorOnChange(this.baseInfoDesc);
         }
     }
 
     public save() {
-        console.log('save');
-        this.isSaveing = true;
-        this.editorOnChange(this.editor.txt.html(), false);
-        this.isSaveing = false;
+        this.editorOnChange(this.editor.txt.html());
     }
 
     initEditor() {
@@ -58,7 +55,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         this.editor.customConfig.zIndex = 100;
         this.editor.customConfig.onchangeTimeout = 500 // 单位 ms
         this.editor.customConfig.onchange = (html) => {
-            this.editorOnChange(html, false);
+            // this.editorOnChange(html, false);
             // this.sendEditorHTMLContent.emit(this.editorHtml);
         };
 
@@ -80,7 +77,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         this.uploaddInit();
     }
 
-    editorOnChange(html: string, init: boolean) {
+    editorOnChange(html: string) {
         this.transformHtml = html;
         // 1，匹配出图片img标签（即匹配出所有图片），过滤其他不需要的字符
         // 2.从匹配出来的结果（img标签中）循环匹配出图片地址（即src属性）
@@ -90,14 +87,14 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
         const arr = html.match(imgReg);
         if (arr === null) {
-            if (!init) { this.sendEditorHTMLContent.emit(this.transformHtml); }
+            this.sendEditorHTMLContent.emit(this.transformHtml);
             if (this.oldpictures.length <= 0) { return; }
         } else {
-            // 扫描所有image标签，非保存状态下上传图片
-            this.scanPicture(arr, !this.isSaveing);
+            // 扫描所有image标签
+            this.scanPicture(arr);
         }
 
-        if (this.oldpictures.length > 0 && this.isSaveing) {
+        if (this.oldpictures.length > 0) {
             // 执行删除
             this.clearPicture();
         } else {
@@ -175,7 +172,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             });
     }
 
-    scanPicture(imageTags: string[], upload: boolean) {
+    scanPicture(imageTags: string[]) {
         const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; // 匹配src属性
         const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
 
@@ -185,7 +182,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             // 图片是否是base64
             if (reg.test(pictureSrc)) {
                 let pic = this.getPictureByBase64(this.oldpictures, pictureSrc);
-                if (!pic && upload) { pic = this.replaceHtmlAndPutPic(pictureSrc); }
+                if (!pic) { pic = this.replaceHtmlAndPutPic(pictureSrc); }
                 // 当前编辑器的的图片
                 this.newpictures.unshift(pic);
             } else if (!this.getPictureByUrl(this.newpictures, pictureSrc)) {
@@ -244,7 +241,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     clearPicture() {
         const picture2Delete: string[] = [];
         for (let i of this.oldpictures) {
-            if (this.newpictures.indexOf(i) === -1) {
+            if (!this.getPictureByUrl(this.newpictures, i.url)) {
                 picture2Delete.unshift(i.url);
             }
         }
