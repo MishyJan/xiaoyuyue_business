@@ -112,10 +112,10 @@ export class UploadPicDirective implements AfterViewInit {
                         },
                         'BeforeUpload': function (up, file) {
                             // 每个文件上传前,处理相关的事情
+                            self.refreshState(true);
                         },
                         'UploadProgress': function (up, file) {
                             // 每个文件上传时,处理相关的事情
-                            self.refreshState(true);
                         },
                         'FileUploaded': function (up, file, info) {
                             // 每个文件上传成功后,处理相关的事情
