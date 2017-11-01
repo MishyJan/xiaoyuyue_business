@@ -1193,6 +1193,14 @@ fieldset[disabled] .form-group .form-control {
         left: 50%;
         transform: translate(-50%, -50%);
     }
+    .toast-bottom-right {
+        right: 12px;
+        bottom: 54px;
+    }
+    .toast-bottom-left {
+        bottom: 54px;
+        left: 12px;
+    }
 }
 
 
