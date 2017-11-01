@@ -16,6 +16,7 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 
 export class BookingInfoOptions {
     needGender: boolean;
@@ -72,6 +73,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
     @ViewChild('pictureManageModel') pictureManageModel: PictureManageComponent;
+    @ViewChild('wangEditorModel') wangEditorModel: WangEditorComponent;
     /* 移动端代码结束 */
 
     public outletSelectDefaultItem: string;
@@ -213,7 +215,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     saveAndEdit() {
+        console.log(this.wangEditorModel);
         this.savingAndEditing = true;
+        this.wangEditorModel.save();
         this.createOrUpdateBooking(true);
     }
 

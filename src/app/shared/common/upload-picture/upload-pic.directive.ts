@@ -1,9 +1,9 @@
 import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Directive({
     selector: '[UploadPicture]'
@@ -97,35 +97,15 @@ export class UploadPicDirective implements AfterViewInit {
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
-                            plupload.each(files, function (file) {
-                                // 文件添加进队列后,处理相关的事情
-
-                                // 上传之前本地预览
-                                // for (let i = 0; i < files.length; i++) {
-                                //     const fileItem = files[i].getNative(),
-                                //         url = window.URL;
-                                //     const src = url.createObjectURL(fileItem);
-
-                                //     self._$browseButtonEle.css('background-image', 'url(' + src + ')');
-                                // }
-                            });
+                            self.refreshState(true);
                         },
                         'BeforeUpload': function (up, file) {
                             // 每个文件上传前,处理相关的事情
-                            self.refreshState(true);
                         },
                         'UploadProgress': function (up, file) {
                             // 每个文件上传时,处理相关的事情
                         },
                         'FileUploaded': function (up, file, info) {
-                            // 每个文件上传成功后,处理相关的事情
-                            // 其中 info 是文件上传成功后，服务端返回的json，形式如
-                            // {
-                            //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
-                            //    "key": "gogopher.jpg"
-                            //  }
-                            // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
-
                             const res = JSON.parse(info).result;
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;

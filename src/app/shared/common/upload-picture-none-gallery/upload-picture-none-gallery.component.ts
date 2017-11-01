@@ -4,10 +4,10 @@ import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } f
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { ModalDirective } from 'ngx-bootstrap';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-upload-picture-none-gallery',
@@ -105,7 +105,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         'FilesAdded': function (up, files) {
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
-
+                                self.loading = true;
                                 // 上传之前本地预览
                                 for (let i = 0; i < files.length; i++) {
                                     const fileItem = files[i].getNative(),
@@ -122,7 +122,6 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         },
                         'UploadProgress': function (up, file) {
                             // 每个文件上传时,处理相关的事情
-                            self.loading = true;
                         },
                         'FileUploaded': function (up, file, info) {
                             // 每个文件上传成功后,处理相关的事情
