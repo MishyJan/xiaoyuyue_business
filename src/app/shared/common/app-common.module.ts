@@ -23,7 +23,7 @@ import { UploadPicDirective } from './upload-picture/upload-pic.directive';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
-import { WangEditorDirective } from 'app/shared/common/wang-editor/wang-editor.directive';
+import { WangEditorComponent } from './wang-editor/wang-editor.component';
 
 @NgModule({
     imports: [
@@ -49,7 +49,7 @@ import { WangEditorDirective } from 'app/shared/common/wang-editor/wang-editor.d
         IndicatorDirective,
         EmptyPageComponent,
         MobileUploadPictureComponent,
-        WangEditorDirective
+        WangEditorComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -64,7 +64,7 @@ import { WangEditorDirective } from 'app/shared/common/wang-editor/wang-editor.d
         IndicatorDirective,
         EmptyPageComponent,
         MobileUploadPictureComponent,
-        WangEditorDirective
+        WangEditorComponent
     ]
 })
 export class AppCommonModule {
