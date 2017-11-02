@@ -87,7 +87,6 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
         const arr = html.match(imgReg);
         if (arr === null) {
-            this.sendEditorHTMLContent.emit(this.transformHtml);
             if (this.oldpictures.length <= 0) { return; }
         } else {
             // 扫描所有image标签
@@ -102,6 +101,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             this.oldpictures = this.newpictures;
             this.newpictures = [];
         }
+        this.sendEditorHTMLContent.emit(this.transformHtml);
     }
 
     // 初始化七牛上传的方法
