@@ -105,7 +105,6 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         'FilesAdded': function (up, files) {
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
-                                self.loading = true;
                                 // 上传之前本地预览
                                 for (let i = 0; i < files.length; i++) {
                                     const fileItem = files[i].getNative(),
@@ -118,6 +117,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             });
                         },
                         'BeforeUpload': function (up, file) {
+                            self.loading = true;
                             // 每个文件上传前,处理相关的事情
                         },
                         'UploadProgress': function (up, file) {
