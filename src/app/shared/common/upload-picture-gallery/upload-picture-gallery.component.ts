@@ -295,7 +295,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     init: {
                         'FilesAdded': (up, files) => {
                             plupload.each(files, function (file) {
-                                self.loading = true;
                                 // 文件添加进队列后,处理相关的事情
                                 // 上传之前本地预览
                                 for (let i = 0; i < files.length; i++) {
@@ -312,6 +311,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                             });
                         },
                         'BeforeUpload': (up, file) => {
+                            self.loading = true;
                             // 每个文件上传前,处理相关的事情
                             // self.modal.hide();
                         },
