@@ -211,7 +211,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     putb642Qiniu(picBase64: string, upToken: string, key: string) {
         /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
         const picBase64WithOutHeader = picBase64.substring(22);
-        const url = 'https://up.qbox.me/putb64/' + this.fileSize(picBase64WithOutHeader);
+        const url = 'https://upload-z2.qiniup.com/putb64/' + this.fileSize(picBase64WithOutHeader);
         const fileKey = '/key/' + Base64.encode(key);
         const x_vars = '/x:groupid/' + Base64.encode('0');
         const xhr = new XMLHttpRequest();
