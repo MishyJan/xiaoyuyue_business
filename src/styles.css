@@ -1319,10 +1319,19 @@ a:focus {
 /* 七牛上传SDK */
 
 .moxie-shim {
-    width: 100% !important;
+    width: auto !important;
     height: 100% !important;
     top: 0 !important;
     z-index: 999 !important;
+}
+
+@media screen and (max-width: 768px) {
+    .moxie-shim {
+        width: 100% !important;
+        height: 100% !important;
+        top: 0 !important;
+        z-index: 999 !important;
+    }
 }
 
 

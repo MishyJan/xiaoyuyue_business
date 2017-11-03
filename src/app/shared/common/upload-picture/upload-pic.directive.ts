@@ -87,6 +87,13 @@ export class UploadPicDirective implements AfterViewInit {
                         preserve_headers: false
                     },
                     auto_start: true,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    filters: {
+                        max_file_size: '5mb',
+                        prevent_duplicates: true,
+                        mime_types: [
+                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                        ]
+                    },
                     x_vars: {
                         groupid: function (up, file) {
                             return self.groupId;
@@ -97,19 +104,15 @@ export class UploadPicDirective implements AfterViewInit {
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
-                            alert("选择文件");
                             self.refreshState(true);
                         },
                         'BeforeUpload': function (up, file) {
-                            alert("上传前");
                             // 每个文件上传前,处理相关的事情
                         },
                         'UploadProgress': function (up, file) {
-                            alert("上传中");
                             // 每个文件上传时,处理相关的事情
                         },
                         'FileUploaded': function (up, file, info) {
-                            alert("上传后");
                             const res = JSON.parse(info).result;
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
