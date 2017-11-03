@@ -85,7 +85,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         private _pictureServiceProxy: PictureServiceProxy,
         private _uploadPictureService: UploadPictureService,
         private _appSessionService: AppSessionService,
-        private sanitizer: DomSanitizer
+        private _sanitizer: DomSanitizer
     ) {
         super(injector);
     }
@@ -294,7 +294,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         groupid: function (up, file) {
                             return self.groupId;
                         },
-                        imageMogr2: function() {
+                        imageMogr2: function () {
                             return self.imageMogr2Link;
                         }
                     },
@@ -311,7 +311,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                                     // self.safeTemporaryPictureUrl = self.sanitizer.bypassSecurityTrustResourceUrl(self.temporaryPictureUrl);
                                     // self.allPictureUrl.push(self.safeTemporaryPictureUrl);
                                     self._$profilePicture.attr('src', src);
-                                    
+
                                     self._$profilePicture.cropper({
                                         dragMode: 'move',
                                         viewMode: 1,

@@ -22,6 +22,16 @@ export class LocalStorageService {
         });
     }
 
+    getItemOrNull(key: string) {
+        return localForage.getItem(key).then(result => {
+            if (result) {
+                return this.deepCopy(result);
+            } else {
+                return null;
+            }
+        });
+    }
+
     setItem(key, value): void {
         if (!localForage) {
             return;

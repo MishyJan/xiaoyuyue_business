@@ -16,7 +16,7 @@ import { UploadPictureService } from 'shared/services/upload-picture.service';
     templateUrl: './mobile-upload-picture.component.html',
     styleUrls: ['./mobile-upload-picture.component.scss']
 })
-export class MobileUploadPictureComponent extends AppComponentBase implements OnInit {
+export class MobileUploadPictureComponent extends AppComponentBase implements OnInit, OnChanges {
     imageMogr2Link: string;
     _$cropImg: JQuery<HTMLElement>;
     uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
@@ -151,7 +151,6 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
                             self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
-                            self.uploadPictureInfo.pictureUrl = self.uploadPictureInfo.pictureUrl.changingThisBreaksApplicationSecurity;
                             self.uploadPictureInfo.pictureId = currentPicId;
 
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);

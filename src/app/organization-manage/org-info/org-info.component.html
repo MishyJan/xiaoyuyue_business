@@ -20,7 +20,8 @@
                         <i class="vapps-icon vapps-icon-app-submit"></i>
                         <span>{{l("Save")}}</span>
                     </button>
-                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor">
+                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"
+                        [buttonBusy]="savingAndEditing" [busyText]="'保存中...'">
                         <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -72,7 +73,7 @@
                     <div class="row">
                         <!-- 机构logo -->
                         <div class="col-lg-6 org-logo-wrap">
-                            <xiaoyuyue-upload-logo [orgLogoUrl]="tenantInfo.logoUrl " (orgLogoIngoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-upload-logo>
+                            <xiaoyuyue-upload-logo [orgLogoUrl]="tenantInfo.logoUrl" (orgLogoIngoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-upload-logo>
                         </div>
 
                         <div class="col-lg-6 org-bg-wrap">
@@ -98,12 +99,11 @@
                         <div class="card">
                             <div class="avatar-wrap form-group">
                                 <!-- <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#orgLogoUploadArea'" [groupId]="1">
-                                    <div class="img" id="orgLogoUploadArea" [ngStyle]="{'background-image': 'url(' + tenantInfo.logoUrl  + ')'}"></div>
+                                    <div class="img" id="orgLogoUploadArea" [ngStyle]="{'background-image': 'url(' + tenantInfo.logoUrl + ')'}"></div>
                                 </div>
                                 <div class="bg-cover"></div>
                                 <span class="vapps-icon vapps-icon-cb-add-img"></span> -->
-                                <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="groupId" [height]="'80px'" [existedPicUrl]="tenantInfo.logoUrl "
-                                    (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                                <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="groupId" [height]="'80px'" [existedPicUrl]="tenantInfo.logoUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                             </div>
                             <div class="card-content">
                                 <div class="row">
@@ -169,7 +169,7 @@
                     <div class="back" (click)="showEdit()" *ngIf="filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
-                                <div class="img" *ngIf="tenantInfo.logoUrl " [ngStyle]="{'background-image': 'url(' + tenantInfo.logoUrl  + ')'}"></div>
+                                <div class="img" *ngIf="tenantInfo.logoUrl" [ngStyle]="{'background-image': 'url(' + tenantInfo.logoUrl + ')'}"></div>
                             </div>
                             <div class="card-content">
                                 <div class="row">
