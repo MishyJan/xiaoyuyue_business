@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { CookiesService } from './../../../shared/services/cookies.service';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
@@ -28,13 +29,14 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     orgLogoAreaWrapHeight: string;
     orgBgAreaWrapHeight: string;
     orgLogoWrapHeight: string;
-    groupId: number =  DefaultUploadPictureGroundId.OutletGroup;
+    groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
     sendOrgBgInfo: UploadPictureDto = new UploadPictureDto();
     sendOrgLogoInfo: UploadPictureDto = new UploadPictureDto();
     constructor(
         injector: Injector,
         private _router: Router,
+        private _cookiesService: CookiesService,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy
     ) {
         super(
@@ -43,6 +45,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
+        alert(this._cookiesService.getCookieValue('UrlHelper.redirectUrl'));
         this.loadData();
     }
 

@@ -260,20 +260,15 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                 token = result.token;
                 self._$profilePicture = $('#profilePicture');
 
-                // 引入Plupload 、qiniu.js后
                 const Q1 = new QiniuJsSDK();
                 const uploader = Q1.uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'uploadArea',       // 上传选择的点选按钮，**必需**
-                    // uptoken_url: '/token',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
-                    // unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
-                    // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
                     domain: 'http://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
                     container: 'uploadAreaWrap',           // 上传区域DOM ID，默认是browser_button的父元素，
-                    max_file_size: '100mb',           // 最大文件体积限制
-                    // flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
+                    max_file_size: '5mb',           // 最大文件体积限制
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: true,                   // 开启可拖曳上传
                     drop_element: 'dropArea',        // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
@@ -284,14 +279,18 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         preserve_headers: false
                     },
                     auto_start: false,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    filters: {
+                        max_file_size: '5mb',
+                        prevent_duplicates: true,
+                        mime_types: [
+                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                        ]
+                    },
                     x_vars: {
                         groupid: function (up, file) {
                             return self.groupId;
                         }
                     },
-                    /*x_vals: {
-                      'groupid': 1
-                    },*/
                     init: {
                         'FilesAdded': (up, files) => {
                             plupload.each(files, function (file) {
@@ -320,14 +319,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
                         },
                         'FileUploaded': (up, file, info) => {
-                            // 每个文件上传成功后,处理相关的事情
-                            // 其中 info 是文件上传成功后，服务端返回的json，形式如
-                            // {
-                            //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
-                            //    "key": "gogopher.jpg"
-                            //  }
-                            // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
-
 
                             // var res = parseJSON(info);
                             // this._$profilePicture = domain + res.key; //获取上传成功后的文件的Url
