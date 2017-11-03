@@ -402,7 +402,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     // 刷新数据（由于使用模型驱动表单验证，所以需要更新数据到DTO）
     refreshData(): void {
         this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
-        this.baseInfo.description = this.bookingBaseInfoForm.value.bookingDescription;
     }
 
     // PC端代码

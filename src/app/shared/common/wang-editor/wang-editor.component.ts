@@ -87,7 +87,6 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
         const arr = html.match(imgReg);
         if (arr === null) {
-            this.sendEditorHTMLContent.emit(this.transformHtml);
             if (this.oldpictures.length <= 0) { return; }
         } else {
             // 扫描所有image标签
@@ -102,6 +101,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             this.oldpictures = this.newpictures;
             this.newpictures = [];
         }
+        this.sendEditorHTMLContent.emit(this.transformHtml);
     }
 
     // 初始化七牛上传的方法
@@ -211,7 +211,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     putb642Qiniu(picBase64: string, upToken: string, key: string) {
         /*把头部的data:image/png;base64,去掉。（注意：base64后面的逗号也去掉）*/
         const picBase64WithOutHeader = picBase64.substring(22);
-        const url = 'http://up-z2.qiniu.com/putb64/' + this.fileSize(picBase64WithOutHeader);
+        const url = 'https://upload-z2.qiniup.com/putb64/' + this.fileSize(picBase64WithOutHeader);
         const fileKey = '/key/' + Base64.encode(key);
         const x_vars = '/x:groupid/' + Base64.encode('0');
         const xhr = new XMLHttpRequest();

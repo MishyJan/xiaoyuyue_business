@@ -87,6 +87,13 @@ export class UploadPicDirective implements AfterViewInit {
                         preserve_headers: false
                     },
                     auto_start: true,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    filters: {
+                        max_file_size: '5mb',
+                        prevent_duplicates: true,
+                        mime_types: [
+                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                        ]
+                    },
                     x_vars: {
                         groupid: function (up, file) {
                             return self.groupId;
