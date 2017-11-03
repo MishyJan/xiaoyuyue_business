@@ -16,11 +16,13 @@ import { UploadPictureService } from 'shared/services/upload-picture.service';
     templateUrl: './mobile-upload-picture.component.html',
     styleUrls: ['./mobile-upload-picture.component.scss']
 })
-export class MobileUploadPictureComponent extends AppComponentBase implements OnInit, OnChanges {
-
+export class MobileUploadPictureComponent extends AppComponentBase implements OnInit {
+    imageMogr2Link: string;
+    _$cropImg: JQuery<HTMLElement>;
     uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
     uploadUid: number = Math.round(new Date().valueOf() * Math.random());
     tempUrl: string;
+    isShowCropArea = false;
     uploading = false;
 
     @Input() width = '100%';
@@ -28,6 +30,8 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
     @Input() groupId = 0;
     @Input() slogan: string;
     @Input() existedPicUrl: string;
+    @Input() cropScaleX = 1;
+    @Input() cropScaleY = 1;
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
 
     constructor(
@@ -53,11 +57,12 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
         const self = this;
         const container = 'uploadAreaWrap-' + this.uploadUid;
         const browse_button = 'uploadArea-' + this.uploadUid;
-
         this._uploadPictureService
             .getPictureUploadToken()
             .then(token => {
-                const uploader = new QiniuJsSDK().uploader({
+                // 引入Plupload 、qiniu.js后
+                var Q1 = new QiniuJsSDK();
+                const uploader = Q1.uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: browse_button,       // 上传选择的点选按钮，**必需**
                     // uptoken_url: '/token',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
@@ -73,12 +78,12 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                     dragdrop: true,                   // 开启可拖曳上传
                     drop_element: container,        // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
-                    resize: {
-                        crop: false,
-                        quality: 60,
-                        preserve_headers: false
-                    },
-                    auto_start: true,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    // resize: {
+                    //     crop: false,
+                    //     quality: 60,
+                    //     preserve_headers: false
+                    // },
+                    auto_start: false,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                     filters: {
                         max_file_size: '5mb',
                         prevent_duplicates: true,
@@ -89,6 +94,9 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                     x_vars: {
                         groupid: function (up, file) {
                             return self.groupId;
+                        },
+                        imageMogr2: function () {
+                            return self.imageMogr2Link;
                         }
                     },
                     /*x_vals: {
@@ -97,13 +105,37 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                     init: {
                         'FilesAdded': function (up, files) {
                             self._cookiesService.clearBeforeRefreshRoute();
+                            self._$cropImg = $('#cropImg' + self.uploadUid);
+
                             plupload.each(files, function (file) {
                                 // 上传之前本地预览
-                                // for (let i = 0; i < files.length; i++) {
-                                //     const fileItem = files[i].getNative(),
-                                //         url = window.URL;
-                                //     self.tempUrl = url.createObjectURL(fileItem);
-                                // }
+                                self.showCropArea();
+                                for (let i = 0; i < files.length; i++) {
+                                    const fileItem = files[i].getNative(),
+                                        url = window.URL;
+                                    const src = url.createObjectURL(fileItem);
+
+                                    self._$cropImg.attr('src', src);
+                                    self._$cropImg.cropper({
+                                        dragMode: 'move',
+                                        viewMode: 1,
+                                        aspectRatio: self.cropScaleX / self.cropScaleY,
+                                        crop: function (e) {
+                                            let cropValue = `!${e.width}x${e.height}a${e.x}a${e.y}`;
+                                            self.imageMogr2Link = Q1.imageMogr2({
+                                                'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
+                                                strip: false,   // 布尔值，是否去除图片中的元信息
+                                                // thumbnail: '1000x1000',   // 缩放操作参数
+                                                crop: cropValue,  // 裁剪操作参数
+                                                gravity: 'NorthWest',    // 裁剪锚点参数
+                                                quality: 65,  // 图片质量，取值范围1-100
+                                                // rotate: 20,   // 旋转角度，取值范围1-360，缺省为不旋转。
+                                                // format: 'jpg',// 新图的输出格式，取值范围：jpg，gif，png，webp等
+                                                // blur: '3x5'    // 高斯模糊参数
+                                            });
+                                        }
+                                    });
+                                }
                             });
                         },
                         'BeforeUpload': function (up, file) {
@@ -124,11 +156,14 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
 
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
                             self.uploading = false;
-                            // self.close();
+                            self.hideCropArea();
+                            self.cropClear(self._$cropImg);
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
                             self.uploading = false;
+                            self.hideCropArea();
+                            self.cropClear(self._$cropImg);
                             self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
@@ -146,10 +181,25 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                         }
                     }
                 });
+                $('#confirmUpload' + self.uploadUid).on('click', () => {
+                    uploader.start();
+                })
             });
     }
 
     saveCurrentUrl() {
         this._cookiesService.setBeforeRefreshRoute(this._router.routerState.snapshot.url);
+    }
+
+    cropClear(instance: JQuery<HTMLElement>): void {
+        instance.removeAttr('src');
+        instance.cropper("destroy");
+    }
+
+    showCropArea(): void {
+        this.isShowCropArea = true;
+    }
+    hideCropArea(): void {
+        this.isShowCropArea = false;
     }
 }

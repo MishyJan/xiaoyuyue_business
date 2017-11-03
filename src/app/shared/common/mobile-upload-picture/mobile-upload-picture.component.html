@@ -14,5 +14,15 @@
 </div>
 
 <div class="uploading-wrap" [style.width]="width" [style.height]="height" [style.line-height]="height" *ngIf="uploading">
-    <span class="fa fa-spin fa-spinner"></span>上传中...
+    <span class="fa fa-spin fa-spinner"></span>加载中...
+</div>
+
+<div class="crop-wrap" [ngClass]="{'crop-opacity': !isShowCropArea}">
+    <div class="crop-content">
+        <div class="img-wrap">
+            <img [id]="'cropImg'+uploadUid">
+        </div>
+        <button type="submit" class="btn primary-bgcolor" [id]="'confirmUpload'+uploadUid" [buttonBusy]="uploading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+    </div>
+    <div class="bg-cover" (click)="hideCropArea()"></div>
 </div>
