@@ -131,12 +131,12 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     // 获取上传logo图片信息
     getLogoUploadHandler(picInfo: UploadPictureDto): void {
         this.tenantInfo.logoId = picInfo.pictureId;
-        this.tenantInfo.logoUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.tenantInfo.logoUrl = picInfo.pictureUrl;
     }
 
     // 获取上传logo图片信息
     getOrgBgUploadHandler(picInfo: UploadPictureDto): void {
         this.tenantInfo.backgroundPictureId = picInfo.pictureId;
-        this.tenantInfo.backgroundPictureUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.tenantInfo.backgroundPictureUrl = picInfo.pictureUrl;
     }
 }
