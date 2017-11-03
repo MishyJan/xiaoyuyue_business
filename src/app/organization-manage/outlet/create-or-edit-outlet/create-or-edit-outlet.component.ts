@@ -239,7 +239,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     getProvinceSelectList(provinceId?: number): void {
-        debugger
         this._stateServiceServiceProxy
             .getProvinceSelectList()
             .subscribe(result => {
