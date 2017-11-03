@@ -3,6 +3,10 @@
         width: 900px;
         .modal-content {
             .modal-header {
+                .close-wrap {
+                    padding: 10px;
+                    cursor: pointer;
+                }
                 .modal-title {
                     .title-item {
                         text-align: center;
@@ -81,8 +85,8 @@
                         }
                     }
                     .upload-area-wrap {
-                        width: 200px;
-                        height: 200px;
+                        width: 100%;
+                        min-height: 200px;
                         position: relative;
                         margin: 0 auto;
                         border: 1px dashed #CCC;
@@ -98,13 +102,9 @@
                             }
                         }
                         .img-area {
-                            width: 200px;
-                            height: 200px;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            background-size: cover;
-                            background-position: center;
+                            img {
+                                max-width: 100%;
+                            }
                         }
                     }
                     .upload-tips {
@@ -114,6 +114,9 @@
                             .char {
                                 width: 30px;
                                 flex: 0 0 30px;
+                                .tip-icon {
+                                    color: #F00;
+                                }
                             }
                             .content {
                                 flex: 1;

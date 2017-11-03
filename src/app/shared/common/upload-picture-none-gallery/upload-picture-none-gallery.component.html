@@ -1,9 +1,11 @@
 <div class="upload-picture">
-    <div bsModal #uploadPictureNoneGalleryModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel"
-        aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div bsModal #uploadPictureNoneGalleryModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true" [config]="{backdrop: 'static'}">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+                    <div class="clearfix close-wrap">
+                        <span title="关闭" class="vapps-icon-app-close pull-right" (click)="close()"></span>
+                    </div>
                     <h4 class="modal-title">
                         <span class="col-md-12 title-item local-upload">{{l("PictureGallery.LocalUpload")}}</span>
                     </h4>
@@ -12,8 +14,7 @@
                 <div class="modal-body row">
                     <div class="col-lg-6 col-md-6" [id]="'dropArea'+uploadUid">
                         <div class="upload-area-wrap" [id]="'uploadAreaWrap'+uploadUid">
-                            <div class="upload-area" [id]="'uploadArea'+uploadUid"></div>
-                            <div class="img-area" [id]="'profilePicture'+uploadUid"></div>
+                            <div class="img-area"><img [id]="'profilePicture'+uploadUid"></div>
                         </div>
                     </div>
 
@@ -40,8 +41,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn primary-bgcolor" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
-                    <button type="button" class="btn btn-cancel" [id]="'cancelUpload'+uploadUid" (click)="close()" [disabled]="loading"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
+                    <button type="button" class="btn primary-bgcolor" [id]="'uploadArea'+uploadUid"><span class="vapps-icon vapps-icon-app-add-time-field"></span>选择文件</button>
+                    <button type="submit" class="btn primary-bgcolor" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
                 </div>
             </div>
         </div>

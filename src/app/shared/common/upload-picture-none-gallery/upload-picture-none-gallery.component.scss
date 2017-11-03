@@ -1,7 +1,12 @@
 .upload-picture {
     .modal-dialog {
+        width: 900px;
         .modal-content {
             .modal-header {
+                .close-wrap {
+                    padding: 10px;
+                    cursor: pointer;
+                }
                 .modal-title {
                     .title-item {
                         text-align: center;

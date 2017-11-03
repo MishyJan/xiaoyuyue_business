@@ -29,6 +29,8 @@ export class SelectedPicListDto {
 })
 
 export class UploadPictureGalleryComponent extends AppComponentBase implements OnInit {
+    key: string;
+    imageMogr2Link: string;
     existsBookingPictureEdit: any;
     selectedPicList: SelectedPicListDto = new SelectedPicListDto();
     selectedPicListArr: SelectedPicListDto[] = [];
@@ -71,6 +73,8 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     @Input() groupId: number = 0;
     @Input() existingPicNum: number;
+    @Input() cropScaleX: number = 1;
+    @Input() cropScaleY: number = 1;
     @Output() getAllPictureUrl: EventEmitter<SafeUrl[]> = new EventEmitter();
     @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
     @Output() sendPicGalleryForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
@@ -267,17 +271,17 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
                     domain: self.domain,   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
-                    container: 'uploadAreaWrap',           // 上传区域DOM ID，默认是browser_button的父元素，
+                    // container: 'uploadAreaWrap',           // 上传区域DOM ID，默认是browser_button的父元素，
                     max_file_size: '5mb',           // 最大文件体积限制
                     max_retries: 0,                   // 上传失败最大重试次数
-                    dragdrop: true,                   // 开启可拖曳上传
-                    drop_element: 'dropArea',        // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+                    dragdrop: false,                   // 开启可拖曳上传
+                    // drop_element: 'dropArea',        // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
-                    resize: {
-                        crop: false,
-                        quality: 60,
-                        preserve_headers: false
-                    },
+                    // resize: {
+                    //     crop: false,
+                    //     quality: 60,
+                    //     preserve_headers: false
+                    // },
                     auto_start: false,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                     filters: {
                         max_file_size: '5mb',
@@ -289,6 +293,9 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     x_vars: {
                         groupid: function (up, file) {
                             return self.groupId;
+                        },
+                        imageMogr2: function() {
+                            return self.imageMogr2Link;
                         }
                     },
                     init: {
@@ -303,15 +310,34 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                                     // self.temporaryPictureUrl = src;
                                     // self.safeTemporaryPictureUrl = self.sanitizer.bypassSecurityTrustResourceUrl(self.temporaryPictureUrl);
                                     // self.allPictureUrl.push(self.safeTemporaryPictureUrl);
-                                    self._$profilePicture.css({
-                                        'background-image': 'url(' + src + ')'
-                                    })
+                                    self._$profilePicture.attr('src', src);
+                                    
+                                    self._$profilePicture.cropper({
+                                        dragMode: 'move',
+                                        viewMode: 1,
+                                        aspectRatio: self.cropScaleX / self.cropScaleY,
+                                        crop: function (e) {
+                                            let cropValue = `!${e.width}x${e.height}a${e.x}a${e.y}`;
+                                            self.imageMogr2Link = Q1.imageMogr2({
+                                                'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
+                                                strip: false,   // 布尔值，是否去除图片中的元信息
+                                                // thumbnail: '1000x1000',   // 缩放操作参数
+                                                crop: cropValue,  // 裁剪操作参数
+                                                gravity: 'NorthWest',    // 裁剪锚点参数
+                                                quality: 65,  // 图片质量，取值范围1-100
+                                                // rotate: 20,   // 旋转角度，取值范围1-360，缺省为不旋转。
+                                                // format: 'jpg',// 新图的输出格式，取值范围：jpg，gif，png，webp等
+                                                // blur: '3x5'    // 高斯模糊参数
+                                            });
+                                        }
+                                    });
                                 }
                             });
                         },
                         'BeforeUpload': (up, file) => {
                             self.loading = true;
                             // 每个文件上传前,处理相关的事情
+                            self.loading = true;
                         },
                         'UploadProgress': (up, file) => {
                             // 每个文件上传时,处理相关的事情
@@ -341,11 +367,12 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                             const groupId = this.groupId;
                             const date = new Date();
                             const timeStamp = date.getTime().valueOf();
-                            const key = `${id}/${groupId}/${timeStamp}`;
-                            return key
+                            this.key = `${id}/${groupId}/${timeStamp}`;
+                            return this.key
                         }
                     }
                 });
+
                 $('#confirmUpload').on('click', () => {
                     uploader.start();
                 })
