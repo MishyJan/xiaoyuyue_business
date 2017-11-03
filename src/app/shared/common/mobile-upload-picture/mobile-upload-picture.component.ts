@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter, Injector, Input, SimpleChanges } from '@angular/core';
-import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
-import { AppSessionService } from 'shared/common/session/app-session.service';
+import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 
 @Component({
     selector: 'xiaoyuyue-mobile-upload-picture',
@@ -36,7 +37,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
     ngOnInit() {
         this.initFileUploader();
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         this.tempUrl = changes.existedPicUrl.currentValue;
     }
@@ -64,12 +65,12 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                     // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
                     domain: 'http://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
-                    container: container,           //上传区域DOM ID，默认是browser_button的父元素，
+                    container: container,           // 上传区域DOM ID，默认是browser_button的父元素，
                     max_file_size: '4mb',           // 最大文件体积限制
                     // flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: true,                   // 开启可拖曳上传
-                    drop_element: container,        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+                    drop_element: container,        // 拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
                     resize: {
                         crop: false,
@@ -77,6 +78,13 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                         preserve_headers: false
                     },
                     auto_start: true,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+                    filters: {
+                        max_file_size: '5mb',
+                        prevent_duplicates: true,
+                        mime_types: [
+                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                        ]
+                    },
                     x_vars: {
                         groupid: function (up, file) {
                             return self.groupId;

@@ -104,19 +104,15 @@ export class UploadPicDirective implements AfterViewInit {
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
-                            alert("选择文件");
                             self.refreshState(true);
                         },
                         'BeforeUpload': function (up, file) {
-                            alert("上传前");
                             // 每个文件上传前,处理相关的事情
                         },
                         'UploadProgress': function (up, file) {
-                            alert("上传中");
                             // 每个文件上传时,处理相关的事情
                         },
                         'FileUploaded': function (up, file, info) {
-                            alert("上传后");
                             const res = JSON.parse(info).result;
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
