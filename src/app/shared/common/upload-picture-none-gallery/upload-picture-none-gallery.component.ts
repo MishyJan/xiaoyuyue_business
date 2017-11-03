@@ -8,13 +8,13 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { ModalDirective } from 'ngx-bootstrap';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { UploadPictureService } from './../../../../shared/services/upload-picture.service';
 
 @Component({
     selector: 'xiaoyuyue-upload-picture-none-gallery',
     templateUrl: './upload-picture-none-gallery.component.html',
     styleUrls: ['./upload-picture-none-gallery.component.scss']
 })
-
 
 export class UploadPictureNoneGalleryComponent extends AppComponentBase implements OnInit {
 
@@ -31,6 +31,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
     constructor(
         injector: Injector,
         private _pictureServiceProxy: PictureServiceProxy,
+        private _uploadPictureService: UploadPictureService,
         private _appSessionService: AppSessionService,
         private _sanitizer: DomSanitizer
     ) {
@@ -62,15 +63,9 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
         const self = this;
         this._$profilePicture = $('#profilePicture' + this.uploadUid);
 
-        let token = '';
-        this._pictureServiceProxy
+        this._uploadPictureService
             .getPictureUploadToken()
-            .subscribe(result => {
-                token = result.token;
-                self._$profilePicture = $('#profilePicture' + self.uploadUid);
-
-                // 引入Plupload 、qiniu.js后
-                // var Q1 = new QiniuJsSDK();
+            .then(token => {
                 const uploader = new QiniuJsSDK().uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'uploadArea' + self.uploadUid,       // 上传选择的点选按钮，**必需**
@@ -161,5 +156,4 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                 });
             });
     }
-
 }

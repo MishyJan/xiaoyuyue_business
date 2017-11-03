@@ -1,26 +1,27 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { UploadPictureService } from 'shared/services/upload-picture.service';
 
 @Component({
     selector: 'xiaoyuyue-mobile-upload-picture',
     templateUrl: './mobile-upload-picture.component.html',
     styleUrls: ['./mobile-upload-picture.component.scss']
 })
-export class MobileUploadPictureComponent extends AppComponentBase implements OnInit {
+export class MobileUploadPictureComponent extends AppComponentBase implements OnInit, OnChanges {
 
     uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
     uploadUid: number = Math.round(new Date().valueOf() * Math.random());
     tempUrl: string;
-    uploading: boolean = false;
+    uploading = false;
 
-    @Input() width: string = '100%';
-    @Input() height: string = '100%';
-    @Input() groupId: number = 0;
+    @Input() width = '100%';
+    @Input() height = '100%';
+    @Input() groupId = 0;
     @Input() slogan: string;
     @Input() existedPicUrl: string;
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
@@ -29,7 +30,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
         private injector: Injector,
         private _sanitizer: DomSanitizer,
         private _appSessionService: AppSessionService,
-        private _pictureServiceProxy: PictureServiceProxy
+        private _uploadPictureService: UploadPictureService
     ) {
         super(injector);
     }
@@ -47,15 +48,9 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
         const container = 'uploadAreaWrap-' + this.uploadUid;
         const browse_button = 'uploadArea-' + this.uploadUid;
 
-        let token = '';
-        this._pictureServiceProxy
+        this._uploadPictureService
             .getPictureUploadToken()
-            .subscribe(result => {
-                token = result.token;
-
-                // 引入Plupload 、qiniu.js后
-                // var Q1 = new QiniuJsSDK();
-
+            .then(token => {
                 const uploader = new QiniuJsSDK().uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: browse_button,       // 上传选择的点选按钮，**必需**

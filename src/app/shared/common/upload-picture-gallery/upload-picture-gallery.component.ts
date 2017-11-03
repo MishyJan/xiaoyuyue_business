@@ -10,6 +10,7 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { IAjaxResponse } from 'abp-ng2-module/src/abpHttp';
 import { ModalDirective } from 'ngx-bootstrap';
+import { UploadPictureService } from './../../../../shared/services/upload-picture.service';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 export class SelectedPicListDto {
@@ -78,6 +79,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     constructor(
         injector: Injector,
         private _pictureServiceProxy: PictureServiceProxy,
+        private _uploadPictureService: UploadPictureService,
         private _appSessionService: AppSessionService,
         private sanitizer: DomSanitizer
     ) {
@@ -253,11 +255,9 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     initFileUploader(): void {
         const self = this;
         self.allPictureUrl = [];
-        let token = '';
-        this._pictureServiceProxy
+        this._uploadPictureService
             .getPictureUploadToken()
-            .subscribe(result => {
-                token = result.token;
+            .then(token => {
                 self._$profilePicture = $('#profilePicture');
 
                 const Q1 = new QiniuJsSDK();
@@ -265,7 +265,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'uploadArea',       // 上传选择的点选按钮，**必需**
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
-                    domain: 'http://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
+                    domain: self.domain,   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
                     container: 'uploadAreaWrap',           // 上传区域DOM ID，默认是browser_button的父元素，
                     max_file_size: '5mb',           // 最大文件体积限制
@@ -312,16 +312,11 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         'BeforeUpload': (up, file) => {
                             self.loading = true;
                             // 每个文件上传前,处理相关的事情
-                            // self.modal.hide();
                         },
                         'UploadProgress': (up, file) => {
                             // 每个文件上传时,处理相关的事情
-
                         },
                         'FileUploaded': (up, file, info) => {
-
-                            // var res = parseJSON(info);
-                            // this._$profilePicture = domain + res.key; //获取上传成功后的文件的Url
                             const result = JSON.parse(info).result;
                             self.pictureForEdit.pictureId = result.pictureId;
                             self.pictureForEdit.pictureUrl = result.originalUrl;
