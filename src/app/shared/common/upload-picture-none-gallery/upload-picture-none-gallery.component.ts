@@ -68,7 +68,8 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
         this._uploadPictureService
             .getPictureUploadToken()
             .then(token => {
-                const uploader = new QiniuJsSDK().uploader({
+                const Q1 = new QiniuJsSDK();
+                const uploader = Q1.uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'uploadArea' + self.uploadUid,       // 上传选择的点选按钮，**必需**
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
@@ -95,7 +96,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         groupid: function (up, file) {
                             return self.groupId;
                         },
-                        imageMogr2: function() {
+                        imageMogr2: function () {
                             return self.imageMogr2Link;
                         }
                     },
