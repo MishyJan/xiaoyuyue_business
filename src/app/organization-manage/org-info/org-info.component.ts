@@ -45,7 +45,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        alert(this._cookiesService.getCookieValue('UrlHelper.redirectUrl'));
         this.loadData();
     }
 
