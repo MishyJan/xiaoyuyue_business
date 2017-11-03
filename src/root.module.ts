@@ -11,10 +11,12 @@ import { AppSessionService } from '@shared/common/session/app-session.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
+import { CookiesService } from 'shared/services/cookies.service';
 import { NgxAniModule } from 'ngxani';
 import { ResponsiveModule } from 'ng2-responsive'
 import { RootComponent } from './root.component';
 import { RootRoutingModule } from './root-routing.module';
+import { Router } from '@angular/router';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { ServicesModule } from 'shared/services/services.module';
 import { UrlHelper } from './shared/helpers/UrlHelper';
@@ -40,6 +42,12 @@ export function appInitializerFactory(injector: Injector) {
 
                         // abp.ui.clearBusy();
                         appLoadingBusy.clearBusy();
+                        const cookiesService: CookiesService = injector.get(CookiesService);
+                        const beforeRefreshRoute = cookiesService.getBeforeRefreshRoute();
+                        if (beforeRefreshRoute) {
+                            cookiesService.clearBeforeRefreshRoute();
+                            injector.get(Router).navigate([beforeRefreshRoute]);
+                        }
                         resolve(result);
                     },
                     (err) => {

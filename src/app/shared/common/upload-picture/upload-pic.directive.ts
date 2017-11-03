@@ -1,3 +1,5 @@
+import '@node_modules/qiniu-js/dist/qiniu.min';
+
 import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 import { AppSessionService } from 'shared/common/session/app-session.service';

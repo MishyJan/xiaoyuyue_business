@@ -1,9 +1,10 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { CookiesService } from './../../../shared/services/cookies.service';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
+import { OrganizationInfoDto } from './../../../shared/service-proxies/service-proxies';
 import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
@@ -15,24 +16,19 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     styleUrls: ['./org-info.component.scss'],
     animations: [accountModuleAnimation()],
 })
-export class OrgInfoComponent extends AppComponentBase implements OnInit {
+export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterViewInit {
     currentUserName: string;
-    uploaded: boolean = false;
+    uploaded = false;
     filpActive = true;
     savingAndEditing: boolean;
     saving = false;
-    updatedOrgBgPicture = false;
-    updatedOrgLogoPicture = false;
-    input: TenantInfoEditDto = new TenantInfoEditDto();
+    tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     currentPicDom: any;
-    picUrl: string;
     orgLogoAreaWrapHeight: string;
     orgBgAreaWrapHeight: string;
     orgLogoWrapHeight: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
-    sendOrgBgInfo: UploadPictureDto = new UploadPictureDto();
-    sendOrgLogoInfo: UploadPictureDto = new UploadPictureDto();
     constructor(
         injector: Injector,
         private _router: Router,
@@ -45,7 +41,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
-        alert(this._cookiesService.getCookieValue('UrlHelper.redirectUrl'));
         this.loadData();
     }
 
@@ -67,15 +62,8 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
                 if (!result) {
                     return;
                 }
-                this.currentUserName = this.input.tenancyName = result.tenancyName;
-                this.input.tagline = result.tagline;
-                this.input.description = result.description;
-
-                this.sendOrgBgInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.backgroundPictureUrl);
-                this.sendOrgBgInfo.pictureId = result.backgroundPictureId;
-
-                this.sendOrgLogoInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.logoUrl);
-                this.sendOrgLogoInfo.pictureId = result.logoId;
+                this.currentUserName = this.tenantInfo.tenancyName = result.tenancyName;
+                this.tenantInfo = result;
             })
     }
 
@@ -87,19 +75,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
     save(): void {
-        if (!this.updatedOrgBgPicture) {
-            this.input.backgroundPictureId = this.sendOrgBgInfo.pictureId;
-            this.input.backgroundPictureUrl = this.sendOrgBgInfo.pictureUrl;
-        }
-
-        if (!this.updatedOrgLogoPicture) {
-            this.input.logoId = this.sendOrgLogoInfo.pictureId;
-            this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
-        }
-
         this.saving = true;
         this._tenantInfoServiceProxy
-            .updateTenantInfo(this.input)
+            .updateTenantInfo(this.tenantInfo)
             .finally(() => { this.saving = false })
             .subscribe(result => {
                 abp.event.trigger('userNameChanged');
@@ -108,16 +86,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
     saveAndEdit() {
-        if (!this.updatedOrgBgPicture) {
-            this.input.backgroundPictureId = this.sendOrgBgInfo.pictureId;
-            this.input.backgroundPictureUrl = this.sendOrgBgInfo.pictureUrl;
-        }
-
-        if (!this.updatedOrgLogoPicture) {
-            this.input.logoId = this.sendOrgLogoInfo.pictureId;
-            this.input.logoUrl = this.sendOrgLogoInfo.pictureUrl;
-        }
-        if (this.currentUserName !== this.input.tenancyName) {
+        if (this.currentUserName !== this.tenantInfo.tenancyName) {
             this.message.confirm('是否更改您的机构名称?', (result) => {
                 if (result) {
                     this.updateData(() => {
@@ -134,9 +103,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
 
     private updateData(callback: any): void {
         this.savingAndEditing = true;
-        this.currentUserName = this.input.tenancyName;
+        this.currentUserName = this.tenantInfo.tenancyName;
         this._tenantInfoServiceProxy
-            .updateTenantInfo(this.input)
+            .updateTenantInfo(this.tenantInfo)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
                 callback();
@@ -145,17 +114,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     }
 
 
-    orgBgInfo(orgBgInfo: UploadPictureDto): void {
-        this.updatedOrgBgPicture = true;
-        this.input.backgroundPictureId = orgBgInfo.pictureId;
-        this.input.backgroundPictureUrl = orgBgInfo.pictureUrl.changingThisBreaksApplicationSecurity;
-    }
-
-    orgLogoInfo(orgLogoInfo: UploadPictureDto): void {
-        this.updatedOrgLogoPicture = true;
-        this.input.logoId = orgLogoInfo.pictureId;
-        this.input.logoUrl = orgLogoInfo.pictureUrl.changingThisBreaksApplicationSecurity;
-    }
 
     /* 移动端代码 */
 
@@ -163,25 +121,22 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
     cancel(): void {
         // this.input = new CurrentUserProfileEditDto(this.userProfileData);
         this.filpActive = true;
-        this.uploaded = false;
     }
 
     // 机构信息详情翻转
     showEdit(): void {
         this.filpActive = false;
-        this.uploaded = false;
     }
 
     // 获取上传logo图片信息
     getLogoUploadHandler(picInfo: UploadPictureDto): void {
-        this.sendOrgLogoInfo.pictureId = picInfo.pictureId;
-        this.sendOrgLogoInfo.pictureUrl = picInfo.pictureUrl;
-        this.uploaded = true;
+        this.tenantInfo.logoId = picInfo.pictureId;
+        this.tenantInfo.logoUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
     }
 
     // 获取上传logo图片信息
     getOrgBgUploadHandler(picInfo: UploadPictureDto): void {
-        this.sendOrgBgInfo.pictureId = picInfo.pictureId;
-        this.sendOrgBgInfo.pictureUrl = picInfo.pictureUrl;
+        this.tenantInfo.backgroundPictureId = picInfo.pictureId;
+        this.tenantInfo.backgroundPictureUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
     }
 }

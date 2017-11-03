@@ -89,10 +89,10 @@
             "../node_modules/arrive/minified/arrive.min.js",
             "../src/assets/md-pro/js/core/material.min.js",
 
-            "../node_modules/cropper/dist/cropper.js",
+            "../node_modules/cropper/dist/cropper.min.js",
 
             "../src/assets/common/js/jweixin-1.2.0.js",
-            "../external_libs/radialIndicator/radialIndicator.js"
+            "../external_libs/radialIndicator/radialIndicator.min.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

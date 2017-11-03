@@ -176,7 +176,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 显示待确认model
-    showConfirmOrderHandler(bookingId: number): void { 
+    showConfirmOrderHandler(bookingId: number): void {
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
 

@@ -1,7 +1,11 @@
+import '@node_modules/qiniu-js/dist/qiniu.min';
+
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppSessionService } from 'shared/common/session/app-session.service';
+import { CookiesService } from 'shared/services/cookies.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
@@ -28,8 +32,10 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
 
     constructor(
         private injector: Injector,
+        private _router: Router,
         private _sanitizer: DomSanitizer,
         private _appSessionService: AppSessionService,
+        private _cookiesService: CookiesService,
         private _uploadPictureService: UploadPictureService
     ) {
         super(injector);
@@ -90,6 +96,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
+                            self._cookiesService.clearBeforeRefreshRoute();
                             plupload.each(files, function (file) {
                                 // 上传之前本地预览
                                 // for (let i = 0; i < files.length; i++) {
@@ -140,5 +147,9 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                     }
                 });
             });
+    }
+
+    saveCurrentUrl() {
+        this._cookiesService.setBeforeRefreshRoute(this._router.routerState.snapshot.url);
     }
 }
