@@ -100,7 +100,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                                     viewMode: 1,
                                     aspectRatio: self.cropScaleX / self.cropScaleY,
                                     crop: function (e) {
-                                        let cropValue = `!${e.width}x${e.height}a${e.x}a${e.y}`;
+                                        let cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
                                         self.imageMogr2Link = Q1.imageMogr2({
                                             'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
                                             strip: false,   // 布尔值，是否去除图片中的元信息
