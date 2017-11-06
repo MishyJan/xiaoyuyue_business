@@ -75,9 +75,9 @@
                         <div *ngFor="let contactItem of existedContactors, let index = index" class="col-md-4">
                             <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}">
                                 <div class="xiaoyuyue-title-box">
-                                    {{ contactItem.name }}
+                                    {{ contactItem.name }}aaa
                                     <div class="btn-action-wrap">
-                                        <span class="icon" (click)="selectDefaultContact(index)" *ngIf="isGranted(permissions.organization_ContactorEdit)" [ngClass]="{'vapps-icon-app-default': contactItem.isDefault, 'vapps-icon-app-no-defalut': !contactItem.isDefault }"></span>
+                                        <span class="icon" (click)="selectDefaultContact(index)" *ngIf="isGranted(permissions.organization_ContactorEdit)" [ngClass]="{'vapps-icon-app-default': !contactItem.isDefault, 'vapps-icon-app-no-defalut': contactItem.isDefault }"></span>
                                         <span class="icon vapps-icon-app-edit" *ngIf="isGranted(permissions.organization_ContactorEdit)" (click)="editContact(index)"></span>
                                     </div>
                                 </div>
