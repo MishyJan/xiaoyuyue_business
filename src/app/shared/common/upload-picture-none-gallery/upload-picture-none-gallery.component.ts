@@ -56,9 +56,8 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
 
     picturyDestroy(): void {
         this.uploadPictureInfo = new UploadPictureDto();
-        this._$profilePicture.css({
-            'background-image': 'url("")'
-        })
+        this._$profilePicture.removeAttr('src');
+        this._$profilePicture.cropper("destroy");
     }
 
     initFileUploader(): void {

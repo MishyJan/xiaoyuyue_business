@@ -206,28 +206,7 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <p class="pic-upload-title">{{l('PictureUpload')}}</p>
-                                    <div class="upload-pic-wrap" UploadPicture [groupId]="groupId" (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [browseButtonEle]="'#bookingUploadArea'" [groupId]="1" [dropEle]="" [containerEle]="'#bookingUploadAreaWrap'">
-                                        <!-- <div id="uploadArea" class="upload-area"></div> -->
-                                        <div class="upload" id="bookingUploadAreaWrap">
-                                            <div id="bookingUploadArea" class="upload-area">
-                                                <span class="icon-wrap">
-                                                    <span class="icon vapps-icon-cb-add-img"></span>
-                                                <span class="text"></span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="img-wrap">
-                                            <div class="img col-xs-3 col-sm-3" *ngFor="let pictureItem of pictureInfo; let picIndex = index;">
-                                                <div class="item">
-                                                    <div class="content" [ngStyle]="{'background-image': 'url(' + pictureItem.pictureUrl + ')'}">
-                                                        <span class="triangle" (click)="removeBookingPic(picIndex)">
-                                                            <span class="close-icon vapps-icon-cb-add-img"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <xiaoyuyue-mobile-upload-picture-list [cropScaleX]="16" [cropScaleY]="9" [allUploadPictureInfo]="pictureInfo" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-mobile-upload-picture-list>
                                 </div>
                             </div>
 

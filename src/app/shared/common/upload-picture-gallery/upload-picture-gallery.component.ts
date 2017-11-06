@@ -406,8 +406,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     // 在下次本地上传弹窗时，销毁已上传的数据
     picturyDestroy(): void {
         this.pictureForEdit = new BookingPictureEditDto();
-        this._$profilePicture.css({
-            'background-image': 'url("")'
-        })
+        this._$profilePicture.removeAttr('src');
+        this._$profilePicture.cropper("destroy");
     }
 }
