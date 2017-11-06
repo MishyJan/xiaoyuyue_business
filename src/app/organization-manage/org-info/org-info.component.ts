@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Injector, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -19,7 +19,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     styleUrls: ['./org-info.component.scss'],
     animations: [accountModuleAnimation()],
 })
-export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     currentUserName: string;
     uploaded = false;
     filpActive = true;
@@ -32,6 +32,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     orgBgAreaWrapHeight: string;
     orgLogoWrapHeight: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
+    interval: NodeJS.Timer;
     constructor(
         injector: Injector,
         private _router: Router,
@@ -49,6 +50,12 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
 
     }
 
+    ngOnDestroy() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+    }
+
     ngAfterViewInit() {
         this.loadData();
         const self = this;
@@ -59,8 +66,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
         window.addEventListener('resize', function () {
             self.getUploadOrgWrap();
         })
-
-
     }
 
     loadData(): void {
@@ -171,7 +176,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     }
 
     saveEditInfoInBower() {
-        setInterval(() => {
+        this.interval = setInterval(() => {
             console.log('定时检查数据更改')
             if (this.isDataNoSave()) {
                 this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId), this.tenantInfo);

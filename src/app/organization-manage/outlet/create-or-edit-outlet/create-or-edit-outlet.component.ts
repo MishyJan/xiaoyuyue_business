@@ -3,7 +3,10 @@ import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angu
 import { ContactorEditDto, CreateOrUpdateOutletInput, GetOutletForEditDto, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppConsts } from './../../../../shared/AppConsts';
+import { AppSessionService } from './../../../../shared/common/session/app-session.service';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
+import { LocalStorageService } from './../../../../shared/utils/local-storage.service';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -18,17 +21,15 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+    outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
     outletForEdit: GetOutletForEditDto = new GetOutletForEditDto();
-    deleting = false;
+    originalOutlet: GetOutletForEditDto = new GetOutletForEditDto();
     isCreateOrEditFlag: boolean;
-    outletId: string;
     nextIndex = 1;
-    savingAndEditing: boolean;
-    saving = false;
-    onlineAllContactors: ContactorEditDto[] = [];
-    contactorEdit: ContactorEditDto[] = [];
+
+    existedContactors: ContactorEditDto[] = [];
     selectedDistrictId: string;
     selectedCityId: string;
     selectedProvinceId: string;
@@ -51,6 +52,12 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     endShopHours: any = '00:00';
 
     pictureInfo: UploadPictureDto = new UploadPictureDto();
+    interval: NodeJS.Timer;
+
+    // display field
+    deleting = false;
+    savingAndEditing = false;
+    saving = false;
 
     // href: string = document.location.href;
     // outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
@@ -61,7 +68,10 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         private _route: ActivatedRoute,
         private _router: Router,
         private _stateServiceServiceProxy: StateServiceServiceProxy,
-        private _outletServiceServiceProxy: OutletServiceServiceProxy
+        private _outletServiceServiceProxy: OutletServiceServiceProxy,
+        private _localStorageService: LocalStorageService,
+        private _sessionService: AppSessionService
+
     ) {
         super(
             injector
@@ -85,7 +95,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .getOutletForEdit(+this.outletId)
             .subscribe(result => {
                 this.outletForEdit = result;
-                this.contactorEdit = this.onlineAllContactors = result.contactors;
+                this.existedContactors = result.contactors;
 
                 this.outetInfo.pictureId = this.pictureInfo.pictureId = result.outlet.pictureId;
                 this.outetInfo.pictureUrl = this.pictureInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.outlet.pictureUrl);
@@ -136,7 +146,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.outetInfo.isActive = true;
 
         this.input.outlet = this.outetInfo;
-        this.input.contactors = this.contactorEdit;
+        this.input.contactors = this.existedContactors;
         if (this.input.contactors.length < 1) {
             this.notify.warn('请添加联系人');
             this.savingAndEditing = false
@@ -185,8 +195,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.outetInfo.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
     }
 
-    getContactorEdit(contactorEdit: ContactorEditDto[]) {
-        this.contactorEdit = contactorEdit;
+    getContactorEdit(editingContactors: ContactorEditDto[]) {
+        this.existedContactors = editingContactors;
     }
 
     /* hourOfDay = '10:00 - 12:00' */
@@ -281,6 +291,25 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             })
     }
 
+    saveEditInfoInBower() {
+        this.interval = setInterval(() => {
+            console.log('定时检查数据更改')
+            if (this.isDataNoSave()) {
+                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId), this.outletForEdit);
+                this.originalOutlet = this._localStorageService.deepCopy(this.outletForEdit);
+                console.log('临时数据保存')
+            }
+        }, 3000)
+    }
+
+    isDataNoSave(): boolean {
+        return this.isDataNoeEual(this.originalOutlet, this.outletForEdit);
+    }
+
+    isDataNoeEual(source, destination): boolean {
+        return JSON.stringify(source) !== JSON.stringify(destination);
+    }
+
     public provinceSelectHandler(provinceId: any): void {
         this.provinceId = parseInt(provinceId, null);
         if (this.provinceId <= 0) {
@@ -304,4 +333,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     public openProvinceSledct(): void {
         this.getProvinceSelectList();
     }
+
+
 }
