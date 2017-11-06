@@ -2,7 +2,7 @@
     <div class="upload-area-wrap">
         <div class="upload-area" [ngStyle]="{'background-image': 'url(' + tempUrl + ')'}"></div>
     </div>
-    <div [id]="'uploadAreaWrap-'+uploadUid" class="touch-area-wrap">
+    <div [id]="'uploadAreaWrap-'+uploadUid" class="touch-area-wrap" (click)="saveCurrentUrl()">
         <div [id]="'uploadArea-'+uploadUid" class="touch-area">
             <div class="upload-tips">
                 <span class="icon vapps-icon-cb-add-img"></span>

@@ -2,8 +2,8 @@ import { AfterViewInit, Component, EventEmitter, Injector, Input, OnChanges, OnI
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
-import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
+import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
 
 @Component({
     selector: 'app-picture-manage',
@@ -54,6 +54,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     }
 
     public getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
+        debugger
         if (this.pictrueIndex != null && this.pictrueIndex >= 0) {
             this.displayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
             ++this.displayOrder;
@@ -76,6 +77,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     }
 
     public getPicGalleryForEdit(picGalleryForEdit: BookingPictureEditDto[]): void {
+        debugger
         let maxDisplayOrder = 0;
         if (this.allPictureEdit.length > 0) {
             // 在本地上传拿到排序最大的值

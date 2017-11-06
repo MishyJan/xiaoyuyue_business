@@ -312,6 +312,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
+        debugger
         this.allPictureForEdit = pictureForEdit;
     }
 
@@ -376,15 +377,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.localSingleBookingItem = new BookingItemEditDto();
     }
 
-    getPicUploadInfoHandler(picUploadInfo: UploadPictureDto): void {
-        if (this.pictureInfo.length >= 4) {
-            this.notify.warn('不能超过四张');
-            return;
-        }
-        const temp = new BookingPictureEditDto();
-        temp.pictureId = picUploadInfo.pictureId;
-        temp.pictureUrl = picUploadInfo.pictureUrl;
-        this.pictureInfo.push(temp)
+    getPicUploadInfoHandler(allPicUploadInfo: BookingPictureEditDto[]): void {
+        this.allPictureForEdit = allPicUploadInfo;
     }
 
     editingTimeField(index: number): void {
@@ -416,7 +410,4 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this._weChatShareTimelineService.initWeChatShareConfig();
         }
     }
-
-
-
 }

@@ -9,8 +9,8 @@ import { AppConsts } from '@shared/AppConsts';
 import { CookiesService } from 'shared/services/cookies.service';
 import { LogService } from '@abp/log/log.service';
 import { MessageService } from '@abp/message/message.service';
-import { UrlHelper } from '@shared/helpers/UrlHelper';
 import { Observable } from 'rxjs/Observable';
+import { UrlHelper } from '@shared/helpers/UrlHelper';
 
 const UA = require('ua-device');
 

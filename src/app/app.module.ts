@@ -7,7 +7,6 @@ import { AbpModule } from '@abp/abp.module';
 import { AppCommonModule } from './shared/common/app-common.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FileUploadModule } from '@node_modules/ng2-file-upload';
 import { FooterComponent } from './shared/layout/footer.component';
 import { FormsModule } from '@angular/forms';
 import { HeaderNotificationsComponent } from './shared/layout/notifications/header-notifications.component';
@@ -43,7 +42,6 @@ import { HeaderComponent } from 'app/shared/layout/header.component';
 
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
-        FileUploadModule,
         AbpModule,
         AppRoutingModule,
         UtilsModule,

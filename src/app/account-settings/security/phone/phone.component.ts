@@ -33,7 +33,6 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
 
     constructor(
         injector: Injector,
-        private _router: Router,
         private _location: Location,
         private _SMSServiceProxy: SMSServiceProxy,
         private _profileServiceProxy: ProfileServiceProxy,

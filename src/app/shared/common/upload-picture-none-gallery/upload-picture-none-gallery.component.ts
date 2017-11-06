@@ -17,6 +17,7 @@ import { UploadPictureService } from './../../../../shared/services/upload-pictu
 })
 
 export class UploadPictureNoneGalleryComponent extends AppComponentBase implements OnInit {
+    uploader: any;
     imageMogr2Link: string;
     loading = false;
     private _$profilePicture: JQuery;
@@ -51,14 +52,12 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
     }
     close(): void {
         this.modal.hide();
-        this.picturyDestroy();
     }
 
     picturyDestroy(): void {
         this.uploadPictureInfo = new UploadPictureDto();
-        this._$profilePicture.css({
-            'background-image': 'url("")'
-        })
+        this._$profilePicture.removeAttr('src');
+        this._$profilePicture.cropper("destroy");
     }
 
     initFileUploader(): void {
@@ -69,7 +68,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
             .getPictureUploadToken()
             .then(token => {
                 const Q1 = new QiniuJsSDK();
-                const uploader = Q1.uploader({
+                self.uploader = Q1.uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'uploadArea' + self.uploadUid,       // 上传选择的点选按钮，**必需**
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
@@ -79,6 +78,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: false,                   // 开启可拖曳上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
+                    multi_selection: false,
                     resize: {
                         crop: false,
                         quality: 60,
@@ -102,6 +102,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     },
                     init: {
                         'FilesAdded': function (up, files) {
+                            self.picturyDestroy();
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
                                 // 上传之前本地预览
@@ -109,13 +110,14 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                                     const fileItem = files[i].getNative(),
                                         url = window.URL;
                                     const src = url.createObjectURL(fileItem);
+
                                     self._$profilePicture.attr('src', src);
                                     self._$profilePicture.cropper({
                                         dragMode: 'move',
                                         viewMode: 1,
                                         aspectRatio: self.cropScaleX / self.cropScaleY,
                                         crop: function (e) {
-                                            let cropValue = `!${e.width}x${e.height}a${e.x}a${e.y}`;
+                                            let cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
                                             self.imageMogr2Link = Q1.imageMogr2({
                                                 'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
                                                 strip: false,   // 布尔值，是否去除图片中的元信息
@@ -144,7 +146,8 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             const res = JSON.parse(info).result;
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
-                            self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
+                            // self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
+                            self.uploadPictureInfo.pictureUrl = currentPicUrl;
                             self.uploadPictureInfo.pictureId = currentPicId;
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
                             self.loading = false;
@@ -152,12 +155,14 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
+                            if (err.code === -602) {
+                                return;
+                            }
                             self.loading = false;
+                            self.close();
                             self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
-                            uploader.destroy();
-                            self.picturyDestroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
                         'Key': (up, file) => {
@@ -170,14 +175,15 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         }
                     }
                 });
-                $('#confirmUpload' + self.uploadUid).on('click', function () {
-                    uploader.start();
-                });
-
-                $('#cancelUpload' + self.uploadUid).on('click', () => {
-                    uploader.destroy();
-                    this.picturyDestroy();
+                $('#confirmUpload' + self.uploadUid).on('click', () => {
+                    this.uploader.start();
                 });
             });
+    }
+
+    // bootstrap modal关闭事件
+    public onBSHide() {
+        this.uploader.destroy();
+        this.picturyDestroy();
     }
 }

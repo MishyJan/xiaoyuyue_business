@@ -14,12 +14,12 @@ import { FormsModule } from '@angular/forms';
 import { IndicatorDirective } from './indicator/indicator.directive';
 import { JqPluginDirective } from './libs/jq-plugin.directive';
 import { MobileUploadPictureComponent } from './mobile-upload-picture/mobile-upload-picture.component';
+import { MobileUploadPictureListComponent } from './mobile-upload-picture-list/mobile-upload-picture-list.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
 import { TipsComponent } from './tips/tips.component';
-import { UploadPicDirective } from './upload-picture/upload-pic.directive';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -44,17 +44,17 @@ import { WangEditorComponent } from './wang-editor/wang-editor.component';
         TipsComponent,
         UploadPictureGalleryComponent,
         UploadPictureNoneGalleryComponent,
-        UploadPicDirective,
         BreadcrumbComponent,
         IndicatorDirective,
         EmptyPageComponent,
         MobileUploadPictureComponent,
         WangEditorComponent
-    ],
+,
+    MobileUploadPictureListComponent
+],
     exports: [
         TimeZoneComboComponent,
         JqPluginDirective,
-        UploadPicDirective,
         DateRangePickerComponent,
         DatePickerComponent,
         TipsComponent,
@@ -64,7 +64,8 @@ import { WangEditorComponent } from './wang-editor/wang-editor.component';
         IndicatorDirective,
         EmptyPageComponent,
         MobileUploadPictureComponent,
-        WangEditorComponent
+        WangEditorComponent,
+        MobileUploadPictureListComponent
     ]
 })
 export class AppCommonModule {

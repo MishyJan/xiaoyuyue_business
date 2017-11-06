@@ -29,6 +29,7 @@ export class SelectedPicListDto {
 })
 
 export class UploadPictureGalleryComponent extends AppComponentBase implements OnInit {
+    uploader: any;
     key: string;
     imageMogr2Link: string;
     existsBookingPictureEdit: any;
@@ -75,7 +76,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     @Input() existingPicNum: number;
     @Input() cropScaleX: number = 1;
     @Input() cropScaleY: number = 1;
-    @Output() getAllPictureUrl: EventEmitter<SafeUrl[]> = new EventEmitter();
     @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
     @Output() sendPicGalleryForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     @ViewChild('uploadPictureModel') modal: ModalDirective;
@@ -85,7 +85,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         private _pictureServiceProxy: PictureServiceProxy,
         private _uploadPictureService: UploadPictureService,
         private _appSessionService: AppSessionService,
-        private sanitizer: DomSanitizer
+        private _sanitizer: DomSanitizer
     ) {
         super(injector);
     }
@@ -265,13 +265,13 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                 self._$profilePicture = $('#profilePicture');
 
                 const Q1 = new QiniuJsSDK();
-                const uploader = Q1.uploader({
+                self.uploader = Q1.uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'uploadArea',       // 上传选择的点选按钮，**必需**
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
                     domain: self.domain,   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
-                    // container: 'uploadAreaWrap',           // 上传区域DOM ID，默认是browser_button的父元素，
+                    container: 'uploadAreaWrap',           // 上传区域DOM ID，默认是browser_button的父元素，
                     max_file_size: '5mb',           // 最大文件体积限制
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: false,                   // 开启可拖曳上传
@@ -294,12 +294,13 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         groupid: function (up, file) {
                             return self.groupId;
                         },
-                        imageMogr2: function() {
+                        imageMogr2: function () {
                             return self.imageMogr2Link;
                         }
                     },
                     init: {
                         'FilesAdded': (up, files) => {
+                            self.picturyDestroy();
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
                                 // 上传之前本地预览
@@ -307,17 +308,14 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                                     const fileItem = files[i].getNative(),
                                         url = window.URL;
                                     const src = url.createObjectURL(fileItem);
-                                    // self.temporaryPictureUrl = src;
-                                    // self.safeTemporaryPictureUrl = self.sanitizer.bypassSecurityTrustResourceUrl(self.temporaryPictureUrl);
-                                    // self.allPictureUrl.push(self.safeTemporaryPictureUrl);
                                     self._$profilePicture.attr('src', src);
-                                    
+
                                     self._$profilePicture.cropper({
                                         dragMode: 'move',
                                         viewMode: 1,
                                         aspectRatio: self.cropScaleX / self.cropScaleY,
                                         crop: function (e) {
-                                            let cropValue = `!${e.width}x${e.height}a${e.x}a${e.y}`;
+                                            let cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
                                             self.imageMogr2Link = Q1.imageMogr2({
                                                 'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
                                                 strip: false,   // 布尔值，是否去除图片中的元信息
@@ -346,6 +344,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                             const result = JSON.parse(info).result;
                             self.pictureForEdit.pictureId = result.pictureId;
                             self.pictureForEdit.pictureUrl = result.originalUrl;
+                            debugger
                             self.sendPictureForEdit.emit(self.pictureForEdit);
                             self.loading = false;
                             self.close();
@@ -353,11 +352,14 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         'Error': (up, err, errTip) => {
                             // 上传出错时,处理相关的事情
                             self.loading = false;
+                            self.close();
+                            if (err.code === -602) {
+                                return;
+                            }
                             self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': () => {
                             // 队列文件处理完毕后,处理相关的事情
-                            self.pictureForEdit = new BookingPictureEditDto();
                             self.close();
                         },
                         'Key': (up, file) => {
@@ -374,12 +376,8 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                 });
 
                 $('#confirmUpload').on('click', () => {
-                    uploader.start();
+                    this.uploader.start();
                 })
-
-                $('#cancelUpload').on('click', () => {
-                    this.picturyDestroy();
-                });
             });
     }
 
@@ -401,13 +399,23 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     isShowLocalUpload(): void {
         this.tabToggle = false;
-        this.initFileUploader();
     }
     // 在下次本地上传弹窗时，销毁已上传的数据
     picturyDestroy(): void {
         this.pictureForEdit = new BookingPictureEditDto();
-        this._$profilePicture.css({
-            'background-image': 'url("")'
-        })
+        this._$profilePicture.removeAttr('src');
+        this._$profilePicture.cropper("destroy");
+    }
+
+    // bootstrap modal显示事件
+    public onBSShown() {
+        console.log(1);
+        this.initFileUploader();
+    }
+
+    // bootstrap modal关闭事件
+    public onBSHide() {
+        this.uploader.destroy();
+        this.picturyDestroy();
     }
 }

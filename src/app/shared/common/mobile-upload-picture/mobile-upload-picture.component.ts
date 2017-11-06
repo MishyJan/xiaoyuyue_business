@@ -1,39 +1,46 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import '@node_modules/qiniu-js/dist/qiniu.min';
+
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppSessionService } from 'shared/common/session/app-session.service';
+import { CookiesService } from 'shared/services/cookies.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { UploadPictureService } from 'shared/services/upload-picture.service';
 
 @Component({
     selector: 'xiaoyuyue-mobile-upload-picture',
     templateUrl: './mobile-upload-picture.component.html',
     styleUrls: ['./mobile-upload-picture.component.scss']
 })
-export class MobileUploadPictureComponent extends AppComponentBase implements OnInit {
+export class MobileUploadPictureComponent extends AppComponentBase implements OnInit, OnChanges {
     imageMogr2Link: string;
     _$cropImg: JQuery<HTMLElement>;
     uploadPictureInfo: UploadPictureDto = new UploadPictureDto();
     uploadUid: number = Math.round(new Date().valueOf() * Math.random());
     tempUrl: string;
-    isShowCropArea: boolean = false;
-    uploading: boolean = false;
+    isShowCropArea = false;
+    uploading = false;
 
-    @Input() width: string = '100%';
-    @Input() height: string = '100%';
-    @Input() groupId: number = 0;
+    @Input() width = '100%';
+    @Input() height = '100%';
+    @Input() groupId = 0;
     @Input() slogan: string;
     @Input() existedPicUrl: string;
-    @Input() cropScaleX: number = 1;
-    @Input() cropScaleY: number = 1;
+    @Input() cropScaleX = 1;
+    @Input() cropScaleY = 1;
     @Output() picUploadInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
 
     constructor(
         private injector: Injector,
+        private _router: Router,
         private _sanitizer: DomSanitizer,
         private _appSessionService: AppSessionService,
-        private _pictureServiceProxy: PictureServiceProxy
+        private _cookiesService: CookiesService,
+        private _uploadPictureService: UploadPictureService
     ) {
         super(injector);
     }
@@ -50,12 +57,9 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
         const self = this;
         const container = 'uploadAreaWrap-' + this.uploadUid;
         const browse_button = 'uploadArea-' + this.uploadUid;
-        let token = '';
-        this._pictureServiceProxy
+        this._uploadPictureService
             .getPictureUploadToken()
-            .subscribe(result => {
-                token = result.token;
-
+            .then(token => {
                 // 引入Plupload 、qiniu.js后
                 var Q1 = new QiniuJsSDK();
                 const uploader = Q1.uploader({
@@ -100,6 +104,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
+                            self._cookiesService.clearBeforeRefreshRoute();
                             self._$cropImg = $('#cropImg' + self.uploadUid);
 
                             plupload.each(files, function (file) {
@@ -116,7 +121,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                                         viewMode: 1,
                                         aspectRatio: self.cropScaleX / self.cropScaleY,
                                         crop: function (e) {
-                                            let cropValue = `!${e.width}x${e.height}a${e.x}a${e.y}`;
+                                            let cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
                                             self.imageMogr2Link = Q1.imageMogr2({
                                                 'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
                                                 strip: false,   // 布尔值，是否去除图片中的元信息
@@ -145,20 +150,17 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                             const res = JSON.parse(info).result;
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
-                            self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
-                            self.uploadPictureInfo.pictureUrl = self.uploadPictureInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+                            self.uploadPictureInfo.pictureUrl = currentPicUrl;
                             self.uploadPictureInfo.pictureId = currentPicId;
 
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
                             self.uploading = false;
                             self.hideCropArea();
-                            self.cropClear(self._$cropImg);
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
                             self.uploading = false;
                             self.hideCropArea();
-                            self.cropClear(self._$cropImg);
                             self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
@@ -182,9 +184,13 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
             });
     }
 
-    cropClear(instance: JQuery<HTMLElement>): void {
-        instance.removeAttr('src');
-        instance.cropper("destroy");
+    saveCurrentUrl() {
+        this._cookiesService.setBeforeRefreshRoute(this._router.routerState.snapshot.url);
+    }
+
+    cropClear(): void {
+        this._$cropImg.removeAttr('src');
+        this._$cropImg.cropper("destroy");
     }
 
     showCropArea(): void {
@@ -192,5 +198,6 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
     }
     hideCropArea(): void {
         this.isShowCropArea = false;
+        this.cropClear();
     }
 }
