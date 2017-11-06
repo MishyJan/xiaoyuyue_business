@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 
+import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
-import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 
 @Component({
   selector: 'xiaoyuyue-outlet-image',
@@ -11,33 +12,33 @@ import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
   styleUrls: ['./outlet-image.component.scss']
 })
 export class OutletImageComponent extends AppComponentBase implements OnInit {
-  uploadPicInfo: UploadPictureDto = new UploadPictureDto();
-  uploadUid: number = new Date().valueOf();
   groupId: number = DefaultUploadPictureGroundId.OutletGroup;
-  href: string = document.location.href;
-  outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
+  uploadUid: number = new Date().valueOf();
+  outletId: number;
 
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
   @Output() pictureInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
   @Input() pictureInfo: UploadPictureDto;
 
   constructor(
-    injector: Injector
+    injector: Injector,
+    private _route: ActivatedRoute,
   ) {
     super(injector);
+    this.outletId = +this._route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
     if (this.outletId) {
       this.loadData();
     } else {
-        this.uploadPicInfo.pictureUrl = '';
+      this.pictureInfo.pictureUrl = '';
     }
 
   }
 
   loadData(): void {
-    this.uploadPicInfo = this.pictureInfo;
+    this.pictureInfo = this.pictureInfo;
   }
 
   // 弹出上传Model
@@ -46,9 +47,9 @@ export class OutletImageComponent extends AppComponentBase implements OnInit {
   }
 
   // 获取图片上传URL
-  getPicUploadInfoHandler(uploadPicInfo: UploadPictureDto): void {
-    this.uploadPicInfo = uploadPicInfo;
-    this.pictureInfoHandler.emit(uploadPicInfo);
+  getPicUploadInfoHandler(pictureInfo: UploadPictureDto): void {
+    this.pictureInfo = pictureInfo;
+    this.pictureInfoHandler.emit(pictureInfo);
   }
 
 }
