@@ -2,14 +2,14 @@
     <div bsModal #uploadPictureModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true" (onHidden)="onBSHide()" (onShown)="onBSShown()">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <div class="clearfix close-wrap">
-                        <span title="关闭" class="vapps-icon-app-close pull-right" (click)="close()"></span>
-                    </div>
-                    <h4 class="modal-title row">
+                <div class="modal-header flex-item">
+                    <h4 class="modal-title left-item row">
                         <span class="col-md-6 title-item picture-gallery" [ngClass]="{'active': tabToggle}" (click)="isShowPictureGallery()">{{l("PictureGallery")}}</span>
                         <span class="col-md-6 title-item local-upload" [ngClass]="{'active': !tabToggle}" (click)="isShowLocalUpload()">{{l("PictureGallery.LocalUpload")}}</span>
                     </h4>
+                    <div class="close-wrap right-item">
+                        <span title="关闭" class="vapps-icon-app-close" (click)="close()"></span>
+                    </div>
                 </div>
 
                 <div [hidden]="!tabToggle">

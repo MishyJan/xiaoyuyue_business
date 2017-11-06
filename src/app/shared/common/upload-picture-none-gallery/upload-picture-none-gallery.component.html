@@ -2,13 +2,13 @@
     <div bsModal #uploadPictureNoneGalleryModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true" (onHidden)="onBSHide()">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <div class="clearfix close-wrap">
-                        <span title="关闭" class="vapps-icon-app-close pull-right" (click)="close()"></span>
-                    </div>
-                    <h4 class="modal-title">
+                <div class="modal-header flex-item">
+                    <h4 class="modal-title left-item">
                         <span class="col-md-12 title-item local-upload">{{l("PictureGallery.LocalUpload")}}</span>
                     </h4>
+                    <div class="clearfix close-wrap right-item">
+                        <span title="关闭" class="vapps-icon-app-close" (click)="close()"></span>
+                    </div>
                 </div>
 
                 <div class="modal-body row">

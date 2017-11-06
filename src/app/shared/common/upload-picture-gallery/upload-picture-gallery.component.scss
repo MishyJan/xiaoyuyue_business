@@ -3,11 +3,23 @@
         width: 900px;
         .modal-content {
             .modal-header {
+                padding-top: 10px;
+                &.flex-item {
+                    display: flex;
+                    .left-item {
+                        flex: 1;
+                    }
+                    .right-item {
+                        flex: 34px 0 0;
+                        width: 34px;
+                    }
+                }
                 .close-wrap {
                     padding: 10px;
                     cursor: pointer;
                 }
                 .modal-title {
+                    line-height: 40px;
                     .title-item {
                         text-align: center;
                     }
