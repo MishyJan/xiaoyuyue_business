@@ -13,7 +13,7 @@ import { appModuleAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
-    defaultTenantBgUrl = '../../assets/common/images/booking/center-bg.jpg';
+    defaultTenantBgUrl = 'assets/common/images/booking/center-bg.jpg';
     defaultTenantLogoUrl = 'assets/common/images/logo.jpg';
     currentlyBookingData: CurrentlyBookingDataDto[] = [];
     forSevenDaysOptions: object = {};
