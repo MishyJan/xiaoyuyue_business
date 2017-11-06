@@ -35,7 +35,7 @@ export class UploadOrgLogoComponent extends AppComponentBase implements OnInit {
     }
 
     getPicUploadInfoHandler(picInfo: UploadPictureDto) {
-        this.orgLogoUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.orgLogoUrl = picInfo.pictureUrl;
         this.orgLogoIngoHandler.emit(picInfo);
     }
 

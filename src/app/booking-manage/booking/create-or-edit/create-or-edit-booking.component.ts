@@ -312,6 +312,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
+        debugger
         this.allPictureForEdit = pictureForEdit;
     }
 

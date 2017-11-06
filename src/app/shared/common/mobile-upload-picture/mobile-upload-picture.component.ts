@@ -145,8 +145,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                             const res = JSON.parse(info).result;
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
-                            self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
-                            self.uploadPictureInfo.pictureUrl = self.uploadPictureInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+                            self.uploadPictureInfo.pictureUrl = currentPicUrl;
                             self.uploadPictureInfo.pictureId = currentPicId;
 
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);

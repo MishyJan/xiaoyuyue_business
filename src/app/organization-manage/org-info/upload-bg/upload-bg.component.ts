@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
-import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 
 @Component({
     selector: 'xiaoyuyue-upload-bg',
@@ -37,7 +37,7 @@ export class UploadOrgBgComponent extends AppComponentBase implements OnInit {
     }
 
     getPicUploadInfoHandler(picInfo: UploadPictureDto) {
-        this.orgBgUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.orgBgUrl = picInfo.pictureUrl;
         this.orgBgInfoHandler.emit(picInfo);
     }
 

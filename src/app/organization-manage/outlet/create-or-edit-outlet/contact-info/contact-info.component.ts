@@ -2,9 +2,9 @@ import { AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output
 import { ContactorEditDto, CreateOrUpdateOutletInput, OutletServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
-import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 
 @Component({
     selector: 'xiaoyuyue-contact-info',
@@ -68,7 +68,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     save(): void {
         this.localSingleContact.isDefault = this.localSingleContact.isDefault || false;
         if (!this.isMobile($('.mobile-contact-info'))) {
-            this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+            this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
         } else {
             this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
         }
@@ -162,7 +162,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     // 获取图片上传URL
     getPicUploadInfoHandler(uploadPicInfo: UploadPictureDto) {
         this.uploadPicInfo.pictureId = uploadPicInfo.pictureId
-        this.uploadPicInfo.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.uploadPicInfo.pictureUrl = uploadPicInfo.pictureUrl;
     }
 
     /* 移动端代码 */

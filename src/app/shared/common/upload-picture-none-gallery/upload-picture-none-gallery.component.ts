@@ -117,7 +117,6 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                                         viewMode: 1,
                                         aspectRatio: self.cropScaleX / self.cropScaleY,
                                         crop: function (e) {
-                                            debugger
                                             let cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
                                             self.imageMogr2Link = Q1.imageMogr2({
                                                 'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
@@ -147,7 +146,8 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             const res = JSON.parse(info).result;
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
-                            self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
+                            // self.uploadPictureInfo.pictureUrl = self._sanitizer.bypassSecurityTrustResourceUrl(currentPicUrl);
+                            self.uploadPictureInfo.pictureUrl = currentPicUrl;
                             self.uploadPictureInfo.pictureId = currentPicId;
                             self.picUploadInfoHandler.emit(self.uploadPictureInfo);
                             self.loading = false;

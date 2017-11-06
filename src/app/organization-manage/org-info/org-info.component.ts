@@ -144,15 +144,16 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
 
 
     orgBgInfo(orgBgInfo: UploadPictureDto): void {
+        debugger
         this.updatedOrgBgPicture = true;
         this.input.backgroundPictureId = orgBgInfo.pictureId;
-        this.input.backgroundPictureUrl = orgBgInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.input.backgroundPictureUrl = orgBgInfo.pictureUrl;
     }
 
     orgLogoInfo(orgLogoInfo: UploadPictureDto): void {
         this.updatedOrgLogoPicture = true;
         this.input.logoId = orgLogoInfo.pictureId;
-        this.input.logoUrl = orgLogoInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.input.logoUrl = orgLogoInfo.pictureUrl;
     }
 
     /* 移动端代码 */

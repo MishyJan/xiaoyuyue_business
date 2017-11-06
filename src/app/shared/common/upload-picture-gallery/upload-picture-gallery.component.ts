@@ -76,7 +76,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     @Input() existingPicNum: number;
     @Input() cropScaleX: number = 1;
     @Input() cropScaleY: number = 1;
-    @Output() getAllPictureUrl: EventEmitter<SafeUrl[]> = new EventEmitter();
     @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
     @Output() sendPicGalleryForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     @ViewChild('uploadPictureModel') modal: ModalDirective;
@@ -350,6 +349,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                             const result = JSON.parse(info).result;
                             self.pictureForEdit.pictureId = result.pictureId;
                             self.pictureForEdit.pictureUrl = result.originalUrl;
+                            debugger
                             self.sendPictureForEdit.emit(self.pictureForEdit);
                             self.loading = false;
                             self.close();

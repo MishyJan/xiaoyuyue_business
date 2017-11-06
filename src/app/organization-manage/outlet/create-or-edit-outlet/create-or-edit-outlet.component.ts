@@ -181,7 +181,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     getPictureInfo(uploadPicInfo: UploadPictureDto): void {
         this.outetInfo.pictureId = uploadPicInfo.pictureId;
-        this.outetInfo.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.outetInfo.pictureUrl = uploadPicInfo.pictureUrl;
     }
 
     getContactorEdit(contactorEdit: ContactorEditDto[]) {
