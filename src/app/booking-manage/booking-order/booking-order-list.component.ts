@@ -11,7 +11,6 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -206,7 +205,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     getBookingCustomerAvatar(url: string): string {
         const defaultAvatar = 'assets/common/images/default-profile-picture.png';
         if (url !== '') {
-            return PictureUrlHelper.getMinProfilePicCompressUrl(url);
+            return url;
         }
         return defaultAvatar;
     }

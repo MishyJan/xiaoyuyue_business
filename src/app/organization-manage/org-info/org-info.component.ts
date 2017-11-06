@@ -4,7 +4,6 @@ import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxie
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { CookiesService } from './../../../shared/services/cookies.service';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
-import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -70,10 +69,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit {
                 this.input.tagline = result.tagline;
                 this.input.description = result.description;
 
-                this.sendOrgBgInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.backgroundPictureUrl);
+                this.sendOrgBgInfo.pictureUrl = result.backgroundPictureUrl;
                 this.sendOrgBgInfo.pictureId = result.backgroundPictureId;
 
-                this.sendOrgLogoInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.logoUrl);
+                this.sendOrgLogoInfo.pictureUrl = result.logoUrl;
                 this.sendOrgLogoInfo.pictureId = result.logoId;
             })
     }

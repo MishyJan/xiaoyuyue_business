@@ -14,7 +14,6 @@ import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-
 import { Moment } from 'moment';
 import { NgxAni } from 'ngxani';
 import { Observable } from 'rxjs/Rx';
-import { PictureUrlHelper } from 'shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
@@ -176,7 +175,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 显示待确认model
-    showConfirmOrderHandler(bookingId: number): void { 
+    showConfirmOrderHandler(bookingId: number): void {
         this.ConfirmOrderModelComponent.showModel(bookingId);
     }
 
@@ -221,7 +220,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 获取预约背景
     getBookingBgUrl(pictureUrl): string {
-        return pictureUrl === '' ? this.pictureDefaultBgUrl : PictureUrlHelper.getBookingListPicCompressUrl(pictureUrl);
+        if (pictureUrl !== '') {
+            return pictureUrl;
+        }
+        return this.pictureDefaultBgUrl;
     }
 
     // 门店搜索下拉框值改变时
