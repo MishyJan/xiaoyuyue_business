@@ -49,7 +49,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="{{l('Outlet.Name')}}"
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.name" name="outletName" placeholder="{{l('Outlet.Name')}}"
                                                 required autofocus>
                                         </div>
                                     </div>
@@ -61,11 +61,12 @@
                                         <div class="label-floating is-empty">
                                             <label class="control-label"></label>
                                             <span class="col-md-6 no-left-padding shop-hours-start">
-                                                <input class="form-control" type="time" [(ngModel)]="startShopHours" name="startShopHours" placeholder="{{l('StartTime')}}"
+                                                <input class="form-control" type="time" [(ngModel)]="businessHour.start" name="businessHour.start" placeholder="{{l('StartTime')}}"
                                                     required>
                                             </span>
                                             <span class="col-md-6 no-right-padding shop-hours-end">
-                                                <input class="form-control" type="time" [(ngModel)]="endShopHours" name="endShopHours" placeholder="{{l('EndTime')}}" required>
+                                                <input class="form-control" type="time" [(ngModel)]="businessHour.end" name="businessHour.end" placeholder="{{l('EndTime')}}"
+                                                    required>
                                             </span>
                                         </div>
                                     </div>
@@ -87,7 +88,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}">
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +101,7 @@
                     <xiaoyuyue-outlet-address [outletForEdit]="outletForEdit" (getOutletInfoHandler)="getOutletInfoHandler($event)"></xiaoyuyue-outlet-address>
                 </div>
                 <div class="col-md-12 col-lg-12">
-                    <xiaoyuyue-contact-info [existedContactors]="existedContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
+                    <xiaoyuyue-contact-info [existedContactors]="input.contactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
                 </div>
             </div>
         </form>
@@ -118,9 +119,9 @@
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.name}">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.name}">
                                             <label class="control-label">门店名称</label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="mobileOutletName" autofocus required>
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.name" name="mobileOutletName" autofocus required>
                                             <!-- <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
                                                 <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
                                                 <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',20)}}</small>
@@ -131,17 +132,17 @@
 
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !startShopHours}">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !businessHour.start}">
                                             <label class="control-label">{{l('OpenTime')}}</label>
-                                            <input class="form-control" type="time" [(ngModel)]="startShopHours" name="mobileStartShopHours" placeholder="{{l('OpenTime')}}"
+                                            <input class="form-control" type="time" [(ngModel)]="businessHour.start" name="mobilebusinessHour.start" placeholder="{{l('OpenTime')}}"
                                                 required>
                                         </div>
                                     </div>
 
                                     <div class="col-xs-6">
-                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !endShopHours}">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !businessHour.end}">
                                             <label class="control-label">{{l('CloseTime')}}</label>
-                                            <input class="form-control" type="time" [(ngModel)]="endShopHours" name="mobileEndShopHours" placeholder="{{l('CloseTime')}}"
+                                            <input class="form-control" type="time" [(ngModel)]="businessHour.end" name="mobilebusinessHour.end" placeholder="{{l('CloseTime')}}"
                                                 required>
                                         </div>
                                     </div>
@@ -172,18 +173,18 @@
 
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.detailAddress}">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.detailAddress}">
                                             <label class="control-label">详细地址</label>
-                                            <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="mobileDetailAddress"></textarea>
+                                            <textarea class="form-control" rows="3" [(ngModel)]="input.outlet.detailAddress" name="mobileDetailAddress"></textarea>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.phoneNum}">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.phoneNum}">
                                             <label class="control-label">固定电话</label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="mobileLandlinePhone" required>
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.phoneNum" name="mobileLandlinePhone" required>
                                         </div>
                                     </div>
                                 </div>
@@ -197,13 +198,13 @@
                 <div class="outlet-bg">
                     <div class="card" style="height: 200px;">
                         <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="groupId"
-                            [existedPicUrl]="outetInfo.pictureUrl" (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
+                            [existedPicUrl]="input.outlet.pictureUrl" (picUploadInfoHandler)="getPictureInfo($event)"></xiaoyuyue-mobile-upload-picture>
                     </div>
                 </div>
             </tab>
             <tab heading="联系人" (select)="updateNextIndex(3)">
                 <div class="outlet-contact">
-                    <xiaoyuyue-contact-info [existedContactors]="existedContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
+                    <xiaoyuyue-contact-info [existedContactors]="input.contactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
                 </div>
             </tab>
         </tabset>

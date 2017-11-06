@@ -17,7 +17,6 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     outletId: number;
     uploadPicInfo: UploadPictureDto = new UploadPictureDto();
     currentIndex: number;
-    hideContactIndex: number;
     contactName = '';
     editingContactor: ContactorEditDto = new ContactorEditDto(); // 保存本地数据单个联系人
 

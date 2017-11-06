@@ -74,7 +74,7 @@
                     <!-- 本地数据 -->
                     <div *ngIf="!isCreateOutlet; else hasOnline" class="row">
                         <div *ngFor="let contactItem of existedContactors, let index = index" class="col-md-4">
-                            <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
+                            <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}">
                                 <div class="xiaoyuyue-title-box">
                                     {{ contactItem.name }}
                                     <div class="btn-action-wrap">
@@ -96,7 +96,7 @@
                     <ng-template #hasOnline>
                         <div class="row">
                             <div *ngFor="let contactItem of existedContactors, let index = index" class="col-md-4">
-                                <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}" *ngIf="hideContactIndex != index">
+                                <div class="create-local-wrap box-shadow border-radius-14" [ngClass]="{'disabled-style': !contactItem.isDefault}">
                                     <div class="xiaoyuyue-title-box">
                                         {{ contactItem.name }}
                                         <div class="btn-action-wrap">
@@ -191,8 +191,7 @@
             <div *ngFor="let contactItem of existedContactors, let index = index">
                 <div class="card">
                     <div class="card-content">
-                        <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}"
-                            *ngIf="hideContactIndex != index">
+                        <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}">
                             <div class="contact-name">{{ contactItem.name }}</div>
                             <div class="wechat-img-wrap pull-right">
                                 <img class="img-wechat" src="assets/common/images/social/wechat-x2.png" style="width:25px" alt="wechat">
@@ -229,8 +228,7 @@
                 <div *ngFor="let contactItem of existedContactors, let index = index" class="col-md-4">
                     <div class="card">
                         <div class="card-content">
-                            <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}"
-                                *ngIf="hideContactIndex != index">
+                            <div class="create-local-wrap clearfix" (click)="setActionFlag(index)" [ngClass]="{'disabled-style': !contactItem.isDefault}">
                                 <div class="contact-name">{{ contactItem.name }}</div>
                                 <div class="wechat-img-wrap pull-right">
                                     <img class="img-wechat" src="assets/common/images/social/wechat-x2.png" style="width:25px" alt="wechat">

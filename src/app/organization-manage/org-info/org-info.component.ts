@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { AfterViewInit, Component, Injector, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
@@ -77,22 +79,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
                 }
                 this.currentUserName = this.tenantInfo.tenancyName = result.tenancyName;
                 this.tenantInfo = result;
-                this.originalTenantInfo = this._localStorageService.deepCopy(this.tenantInfo);
-                this._localStorageService.getItemOrNull(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId))
-                    .then((editCache) => {
-                        if (editCache && this.isDataNoeEual(editCache, this.tenantInfo)) {
-                            this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
-                                if (confirm) {
-                                    this.tenantInfo = editCache;
-                                    this.originalTenantInfo = this._localStorageService.deepCopy(this.tenantInfo);
-                                } else {
-                                    this.removeEditCache();
-                                }
-                            });
-                        }
-                    });
-
-                this.saveEditInfoInBower();
+                this.originalTenantInfo = _.cloneDeep(this.tenantInfo);
+                this.checkDataNeed2Reconvert(); // 检查数据是否需要恢复
+                this.startSaveEditInfoInBower(); // 开始保存临时数据
             })
     }
 
@@ -146,6 +135,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
             .subscribe(() => {
                 this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId));
                 callback();
+                this.removeEditCache(); // 清理缓存数据
                 this.notify.success('保存成功!');
             });
     }
@@ -175,12 +165,30 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
         this.tenantInfo.backgroundPictureUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
     }
 
-    saveEditInfoInBower() {
+
+    checkDataNeed2Reconvert() {
+        this._localStorageService.getItemOrNull<TenantInfoEditDto>(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId))
+            .then((editCache) => {
+                if (editCache && this.isDataNoEqual(editCache, this.tenantInfo)) {
+                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                        if (confirm) {
+                            this.tenantInfo = editCache;
+                            this.originalTenantInfo = _.cloneDeep(this.tenantInfo);
+                        } else {
+                            this.removeEditCache();
+                        }
+                    });
+                }
+            });
+
+    }
+
+    startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
             console.log('定时检查数据更改')
             if (this.isDataNoSave()) {
                 this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId), this.tenantInfo);
-                this.originalTenantInfo = this._localStorageService.deepCopy(this.tenantInfo);
+                this.originalTenantInfo = _.cloneDeep(this.tenantInfo);
                 console.log('临时数据保存')
             }
         }, 3000)
@@ -191,10 +199,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     }
 
     isDataNoSave(): boolean {
-        return this.isDataNoeEual(this.originalTenantInfo, this.tenantInfo);
+        return this.isDataNoEqual(this.originalTenantInfo, this.tenantInfo);
     }
 
-    isDataNoeEual(source, destination): boolean {
+    isDataNoEqual(source, destination): boolean {
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 }

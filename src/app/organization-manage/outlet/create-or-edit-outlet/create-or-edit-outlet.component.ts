@@ -1,10 +1,14 @@
+import * as _ from 'lodash';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, GetOutletForEditDto, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
+import { IDailyDataStatistics, IListResultDtoOfLinkedUserDto } from './../../../../shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from './../../../../shared/AppConsts';
 import { AppSessionService } from './../../../../shared/common/session/app-session.service';
+import { BusinessHour } from 'app/shared/utils/outlet-display.dto';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { LocalStorageService } from './../../../../shared/utils/local-storage.service';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
@@ -12,6 +16,7 @@ import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
+import { test } from './../../../../shared/animations/gridToggleTransition';
 
 @Component({
     selector: 'xiaoyuyue-create-or-edit-outlet',
@@ -24,43 +29,34 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
-    outletForEdit: GetOutletForEditDto = new GetOutletForEditDto();
-    originalOutlet: GetOutletForEditDto = new GetOutletForEditDto();
-    isCreateOrEditFlag: boolean;
-    nextIndex = 1;
+    outletForEdit: GetOutletForEditDto = new GetOutletForEditDto(); // 传输地址下拉框数据用 TODO:修改api，改为从统一接口获取
+    input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
+    originalinput: CreateOrUpdateOutletInput;
 
-    existedContactors: ContactorEditDto[] = [];
     selectedDistrictId: string;
     selectedCityId: string;
     selectedProvinceId: string;
-
     districtId: number;
     cityId: number;
     provinceId: number;
-
     isCitySelect = false;
     isDistrictSelect = false;
-
     provinceSelectListData: SelectListItemDto[] = [];
     citysSelectListData: SelectListItemDto[];
     districtSelectListData: SelectListItemDto[];
 
-    input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
-    outetInfo: OutletEditDto = new OutletEditDto();
-
-    startShopHours: any = '00:00';
-    endShopHours: any = '00:00';
-
+    businessHour: BusinessHour = new BusinessHour();
     pictureInfo: UploadPictureDto = new UploadPictureDto();
-    interval: NodeJS.Timer;
 
     // display field
+    isCreateOrEditFlag: boolean;
+    nextIndex = 1;
     deleting = false;
     savingAndEditing = false;
     saving = false;
 
-    // href: string = document.location.href;
-    // outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
+    // 定时器
+    interval: NodeJS.Timer;
 
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     constructor(
@@ -76,6 +72,10 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         super(
             injector
         );
+
+        this.input.outlet = new OutletEditDto();
+        this.input.contactors = [];
+        this.originalinput = _.cloneDeep(this.input);
     }
 
     ngOnInit() {
@@ -88,6 +88,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     loadData(): void {
         if (!this.isCreateOrEditFlag) {
+            this.checkDataNeed2Reconvert();
+            this.startSaveEditInfoInBower();
             return;
         }
 
@@ -95,36 +97,63 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .getOutletForEdit(+this.outletId)
             .subscribe(result => {
                 this.outletForEdit = result;
-                this.existedContactors = result.contactors;
+                this.input.outlet = result.outlet;
+                this.input.contactors = result.contactors;
+                this.originalinput = _.cloneDeep(this.input);
 
-                this.outetInfo.pictureId = this.pictureInfo.pictureId = result.outlet.pictureId;
-                this.outetInfo.pictureUrl = this.pictureInfo.pictureUrl = PictureUrlHelper.getOutletInfoPicCompressUrl(result.outlet.pictureUrl);
+                this.initDataToDisplay(result);
 
-                this.outetInfo.name = result.outlet.name;
-                this.outetInfo.detailAddress = result.outlet.detailAddress;
-                this.outetInfo.phoneNum = result.outlet.phoneNum;
+                this.checkDataNeed2Reconvert(); // 检查数据是否需要恢复
 
-                let hourOfDay = this.checkHourOfDay(result.outlet.businessHours);
-                this.startShopHours = hourOfDay.split(' - ')[0];
-                this.endShopHours = hourOfDay.split(' - ')[1];
-
-                this.provinceSelectListData = result.availableProvinces;
-                this.selectedProvinceId = result.outlet.provinceId + '';
-                this.provinceId = result.outlet.provinceId;
-
-                this.citysSelectListData = result.availableCitys;
-                this.selectedCityId = result.outlet.cityId + '';
-                this.cityId = result.outlet.cityId;
-
-                this.districtSelectListData = result.availableDistricts;
-                this.selectedDistrictId = result.outlet.districtId + '';
-                this.districtId = result.outlet.districtId;
-
-                if (result.outlet.provinceId >= 0) {
-                    this.isCitySelect = true;
-                    this.isDistrictSelect = true;
-                }
+                this.startSaveEditInfoInBower(); // 开始保存临时数据
             })
+    }
+
+    checkDataNeed2Reconvert() {
+        this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId))
+            .then((editCache) => {
+                if (editCache && this.isDataNoEqual(editCache, this.input)) {
+                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                        if (confirm) {
+                            this.input = editCache;
+                            this.initOutletInfoToDisplay(this.input.outlet);
+                            this.originalinput = _.cloneDeep(this.input);
+                        } else {
+                            this.removeEditCache();
+                        }
+                    });
+                }
+            });
+    }
+
+    // 初始化显示数据
+    initDataToDisplay(result: GetOutletForEditDto) {
+        this.provinceSelectListData = result.availableProvinces;
+        this.citysSelectListData = result.availableCitys;
+        this.districtSelectListData = result.availableDistricts;
+
+        this.initOutletInfoToDisplay(result.outlet);
+    }
+
+    // 初始化门店显示数据
+    initOutletInfoToDisplay(outlet: OutletEditDto) {
+        this.pictureInfo.pictureId = outlet.pictureId;
+        this.pictureInfo.pictureUrl = outlet.pictureUrl;
+
+        this.businessHour = this.checkHourOfDay(outlet.businessHours);
+        this.selectedProvinceId = outlet.provinceId + '';
+        this.provinceId = outlet.provinceId;
+
+        this.selectedCityId = outlet.cityId + '';
+        this.cityId = outlet.cityId;
+
+        this.selectedDistrictId = outlet.districtId + '';
+        this.districtId = outlet.districtId;
+
+        if (outlet.provinceId >= 0) {
+            this.isCitySelect = true;
+            this.isDistrictSelect = true;
+        }
     }
 
     save(): void {
@@ -138,15 +167,13 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     createOrUpdateOutlet(saveAndEdit: boolean = false) {
-        this.outetInfo.id = +this.outletId ? +this.outletId : 0;
-        this.outetInfo.businessHours = this.startShopHours + ' - ' + this.endShopHours;
-        this.outetInfo.provinceId = this.provinceId;
-        this.outetInfo.cityId = this.cityId;
-        this.outetInfo.districtId = this.districtId;
-        this.outetInfo.isActive = true;
+        this.input.outlet.id = +this.outletId ? +this.outletId : 0;
+        this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
+        this.input.outlet.provinceId = this.provinceId;
+        this.input.outlet.cityId = this.cityId;
+        this.input.outlet.districtId = this.districtId;
+        this.input.outlet.isActive = true;
 
-        this.input.outlet = this.outetInfo;
-        this.input.contactors = this.existedContactors;
         if (this.input.contactors.length < 1) {
             this.notify.warn('请添加联系人');
             this.savingAndEditing = false
@@ -183,24 +210,25 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     getOutletInfoHandler(outletInfo: OutletEditDto): void {
-        if (outletInfo.longitude) { this.outetInfo.longitude = outletInfo.longitude; }
-        if (outletInfo.detailAddress) { this.outetInfo.detailAddress = outletInfo.detailAddress; }
+        if (outletInfo.longitude) { this.input.outlet.longitude = outletInfo.longitude; }
+        if (outletInfo.detailAddress) { this.input.outlet.detailAddress = outletInfo.detailAddress; }
         if (outletInfo.provinceId) { this.provinceId = outletInfo.provinceId; }
         if (outletInfo.cityId) { this.cityId = outletInfo.cityId; }
         if (outletInfo.districtId) { this.districtId = outletInfo.districtId; }
     }
 
     getPictureInfo(uploadPicInfo: UploadPictureDto): void {
-        this.outetInfo.pictureId = uploadPicInfo.pictureId;
-        this.outetInfo.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.input.outlet.pictureId = uploadPicInfo.pictureId;
+        this.input.outlet.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
     }
 
     getContactorEdit(editingContactors: ContactorEditDto[]) {
-        this.existedContactors = editingContactors;
+        this.input.contactors = editingContactors;
     }
 
     /* hourOfDay = '10:00 - 12:00' */
-    private checkHourOfDay(hourOfDay: string): string {
+    private checkHourOfDay(hourOfDay: string): BusinessHour {
+
         let tempHourOfDay = '';
         let tempStart = '';
         let tempEnd = '';
@@ -213,8 +241,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         if (!this.isTime(tempEnd)) { tempEnd = '00:00'; };
         tempHourOfDay = tempStart + ' - ' + tempEnd;
 
-        return tempHourOfDay;
-
+        return new BusinessHour(tempStart, tempEnd);
     }
 
     private isTime(time: string): boolean {
@@ -234,11 +261,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     updateNextIndex(index: number): void {
         this.nextIndex = index;
         // this.refreshData();
-    }
-
-    getOutletBgInfo(outletBgInfo: UploadPictureDto): void {
-        this.outetInfo.pictureId = outletBgInfo.pictureId;
-        this.outetInfo.pictureUrl = outletBgInfo.pictureUrl;
     }
 
     isShowConfirm(): boolean {
@@ -291,23 +313,32 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             })
     }
 
-    saveEditInfoInBower() {
+    startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
             console.log('定时检查数据更改')
             if (this.isDataNoSave()) {
-                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId), this.outletForEdit);
-                this.originalOutlet = this._localStorageService.deepCopy(this.outletForEdit);
+                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId), this.input);
+                this.originalinput = _.cloneDeep(this.input);
                 console.log('临时数据保存')
             }
         }, 3000)
     }
 
     isDataNoSave(): boolean {
-        return this.isDataNoeEual(this.originalOutlet, this.outletForEdit);
+        this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
+        return this.isDataNoEqual(this.originalinput, this.input);
     }
 
-    isDataNoeEual(source, destination): boolean {
+    isDataNoEqual(source: CreateOrUpdateOutletInput, destination: CreateOrUpdateOutletInput): boolean {
+        if (!source.outlet.id && destination.outlet.id) { return false; }
+
+        if (source.outlet.id !== destination.outlet.id) { return false; }
+
         return JSON.stringify(source) !== JSON.stringify(destination);
+    }
+
+    removeEditCache() {
+        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId));
     }
 
     public provinceSelectHandler(provinceId: any): void {
