@@ -20427,6 +20427,7 @@ export class CreateOrUpdateOutletInput implements ICreateOrUpdateOutletInput {
     contactors: ContactorEditDto[];
 
     constructor(data?: ICreateOrUpdateOutletInput) {
+        this.contactors = [];
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))

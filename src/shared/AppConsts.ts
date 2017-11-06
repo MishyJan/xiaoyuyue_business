@@ -36,6 +36,12 @@ export class AppConsts {
     static outletSelectListCache = 'OutletSelectListCache-{0}';
 
     static bookingSelectListCache = 'BookingSelectListCache-{0}';
+
+    static readonly templateEditStore = {
+        booking: 'templateEditBooking-{0}',
+        outlet: 'templateEditOutlet-{0}',
+        orgInfo: 'templateEditOrgInfo-{0}'
+    };
 }
 
 export class MediaCompressFormat {

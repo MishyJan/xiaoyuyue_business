@@ -15,8 +15,14 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'"><i class="vapps-icon vapps-icon-app-submit"></i><span>{{l("Save")}}</span></button>
-                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"><i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
+                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving"
+                        [busyText]="'保存中...'">
+                        <i class="vapps-icon vapps-icon-app-submit"></i>
+                        <span>{{l("Save")}}</span>
+                    </button>
+                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"
+                        [buttonBusy]="savingAndEditing" [busyText]="'保存中...'">
+                        <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
             </div>
@@ -36,7 +42,8 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control " type="text" [(ngModel)]="input.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
+                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tenancyName" name="tenancyName" placeholder="机构名称" required
+                                                autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +53,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control " type="text" [(ngModel)]="input.tagline" name="tagline" placeholder="机构宣传语" required>
+                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tagline" name="tagline" placeholder="机构宣传语" required>
                                         </div>
                                     </div>
                                 </div>
@@ -56,7 +63,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <textarea class="form-control " rows="5" [(ngModel)]="input.description" name="description" placeholder="机构简介..."></textarea>
+                                            <textarea class="form-control " rows="5" [(ngModel)]="tenantInfo.description" name="description" placeholder="机构简介..."></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -66,11 +73,11 @@
                     <div class="row">
                         <!-- 机构logo -->
                         <div class="col-lg-6 org-logo-wrap">
-                            <xiaoyuyue-upload-logo [orgLogoUrl]="sendOrgLogoInfo.pictureUrl" (orgLogoIngoHandler)="orgLogoInfo($event)"></xiaoyuyue-upload-logo>
+                            <xiaoyuyue-upload-logo [orgLogoUrl]="tenantInfo.logoUrl" (orgLogoIngoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-upload-logo>
                         </div>
 
                         <div class="col-lg-6 org-bg-wrap">
-                            <xiaoyuyue-upload-bg [orgBgUrl]="sendOrgBgInfo.pictureUrl" (orgBgInfoHandler)="orgBgInfo($event)"></xiaoyuyue-upload-bg>
+                            <xiaoyuyue-upload-bg [orgBgUrl]="tenantInfo.backgroundPictureUrl" (orgBgInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-upload-bg>
                         </div>
                     </div>
                 </div>
@@ -91,14 +98,14 @@
                     <div class="front" *ngIf="!filpActive">
                         <div class="card">
                             <div class="avatar-wrap form-group">
-                                <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="groupId" [height]="'80px'" [existedPicUrl]="sendOrgLogoInfo.pictureUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                                <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="groupId" [height]="'80px'" [existedPicUrl]="tenantInfo.logoUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                             </div>
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating">
                                             <label class="control-label">机构名称</label>
-                                            <input type="text" class="form-control" name="orgName" [(ngModel)]="input.tenancyName" autofocus required>
+                                            <input type="text" class="form-control" name="orgName" [(ngModel)]="tenantInfo.tenancyName" autofocus required>
                                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                         </div>
                                     </div>
@@ -107,7 +114,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating">
                                             <label class="control-label">机构宣传语</label>
-                                            <input type="text" class="form-control" name="orgSlogan" [(ngModel)]="input.tagline" required>
+                                            <input type="text" class="form-control" name="orgSlogan" [(ngModel)]="tenantInfo.tagline" required>
                                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                         </div>
                                     </div>
@@ -116,7 +123,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating">
                                             <label class="control-label">机构简介</label>
-                                            <textarea name="backOrgDescription" class="form-control" [(ngModel)]="input.description" rows="4"></textarea>
+                                            <textarea name="backOrgDescription" class="form-control" [(ngModel)]="tenantInfo.description" rows="4"></textarea>
                                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                         </div>
                                     </div>
@@ -127,7 +134,8 @@
                                             <p class="control-label">机构背景图</p>
                                             <div class="img-wrap">
                                                 <div class="img">
-                                                    <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="sendOrgBgInfo.pictureUrl" (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                                                    <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="tenantInfo.backgroundPictureUrl"
+                                                        (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                                                 </div>
                                             </div>
                                         </div>
@@ -149,14 +157,14 @@
                     <div class="back" (click)="showEdit()" *ngIf="filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
-                                <div class="img" *ngIf="sendOrgLogoInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' + sendOrgLogoInfo.pictureUrl + ')'}"></div>
+                                <div class="img" *ngIf="tenantInfo.logoUrl" [ngStyle]="{'background-image': 'url(' + tenantInfo.logoUrl + ')'}"></div>
                             </div>
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating is-focused">
                                             <label class="control-label">机构名称</label>
-                                            <input type="text" class="form-control" name="backOrgName" [(ngModel)]="input.tenancyName" readonly disabled>
+                                            <input type="text" class="form-control" name="backOrgName" [(ngModel)]="tenantInfo.tenancyName" readonly disabled>
                                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                         </div>
                                     </div>
@@ -165,7 +173,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating is-focused">
                                             <label class="control-label">机构宣传语</label>
-                                            <input type="text" class="form-control" name="backOrgSlogan" [(ngModel)]="input.tenancyName" readonly disabled>
+                                            <input type="text" class="form-control" name="backOrgSlogan" [(ngModel)]="tenantInfo.tenancyName" readonly disabled>
                                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                         </div>
                                     </div>
@@ -174,7 +182,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating is-focused">
                                             <label class="control-label">机构简介</label>
-                                            <textarea name="backOrgDescription" class="form-control" rows="4" [(ngModel)]="input.description" readonly disabled></textarea>
+                                            <textarea name="backOrgDescription" class="form-control" rows="4" [(ngModel)]="tenantInfo.description" readonly disabled></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +191,7 @@
                                         <div class="form-group">
                                             <p class="control-label org-info-title">机构背景图</p>
                                             <div class="img-wrap">
-                                                <div class="img" *ngIf="sendOrgBgInfo.pictureUrl" [ngStyle]="{'background-image': 'url(' + sendOrgBgInfo.pictureUrl + ')'}"></div>
+                                                <div class="img" [ngStyle]="{'background-image': 'url(' + tenantInfo.backgroundPictureUrl + ')'}"></div>
                                             </div>
                                         </div>
                                     </div>

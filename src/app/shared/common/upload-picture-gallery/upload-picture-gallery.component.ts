@@ -85,7 +85,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         private _pictureServiceProxy: PictureServiceProxy,
         private _uploadPictureService: UploadPictureService,
         private _appSessionService: AppSessionService,
-        private sanitizer: DomSanitizer
+        private _sanitizer: DomSanitizer
     ) {
         super(injector);
     }
@@ -308,11 +308,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                                     const fileItem = files[i].getNative(),
                                         url = window.URL;
                                     const src = url.createObjectURL(fileItem);
-                                    console.log(files);
-
-                                    // self.temporaryPictureUrl = src;
-                                    // self.safeTemporaryPictureUrl = self.sanitizer.bypassSecurityTrustResourceUrl(self.temporaryPictureUrl);
-                                    // self.allPictureUrl.push(self.safeTemporaryPictureUrl);
                                     self._$profilePicture.attr('src', src);
 
                                     self._$profilePicture.cropper({

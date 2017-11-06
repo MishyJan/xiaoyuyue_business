@@ -17,15 +17,18 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="button" *ngIf="isCreateOrEditFlag && isGranted(permissions.organization_OutletDelete)" (click)="removeOutlet()" class="btn primary-bgcolor" [buttonBusy]="deleting" [busyText]="'删除中...'">
+                    <button type="button" *ngIf="isCreateOrEditFlag && isGranted(permissions.organization_OutletDelete)" (click)="removeOutlet()"
+                        class="btn primary-bgcolor" [buttonBusy]="deleting" [busyText]="'删除中...'">
                         <i class="vapps-icon vapps-icon-app-delete"></i>
                         <span>删除门店</span>
                     </button>
-                    <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" [disabled]="!createBookingForm.form.valid" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="l('Saving')">
+                    <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" [disabled]="!createBookingForm.form.valid" (click)="save()"
+                        class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="l('Saving')">
                         <i class="vapps-icon vapps-icon-app-submit"></i>
                         <span>{{l("Save")}}</span>
                     </button>
-                    <button type="botton" *ngIf="isGranted(permissions.organization_OutletEdit)" [disabled]="!createBookingForm.form.valid" (click)="saveAndEdit()" class="btn primary-bgcolor">
+                    <button type="botton" *ngIf="isGranted(permissions.organization_OutletEdit)" [disabled]="!createBookingForm.form.valid" (click)="saveAndEdit()"
+                        class="btn primary-bgcolor">
                         <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -46,7 +49,8 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="outletName" placeholder="{{l('Outlet.Name')}}" required autofocus>
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.name" name="outletName" placeholder="{{l('Outlet.Name')}}"
+                                                required autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -57,11 +61,12 @@
                                         <div class="label-floating is-empty">
                                             <label class="control-label"></label>
                                             <span class="col-md-6 no-left-padding shop-hours-start">
-                                                <input class="form-control" type="time" [(ngModel)]="startShopHours" name="startShopHours" placeholder="{{l('StartTime')}}"
+                                                <input class="form-control" type="time" [(ngModel)]="businessHour.start" name="businessHour.start" placeholder="{{l('StartTime')}}"
                                                     required>
                                             </span>
                                             <span class="col-md-6 no-right-padding shop-hours-end">
-                                                <input class="form-control" type="time" [(ngModel)]="endShopHours" name="endShopHours" placeholder="{{l('EndTime')}}" required>
+                                                <input class="form-control" type="time" [(ngModel)]="businessHour.end" name="businessHour.end" placeholder="{{l('EndTime')}}"
+                                                    required>
                                             </span>
                                         </div>
                                     </div>
@@ -83,7 +88,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}">
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +101,7 @@
                     <xiaoyuyue-outlet-address [outletForEdit]="outletForEdit" (getOutletInfoHandler)="getOutletInfoHandler($event)"></xiaoyuyue-outlet-address>
                 </div>
                 <div class="col-md-12 col-lg-12">
-                    <xiaoyuyue-contact-info [onlineAllContactors]="onlineAllContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
+                    <xiaoyuyue-contact-info [existedContactors]="input.contactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
                 </div>
             </div>
         </form>
@@ -114,9 +119,9 @@
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.name}">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.name}">
                                             <label class="control-label">门店名称</label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.name" name="mobileOutletName" autofocus required>
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.name" name="mobileOutletName" autofocus required>
                                             <!-- <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
                                                 <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
                                                 <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',20)}}</small>
@@ -127,16 +132,18 @@
 
                                 <div class="row">
                                     <div class="col-xs-6">
-                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !startShopHours}">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !businessHour.start}">
                                             <label class="control-label">{{l('OpenTime')}}</label>
-                                            <input class="form-control" type="time" [(ngModel)]="startShopHours" name="mobileStartShopHours" placeholder="{{l('OpenTime')}}" required>
+                                            <input class="form-control" type="time" [(ngModel)]="businessHour.start" name="mobilebusinessHour.start" placeholder="{{l('OpenTime')}}"
+                                                required>
                                         </div>
                                     </div>
 
                                     <div class="col-xs-6">
-                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !endShopHours}">
+                                        <div class="form-group label-floating is-empty" [ngClass]="{'is-empty': !businessHour.end}">
                                             <label class="control-label">{{l('CloseTime')}}</label>
-                                            <input class="form-control" type="time" [(ngModel)]="endShopHours" name="mobileEndShopHours" placeholder="{{l('CloseTime')}}" required>
+                                            <input class="form-control" type="time" [(ngModel)]="businessHour.end" name="mobilebusinessHour.end" placeholder="{{l('CloseTime')}}"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -146,14 +153,17 @@
                                         <div class="form-group label-floating">
                                             <div class="select-address-wrap clearfix">
                                                 <div class="col-xs-4 item no-left-padding">
-                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
+                                                    <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
+                                                        [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
                                                 </div>
                                                 <div class="col-xs-4 item no-lr-padding">
-                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                                    <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
                                                     </kendo-dropdownlist>
                                                 </div>
                                                 <div class="col-xs-4 item no-right-padding">
-                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                                    <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
                                                     </kendo-dropdownlist>
                                                 </div>
                                             </div>
@@ -163,18 +173,18 @@
 
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.detailAddress}">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.detailAddress}">
                                             <label class="control-label">详细地址</label>
-                                            <textarea class="form-control" rows="3" [(ngModel)]="outetInfo.detailAddress" name="mobileDetailAddress"></textarea>
+                                            <textarea class="form-control" rows="3" [(ngModel)]="input.outlet.detailAddress" name="mobileDetailAddress"></textarea>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !outetInfo.phoneNum}">
+                                        <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.phoneNum}">
                                             <label class="control-label">固定电话</label>
-                                            <input class="form-control" type="text" [(ngModel)]="outetInfo.phoneNum" name="mobileLandlinePhone" required>
+                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.phoneNum" name="mobileLandlinePhone" required>
                                         </div>
                                     </div>
                                 </div>
@@ -187,18 +197,21 @@
             <tab heading="门店形象" (select)="updateNextIndex(2)">
                 <div class="outlet-bg">
                     <div class="card" style="height: 200px;">
-                        <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="groupId" [existedPicUrl]="outetInfo.pictureUrl" (picUploadInfoHandler)="getOutletBgInfo($event)"></xiaoyuyue-mobile-upload-picture>
+                        <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="groupId"
+                            [existedPicUrl]="input.outlet.pictureUrl" (picUploadInfoHandler)="getPictureInfo($event)"></xiaoyuyue-mobile-upload-picture>
                     </div>
                 </div>
             </tab>
             <tab heading="联系人" (select)="updateNextIndex(3)">
                 <div class="outlet-contact">
-                    <xiaoyuyue-contact-info [onlineAllContactors]="onlineAllContactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
+                    <xiaoyuyue-contact-info [existedContactors]="input.contactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
                 </div>
             </tab>
         </tabset>
         <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()" [buttonBusy]="saving" [busyText]="l('Saving')">{{l('Submit')}}</button>
-        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="save()" [buttonBusy]="saving" [busyText]="l('Saving')">{{l('Update')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!outletId" (click)="save()" [buttonBusy]="saving"
+            [busyText]="l('Saving')">{{l('Submit')}}</button>
+        <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&outletId" (click)="save()" [buttonBusy]="saving"
+            [busyText]="l('Saving')">{{l('Update')}}</button>
     </div>
 </div>

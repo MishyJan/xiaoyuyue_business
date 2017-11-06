@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, OutletServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
+import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
@@ -12,34 +13,26 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
     styleUrls: ['./contact-info.component.scss']
 })
 export class ContactInfoComponent extends AppComponentBase implements OnInit, AfterViewInit {
-    actionFlag: boolean[] = [];
+    groupId: number = DefaultUploadPictureGroundId.LinkmanGroup;
+    outletId: number;
     uploadPicInfo: UploadPictureDto = new UploadPictureDto();
     currentIndex: number;
-    editingContact = false;
-    hideContactIndex: number;
     contactName = '';
-    groupId: number = DefaultUploadPictureGroundId.LinkmanGroup;
-
-    input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
-
-    href: string = document.location.href;
-    outletId: any = +this.href.substr(this.href.lastIndexOf('/') + 1, this.href.length);
-
-    // 保存本地数据所有联系人
-    localAllContact: ContactorEditDto[] = [];
-    // 保存本地数据单个联系人
-    localSingleContact: ContactorEditDto = new ContactorEditDto();
+    editingContactor: ContactorEditDto = new ContactorEditDto(); // 保存本地数据单个联系人
 
     // 是否是新增，新增显示空数据；否则显示用户数据
-    isLocalOrOnline: boolean = this.outletId;
-    isCreateContact = false;
+    actionFlag: boolean[] = [];
+    isCreateOutlet: boolean; // 是否创建门店
+    isCreating = false;
+    isEditing = false;
 
     @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
     @Output() contactorEditHandler: EventEmitter<ContactorEditDto[]> = new EventEmitter();
-    @Input() onlineAllContactors: ContactorEditDto[];
+    @Input() existedContactors: ContactorEditDto[];
 
     constructor(
         injector: Injector,
+        private _route: ActivatedRoute,
         private _outletServiceServiceProxy: OutletServiceServiceProxy
     ) {
         super(
@@ -48,50 +41,45 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     }
 
     ngOnInit() {
+        this.outletId = +this._route.snapshot.paramMap.get('id');
+        this.isCreateOutlet = !this.outletId;
         this.loadData();
         if (!this.outletId) {
-            this.isCreateContact = true;
+            this.isCreating = true;
             return;
         }
-        let self = this;
-        setTimeout(function () {
-            self.localAllContact = self.onlineAllContactors;
-        }, 1000)
     }
 
     ngAfterViewInit() {
+
     }
 
     loadData(): void {
     }
 
     save(): void {
-        this.localSingleContact.isDefault = this.localSingleContact.isDefault || false;
-        if (!this.isMobile($('.mobile-contact-info'))) {
-            this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
-        } else {
-            this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
-        }
-        if (this.editingContact) {
-            this.localSingleContact.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
-            this.insertContact(this.currentIndex, this.localSingleContact);
+        this.editingContactor.isDefault = this.editingContactor.isDefault || false;
+        this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
+        if (this.isEditing) {
+            this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
+            this.insertContact(this.currentIndex, this.editingContactor);
             this.closeCreateContact();
-            this.editingContact = false;
+            this.isEditing = false;
             return;
         }
-        this.localAllContact.push(this.localSingleContact);
+        this.existedContactors.push(this.editingContactor);
         this.closeCreateContact();
 
         // 默认让第一个为选中状态
-        if (this.localAllContact.length == 1) {
-            this.localAllContact[0].isDefault = true;
+        if (this.existedContactors.length == 1) {
+            this.existedContactors[0].isDefault = true;
         }
 
-        this.contactorEditHandler.emit(this.localAllContact)
+        this.contactorEditHandler.emit(this.existedContactors)
     }
 
     cancel(): void {
-        if (this.editingContact) {
+        if (this.isEditing) {
             this.save();
             return;
         }
@@ -100,58 +88,58 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
 
     // 打开创建面板
     openCreateContact(): void {
-        this.isCreateContact = true;
+        this.isCreating = true;
         this.contactName = '';
         this.uploadPicInfo.pictureUrl = '';
     }
 
     // 关闭创建面板
     closeCreateContact(): void {
-        this.isCreateContact = false;
-        this.localSingleContact = new ContactorEditDto();
+        this.isCreating = false;
+        this.editingContactor = new ContactorEditDto();
     }
 
     // 编辑联系人
     editContact(index: number): void {
-        if (this.editingContact) {
+        if (this.isEditing) {
             this.message.warn('您有未保存的联系人');
             return;
         }
         this.currentIndex = index;
         this.openCreateContact();
-        this.localSingleContact.isDefault = this.localAllContact[index].isDefault;
-        this.localSingleContact.id = this.localAllContact[index].id;
-        this.localSingleContact.outletId = this.localAllContact[index].outletId;
-        this.localSingleContact.name = this.localAllContact[index].name;
-        this.localSingleContact.phoneNum = this.localAllContact[index].phoneNum;
-        this.localSingleContact.wechatQrcodeUrl = this.localAllContact[index].wechatQrcodeUrl;
+        this.editingContactor.isDefault = this.existedContactors[index].isDefault;
+        this.editingContactor.id = this.existedContactors[index].id;
+        this.editingContactor.outletId = this.existedContactors[index].outletId;
+        this.editingContactor.name = this.existedContactors[index].name;
+        this.editingContactor.phoneNum = this.existedContactors[index].phoneNum;
+        this.editingContactor.wechatQrcodeUrl = this.existedContactors[index].wechatQrcodeUrl;
         // 正在编辑联系人
-        this.editingContact = true;
+        this.isEditing = true;
         // 把联系人名传给创建面板
-        this.contactName = this.localSingleContact.name;
+        this.contactName = this.editingContactor.name;
         // 把微信二维码传给创建面板
-        this.uploadPicInfo.pictureUrl = this.localSingleContact.wechatQrcodeUrl;
+        this.uploadPicInfo.pictureUrl = this.editingContactor.wechatQrcodeUrl;
 
         this.removeContact(index);
     }
 
     // 删除指定位置联系人
     removeContact(index: number): void {
-        this.localAllContact.splice(index, 1);
+        this.existedContactors.splice(index, 1);
     }
 
     // 插入联系人到指定位置
     insertContact(index: number, contact: ContactorEditDto): void {
-        this.localAllContact.splice(index, 0, contact)
+        this.existedContactors.splice(index, 0, contact)
     }
 
     // 选择默认联系人
     selectDefaultContact(index: number): void {
         // 关闭所有联系人
-        for (let i = 0; i < this.localAllContact.length; i++) {
-            this.localAllContact[i].isDefault = false;
+        for (let i = 0; i < this.existedContactors.length; i++) {
+            this.existedContactors[i].isDefault = false;
         }
-        this.localAllContact[index].isDefault = true;
+        this.existedContactors[index].isDefault = true;
     }
 
     // 弹出上传Model

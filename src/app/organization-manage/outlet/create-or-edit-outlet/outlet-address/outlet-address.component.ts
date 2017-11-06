@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { OutletEditDto, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
+import { GetOutletForEditDto, OutletEditDto, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -27,10 +27,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     selectedCityId: string;
     selectedProvinceId: string;
 
-    districtId: number;
-    cityId: number;
-    provinceId: number;
-
     isCitySelect = false;
     isDistrictSelect = false;
 
@@ -40,7 +36,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     outletInfo: OutletEditDto = new OutletEditDto();
 
-    @Input() outletForEdit: OutletEditDto = new OutletEditDto();
+    @Input() outletForEdit: GetOutletForEditDto = new GetOutletForEditDto();
     @Output() getOutletInfoHandler: EventEmitter<OutletEditDto> = new EventEmitter();
     @ViewChild('searchWrap') searchWrap: ElementRef;
     constructor(
@@ -71,15 +67,15 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
             this.provinceSelectListData = changes.outletForEdit.currentValue.availableProvinces;
             this.selectedProvinceId = changes.outletForEdit.currentValue.outlet.provinceId + '';
-            this.provinceId = changes.outletForEdit.currentValue.outlet.provinceId;
+            this.outletInfo.provinceId = changes.outletForEdit.currentValue.outlet.provinceId;
 
             this.citysSelectListData = changes.outletForEdit.currentValue.availableCitys;
             this.selectedCityId = changes.outletForEdit.currentValue.outlet.cityId + '';
-            this.cityId = changes.outletForEdit.currentValue.outlet.cityId;
+            this.outletInfo.cityId = changes.outletForEdit.currentValue.outlet.cityId;
 
             this.districtSelectListData = changes.outletForEdit.currentValue.availableDistricts;
             this.selectedDistrictId = changes.outletForEdit.currentValue.outlet.districtId + '';
-            this.districtId = changes.outletForEdit.currentValue.outlet.districtId;
+            this.outletInfo.districtId = changes.outletForEdit.currentValue.outlet.districtId;
 
             this.detailAddress = changes.outletForEdit.currentValue.outlet.detailAddress;
             const longitude = changes.outletForEdit.currentValue.outlet.longitude;
@@ -103,7 +99,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
             .getProvinceSelectList()
             .subscribe(result => {
                 this.provinceSelectListData = result;
-                this.provinceId = parseInt(this.selectedProvinceId, null);
+                this.outletInfo.provinceId = parseInt(this.selectedProvinceId, null);
             })
     }
 
@@ -112,13 +108,13 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
             return;
         }
         this._stateServiceServiceProxy
-            .getCitySelectList(this.provinceId)
+            .getCitySelectList(this.outletInfo.provinceId)
             .subscribe(result => {
                 this.citysSelectListData = result;
                 this.selectedCityId = this.citysSelectListData[0].value;
-                this.cityId = parseInt(this.selectedCityId, null);
-                this.getDistrictsSelectList(this.cityId);
-                this.outletInfo.cityId = this.cityId;
+                this.outletInfo.cityId = parseInt(this.selectedCityId, null);
+                this.getDistrictsSelectList(this.outletInfo.cityId);
+                this.outletInfo.cityId = this.outletInfo.cityId;
                 this.getOutletInfoHandler.emit(this.outletInfo);
             })
     }
@@ -134,13 +130,13 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
                 if (result.length <= 0) {
                     this.isDistrictSelect = false;
                     this.selectedDistrictId = '';
-                    this.districtId = 0;
+                    this.outletInfo.districtId = 0;
                 } else {
                     this.selectedDistrictId = this.districtSelectListData[0].value;
-                    this.districtId = parseInt(this.selectedDistrictId, null);
+                    this.outletInfo.districtId = parseInt(this.selectedDistrictId, null);
                 }
                 this.codeAddress();
-                this.outletInfo.districtId = this.districtId;
+                this.outletInfo.districtId = this.outletInfo.districtId;
                 this.getOutletInfoHandler.emit(this.outletInfo);
             })
     }
@@ -232,9 +228,9 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     }
 
     public provinceSelectHandler(provinceId: any): void {
-        this.outletInfo.provinceId = this.provinceId = parseInt(provinceId, null);
+        this.outletInfo.provinceId = this.outletInfo.provinceId = parseInt(provinceId, null);
         this.selectedProvinceId = provinceId;
-        if (this.provinceId <= 0) {
+        if (this.outletInfo.provinceId <= 0) {
             this.isCitySelect = false;
             this.isDistrictSelect = false;
         } else {
@@ -245,7 +241,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         }
     }
     public citySelectHandler(cityId: any): void {
-        this.outletInfo.cityId = this.cityId = parseInt(cityId, null);
+        this.outletInfo.cityId = this.outletInfo.cityId = parseInt(cityId, null);
         this.selectedCityId = cityId;
         this.getDistrictsSelectList(cityId);
         this.codeAddress();
@@ -254,7 +250,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     public districtSelectHandler(districtId: any): void {
         this.outletInfo.districtId = this.selectedDistrictId = districtId;
-        this.districtId = parseInt(districtId, null);
+        this.outletInfo.districtId = parseInt(districtId, null);
         this.codeAddress();
         this.getOutletInfoHandler.emit(this.outletInfo);
     }
@@ -262,5 +258,4 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     public openProvinceSledct(): void {
         this.getProvinceSelectList();
     }
-
 }
