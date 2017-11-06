@@ -17,6 +17,7 @@ import { UploadPictureService } from './../../../../shared/services/upload-pictu
 })
 
 export class UploadPictureNoneGalleryComponent extends AppComponentBase implements OnInit {
+    uploader: any;
     imageMogr2Link: string;
     loading = false;
     private _$profilePicture: JQuery;
@@ -51,7 +52,6 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
     }
     close(): void {
         this.modal.hide();
-        this.picturyDestroy();
     }
 
     picturyDestroy(): void {
@@ -68,7 +68,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
             .getPictureUploadToken()
             .then(token => {
                 const Q1 = new QiniuJsSDK();
-                const uploader = Q1.uploader({
+                self.uploader = Q1.uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'uploadArea' + self.uploadUid,       // 上传选择的点选按钮，**必需**
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
@@ -78,6 +78,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: false,                   // 开启可拖曳上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
+                    multi_selection: false,
                     resize: {
                         crop: false,
                         quality: 60,
@@ -101,6 +102,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     },
                     init: {
                         'FilesAdded': function (up, files) {
+                            self.picturyDestroy();
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
                                 // 上传之前本地预览
@@ -108,6 +110,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                                     const fileItem = files[i].getNative(),
                                         url = window.URL;
                                     const src = url.createObjectURL(fileItem);
+
                                     self._$profilePicture.attr('src', src);
                                     self._$profilePicture.cropper({
                                         dragMode: 'move',
@@ -151,12 +154,14 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
+                            if (err.code === -602) {
+                                return;
+                            }
                             self.loading = false;
+                            self.close();
                             self.notify.error('上传失败，请重新上传');
                         },
                         'UploadComplete': function () {
-                            uploader.destroy();
-                            self.picturyDestroy();
                             // 队列文件处理完毕后,处理相关的事情
                         },
                         'Key': (up, file) => {
@@ -169,14 +174,15 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         }
                     }
                 });
-                $('#confirmUpload' + self.uploadUid).on('click', function () {
-                    uploader.start();
-                });
-
-                $('#cancelUpload' + self.uploadUid).on('click', () => {
-                    uploader.destroy();
-                    this.picturyDestroy();
+                $('#confirmUpload' + self.uploadUid).on('click', () => {
+                    this.uploader.start();
                 });
             });
+    }
+
+    // bootstrap modal关闭事件
+    public onBSHide() {
+        this.uploader.destroy();
+        this.picturyDestroy();
     }
 }

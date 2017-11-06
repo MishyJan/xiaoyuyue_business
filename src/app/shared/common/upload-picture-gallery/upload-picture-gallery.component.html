@@ -1,5 +1,5 @@
 <div class="upload-picture">
-    <div bsModal #uploadPictureModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true">
+    <div bsModal #uploadPictureModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true" (onHidden)="onBSHide()" (onShown)="onBSShown()">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -12,71 +12,82 @@
                     </h4>
                 </div>
 
-                <div class="modal-body">
-                    <div class="content-item" *ngIf="tabToggle">
-                        <div class="pic-gallery-wrap">
-                            <div class="flex-left" *ngIf="picGroupItemData">
-                                <div [@routerTransition] class="col-lg-3" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let index = index;">
-                                    <div class="pic-item" [ngClass]="{'active': item.selected == true }" (click)="selectPicHandler(item, index)">
-                                        <!-- <div class="img-wrap"></div> -->
-                                        <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}"></div>
-                                        <p class="img-name text-overflow" [title]="item.name">{{ item.picId }}</p>
+                <div [hidden]="!tabToggle">
+                    <div class="modal-body">
+                        <div class="content-item">
+                            <div class="pic-gallery-wrap">
+                                <div class="flex-left" *ngIf="picGroupItemData">
+                                    <div [@routerTransition] class="col-lg-3" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let index = index;">
+                                        <div class="pic-item" [ngClass]="{'active': item.selected == true }" (click)="selectPicHandler(item, index)">
+                                            <!-- <div class="img-wrap"></div> -->
+                                            <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}"></div>
+                                            <p class="img-name text-overflow" [title]="item.name">{{ item.picId }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div [@routerTransition] class="flex-right">
-                                <div class="side-bar">
-                                    <p class="sub-item text-overflow" *ngFor="let groupItem of picGalleryGroupData; let index = index" (click)="groupItemActive(groupItem,index)" [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})">{{ groupItem.name }}({{ groupItem.pictureNum }})</p>
+                                <div [@routerTransition] class="flex-right">
+                                    <div class="side-bar">
+                                        <p class="sub-item text-overflow" *ngFor="let groupItem of picGalleryGroupData; let index = index" (click)="groupItemActive(groupItem,index)" [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})">{{ groupItem.name }}({{ groupItem.pictureNum }})</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div [@routerTransition] class="content-item row" *ngIf="!tabToggle">
-                        <div class="col-lg-8 col-md-8">
-                            <div class="upload-area-wrap">
-                                <div class="img-area">
-                                    <img id="profilePicture">
+
+                    <div class="modal-footer">
+                        <div class="clearfix">
+                            <div class="pull-left">
+                                已选{{ setPicSelectNum() }}个，可选{{ setPicElectiveNum() }}个
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" class="btn primary-bgcolor" [buttonBusy]="loading" [busyText]="'确认中...'" (click)="confirmGallerySelect()"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
+                                <button type="button" class="btn btn-cancel" (click)="close()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
+                            </div>
+                            <div class="pull-right gallery-pagination">
+                                <div class="has-text-centered">
+                                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="upload-tips col-lg-4 col-md-4">
-                            <div class="tips-item">
-                                <span class="char"><span class="vapps-icon-app-tip tip-icon"></span></span>
-                                <span class="content">提个醒</span>
-                            </div>
-                            <div class="tips-item">
-                                <span class="char">1、</span>
-                                <span class="content">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
-                            </div>
-                            <div class="tips-item clearfix">
-                                <span class="char">2、</span>
-                                <span class="content">所有图片皆有自动添加水印；</span>
-                            </div>
-                            <div class="tips-item clearfix">
-                                <span class="char">3、</span>
-                                <span class="content">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <div *ngIf="tabToggle" class="clearfix">
-                        <div class="pull-left">
-                            已选{{ setPicSelectNum() }}个，可选{{ setPicElectiveNum() }}个
-                        </div>
-                        <div class="pull-right">
-                            <button type="submit" class="btn primary-bgcolor" [buttonBusy]="loading" [busyText]="'确认中...'" (click)="confirmGallerySelect()"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认</span></button>
-                            <button type="button" class="btn btn-cancel" (click)="close()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l("Cancel")}}</button>
-                        </div>
-                        <div class="pull-right gallery-pagination">
-                            <div class="has-text-centered">
-                                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
+
+                <div [@routerTransition] [hidden]="tabToggle">
+                    <div class="modal-body">
+                        <div class="content-item row">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="upload-area-wrap">
+                                    <div class="img-area">
+                                        <img id="profilePicture">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="upload-tips col-lg-4 col-md-4">
+                                <div class="tips-item">
+                                    <span class="char"><span class="vapps-icon-app-tip tip-icon"></span></span>
+                                    <span class="content">提个醒</span>
+                                </div>
+                                <div class="tips-item">
+                                    <span class="char">1、</span>
+                                    <span class="content">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
+                                </div>
+                                <div class="tips-item clearfix">
+                                    <span class="char">2、</span>
+                                    <span class="content">所有图片皆有自动添加水印；</span>
+                                </div>
+                                <div class="tips-item clearfix">
+                                    <span class="char">3、</span>
+                                    <span class="content">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="!tabToggle">
-                        <button type="button" class="btn primary-bgcolor" id="uploadArea"><span class="vapps-icon vapps-icon-app-add-time-field"></span>选择文件</button>
-                        <button type="submit" class="btn primary-bgcolor" id="confirmUpload" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+
+                    <div class="modal-footer">
+                        <div id="uploadAreaWrap">
+                            <button type="button" class="btn primary-bgcolor" id="uploadArea"><span class="vapps-icon vapps-icon-app-add-time-field"></span>选择文件</button>
+                            <button type="submit" class="btn primary-bgcolor" id="confirmUpload" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+                        </div>
                     </div>
                 </div>
             </div>
