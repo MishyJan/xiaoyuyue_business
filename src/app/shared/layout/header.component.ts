@@ -102,6 +102,9 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
         abp.event.on('outletListSelectChanged', () => {
             this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId));
         });
+        abp.event.on('contactorListSelectChanged', () => {
+            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId));
+        });
 
         abp.event.on('bookingListSelectChanged', () => {
             this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this._sessionService.tenantId));

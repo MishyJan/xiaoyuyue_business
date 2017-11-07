@@ -17,6 +17,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 
 export class BookingInfoOptions {
     needGender: boolean;
@@ -89,6 +90,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
         private _weChatShareTimelineService: WeChatShareTimelineService,
+        private _localStorageService: LocalStorageService,
         private _route: ActivatedRoute
     ) {
         super(injector);
@@ -186,28 +188,49 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 获取门店下拉框数据源
     loadOutletData() {
-        this._outletServiceServiceProxy
-            .getOutletSelectList()
-            .subscribe(outletResult => {
-                if (outletResult.length <= 0) {
-                    this.needImperfectOutlet = true;
-                } else {
-                    this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
-                    this.outletSelectListData = outletResult;
-                    this.selectOutletId = +this.outletSelectDefaultItem;
-
-                    // 获取联系人下拉框数据源
-                    this._outletServiceServiceProxy
-                        .getContactorSelectList(parseInt(this.outletSelectDefaultItem))
-                        .subscribe(contactorResult => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId), () => {
+            return this._outletServiceServiceProxy.getOutletSelectList()
+        }).then(outletResult => {
+            if (outletResult.length <= 0) {
+                this.needImperfectOutlet = true;
+            } else {
+                this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
+                this.outletSelectListData = outletResult;
+                this.selectOutletId = +this.outletSelectDefaultItem;
+                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId), () => {
+                    return this._outletServiceServiceProxy.getContactorSelectList(+this.outletSelectDefaultItem)
+                }).then(contactorResult => {
                             if (contactorResult.length <= 0) { return; }
                             this.contactorSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.contactorId.toString() : contactorResult[0].value;
                             this.contactorSelectListData = contactorResult;
                             this.selectContactorId = +this.contactorSelectDefaultItem;
-                        });
-                }
-            });
+                })
+            }
+        })
     }
+    // loadOutletData() {
+    //     this._outletServiceServiceProxy
+    //         .getOutletSelectList()
+    //         .subscribe(outletResult => {
+    //             if (outletResult.length <= 0) {
+    //                 this.needImperfectOutlet = true;
+    //             } else {
+    //                 this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
+    //                 this.outletSelectListData = outletResult;
+    //                 this.selectOutletId = +this.outletSelectDefaultItem;
+
+    //                 // 获取联系人下拉框数据源
+    //                 this._outletServiceServiceProxy
+    //                     .getContactorSelectList(parseInt(this.outletSelectDefaultItem))
+    //                     .subscribe(contactorResult => {
+    //                         if (contactorResult.length <= 0) { return; }
+    //                         this.contactorSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.contactorId.toString() : contactorResult[0].value;
+    //                         this.contactorSelectListData = contactorResult;
+    //                         this.selectContactorId = +this.contactorSelectDefaultItem;
+    //                     });
+    //             }
+    //         });
+    // }
 
     save() {
         this.saving = true;

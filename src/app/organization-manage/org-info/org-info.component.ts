@@ -185,11 +185,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
 
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            console.log('定时检查数据更改')
             if (this.isDataNoSave()) {
                 this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId), this.tenantInfo);
                 this.originalTenantInfo = _.cloneDeep(this.tenantInfo);
-                console.log('临时数据保存')
             }
         }, 3000)
     }
