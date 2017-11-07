@@ -44,7 +44,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
             .getPictureUploadToken()
             .subscribe(result => {
                 let token = result.token;
-
+                self._$cropImg = $('#cropImg');
                 // 引入Plupload 、qiniu.js后
                 const Q1 = new QiniuJsSDK();
                 const uploader = Q1.uploader({
@@ -57,7 +57,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     domain: 'https://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
                     // container: 'bookingUploadAreaWrap',           //上传区域DOM ID，默认是browser_button的父元素，
-                    max_file_size: '4mb',           // 最大文件体积限制
+                    max_file_size: '5mb',           // 最大文件体积限制
                     // flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: true,                   // 开启可拖曳上传
@@ -73,7 +73,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                         max_file_size: '5mb',
                         prevent_duplicates: true,
                         mime_types: [
-                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                            { title: 'Image files', extensions: 'jpg,jpeg,gif,png' },  // 限定jpg,gif,png后缀上传
                         ]
                     },
                     x_vars: {
@@ -89,7 +89,6 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
-                            self._$cropImg = $('#cropImg');
                             self.showCropArea();
                             for (let i = 0; i < files.length; i++) {
                                 const fileItem = files[i].getNative(),
@@ -144,7 +143,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                         'Error': function (up, err, errTip) {
                             console.log('err info:', err);
                             console.log('files info:', up);
-                            
+
                             // 上传出错时,处理相关的事情
                             self.uploading = false;
                             self.hideCropArea();
@@ -179,7 +178,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     }
 
     cropClear(): void {
-        console.log('img dom:',this._$cropImg);
+        console.log('img dom:', this._$cropImg);
         this._$cropImg.removeAttr('src');
         this._$cropImg.cropper("destroy");
     }

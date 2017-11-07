@@ -74,7 +74,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
                     domain: 'http://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
-                    max_file_size: '4mb',           // 最大文件体积限制
+                    max_file_size: '5mb',           // 最大文件体积限制
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: false,                   // 开启可拖曳上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
@@ -89,7 +89,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         max_file_size: '5mb',
                         prevent_duplicates: true,
                         mime_types: [
-                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                            { title: 'Image files', extensions: 'jpg,jpeg,gif,png' },  // 限定jpg,gif,png后缀上传
                         ]
                     },
                     x_vars: {
