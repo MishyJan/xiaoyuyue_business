@@ -7,16 +7,11 @@
             </span>
         </div>
     </div>
-    <div class="img-wrap">
-        <div class="img col-xs-3 col-sm-3" *ngFor="let item of allUploadPictureInfo">
-            <div class="item">
-                <div class="content">
-                    <img [src]="item.pictureUrl">
-                    <span class="triangle" (click)="removeBookingPic(picIndex)">
-                        <span class="close-icon vapps-icon-cb-add-img"></span>
-                    </span>
-                </div>
-            </div>
+    <div class="img-wrap clearfix">
+        <div class="img" (click)="showArtworkMasterModel(item.pictureUrl)" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}" *ngFor="let item of allUploadPictureInfo">
+            <span class="triangle" (click)="removeBookingPic(picIndex)">
+                <span class="close-icon vapps-icon-cb-add-img"></span>
+            </span>
         </div>
     </div>
 </div>
@@ -30,3 +25,5 @@
     </div>
     <div class="bg-cover" (click)="hideCropArea()"></div>
 </div>
+
+<xiaoyuyue-view-artwork-master #viewArtworkMasterModel></xiaoyuyue-view-artwork-master>

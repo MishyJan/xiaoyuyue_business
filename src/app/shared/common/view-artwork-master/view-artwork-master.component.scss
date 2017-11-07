@@ -1,0 +1,15 @@
+.view-artwork-wrap {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    .add-icon {
+        position: absolute;
+        top: 25px;
+        right: 20px;
+        font-size: 22px;
+    }
+    .img {
+        position: absolute;
+    }
+}

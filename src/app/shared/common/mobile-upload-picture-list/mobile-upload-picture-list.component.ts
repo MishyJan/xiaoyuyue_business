@@ -1,9 +1,10 @@
-import { Component, OnInit, Injector, ElementRef, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Injector, ElementRef, Input, EventEmitter, Output, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { PictureServiceProxy, BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { ViewArtworkMasterComponent } from 'app/shared/common/view-artwork-master/view-artwork-master.component';
 
 @Component({
     selector: 'xiaoyuyue-mobile-upload-picture-list',
@@ -22,6 +23,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     @Input() cropScaleX: number = 1;
     @Input() cropScaleY: number = 1;
     @Output() picUploadInfoHandler: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
+    @ViewChild('viewArtworkMasterModel') viewArtworkMasterModel: ViewArtworkMasterComponent;
     constructor(
         private injector: Injector,
         private _element: ElementRef,
@@ -140,6 +142,9 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                             self.hideCropArea();
                         },
                         'Error': function (up, err, errTip) {
+                            console.log('err info:', err);
+                            console.log('files info:', up);
+                            
                             // 上传出错时,处理相关的事情
                             self.uploading = false;
                             self.hideCropArea();
@@ -174,6 +179,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     }
 
     cropClear(): void {
+        console.log('img dom:',this._$cropImg);
         this._$cropImg.removeAttr('src');
         this._$cropImg.cropper("destroy");
     }
@@ -189,5 +195,10 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
 
     removeBookingPic(picIndex: number): void {
         this.allUploadPictureInfo.splice(picIndex, 1);
+    }
+
+    // 显示预览原图model
+    showArtworkMasterModel(url: string): void {
+        this.viewArtworkMasterModel.showModel(url);
     }
 }

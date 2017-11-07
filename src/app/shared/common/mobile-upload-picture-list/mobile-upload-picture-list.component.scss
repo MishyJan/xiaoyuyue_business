@@ -1,14 +1,12 @@
 .upload-pic-wrap {
     .upload {
         position: relative;
-        float: left;
         width: 80px;
         height: 80px;
         margin-top: 15px;
-        margin-right: 8px;
         .upload-area {
             width: 80px;
-            height: 85px;
+            height: 80px;
             border: 1px dashed #CCC;
             .icon-wrap {
                 position: absolute;
@@ -25,43 +23,32 @@
         }
     }
     .img-wrap {
+        padding-top: 14px;
+        .img+.img {
+            margin-left: 10px;
+        }
         .img {
-            display: inline-block;
-            // width: calc(100% / 3);
+            width: 80px;
+            height: 80px;
             position: relative;
-            padding: 10px;
-            .item {
-                display: inline-block;
-                width: 100%;
-                background: #FFF;
-                font-size: 34px;
-                overflow: hidden;
-                .content {
-                    position: absolute;
-                    width: 90%;
-                    height: 90%;
-                    top: 15px;
-                    left: 0;
-                    /* -webkit-transform: translate(-50%, -50%); */
-                    /* transform: translate(-50%, -50%); */
-                    text-align: center;
-                    .triangle {
-                        position: absolute;
-                        top: -5px;
-                        right: -22px;
-                        width: 0;
-                        height: 0;
-                        border-right: 34px solid transparent;
-                        border-bottom: 34px solid rgba(0, 0, 0, 0.51);
-                        border-left: 34px solid transparent;
-                        transform: rotate(45deg);
-                        .close-icon {
-                            font-size: 14px;
-                            color: #FFF;
-                            display: inline-block;
-                            transform: translate(-6px, 6px);
-                        }
-                    }
+            float: left;
+            background-position: center center;
+            background-size: cover;
+            .triangle {
+                position: absolute;
+                top: -5px;
+                right: -22px;
+                width: 0;
+                height: 0;
+                border-right: 34px solid transparent;
+                border-bottom: 34px solid rgba(0, 0, 0, 0.51);
+                border-left: 34px solid transparent;
+                transform: rotate(45deg);
+                .close-icon {
+                    font-size: 14px;
+                    color: #FFF;
+                    display: inline-block;
+                    transform: translate(-6px, 6px);
                 }
             }
         }
