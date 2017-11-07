@@ -74,6 +74,8 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             'video',  // 插入视频
         ];
         this.editor.create();
+        // 处理自动聚焦问题
+        $('.w-e-text').trigger('blur');
         this.uploaddInit();
     }
 

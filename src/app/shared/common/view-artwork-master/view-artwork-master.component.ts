@@ -7,7 +7,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
     styleUrls: ['./view-artwork-master.component.scss']
 })
 export class ViewArtworkMasterComponent extends AppComponentBase implements OnInit {
-    isShow: boolean;
+    isShow: boolean = false;
     viewArtworkUrl: string;
 
     constructor(
