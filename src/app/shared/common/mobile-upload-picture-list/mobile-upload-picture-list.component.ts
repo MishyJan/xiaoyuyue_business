@@ -1,9 +1,11 @@
-import { Component, OnInit, Injector, ElementRef, Input, EventEmitter, Output } from '@angular/core';
+import { BookingPictureEditDto, PictureServiceProxy } from 'shared/service-proxies/service-proxies';
+import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { DomSanitizer } from '@angular/platform-browser';
 import { AppSessionService } from '@shared/common/session/app-session.service';
-import { PictureServiceProxy, BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
+import { DomSanitizer } from '@angular/platform-browser';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { ViewArtworkMasterComponent } from 'app/shared/common/view-artwork-master/view-artwork-master.component';
 
 @Component({
     selector: 'xiaoyuyue-mobile-upload-picture-list',
@@ -22,6 +24,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     @Input() cropScaleX: number = 1;
     @Input() cropScaleY: number = 1;
     @Output() picUploadInfoHandler: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
+    @ViewChild('viewArtworkMasterModel') viewArtworkMasterModel: ViewArtworkMasterComponent;
     constructor(
         private injector: Injector,
         private _element: ElementRef,
@@ -42,7 +45,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
             .getPictureUploadToken()
             .subscribe(result => {
                 let token = result.token;
-
+                self._$cropImg = $('#cropImg');
                 // 引入Plupload 、qiniu.js后
                 const Q1 = new QiniuJsSDK();
                 const uploader = Q1.uploader({
@@ -55,23 +58,23 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     domain: 'https://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
                     // container: 'bookingUploadAreaWrap',           //上传区域DOM ID，默认是browser_button的父元素，
-                    max_file_size: '4mb',           // 最大文件体积限制
+                    max_file_size: '5mb',           // 最大文件体积限制
                     // flash_swf_url: 'js/plupload/Moxie.swf',  //引入flash,相对路径
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: true,                   // 开启可拖曳上传
                     // drop_element: ,        //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
-                    // resize: {
-                    //     crop: false,
-                    //     quality: 60,
-                    //     preserve_headers: false
-                    // },
+                    resize: {
+                        crop: false,
+                        quality: 60,
+                        preserve_headers: false
+                    },
                     auto_start: false,                 // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
                     filters: {
                         max_file_size: '5mb',
                         prevent_duplicates: true,
                         mime_types: [
-                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                            { title: 'Image files', extensions: 'jpg,jpeg,gif,png' },  // 限定jpg,gif,png后缀上传
                         ]
                     },
                     x_vars: {
@@ -87,7 +90,6 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
-                            self._$cropImg = $('#cropImg');
                             self.showCropArea();
                             for (let i = 0; i < files.length; i++) {
                                 const fileItem = files[i].getNative(),
@@ -97,17 +99,17 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                                 self._$cropImg.attr('src', src);
                                 self._$cropImg.cropper({
                                     dragMode: 'move',
-                                    viewMode: 1,
+                                    viewMode: 3,
                                     aspectRatio: self.cropScaleX / self.cropScaleY,
                                     crop: function (e) {
-                                        let cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
+                                        const cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
                                         self.imageMogr2Link = Q1.imageMogr2({
                                             'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
                                             strip: false,   // 布尔值，是否去除图片中的元信息
                                             // thumbnail: '1000x1000',   // 缩放操作参数
                                             crop: cropValue,  // 裁剪操作参数
                                             gravity: 'NorthWest',    // 裁剪锚点参数
-                                            quality: 65,  // 图片质量，取值范围1-100
+                                            // quality: 65,  // 图片质量，取值范围1-100
                                             // rotate: 20,   // 旋转角度，取值范围1-360，缺省为不旋转。
                                             // format: 'jpg',// 新图的输出格式，取值范围：jpg，gif，png，webp等
                                             // blur: '3x5'    // 高斯模糊参数
@@ -140,6 +142,9 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                             self.hideCropArea();
                         },
                         'Error': function (up, err, errTip) {
+                            console.log('err info:', err);
+                            console.log('files info:', up);
+
                             // 上传出错时,处理相关的事情
                             self.uploading = false;
                             self.hideCropArea();
@@ -174,6 +179,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     }
 
     cropClear(): void {
+        console.log('img dom:', this._$cropImg);
         this._$cropImg.removeAttr('src');
         this._$cropImg.cropper("destroy");
     }
@@ -189,5 +195,10 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
 
     removeBookingPic(picIndex: number): void {
         this.allUploadPictureInfo.splice(picIndex, 1);
+    }
+
+    // 显示预览原图model
+    showArtworkMasterModel(url: string): void {
+        this.viewArtworkMasterModel.showModel(url);
     }
 }

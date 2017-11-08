@@ -6,17 +6,20 @@
                     <h6 class="card-title">{{l("Booking.TimeInfo")}}</h6>
                 </div>
                 <div class="pull-right add-time">
-                    <span (click)="createTimeField()" class="btn btn-border-radius light-bgcolor"><span class="vapps-icon vapps-icon-app-add-booking-item"></span>{{l('Booking.AddTime')}}</span>
+                    <span (click)="createTimeField()" class="btn btn-border-radius light-bgcolor">
+                        <span class="vapps-icon vapps-icon-app-add-booking-item"></span>{{l('Booking.AddTime')}}</span>
                 </div>
             </div>
 
             <div class="card-content clearfix">
                 <!-- 创建时间段 -->
-                <div style="width: 100%;" [formGroup]="timeBaseIngoForm" *ngIf="isTimeEditing" class="clearfix">
+                <div style="width: 100%;" [formGroup]="timeBaseInfoForm" *ngIf="isTimeEditing" class="clearfix">
                     <div class="col-md-6 time-info-wrap create-time-info box-shadow border-radius-14 pull-left paddingTop-32">
                         <div class="xiaoyuyue-title-box"></div>
                         <div class="time-item clearfix clearfix">
-                            <div class="col-md-3 text-right label-on-left"><span>{{l("Booking.MaxBookingNum")}}</span></div>
+                            <div class="col-md-3 text-right label-on-left">
+                                <span>{{l("Booking.MaxBookingNum")}}</span>
+                            </div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
@@ -30,7 +33,9 @@
                             </div>
                         </div>
                         <div class="time-item clearfix">
-                            <div class="col-md-3 text-right label-on-left"><span>{{l("Booking.MaxQueueNum")}}</span></div>
+                            <div class="col-md-3 text-right label-on-left">
+                                <span>{{l("Booking.MaxQueueNum")}}</span>
+                            </div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
@@ -44,15 +49,19 @@
                             </div>
                         </div>
                         <div class="time-item clearfix booking-date-item">
-                            <div class=" col-md-3 text-right label-on-left"><span>{{l("Booking.BookingDate")}}</span></div>
+                            <div class=" col-md-3 text-right label-on-left">
+                                <span>{{l("Booking.BookingDate")}}</span>
+                            </div>
                             <div class="col-md-9 row input-box">
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <div id="timeInfoFlatpickr" class="flatpickr-wrap">
-                                            <input class="form-control text-overflow" style="padding-right: 26px;" type="text" name="bookingDate" [title]="editingBookingItem.availableDates" placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates"
+                                            <input class="form-control text-overflow" style="padding-right: 26px;" type="text" name="bookingDate" [title]="editingBookingItem.availableDates"
+                                                placeholder="{{l('ChooseDate')}}" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates"
                                                 *ngIf="!editingBooking" data-input required>
-                                            <input class="form-control text-overflow" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [title]="editingBookingItem.availableDates" [(ngModel)]="editingBookingItem.availableDates" [disabled]="editingBooking" *ngIf="editingBooking"
+                                            <input class="form-control text-overflow" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [title]="editingBookingItem.availableDates"
+                                                [(ngModel)]="editingBookingItem.availableDates" [disabled]="editingBooking" *ngIf="editingBooking"
                                                 required>
                                             <a class="input-button flatpickr-toggle" *ngIf="!editingBooking" title="{{l('Switch')}}" data-toggle>
                                                 <i class="icon-calendar"></i>
@@ -64,14 +73,17 @@
                                 <div class="col-md-3">
                                     <div class="checkbox multiple-date-checkbox">
                                         <label>
-                                            <input type="checkbox" name="optionsCheckboxes" ngModel (ngModelChange)="multipleDateHandler($event)" [disabled]="editingBooking" [(ngModel)]="isMultipleDateFlag" [ngModelOptions]="{standalone: true}"> 多选
+                                            <input type="checkbox" name="optionsCheckboxes" ngModel (ngModelChange)="multipleDateHandler($event)" [disabled]="editingBooking"
+                                                [(ngModel)]="isMultipleDateFlag" [ngModelOptions]="{standalone: true}"> 多选
                                         </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="time-item clearfix booking-time-item clearfix clearfix" style="height: 100%">
-                            <div class="col-md-3 text-righ label-on-left"><span>{{l("Booking.BookingTime")}}</span></div>
+                            <div class="col-md-3 text-righ label-on-left">
+                                <span>{{l("Booking.BookingTime")}}</span>
+                            </div>
                             <div class="col-md-9 row input-box clearfix">
                                 <div *ngFor="let bookingTimeItem of allBookingTime; let index = index;" class="item">
                                     <div class="form-group">
@@ -91,8 +103,10 @@
                             </div>
                         </div>
                         <div class="time-item clearfix submit-item">
-                            <button class="btn primary-bgcolor" [disabled]="timeBaseIngoForm.invalid" (click)="save()"><span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
-                            <button class="btn btn-cancel" (click)="cancel()"><span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
+                            <button class="btn primary-bgcolor" [disabled]="timeBaseInfoForm.invalid" (click)="save()">
+                                <span class="vapps-icon vapps-icon-app-confirm"></span>{{l('Save')}}</button>
+                            <button class="btn btn-cancel" (click)="cancel()">
+                                <span class="vapps-icon vapps-icon-app-cancel"></span>{{l('Cancel')}}</button>
                         </div>
                     </div>
                 </div>
@@ -110,25 +124,33 @@
                                 <span class="icon vapps-icon-app-delete" (click)="removeBookingItem(index)" title="{{l('Delete')}}"></span>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("Booking.MaxBookingNum")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right">
+                                    <span>{{l("Booking.MaxBookingNum")}}</span>
+                                </div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box">
                                     {{timeInfoItem.maxBookingNum}}
                                 </div>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("Booking.MaxQueueNum")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right">
+                                    <span>{{l("Booking.MaxQueueNum")}}</span>
+                                </div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box">
                                     {{timeInfoItem.maxQueueNum}}
                                 </div>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("Booking.BookingDate")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right">
+                                    <span>{{l("Booking.BookingDate")}}</span>
+                                </div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                     {{timeInfoItem.availableDates}}
                                 </div>
                             </div>
                             <div class="time-item clearfix">
-                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right"><span>{{l("Booking.BookingTime")}}</span></div>
+                                <div class="name col-lg-6 col-md-5 col-sm-4 text-right">
+                                    <span>{{l("Booking.BookingTime")}}</span>
+                                </div>
                                 <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
                                     {{timeInfoItem.hourOfDay}}
                                 </div>

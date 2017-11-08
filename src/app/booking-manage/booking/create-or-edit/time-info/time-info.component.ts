@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
 export class TimeInfoComponent extends AppComponentBase implements OnInit {
     isMultipleDateFlag: boolean;
     timeInfoFlatpickr: any;
-    timeBaseIngoForm: any;
+    timeBaseInfoForm: any;
     newTimeField: boolean;
     editingBooking: boolean;
     editIndex = 0;  // 存储正在编辑的时间信息索引值
@@ -34,7 +34,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     isTimeEditing = false; // 是否在编辑中
 
-    public bookingDate: Date = new Date();
+    bookingDate: Date = new Date();
 
     constructor(
         injector: Injector,
@@ -73,7 +73,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 响应式表单验证
     initFormValidation(): void {
-        this.timeBaseIngoForm = new FormGroup({
+        this.timeBaseInfoForm = new FormGroup({
             maxBookingNum: new FormControl(this.editingBookingItem.maxBookingNum, [
                 Validators.required,
             ]),
@@ -84,16 +84,16 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     }
 
     get maxBookingNum() {
-        return this.timeBaseIngoForm.get('maxBookingNum');
+        return this.timeBaseInfoForm.get('maxBookingNum');
     }
     get maxQueueNum() {
-        return this.timeBaseIngoForm.get('maxQueueNum');
+        return this.timeBaseInfoForm.get('maxQueueNum');
     }
 
     save() {
         this.isTimeEditing = false;
-        this.editingBookingItem.maxBookingNum = this.timeBaseIngoForm.value.maxBookingNum;
-        this.editingBookingItem.maxQueueNum = this.timeBaseIngoForm.value.maxQueueNum;
+        this.editingBookingItem.maxBookingNum = this.timeBaseInfoForm.value.maxBookingNum;
+        this.editingBookingItem.maxQueueNum = this.timeBaseInfoForm.value.maxQueueNum;
 
         const allBookingTimeItem = this.bookingTimeToString(this.allBookingTime);
         const timeField = new BookingItemEditDto();

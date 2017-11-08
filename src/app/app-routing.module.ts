@@ -54,6 +54,11 @@ import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers
                         path: 'outlet',
                         loadChildren: 'app/organization-manage/outlet/outlet.modules#OutletModule', // Lazy load admin module
                         data: { preload: true }
+                    },
+                    {
+                        path: 'gallery-manage',
+                        loadChildren: 'app/gallery-manage/gallery-manage.module#GalleryManageModule', // Lazy load admin module
+                        data: { preload: true }
                     }
                 ]
             },

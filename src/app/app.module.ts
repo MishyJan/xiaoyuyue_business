@@ -33,7 +33,7 @@ import { HeaderComponent } from 'app/shared/layout/header.component';
         MobileSideBarComponent,
         PageNotFoundComponent,
         SupportedBrowsersComponent
-    ],
+],
     imports: [
         ngCommon.CommonModule,
         FormsModule,

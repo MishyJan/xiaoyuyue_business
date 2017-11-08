@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'xiaoyuyue';
-  src:  url('../fonts/xiaoyuyue.eot?slf0n7');
-  src:  url('../fonts/xiaoyuyue.eot?slf0n7#iefix') format('embedded-opentype'),
-    url('../fonts/xiaoyuyue.ttf?slf0n7') format('truetype'),
-    url('../fonts/xiaoyuyue.woff?slf0n7') format('woff'),
-    url('../fonts/xiaoyuyue.svg?slf0n7#xiaoyuyue') format('svg');
+  src:  url('../fonts/xiaoyuyue.eot?k7nf9b');
+  src:  url('../fonts/xiaoyuyue.eot?k7nf9b#iefix') format('embedded-opentype'),
+    url('../fonts/xiaoyuyue.ttf?k7nf9b') format('truetype'),
+    url('../fonts/xiaoyuyue.woff?k7nf9b') format('woff'),
+    url('../fonts/xiaoyuyue.svg?k7nf9b#xiaoyuyue') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-gm-menu:before {
+  content: "\e959";
+}
+.vapps-icon-app-edit-group:before {
+  content: "\e957";
+}
+.vapps-icon-app-remove-group:before {
+  content: "\e958";
+}
 .vapps-icon-app-tip:before {
   content: "\e956";
 }

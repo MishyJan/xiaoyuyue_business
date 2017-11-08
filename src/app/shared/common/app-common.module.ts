@@ -24,6 +24,7 @@ import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-p
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { WangEditorComponent } from './wang-editor/wang-editor.component';
+import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-master.component';
 
 @NgModule({
     imports: [
@@ -48,10 +49,10 @@ import { WangEditorComponent } from './wang-editor/wang-editor.component';
         IndicatorDirective,
         EmptyPageComponent,
         MobileUploadPictureComponent,
-        WangEditorComponent
-,
-    MobileUploadPictureListComponent
-],
+        WangEditorComponent,
+        MobileUploadPictureListComponent,
+        ViewArtworkMasterComponent
+    ],
     exports: [
         TimeZoneComboComponent,
         JqPluginDirective,
@@ -65,7 +66,8 @@ import { WangEditorComponent } from './wang-editor/wang-editor.component';
         EmptyPageComponent,
         MobileUploadPictureComponent,
         WangEditorComponent,
-        MobileUploadPictureListComponent
+        MobileUploadPictureListComponent,
+        ViewArtworkMasterComponent
     ]
 })
 export class AppCommonModule {

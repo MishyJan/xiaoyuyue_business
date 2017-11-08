@@ -21,7 +21,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     marker: any;
     map: any;
 
-    detailAddress: string;
     outletId: number;
     selectedDistrictId: string;
     selectedCityId: string;
@@ -77,7 +76,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
             this.selectedDistrictId = changes.outletForEdit.currentValue.outlet.districtId + '';
             this.outletInfo.districtId = changes.outletForEdit.currentValue.outlet.districtId;
 
-            this.detailAddress = changes.outletForEdit.currentValue.outlet.detailAddress;
+            this.outletInfo.detailAddress = changes.outletForEdit.currentValue.outlet.detailAddress;
             const longitude = changes.outletForEdit.currentValue.outlet.longitude;
             if (longitude !== null) {
                 const temp = longitude.split(',');
@@ -149,7 +148,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     // 用户详细地址来获取经纬度
     codeAddress() {
         const geocoder = new qq.maps.Geocoder();
-        const address = this.transformAddress() + this.detailAddress;
+        const address = this.transformAddress() + this.outletInfo.detailAddress;
 
         if (address === undefined) {
             return;
@@ -162,7 +161,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
             this.lat = result.detail.location.lat;
             this.lng = result.detail.location.lng;
             this.outletInfo.longitude = this.lat + ',' + this.lng;
-            this.outletInfo.detailAddress = this.detailAddress;
+            this.outletInfo.detailAddress = this.outletInfo.detailAddress;
             this.getOutletInfoHandler.emit(this.outletInfo);
             this.zoom = 16;
             this.initOptions();
