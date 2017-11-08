@@ -51,7 +51,6 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     }
 
     public getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
-        debugger
         if (this.pictrueIndex != null && this.pictrueIndex >= 0) {
             this.displayOrder = this.selectedPictures[this.selectedPictures.length - 1].displayOrder;
             ++this.displayOrder;
@@ -74,7 +73,6 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     }
 
     public getPicGalleryForEdit(picGalleryForEdit: BookingPictureEditDto[]): void {
-        debugger
         let maxDisplayOrder = 0;
         if (this.selectedPictures.length > 0) {
             // 在本地上传拿到排序最大的值
