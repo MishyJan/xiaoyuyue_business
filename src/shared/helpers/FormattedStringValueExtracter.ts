@@ -3,14 +3,14 @@
 export class FormattedStringValueExtracter {
 
     Extract(str: string, format: string): ExtractionResult {
-        if (str === format) //TODO: think on that!
+        if (str === format) // TODO: think on that!
         {
             return new ExtractionResult(true);
         }
 
-        var formatTokens = new FormatStringTokenizer().Tokenize(format);
+        const formatTokens = new FormatStringTokenizer().Tokenize(format);
         if (!formatTokens) {
-            return new ExtractionResult(str === "");
+            return new ExtractionResult(str === '');
         }
 
         var result = new ExtractionResult(true);
@@ -56,8 +56,8 @@ export class FormattedStringValueExtracter {
             return [];
         }
 
-        let values = [];
-        for (var i = 0; i < result.Matches.length; i++) {
+        const values = [];
+        for (let i = 0; i < result.Matches.length; i++) {
             values.push(result.Matches[i].value);
         }
 
@@ -100,15 +100,15 @@ class FormatStringTokenizer {
     Tokenize(format: string, includeBracketsForDynamicValues: boolean = false): FormatStringToken[] {
         let tokens: FormatStringToken[] = [];
 
-        let currentText: string = '';
-        var inDynamicValue = false;
+        let currentText = '';
+        let inDynamicValue = false;
 
-        for (var i = 0; i < format.length; i++) {
-            var c = format[i];
+        for (let i = 0; i < format.length; i++) {
+            const c = format[i];
             switch (c) {
                 case '{':
                     if (inDynamicValue) {
-                        throw "Incorrect syntax at char " + i + "! format string can not contain nested dynamic value expression!";
+                        throw new Error('Incorrect syntax at char ' + i + '! format string can not contain nested dynamic value expression!');
                     }
 
                     inDynamicValue = true;
@@ -121,18 +121,18 @@ class FormatStringTokenizer {
                     break;
                 case '}':
                     if (!inDynamicValue) {
-                        throw ("Incorrect syntax at char " + i + "! These is no opening brackets for the closing bracket }.");
+                        throw new Error(('Incorrect syntax at char ' + i + '! These is no opening brackets for the closing bracket }.'));
                     }
 
                     inDynamicValue = false;
 
                     if (currentText.length <= 0) {
-                        throw ("Incorrect syntax at char " + i + "! Brackets does not containt any chars.");
+                        throw new Error(('Incorrect syntax at char ' + i + '! Brackets does not containt any chars.'));
                     }
 
-                    var dynamicValue = currentText;
+                    let dynamicValue = currentText;
                     if (includeBracketsForDynamicValues) {
-                        dynamicValue = "{" + dynamicValue + "}";
+                        dynamicValue = '{' + dynamicValue + '}';
                     }
 
                     tokens.push(new FormatStringToken(dynamicValue, FormatStringTokenType.DynamicValue));
@@ -146,7 +146,7 @@ class FormatStringTokenizer {
         }
 
         if (inDynamicValue) {
-            throw ("There is no closing } char for an opened { char.");
+            throw new Error(('There is no closing } char for an opened { char.'));
         }
 
         if (currentText.length > 0) {

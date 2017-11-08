@@ -4,6 +4,7 @@
     .card-content {
         .success-tip {
             font-size: 24px;
+            margin: 0 0 20px;
             color: #FF9641;
         }
         .finshed-icon {
@@ -35,15 +36,16 @@
                 }
             }
             .btn-submit {
-                line-height: 40px;
-                border-radius: 40px;
-                font-size: 18px;
+                line-height: 36px;
+                border-radius: 26px;
+                font-size: 16px;
                 a {
                     display: block;
                     color: #FFF;
+                    letter-spacing: 2px;
                 }
                 &.btn-yellow {
-                    background-color: #FFE941 !important;
+                    background-color: #FFCC33 !important;
                 }
                 &.btn-orange {
                     background-color: #FF9641 !important;

@@ -4,15 +4,18 @@
             <div class="card-header card-header-text pull-left" data-background-color="orange">
                 <h6 class="card-title">{{l('Booking.PictureManage')}}</h6>
             </div>
-            <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="uploadPicHandler() "><span class="vapps-icon vapps-icon-app-upload"></span>{{l('PictureGallery.LocalUpload')}}</button>
+            <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="uploadPicHandler() ">
+                <span class="vapps-icon vapps-icon-app-upload"></span>{{l('PictureGallery.LocalUpload')}}</button>
         </div>
 
         <div class="card-content">
             <div class="row">
                 <div class="gallery-wrap clearfix">
-                    <div class="picture-item" *ngFor="let item of allPictureEdit; let index = index;">
+                    <div class="picture-item" *ngFor="let item of selectedPictures; let index = index;">
                         <div class="content">
-                            <div class="bg-img"><img width="100%" [src]="item.pictureUrl"></div>
+                            <div class="bg-img">
+                                <img width="100%" [src]="item.pictureUrl">
+                            </div>
                             <div class="bg-cover"></div>
                             <div class="bg-tools">
                                 <div class="wrap clearfix">
@@ -30,5 +33,6 @@
             </div>
         </div>
     </div>
-    <xiaoyuyue-upload-picture-gallery #uploadPictureModel [cropScaleX]="16" [cropScaleY]="9" [groupId]="groupId" (sendPictureForEdit)="getPictureForEdit($event)" (sendPicGalleryForEdit)="getPicGalleryForEdit($event)" [existingPicNum]="existingPicNum"></xiaoyuyue-upload-picture-gallery>
+    <xiaoyuyue-upload-picture-gallery #uploadPictureModel [cropScaleX]="16" [cropScaleY]="9" [groupId]="groupId" (sendPictureForEdit)="getPictureForEdit($event)"
+        (sendPicGalleryForEdit)="getPicGalleryForEdit($event)" [existingPicNum]="selectedPictures.length"></xiaoyuyue-upload-picture-gallery>
 </div>

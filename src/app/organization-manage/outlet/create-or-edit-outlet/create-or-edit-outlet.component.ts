@@ -3,20 +3,20 @@ import * as _ from 'lodash';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, GetOutletForEditDto, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
-import { IDailyDataStatistics, IListResultDtoOfLinkedUserDto } from './../../../../shared/service-proxies/service-proxies';
+import { IDailyDataStatistics, IListResultDtoOfLinkedUserDto } from '@shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { AppConsts } from './../../../../shared/AppConsts';
-import { AppSessionService } from './../../../../shared/common/session/app-session.service';
+import { AppConsts } from '@shared/AppConsts';
+import { AppSessionService } from '@shared/common/session/app-session.service';
 import { BusinessHour } from 'app/shared/utils/outlet-display.dto';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
-import { LocalStorageService } from './../../../../shared/utils/local-storage.service';
+import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { test } from './../../../../shared/animations/gridToggleTransition';
+import { test } from '@shared/animations/gridToggleTransition';
 
 @Component({
     selector: 'xiaoyuyue-create-or-edit-outlet',
@@ -36,9 +36,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     selectedDistrictId: string;
     selectedCityId: string;
     selectedProvinceId: string;
-    districtId: number;
-    cityId: number;
-    provinceId: number;
     isCitySelect = false;
     isDistrictSelect = false;
     provinceSelectListData: SelectListItemDto[] = [];
@@ -139,16 +136,10 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     initOutletInfoToDisplay(outlet: OutletEditDto) {
         this.pictureInfo.pictureId = outlet.pictureId;
         this.pictureInfo.pictureUrl = outlet.pictureUrl;
-
         this.businessHour = this.checkHourOfDay(outlet.businessHours);
         this.selectedProvinceId = outlet.provinceId + '';
-        this.provinceId = outlet.provinceId;
-
         this.selectedCityId = outlet.cityId + '';
-        this.cityId = outlet.cityId;
-
         this.selectedDistrictId = outlet.districtId + '';
-        this.districtId = outlet.districtId;
 
         if (outlet.provinceId >= 0) {
             this.isCitySelect = true;
@@ -167,11 +158,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     createOrUpdateOutlet(saveAndEdit: boolean = false) {
-        this.input.outlet.id = +this.outletId ? +this.outletId : 0;
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
-        this.input.outlet.provinceId = this.provinceId;
-        this.input.outlet.cityId = this.cityId;
-        this.input.outlet.districtId = this.districtId;
         this.input.outlet.isActive = true;
 
         if (this.input.contactors.length < 1) {
@@ -185,6 +172,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .subscribe(() => {
                 abp.event.trigger('outletListSelectChanged');
                 abp.event.trigger('contactorListSelectChanged');
+                this.removeEditCache(); // 清理缓存数据
                 this.notify.success('保存成功!');
                 if (!saveAndEdit) { this._router.navigate(['/outlet/list']); }
             });
@@ -213,9 +201,9 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     getOutletInfoHandler(outletInfo: OutletEditDto): void {
         if (outletInfo.longitude) { this.input.outlet.longitude = outletInfo.longitude; }
         if (outletInfo.detailAddress) { this.input.outlet.detailAddress = outletInfo.detailAddress; }
-        if (outletInfo.provinceId) { this.provinceId = outletInfo.provinceId; }
-        if (outletInfo.cityId) { this.cityId = outletInfo.cityId; }
-        if (outletInfo.districtId) { this.districtId = outletInfo.districtId; }
+        if (outletInfo.provinceId) { this.input.outlet.provinceId = outletInfo.provinceId; }
+        if (outletInfo.cityId) { this.input.outlet.cityId = outletInfo.cityId; }
+        if (outletInfo.districtId) { this.input.outlet.districtId = outletInfo.districtId; }
     }
 
     getPictureInfo(uploadPicInfo: UploadPictureDto): void {
@@ -276,7 +264,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .getProvinceSelectList()
             .subscribe(result => {
                 this.provinceSelectListData = result;
-                this.provinceId = parseInt(this.selectedProvinceId, null);
+                this.input.outlet.provinceId = parseInt(this.selectedProvinceId, null);
             })
     }
 
@@ -285,12 +273,12 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             return;
         }
         this._stateServiceServiceProxy
-            .getCitySelectList(this.provinceId)
+            .getCitySelectList(this.input.outlet.provinceId)
             .subscribe(result => {
                 this.citysSelectListData = result;
                 this.selectedCityId = this.citysSelectListData[0].value;
-                this.cityId = parseInt(this.selectedCityId, null);
-                this.getDistrictsSelectList(this.cityId);
+                this.input.outlet.cityId = parseInt(this.selectedCityId, null);
+                this.getDistrictsSelectList(this.input.outlet.cityId);
             })
 
     }
@@ -306,10 +294,10 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 if (result.length <= 0) {
                     this.isDistrictSelect = false;
                     this.selectedDistrictId = '';
-                    this.districtId = 0;
+                    this.input.outlet.districtId = 0;
                 } else {
                     this.selectedDistrictId = this.districtSelectListData[0].value;
-                    this.districtId = parseInt(this.selectedDistrictId, null);
+                    this.input.outlet.districtId = parseInt(this.selectedDistrictId, null);
                 }
             })
     }
@@ -341,8 +329,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     public provinceSelectHandler(provinceId: any): void {
-        this.provinceId = parseInt(provinceId, null);
-        if (this.provinceId <= 0) {
+        this.input.outlet.provinceId = parseInt(provinceId, null);
+        if (this.input.outlet.provinceId <= 0) {
             this.isCitySelect = false;
             this.isDistrictSelect = false;
         } else {
@@ -352,12 +340,12 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         }
     }
     public citySelectHandler(cityId: any): void {
-        this.cityId = parseInt(cityId, null);
+        this.input.outlet.cityId = parseInt(cityId, null);
         this.getDistrictsSelectList(cityId);
     }
 
     public districtSelectHandler(districtId: any): void {
-        this.districtId = parseInt(districtId, null);
+        this.input.outlet.districtId = parseInt(districtId, null);
     }
 
     public openProvinceSledct(): void {
