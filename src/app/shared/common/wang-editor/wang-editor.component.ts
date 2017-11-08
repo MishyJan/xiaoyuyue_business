@@ -74,6 +74,8 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             'video',  // 插入视频
         ];
         this.editor.create();
+        // 处理自动聚焦问题
+        $('.w-e-text').trigger('blur');
         this.uploaddInit();
     }
 
@@ -87,9 +89,9 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         const reg = /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*?)\s*$/i;  // 检测base
         const arr = html.match(imgReg);
         if (arr === null) {
-            if (this.oldpictures.length <= 0) { 
+            if (this.oldpictures.length <= 0) {
                 this.sendEditorHTMLContent.emit(this.transformHtml);
-                return; 
+                return;
             }
         } else {
             // 扫描所有image标签
@@ -129,7 +131,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
                     filters: {
                         mime_types: [
                             // 只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
-                            { title: '图片文件', extensions: 'jpg,gif,png,bmp' }
+                            { title: 'Image files', extensions: 'jpg,jpeg,gif,png' }
                         ]
                     },
                     max_retries: 3,                   // 上传失败最大重试次数

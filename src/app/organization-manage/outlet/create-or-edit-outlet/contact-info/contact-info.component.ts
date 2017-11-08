@@ -59,7 +59,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
 
     save(): void {
         this.editingContactor.isDefault = this.editingContactor.isDefault || false;
-        this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
         if (this.isEditing) {
             this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
             this.insertContact(this.currentIndex, this.editingContactor);
@@ -150,7 +150,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     // 获取图片上传URL
     getPicUploadInfoHandler(uploadPicInfo: UploadPictureDto) {
         this.uploadPicInfo.pictureId = uploadPicInfo.pictureId
-        this.uploadPicInfo.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.uploadPicInfo.pictureUrl = uploadPicInfo.pictureUrl;
     }
 
     /* 移动端代码 */

@@ -3,8 +3,8 @@
         <h6 class="card-title">预约背景图</h6>
     </div>
     <div class="card-content">
-        <div class="upload-bg-pic-wrap" (click)="uploadOrgBg()">
-            <img width="100%" *ngIf="orgBgUrl" [src]="orgBgUrl">
+        <div class="upload-bg-pic-wrap" [ngStyle]="{'background-image': 'url(' + getTenantBgurl() + ')'}" (click)="uploadOrgBg()">
+            <!-- <img width="100%" *ngIf="orgBgUrl" [src]="orgBgUrl"> -->
         </div>
     </div>
     <xiaoyuyue-upload-picture-none-gallery [cropScaleX]="16" [cropScaleY]="9" #uploadPictureNoneGalleryModel [groupId]="groupId" (picUploadInfoHandler)="getPicUploadInfoHandler($event)" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>

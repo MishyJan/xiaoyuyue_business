@@ -7,6 +7,7 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
 import { PictureManageComponent } from './picture-manage/picture-manage.component';
@@ -33,33 +34,29 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     editingIndex: boolean[] = [];
     startHourOfDay = '00:00';
     endHourOfDay = '00:00';
-    isEditing = false;
-    isNew = true;
-    nextIndex = 1;
-    // 传给图片管理组件
-    pictureInfo: BookingPictureEditDto[] = [];
-    allPictureForEdit: BookingPictureEditDto[] = [];
+
+    selectOutletId: number;
+    selectContactorId: number;
     outletSelectListData: SelectListItemDto[];
     contactorSelectListData: SelectListItemDto[];
 
     formVaild: boolean;
     timeInfoFormValid: boolean;
-    allBookingTime: BookingItemEditDto[] = [];
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
 
-    selectOutletId: number;
-    selectContactorId: number;
+    // display field
+    isEditing = false;
+    isNew = true;
     saving = false;
     savingAndEditing = false;
-    // 是否显示完善机构信息弹窗
-    isShowImperfectTip = false;
-    // 是否显示补充门店信息弹窗
-    needImperfectOutlet = false;
+    nextIndex = 1;
+    isShowImperfectTip = false; // 是否显示完善机构信息弹窗
+    needImperfectOutlet = false; // 是否显示补充门店信息弹窗
 
     /* 移动端代码开始 */
     // 保存本地时间段
     dafaultDate: string;
-    localSingleBookingItem: BookingItemEditDto = new BookingItemEditDto();
+    editingBookingItem: BookingItemEditDto = new BookingItemEditDto();
     @ViewChild('staticTabs') staticTabs: TabsetComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
     @ViewChild('pictureManageModel') pictureManageModel: PictureManageComponent;
@@ -79,6 +76,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
         private _weChatShareTimelineService: WeChatShareTimelineService,
+        private _localStorageService: LocalStorageService,
         private _route: ActivatedRoute
     ) {
         super(injector);
@@ -89,7 +87,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.loadData();
         this.getTenantInfo();
         this.initFormValidation();
-        this.localSingleBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
+        this.editingBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
 
     }
 
@@ -98,7 +96,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        // this.localSingleBookingItem.availableDates = this.dafaultDate;
+        // this.editingBookingItem.availableDates = this.dafaultDate;
     }
 
     // 响应式表单验证
@@ -111,10 +109,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         });
 
         this.timeBaseInfoForm = new FormGroup({
-            maxBookingNum: new FormControl(this.localSingleBookingItem.maxBookingNum, [
+            maxBookingNum: new FormControl(this.editingBookingItem.maxBookingNum, [
                 Validators.required,
             ]),
-            maxQueueNum: new FormControl(this.localSingleBookingItem.maxQueueNum, [
+            maxQueueNum: new FormControl(this.editingBookingItem.maxQueueNum, [
                 Validators.required,
             ])
         });
@@ -154,10 +152,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .getBookingForEdit(this.bookingId)
             .subscribe(result => {
                 this.input.booking = result.booking;
-                this.allBookingTime = result.items;
-                this.pictureInfo = result.bookingPictures;
+                this.input.items = result.items;
+                this.input.bookingPictures = result.bookingPictures;
                 this.initFormValidation();
-                this.allBookingTime = result.items;
                 this.input.booking.needAge = result.booking.needAge;
                 this.input.booking.needGender = result.booking.needGender;
                 this.input.booking.needEmail = result.booking.needEmail;
@@ -174,27 +171,25 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 获取门店下拉框数据源
     loadOutletData() {
-        this._outletServiceServiceProxy
-            .getOutletSelectList()
-            .subscribe(outletResult => {
-                if (outletResult.length <= 0) {
-                    this.needImperfectOutlet = true;
-                } else {
-                    this.outletSelectDefaultItem = this.input.booking ? this.input.booking.outletId.toString() : outletResult[0].value;
-                    this.outletSelectListData = outletResult;
-                    this.selectOutletId = +this.outletSelectDefaultItem;
-
-                    // 获取联系人下拉框数据源
-                    this._outletServiceServiceProxy
-                        .getContactorSelectList(parseInt(this.outletSelectDefaultItem, null))
-                        .subscribe(contactorResult => {
-                            if (contactorResult.length <= 0) { return; }
-                            this.contactorSelectDefaultItem = this.input ? this.input.booking.contactorId.toString() : contactorResult[0].value;
-                            this.contactorSelectListData = contactorResult;
-                            this.selectContactorId = +this.contactorSelectDefaultItem;
-                        });
-                }
-            });
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId), () => {
+            return this._outletServiceServiceProxy.getOutletSelectList()
+        }).then(outletResult => {
+            if (outletResult.length <= 0) {
+                this.needImperfectOutlet = true;
+            } else {
+                this.outletSelectDefaultItem = this.input.booking ? this.input.booking.outletId.toString() : outletResult[0].value;
+                this.outletSelectListData = outletResult;
+                this.selectOutletId = +this.outletSelectDefaultItem;
+                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId), () => {
+                    return this._outletServiceServiceProxy.getContactorSelectList(+this.outletSelectDefaultItem)
+                }).then(contactorResult => {
+                    if (contactorResult.length <= 0) { return; }
+                    this.contactorSelectDefaultItem = this.input ? this.input.booking.contactorId.toString() : contactorResult[0].value;
+                    this.contactorSelectListData = contactorResult;
+                    this.selectContactorId = +this.contactorSelectDefaultItem;
+                })
+            }
+        })
     }
 
     save() {
@@ -223,7 +218,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return;
         }
 
-        if (this.allBookingTime.length < 1) {
+        if (this.input.items.length < 1) {
             if (this.isMobile($('.mobile-create-booking'))) {
                 this.message.warn('时间信息未完善');
                 this.staticTabs.tabs[1].active = true;
@@ -252,9 +247,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
         // 判断是否有添加新的时间信息
-        this.input.items = this.allBookingTime;
+        this.input.items = this.input.items;
         // 判断是否上传过图片
-        this.input.bookingPictures = this.allPictureForEdit.length > 0 ? this.allPictureForEdit : this.pictureInfo;
+        this.input.bookingPictures = this.input.bookingPictures;
 
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
@@ -277,7 +272,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     getTimeInfoInput(allBookingTime: BookingItemEditDto[]) {
-        this.allBookingTime = allBookingTime;
+        this.input.items = allBookingTime;
     }
 
     getInfoFormValid(timeInfoFormValid: boolean) {
@@ -285,7 +280,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     public outletChange(outlet: any): void {
-        this.selectOutletId = parseInt(outlet);
+        this.selectOutletId = parseInt(outlet, null);
         this._outletServiceServiceProxy
             .getContactorSelectList(this.selectOutletId)
             .subscribe(result => {
@@ -300,7 +295,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
-        this.allPictureForEdit = pictureForEdit;
+        this.input.bookingPictures = pictureForEdit;
     }
 
     getEditorHTMLContent($event: string): void {
@@ -321,7 +316,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     removeBookingPic(picIndex: number): void {
-        this.pictureInfo.splice(picIndex, 1);
+        this.input.bookingPictures.splice(picIndex, 1);
     }
 
     nextStep(): void {
@@ -343,7 +338,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     createTimeField(): void {
         this.isNew = true;
-        this.localSingleBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
+        this.editingBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
         this.initFormValidation();
         setTimeout(() => {
             this.initFlatpickr();
@@ -353,26 +348,19 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     savePanelTimeField(): void {
         this.isNew = false;
         this.timeInfoFormValid = true;
-        this.localSingleBookingItem.isActive = true;
-        this.localSingleBookingItem.hourOfDay = this.startHourOfDay + '-' + this.endHourOfDay;
-        this.localSingleBookingItem.maxBookingNum = this.timeBaseInfoForm.value.maxBookingNum;
-        this.localSingleBookingItem.maxQueueNum = this.timeBaseInfoForm.value.maxQueueNum;
-        this.allBookingTime.push(this.localSingleBookingItem);
+        this.editingBookingItem.isActive = true;
+        this.editingBookingItem.hourOfDay = this.startHourOfDay + '-' + this.endHourOfDay;
+        this.editingBookingItem.maxBookingNum = this.timeBaseInfoForm.value.maxBookingNum;
+        this.editingBookingItem.maxQueueNum = this.timeBaseInfoForm.value.maxQueueNum;
+        this.input.items.push(this.editingBookingItem);
         this.startHourOfDay = '00:00';
         this.endHourOfDay = '00:00';
 
-        this.localSingleBookingItem = new BookingItemEditDto();
+        this.editingBookingItem = new BookingItemEditDto();
     }
 
-    getPicUploadInfoHandler(picUploadInfo: UploadPictureDto): void {
-        if (this.pictureInfo.length >= 4) {
-            this.notify.warn('不能超过四张');
-            return;
-        }
-        const temp = new BookingPictureEditDto();
-        temp.pictureId = picUploadInfo.pictureId;
-        temp.pictureUrl = picUploadInfo.pictureUrl;
-        this.pictureInfo.push(temp)
+    getPicUploadInfoHandler(allPicUploadInfo: BookingPictureEditDto[]): void {
+        this.input.bookingPictures = allPicUploadInfo;
     }
 
     editingTimeField(index: number): void {
@@ -380,7 +368,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     deleteTimeField(index: number): void {
-        this.allBookingTime.splice(index, 1);
+        this.input.items.splice(index, 1);
     }
 
     saveTimeField(index: number): void {

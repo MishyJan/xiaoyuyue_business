@@ -1,0 +1,38 @@
+<div class="upload-pic-wrap">
+    <!-- <div id="uploadArea" class="upload-area"></div> -->
+    <div class="upload">
+        <div id="bookingListUploadArea" class="upload-area">
+            <span class="icon-wrap">
+                    <span class="icon vapps-icon-cb-add-img"></span>
+            </span>
+        </div>
+    </div>
+    <div class="img-wrap clearfix">
+        <div class="img" (click)="showArtworkMasterModel(item.pictureUrl)" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}" *ngFor="let item of allUploadPictureInfo">
+            <span class="triangle" (click)="removeBookingPic(picIndex)">
+                <span class="close-icon vapps-icon-cb-add-img"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="crop-wrap" [ngClass]="{'crop-opacity': !isShowCropArea}">
+    <div class="crop-content">
+        <div class="crop-head clearfix">
+            <h4 class="pull-left" style="margin: 0;">图片裁剪</h4>
+            <span class="remove-icon vapps-icon-cb-add-img pull-right" (click)="hideCropArea()"></span>
+        </div>
+        <div class="crop-body">
+            <div class="img-wrap">
+                <img id="cropImg">
+            </div>
+        </div>
+        <div class="crop-foot">
+            <button type="submit" class="btn btn-block primary-bgcolor" id="confirmUpload" [buttonBusy]="uploading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+        </div>
+
+    </div>
+    <div class="bg-cover" (click)="hideCropArea()"></div>
+</div>
+
+<xiaoyuyue-view-artwork-master #viewArtworkMasterModel></xiaoyuyue-view-artwork-master>

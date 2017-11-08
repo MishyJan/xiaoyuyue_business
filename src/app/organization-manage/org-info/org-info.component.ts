@@ -156,13 +156,13 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     // 获取上传logo图片信息
     getLogoUploadHandler(picInfo: UploadPictureDto): void {
         this.tenantInfo.logoId = picInfo.pictureId;
-        this.tenantInfo.logoUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.tenantInfo.logoUrl = picInfo.pictureUrl;
     }
 
     // 获取上传logo图片信息
     getOrgBgUploadHandler(picInfo: UploadPictureDto): void {
         this.tenantInfo.backgroundPictureId = picInfo.pictureId;
-        this.tenantInfo.backgroundPictureUrl = picInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.tenantInfo.backgroundPictureUrl = picInfo.pictureUrl;
     }
 
 
@@ -185,11 +185,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
 
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            console.log('定时检查数据更改')
             if (this.isDataNoSave()) {
                 this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId), this.tenantInfo);
                 this.originalTenantInfo = _.cloneDeep(this.tenantInfo);
-                console.log('临时数据保存')
             }
         }, 3000)
     }

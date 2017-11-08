@@ -171,6 +171,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
                 abp.event.trigger('outletListSelectChanged');
+                abp.event.trigger('contactorListSelectChanged');
                 this.notify.success('保存成功!');
                 if (!saveAndEdit) { this._router.navigate(['/outlet/list']); }
             });
@@ -206,7 +207,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     getPictureInfo(uploadPicInfo: UploadPictureDto): void {
         this.input.outlet.pictureId = uploadPicInfo.pictureId;
-        this.input.outlet.pictureUrl = uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
+        this.input.outlet.pictureUrl = uploadPicInfo.pictureUrl;
     }
 
     getContactorEdit(editingContactors: ContactorEditDto[]) {
@@ -302,11 +303,9 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            console.log('定时检查数据更改')
             if (this.isDataNoSave()) {
                 this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId), this.input);
                 this.originalinput = _.cloneDeep(this.input);
-                console.log('临时数据保存')
             }
         }, 3000)
     }

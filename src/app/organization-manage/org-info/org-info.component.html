@@ -98,11 +98,6 @@
                     <div class="front" *ngIf="!filpActive">
                         <div class="card">
                             <div class="avatar-wrap form-group">
-                                <!-- <div UploadPicture (picUploadInfoHandler)="getLogoUploadHandler($event)" [browseButtonEle]="'#orgLogoUploadArea'" [groupId]="1">
-                                    <div class="img" id="orgLogoUploadArea" [ngStyle]="{'background-image': 'url(' + tenantInfo.logoUrl + ')'}"></div>
-                                </div>
-                                <div class="bg-cover"></div>
-                                <span class="vapps-icon vapps-icon-cb-add-img"></span> -->
                                 <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="groupId" [height]="'80px'" [existedPicUrl]="tenantInfo.logoUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                             </div>
                             <div class="card-content">
@@ -137,13 +132,6 @@
                                     <div class="org-bg-wrap col-xs-12">
                                         <div class="form-group">
                                             <p class="control-label">机构背景图</p>
-                                            <!-- <div class="img-wrap" UploadPicture (picUploadInfoHandler)="getOrgBgUploadHandler($event)" [browseButtonEle]="'#orgBgUploadArea'" [groupId]="1">
-                                                <div class="img" id="orgBgUploadArea" [ngStyle]="{'background-image': 'url(' + tenantInfo.backgroundPictureUrl + ')'}"></div>
-                                                <div class="bg-cover"></div>
-                                                <div class="upload-tips">
-                                                    <span class="vapps-icon vapps-icon-cb-add-img"></span>
-                                                </div>
-                                            </div> -->
                                             <div class="img-wrap">
                                                 <div class="img">
                                                     <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="tenantInfo.backgroundPictureUrl"

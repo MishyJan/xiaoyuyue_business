@@ -33,7 +33,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         MobileSideBarComponent,
         PageNotFoundComponent,
         SupportedBrowsersComponent
-    ],
+],
     imports: [
         ngCommon.CommonModule,
         FormsModule,

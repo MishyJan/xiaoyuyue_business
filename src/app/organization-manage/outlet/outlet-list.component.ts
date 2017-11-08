@@ -5,7 +5,6 @@ import { ContactorEditDto, OutletListDto, OutletServiceServiceProxy, PagedResult
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
-import { PictureUrlHelper } from 'shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -71,6 +70,9 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
 
     // 获取门店背景
     getOutletBgUrl(pictureUrl): string {
-        return pictureUrl === '' ? this.pictureDefaultBgUrl : PictureUrlHelper.getOutletListPicCompressUrl(pictureUrl);
+        if (pictureUrl !== '') {
+            return pictureUrl;
+        }
+        return this.pictureDefaultBgUrl;
     }
 }

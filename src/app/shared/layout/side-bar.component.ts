@@ -22,6 +22,9 @@ export class SideBarComponent extends AppComponentBase {
         new SideBarMenuItem('Menu.Org', this.permissions.organization, 'vapps-icon-oi-menu menu-item', '', [
             new SideBarMenuItem('Menu.Org.BaseInfo', this.permissions.organization_BaseInfo, '', '/organization/info'),
             new SideBarMenuItem('Menu.Org.OutletManage', this.permissions.organization_Outlets, '', '/outlet/list'),
+        ]),
+        new SideBarMenuItem('素材管理', this.permissions.organization, 'vapps-icon-gm-menu menu-item', '', [
+            new SideBarMenuItem('图片库', this.permissions.organization_BaseInfo, '', '/gallery-manage/list'),
         ])
     ]);
 

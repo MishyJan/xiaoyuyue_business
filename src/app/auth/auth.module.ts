@@ -16,7 +16,7 @@ import { ExternalAuthComponent } from 'app/auth/external-auth/external-auth.comp
 import { FooterComponent } from 'app/auth/layout/footer/footer.component';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from 'app/auth/layout/header/header.component';
+import { HeaderComponent } from './layout/header/header.component';
 import { LanguageSwitchComponent } from './language-switch.component';
 import { LoginComponent } from './login/login.component';
 import { LoginService } from 'shared/services/login.service';
