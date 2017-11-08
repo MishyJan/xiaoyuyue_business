@@ -88,7 +88,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                         max_file_size: '5mb',
                         prevent_duplicates: true,
                         mime_types: [
-                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                            { title: 'Image files', extensions: 'jpg,jpeg,gif,png' },  // 限定jpg,gif,png后缀上传
                         ]
                     },
                     x_vars: {

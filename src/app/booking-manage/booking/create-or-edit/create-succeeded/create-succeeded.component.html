@@ -1,8 +1,11 @@
 <div class="succeed-wrap">
     <div class="card">
         <div class="card-content">
-            <div class="finshed-icon"><img src="../../assets/common/images/booking/app-booked.svg" style="width:46px"></div>
-            <p class="success-tip">{{l('CreateSuccess')}}</p>
+            <div class="finshed-icon">
+                <img src="../../assets/common/images/booking/app-booked.svg" style="width:46px">
+            </div>
+            <p class="success-tip" *ngIf="!isUpdate">{{l('CreateSuccess')}}</p>
+            <p class="success-tip" *ngIf="isUpdate">{{l('UpdateSuccess')}}</p>
 
             <div class="booked-footer">
                 <div class="qr-code-wrap">
@@ -13,12 +16,12 @@
                 <p class="xiaoyuyue-tip">{{l('Booking.CreateSuccess.Tip2')}}</p>
 
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" *ngIf="!isUpdate">
                         <div class="btn btn-yellow btn-submit btn-block">
                             <a routerLink="/booking/create">{{l('CreateContinue')}}</a>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div [ngClass]="{'col-xs-6': !isUpdate,'col-xs-12': isUpdate}">
                         <div class="btn btn-orange btn-submit btn-block">
                             <a routerLink="/booking/list">{{l('Menu.ManageBooking')}}</a>
                         </div>

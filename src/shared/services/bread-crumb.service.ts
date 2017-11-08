@@ -27,7 +27,7 @@ export class BreadcrumbService {
 
     public changeBreadcrumb(route: ActivatedRouteSnapshot, name: string) {
         const rootUrl = this.createRootUrl(route);
-        const breadcrumb = this.breadcrumbs.find(function (bc) { return bc.url === rootUrl; });
+        const breadcrumb = this.breadcrumbs.find(function (bc) { return bc.url.replace(new RegExp('//', 'gm'), '/') === rootUrl; });
 
         if (!breadcrumb) { return; }
 

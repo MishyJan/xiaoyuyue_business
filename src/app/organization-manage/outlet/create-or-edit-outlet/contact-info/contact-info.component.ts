@@ -59,11 +59,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
 
     save(): void {
         this.editingContactor.isDefault = this.editingContactor.isDefault || false;
-        if (!this.isMobile($('.mobile-contact-info'))) {
-            this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
-        } else {
-            this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
-        }
+        this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl.changingThisBreaksApplicationSecurity;
         if (this.isEditing) {
             this.editingContactor.wechatQrcodeUrl = this.uploadPicInfo.pictureUrl;
             this.insertContact(this.currentIndex, this.editingContactor);

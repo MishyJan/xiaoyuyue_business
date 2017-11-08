@@ -2,8 +2,8 @@ import { AfterViewInit, Component, EventEmitter, Injector, Input, OnChanges, OnI
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingPictureEditDto } from 'shared/service-proxies/service-proxies';
-import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
+import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
 
 @Component({
     selector: 'app-picture-manage',
@@ -11,14 +11,12 @@ import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
     styleUrls: ['./picture-manage.component.scss']
 })
 export class PictureManageComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
-    isMutliPic = true;
-    existingPicNum: number;
+    isMutliSelect = true;
     pictrueIndex: number;
     displayOrder = 0;
     groupId: number = DefaultUploadPictureGroundId.BookingGroup;
-    allPictureEdit: BookingPictureEditDto[] = [];
 
-    @Input() pictureInfo: BookingPictureEditDto[] = [];
+    @Input() selectedPictures: BookingPictureEditDto[] = [];
     @Output() sendAllPictureForEdit: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     @ViewChild('uploadPictureModel') uploadPictureModel: UploadPictureGalleryComponent;
 
@@ -35,73 +33,72 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.allPictureEdit = this.pictureInfo;
+        this.selectedPictures = this.selectedPictures;
     }
 
     uploadPicHandler(): void {
-        this.isMutliPic = true;
-        if (this.allPictureEdit.length >= 4) {
+        this.isMutliSelect = true;
+        if (this.selectedPictures.length >= 4) {
             this.message.warn('不能超过四张图');
             return;
         }
-        this.show(this.allPictureEdit, this.isMutliPic);
+        this.show(this.selectedPictures, this.isMutliSelect);
     }
 
     show(bookingPictureEdit?: any, isMutliPic?: boolean): void {
-        this.isMutliPic = isMutliPic;
-        this.existingPicNum = this.allPictureEdit.length;
-        this.uploadPictureModel.show(bookingPictureEdit, this.isMutliPic);
+        this.isMutliSelect = isMutliPic;
+        this.uploadPictureModel.show(bookingPictureEdit, this.isMutliSelect);
     }
 
     public getPictureForEdit(pictureForEdit: BookingPictureEditDto) {
         if (this.pictrueIndex != null && this.pictrueIndex >= 0) {
-            this.displayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
+            this.displayOrder = this.selectedPictures[this.selectedPictures.length - 1].displayOrder;
             ++this.displayOrder;
-            this.allPictureEdit[this.pictrueIndex] = pictureForEdit;
-            this.sendAllPictureForEdit.emit(this.allPictureEdit);
+            this.selectedPictures[this.pictrueIndex] = pictureForEdit;
+            this.sendAllPictureForEdit.emit(this.selectedPictures);
             this.pictrueIndex = null;
             return;
         }
 
-        if (this.allPictureEdit.length > 0) {
-            this.displayOrder = this.allPictureEdit[0].displayOrder;
+        if (this.selectedPictures.length > 0) {
+            this.displayOrder = this.selectedPictures[0].displayOrder;
             ++this.displayOrder;
         } else {
             this.displayOrder = 0;
         }
         pictureForEdit.displayOrder = this.displayOrder;
 
-        this.allPictureEdit.unshift(pictureForEdit);
-        this.sendAllPictureForEdit.emit(this.allPictureEdit);
+        this.selectedPictures.unshift(pictureForEdit);
+        this.sendAllPictureForEdit.emit(this.selectedPictures);
     }
 
     public getPicGalleryForEdit(picGalleryForEdit: BookingPictureEditDto[]): void {
         let maxDisplayOrder = 0;
-        if (this.allPictureEdit.length > 0) {
+        if (this.selectedPictures.length > 0) {
             // 在本地上传拿到排序最大的值
-            maxDisplayOrder = this.allPictureEdit[this.allPictureEdit.length - 1].displayOrder;
+            maxDisplayOrder = this.selectedPictures[this.selectedPictures.length - 1].displayOrder;
         }
-        if (this.isMutliPic) {
+        if (this.isMutliSelect) {
             picGalleryForEdit.forEach(element => {
                 element.displayOrder = ++maxDisplayOrder;
-                this.allPictureEdit.unshift(element);
+                this.selectedPictures.unshift(element);
             });
         } else {
-            this.allPictureEdit[this.pictrueIndex].pictureId = picGalleryForEdit[0].pictureId;
-            this.allPictureEdit[this.pictrueIndex].pictureUrl = picGalleryForEdit[0].pictureUrl;
+            this.selectedPictures[this.pictrueIndex].pictureId = picGalleryForEdit[0].pictureId;
+            this.selectedPictures[this.pictrueIndex].pictureUrl = picGalleryForEdit[0].pictureUrl;
         }
-        this.sendAllPictureForEdit.emit(this.allPictureEdit);
+        this.sendAllPictureForEdit.emit(this.selectedPictures);
     }
 
     deletePic(pictureIndex: number): void {
-        this.removeArrayValue(this.allPictureEdit, pictureIndex);
+        this.removeArrayValue(this.selectedPictures, pictureIndex);
     }
 
     changePic(pictureIndex: number, displayOrder: number): void {
-        this.isMutliPic = false;
+        this.isMutliSelect = false;
         this.pictrueIndex = pictureIndex;
         this.displayOrder = displayOrder;
-        this.show(this.allPictureEdit[pictureIndex], this.isMutliPic);
+        this.show(this.selectedPictures[pictureIndex], this.isMutliSelect);
     }
 
     // 移除数组某个索引的值

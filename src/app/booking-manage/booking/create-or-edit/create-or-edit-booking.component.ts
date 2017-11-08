@@ -18,11 +18,6 @@ import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.c
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
-export class BookingInfoOptions {
-    needGender: boolean;
-    needAge: boolean;
-    needEmail: boolean;
-}
 @Component({
     selector: 'app-create-or-edit-booking',
     templateUrl: './create-or-edit-booking.component.html',
@@ -32,8 +27,6 @@ export class BookingInfoOptions {
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
     groupId: number = DefaultUploadPictureGroundId.BookingGroup;
-    baseInfoDesc: string;
-    needInfoOptions: BookingInfoOptions = new BookingInfoOptions();
     bookingId: number;
     timeBaseInfoForm: FormGroup;
     bookingBaseInfoForm: FormGroup;
@@ -43,7 +36,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     isEditing = false;
     isNew = true;
     nextIndex = 1;
-    tenantInfo: TenantInfoEditDto = new TenantInfoEditDto();
     // 传给图片管理组件
     pictureInfo: BookingPictureEditDto[] = [];
     allPictureForEdit: BookingPictureEditDto[] = [];
@@ -53,8 +45,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     formVaild: boolean;
     timeInfoFormValid: boolean;
     allBookingTime: BookingItemEditDto[] = [];
-    bookingDataForEdit: GetBookingForEditOutput;
-    baseInfo: BookingEditDto = new BookingEditDto();
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
 
     selectOutletId: number;
@@ -114,7 +104,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     // 响应式表单验证
     initFormValidation(): void {
         this.bookingBaseInfoForm = new FormGroup({
-            bookingName: new FormControl(this.baseInfo.name, [
+            bookingName: new FormControl(this.input.booking.name, [
                 Validators.required,
                 Validators.maxLength(10),
             ]),
@@ -163,16 +153,14 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this._organizationBookingServiceProxy
             .getBookingForEdit(this.bookingId)
             .subscribe(result => {
-                this.bookingDataForEdit = result;
-                this.baseInfo = result.booking;
-                this.baseInfoDesc = result.booking.description;
+                this.input.booking = result.booking;
                 this.allBookingTime = result.items;
                 this.pictureInfo = result.bookingPictures;
                 this.initFormValidation();
                 this.allBookingTime = result.items;
-                this.needInfoOptions.needAge = result.booking.needAge;
-                this.needInfoOptions.needGender = result.booking.needGender;
-                this.needInfoOptions.needEmail = result.booking.needEmail;
+                this.input.booking.needAge = result.booking.needAge;
+                this.input.booking.needGender = result.booking.needGender;
+                this.input.booking.needEmail = result.booking.needEmail;
                 if (this.isMobile($('.mobile-create-booking'))) {
                     this.isNew = false;
                 }
@@ -192,16 +180,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 if (outletResult.length <= 0) {
                     this.needImperfectOutlet = true;
                 } else {
-                    this.outletSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.outletId.toString() : outletResult[0].value;
+                    this.outletSelectDefaultItem = this.input.booking ? this.input.booking.outletId.toString() : outletResult[0].value;
                     this.outletSelectListData = outletResult;
                     this.selectOutletId = +this.outletSelectDefaultItem;
 
                     // 获取联系人下拉框数据源
                     this._outletServiceServiceProxy
-                        .getContactorSelectList(parseInt(this.outletSelectDefaultItem))
+                        .getContactorSelectList(parseInt(this.outletSelectDefaultItem, null))
                         .subscribe(contactorResult => {
                             if (contactorResult.length <= 0) { return; }
-                            this.contactorSelectDefaultItem = this.bookingDataForEdit ? this.bookingDataForEdit.booking.contactorId.toString() : contactorResult[0].value;
+                            this.contactorSelectDefaultItem = this.input ? this.input.booking.contactorId.toString() : contactorResult[0].value;
                             this.contactorSelectListData = contactorResult;
                             this.selectContactorId = +this.contactorSelectDefaultItem;
                         });
@@ -254,13 +242,12 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return;
         }
 
-        this.baseInfo.needAge = this.needInfoOptions.needAge;
-        this.baseInfo.needGender = this.needInfoOptions.needGender;
-        this.baseInfo.needEmail = this.needInfoOptions.needEmail;
-        this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
+        this.input.booking.needAge = this.input.booking.needAge;
+        this.input.booking.needGender = this.input.booking.needGender;
+        this.input.booking.needEmail = this.input.booking.needEmail;
+        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
 
         this.input.booking.id = this.bookingId ? this.bookingId : 0;
-        this.input.booking = this.baseInfo;
         this.input.booking.outletId = this.selectOutletId;
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
@@ -281,7 +268,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 }
 
                 if (this.isMobile($('.mobile-create-booking'))) {
-                    this._router.navigate(['/booking/succeed', result.id]);
+                    const isUpdate = this.bookingId ? true : false;
+                    this._router.navigate(['/booking/succeed', result.id, isUpdate]);
                 } else {
                     this.shareBookingModel.show(result.id);
                 }
@@ -308,7 +296,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     public contactorChange(contactor: any): void {
-        this.selectContactorId = parseInt(contactor);
+        this.selectContactorId = parseInt(contactor, null);
     }
 
     getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
@@ -316,7 +304,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     getEditorHTMLContent($event: string): void {
-        this.baseInfo.description = $event;
+        this.input.booking.description = $event;
     }
 
     // 移动端代码
@@ -401,22 +389,19 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 刷新数据（由于使用模型驱动表单验证，所以需要更新数据到DTO）
     refreshData(): void {
-        this.baseInfo.name = this.bookingBaseInfoForm.value.bookingName;
+        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
     }
 
     // PC端代码
     /* 业务代码 */
     initWechatShareConfig() {
-        if (this.baseInfo && this.isWeiXin()) {
+        if (this.input.booking && this.isWeiXin()) {
             this._weChatShareTimelineService.input.sourceUrl = document.location.href;
-            this._weChatShareTimelineService.input.title = this.l('ShareMyBooking', this.baseInfo.name);
-            this._weChatShareTimelineService.input.desc = this.l(this.baseInfo.name);
+            this._weChatShareTimelineService.input.title = this.l('ShareMyBooking', this.input.booking.name);
+            this._weChatShareTimelineService.input.desc = this.l(this.input.booking.name);
             this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
             this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
             this._weChatShareTimelineService.initWeChatShareConfig();
         }
     }
-
-
-
 }

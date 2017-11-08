@@ -10,20 +10,26 @@ import { AppConsts } from 'shared/AppConsts';
     styleUrls: ['./create-succeeded.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class CreateSucceededComponent extends AppComponentBase  implements OnInit {
+export class CreateSucceededComponent extends AppComponentBase implements OnInit {
     shareUrl: string;
     bookingId: string;
-
+    isUpdate: boolean;
     constructor(
         private injector: Injector,
         private _route: ActivatedRoute
-
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this.isUpdate = !!this._route.snapshot.paramMap.get('isUpdate');
+        if (!this.isUpdate) {
+            this.breadcrumbService.changeBreadcrumb(this._route.snapshot, 'AddSuccess');
+        } else {
+            this.breadcrumbService.changeBreadcrumb(this._route.snapshot, 'UpdateSuccess');
+        }
         this.bookingId = this._route.snapshot.paramMap.get('id');
+
         this.shareUrl = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
     }
 }
