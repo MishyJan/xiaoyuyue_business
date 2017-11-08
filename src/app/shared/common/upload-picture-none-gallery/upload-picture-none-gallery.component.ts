@@ -74,7 +74,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
                     domain: 'http://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
                     get_new_uptoken: false,  // 设置上传文件的时候是否每次都重新获取新的token
-                    max_file_size: '4mb',           // 最大文件体积限制
+                    max_file_size: '5mb',           // 最大文件体积限制
                     max_retries: 0,                   // 上传失败最大重试次数
                     dragdrop: false,                   // 开启可拖曳上传
                     chunk_size: '4mb',                // 分块上传时，每片的体积
@@ -89,7 +89,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                         max_file_size: '5mb',
                         prevent_duplicates: true,
                         mime_types: [
-                            { title: 'Image files', extensions: 'jpg,gif,png' },  // 限定jpg,gif,png后缀上传
+                            { title: 'Image files', extensions: 'jpg,jpeg,gif,png' },  // 限定jpg,gif,png后缀上传
                         ]
                     },
                     x_vars: {
@@ -114,17 +114,17 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                                     self._$profilePicture.attr('src', src);
                                     self._$profilePicture.cropper({
                                         dragMode: 'move',
-                                        viewMode: 1,
+                                        viewMode: 3,
                                         aspectRatio: self.cropScaleX / self.cropScaleY,
                                         crop: function (e) {
-                                            let cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
+                                            const cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
                                             self.imageMogr2Link = Q1.imageMogr2({
                                                 'auto-orient': true,  // 布尔值，是否根据原图EXIF信息自动旋正，便于后续处理，建议放在首位。
                                                 strip: false,   // 布尔值，是否去除图片中的元信息
                                                 // thumbnail: '1000x1000',   // 缩放操作参数
                                                 crop: cropValue,  // 裁剪操作参数
                                                 gravity: 'NorthWest',    // 裁剪锚点参数
-                                                quality: 65,  // 图片质量，取值范围1-100
+                                                // quality: 65,  // 图片质量，取值范围1-100
                                                 // rotate: 20,   // 旋转角度，取值范围1-360，缺省为不旋转。
                                                 // format: 'jpg',// 新图的输出格式，取值范围：jpg，gif，png，webp等
                                                 // blur: '3x5'    // 高斯模糊参数

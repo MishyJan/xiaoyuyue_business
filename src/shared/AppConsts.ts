@@ -35,6 +35,8 @@ export class AppConsts {
 
     static outletSelectListCache = 'OutletSelectListCache-{0}';
 
+    static contactorSelectListCache = 'ContactorSelectListCache-{0}';
+
     static bookingSelectListCache = 'BookingSelectListCache-{0}';
 
     static readonly templateEditStore = {

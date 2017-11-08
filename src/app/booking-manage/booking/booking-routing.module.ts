@@ -21,7 +21,7 @@ import { Permissions } from '@shared/Permissions';
                     { path: 'list', component: BookingListComponent, data: { breadcrumb: 'Menu.ManageBooking.List', permission: Permissions.bookingManage } },
                     { path: 'create', component: CreateOrEditBookingComponent, data: { breadcrumb: 'Booking.Create', permission: Permissions.bookingManage_BookingCreate } },
                     { path: 'edit/:id', component: CreateOrEditBookingComponent, data: { breadcrumb: 'Booking.Edit', permission: Permissions.bookingManage_BookingEdit } },
-                    { path: 'succeed/:id', component: CreateSucceededComponent, data: { breadcrumb: 'AddSuccess' } },
+                    { path: 'succeed/:id/:isUpdate', component: CreateSucceededComponent, data: { breadcrumb: 'AddSuccess' } },
                     { path: 'detail/:id', component: BookingDetailComponent, data: { breadcrumb: 'Booking.Detail' } },
                 ]
             }

@@ -18,10 +18,19 @@
 
 <div class="crop-wrap" [ngClass]="{'crop-opacity': !isShowCropArea}">
     <div class="crop-content">
-        <div class="img-wrap">
-            <img id="cropImg">
+        <div class="crop-head clearfix">
+            <h4 class="pull-left" style="margin: 0;">图片裁剪</h4>
+            <span class="remove-icon vapps-icon-cb-add-img pull-right" (click)="hideCropArea()"></span>
         </div>
-        <button type="submit" class="btn primary-bgcolor" id="confirmUpload" [buttonBusy]="uploading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+        <div class="crop-body">
+            <div class="img-wrap">
+                <img id="cropImg">
+            </div>
+        </div>
+        <div class="crop-foot">
+            <button type="submit" class="btn btn-block primary-bgcolor" id="confirmUpload" [buttonBusy]="uploading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+        </div>
+
     </div>
     <div class="bg-cover" (click)="hideCropArea()"></div>
 </div>
