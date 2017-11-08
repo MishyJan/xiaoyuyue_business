@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewInit, Component, ElementRef, Injector, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewEncapsulation, transition } from '@angular/core';
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
@@ -26,7 +28,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleSlowAnimation()],
     encapsulation: ViewEncapsulation.None
 })
-export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
+export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit {
     groupId: number = DefaultUploadPictureGroundId.BookingGroup;
     bookingId: number;
     timeBaseInfoForm: FormGroup;
@@ -39,9 +41,12 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     selectContactorId: number;
     outletSelectListData: SelectListItemDto[];
     contactorSelectListData: SelectListItemDto[];
+    outletSelectDefaultItem: string;
+    contactorSelectDefaultItem: string;
 
     formVaild: boolean;
     timeInfoFormValid: boolean;
+    originalinput: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
     input: CreateOrUpdateBookingInput = new CreateOrUpdateBookingInput();
 
     // display field
@@ -63,8 +68,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     @ViewChild('wangEditorModel') wangEditorModel: WangEditorComponent;
     /* 移动端代码结束 */
 
-    public outletSelectDefaultItem: string;
-    public contactorSelectDefaultItem: string;
+    // 定时器
+    interval: NodeJS.Timer;
 
     @ViewChild('bookingDes') _bookingDes: ElementRef;
     constructor(
@@ -88,15 +93,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.getTenantInfo();
         this.initFormValidation();
         this.editingBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
-
     }
 
     ngAfterViewInit() {
         this.initFlatpickr();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        // this.editingBookingItem.availableDates = this.dafaultDate;
     }
 
     // 响应式表单验证
@@ -143,7 +143,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     loadData() {
         if (!this.bookingId) {
-            // 获取门店下拉框数据源
+            this.checkDataNeed2Reconvert();
+            this.startSaveEditInfoInBower();
             this.loadOutletData();
             return;
         }
@@ -155,16 +156,14 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.input.items = result.items;
                 this.input.bookingPictures = result.bookingPictures;
                 this.initFormValidation();
-                this.input.booking.needAge = result.booking.needAge;
-                this.input.booking.needGender = result.booking.needGender;
-                this.input.booking.needEmail = result.booking.needEmail;
                 if (this.isMobile($('.mobile-create-booking'))) {
                     this.isNew = false;
                 }
-                // this.pictureManageModel.refreshAllPictrueEdit();
+                this.originalinput = _.cloneDeep(this.input);
+                this.checkDataNeed2Reconvert();
+                this.startSaveEditInfoInBower();
                 this.loadOutletData();
                 this.initWechatShareConfig();
-
                 this.timeInfoFormValid = true;
             });
     }
@@ -237,12 +236,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             return;
         }
 
-        this.input.booking.needAge = this.input.booking.needAge;
-        this.input.booking.needGender = this.input.booking.needGender;
-        this.input.booking.needEmail = this.input.booking.needEmail;
         this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
-
-        this.input.booking.id = this.bookingId ? this.bookingId : 0;
+        this.input.booking.id = this.bookingId;
         this.input.booking.outletId = this.selectOutletId;
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
@@ -263,7 +258,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 }
 
                 if (this.isMobile($('.mobile-create-booking'))) {
-                    const isUpdate = this.bookingId ? true : false;
+                    const isUpdate = this.input.booking.id ? true : false;
                     this._router.navigate(['/booking/succeed', result.id, isUpdate]);
                 } else {
                     this.shareBookingModel.show(result.id);
@@ -391,5 +386,50 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
             this._weChatShareTimelineService.initWeChatShareConfig();
         }
+    }
+
+    // 检查数据是否需要恢复
+    checkDataNeed2Reconvert() {
+        this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId))
+            .then((editCache) => {
+                if (editCache && this.isDataNoEqual(editCache, this.input)) {
+                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                        if (confirm) {
+                            this.input = editCache;
+                            this.originalinput = _.cloneDeep(this.input);
+                        } else {
+                            this.removeEditCache();
+                        }
+                    });
+                }
+            });
+    }
+
+    // 开始定时保存临时数据
+    startSaveEditInfoInBower() {
+        this.interval = setInterval(() => {
+            console.log('检查数据更改');
+            if (this.isDataNoSave()) {
+                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId), this.input);
+                this.originalinput = _.cloneDeep(this.input);
+                console.log('保存数据更改');
+            }
+        }, 3000)
+    }
+
+    isDataNoSave(): boolean {
+        return this.isDataNoEqual(this.originalinput, this.input);
+    }
+
+    isDataNoEqual(source: CreateOrUpdateBookingInput, destination: CreateOrUpdateBookingInput): boolean {
+        if (!source.booking.id && destination.booking.id) { return false; }
+
+        if (source.booking.id !== destination.booking.id) { return false; }
+
+        return JSON.stringify(source) !== JSON.stringify(destination);
+    }
+
+    removeEditCache() {
+        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId));
     }
 }
