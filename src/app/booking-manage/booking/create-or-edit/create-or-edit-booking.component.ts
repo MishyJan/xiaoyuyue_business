@@ -120,7 +120,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     get bookingName() { return this.bookingBaseInfoForm.get('bookingName'); }
     get maxBookingNum() { return this.timeBaseInfoForm.get('maxBookingNum'); }
     get maxQueueNum() { return this.timeBaseInfoForm.get('maxQueueNum'); }
-
+    
     back() {
         this._router.navigate(['/booking']);
     }
@@ -176,14 +176,14 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             if (outletResult.length <= 0) {
                 this.needImperfectOutlet = true;
             } else {
-                this.outletSelectDefaultItem = this.input.booking ? this.input.booking.outletId.toString() : outletResult[0].value;
+                this.outletSelectDefaultItem = this.input.booking.outletId ? this.input.booking.outletId.toString() : outletResult[0].value;
                 this.outletSelectListData = outletResult;
                 this.selectOutletId = +this.outletSelectDefaultItem;
                 this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId), () => {
                     return this._outletServiceServiceProxy.getContactorSelectList(+this.outletSelectDefaultItem)
                 }).then(contactorResult => {
                     if (contactorResult.length <= 0) { return; }
-                    this.contactorSelectDefaultItem = this.input ? this.input.booking.contactorId.toString() : contactorResult[0].value;
+                    this.contactorSelectDefaultItem = this.input.booking.outletId ? this.input.booking.contactorId.toString() : contactorResult[0].value;
                     this.contactorSelectListData = contactorResult;
                     this.selectContactorId = +this.contactorSelectDefaultItem;
                 })
@@ -252,6 +252,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             .subscribe((result) => {
                 this.bookingId = result.id;
                 abp.event.trigger('bookingListSelectChanged');
+                this.removeEditCache(); // 清理缓存数据
                 if (saveAndEdit) {
                     this.notify.success('保存成功');
                     return;

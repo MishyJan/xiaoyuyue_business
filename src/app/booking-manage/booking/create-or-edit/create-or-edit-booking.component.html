@@ -281,7 +281,7 @@
                                                 <label class="control-label">{{l('Booking.BookingDate')}}</label>
                                                 <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
                                                 <div id="createTimeFlatpickr" class="flatpickr-wrap">
-                                                    <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="localSingleBookingItem.availableDates"
+                                                    <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates"
                                                         data-input required>
 
                                                     <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>

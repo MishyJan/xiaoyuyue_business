@@ -172,6 +172,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .subscribe(() => {
                 abp.event.trigger('outletListSelectChanged');
                 abp.event.trigger('contactorListSelectChanged');
+                this.removeEditCache(); // 清理缓存数据
                 this.notify.success('保存成功!');
                 if (!saveAndEdit) { this._router.navigate(['/outlet/list']); }
             });

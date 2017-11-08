@@ -22,7 +22,7 @@ export class CreateSucceededComponent extends AppComponentBase implements OnInit
     }
 
     ngOnInit() {
-        this.isUpdate = !!this._route.snapshot.paramMap.get('isUpdate');
+        this.isUpdate = this._route.snapshot.paramMap.get('isUpdate') === 'true';
         if (!this.isUpdate) {
             this.breadcrumbService.changeBreadcrumb(this._route.snapshot, 'AddSuccess');
         } else {
