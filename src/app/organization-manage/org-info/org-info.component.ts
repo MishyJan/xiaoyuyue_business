@@ -1,24 +1,26 @@
 import * as _ from 'lodash';
 
-import { AfterViewInit, Component, Injector, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
-import { CookiesService } from './../../../shared/services/cookies.service';
+import { CookiesService } from '@shared/services/cookies.service';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
-import { LocalStorageService } from './../../../shared/utils/local-storage.service';
-import { OrganizationInfoDto } from './../../../shared/service-proxies/service-proxies';
-import { PictureUrlHelper } from './../../../shared/helpers/PictureUrlHelper';
+import { LocalStorageService } from '@shared/utils/local-storage.service';
+import { OrganizationInfoDto } from '@shared/service-proxies/service-proxies';
+import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
 import { Router } from '@angular/router';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-org-info',
     templateUrl: './org-info.component.html',
     styleUrls: ['./org-info.component.scss'],
+    encapsulation: ViewEncapsulation.None,
     animations: [accountModuleAnimation()],
 })
 export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
@@ -35,6 +37,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     orgLogoWrapHeight: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
     interval: NodeJS.Timer;
+
+    @ViewChild('wangEditorModel') wangEditorModel: WangEditorComponent;
+
     constructor(
         injector: Injector,
         private _router: Router,
@@ -129,6 +134,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     }
 
     private updateData(callback: any): void {
+        this.wangEditorModel.save();
         this.currentUserName = this.tenantInfo.tenancyName;
         this._tenantInfoServiceProxy
             .updateTenantInfo(this.tenantInfo)
@@ -202,5 +208,9 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
 
     isDataNoEqual(source, destination): boolean {
         return JSON.stringify(source) !== JSON.stringify(destination);
+    }
+
+    getEditorHTMLContent($event: string): void {
+        this.tenantInfo.description = $event;
     }
 }
