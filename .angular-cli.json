@@ -30,7 +30,6 @@
 
             "../node_modules/jquery.uniform/dist/css/default.css",
             "../node_modules/toastr/build/toastr.css",
-            "../node_modules/sweetalert/dist/sweetalert.css",
             "../node_modules//@progress/kendo-theme-default/dist/all.css",
 
             "../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",

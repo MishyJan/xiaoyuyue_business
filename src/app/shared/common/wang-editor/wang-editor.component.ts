@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as wangEditor from 'wangeditor/release/wangEditor.js'
 
-import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { LanguageServiceProxy } from './../../../../shared/service-proxies/service-proxies';
@@ -12,7 +12,9 @@ const Base64 = require('js-base64').Base64;
 
 @Component({
     selector: 'xiaoyuyue-wang-editor',
-    template: `<div></div>`
+    template: `<div class="wangedit-toolbar"></div><div class="wangedit-container"></div>`,
+    styleUrls: ['./wang-editor.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 
 export class WangEditorComponent implements AfterViewInit, OnChanges {
@@ -37,7 +39,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (this.baseInfoDesc) {
+        if (this.editor && this.baseInfoDesc) {
             this.editor.txt.html(this.baseInfoDesc);
             this.editorOnChange(this.baseInfoDesc);
         }
@@ -48,8 +50,9 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     initEditor() {
-        const editordom = this._element.nativeElement.querySelector('div');
-        this.editor = new wangEditor(editordom)
+        const toolbar = this._element.nativeElement.querySelector('.wangedit-toolbar');
+        const container = this._element.nativeElement.querySelector('.wangedit-container');
+        this.editor = new wangEditor(toolbar, container)
 
         this.editor.customConfig.uploadImgShowBase64 = true;
         this.editor.customConfig.zIndex = 100;
@@ -74,6 +77,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             'video',  // 插入视频
         ];
         this.editor.create();
+        this.editor.txt.html(this.baseInfoDesc);
         // 处理自动聚焦问题
         $('.w-e-text').trigger('blur');
         this.uploaddInit();

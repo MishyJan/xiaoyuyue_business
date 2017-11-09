@@ -120,7 +120,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     get bookingName() { return this.bookingBaseInfoForm.get('bookingName'); }
     get maxBookingNum() { return this.timeBaseInfoForm.get('maxBookingNum'); }
     get maxQueueNum() { return this.timeBaseInfoForm.get('maxQueueNum'); }
-    
+
     back() {
         this._router.navigate(['/booking']);
     }
@@ -193,14 +193,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     save() {
         this.saving = true;
-        this.wangEditorModel.save();
         this.createOrUpdateBooking();
     }
 
     saveAndEdit() {
-        console.log(this.wangEditorModel);
         this.savingAndEditing = true;
-        this.wangEditorModel.save();
         this.createOrUpdateBooking(true);
     }
 
@@ -235,7 +232,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this.savingAndEditing = false;
             return;
         }
-
+        this.wangEditorModel.save();
         this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
         this.input.booking.id = this.bookingId;
         this.input.booking.outletId = this.selectOutletId;

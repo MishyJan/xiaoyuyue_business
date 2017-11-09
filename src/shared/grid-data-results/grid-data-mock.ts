@@ -1,7 +1,7 @@
 import { HostSettingsEditDto, HostSettingsServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { GridDataResult } from '@progress/kendo-angular-grid/dist/es/data.collection';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
