@@ -1,14 +1,21 @@
-/**
- * 作用: 获取每个用户详细信息
- */
-
 import { ExternalUserLoginDto, GetUserForEditOutput, ProfileServiceProxy, UserEditDto, UserRoleDto, UserServiceProxy } from 'shared/service-proxies/service-proxies';
 import { Injectable, Injector, OnInit } from '@angular/core';
 
 import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { AppServiceBase } from 'shared/services/base.service';
-import { GridDataResult } from '@progress/kendo-angular-grid/dist/es/data.collection';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+
+/**
+ * 作用: 获取每个用户详细信息
+ */
+
+
+
+
+
+
+
 
 @Injectable()
 export class GetUserForEditService extends AppServiceBase implements OnInit {

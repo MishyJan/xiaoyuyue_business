@@ -2,7 +2,7 @@ import 'rxjs/Rx';
 
 import { DataStateChangeEvent, GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
 import { Headers, Http, RequestOptionsArgs, Response } from '@angular/http';
-import { Inject, Injectable, OpaqueToken, Optional } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs/Rx';
 import { DatetimeHelper } from '@shared/helpers/DatetimeHelper';
