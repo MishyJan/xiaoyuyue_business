@@ -19,7 +19,6 @@
         "mobile": false,
         "styles": [
             "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-            "assets/md-pro/css/material-dashboard.css",
             "assets/metronic/admin/layout4/css/themes/light.css",
             "assets/metronic/admin/layout4/css/layout.css",
             "assets/metronic/global/css/plugins-md.css",
@@ -28,7 +27,6 @@
             "../node_modules/font-awesome/css/font-awesome.css",
             "../node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
 
-            "../node_modules/jquery.uniform/dist/css/default.css",
             "../node_modules/toastr/build/toastr.css",
             "../node_modules/sweetalert/dist/sweetalert.css",
             "../node_modules//@progress/kendo-theme-default/dist/all.css",
@@ -36,6 +34,7 @@
             "../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
             "../node_modules/bootstrap-select/dist/css/bootstrap-select.css",
 
+            "assets/md-pro/css/material-dashboard.css",
             "../node_modules/cropper/dist/cropper.css",
 
             "../src/app/shared/core.scss",
