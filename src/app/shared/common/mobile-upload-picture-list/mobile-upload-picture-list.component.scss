@@ -66,8 +66,9 @@
     opacity: 0;
     visibility: hidden;
     &.crop-opacity {
-        opacity: 0;
-        visibility: hidden;
+        opacity: 1;
+        visibility: visible;
+        ;
     }
     .crop-content {
         width: 96%;
