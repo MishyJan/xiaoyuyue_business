@@ -1389,3 +1389,7 @@ a:focus {
 ::-webkit-calendar-picker-indicator {
     display: none;
 }
+
+.qrcode-block {
+    display: inline-block
+}

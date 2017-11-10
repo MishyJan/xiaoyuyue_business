@@ -12,7 +12,6 @@ import { MobileHeaderDirective } from 'shared/utils/mobile-header.directive';
 import { MomentFormatPipe } from './moment-format.pipe';
 import { NgModule } from '@angular/core';
 import { PasswordComplexityValidator } from './validation/password-complexity-validator.directive'
-import { QrCodeDirective } from './qr-code.directive';
 
 @NgModule({
     providers: [
@@ -30,9 +29,8 @@ import { QrCodeDirective } from './qr-code.directive';
         MomentFormatPipe,
         GridRowClickDirective,
         CurrencyInputDirective,
-        MobileHeaderDirective,
-    QrCodeDirective
-],
+        MobileHeaderDirective
+    ],
     exports: [
         EqualValidator,
         PasswordComplexityValidator,
