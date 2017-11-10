@@ -33,9 +33,9 @@
                             </label>
                         </div>
 
-                        <button class="btn" (click)="movePicHandler($event)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!selectedPicListArr.length > 0">
+                        <button class="btn" (click)="movePicHandler($event, undefined)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!(selectedPicListArr.length > 0)">
                             <span class="vapps-icon-app-move"></span> 移动</button>
-                        <button class="btn" (click)="deletePicHandler($event)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!selectedPicListArr.length > 0">
+                        <button class="btn" (click)="deletePicHandler($event, undefined)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!(selectedPicListArr.length > 0)">
                             <span class="vapps-icon-app-delete"></span> 删除</button>
                     </div>
 
@@ -101,7 +101,7 @@
     </div>
 </div>
 
-<div class="move-action-wrap clearfix" (click)="e=$event;e.stopPropagation()" [style.top]="moveGroupTemplateY-50+'px'" [style.left]="moveGroupTemplateX+'px'" [hidden]="!isMoveGroupTemplate">
+<div class="move-action-wrap clearfix" (click)="eventStopPropagation($event)" [style.top]="moveGroupTemplateY-50+'px'" [style.left]="moveGroupTemplateX+'px'" [hidden]="!isMoveGroupTemplate">
     <div class="checkbox-radios col-lg-6 col-md-6 col-sm-6" *ngFor="let groupItem of picGalleryGroupData; let index = index">
         <div class="radio">
             <label>
