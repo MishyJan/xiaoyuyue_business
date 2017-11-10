@@ -93,8 +93,8 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
-                            self.waitingUploadFiles =  files;
-                            
+                            self.waitingUploadFiles = files;
+
                             self.showCropArea();
                             for (let i = 0; i < files.length; i++) {
                                 const fileItem = files[i].getNative(),
@@ -125,8 +125,8 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                         },
                         'BeforeUpload': function (up, file) {
                             // 每个文件上传前,处理相关的事情
-                            console.log('上传时',up);
-                            console.log('上传时',file);
+                            console.log('上传时', up);
+                            console.log('上传时', file);
                             self.uploading = true;
                         },
                         'UploadProgress': function (up, file) {
