@@ -88,7 +88,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         });
 
         $('.mobile-page-content').css({
-            'margin-top': '55px'
+            'margin-top': '65px'
         });
     }
 
