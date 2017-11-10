@@ -4,7 +4,7 @@ html,
 body {
     width: 100%;
     overflow-x: hidden;
-    /* overflow-y: auto; */
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding-right: 0!important;
 }
@@ -1392,4 +1392,11 @@ a:focus {
 
 .qrcode-block {
     display: inline-block
+}
+
+
+/* 由于bootstrap的弹窗modal导致部分不能点击的bug */
+
+.modal-backdrop.in {
+    display: none;
 }
