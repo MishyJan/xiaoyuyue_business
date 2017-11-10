@@ -62,6 +62,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     OrgBookingOrderStatus.ConfirmSuccess,
     OrgBookingOrderStatus.ConfirmFail,
     OrgBookingOrderStatus.Cancel,
+    OrgBookingOrderStatus.WaitComment,
     OrgBookingOrderStatus.Complete];
 
     bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
