@@ -13,7 +13,6 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { QRCodeModule } from 'angular2-qrcode';
 import { ResponsiveModule } from 'ng2-responsive'
 import { UtilsModule } from '@shared/utils/utils.module';
 

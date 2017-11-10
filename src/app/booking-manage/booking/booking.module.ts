@@ -22,7 +22,6 @@ import { MobileShareBookingModelComponent } from './list/shared/mobile-share-boo
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PictureManageComponent } from 'app/booking-manage/booking/create-or-edit/picture-manage/picture-manage.component';
-import { QRCodeModule } from 'angular2-qrcode';
 import { ResponsiveModule } from 'ng2-responsive';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { TimeInfoComponent } from 'app/booking-manage/booking/create-or-edit/time-info/time-info.component';
@@ -48,7 +47,6 @@ import { UtilsModule } from '@shared/utils/utils.module';
         SharedModule,
         DialogModule,
         DateInputModule,
-        QRCodeModule,
         NgxPaginationModule,
         GridDataResultsModule,
         ResponsiveModule,

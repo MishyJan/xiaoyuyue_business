@@ -17,14 +17,15 @@ import { MobileUploadPictureComponent } from './mobile-upload-picture/mobile-upl
 import { MobileUploadPictureListComponent } from './mobile-upload-picture-list/mobile-upload-picture-list.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { QrCodeComponent } from './qr-code/qr-code.component';
 import { RouterModule } from '@angular/router';
 import { TimeZoneComboComponent } from './timing/timezone-combo.component';
 import { TipsComponent } from './tips/tips.component';
 import { UploadPictureGalleryComponent } from './upload-picture-gallery/upload-picture-gallery.component';
 import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery/upload-picture-none-gallery.component';
 import { UtilsModule } from '@shared/utils/utils.module';
-import { WangEditorComponent } from './wang-editor/wang-editor.component';
 import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-master.component';
+import { WangEditorComponent } from './wang-editor/wang-editor.component';
 
 @NgModule({
     imports: [
@@ -51,7 +52,8 @@ import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-m
         MobileUploadPictureComponent,
         WangEditorComponent,
         MobileUploadPictureListComponent,
-        ViewArtworkMasterComponent
+        ViewArtworkMasterComponent,
+        QrCodeComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -67,7 +69,8 @@ import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-m
         MobileUploadPictureComponent,
         WangEditorComponent,
         MobileUploadPictureListComponent,
-        ViewArtworkMasterComponent
+        ViewArtworkMasterComponent,
+        QrCodeComponent
     ]
 })
 export class AppCommonModule {
