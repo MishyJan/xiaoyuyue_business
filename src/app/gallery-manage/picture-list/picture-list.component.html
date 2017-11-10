@@ -29,7 +29,7 @@
 
                         <div class="checkbox pull-left">
                             <label>
-                                <input type="checkbox" name="checkAll" value="true" />全选
+                                <input type="checkbox" name="checkAll" ngModel (ngModelChange)="allSelectedHandler($event)" />{{ checkAllText }}
                             </label>
                         </div>
 
@@ -68,16 +68,21 @@
                                 </div>
                                 <div [@routerTransition] class="flex-right">
                                     <div class="side-bar">
-                                        <p class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})">
-                                            <span class="left-item text-overflow" (click)="groupItemActive(groupItem,index)">
-                                                <input type="text text-overflow" name="groupName" [value]="groupItem.name" [readonly]="!editingGroupName" (keyup.enter)="updatePicGroupService(groupItem.id, $event)" (blur)="hideUpdatePicInput()">
-                                                ({{ groupItem.pictureNum }})
-                                            </span>
-                                            <span class="right-item clearfix" *ngIf="!groupItem.isSystemGroup">
-                                                <span class="vapps-icon-app-edit-group pull-right" title="编辑名称" (click)="showUpdatePicInput()"></span>
-                                            <span class="vapps-icon-app-remove-group pull-right" title="删除分组" (click)="removePicGroupService(groupItem.id)"></span>
-                                            </span>
-                                        </p>
+                                        <div class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})" (click)="eventStopPropagation($event)">
+                                            <div class="left-item text-overflow">
+                                                <div (click)="groupItemActive(groupItem,index)" *ngIf="!editingGroupName || !(editingGroupNameIndex == index)">{{ groupItem.name }} ({{ groupItem.pictureNum}})</div>
+                                                <input type="text text-overflow" style="width: 100%;" autofocus name="groupName" *ngIf="editingGroupName && editingGroupNameIndex == index" [value]="groupItem.name" [readonly]="!editingGroupName" (keyup.enter)="updatePicGroupService(groupItem.id, $event)">
+                                            </div>
+                                            <div class="right-item clearfix" *ngIf="!groupItem.isSystemGroup">
+                                                <div class="pull-right" *ngIf="!editingGroupName || editingGroupNameIndex !== index">
+                                                    <span class="vapps-icon-app-edit-group pull-right" title="编辑名称" (click)="showUpdatePicInput(index)"></span>
+                                                    <span class="vapps-icon-app-remove-group pull-right" title="删除分组" (click)="removePicGroupService(groupItem.id)"></span>
+                                                </div>
+                                                <div class="pull-right" *ngIf="editingGroupName && editingGroupNameIndex == index" (click)="updatePicGroupService(groupItem.id, $event)">
+                                                    <span class="vapps-icon-app-confirm" title="保存名称"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <p class="sub-item text-overflow" (click)="showCreatePicInput()">+ 新建分组</p>
                                         <p class="sub-item text-overflow new-group" *ngIf="picGroupCreating">
                                             <input type="text" placeholder="新分组" id="newGroupName" name="newGroupName" [(ngModel)]="picGroupInputDto.name" (keyup.enter)="createPicGroupService()" (blur)="closeCreatePicGroup()">

@@ -15,6 +15,9 @@ import { element } from 'protractor';
 
 })
 export class PictureListComponent extends AppComponentBase implements OnInit {
+    // 保存正在编辑分组名称的索引值
+    editingGroupNameIndex: number;
+    checkAllText: string = '全选';
     // 移动弹窗的X轴偏移量
     moveGroupTemplateX: number;
     // 移动弹窗的Y轴偏移量
@@ -54,6 +57,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         this.loadPicGalleryData();
         document.addEventListener('click', () => {
             this.hideMoveGroupTemplate();
+            this.hideUpdatePicInput();
         });
     }
 
@@ -63,7 +67,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
             .getPictureGroupAsync()
             .subscribe(result => {
                 this.picGalleryGroupData = result;
-                this.selectedGroupId = result[0].id;
+                this.selectedGroupId = this.selectedGroupId ? this.selectedGroupId : result[0].id;
                 this.loadAllPicAsync();
             })
     }
@@ -123,17 +127,21 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
     // 更新分组名称
     updatePicGroupService(groupId: number, event: any): void {
+        console.log(1);
         this.picGroupInputDto.id = groupId;
-        this.picGroupInputDto.name = event.target.value;
+        this.picGroupInputDto.name = $(event.target).parents('.sub-item').find('input').val() + '';
+
         this._pictureServiceProxy
             .createOrUpdatePictureGroup(this.picGroupInputDto)
             .subscribe(result => {
                 this.notify.success('更新分组成功');
+                this.editingGroupName = false;
                 this.loadPicGalleryData();
             });
     }
     // 更新分组显示输入框
-    showUpdatePicInput(): void {
+    showUpdatePicInput(index: number): void {
+        this.editingGroupNameIndex = index;
         this.editingGroupName = true;
     }
     // 关闭更新分组显示输入框
@@ -260,13 +268,27 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         $(event.target).trigger('blur');
     }
 
-    
+
     public eventStopPropagation(event: Event): void {
         event.stopPropagation();
     }
 
     public hideMoveGroupTemplate(): void {
         this.isMoveGroupTemplate = false;
+    }
+
+    // 全选和取消全选功能
+    public allSelectedHandler(eventValue: boolean): void {
+        if (eventValue) {
+            this.selectedPicListArr = this.picGroupItemData;
+            this.selectedPicListArr.forEach(element => {
+                element.selected = true;
+            });
+            this.checkAllText = '取消';
+        } else {
+            this.selectedPicListArr = [];
+            this.checkAllText = '全选';
+        }
     }
 
     // 分页
