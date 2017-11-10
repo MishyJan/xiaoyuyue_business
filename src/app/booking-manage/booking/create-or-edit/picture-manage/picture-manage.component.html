@@ -13,8 +13,8 @@
                 <div class="gallery-wrap clearfix">
                     <div class="picture-item" *ngFor="let item of selectedPictures; let index = index;">
                         <div class="content">
-                            <div class="bg-img">
-                                <img width="100%" [src]="item.pictureUrl">
+                            <div class="bg-img" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}">
+                                <!-- <img width="100%" [src]="item.pictureUrl"> -->
                             </div>
                             <div class="bg-cover"></div>
                             <div class="bg-tools">
@@ -33,6 +33,5 @@
             </div>
         </div>
     </div>
-    <xiaoyuyue-upload-picture-gallery #uploadPictureModel [cropScaleX]="4" [cropScaleY]="3" [groupId]="groupId" (sendPictureForEdit)="getPictureForEdit($event)"
-        (sendPicGalleryForEdit)="getPicGalleryForEdit($event)" [existingPicNum]="selectedPictures.length"></xiaoyuyue-upload-picture-gallery>
+    <xiaoyuyue-upload-picture-gallery #uploadPictureModel [cropScaleX]="4" [cropScaleY]="3" [groupId]="groupId" (sendPictureForEdit)="getPictureForEdit($event)" (sendPicGalleryForEdit)="getPicGalleryForEdit($event)" [existingPicNum]="selectedPictures.length"></xiaoyuyue-upload-picture-gallery>
 </div>

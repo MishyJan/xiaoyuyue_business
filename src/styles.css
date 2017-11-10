@@ -4,7 +4,7 @@ html,
 body {
     width: 100%;
     overflow-x: hidden;
-    /* overflow-y: auto; */
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding-right: 0!important;
 }
