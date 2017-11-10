@@ -58,6 +58,7 @@
     "codelyzer": "^3.1.2",
     "core-js": "^2.5.0",
     "cropper": "^3.1.3",
+    "easyqrcodejs": "^2.0.0",
     "echarts": "^3.6.2",
     "famfamfam-flags": "^1.0.0",
     "fastclick": "^1.0.6",
