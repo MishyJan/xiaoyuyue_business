@@ -260,6 +260,15 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         $(event.target).trigger('blur');
     }
 
+    
+    public eventStopPropagation(event: Event): void {
+        event.stopPropagation();
+    }
+
+    public hideMoveGroupTemplate(): void {
+        this.isMoveGroupTemplate = false;
+    }
+
     // 分页
     public onPageChange(index: number): void {
         this.currentPage = index;
@@ -269,8 +278,5 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     private showMoveGroupTemplate(): void {
         this.isMoveGroupTemplate = true;
-    }
-    private hideMoveGroupTemplate(): void {
-        this.isMoveGroupTemplate = false;
     }
 }
