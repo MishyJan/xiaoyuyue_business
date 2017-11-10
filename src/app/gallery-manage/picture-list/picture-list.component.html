@@ -13,7 +13,8 @@
             </div>
         </div>
         <div class="col-xs-6 text-right">
-            <button class="btn primary-bgcolor"><i class="vapps-icon-app-upload"></i>本地上传</button>
+            <button class="btn primary-bgcolor">
+                <i class="vapps-icon-app-upload"></i>本地上传</button>
         </div>
     </div>
 
@@ -21,8 +22,21 @@
         <div class="col-lg-12">
             <div class="card">
                 <form class="form-horizontal">
-                    <div class="card-header card-header-text" data-background-color="orange">
-                        <h6 class="card-title">全部图片</h6>
+                    <div class="content-header clearfix">
+                        <div class="card-header card-header-text pull-left" data-background-color="orange">
+                            <h6 class="card-title">全部图片</h6>
+                        </div>
+
+                        <div class="checkbox pull-left">
+                            <label>
+                                <input type="checkbox" name="checkAll" value="true" />全选
+                            </label>
+                        </div>
+
+                        <button class="btn" (click)="movePicHandler($event)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!selectedPicListArr.length > 0">
+                            <span class="vapps-icon-app-move"></span> 移动</button>
+                        <button class="btn" (click)="deletePicHandler($event)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!selectedPicListArr.length > 0">
+                            <span class="vapps-icon-app-delete"></span> 删除</button>
                     </div>
 
                     <div class="card-content clearfix">
@@ -36,31 +50,38 @@
                                                 <div class="bg-cover"></div>
                                                 <div class="bg-tools">
                                                     <div class="wrap clearfix">
-                                                        <div class="tool-item pull-left" (click)="deletePic(selectPicIndex)">
+                                                        <div class="tool-item pull-left" title="删除" (click)="deletePicHandler($event, item)">
                                                             <span class="icon vapps-icon-app-delete"></span>
                                                         </div>
-                                                        <div class="tool-item pull-right" (click)="changePic(selectPicIndex, item.displayOrder)">
-                                                            <span class="icon vapps-icon-app-edit"></span>
+                                                        <div class="tool-item pull-right" title="移动" (click)="movePicHandler($event, item)">
+                                                            <span class="icon vapps-icon-app-move"></span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p class="img-name text-overflow" (dblclick)="editingPicNameHandler($event, selectPicIndex)" title="双击修改图片名称"><input type="text" class="text-overflow" name="picName" [title]="picRename(item.name)" [ngClass]="{'input-border': editingPicName[selectPicIndex]}" [readonly]="!editingPicName[selectPicIndex]" [value]="picRename(item.name)"
-                                                    (keyup.enter)="picRenameEnter($event, selectPicIndex)" (blur)="picRenameEnter($event, selectPicIndex)"></p>
+                                            <p class="img-name text-overflow" (dblclick)="editingPicNameHandler($event, selectPicIndex)" title="双击修改图片名称">
+                                                <input type="text" class="text-overflow" name="picName" [title]="picRename(item.name)" [ngClass]="{'input-border': editingPicName[selectPicIndex]}" [readonly]="!editingPicName[selectPicIndex]" [value]="picRename(item.name)" (keyup.enter)="picRenameEnter($event, selectPicIndex)"
+                                                    (blur)="picRenameEnter($event, selectPicIndex)">
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div [@routerTransition] class="flex-right">
                                     <div class="side-bar">
                                         <p class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})">
-                                            <span class="left-item text-overflow" (click)="groupItemActive(groupItem,index)">{{ groupItem.name }}({{ groupItem.pictureNum }})</span>
+                                            <span class="left-item text-overflow" (click)="groupItemActive(groupItem,index)">
+                                                <input type="text text-overflow" name="groupName" [value]="groupItem.name" [readonly]="!editingGroupName" (keyup.enter)="updatePicGroupService(groupItem.id, $event)" (blur)="hideUpdatePicInput()">
+                                                ({{ groupItem.pictureNum }})
+                                            </span>
                                             <span class="right-item clearfix" *ngIf="!groupItem.isSystemGroup">
-                                                <span class="vapps-icon-app-edit-group pull-left" title="编辑名称"></span>
+                                                <span class="vapps-icon-app-edit-group pull-right" title="编辑名称" (click)="showUpdatePicInput()"></span>
                                             <span class="vapps-icon-app-remove-group pull-right" title="删除分组" (click)="removePicGroupService(groupItem.id)"></span>
                                             </span>
                                         </p>
                                         <p class="sub-item text-overflow" (click)="showCreatePicInput()">+ 新建分组</p>
-                                        <p class="sub-item text-overflow new-group" *ngIf="picGroupCreating"><input type="text" placeholder="新分组" id="newGroupName" name="newGroupName" [(ngModel)]="picGroupInputDto.name" (keyup.enter)="createPicGroupService()" (blur)="closeCreatePicGroup()"></p>
+                                        <p class="sub-item text-overflow new-group" *ngIf="picGroupCreating">
+                                            <input type="text" placeholder="新分组" id="newGroupName" name="newGroupName" [(ngModel)]="picGroupInputDto.name" (keyup.enter)="createPicGroupService()" (blur)="closeCreatePicGroup()">
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -77,5 +98,20 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div class="move-action-wrap clearfix" (click)="e=$event;e.stopPropagation()" [style.top]="moveGroupTemplateY-50+'px'" [style.left]="moveGroupTemplateX+'px'" [hidden]="!isMoveGroupTemplate">
+    <div class="checkbox-radios col-lg-6 col-md-6 col-sm-6" *ngFor="let groupItem of picGalleryGroupData; let index = index">
+        <div class="radio">
+            <label>
+                <input type="radio" name="moveGroup" [value]="groupItem.id" [(ngModel)]="selectedMoveGroupInput.groupId" [checked]="groupItem.id == -1">{{ groupItem.name }}
+            </label>
+        </div>
+    </div>
+
+    <div class="action-btn-wrap col-lg-12">
+        <button class="btn primary-bgcolor" (click)="movePicToGroupService()">确认</button>
+        <button class="btn" (click)="hideMoveGroupTemplate()">取消</button>
     </div>
 </div>

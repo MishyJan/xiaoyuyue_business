@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'xiaoyuyue';
-  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?k7nf9b');
-  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?k7nf9b#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/xiaoyuyue.ttf?k7nf9b') format('truetype'),
-    url('#{$icomoon-font-path}/xiaoyuyue.woff?k7nf9b') format('woff'),
-    url('#{$icomoon-font-path}/xiaoyuyue.svg?k7nf9b#xiaoyuyue') format('svg');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?8o1sea');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?8o1sea#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/xiaoyuyue.ttf?8o1sea') format('truetype'),
+    url('#{$icomoon-font-path}/xiaoyuyue.woff?8o1sea') format('woff'),
+    url('#{$icomoon-font-path}/xiaoyuyue.svg?8o1sea#xiaoyuyue') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -26,6 +26,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-move {
+  &:before {
+    content: $vapps-icon-app-move;
+  }
+}
 .vapps-icon-gm-menu {
   &:before {
     content: $vapps-icon-gm-menu;
