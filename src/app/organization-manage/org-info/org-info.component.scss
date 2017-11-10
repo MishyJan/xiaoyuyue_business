@@ -13,8 +13,25 @@
         width: 100%;
         max-width: 480px;
         margin: 0 auto;
+        .front {
+            .org-desc-wrap {
+                padding-top: 10px;
+                .w-e-text {
+                    padding: 10px 10px 0 10px;
+                }
+            }
+        }
         .back {
             margin-top: 10px;
+            .org-desc-wrap {
+                height: 240px;
+                overflow-y: auto;
+                border-bottom: 2px #FF9641 solid;
+                padding: 4px 0;
+                p {
+                    margin: 0;
+                }
+            }
         }
         .w-e-toolbar {
             display: none;
@@ -41,6 +58,9 @@
         #orgLogoUploadAreaWrap {
             position: relative;
             z-index: 100;
+        }
+        .upload-tips {
+            height: 100%;
         }
         .img {
             width: 80px;

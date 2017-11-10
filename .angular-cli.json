@@ -28,6 +28,7 @@
             "../node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
 
             "../node_modules/toastr/build/toastr.css",
+            "../node_modules/sweetalert/dist/sweetalert.css",
             "../node_modules//@progress/kendo-theme-default/dist/all.css",
 
             "../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
@@ -74,6 +75,8 @@
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
+
+
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
             "../src/assets/common/js/plupload-2.1.9.full.min.js",
 
@@ -90,7 +93,8 @@
             "../node_modules/cropper/dist/cropper.min.js",
 
             "../src/assets/common/js/jweixin-1.2.0.js",
-            "../external_libs/radialIndicator/radialIndicator.min.js"
+            "../external_libs/radialIndicator/radialIndicator.min.js",
+            "../external_libs/easyqrcodejs/easy.qrcode.min.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

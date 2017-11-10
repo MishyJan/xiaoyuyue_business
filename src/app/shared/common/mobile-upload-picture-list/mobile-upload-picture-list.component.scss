@@ -63,6 +63,8 @@
     height: 100vh;
     z-index: 10001;
     transition: all .6s;
+    opacity: 0;
+    visibility: hidden;
     &.crop-opacity {
         opacity: 0;
         visibility: hidden;
