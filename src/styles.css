@@ -1393,3 +1393,10 @@ a:focus {
 .qrcode-block {
     display: inline-block
 }
+
+
+/* 由于bootstrap的弹窗modal导致部分不能点击的bug */
+
+.modal-backdrop.in {
+    display: none;
+}
