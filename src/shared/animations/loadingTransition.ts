@@ -7,7 +7,7 @@ export class appLoadingBusy {
         const effectTextWrap = $('<div></div>').addClass('effect-text-wrap').text(appLoadingBusy.effectText);
         const loadingAniWrap = $('<div></div>').addClass('loading-wrap');
         const loadingSpinner = $('<div class="spinner"><i></i></div>');
-        const imgLogo = $('<img>').addClass('logo').attr('src', '/assets/common/images/login/logo-colorized.png');
+        const imgLogo = $('<img>').addClass('logo').attr('src', '/assets/common/images/login/logo-colorized.jpg');
         imgLogo.attr('width', '96px');
         const appLoadingBusyWrap = $('<div></div>').addClass('app-loading-busy-wrap');
 
