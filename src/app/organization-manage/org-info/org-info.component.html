@@ -15,13 +15,11 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving"
-                        [busyText]="'保存中...'">
+                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="'保存中...'">
                         <i class="vapps-icon vapps-icon-app-submit"></i>
                         <span>{{l("Save")}}</span>
                     </button>
-                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"
-                        [buttonBusy]="savingAndEditing" [busyText]="'保存中...'">
+                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor" [buttonBusy]="savingAndEditing" [busyText]="'保存中...'">
                         <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
                     <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
                 </div>
@@ -42,8 +40,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tenancyName" name="tenancyName" placeholder="机构名称" required
-                                                autofocus>
+                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tenancyName" name="tenancyName" placeholder="机构名称" required autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +60,8 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <textarea class="form-control " rows="5" [(ngModel)]="tenantInfo.description" name="description" placeholder="机构简介..."></textarea>
+                                            <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="getEditorHTMLContent($event)" [baseInfoDesc]="tenantInfo.description"></xiaoyuyue-wang-editor>
+                                            <!-- <textarea class="form-control " rows="5" [(ngModel)]="tenantInfo.description" name="description" placeholder="机构简介..."></textarea> -->
                                         </div>
                                     </div>
                                 </div>
@@ -123,8 +121,9 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating">
                                             <label class="control-label">机构简介</label>
-                                            <textarea name="backOrgDescription" class="form-control" [(ngModel)]="tenantInfo.description" rows="4"></textarea>
-                                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                        </div>
+                                        <div class="org-desc-wrap">
+                                            <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="getEditorHTMLContent($event)" [baseInfoDesc]="tenantInfo.description"></xiaoyuyue-wang-editor>
                                         </div>
                                     </div>
                                 </div>
@@ -134,8 +133,7 @@
                                             <p class="control-label">机构背景图</p>
                                             <div class="img-wrap">
                                                 <div class="img">
-                                                    <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="tenantInfo.backgroundPictureUrl"
-                                                        (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                                                    <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="tenantInfo.backgroundPictureUrl" (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,7 +180,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating is-focused">
                                             <label class="control-label">机构简介</label>
-                                            <textarea name="backOrgDescription" class="form-control" rows="4" [(ngModel)]="tenantInfo.description" readonly disabled></textarea>
+                                            <div class="org-desc-wrap" [innerHTML]="tenantInfo.description"></div>
                                         </div>
                                     </div>
                                 </div>

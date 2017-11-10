@@ -30,7 +30,13 @@
 .wrap {
     .mobile-page-content {
         width: 100%;
-        margin-top: 55px;
+        height: calc(100vh - 55px);
+        position: absolute;
+        top: -10px;
+        bottom: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
+        margin-top: 55px;
     }
 }

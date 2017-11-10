@@ -129,3 +129,5 @@ declare var radialIndicator: any;
 interface JQuery {
     radialIndicator(...any): any;
 }
+
+declare var QRCode: any;

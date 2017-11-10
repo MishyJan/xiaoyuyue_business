@@ -213,6 +213,15 @@ textarea {
 
 /* 覆盖kendo样式*/
 
+.k-i-arrow-60-down:before,
+.k-i-arrow-s:before,
+.k-i-collapse:before,
+.k-i-expand-s:before,
+.k-i-sarrow-s:before {
+    font-family: 'xiaoyuyue' !important;
+    content: '\e919';
+}
+
 .k-dateinput-wrap,
 .k-dropdown-wrap,
 .k-multiselect-wrap,
@@ -1379,4 +1388,8 @@ a:focus {
 
 ::-webkit-calendar-picker-indicator {
     display: none;
+}
+
+.qrcode-block {
+    display: inline-block
 }

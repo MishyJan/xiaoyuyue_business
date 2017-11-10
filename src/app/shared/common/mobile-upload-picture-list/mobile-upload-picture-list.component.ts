@@ -13,6 +13,9 @@ import { ViewArtworkMasterComponent } from 'app/shared/common/view-artwork-maste
     styleUrls: ['./mobile-upload-picture-list.component.scss']
 })
 export class MobileUploadPictureListComponent extends AppComponentBase implements OnInit {
+    // 保存待上传队列的所有文件
+    waitingUploadFiles: any[] = [];
+    uploader: any;
     isShowCropArea: boolean = false;
     _$cropImg: JQuery<HTMLElement>;
     uploading: boolean = false;
@@ -48,7 +51,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                 self._$cropImg = $('#cropImg');
                 // 引入Plupload 、qiniu.js后
                 const Q1 = new QiniuJsSDK();
-                const uploader = Q1.uploader({
+                this.uploader = Q1.uploader({
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'bookingListUploadArea',       // 上传选择的点选按钮，**必需**
                     // uptoken_url: '/token',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
@@ -90,6 +93,8 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     },*/
                     init: {
                         'FilesAdded': function (up, files) {
+                            self.waitingUploadFiles = files;
+
                             self.showCropArea();
                             for (let i = 0; i < files.length; i++) {
                                 const fileItem = files[i].getNative(),
@@ -120,6 +125,8 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                         },
                         'BeforeUpload': function (up, file) {
                             // 每个文件上传前,处理相关的事情
+                            console.log('上传时', up);
+                            console.log('上传时', file);
                             self.uploading = true;
                         },
                         'UploadProgress': function (up, file) {
@@ -142,9 +149,6 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                             self.hideCropArea();
                         },
                         'Error': function (up, err, errTip) {
-                            console.log('err info:', err);
-                            console.log('files info:', up);
-
                             // 上传出错时,处理相关的事情
                             self.uploading = false;
                             self.hideCropArea();
@@ -169,7 +173,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     }
                 });
                 $('#confirmUpload').on('click', function () {
-                    uploader.start();
+                    self.uploader.start();
                 });
                 // // 销毁实例
                 // $('#cancelUpload' + self.uploadUid).on('click', function () {
@@ -179,7 +183,6 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     }
 
     cropClear(): void {
-        console.log('img dom:', this._$cropImg);
         this._$cropImg.removeAttr('src');
         this._$cropImg.cropper("destroy");
     }
@@ -190,6 +193,9 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     }
     hideCropArea(): void {
         this.isShowCropArea = false;
+        this.waitingUploadFiles.forEach(file => {
+            this.uploader.removeFile(file);
+        });
         this.cropClear();
     }
 
