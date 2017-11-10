@@ -28,14 +28,15 @@
 }
 
 .wrap {
+    height: 100vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     .mobile-page-content {
         width: 100%;
         height: calc(100vh - 55px);
         position: absolute;
         top: -10px;
         bottom: 0;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-top: 55px;
+        margin-top: 65px;
     }
 }
