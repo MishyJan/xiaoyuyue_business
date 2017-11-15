@@ -50,7 +50,8 @@
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
                             <label class="control-label">新手机号</label>
-                            <input type="text" class="form-control" name="beforePhone" [(ngModel)]="changeBindingPhoneNumInput.newTelephone" (ngModelChange)="getPhoneNum($event)" required>
+                            <input type="text" class="form-control" name="beforePhone" [(ngModel)]="changeBindingPhoneNumInput.newTelephone" (ngModelChange)="getPhoneNum($event)"
+                                required>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
@@ -61,7 +62,8 @@
                         <div class="form-group label-floating">
                             <label class="control-label">验证码</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="changeBindingPhoneNumInput.bundlingCode" required>
-                            <button class="btn btn-warning btn-sm vaildate-code" (click)="send($event, changeBindingPhoneNumInput.newTelephone, 50)" #smsBtn [disabled]="isSendNewPhone">发送验证码</button>
+                            <button class="btn btn-warning btn-sm vaildate-code" (click)="send($event, changeBindingPhoneNumInput.newTelephone, 50)"
+                                #smsBtn [disabled]="isSendNewPhone">发送验证码</button>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
@@ -83,11 +85,15 @@
     <div class="new-phone-wrap" *ngIf="!currentPhoneNum">
         <form #newPhoneFrom="ngForm">
             <div class="card">
+                <div class="card-header card-header-text" data-background-color="orange">
+                    <span class="title-icon vapps-icon-app-login-phone"></span>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
                             <label class="control-label">新手机号</label>
-                            <input type="text" class="form-control" name="beforePhone" [(ngModel)]="bindingPhoneNumInput.phoneNum" (ngModelChange)="getPhoneNum($event)" required>
+                            <input type="text" class="form-control" name="beforePhone" [(ngModel)]="bindingPhoneNumInput.phoneNum" (ngModelChange)="getPhoneNum($event)"
+                                required>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>

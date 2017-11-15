@@ -46,27 +46,4 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
 })
 
 export class AuthRoutingModule {
-
-    constructor(private localization: LocalizationService) {
-
-    }
-
-    public l(key: string, ...args: any[]): string {
-        let localizedText = this.localization.localize(key, AppConsts.localization.defaultLocalizationSourceName);
-
-        if (localizedText === key) {
-            localizedText = this.localization.localize(key, AppConsts.localization.commonLocalizationSourceName);
-        }
-
-        if (!localizedText) {
-            localizedText = key;
-        }
-
-        if (!args || !args.length) {
-            return localizedText;
-        }
-
-        args.unshift(localizedText);
-        return abp.utils.formatString.apply(this, args);
-    }
 }
