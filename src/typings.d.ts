@@ -107,6 +107,7 @@ interface Window {
     webkitURL: any;
     mozURL: any;
     clipboardData: any;
+    __wxjs_environment: any;
 }
 
 interface HTMLInputEvent extends Event {
