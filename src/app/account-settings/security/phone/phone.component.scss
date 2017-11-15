@@ -1,6 +1,6 @@
 .current-phone-wrap,
 .new-phone-wrap {
-    min-height: 100vh;
+    min-height: calc(100vh -20px);
     padding: 0px 10px 10px;
     .card {
         padding: 0px 16px 20px;

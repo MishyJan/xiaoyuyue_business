@@ -80,7 +80,7 @@
     </div>
 </div>
 
-<div id="fixed-header">
+<div id="fixed-header" [hidden]="iswxjsEnvironment">
     <div class="top-title clearfix mobile-header" *showItBootstrap="['xs','sm']">
         <a href="javascript:;" class="vapps-icon-app-back-left back-icon flex-item" (click)="back()"></a>
         <span class="title-text flex-item" [mobileheader]="title" id="headerTitle">{{ title }}</span>

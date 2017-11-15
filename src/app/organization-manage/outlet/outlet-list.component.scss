@@ -1,5 +1,6 @@
 .manage-org {
     position: relative;
+    padding-top: 10px;
     .search-btn-wrap {
         margin: 15px;
     }
@@ -10,7 +11,6 @@
         margin-top: 30px;
         padding: 0;
         .outlet-item {
-            border-radius: 4px;
             margin-top: 0px;
             margin-bottom: 60px;
             .item {
@@ -87,14 +87,18 @@
         .outlet-list-wrap {
             margin-top: 0;
             .outlet-item {
-                margin-bottom: 20px;
+                border-radius: 4px;
+                margin-bottom: 10px;
                 padding: 0;
                 .item {
+                    border-radius: 4px;
                     padding: 0;
                 }
                 .top-wrap {
                     margin-top: 0;
                     border-radius: 0;
+                    border-top-left-radius: 4px;
+                    border-top-right-radius: 4px;
                 }
                 .content-wrap {
                     padding: 15px;

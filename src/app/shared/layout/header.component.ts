@@ -8,6 +8,7 @@ import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { Breadcrumb } from 'shared/services/bread-crumb.service';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { CookiesService } from './../../../shared/services/cookies.service';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { LocalizationService } from '@abp/localization/localization.service';
@@ -43,7 +44,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
 
     remoteServiceBaseUrl: string = AppConsts.remoteServiceBaseUrl;
     chatConnected = false;
-
+    iswxjsEnvironment = false;
     constructor(
         injector: Injector,
         private _sessionService: AbpSessionService,
@@ -61,6 +62,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     }
 
     ngOnInit() {
+        this.iswxjsEnvironment = ClientTypeHelper.isWeChatMiniProgram;
         this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
             this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);
         });

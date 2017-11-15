@@ -2,6 +2,7 @@ import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NgModule } from '@angular/core';
 import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
@@ -76,11 +77,23 @@ export class AppRoutingModule {
             if (!(event instanceof NavigationEnd)) { return; }
             setTimeout(() => {
                 this.resetYAxial();
+                this.toggleBodyCssClass();
             }, 0);
         });
     }
 
     resetYAxial(): void {
         $('html,body').animate({ 'scrollTop': 0 });
+    }
+
+
+    toggleBodyCssClass(): void {
+        if (ClientTypeHelper.isWeChatMiniProgram) {
+            $('.mobile-page-content').css('margin-top', '0px');
+            $('.mobile-page-content').css('height', '100vh');
+
+            $('.mobile-manage-booking').css('height', '100vh');
+            $('.manage-org').css('height', '100vh');
+        }
     }
 }

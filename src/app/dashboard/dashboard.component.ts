@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewEncapsulatio
 import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, CurrentlyBookingDataDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
 import { NavigationEnd } from '@angular/router';
@@ -77,7 +78,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         });
 
         $('.mobile-page-content').css({
-            'margin-top': 0
+            'margin-top': '0px'
         });
     }
 
@@ -87,9 +88,11 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             'background-color': '#FF9641'
         });
 
-        $('.mobile-page-content').css({
-            'margin-top': '65px'
-        });
+        if (!ClientTypeHelper.isWeChatMiniProgram) {
+            $('.mobile-page-content').css({
+                'margin-top': '65px'
+            });
+        }
     }
 
     loadData(): void {
