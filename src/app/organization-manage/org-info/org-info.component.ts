@@ -84,6 +84,8 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
                 }
                 this.currentUserName = this.tenantInfo.tenancyName = result.tenancyName;
                 this.tenantInfo = result;
+                console.log(this.tenantInfo);
+                
                 this.originalTenantInfo = _.cloneDeep(this.tenantInfo);
                 this.checkDataNeed2Reconvert(); // 检查数据是否需要恢复
                 this.startSaveEditInfoInBower(); // 开始保存临时数据

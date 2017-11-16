@@ -20,8 +20,8 @@
                         <span>{{l("Save")}}</span>
                     </button>
                     <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor" [buttonBusy]="savingAndEditing" [busyText]="'保存中...'">
-                        <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}</button>
-                    <!--<button class="btn btn-view"><span class="vapps-icon vapps-icon-app-preview"></span>{{l("View")}}</button>-->
+                        <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}
+                    </button>
                 </div>
             </div>
 
@@ -89,22 +89,25 @@
 
 <div *showItBootstrap="['xs','sm']">
     <div class="user-profile common-container">
-        <div class="rotating-container" [ngClass]="{'filp-active': filpActive}">
+        <div class="" [ngClass]="{'filp-active': filpActive}">
+            <!-- 暂时处理机构信息页面裁剪弹窗fixed遇到perspective导致偏移错误，暂时移除机构信息页面的翻转动画 -->
             <!-- <div class="rotating-container"> -->
             <form #userProfile="ngForm" [@routerTransition]>
                 <div class="rotating">
                     <div class="front" *ngIf="!filpActive">
                         <div class="card">
-                            <div class="avatar-wrap form-group">
-                                <xiaoyuyue-mobile-upload-picture [slogan]="" [groupId]="groupId" [height]="'80px'" [existedPicUrl]="tenantInfo.logoUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                            <div class="avatar-wrap">
+                                <xiaoyuyue-mobile-upload-picture [slogan]="" [borderRadius]="'50%'" [groupId]="groupId" [width]="'80px'" [height]="'80px'" [existedPicUrl]="tenantInfo.logoUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                             </div>
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating">
                                             <label class="control-label">机构名称</label>
-                                            <input type="text" class="form-control" name="orgName" [(ngModel)]="tenantInfo.tenancyName" autofocus required>
-                                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                            <input type="text" class="form-control" name="orgName" #orgName="ngModel" [(ngModel)]="tenantInfo.tenancyName" autofocus required>
+                                        </div>
+                                        <div *ngIf="orgName.invalid && (orgName.dirty || orgName.touched)">
+                                            <small class="text-danger" *ngIf="orgName.errors.required">机构名称不能为空</small>
                                         </div>
                                     </div>
                                 </div>
@@ -112,8 +115,10 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating">
                                             <label class="control-label">机构宣传语</label>
-                                            <input type="text" class="form-control" name="orgSlogan" [(ngModel)]="tenantInfo.tagline" required>
-                                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                            <input type="text" class="form-control" name="orgSlogan" #orgSlogan="ngModel" [(ngModel)]="tenantInfo.tagline" required>
+                                        </div>
+                                        <div *ngIf="orgSlogan.invalid && (orgSlogan.dirty || orgSlogan.touched)">
+                                            <small class="text-danger" *ngIf="orgSlogan.errors.required">机构宣传语不能为空</small>
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +150,7 @@
                                         <button class="btn btn-block" type="button" (click)="cancel()">取消</button>
                                     </div>
                                     <div class="col-xs-6">
-                                        <button class="btn btn-block btn-warning" type="submit" (click)="saveAndEdit()" [disabled]="!userProfile.form.valid">保存</button>
+                                        <button class="btn btn-block btn-warning" type="submit" (click)="saveAndEdit()" [disabled]="!userProfile.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa"></i> <span>{{l("Save")}}</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +176,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating is-focused">
                                             <label class="control-label">机构宣传语</label>
-                                            <input type="text" class="form-control" name="backOrgSlogan" [(ngModel)]="tenantInfo.tenancyName" readonly disabled>
+                                            <input type="text" class="form-control" name="backOrgSlogan" [(ngModel)]="tenantInfo.tagline" readonly disabled>
                                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                         </div>
                                     </div>
