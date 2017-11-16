@@ -27,6 +27,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
 
     @Input() width = '100%';
     @Input() height = '100%';
+    @Input() borderRadius = '0';
     @Input() groupId = 0;
     @Input() slogan: string;
     @Input() existedPicUrl: string;
