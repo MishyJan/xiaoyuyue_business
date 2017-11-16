@@ -345,7 +345,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     /* 移动端 */
     showDetail(id: number): void {
-        const url = '/booking/detail' + id;
+        const url = '/booking/detail/' + id;
         url.substring
         if (!ClientTypeHelper.isWeChatMiniProgram) {
             this._router.navigate([url]);
