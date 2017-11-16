@@ -8,6 +8,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { Location } from '@angular/common';
@@ -257,7 +258,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
                 if (this.isMobile($('.mobile-create-booking'))) {
                     const isUpdate = this.input.booking.id ? true : false;
-                    this._router.navigate(['/booking/succeed', result.id, isUpdate]);
+                    this.routeToSuccess(result.id, isUpdate);
                 } else {
                     this.shareBookingModel.show(result.id);
                 }
@@ -429,5 +430,18 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     removeEditCache() {
         this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId));
+    }
+
+    // 跳转编辑预约
+    routeToSuccess(bookingId: number, isUpdate: boolean): void {
+        const url = '/booking/succeed' + bookingId + isUpdate;
+        url.substring
+        if (!ClientTypeHelper.isWeChatMiniProgram) {
+            this._router.navigate([url]);
+        } else {
+            wx.miniProgram.redirectTo({
+                url: `/pages/business-center/business-center?route=${encodeURIComponent(url)}`
+            })
+        }
     }
 }
