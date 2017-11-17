@@ -434,7 +434,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 跳转编辑预约
     routeToSuccess(bookingId: number, isUpdate: boolean): void {
-        const url = `/booking/succeed/${bookingId}/${isUpdate}` + bookingId + '/' + isUpdate;
+        const url = `/booking/succeed/${bookingId}/${isUpdate}`;
         if (!ClientTypeHelper.isWeChatMiniProgram) {
             this._router.navigate([url]);
         } else {
