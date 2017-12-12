@@ -11,7 +11,6 @@ import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { Location } from '@angular/common';
-import { NgxAni } from 'ngxani';
 import { TooltipConfig } from 'ngx-bootstrap';
 import { VerificationCodeType } from 'shared/AppEnums';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -42,7 +41,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         private _sessionService: AbpSessionService,
         private _tokenAuthService: TokenAuthServiceProxy,
         private _SMSServiceProxy: SMSServiceProxy,
-        private _ngxAni: NgxAni
     ) {
         super(injector);
         loginService.rememberMe = true;
@@ -107,39 +105,39 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
 
         if (provider.name === 'WeChat' && this.flag) {
             // 由于每次点击都回去请求微信，但是微信图片隐藏时没必要也去请求
-            this.animationShow(elementRef, externalContent);
+            // this.animationShow(elementRef, externalContent);
         } else {
-            this.animationHide(elementRef, externalContent);
+            // this.animationHide(elementRef, externalContent);
         }
         this.flag = !this.flag;
     }
 
     // NgxAni动画
-    private animationShow(externalAni, externalContent) {
-        this._ngxAni.to(externalAni, .6, {
-            transform: 'scale(1)',
-            opacity: .8,
-            'ease': this._ngxAni['easeOutBack'],
-            onComplete: () => {
-                // 利用定时器解决每次请求微信图片会出现延迟，导致显示问题
-                setTimeout(() => {
-                    this._ngxAni.to(externalContent, 1, {
-                        opacity: 1
-                    })
-                }, 10);
-            }
-        });
-    }
+    // private animationShow(externalAni, externalContent) {
+    //     this._ngxAni.to(externalAni, .6, {
+    //         transform: 'scale(1)',
+    //         opacity: .8,
+    //         'ease': this._ngxAni['easeOutBack'],
+    //         onComplete: () => {
+    //             // 利用定时器解决每次请求微信图片会出现延迟，导致显示问题
+    //             setTimeout(() => {
+    //                 this._ngxAni.to(externalContent, 1, {
+    //                     opacity: 1
+    //                 })
+    //             }, 10);
+    //         }
+    //     });
+    // }
 
-    private animationHide(externalAni, externalContent) {
-        this._ngxAni.to(externalAni, .4, {
-            transform: 'scale(0)',
-            opacity: 0,
-        });
-        this._ngxAni.to(externalContent, 1, {
-            opacity: 0
-        })
-    }
+    // private animationHide(externalAni, externalContent) {
+    //     this._ngxAni.to(externalAni, .4, {
+    //         transform: 'scale(0)',
+    //         opacity: 0,
+    //     });
+    //     this._ngxAni.to(externalContent, 1, {
+    //         opacity: 0
+    //     })
+    // }
 
     // 是否账号登录
     isOrdinaryLogin() {

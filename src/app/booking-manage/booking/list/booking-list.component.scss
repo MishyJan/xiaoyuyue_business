@@ -31,6 +31,11 @@
         }
         .booking-item.flip {
             transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);
+            transform: rotateY(0);
+            &.active {
+                transform: rotateY(180deg);
+            }
         }
         .booking-item {
             position: relative;
