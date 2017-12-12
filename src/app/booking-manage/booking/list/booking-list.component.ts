@@ -7,6 +7,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
@@ -332,7 +333,15 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     /* 移动端 */
     showDetail(id: number): void {
-        this._router.navigate(['/booking/detail', id]);
+        const url = '/booking/detail/' + id;
+        url.substring
+        if (!ClientTypeHelper.isWeChatMiniProgram) {
+            this._router.navigate([url]);
+        } else {
+            wx.miniProgram.redirectTo({
+                url: `/pages/business-center/business-center?route=${encodeURIComponent(url)}`
+            })
+        }
     }
 
     setActionFlag(index: number) {
