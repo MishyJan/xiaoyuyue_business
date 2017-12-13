@@ -94,13 +94,13 @@
                         <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,externalAni,externalContent,$event)" title="{{provider.name}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,$event)" title="{{provider.name}}"></a>
                                 </li>
                             </ul>
 
-                            <div class="tooltip in tooltip-top top" id="externalLogin" #externalAni>
+                            <div class="tooltip in tooltip-top top" id="externalLogin">
                                 <div class="externalLogin-arrow"></div>
-                                <div class="externalLogin-wrapper" id="external_login_container" #externalContent></div>
+                                <div class="externalLogin-wrapper" id="externalLoginContainer"></div>
                             </div>
                         </div>
                     </div>

@@ -98,7 +98,7 @@ export class LoginService {
             if (provider.name === ExternalLoginProvider.WECHAT) {
                 jQuery.getScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
                     const wxLogin = new WxLogin({
-                        id: 'external_login_container',
+                        id: 'externalLoginContainer',
                         appid: provider.clientId,
                         scope: 'snsapi_login',
                         redirect_uri: AppConsts.appBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT, /*暂用测试域名*/

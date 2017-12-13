@@ -50,13 +50,8 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         const self = this;
         $(document).click(() => {
             self.flag = true;
-            $('#externalLogin').css({
-                opacity: 0,
-                transform: 'scale(0)'
-            });
-            $('#external_login_container').css({
-                opacity: 0
-            });
+            $('#externalLogin').removeClass('active');
+            $('#externalLoginContainer').removeClass('active');
         })
     }
 
@@ -99,21 +94,25 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         }
     }
 
-    externalLogin(provider: ExternalLoginProvider, elementRef: object, externalContent: object, $event) {
+    externalLogin(provider: ExternalLoginProvider, $event) {
         $event.cancelBubble = true;
         this.flag && this.loginService.externalAuthenticate(provider); // 执行第三方登陆逻辑
 
         if (provider.name === 'WeChat' && this.flag) {
             // 由于每次点击都回去请求微信，但是微信图片隐藏时没必要也去请求
-            // this.animationShow(elementRef, externalContent);
+            this.animationShow();
         } else {
-            // this.animationHide(elementRef, externalContent);
+            this.animationHide();
         }
         this.flag = !this.flag;
     }
 
     // NgxAni动画
-    // private animationShow(externalAni, externalContent) {
+    private animationShow() {
+        $('#externalLogin').addClass('active');
+        setTimeout( () => {
+            $('#externalLoginContainer').addClass('active');
+        }, 10);
     //     this._ngxAni.to(externalAni, .6, {
     //         transform: 'scale(1)',
     //         opacity: .8,
@@ -127,9 +126,11 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     //             }, 10);
     //         }
     //     });
-    // }
+    }
 
-    // private animationHide(externalAni, externalContent) {
+    private animationHide() {
+        $('#externalLogin').removeClass('active');
+        $('#externalLoginContainer').removeClass('active');
     //     this._ngxAni.to(externalAni, .4, {
     //         transform: 'scale(0)',
     //         opacity: 0,
@@ -137,7 +138,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     //     this._ngxAni.to(externalContent, 1, {
     //         opacity: 0
     //     })
-    // }
+    }
 
     // 是否账号登录
     isOrdinaryLogin() {
