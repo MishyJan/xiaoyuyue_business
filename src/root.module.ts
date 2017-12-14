@@ -12,7 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
 import { CookiesService } from 'shared/services/cookies.service';
-import { NgxAniModule } from 'ngxani';
 import { ResponsiveModule } from 'ng2-responsive'
 import { RootComponent } from './root.component';
 import { RootRoutingModule } from './root-routing.module';
@@ -84,7 +83,6 @@ function handleLogoutRequest(authService: AppAuthService) {
         ServicesModule,
         RootRoutingModule,
         ResponsiveModule,
-        NgxAniModule,
 
     ],
     declarations: [

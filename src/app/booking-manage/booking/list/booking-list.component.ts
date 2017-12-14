@@ -7,12 +7,12 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-model/share-booking-model.component';
 import { Moment } from 'moment';
-import { NgxAni } from 'ngxani';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { SelectHelper } from 'shared/helpers/SelectHelper';
@@ -30,6 +30,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    flipIsToBackFlag: boolean[] = [];
     updateDataIndex: number = -1;
     allOrganizationBookingResultData: any[] = [];
 
@@ -78,7 +79,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     constructor(
         injector: Injector,
-        private _ngxAni: NgxAni,
         private _router: Router,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
@@ -131,19 +131,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 正面翻转到背面
-    flipToBack(flipAni: any, event) {
-        this._ngxAni.to(flipAni, .6, {
-            transform: 'rotateY(180deg)',
-            transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
-        });
-    }
-
-    // 背面翻转到正面
-    flipToFront(flipAni: any, event) {
-        this._ngxAni.to(flipAni, .6, {
-            transform: 'rotateY(0)',
-            transition: 'transform 1s cubic-bezier(0.18, 1.24, 0.29, 1.44);'
-        });
+    flipIsToBack(index, filpType: boolean) {
+        this.flipIsToBackFlag[index] = filpType;
     }
 
     // 禁用预约样式
@@ -344,7 +333,15 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     /* 移动端 */
     showDetail(id: number): void {
-        this._router.navigate(['/booking/detail', id]);
+        const url = '/booking/detail/' + id;
+        url.substring
+        if (!ClientTypeHelper.isWeChatMiniProgram) {
+            this._router.navigate([url]);
+        } else {
+            wx.miniProgram.redirectTo({
+                url: `/pages/business-center/business-center?route=${encodeURIComponent(url)}`
+            })
+        }
     }
 
     setActionFlag(index: number) {

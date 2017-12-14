@@ -15,12 +15,12 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
-import { Inject, Injectable, OpaqueToken, Optional } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 
 import {Moment} from 'moment';
 import { Observable } from 'rxjs/Observable';
 
-export const API_BASE_URL = new OpaqueToken('API_BASE_URL');
+export const API_BASE_URL = new InjectionToken('API_BASE_URL');
 
 @Injectable()
 export class AccountServiceProxy {

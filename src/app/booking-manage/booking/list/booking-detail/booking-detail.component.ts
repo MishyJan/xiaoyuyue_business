@@ -6,6 +6,7 @@ import { AfterViewInit, Component, Injector, OnInit, ViewChild } from '@angular/
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { MobileConfirmOrderModelComponent } from '../shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from 'app/booking-manage/booking/list/shared/mobile-share-booking-model/share-booking-model.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
@@ -19,7 +20,7 @@ declare var Swiper: any;
     styleUrls: ['./booking-detail.component.scss'],
     animations: [accountModuleAnimation()],
 })
-export class BookingDetailComponent extends AppComponentBase implements OnInit,AfterViewInit {
+export class BookingDetailComponent extends AppComponentBase implements OnInit, AfterViewInit {
     hasAvailableTime: boolean = false;
     shareUrl: string;
     bookingPictures: string[] = [];
@@ -58,7 +59,7 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit,A
 
     initSwiper(): void {
         const swiper = new Swiper('#tenantBgSwiperContainer', {
-            autoplay : 2000,
+            autoplay: 2000,
             loop: true,
             pagination: '.swiper-pagination',
             paginationClickable: true
@@ -162,6 +163,18 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit,A
             this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
             this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
             this._weChatShareTimelineService.initWeChatShareConfig();
+        }
+    }
+
+    // 跳转编辑预约
+    RouteToCreateOrEdit(): void {
+        const bookingUrl = '/booking/edit/' + this.bookingForEditData.id;
+        if (!ClientTypeHelper.isWeChatMiniProgram) {
+            this._router.navigate([bookingUrl]);
+        } else {
+            wx.miniProgram.redirectTo({
+                url: `/pages/business-center/business-center?route=${encodeURIComponent(bookingUrl)}`
+            })
         }
     }
 }
