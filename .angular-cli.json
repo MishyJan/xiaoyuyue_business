@@ -75,7 +75,6 @@
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
 
-
             "../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
             "../src/assets/common/js/plupload-2.1.9.full.min.js",
 
@@ -85,6 +84,8 @@
 
             "../src/assets/common/js/flatpickr.min.js",
             "../src/assets/common/js/flatpickr-zh.js",
+
+            "../node_modules/inputmask/dist/min/jquery.inputmask.bundle.min.js",
 
             "../node_modules/arrive/minified/arrive.min.js",
             "../src/assets/md-pro/js/core/material.min.js",

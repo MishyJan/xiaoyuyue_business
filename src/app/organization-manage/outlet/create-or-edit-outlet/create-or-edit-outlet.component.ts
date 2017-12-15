@@ -26,6 +26,7 @@ import { test } from '@shared/animations/gridToggleTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+    isValidLandlinePhone: boolean;
     outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
@@ -81,6 +82,10 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.provinceSelectListData.unshift(SelectHelper.DefaultSelectList());
         this.selectedProvinceId = this.provinceSelectListData[0].value;
         this.loadData();
+    }
+
+    ngAfterViewInit() {
+        this.initValidLandlinePhone();
     }
 
     loadData(): void {
@@ -160,9 +165,15 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     createOrUpdateOutlet(saveAndEdit: boolean = false) {
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
         this.input.outlet.isActive = true;
+        
+        if (!this.isValidLandlinePhone) {
+            console.log(this.isValidLandlinePhone);
+            this.message.warn('固话格式错误');
+            return;
+        }
 
         if (this.input.contactors.length < 1) {
-            this.notify.warn('请添加联系人');
+            this.message.warn('请添加联系人');
             this.savingAndEditing = false
             return;
         }
@@ -173,7 +184,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 abp.event.trigger('outletListSelectChanged');
                 abp.event.trigger('contactorListSelectChanged');
                 this.removeEditCache(); // 清理缓存数据
-                this.notify.success('保存成功!');
+                this.message.success('保存成功!');
                 if (!saveAndEdit) { this._router.navigate(['/outlet/list']); }
             });
     }
@@ -186,7 +197,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                     .deleteOutlet(+this.outletId)
                     .finally(() => { this.deleting = false })
                     .subscribe(() => {
-                        this.notify.success('门店删除成功');
+                        this.message.success('门店删除成功');
                         this._router.navigate(['/outlet/list']);
                     })
             }
@@ -352,5 +363,28 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.getProvinceSelectList();
     }
 
+    // 固话验证初始化
+    private initValidLandlinePhone(): void {
+        $('#landlinePhone').inputmask({
+            mask: '(9{1,4}) 9{4}-9{3,4}',
+            oncomplete: () => {
+                let phoneNum = $('#landlinePhone').val() + '';
+                phoneNum = phoneNum.replace(/\(/, '');
+                phoneNum = phoneNum.replace(/\)/, '');
+                phoneNum = phoneNum.replace(/-/, '');
+                this.input.outlet.phoneNum = phoneNum;
+                this.isValidLandlinePhone = true;
+            },
+            onincomplete: () => {
+                this.isValidLandlinePhone = false;
+            },
+        });
+
+        if ($("#landlinePhone").inputmask("isComplete")) {
+            this.isValidLandlinePhone = true;
+        } else {
+            this.isValidLandlinePhone = false;
+        }
+    }
 
 }
