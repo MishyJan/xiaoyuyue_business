@@ -1,10 +1,14 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import { BatchMove2GroupInput, CreateOrUpdatePictureGroupInput, IPictureGroupListDto, PictureGroupListDto, PictureServiceProxy } from 'shared/service-proxies/service-proxies';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { PictureServiceProxy, PictureGroupListDto, IPictureGroupListDto, CreateOrUpdatePictureGroupInput, BatchMove2GroupInput } from 'shared/service-proxies/service-proxies';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { SelectedPicListDto } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
 import { TooltipDirective } from 'ngx-bootstrap';
+import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
+import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-picture-none-gallery/upload-picture-none-gallery.component';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { element } from 'protractor';
 
 @Component({
@@ -15,6 +19,7 @@ import { element } from 'protractor';
 
 })
 export class PictureListComponent extends AppComponentBase implements OnInit {
+    selectedGroupName: string;
     // 保存正在编辑分组名称的索引值
     editingGroupNameIndex: number;
     checkAllText: string = '全选';
@@ -45,6 +50,9 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     selectedPicListArr: SelectedPicListDto[] = [];
 
     picGroupInputDto: CreateOrUpdatePictureGroupInput = new CreateOrUpdatePictureGroupInput();
+    uploadUid: number = new Date().valueOf();
+    @Output() pictureInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
+    @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
 
     constructor(
         private injector: Injector,
@@ -67,7 +75,8 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
             .getPictureGroupAsync()
             .subscribe(result => {
                 this.picGalleryGroupData = result;
-                this.selectedGroupId = this.selectedGroupId ? this.selectedGroupId : result[0].id;
+                this.selectedGroupId = this.selectedGroupId ? this.selectedGroupId : DefaultUploadPictureGroundId.NoGroup;
+                this.selectedGroupName = '所有';
                 this.loadAllPicAsync();
             })
     }
@@ -247,6 +256,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         }
         this.groupActiveIndex = groupActiveIndex;
         this.selectedGroupId = groupItem.id;
+        this.selectedGroupName = groupItem.name;
         this.loadAllPicAsync();
     }
 
@@ -296,6 +306,17 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         this.currentPage = index;
         this.gridParam.SkipCount = this.maxResultCount * (this.currentPage - 1);
         this.loadAllPicAsync()
+    }
+
+    // 弹出上传Model
+    public uploadPicModel(): void {
+        this.uploadPictureNoneGalleryModel.show();
+    }
+
+    // 获取图片上传URL
+    public getPicUploadInfoHandler(pictureInfo: UploadPictureDto): void {
+        this.notify.success('已上传到分组：' + this.selectedGroupName);
+        this.loadAllPicAsync();
     }
 
     private showMoveGroupTemplate(): void {

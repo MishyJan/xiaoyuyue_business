@@ -1396,7 +1396,8 @@ a:focus {
 
 
 /* 由于bootstrap的弹窗modal导致部分不能点击的bug */
-
-.modal-backdrop.in {
-    display: none;
-}
+/* @media screen and (max-width: 1024px) {
+    .modal-backdrop.in {
+        display: none;
+    }
+} */

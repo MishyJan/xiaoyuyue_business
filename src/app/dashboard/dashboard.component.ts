@@ -6,12 +6,12 @@ import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
 import { NavigationEnd } from '@angular/router';
-import { appModuleAnimation } from 'shared/animations/routerTransition';
+import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 @Component({
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    animations: [appModuleAnimation()],
+    animations: [appModuleSlowAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     defaultTenantBgUrl = 'assets/common/images/booking/center-bg.jpg';
