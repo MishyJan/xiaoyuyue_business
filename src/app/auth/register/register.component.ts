@@ -1,6 +1,6 @@
 import { Component, Injector, OnInit, NgModule, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { AccountServiceProxy, PasswordComplexitySetting, ProfileServiceProxy, CodeSendInput, SMSServiceProxy, TenantRegistrationServiceProxy, RegisterTenantInput } from '@shared/service-proxies/service-proxies'
+import { AccountServiceProxy, PasswordComplexitySetting, ProfileServiceProxy, SMSServiceProxy, TenantRegistrationServiceProxy, RegisterTenantInput } from '@shared/service-proxies/service-proxies'
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { RegisterModel } from './register.model';
@@ -17,17 +17,14 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     phoneRegister: boolean = true;
     protocolText: string;
     phoneNumber: string;
-    isSendSMS: boolean = false;
     confirmPasswd: string;
-
+    codeType = VerificationCodeType.Register;
     model: RegisterTenantInput = new RegisterTenantInput();
     passwordComplexitySetting: PasswordComplexitySetting = new PasswordComplexitySetting();
-
     saving: boolean = false;
 
-    @ViewChild('smsBtn') _smsBtn: ElementRef;
     @ViewChild('protocolModal') protocolModal: ProtocolModelComponent;
-    
+
     constructor(
         injector: Injector,
         private _accountService: AccountServiceProxy,
@@ -69,7 +66,6 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
                     return;
                 }
 
-                //Autheticate
                 this.saving = true;
                 this._loginService.authenticateModel.loginCertificate = this.model.tenancyName;
                 this._loginService.authenticateModel.password = this.model.password;
@@ -84,7 +80,6 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
         // 是否邮件注册
         isEmailRegister() {
             this.phoneRegister = false;
-            // this.ordinaryLogin = true;
         }
 
     // 注释掉螺丝帽验证码
@@ -92,34 +87,4 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     //     let captchaResponse = $('#lc-captcha-response').val();
     //     this.model.captchaResponse = captchaResponse;
     // }
-
-    // 发送验证码
-    send() {
-        let input: CodeSendInput = new CodeSendInput();
-        input.targetNumber = this.model.phoneNumber;
-        input.codeType = VerificationCodeType.Register;
-        // this.captchaResolved();
-
-        this._SMSServiceProxy
-            .sendCodeAsync(input)
-            .subscribe(result => {
-                this.anginSend();
-            });
-    }
-
-    anginSend() {
-        let self = this;
-        let time = 60;
-        this.isSendSMS = true;
-        let set = setInterval(() => {
-            time--;
-            self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
-        }, 1000)
-
-        setTimeout(() => {
-            clearInterval(set);
-            self.isSendSMS = false;
-            self._smsBtn.nativeElement.innerHTML = this.l("AgainSendValidateCode");
-        }, 60000);
-    }
 }

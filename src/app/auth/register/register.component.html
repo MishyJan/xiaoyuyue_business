@@ -38,9 +38,7 @@
                             <div class="validate-code-wrap form-group label-floating">
                                 <label class="control-label"></label>
                                 <input class="form-control" placeholder="{{l('PhoneNumber')}}" type="tel" name="phoneNumber" required [(ngModel)]="model.phoneNumber">
-                                <div class="get-sms-btn">
-                                    <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">{{l('GetVerificationCode')}}</button>
-                                </div>
+                                <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNumber"></xiaoyuyue-send-sms-code>
                             </div>
                         </div>
                     </div>
@@ -123,9 +121,7 @@
                             <div class="validate-code-wrap form-group label-floating">
                                 <label class="control-label"></label>
                                 <input class="form-control" placeholder="邮箱地址" type="tel" name="phoneNumber" required [(ngModel)]="model.phoneNumber">
-                                <div class="get-sms-btn">
-                                    <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">{{l('GetVerificationCode')}}</button>
-                                </div>
+                                <!-- <xiaoyuyue-send-sms-code></xiaoyuyue-send-sms-code> -->
                             </div>
                         </div>
                     </div>

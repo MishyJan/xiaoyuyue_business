@@ -4,7 +4,6 @@ import { ButtonBusyDirective } from './button-busy.directive'
 import { CurrencyInputDirective } from './currency-input.directive';
 import { EqualValidator } from './validation/equal-validator.directive';
 import { FileDownloadService } from './file-download.service';
-import { FriendProfilePictureComponent } from './friend-profile-picture.component';
 import { GridRowClickDirective } from 'shared/utils/grid-row-click.directive';
 import { LocalStorageService } from './local-storage.service';
 import { MinValueValidator } from './validation/min-value-validator.directive';
@@ -25,11 +24,10 @@ import { PasswordComplexityValidator } from './validation/password-complexity-va
         ButtonBusyDirective,
         AutoFocusDirective,
         BusyIfDirective,
-        FriendProfilePictureComponent,
         MomentFormatPipe,
         GridRowClickDirective,
         CurrencyInputDirective,
-        MobileHeaderDirective
+        MobileHeaderDirective,
     ],
     exports: [
         EqualValidator,
@@ -38,11 +36,10 @@ import { PasswordComplexityValidator } from './validation/password-complexity-va
         ButtonBusyDirective,
         AutoFocusDirective,
         BusyIfDirective,
-        FriendProfilePictureComponent,
         MomentFormatPipe,
         GridRowClickDirective,
         CurrencyInputDirective,
-        MobileHeaderDirective
+        MobileHeaderDirective,
     ]
 })
 export class UtilsModule { }
