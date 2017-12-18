@@ -14,6 +14,7 @@ import { ProtocolModelComponent } from './protocol-model/protocol-model.componen
     animations: [accountModuleAnimation()]
 })
 export class RegisterComponent extends AppComponentBase implements OnInit {
+    phoneRegister: boolean = true;
     protocolText: string;
     phoneNumber: string;
     isSendSMS: boolean = false;
@@ -75,6 +76,16 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
                 this._loginService.authenticate(() => { this.saving = false; });
             });
     }
+
+        // 是否手机号注册
+        isPhoneRegister() {
+            this.phoneRegister = true;
+        }
+        // 是否邮件注册
+        isEmailRegister() {
+            this.phoneRegister = false;
+            // this.ordinaryLogin = true;
+        }
 
     // 注释掉螺丝帽验证码
     // captchaResolved(): void {
