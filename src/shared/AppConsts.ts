@@ -1,4 +1,5 @@
 ﻿import { state } from '@angular/core';
+import { SMSProviderInfoDto } from './service-proxies/service-proxies';
 
 export class AppConsts {
 
@@ -53,4 +54,10 @@ export class MediaCompressFormat {
     static outletInfoFormat = 'imageView2/2/w/800/q/100|imageslim';
     static contactorFormat = 'imageView2/2/w/400/q/100|imageslim';
     static minProfilePictureFormat = 'imageView2/2/w/100/q/100|imageslim';
+}
+
+export class SMSProviderDto {
+    static phoneNum: string;
+    static sendCodeSecond = 60;
+    static readonly timeInterval = 1000;
 }

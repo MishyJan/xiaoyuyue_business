@@ -26,6 +26,7 @@ import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-master.component';
 import { WangEditorComponent } from './wang-editor/wang-editor.component';
+import { SendSmsCodeComponent } from './send-sms-code/send-sms-code.component';
 
 @NgModule({
     imports: [
@@ -53,7 +54,8 @@ import { WangEditorComponent } from './wang-editor/wang-editor.component';
         WangEditorComponent,
         MobileUploadPictureListComponent,
         ViewArtworkMasterComponent,
-        QrCodeComponent
+        QrCodeComponent,
+        SendSmsCodeComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -70,7 +72,8 @@ import { WangEditorComponent } from './wang-editor/wang-editor.component';
         WangEditorComponent,
         MobileUploadPictureListComponent,
         ViewArtworkMasterComponent,
-        QrCodeComponent
+        QrCodeComponent,
+        SendSmsCodeComponent
     ]
 })
 export class AppCommonModule {

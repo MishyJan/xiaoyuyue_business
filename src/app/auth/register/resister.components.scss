@@ -1,9 +1,10 @@
 .register-wrap {
     width: 380px;
     position: relative;
+    margin: 50px auto 0;
+    padding: 130px 20px 0;
+    background-color: #FFF;
     display: block;
-    margin: 100px auto 0;
-    padding: 60px 20px 20px;
     .logo-wrap {
         width: 100px;
         height: 100px;
@@ -53,18 +54,44 @@
                 margin-right: 8px;
             }
         }
+        .toggle-wrap {
+            padding: 15px 0;
+            .ordinary-login {
+                position: relative;
+                line-height: 30px;
+                cursor: pointer;
+                border-right: 1px solid #FFF;
+                .line {
+                    width: 60%;
+                    height: 2px;
+                    position: absolute;
+                    top: 28px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    margin: 0 auto;
+                    background-color: #FFF;
+                }
+            }
+            .phone-login {
+                position: relative;
+                line-height: 30px;
+                cursor: pointer;
+                .line {
+                    width: 60%;
+                    height: 2px;
+                    position: absolute;
+                    top: 28px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    margin: 0 auto;
+                    background-color: #FFF;
+                }
+            }
+        }
     }
     .register-body {
         .validate-code-wrap {
             position: relative;
-            .get-sms-btn {
-                position: absolute;
-                top: -12px;
-                right: 0;
-                .btn {
-                    background-color: #ff9742;
-                }
-            }
         }
         .register-btn-wrap {
             width: 100%;
