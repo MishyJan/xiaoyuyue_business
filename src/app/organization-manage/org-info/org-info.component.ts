@@ -20,7 +20,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     selector: 'xiaoyuyue-org-info',
     templateUrl: './org-info.component.html',
     styleUrls: ['./org-info.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+    // encapsulation: ViewEncapsulation.None,
     animations: [accountModuleAnimation()],
 })
 export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
