@@ -269,14 +269,14 @@
                                     <input type="checkbox" name="aboutTerms" value="true" />{{l('ReadAndAgree')}}
                                 </label>
                                 <span>
-                                    <a href="javascript:;" (click)="readProtocolModal()">《小预约平台网络服务协议》</a>
+                                    <a href="javascript:;" (click)="readProtocolModal()">《{{ l('ReadProtocol') }}》</a>
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="register-btn-wrap">
                         <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!registerForm.form.valid" [buttonBusy]="saving"
-                            [busyText]="'注册中...'">
+                            [busyText]="l('Page.Registering')">
                             <i></i>
                             <span>{{l("CreateAnAccount")}}</span>
                         </button>

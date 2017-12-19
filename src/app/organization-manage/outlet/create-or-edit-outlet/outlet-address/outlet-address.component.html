@@ -1,7 +1,7 @@
 <div class="card">
     <div class="clearfix">
         <div class="card-header card-header-text pull-left" data-background-color="orange">
-            <h6 class="card-title">门店地址</h6>
+            <h6 class="card-title">{{ l('Outlet.AddressFiled') }}</h6>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="detailed-address-wrap col-md-4">
-                        <textarea class="form-control" rows="1" [(ngModel)]="outletInfo.detailAddress" name="detailAddress" placeholder="详细地址" required></textarea>
+                        <textarea class="form-control" rows="1" [(ngModel)]="outletInfo.detailAddress" name="detailAddress" placeholder="{{ l('Outlet.Address') }}" required></textarea>
                     </div>
                 </div>
             </div>

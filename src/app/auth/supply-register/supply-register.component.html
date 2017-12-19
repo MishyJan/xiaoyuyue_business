@@ -16,7 +16,7 @@
                             <label class="control-label"></label>
                             <input class="form-control" placeholder="{{l('TenantName')}}" [(ngModel)]="model.tenantName" #tenantName="ngModel" type="text" name="tenancyName" maxlength="10" required autofocus>
                             <div *ngIf="tenantName.invalid && (tenantName.dirty || tenantName.touched)" class="text-danger">
-                                <div *ngIf="tenantName.errors.required">机构名称必填</div>
+                                <div *ngIf="tenantName.errors.required">{{ l('PlaceholderTips.TenantNameReq') }}</div>
                             </div>
                         </div>
                     </div>
@@ -28,14 +28,14 @@
                             <label>
                                 <input type="checkbox" name="readAndAgree" [(ngModel)]="readAndAgree" />{{l('ReadAndAgree')}}
                             </label>
-                            <span><a href="javascript:;" (click)="readProtocolModal()">《小预约平台网络服务协议》</a></span>
+                            <span><a href="javascript:;" (click)="readProtocolModal()">《{{ l('ReadProtocol') }}》</a></span>
                         </div>
                     </div>
                 </div>
                 <div class="register-btn-wrap">
                     <button class="btn btn-register" type="submit" [disabled]="!(supplyRegisterForm.form.valid && readAndAgree)" (click)="supplRregisterHandler()" [buttonBusy]="registering" [busyText]="'补充注册中...'">
                             <i></i>
-                            <span>补充注册</span>
+                            <span>{{ l('Page.SupplyRegister') }}</span>
                         </button>
                 </div>
             </div>

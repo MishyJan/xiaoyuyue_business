@@ -5,7 +5,7 @@
                 <div class="page-head">
                     <div class="page-title">
                         <h1>
-                            <span>意见反馈</span>
+                            <span>{{ l('Menu.Account.Feedback' ) }}</span>
                         </h1>
                         <div>
                             <breadcrumb></breadcrumb>
@@ -21,36 +21,36 @@
                 <div class="card">
                     <div class="form-horizontal">
                         <div class="card-header card-header-text" data-background-color="orange">
-                            <h6 class="card-title">意见反馈</h6>
+                            <h6 class="card-title">{{ l('Menu.Account.Feedback' ) }}</h6>
                         </div>
                         <div class="card-content">
                             <!-- 门店名称 -->
                             <div class="row">
-                                <label class="col-sm-2 label-on-left">姓名</label>
+                                <label class="col-sm-2 label-on-left">{{ l('Feedback.Name') }}</label>
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control " type="text" name="nam" placeholder="如何称呼您..." required autofocus>
+                                        <input class="form-control " type="text" name="nam" placeholder="{{ l('Feedback.Name') }}..." required autofocus>
                                     </div>
                                 </div>
                             </div>
                             <!-- 机构宣传语 -->
                             <div class="row">
-                                <label class="col-sm-2 label-on-left">联系邮箱</label>
+                                <label class="col-sm-2 label-on-left">{{ l('Feedback.Emai') }}</label>
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <input class="form-control " type="text" name="email" placeholder="您的联系邮箱..." required>
+                                        <input class="form-control " type="text" name="email" placeholder="{{ l('Feedback.Emai') }}..." required>
                                     </div>
                                 </div>
                             </div>
                             <!-- 机构简介 -->
                             <div class="row">
-                                <label class="col-sm-2 label-on-left">反馈内容</label>
+                                <label class="col-sm-2 label-on-left">{{ l('Feedback.Content') }}</label>
                                 <div class="col-sm-10">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <textarea class="form-control " rows="5" name="feedback" placeholder="告诉我们您的建议和意见..."></textarea>
+                                        <textarea class="form-control " rows="5" name="feedback" placeholder="{{ l('Feedback.Content') }}..."></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                 <div class="col-sm-10">
                                     <button type="submit" (click)="submit()" class="btn primary-bgcolor">
                                         <i class="vapps-icon vapps-icon-app-submit"></i>
-                                        <span>提交</span>
+                                        <span>{{ l('Submit') }}</span>
                                     </button>
                                 </div>
                             </div>

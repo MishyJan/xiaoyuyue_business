@@ -1,7 +1,7 @@
 <div class="security-wrap" [@routerTransition]>
     <h5 class="title">
-        安全信息
-        <small>完善账户安全信息，更好地保护您的数据安全</small>
+        {{ l('Security.InfoField') }}
+        <small>{{ l('Security.Title') }}</small>
     </h5>
     <div class="clearfix">
         <!-- 更改密码 -->
@@ -10,7 +10,7 @@
                 <div class="item">
                     <div class="content">
                         <span class="icon vapps-icon-app-login-passwd"></span>
-                        <p class="text">更改密码</p>
+                        <p class="text">{{ l('Security.Filed.RevisePasswd') }}</p>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                 <div class="item">
                     <div class="content">
                         <span class="icon vapps-icon-app-login-phone"></span>
-                        <p class="text">更绑手机</p>
+                        <p class="text">{{ l('Security.RevisePhone') }}</p>
                     </div>
                 </div>
             </div>
@@ -29,8 +29,8 @@
     </div>
 
     <h5 class="title">
-        账户关联
-        <small>关联第三方账号</small>
+        {{ l('Security.AccountAssociation') }}
+        <small>{{ l('Security.ExternalTitle') }}</small>
     </h5>
     <div class="clearfix">
         <!-- 微信绑定 -->

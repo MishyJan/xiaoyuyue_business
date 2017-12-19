@@ -436,5 +436,5 @@
         [busyText]="l('Saving')">{{l('Update')}}</button>
 </div>
 
-<xiaoyuyue-tips *ngIf="isShowImperfectTip" [slogen]="'您需要完善机构信息才能发起预约哦'" [redirectRoute]="'/organization/info'"></xiaoyuyue-tips>
-<xiaoyuyue-tips *ngIf="(!isShowImperfectTip&&needImperfectOutlet)" [slogen]="'您需要创建门店才能发起预约哦'" [redirectRoute]="'/outlet/create'"></xiaoyuyue-tips>
+<xiaoyuyue-tips *ngIf="isShowImperfectTip" [slogen]="l('PlaceholderTips.RequiredTenantInfo')" [redirectRoute]="'/organization/info'"></xiaoyuyue-tips>
+<xiaoyuyue-tips *ngIf="(!isShowImperfectTip&&needImperfectOutlet)" [slogen]="l('PlaceholderTips.RequiredCeateOutlet')" [redirectRoute]="'/outlet/create'"></xiaoyuyue-tips>
