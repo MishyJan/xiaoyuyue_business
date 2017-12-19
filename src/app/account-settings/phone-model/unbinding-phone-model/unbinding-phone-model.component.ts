@@ -12,10 +12,11 @@ import { BindingPhoneModelComponent } from 'app/account-settings/phone-model/bin
     styleUrls: ['./unbinding-phone-model.component.scss']
 })
 export class UnbindingPhoneModelComponent extends AppComponentBase implements OnInit {
+    phoneNumber: string;
     code: string;
     model: CodeSendInput = new CodeSendInput();
-    isSendSMS: boolean = false;
     phoneNumText: string;
+    codeType = VerificationCodeType.PhoneUnBinding;
 
     @ViewChild('unbindingPhoneModel') unbindingPhoneModel: ModalDirective;
     @ViewChild('bindingPhoneModel') bindingPhoneModel: BindingPhoneModelComponent;
@@ -29,7 +30,7 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
 
     ) {
         super(injector);
-
+        this.phoneNumber = this._appSessionService.user.phoneNumber;
     }
 
     ngOnInit() {
@@ -53,39 +54,10 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
             })
     }
 
-    // 发送验证码
-    send() {
-        this.model.targetNumber = this._appSessionService.user.phoneNumber;
-        this.model.codeType = VerificationCodeType.PhoneUnBinding;
-        // this.captchaResolved();
-
-        this._SMSServiceProxy
-            .sendCodeAsync(this.model)
-            .subscribe(result => {
-                this.anginSend();
-            });
-    }
-
-    anginSend() {
-        let self = this;
-        let time = 60;
-        this.isSendSMS = true;
-        let set = setInterval(() => {
-            time--;
-            self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
-        }, 1000)
-
-        setTimeout(() => {
-            clearInterval(set);
-            self.isSendSMS = false;
-            self._smsBtn.nativeElement.innerHTML = this.l("AgainSendValidateCode");
-        }, 60000);
-    }
-
     private encrypt(): void {
         if (!this._appSessionService.user.phoneNumber) {
             return;
         }
-        this.phoneNumText = "•••••••" + this._appSessionService.user.phoneNumber.substr(this._appSessionService.user.phoneNumber.length - 4);
+        this.phoneNumText = '•••••••' + this._appSessionService.user.phoneNumber.substr(this._appSessionService.user.phoneNumber.length - 4);
     }
 }

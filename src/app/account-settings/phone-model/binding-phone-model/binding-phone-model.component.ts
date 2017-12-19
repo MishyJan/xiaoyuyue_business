@@ -11,8 +11,8 @@ import { VerificationCodeType } from 'shared/AppEnums';
 })
 export class BindingPhoneModelComponent extends AppComponentBase implements OnInit {
     model: CodeSendInput = new CodeSendInput();
-    isSendSMS: boolean = false;
     code: string;
+    codeType = VerificationCodeType.PhoneBinding;
 
     @ViewChild('bindingPhoneModel') bindingPhoneModel: ModalDirective;
     @ViewChild('smsBtn') _smsBtn: ElementRef;
@@ -35,36 +35,6 @@ export class BindingPhoneModelComponent extends AppComponentBase implements OnIn
     hide(): void {
         this.bindingPhoneModel.hide();
     }
-
-    // 发送验证码
-    send() {
-        this.model.targetNumber = this.model.targetNumber;
-        this.model.codeType = VerificationCodeType.PhoneBinding;
-        // this.captchaResolved();
-
-        this._SMSServiceProxy
-            .sendCodeAsync(this.model)
-            .subscribe(result => {
-                this.anginSend();
-            });
-    }
-
-    anginSend() {
-        let self = this;
-        let time = 60;
-        this.isSendSMS = true;
-        let set = setInterval(() => {
-            time--;
-            self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
-        }, 1000)
-
-        setTimeout(() => {
-            clearInterval(set);
-            self.isSendSMS = false;
-            self._smsBtn.nativeElement.innerHTML = this.l("AgainSendValidateCode");
-        }, 60000);
-    }
-
 
     bindingPhone(): void {
         let input = new BindingPhoneNumInput();

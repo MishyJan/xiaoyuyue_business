@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { CodeSendInput, RegisterTenantInput, SMSServiceProxy } from 'shared/service-proxies/service-proxies';
+import { CodeSendInput, RegisterTenantInput, SMSServiceProxy, CodeSendInputCodeType } from 'shared/service-proxies/service-proxies';
 import { VerificationCodeType } from 'shared/AppEnums';
 import { SMSProviderDto } from 'shared/AppConsts';
 
@@ -14,7 +14,7 @@ export class SendSmsCodeComponent extends AppComponentBase implements OnInit, On
     sendTimer: NodeJS.Timer;
     isSendSMS = false;
     @ViewChild('smsBtn') _smsBtn: ElementRef;
-    @Input() codeType: string;
+    @Input() codeType: CodeSendInputCodeType;
     @Input() phoneNumber: string;
 
     constructor(
@@ -44,7 +44,7 @@ export class SendSmsCodeComponent extends AppComponentBase implements OnInit, On
     send() {
         let input: CodeSendInput = new CodeSendInput();
         input.targetNumber = SMSProviderDto.phoneNum = this.phoneNumber;
-        input.codeType = VerificationCodeType.Register;
+        input.codeType = this.codeType;
         // this.captchaResolved();
 
         this._SMSServiceProxy

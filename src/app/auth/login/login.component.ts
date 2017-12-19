@@ -29,6 +29,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     ordinaryLogin = true;
     isSendSMS = false;
     saving = false;
+    codeType = VerificationCodeType.Login;
     model: PhoneAuthenticateModel = new PhoneAuthenticateModel();
     @ViewChild('smsBtn') _smsBtn: ElementRef;
 
@@ -113,31 +114,11 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         setTimeout( () => {
             $('#externalLoginContainer').addClass('active');
         }, 10);
-    //     this._ngxAni.to(externalAni, .6, {
-    //         transform: 'scale(1)',
-    //         opacity: .8,
-    //         'ease': this._ngxAni['easeOutBack'],
-    //         onComplete: () => {
-    //             // 利用定时器解决每次请求微信图片会出现延迟，导致显示问题
-    //             setTimeout(() => {
-    //                 this._ngxAni.to(externalContent, 1, {
-    //                     opacity: 1
-    //                 })
-    //             }, 10);
-    //         }
-    //     });
     }
 
     private animationHide() {
         $('#externalLogin').removeClass('active');
         $('#externalLoginContainer').removeClass('active');
-    //     this._ngxAni.to(externalAni, .4, {
-    //         transform: 'scale(0)',
-    //         opacity: 0,
-    //     });
-    //     this._ngxAni.to(externalContent, 1, {
-    //         opacity: 0
-    //     })
     }
 
     // 是否账号登录
@@ -148,36 +129,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     isPhoneLogin() {
         this.ordinaryLogin = false;
         // this.ordinaryLogin = true;
-    }
-
-    // 发送验证码
-    send() {
-        const input: CodeSendInput = new CodeSendInput();
-        input.targetNumber = this.model.phoneNum;
-        input.codeType = VerificationCodeType.Login;
-        // this.captchaResolved();
-
-        this._SMSServiceProxy
-            .sendCodeAsync(input)
-            .subscribe(result => {
-                this.anginSend();
-            });
-    }
-
-    anginSend() {
-        const self = this;
-        let time = 60;
-        this.isSendSMS = true;
-        const set = setInterval(() => {
-            time--;
-            self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
-        }, 1000);
-
-        setTimeout(() => {
-            clearInterval(set);
-            self.isSendSMS = false;
-            self._smsBtn.nativeElement.innerHTML = this.l('AgainSendValidateCode');
-        }, 60000);
     }
 
     mobileExternalLogin(provider: ExternalLoginProvider): void {

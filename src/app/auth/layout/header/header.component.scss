@@ -3,6 +3,8 @@
     line-height: 80px;
     margin-top: 30px;
     padding: 0 378px;
+    position: relative;
+    z-index: 1000;
     .menu-item {
         font-size: 0;
         .item+.item {

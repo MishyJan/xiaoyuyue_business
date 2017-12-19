@@ -63,9 +63,7 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="validate-code-wrap form-group form-md-line-input form-md-floating-label">
                                     <input class="form-control" type="number" name="identifyCode" [(ngModel)]="model.loginCode" required placeholder="{{l('VerificationCode')}}">
-                                    <div class="get-sms-btn">
-                                        <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">{{l('GetVerificationCode')}}</button>
-                                    </div>
+                                    <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-sms-code>
                                 </div>
                             </div>
                         </div>
@@ -136,9 +134,7 @@
                     <div class="form-item">
                         <div class="validate-code-wrap form-group label-floating">
                             <input class="form-control" type="number" name="identifyCode" [(ngModel)]="model.loginCode" required placeholder="{{l('VerificationCode')}}">
-                            <div class="get-sms-btn">
-                                <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">{{l('GetVerificationCode')}}</button>
-                            </div>
+                            <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-sms-code>
                         </div>
                     </div>
 

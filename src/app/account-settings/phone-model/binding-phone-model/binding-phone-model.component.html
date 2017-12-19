@@ -18,9 +18,7 @@
                             <div class="form-group label-floating">
                                 <input class="form-control edited" type="number" name="validateCode" [(ngModel)]="code">
                                 <label class="control-label">验证码</label>
-                            </div>
-                            <div class="get-sms-btn">
-                                <button type="button" class="btn" (click)="send()" [disabled]="isSendSMS" #smsBtn>{{l('GetVerificationCode')}}</button>
+                                <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.targetNumber"></xiaoyuyue-send-sms-code>
                             </div>
                         </div>
                     </div>
