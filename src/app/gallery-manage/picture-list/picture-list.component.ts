@@ -19,6 +19,7 @@ import { element } from 'protractor';
 
 })
 export class PictureListComponent extends AppComponentBase implements OnInit {
+    allSelected: boolean;
     selectedGroupName: string;
     // 保存正在编辑分组名称的索引值
     editingGroupNameIndex: number;
@@ -75,7 +76,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
             .getPictureGroupAsync()
             .subscribe(result => {
                 this.picGalleryGroupData = result;
-                this.selectedGroupId = this.selectedGroupId ? this.selectedGroupId : DefaultUploadPictureGroundId.NoGroup;
+                this.selectedGroupId = this.selectedGroupId ? this.selectedGroupId : DefaultUploadPictureGroundId.AllGroup;
                 this.selectedGroupName = '所有';
                 this.loadAllPicAsync();
             })
@@ -136,7 +137,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
     // 更新分组名称
     updatePicGroupService(groupId: number, event: any): void {
-        console.log(1);
         this.picGroupInputDto.id = groupId;
         this.picGroupInputDto.name = $(event.target).parents('.sub-item').find('input').val() + '';
 
@@ -245,8 +245,14 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         });
         if (selectedIndex > -1) {
             this.selectedPicListArr.splice(selectedIndex, 1);
+            this.checkAllText = '全选';
+            this.allSelected = false;
         } else {
             this.selectedPicListArr.push(data);
+            if (this.selectedPicListArr.length === this.picGroupItemData.length) {
+                this.allSelected = true;
+                this.checkAllText = '取消';
+            }
         }
     }
 
@@ -289,14 +295,23 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 全选和取消全选功能
     public allSelectedHandler(eventValue: boolean): void {
-        if (eventValue) {
-            this.selectedPicListArr = this.picGroupItemData;
-            this.selectedPicListArr.forEach(element => {
-                element.selected = true;
+        this.allSelected = !this.allSelected;
+        if (this.allSelected) {
+            // this.selectedPicListArr = this.picGroupItemData;
+            this.picGroupItemData.forEach((ele, inx) => {
+                this.selectedPicListArr[inx] = ele;
             });
+            this.selectedPicListArr.forEach(ele => {
+                ele.selected = true;
+            });
+            this.allSelected = true;
             this.checkAllText = '取消';
         } else {
+            this.selectedPicListArr.forEach(ele => {
+                ele.selected = false;
+            });
             this.selectedPicListArr = [];
+            this.allSelected = false;
             this.checkAllText = '全选';
         }
     }

@@ -407,11 +407,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     // 开始定时保存临时数据
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            console.log('检查数据更改');
             if (this.isDataNoSave()) {
                 this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId), this.input);
                 this.originalinput = _.cloneDeep(this.input);
-                console.log('保存数据更改');
             }
         }, 3000)
     }

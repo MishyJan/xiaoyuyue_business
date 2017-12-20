@@ -165,9 +165,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     createOrUpdateOutlet(saveAndEdit: boolean = false) {
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
         this.input.outlet.isActive = true;
-        
+
         if (!this.isValidLandlinePhone) {
-            console.log(this.isValidLandlinePhone);
             this.message.warn('固话格式错误');
             return;
         }

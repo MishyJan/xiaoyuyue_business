@@ -168,33 +168,14 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     // 选择图片库图片，保存选中数据
     public selectPicHandler(data: SelectedPicListDto, index: number): void {
+
         this.selectedPicIndex = index;
         this.selectedPicList = new SelectedPicListDto();
         this.selectedPicList.picId = data.picId;
         this.selectedPicList.picUrl = data.picUrl;
 
         let existedIndex = -1;
-        if (this.isMutliPic) {
-            data.selected = !data.selected;
-            this.selectedPicList.selected = data.selected;
-            this.selectedPicListArr.forEach((element, inx) => {
-                if (element.picId === data.picId) {
-                    existedIndex = inx;
-                }
-            });
-
-            if (existedIndex > -1) {
-                this.selectedPicListArr.splice(existedIndex, 1);
-            } else {
-                this.selectedPicListArr.push(this.selectedPicList);
-                // 图片数量超过限制警告
-                if (this.setPicElectiveNum() < 0) {
-                    data.selected = false;
-                    this.selectedPicListArr.splice(this.selectedPicListArr.length - 1, 1);
-                    this.message.warn('图片超过上限');
-                }
-            }
-        } else {
+        if (!this.isMutliPic) {
             this.selectedPicListArr[0] = this.selectedPicList;
             this.picGroupItemData.forEach(element => {
                 element.selected = false;
@@ -202,7 +183,28 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     element.selected = true;
                 }
             });
+            return;
         }
+
+        data.selected = !data.selected;
+        this.selectedPicList.selected = data.selected;
+        this.selectedPicListArr.forEach((element, inx) => {
+            if (element.picId === data.picId) { existedIndex = inx; }
+        });
+
+        if (existedIndex > -1) {
+            this.selectedPicListArr.splice(existedIndex, 1);
+        } else {
+            this.selectedPicListArr.push(this.selectedPicList);
+        }
+
+        // 图片数量超过限制警告
+        if (this.setPicElectiveNum() < 0) {
+            data.selected = false;
+            this.selectedPicListArr.splice(this.selectedPicListArr.length - 1, 1);
+            this.message.warn('图片超过上限');
+        }
+
     }
 
     // 获取可选择图片的数量
@@ -406,7 +408,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     // bootstrap modal显示事件
     public onBSShown() {
-        console.log(1);
         this.initFileUploader();
     }
 

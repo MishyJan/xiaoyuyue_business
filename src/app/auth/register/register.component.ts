@@ -5,7 +5,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { RegisterModel } from './register.model';
 import { LoginService } from "shared/services/login.service";
-import { VerificationCodeType } from "shared/AppEnums";
+import { VerificationCodeType, SendCodeType } from "shared/AppEnums";
 import { ProtocolModelComponent } from './protocol-model/protocol-model.component';
 
 @Component({
@@ -22,6 +22,8 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
     model: RegisterTenantInput = new RegisterTenantInput();
     passwordComplexitySetting: PasswordComplexitySetting = new PasswordComplexitySetting();
     saving: boolean = false;
+    emailAddress: string;
+    sendCodeType: SendCodeType = SendCodeType.Email;
 
     @ViewChild('protocolModal') protocolModal: ProtocolModelComponent;
 
@@ -57,6 +59,14 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
 
     register(): void {
         this.saving = true;
+        if (this.model.phoneNumber) {
+            this.model.emailAddress = '';
+            this.model.type = 1;
+        }
+        if (this.model.emailAddress) {
+            this.model.phoneNumber = '';
+            this.model.type = 2;
+        }
         this._tenantRegistrationServiceProxy.registerTenant(this.model)
             .finally(() => { this.saving = false; })
             .subscribe((result) => {

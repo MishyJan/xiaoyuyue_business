@@ -59,7 +59,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     endCreationTime: any;
     startCreationTime: any;
     isActive: boolean;
-    outletId: number;
+    outletId = 0;
     bookingName: string;
 
     maxResultCount = AppConsts.grid.defaultPageSize;

@@ -1223,6 +1223,10 @@ fieldset[disabled] .form-group .form-control {
     background: #FF9641;
 }
 
+.radio input[type=radio]:checked~.check {
+    background-color: #FF9641;
+}
+
 .card .card-title {
     margin-bottom: 0;
 }
