@@ -173,9 +173,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         this.selectedPicList.picId = data.picId;
         this.selectedPicList.picUrl = data.picUrl;
 
-
         let existedIndex = -1;
-
         if (this.isMutliPic) {
             data.selected = !data.selected;
             this.selectedPicList.selected = data.selected;
@@ -188,10 +186,10 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             if (existedIndex > -1) {
                 this.selectedPicListArr.splice(existedIndex, 1);
             } else {
-
                 this.selectedPicListArr.push(this.selectedPicList);
                 // 图片数量超过限制警告
                 if (this.setPicElectiveNum() < 0) {
+                    data.selected = false;
                     this.selectedPicListArr.splice(this.selectedPicListArr.length - 1, 1);
                     this.message.warn('图片超过上限');
                 }
