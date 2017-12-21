@@ -157,21 +157,18 @@
                         <div class="title-text">
                             <span class="text">{{ l('Page.External') }}</span>
                         </div>
-                        <!-- <div *ngIf="loginService.externalLoginProviders.length > 0">
+                        <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,$event)"
+                                        title="{{provider.name}}"></a>
                                 </li>
                             </ul>
-                        </div> -->
-                        <div class="login-icon">
-                            <span class="item">
-                                <img src="/assets/common/images/login/qq-x2.png" (click)="mobileExternalLogin(loginService.externalLoginProviders[2])"
-                                    width="38px" alt="qq">
-                            </span>
-                            <span class="item">
-                                <img src="/assets/common/images/login/weibo-x2.png" width="38px" alt="weibo">
-                            </span>
+
+                            <div class="tooltip in tooltip-top top" id="externalLogin">
+                                <div class="externalLogin-arrow"></div>
+                                <div class="externalLogin-wrapper" id="externalLoginContainer"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -216,22 +213,20 @@
                         <div class="title-text">
                             <span class="text">{{ l('Page.External') }}</span>
                         </div>
-                        <!-- <div *ngIf="loginService.externalLoginProviders.length > 0">
+                        <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,$event)"
+                                        title="{{provider.name}}"></a>
                                 </li>
                             </ul>
-                        </div> -->
-                        <div class="login-icon">
-                            <span class="item">
-                                <img src="/assets/common/images/login/qq-x2.png" (click)="mobileExternalLogin(loginService.externalLoginProviders[2])"
-                                    width="38px" alt="qq">
-                            </span>
-                            <span class="item">
-                                <img src="/assets/common/images/login/weibo-x2.png" width="38px" alt="weibo">
-                            </span>
+
+                            <div class="tooltip in tooltip-top top" id="externalLogin">
+                                <div class="externalLogin-arrow"></div>
+                                <div class="externalLogin-wrapper" id="externalLoginContainer"></div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
