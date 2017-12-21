@@ -32,7 +32,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         NotificationSettingsModalCompoent,
         MobileSideBarComponent,
         PageNotFoundComponent,
-        SupportedBrowsersComponent
+        SupportedBrowsersComponent,
 ],
     imports: [
         ngCommon.CommonModule,

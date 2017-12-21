@@ -59,14 +59,6 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
 
     register(): void {
         this.saving = true;
-        if (this.model.phoneNumber) {
-            this.model.emailAddress = '';
-            this.model.type = 1;
-        }
-        if (this.model.emailAddress) {
-            this.model.phoneNumber = '';
-            this.model.type = 2;
-        }
         this._tenantRegistrationServiceProxy.registerTenant(this.model)
             .finally(() => { this.saving = false; })
             .subscribe((result) => {
@@ -86,10 +78,14 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
         // 是否手机号注册
         isPhoneRegister() {
             this.phoneRegister = true;
+            this.model.emailAddress = '';
+            this.model.type = 1;
         }
         // 是否邮件注册
         isEmailRegister() {
             this.phoneRegister = false;
+            this.model.phoneNumber = '';
+            this.model.type = 2;
         }
 
     // 注释掉螺丝帽验证码

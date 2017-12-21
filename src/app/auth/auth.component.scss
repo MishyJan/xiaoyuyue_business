@@ -189,6 +189,11 @@ body {
     .user-login {
         height: 100vh;
         overflow: hidden;
+        min-height: calc(100vh - 60px);
+        background-size: cover;
+        max-width: 960px;
+        width: 100%;
+        margin: 0 auto;
         .mt-login-5-bsfix {
             width: 100%;
         }
