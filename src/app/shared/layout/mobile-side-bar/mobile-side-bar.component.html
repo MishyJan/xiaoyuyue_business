@@ -2,10 +2,10 @@
 
     <ul class="sidebar-menu">
         <li (click)="toOfficialSite()">
-            <div class="sidebar-menu-item" title="首页">
+            <div class="sidebar-menu-item">
                 <div class="content">
                     <span class="icon vapps-icon-app-home-menu"></span>
-                    <span class="text">首页</span>
+                    <span class="text">{{ l('Mobile.Menu.Home') }}</span>
                 </div>
             </div>
         </li>
@@ -18,10 +18,10 @@
             </div>
         </li>
         <li (click)="logout()">
-            <div class="sidebar-menu-item" title="退出账户">
+            <div class="sidebar-menu-item">
                 <div class="content">
                     <span class="icon vapps-icon-app-logout-menu"></span>
-                    <span class="text">退出账户</span>
+                    <span class="text">{{ l('Mobile.Menu.Logout') }}</span>
                 </div>
             </div>
         </li>

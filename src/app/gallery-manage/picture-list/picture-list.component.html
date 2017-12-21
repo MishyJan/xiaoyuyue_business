@@ -29,7 +29,7 @@
 
                         <div class="checkbox pull-left">
                             <label>
-                                <input type="checkbox" name="checkAll" ngModel (ngModelChange)="allSelectedHandler($event)" />{{ checkAllText }}
+                                <input type="checkbox" name="checkAll" [(ngModel)]="allSelected" (click)="allSelectedHandler()" />{{ checkAllText }}
                             </label>
                         </div>
 
@@ -42,29 +42,35 @@
                     <div class="card-content clearfix">
                         <div class="row">
                             <div class="pic-gallery-wrap">
-                                <div class="flex-left" *ngIf="picGroupItemData">
-                                    <div [@routerTransition] class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let selectPicIndex = index;">
-                                        <div class="pic-item" [ngClass]="{'active': item.selected == true }">
-                                            <!-- <div class="img-wrap"></div> -->
-                                            <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}" (click)="selectPicHandler(item, selectPicIndex)">
-                                                <div class="bg-cover"></div>
-                                                <div class="bg-tools">
-                                                    <div class="wrap clearfix">
-                                                        <div class="tool-item pull-left" title="{{ l('Delete') }}" (click)="deletePicHandler($event, item)">
-                                                            <span class="icon vapps-icon-app-delete"></span>
-                                                        </div>
-                                                        <div class="tool-item pull-right" title="{{ l('Move') }}" (click)="movePicHandler($event, item)">
-                                                            <span class="icon vapps-icon-app-move"></span>
+                                <div class="flex-left">
+                                    <ng-container *ngIf="picGroupItemData.length > 0; else elseTemplate">
+                                        <div [@routerTransition] class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let selectPicIndex = index;">
+                                            <div class="pic-item" [ngClass]="{'active': item.selected == true }">
+                                                <!-- <div class="img-wrap"></div> -->
+                                                <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}" (click)="selectPicHandler(item, selectPicIndex)">
+                                                    <div class="bg-cover"></div>
+                                                    <div class="bg-tools">
+                                                        <div class="wrap clearfix">
+                                                            <div class="tool-item pull-left" title="{{ l('Delete') }}" (click)="deletePicHandler($event, item)">
+                                                                <span class="icon vapps-icon-app-delete"></span>
+                                                            </div>
+                                                            <div class="tool-item pull-right" title="{{ l('Move') }}" (click)="movePicHandler($event, item)">
+                                                                <span class="icon vapps-icon-app-move"></span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <p class="img-name text-overflow" (dblclick)="editingPicNameHandler($event, selectPicIndex)" title="{{ l('PlaceholderTips.DblclickReviseName') }}">
+                                                    <input type="text" class="text-overflow" name="picName" [title]="picRename(item.name)" [ngClass]="{'input-border': editingPicName[selectPicIndex]}" [readonly]="!editingPicName[selectPicIndex]" [value]="picRename(item.name)" (keyup.enter)="picRenameEnter($event, selectPicIndex)"
+                                                        (blur)="picRenameEnter($event, selectPicIndex)">
+                                                </p>
                                             </div>
-                                            <p class="img-name text-overflow" (dblclick)="editingPicNameHandler($event, selectPicIndex)" title="{{ l('PlaceholderTips.DblclickReviseName') }}">
-                                                <input type="text" class="text-overflow" name="picName" [title]="picRename(item.name)" [ngClass]="{'input-border': editingPicName[selectPicIndex]}" [readonly]="!editingPicName[selectPicIndex]" [value]="picRename(item.name)" (keyup.enter)="picRenameEnter($event, selectPicIndex)"
-                                                    (blur)="picRenameEnter($event, selectPicIndex)">
-                                            </p>
                                         </div>
-                                    </div>
+                                    </ng-container>
+                                    <ng-template #elseTemplate>
+                                            <xiaoyuyue-empty-page [text]="'未上传图片'"></xiaoyuyue-empty-page>
+                                    </ng-template>
+                                    
                                 </div>
                                 <div [@routerTransition] class="flex-right">
                                     <div class="side-bar">

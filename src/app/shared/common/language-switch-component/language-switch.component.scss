@@ -1,0 +1,25 @@
+.lang-wrapper {
+    position: relative;
+    .lang-content {
+        display: block;
+    }
+    .langname,
+    .fa.fa-angle-down {
+        color: #FFF;
+    }
+    .dropdown-menu {
+        margin: 0;
+        border: none;
+    }
+    .dropdown-menu li a:hover,
+    .dropdown-menu li a:focus,
+    .dropdown-menu li a:active {
+        background-color: #FFF;
+        color: #000;
+        box-shadow: none;
+    }
+    ul,
+    li {
+        list-style: none;
+    }
+}
