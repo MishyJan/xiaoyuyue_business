@@ -4,6 +4,33 @@
     {
       "icon": {
         "paths": [
+          "M1283.413 0h-1201.493c-47.787 0-81.92 34.133-81.92 81.92v95.573l682.667 354.987 682.667-354.987v-95.573c0-47.787-34.133-81.92-81.92-81.92zM0 252.587v689.493c0 47.787 34.133 81.92 81.92 81.92h1201.493c47.787 0 81.92-34.133 81.92-81.92v-689.493l-682.667 443.733-682.667-443.733z"
+        ],
+        "attrs": [],
+        "width": 1365,
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "app-email"
+        ],
+        "colorPermutations": {}
+      },
+      "attrs": [],
+      "properties": {
+        "order": 1219,
+        "id": 91,
+        "name": "app-email",
+        "prevSize": 32,
+        "code": 59739
+      },
+      "setIdx": 2,
+      "setId": 3,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
           "M967.111 420.978h-910.222c-28.444 0-56.889-22.756-56.889-56.889s22.756-56.889 56.889-56.889h739.556l-295.822-204.8c-22.756-22.756-28.444-56.889-11.378-79.644s51.2-28.444 79.644-11.378l432.356 312.889c17.067 11.378 28.444 39.822 22.756 62.578-11.378 22.756-34.133 34.133-56.889 34.133z",
           "M489.244 1024c-11.378 0-22.756-5.689-34.133-11.378l-432.356-312.889c-17.067-11.378-28.444-39.822-22.756-62.578s28.444-39.822 51.2-39.822h910.222c28.444 0 56.889 22.756 56.889 56.889s-22.756 56.889-56.889 56.889h-733.867l295.822 210.489c22.756 17.067 28.444 51.2 11.378 79.644-11.378 17.067-28.444 22.756-45.511 22.756z"
         ],
@@ -14,19 +41,21 @@
         "tags": [
           "app-move"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 828,
+        "order": 1128,
         "id": 90,
         "name": "app-move",
         "prevSize": 32,
         "code": 59738
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 0
+      "iconIdx": 1
     },
     {
       "icon": {
@@ -42,19 +71,21 @@
         "tags": [
           "gm-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 826,
+        "order": 1129,
         "id": 89,
         "name": "gm-menu",
         "prevSize": 32,
         "code": 59737
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 1
+      "iconIdx": 2
     },
     {
       "icon": {
@@ -69,21 +100,26 @@
         "grid": 0,
         "tags": [
           "app-edit-group"
-        ]
+        ],
+        "colorPermutations": {
+          "1281281281255255255142173281": [
+            {}
+          ]
+        }
       },
       "attrs": [
         {}
       ],
       "properties": {
-        "order": 824,
+        "order": 1130,
         "id": 88,
         "name": "app-edit-group",
         "prevSize": 32,
         "code": 59735
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 2
+      "iconIdx": 3
     },
     {
       "icon": {
@@ -98,21 +134,26 @@
         "grid": 0,
         "tags": [
           "app-remove-group"
-        ]
+        ],
+        "colorPermutations": {
+          "1281281281255255255142173281": [
+            {}
+          ]
+        }
       },
       "attrs": [
         {}
       ],
       "properties": {
-        "order": 823,
+        "order": 1131,
         "id": 87,
         "name": "app-remove-group",
         "prevSize": 32,
         "code": 59736
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 3
+      "iconIdx": 4
     },
     {
       "icon": {
@@ -126,19 +167,21 @@
         "tags": [
           "app-tip"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 822,
+        "order": 1132,
         "id": 86,
         "name": "app-tip",
         "prevSize": 32,
         "code": 59734
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 4
+      "iconIdx": 5
     },
     {
       "icon": {
@@ -152,19 +195,21 @@
         "tags": [
           "app-active"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 736,
+        "order": 1133,
         "id": 85,
         "name": "app-active",
         "prevSize": 32,
         "code": 59648
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 5
+      "iconIdx": 6
     },
     {
       "icon": {
@@ -178,19 +223,21 @@
         "tags": [
           "app-add-booking-item"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 737,
+        "order": 1134,
         "id": 84,
         "name": "app-add-booking-item",
         "prevSize": 32,
         "code": 59649
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 6
+      "iconIdx": 7
     },
     {
       "icon": {
@@ -206,19 +253,21 @@
         "tags": [
           "app-add-outlet"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 738,
+        "order": 1135,
         "id": 83,
         "name": "app-add-outlet",
         "prevSize": 32,
         "code": 59650
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 7
+      "iconIdx": 8
     },
     {
       "icon": {
@@ -232,19 +281,21 @@
         "tags": [
           "app-address"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 739,
+        "order": 1136,
         "id": 82,
         "name": "app-address",
         "prevSize": 32,
         "code": 59651
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 8
+      "iconIdx": 9
     },
     {
       "icon": {
@@ -259,19 +310,21 @@
         "tags": [
           "app-add-time-field"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 740,
+        "order": 1137,
         "id": 81,
         "name": "app-add-time-field",
         "prevSize": 32,
         "code": 59652
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 9
+      "iconIdx": 10
     },
     {
       "icon": {
@@ -285,19 +338,21 @@
         "tags": [
           "app-back"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 741,
+        "order": 1138,
         "id": 80,
         "name": "app-back",
         "prevSize": 32,
         "code": 59653
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 10
+      "iconIdx": 11
     },
     {
       "icon": {
@@ -311,19 +366,21 @@
         "tags": [
           "app-back-left"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 742,
+        "order": 1139,
         "id": 79,
         "name": "app-back-left",
         "prevSize": 32,
         "code": 59654
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 11
+      "iconIdx": 12
     },
     {
       "icon": {
@@ -337,19 +394,21 @@
         "tags": [
           "app-booking-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 743,
+        "order": 1140,
         "id": 78,
         "name": "app-booking-menu",
         "prevSize": 32,
         "code": 59655
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 12
+      "iconIdx": 13
     },
     {
       "icon": {
@@ -363,19 +422,21 @@
         "tags": [
           "app-booking-new-join"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 744,
+        "order": 1141,
         "id": 77,
         "name": "app-booking-new-join",
         "prevSize": 32,
         "code": 59656
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 13
+      "iconIdx": 14
     },
     {
       "icon": {
@@ -389,19 +450,21 @@
         "tags": [
           "app-booking-total"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 745,
+        "order": 1142,
         "id": 76,
         "name": "app-booking-total",
         "prevSize": 32,
         "code": 59657
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 14
+      "iconIdx": 15
     },
     {
       "icon": {
@@ -415,19 +478,21 @@
         "tags": [
           "app-cancel"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 746,
+        "order": 1143,
         "id": 75,
         "name": "app-cancel",
         "prevSize": 32,
         "code": 59658
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 15
+      "iconIdx": 16
     },
     {
       "icon": {
@@ -442,19 +507,21 @@
         "tags": [
           "app-close"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 747,
+        "order": 1144,
         "id": 74,
         "name": "app-close",
         "prevSize": 32,
         "code": 59659
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 16
+      "iconIdx": 17
     },
     {
       "icon": {
@@ -468,19 +535,21 @@
         "tags": [
           "app-confirm"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 748,
+        "order": 1145,
         "id": 73,
         "name": "app-confirm",
         "prevSize": 32,
         "code": 59660
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 17
+      "iconIdx": 18
     },
     {
       "icon": {
@@ -498,19 +567,21 @@
         "tags": [
           "app-confirm-2"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 749,
+        "order": 1146,
         "id": 72,
         "name": "app-confirm-2",
         "prevSize": 32,
         "code": 59661
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 18
+      "iconIdx": 19
     },
     {
       "icon": {
@@ -524,19 +595,21 @@
         "tags": [
           "app-contact"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 750,
+        "order": 1147,
         "id": 71,
         "name": "app-contact",
         "prevSize": 32,
         "code": 59662
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 19
+      "iconIdx": 20
     },
     {
       "icon": {
@@ -550,19 +623,21 @@
         "tags": [
           "app-copy-1"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 751,
+        "order": 1148,
         "id": 70,
         "name": "app-copy-1",
         "prevSize": 32,
         "code": 59663
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 20
+      "iconIdx": 21
     },
     {
       "icon": {
@@ -577,19 +652,21 @@
         "tags": [
           "app-copy-2"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 752,
+        "order": 1149,
         "id": 69,
         "name": "app-copy-2",
         "prevSize": 32,
         "code": 59664
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 21
+      "iconIdx": 22
     },
     {
       "icon": {
@@ -607,19 +684,21 @@
         "tags": [
           "app-custom-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 753,
+        "order": 1150,
         "id": 68,
         "name": "app-custom-menu",
         "prevSize": 32,
         "code": 59665
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 22
+      "iconIdx": 23
     },
     {
       "icon": {
@@ -633,19 +712,21 @@
         "tags": [
           "app-default"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 754,
+        "order": 1151,
         "id": 67,
         "name": "app-default",
         "prevSize": 32,
         "code": 59666
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 23
+      "iconIdx": 24
     },
     {
       "icon": {
@@ -659,19 +740,21 @@
         "tags": [
           "app-delete"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 755,
+        "order": 1152,
         "id": 66,
         "name": "app-delete",
         "prevSize": 32,
         "code": 59667
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 24
+      "iconIdx": 25
     },
     {
       "icon": {
@@ -686,19 +769,21 @@
         "tags": [
           "app-delete-time-field"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 756,
+        "order": 1153,
         "id": 65,
         "name": "app-delete-time-field",
         "prevSize": 32,
         "code": 59668
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 25
+      "iconIdx": 26
     },
     {
       "icon": {
@@ -715,19 +800,21 @@
         "tags": [
           "app-detail"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 757,
+        "order": 1154,
         "id": 64,
         "name": "app-detail",
         "prevSize": 32,
         "code": 59669
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 26
+      "iconIdx": 27
     },
     {
       "icon": {
@@ -745,19 +832,21 @@
         "tags": [
           "app-detail-2"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 758,
+        "order": 1155,
         "id": 63,
         "name": "app-detail-2",
         "prevSize": 32,
         "code": 59670
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 27
+      "iconIdx": 28
     },
     {
       "icon": {
@@ -771,19 +860,21 @@
         "tags": [
           "app-disable"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 759,
+        "order": 1156,
         "id": 62,
         "name": "app-disable",
         "prevSize": 32,
         "code": 59671
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 28
+      "iconIdx": 29
     },
     {
       "icon": {
@@ -797,19 +888,21 @@
         "tags": [
           "app-disabled"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 760,
+        "order": 1157,
         "id": 61,
         "name": "app-disabled",
         "prevSize": 32,
         "code": 59672
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 29
+      "iconIdx": 30
     },
     {
       "icon": {
@@ -823,19 +916,21 @@
         "tags": [
           "app-drop-down"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 761,
+        "order": 1158,
         "id": 60,
         "name": "app-drop-down",
         "prevSize": 32,
         "code": 59673
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 30
+      "iconIdx": 31
     },
     {
       "icon": {
@@ -849,19 +944,21 @@
         "tags": [
           "app-edit"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 762,
+        "order": 1159,
         "id": 59,
         "name": "app-edit",
         "prevSize": 32,
         "code": 59674
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 31
+      "iconIdx": 32
     },
     {
       "icon": {
@@ -876,19 +973,21 @@
         "tags": [
           "app-first-page"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 763,
+        "order": 1160,
         "id": 58,
         "name": "app-first-page",
         "prevSize": 32,
         "code": 59675
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 32
+      "iconIdx": 33
     },
     {
       "icon": {
@@ -902,19 +1001,21 @@
         "tags": [
           "app-home-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 764,
+        "order": 1161,
         "id": 57,
         "name": "app-home-menu",
         "prevSize": 32,
         "code": 59676
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 33
+      "iconIdx": 34
     },
     {
       "icon": {
@@ -929,19 +1030,21 @@
         "tags": [
           "app-last-page"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 765,
+        "order": 1162,
         "id": 56,
         "name": "app-last-page",
         "prevSize": 32,
         "code": 59677
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 34
+      "iconIdx": 35
     },
     {
       "icon": {
@@ -955,19 +1058,21 @@
         "tags": [
           "app-location"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 766,
+        "order": 1163,
         "id": 55,
         "name": "app-location",
         "prevSize": 32,
         "code": 59678
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 35
+      "iconIdx": 36
     },
     {
       "icon": {
@@ -981,19 +1086,21 @@
         "tags": [
           "app-login-code"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 767,
+        "order": 1164,
         "id": 54,
         "name": "app-login-code",
         "prevSize": 32,
         "code": 59679
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 36
+      "iconIdx": 37
     },
     {
       "icon": {
@@ -1007,19 +1114,21 @@
         "tags": [
           "app-login-name"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 768,
+        "order": 1165,
         "id": 53,
         "name": "app-login-name",
         "prevSize": 32,
         "code": 59680
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 37
+      "iconIdx": 38
     },
     {
       "icon": {
@@ -1033,19 +1142,21 @@
         "tags": [
           "app-login-passwd"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 769,
+        "order": 1166,
         "id": 52,
         "name": "app-login-passwd",
         "prevSize": 32,
         "code": 59681
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 38
+      "iconIdx": 39
     },
     {
       "icon": {
@@ -1059,19 +1170,21 @@
         "tags": [
           "app-login-phone"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 770,
+        "order": 1167,
         "id": 51,
         "name": "app-login-phone",
         "prevSize": 32,
         "code": 59682
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 39
+      "iconIdx": 40
     },
     {
       "icon": {
@@ -1087,19 +1200,21 @@
         "tags": [
           "app-logo"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 771,
+        "order": 1168,
         "id": 50,
         "name": "app-logo",
         "prevSize": 32,
         "code": 59683
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 40
+      "iconIdx": 41
     },
     {
       "icon": {
@@ -1113,19 +1228,21 @@
         "tags": [
           "app-logo-text"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 772,
+        "order": 1169,
         "id": 49,
         "name": "app-logo-text",
         "prevSize": 32,
         "code": 59684
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 41
+      "iconIdx": 42
     },
     {
       "icon": {
@@ -1141,19 +1258,21 @@
         "tags": [
           "app-logout-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 773,
+        "order": 1170,
         "id": 48,
         "name": "app-logout-menu",
         "prevSize": 32,
         "code": 59685
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 42
+      "iconIdx": 43
     },
     {
       "icon": {
@@ -1170,19 +1289,21 @@
         "tags": [
           "app-manage"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 774,
+        "order": 1171,
         "id": 47,
         "name": "app-manage",
         "prevSize": 32,
         "code": 59686
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 43
+      "iconIdx": 44
     },
     {
       "icon": {
@@ -1196,19 +1317,21 @@
         "tags": [
           "app-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 775,
+        "order": 1172,
         "id": 46,
         "name": "app-menu",
         "prevSize": 32,
         "code": 59687
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 44
+      "iconIdx": 45
     },
     {
       "icon": {
@@ -1223,19 +1346,21 @@
         "tags": [
           "app-message"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 776,
+        "order": 1173,
         "id": 45,
         "name": "app-message",
         "prevSize": 32,
         "code": 59688
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 45
+      "iconIdx": 46
     },
     {
       "icon": {
@@ -1249,19 +1374,21 @@
         "tags": [
           "app-mode-toggle-1"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 777,
+        "order": 1174,
         "id": 44,
         "name": "app-mode-toggle-1",
         "prevSize": 32,
         "code": 59689
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 46
+      "iconIdx": 47
     },
     {
       "icon": {
@@ -1275,19 +1402,21 @@
         "tags": [
           "app-mode-toggle-2"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 778,
+        "order": 1175,
         "id": 43,
         "name": "app-mode-toggle-2",
         "prevSize": 32,
         "code": 59690
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 47
+      "iconIdx": 48
     },
     {
       "icon": {
@@ -1301,19 +1430,21 @@
         "tags": [
           "app-multitask"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 779,
+        "order": 1176,
         "id": 42,
         "name": "app-multitask",
         "prevSize": 32,
         "code": 59691
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 48
+      "iconIdx": 49
     },
     {
       "icon": {
@@ -1327,19 +1458,21 @@
         "tags": [
           "app-next-page"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 780,
+        "order": 1177,
         "id": 41,
         "name": "app-next-page",
         "prevSize": 32,
         "code": 59692
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 49
+      "iconIdx": 50
     },
     {
       "icon": {
@@ -1354,19 +1487,21 @@
         "tags": [
           "app-no-defalut"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 781,
+        "order": 1178,
         "id": 40,
         "name": "app-no-defalut",
         "prevSize": 32,
         "code": 59693
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 50
+      "iconIdx": 51
     },
     {
       "icon": {
@@ -1381,19 +1516,21 @@
         "tags": [
           "app-org-center-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 782,
+        "order": 1179,
         "id": 39,
         "name": "app-org-center-menu",
         "prevSize": 32,
         "code": 59694
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 51
+      "iconIdx": 52
     },
     {
       "icon": {
@@ -1410,19 +1547,21 @@
         "tags": [
           "app-org-info-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 783,
+        "order": 1180,
         "id": 38,
         "name": "app-org-info-menu",
         "prevSize": 32,
         "code": 59695
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 52
+      "iconIdx": 53
     },
     {
       "icon": {
@@ -1436,19 +1575,21 @@
         "tags": [
           "app-outlet-image"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 784,
+        "order": 1181,
         "id": 37,
         "name": "app-outlet-image",
         "prevSize": 32,
         "code": 59696
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 53
+      "iconIdx": 54
     },
     {
       "icon": {
@@ -1463,19 +1604,21 @@
         "tags": [
           "app-outlet-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 785,
+        "order": 1182,
         "id": 36,
         "name": "app-outlet-menu",
         "prevSize": 32,
         "code": 59697
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 54
+      "iconIdx": 55
     },
     {
       "icon": {
@@ -1489,19 +1632,21 @@
         "tags": [
           "app-phone"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 786,
+        "order": 1183,
         "id": 35,
         "name": "app-phone",
         "prevSize": 32,
         "code": 59698
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 55
+      "iconIdx": 56
     },
     {
       "icon": {
@@ -1515,19 +1660,21 @@
         "tags": [
           "app-preview"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 787,
+        "order": 1184,
         "id": 34,
         "name": "app-preview",
         "prevSize": 32,
         "code": 59699
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 56
+      "iconIdx": 57
     },
     {
       "icon": {
@@ -1541,19 +1688,21 @@
         "tags": [
           "app-prev-page"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 788,
+        "order": 1185,
         "id": 33,
         "name": "app-prev-page",
         "prevSize": 32,
         "code": 59700
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 57
+      "iconIdx": 58
     },
     {
       "icon": {
@@ -1567,19 +1716,21 @@
         "tags": [
           "app-qr-code"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 789,
+        "order": 1186,
         "id": 32,
         "name": "app-qr-code",
         "prevSize": 32,
         "code": 59701
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 58
+      "iconIdx": 59
     },
     {
       "icon": {
@@ -1598,19 +1749,21 @@
         "tags": [
           "app-refurbish"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 790,
+        "order": 1187,
         "id": 31,
         "name": "app-refurbish",
         "prevSize": 32,
         "code": 59702
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 59
+      "iconIdx": 60
     },
     {
       "icon": {
@@ -1625,19 +1778,21 @@
         "tags": [
           "app-search"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 791,
+        "order": 1188,
         "id": 30,
         "name": "app-search",
         "prevSize": 32,
         "code": 59703
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 60
+      "iconIdx": 61
     },
     {
       "icon": {
@@ -1652,19 +1807,21 @@
         "tags": [
           "app-settings-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 792,
+        "order": 1189,
         "id": 29,
         "name": "app-settings-menu",
         "prevSize": 32,
         "code": 59704
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 61
+      "iconIdx": 62
     },
     {
       "icon": {
@@ -1678,19 +1835,21 @@
         "tags": [
           "app-share"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 793,
+        "order": 1190,
         "id": 28,
         "name": "app-share",
         "prevSize": 32,
         "code": 59705
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 62
+      "iconIdx": 63
     },
     {
       "icon": {
@@ -1728,7 +1887,19 @@
         "tags": [
           "app-share-2"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": [
+            {
+              "s": 0
+            },
+            {
+              "s": 0
+            },
+            {
+              "s": 0
+            }
+          ]
+        }
       },
       "attrs": [
         {
@@ -1754,15 +1925,15 @@
         }
       ],
       "properties": {
-        "order": 794,
+        "order": 1191,
         "id": 27,
         "name": "app-share-2",
         "prevSize": 32,
         "code": 59706
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 63
+      "iconIdx": 64
     },
     {
       "icon": {
@@ -1776,19 +1947,21 @@
         "tags": [
           "app-shop-hours"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 795,
+        "order": 1192,
         "id": 26,
         "name": "app-shop-hours",
         "prevSize": 32,
         "code": 59707
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 64
+      "iconIdx": 65
     },
     {
       "icon": {
@@ -1802,19 +1975,21 @@
         "tags": [
           "app-submit"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 796,
+        "order": 1193,
         "id": 25,
         "name": "app-submit",
         "prevSize": 32,
         "code": 59708
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 65
+      "iconIdx": 66
     },
     {
       "icon": {
@@ -1828,19 +2003,21 @@
         "tags": [
           "app-upload"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 797,
+        "order": 1194,
         "id": 24,
         "name": "app-upload",
         "prevSize": 32,
         "code": 59709
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 66
+      "iconIdx": 67
     },
     {
       "icon": {
@@ -1854,19 +2031,21 @@
         "tags": [
           "app-user-auth"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 798,
+        "order": 1195,
         "id": 23,
         "name": "app-user-auth",
         "prevSize": 32,
         "code": 59710
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 67
+      "iconIdx": 68
     },
     {
       "icon": {
@@ -1880,19 +2059,21 @@
         "tags": [
           "app-user-center"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 799,
+        "order": 1196,
         "id": 22,
         "name": "app-user-center",
         "prevSize": 32,
         "code": 59711
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 68
+      "iconIdx": 69
     },
     {
       "icon": {
@@ -1906,19 +2087,21 @@
         "tags": [
           "app-user-feedback"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 800,
+        "order": 1197,
         "id": 21,
         "name": "app-user-feedback",
         "prevSize": 32,
         "code": 59712
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 69
+      "iconIdx": 70
     },
     {
       "icon": {
@@ -1932,19 +2115,21 @@
         "tags": [
           "app-user-logout"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 801,
+        "order": 1198,
         "id": 20,
         "name": "app-user-logout",
         "prevSize": 32,
         "code": 59713
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 70
+      "iconIdx": 71
     },
     {
       "icon": {
@@ -1958,19 +2143,21 @@
         "tags": [
           "app-user-profile"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 802,
+        "order": 1199,
         "id": 19,
         "name": "app-user-profile",
         "prevSize": 32,
         "code": 59714
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 71
+      "iconIdx": 72
     },
     {
       "icon": {
@@ -1984,19 +2171,21 @@
         "tags": [
           "app-user-security"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 803,
+        "order": 1200,
         "id": 18,
         "name": "app-user-security",
         "prevSize": 32,
         "code": 59715
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 72
+      "iconIdx": 73
     },
     {
       "icon": {
@@ -2013,19 +2202,21 @@
         "tags": [
           "bm-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 804,
+        "order": 1201,
         "id": 17,
         "name": "bm-menu",
         "prevSize": 32,
         "code": 59716
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 73
+      "iconIdx": 74
     },
     {
       "icon": {
@@ -2039,19 +2230,21 @@
         "tags": [
           "cb-add-img"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 805,
+        "order": 1202,
         "id": 16,
         "name": "cb-add-img",
         "prevSize": 32,
         "code": 59717
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 74
+      "iconIdx": 75
     },
     {
       "icon": {
@@ -2065,19 +2258,21 @@
         "tags": [
           "cb-add-time"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 806,
+        "order": 1203,
         "id": 15,
         "name": "cb-add-time",
         "prevSize": 32,
         "code": 59718
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 75
+      "iconIdx": 76
     },
     {
       "icon": {
@@ -2091,19 +2286,21 @@
         "tags": [
           "cb-calendar"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 807,
+        "order": 1204,
         "id": 14,
         "name": "cb-calendar",
         "prevSize": 32,
         "code": 59719
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 76
+      "iconIdx": 77
     },
     {
       "icon": {
@@ -2119,19 +2316,21 @@
         "tags": [
           "cb-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 808,
+        "order": 1205,
         "id": 13,
         "name": "cb-menu",
         "prevSize": 32,
         "code": 59720
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 77
+      "iconIdx": 78
     },
     {
       "icon": {
@@ -2145,19 +2344,21 @@
         "tags": [
           "dc-calendar"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 809,
+        "order": 1206,
         "id": 12,
         "name": "dc-calendar",
         "prevSize": 32,
         "code": 59721
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 78
+      "iconIdx": 79
     },
     {
       "icon": {
@@ -2181,7 +2382,14 @@
         "tags": [
           "dc-customer-vip"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": [
+            {
+              "s": 0
+            },
+            {}
+          ]
+        }
       },
       "attrs": [
         {
@@ -2194,15 +2402,15 @@
         {}
       ],
       "properties": {
-        "order": 810,
+        "order": 1207,
         "id": 11,
         "name": "dc-customer-vip",
         "prevSize": 32,
         "code": 59722
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 79
+      "iconIdx": 80
     },
     {
       "icon": {
@@ -2216,19 +2424,21 @@
         "tags": [
           "dc-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 811,
+        "order": 1208,
         "id": 10,
         "name": "dc-menu",
         "prevSize": 32,
         "code": 59723
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 80
+      "iconIdx": 81
     },
     {
       "icon": {
@@ -2242,19 +2452,21 @@
         "tags": [
           "download"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 812,
+        "order": 1209,
         "id": 9,
         "name": "download",
         "prevSize": 32,
         "code": 59724
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 81
+      "iconIdx": 82
     },
     {
       "icon": {
@@ -2268,19 +2480,21 @@
         "tags": [
           "female"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 813,
+        "order": 1210,
         "id": 8,
         "name": "female",
         "prevSize": 32,
         "code": 59725
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 82
+      "iconIdx": 83
     },
     {
       "icon": {
@@ -2294,19 +2508,21 @@
         "tags": [
           "leading-out"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 814,
+        "order": 1211,
         "id": 7,
         "name": "leading-out",
         "prevSize": 32,
         "code": 59726
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 83
+      "iconIdx": 84
     },
     {
       "icon": {
@@ -2320,19 +2536,21 @@
         "tags": [
           "linked-qq"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 815,
+        "order": 1212,
         "id": 6,
         "name": "linked-qq",
         "prevSize": 32,
         "code": 59727
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 84
+      "iconIdx": 85
     },
     {
       "icon": {
@@ -2346,19 +2564,21 @@
         "tags": [
           "linked-wechat"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 816,
+        "order": 1213,
         "id": 5,
         "name": "linked-wechat",
         "prevSize": 32,
         "code": 59728
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 85
+      "iconIdx": 86
     },
     {
       "icon": {
@@ -2372,19 +2592,21 @@
         "tags": [
           "linked-weibo"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 817,
+        "order": 1214,
         "id": 4,
         "name": "linked-weibo",
         "prevSize": 32,
         "code": 59729
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 86
+      "iconIdx": 87
     },
     {
       "icon": {
@@ -2398,19 +2620,21 @@
         "tags": [
           "male"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 818,
+        "order": 1215,
         "id": 3,
         "name": "male",
         "prevSize": 32,
         "code": 59730
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 87
+      "iconIdx": 88
     },
     {
       "icon": {
@@ -2429,19 +2653,21 @@
         "tags": [
           "oi-menu"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 819,
+        "order": 1216,
         "id": 2,
         "name": "oi-menu",
         "prevSize": 32,
         "code": 59731
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 88
+      "iconIdx": 89
     },
     {
       "icon": {
@@ -2455,19 +2681,21 @@
         "tags": [
           "print"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 820,
+        "order": 1217,
         "id": 1,
         "name": "print",
         "prevSize": 32,
         "code": 59732
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 89
+      "iconIdx": 90
     },
     {
       "icon": {
@@ -2481,19 +2709,21 @@
         "tags": [
           "save"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "1281281281255255255142173281": []
+        }
       },
       "attrs": [],
       "properties": {
-        "order": 821,
+        "order": 1218,
         "id": 0,
         "name": "save",
         "prevSize": 32,
         "code": 59733
       },
-      "setIdx": 0,
+      "setIdx": 2,
       "setId": 3,
-      "iconIdx": 90
+      "iconIdx": 91
     }
   ],
   "height": 1024,
@@ -2506,7 +2736,7 @@
     "showQuickUse2": true,
     "showSVGs": true,
     "fontPref": {
-      "prefix": "vapps-icon-",
+      "prefix": "xiaoyuyue-icon-",
       "metadata": {
         "fontFamily": "xiaoyuyue",
         "majorVersion": 1,
@@ -2521,7 +2751,10 @@
       "cssVars": true,
       "cssVarsFormat": "scss",
       "showSelector": true,
-      "showMetrics": true
+      "showMetrics": true,
+      "selector": "",
+      "classSelector": ".yaojiangjie-icon",
+      "showMetadata": true
     },
     "imagePref": {
       "prefix": "icon-",

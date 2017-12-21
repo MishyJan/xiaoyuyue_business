@@ -2,16 +2,16 @@
 
 @font-face {
   font-family: 'xiaoyuyue';
-  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?8o1sea');
-  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?8o1sea#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/xiaoyuyue.ttf?8o1sea') format('truetype'),
-    url('#{$icomoon-font-path}/xiaoyuyue.woff?8o1sea') format('woff'),
-    url('#{$icomoon-font-path}/xiaoyuyue.svg?8o1sea#xiaoyuyue') format('svg');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?bm8ijp');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue.eot?bm8ijp#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/xiaoyuyue.ttf?bm8ijp') format('truetype'),
+    url('#{$icomoon-font-path}/xiaoyuyue.woff?bm8ijp') format('woff'),
+    url('#{$icomoon-font-path}/xiaoyuyue.svg?bm8ijp#xiaoyuyue') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="vapps-icon-"], [class*=" vapps-icon-"] {
+[class^="xiaoyuyue-icon-"], [class*=" xiaoyuyue-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'xiaoyuyue' !important;
   speak: none;
@@ -26,459 +26,464 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.vapps-icon-app-move {
+.xiaoyuyue-icon-app-email {
   &:before {
-    content: $vapps-icon-app-move;
+    content: $xiaoyuyue-icon-app-email;
   }
 }
-.vapps-icon-gm-menu {
+.xiaoyuyue-icon-app-move {
   &:before {
-    content: $vapps-icon-gm-menu;
+    content: $xiaoyuyue-icon-app-move;
   }
 }
-.vapps-icon-app-edit-group {
+.xiaoyuyue-icon-gm-menu {
   &:before {
-    content: $vapps-icon-app-edit-group;
+    content: $xiaoyuyue-icon-gm-menu;
   }
 }
-.vapps-icon-app-remove-group {
+.xiaoyuyue-icon-app-edit-group {
   &:before {
-    content: $vapps-icon-app-remove-group;
+    content: $xiaoyuyue-icon-app-edit-group;
   }
 }
-.vapps-icon-app-tip {
+.xiaoyuyue-icon-app-remove-group {
   &:before {
-    content: $vapps-icon-app-tip;
+    content: $xiaoyuyue-icon-app-remove-group;
   }
 }
-.vapps-icon-app-active {
+.xiaoyuyue-icon-app-tip {
   &:before {
-    content: $vapps-icon-app-active;
+    content: $xiaoyuyue-icon-app-tip;
   }
 }
-.vapps-icon-app-add-booking-item {
+.xiaoyuyue-icon-app-active {
   &:before {
-    content: $vapps-icon-app-add-booking-item;
+    content: $xiaoyuyue-icon-app-active;
   }
 }
-.vapps-icon-app-add-outlet {
+.xiaoyuyue-icon-app-add-booking-item {
   &:before {
-    content: $vapps-icon-app-add-outlet;
+    content: $xiaoyuyue-icon-app-add-booking-item;
   }
 }
-.vapps-icon-app-address {
+.xiaoyuyue-icon-app-add-outlet {
   &:before {
-    content: $vapps-icon-app-address;
+    content: $xiaoyuyue-icon-app-add-outlet;
   }
 }
-.vapps-icon-app-add-time-field {
+.xiaoyuyue-icon-app-address {
   &:before {
-    content: $vapps-icon-app-add-time-field;
+    content: $xiaoyuyue-icon-app-address;
   }
 }
-.vapps-icon-app-back {
+.xiaoyuyue-icon-app-add-time-field {
   &:before {
-    content: $vapps-icon-app-back;
+    content: $xiaoyuyue-icon-app-add-time-field;
   }
 }
-.vapps-icon-app-back-left {
+.xiaoyuyue-icon-app-back {
   &:before {
-    content: $vapps-icon-app-back-left;
+    content: $xiaoyuyue-icon-app-back;
   }
 }
-.vapps-icon-app-booking-menu {
+.xiaoyuyue-icon-app-back-left {
   &:before {
-    content: $vapps-icon-app-booking-menu;
+    content: $xiaoyuyue-icon-app-back-left;
   }
 }
-.vapps-icon-app-booking-new-join {
+.xiaoyuyue-icon-app-booking-menu {
   &:before {
-    content: $vapps-icon-app-booking-new-join;
+    content: $xiaoyuyue-icon-app-booking-menu;
   }
 }
-.vapps-icon-app-booking-total {
+.xiaoyuyue-icon-app-booking-new-join {
   &:before {
-    content: $vapps-icon-app-booking-total;
+    content: $xiaoyuyue-icon-app-booking-new-join;
   }
 }
-.vapps-icon-app-cancel {
+.xiaoyuyue-icon-app-booking-total {
   &:before {
-    content: $vapps-icon-app-cancel;
+    content: $xiaoyuyue-icon-app-booking-total;
   }
 }
-.vapps-icon-app-close {
+.xiaoyuyue-icon-app-cancel {
   &:before {
-    content: $vapps-icon-app-close;
+    content: $xiaoyuyue-icon-app-cancel;
   }
 }
-.vapps-icon-app-confirm {
+.xiaoyuyue-icon-app-close {
   &:before {
-    content: $vapps-icon-app-confirm;
+    content: $xiaoyuyue-icon-app-close;
   }
 }
-.vapps-icon-app-confirm-2 {
+.xiaoyuyue-icon-app-confirm {
   &:before {
-    content: $vapps-icon-app-confirm-2;
+    content: $xiaoyuyue-icon-app-confirm;
   }
 }
-.vapps-icon-app-contact {
+.xiaoyuyue-icon-app-confirm-2 {
   &:before {
-    content: $vapps-icon-app-contact;
+    content: $xiaoyuyue-icon-app-confirm-2;
   }
 }
-.vapps-icon-app-copy-1 {
+.xiaoyuyue-icon-app-contact {
   &:before {
-    content: $vapps-icon-app-copy-1;
+    content: $xiaoyuyue-icon-app-contact;
   }
 }
-.vapps-icon-app-copy-2 {
+.xiaoyuyue-icon-app-copy-1 {
   &:before {
-    content: $vapps-icon-app-copy-2;
+    content: $xiaoyuyue-icon-app-copy-1;
   }
 }
-.vapps-icon-app-custom-menu {
+.xiaoyuyue-icon-app-copy-2 {
   &:before {
-    content: $vapps-icon-app-custom-menu;
+    content: $xiaoyuyue-icon-app-copy-2;
   }
 }
-.vapps-icon-app-default {
+.xiaoyuyue-icon-app-custom-menu {
   &:before {
-    content: $vapps-icon-app-default;
+    content: $xiaoyuyue-icon-app-custom-menu;
   }
 }
-.vapps-icon-app-delete {
+.xiaoyuyue-icon-app-default {
   &:before {
-    content: $vapps-icon-app-delete;
+    content: $xiaoyuyue-icon-app-default;
   }
 }
-.vapps-icon-app-delete-time-field {
+.xiaoyuyue-icon-app-delete {
   &:before {
-    content: $vapps-icon-app-delete-time-field;
+    content: $xiaoyuyue-icon-app-delete;
   }
 }
-.vapps-icon-app-detail {
+.xiaoyuyue-icon-app-delete-time-field {
   &:before {
-    content: $vapps-icon-app-detail;
+    content: $xiaoyuyue-icon-app-delete-time-field;
   }
 }
-.vapps-icon-app-detail-2 {
+.xiaoyuyue-icon-app-detail {
   &:before {
-    content: $vapps-icon-app-detail-2;
+    content: $xiaoyuyue-icon-app-detail;
   }
 }
-.vapps-icon-app-disable {
+.xiaoyuyue-icon-app-detail-2 {
   &:before {
-    content: $vapps-icon-app-disable;
+    content: $xiaoyuyue-icon-app-detail-2;
   }
 }
-.vapps-icon-app-disabled {
+.xiaoyuyue-icon-app-disable {
   &:before {
-    content: $vapps-icon-app-disabled;
+    content: $xiaoyuyue-icon-app-disable;
   }
 }
-.vapps-icon-app-drop-down {
+.xiaoyuyue-icon-app-disabled {
   &:before {
-    content: $vapps-icon-app-drop-down;
+    content: $xiaoyuyue-icon-app-disabled;
   }
 }
-.vapps-icon-app-edit {
+.xiaoyuyue-icon-app-drop-down {
   &:before {
-    content: $vapps-icon-app-edit;
+    content: $xiaoyuyue-icon-app-drop-down;
   }
 }
-.vapps-icon-app-first-page {
+.xiaoyuyue-icon-app-edit {
   &:before {
-    content: $vapps-icon-app-first-page;
+    content: $xiaoyuyue-icon-app-edit;
   }
 }
-.vapps-icon-app-home-menu {
+.xiaoyuyue-icon-app-first-page {
   &:before {
-    content: $vapps-icon-app-home-menu;
+    content: $xiaoyuyue-icon-app-first-page;
   }
 }
-.vapps-icon-app-last-page {
+.xiaoyuyue-icon-app-home-menu {
   &:before {
-    content: $vapps-icon-app-last-page;
+    content: $xiaoyuyue-icon-app-home-menu;
   }
 }
-.vapps-icon-app-location {
+.xiaoyuyue-icon-app-last-page {
   &:before {
-    content: $vapps-icon-app-location;
+    content: $xiaoyuyue-icon-app-last-page;
   }
 }
-.vapps-icon-app-login-code {
+.xiaoyuyue-icon-app-location {
   &:before {
-    content: $vapps-icon-app-login-code;
+    content: $xiaoyuyue-icon-app-location;
   }
 }
-.vapps-icon-app-login-name {
+.xiaoyuyue-icon-app-login-code {
   &:before {
-    content: $vapps-icon-app-login-name;
+    content: $xiaoyuyue-icon-app-login-code;
   }
 }
-.vapps-icon-app-login-passwd {
+.xiaoyuyue-icon-app-login-name {
   &:before {
-    content: $vapps-icon-app-login-passwd;
+    content: $xiaoyuyue-icon-app-login-name;
   }
 }
-.vapps-icon-app-login-phone {
+.xiaoyuyue-icon-app-login-passwd {
   &:before {
-    content: $vapps-icon-app-login-phone;
+    content: $xiaoyuyue-icon-app-login-passwd;
   }
 }
-.vapps-icon-app-logo {
+.xiaoyuyue-icon-app-login-phone {
   &:before {
-    content: $vapps-icon-app-logo;
+    content: $xiaoyuyue-icon-app-login-phone;
   }
 }
-.vapps-icon-app-logo-text {
+.xiaoyuyue-icon-app-logo {
   &:before {
-    content: $vapps-icon-app-logo-text;
+    content: $xiaoyuyue-icon-app-logo;
   }
 }
-.vapps-icon-app-logout-menu {
+.xiaoyuyue-icon-app-logo-text {
   &:before {
-    content: $vapps-icon-app-logout-menu;
+    content: $xiaoyuyue-icon-app-logo-text;
   }
 }
-.vapps-icon-app-manage {
+.xiaoyuyue-icon-app-logout-menu {
   &:before {
-    content: $vapps-icon-app-manage;
+    content: $xiaoyuyue-icon-app-logout-menu;
   }
 }
-.vapps-icon-app-menu {
+.xiaoyuyue-icon-app-manage {
   &:before {
-    content: $vapps-icon-app-menu;
+    content: $xiaoyuyue-icon-app-manage;
   }
 }
-.vapps-icon-app-message {
+.xiaoyuyue-icon-app-menu {
   &:before {
-    content: $vapps-icon-app-message;
+    content: $xiaoyuyue-icon-app-menu;
   }
 }
-.vapps-icon-app-mode-toggle-1 {
+.xiaoyuyue-icon-app-message {
   &:before {
-    content: $vapps-icon-app-mode-toggle-1;
+    content: $xiaoyuyue-icon-app-message;
   }
 }
-.vapps-icon-app-mode-toggle-2 {
+.xiaoyuyue-icon-app-mode-toggle-1 {
   &:before {
-    content: $vapps-icon-app-mode-toggle-2;
+    content: $xiaoyuyue-icon-app-mode-toggle-1;
   }
 }
-.vapps-icon-app-multitask {
+.xiaoyuyue-icon-app-mode-toggle-2 {
   &:before {
-    content: $vapps-icon-app-multitask;
+    content: $xiaoyuyue-icon-app-mode-toggle-2;
   }
 }
-.vapps-icon-app-next-page {
+.xiaoyuyue-icon-app-multitask {
   &:before {
-    content: $vapps-icon-app-next-page;
+    content: $xiaoyuyue-icon-app-multitask;
   }
 }
-.vapps-icon-app-no-defalut {
+.xiaoyuyue-icon-app-next-page {
   &:before {
-    content: $vapps-icon-app-no-defalut;
+    content: $xiaoyuyue-icon-app-next-page;
   }
 }
-.vapps-icon-app-org-center-menu {
+.xiaoyuyue-icon-app-no-defalut {
   &:before {
-    content: $vapps-icon-app-org-center-menu;
+    content: $xiaoyuyue-icon-app-no-defalut;
   }
 }
-.vapps-icon-app-org-info-menu {
+.xiaoyuyue-icon-app-org-center-menu {
   &:before {
-    content: $vapps-icon-app-org-info-menu;
+    content: $xiaoyuyue-icon-app-org-center-menu;
   }
 }
-.vapps-icon-app-outlet-image {
+.xiaoyuyue-icon-app-org-info-menu {
   &:before {
-    content: $vapps-icon-app-outlet-image;
+    content: $xiaoyuyue-icon-app-org-info-menu;
   }
 }
-.vapps-icon-app-outlet-menu {
+.xiaoyuyue-icon-app-outlet-image {
   &:before {
-    content: $vapps-icon-app-outlet-menu;
+    content: $xiaoyuyue-icon-app-outlet-image;
   }
 }
-.vapps-icon-app-phone {
+.xiaoyuyue-icon-app-outlet-menu {
   &:before {
-    content: $vapps-icon-app-phone;
+    content: $xiaoyuyue-icon-app-outlet-menu;
   }
 }
-.vapps-icon-app-preview {
+.xiaoyuyue-icon-app-phone {
   &:before {
-    content: $vapps-icon-app-preview;
+    content: $xiaoyuyue-icon-app-phone;
   }
 }
-.vapps-icon-app-prev-page {
+.xiaoyuyue-icon-app-preview {
   &:before {
-    content: $vapps-icon-app-prev-page;
+    content: $xiaoyuyue-icon-app-preview;
   }
 }
-.vapps-icon-app-qr-code {
+.xiaoyuyue-icon-app-prev-page {
   &:before {
-    content: $vapps-icon-app-qr-code;
+    content: $xiaoyuyue-icon-app-prev-page;
   }
 }
-.vapps-icon-app-refurbish {
+.xiaoyuyue-icon-app-qr-code {
   &:before {
-    content: $vapps-icon-app-refurbish;
+    content: $xiaoyuyue-icon-app-qr-code;
   }
 }
-.vapps-icon-app-search {
+.xiaoyuyue-icon-app-refurbish {
   &:before {
-    content: $vapps-icon-app-search;
+    content: $xiaoyuyue-icon-app-refurbish;
   }
 }
-.vapps-icon-app-settings-menu {
+.xiaoyuyue-icon-app-search {
   &:before {
-    content: $vapps-icon-app-settings-menu;
+    content: $xiaoyuyue-icon-app-search;
   }
 }
-.vapps-icon-app-share {
+.xiaoyuyue-icon-app-settings-menu {
   &:before {
-    content: $vapps-icon-app-share;
+    content: $xiaoyuyue-icon-app-settings-menu;
   }
 }
-.vapps-icon-app-share-2 {
+.xiaoyuyue-icon-app-share {
   &:before {
-    content: $vapps-icon-app-share-2;
+    content: $xiaoyuyue-icon-app-share;
   }
 }
-.vapps-icon-app-shop-hours {
+.xiaoyuyue-icon-app-share-2 {
   &:before {
-    content: $vapps-icon-app-shop-hours;
+    content: $xiaoyuyue-icon-app-share-2;
   }
 }
-.vapps-icon-app-submit {
+.xiaoyuyue-icon-app-shop-hours {
   &:before {
-    content: $vapps-icon-app-submit;
+    content: $xiaoyuyue-icon-app-shop-hours;
   }
 }
-.vapps-icon-app-upload {
+.xiaoyuyue-icon-app-submit {
   &:before {
-    content: $vapps-icon-app-upload;
+    content: $xiaoyuyue-icon-app-submit;
   }
 }
-.vapps-icon-app-user-auth {
+.xiaoyuyue-icon-app-upload {
   &:before {
-    content: $vapps-icon-app-user-auth;
+    content: $xiaoyuyue-icon-app-upload;
   }
 }
-.vapps-icon-app-user-center {
+.xiaoyuyue-icon-app-user-auth {
   &:before {
-    content: $vapps-icon-app-user-center;
+    content: $xiaoyuyue-icon-app-user-auth;
   }
 }
-.vapps-icon-app-user-feedback {
+.xiaoyuyue-icon-app-user-center {
   &:before {
-    content: $vapps-icon-app-user-feedback;
+    content: $xiaoyuyue-icon-app-user-center;
   }
 }
-.vapps-icon-app-user-logout {
+.xiaoyuyue-icon-app-user-feedback {
   &:before {
-    content: $vapps-icon-app-user-logout;
+    content: $xiaoyuyue-icon-app-user-feedback;
   }
 }
-.vapps-icon-app-user-profile {
+.xiaoyuyue-icon-app-user-logout {
   &:before {
-    content: $vapps-icon-app-user-profile;
+    content: $xiaoyuyue-icon-app-user-logout;
   }
 }
-.vapps-icon-app-user-security {
+.xiaoyuyue-icon-app-user-profile {
   &:before {
-    content: $vapps-icon-app-user-security;
+    content: $xiaoyuyue-icon-app-user-profile;
   }
 }
-.vapps-icon-bm-menu {
+.xiaoyuyue-icon-app-user-security {
   &:before {
-    content: $vapps-icon-bm-menu;
+    content: $xiaoyuyue-icon-app-user-security;
   }
 }
-.vapps-icon-cb-add-img {
+.xiaoyuyue-icon-bm-menu {
   &:before {
-    content: $vapps-icon-cb-add-img;
+    content: $xiaoyuyue-icon-bm-menu;
   }
 }
-.vapps-icon-cb-add-time {
+.xiaoyuyue-icon-cb-add-img {
   &:before {
-    content: $vapps-icon-cb-add-time;
+    content: $xiaoyuyue-icon-cb-add-img;
   }
 }
-.vapps-icon-cb-calendar {
+.xiaoyuyue-icon-cb-add-time {
   &:before {
-    content: $vapps-icon-cb-calendar;
+    content: $xiaoyuyue-icon-cb-add-time;
   }
 }
-.vapps-icon-cb-menu {
+.xiaoyuyue-icon-cb-calendar {
   &:before {
-    content: $vapps-icon-cb-menu;
+    content: $xiaoyuyue-icon-cb-calendar;
   }
 }
-.vapps-icon-dc-calendar {
+.xiaoyuyue-icon-cb-menu {
   &:before {
-    content: $vapps-icon-dc-calendar;
+    content: $xiaoyuyue-icon-cb-menu;
   }
 }
-.vapps-icon-dc-customer-vip {
+.xiaoyuyue-icon-dc-calendar {
   &:before {
-    content: $vapps-icon-dc-customer-vip;
+    content: $xiaoyuyue-icon-dc-calendar;
   }
 }
-.vapps-icon-dc-menu {
+.xiaoyuyue-icon-dc-customer-vip {
   &:before {
-    content: $vapps-icon-dc-menu;
+    content: $xiaoyuyue-icon-dc-customer-vip;
   }
 }
-.vapps-icon-download {
+.xiaoyuyue-icon-dc-menu {
   &:before {
-    content: $vapps-icon-download;
+    content: $xiaoyuyue-icon-dc-menu;
   }
 }
-.vapps-icon-female {
+.xiaoyuyue-icon-download {
   &:before {
-    content: $vapps-icon-female;
+    content: $xiaoyuyue-icon-download;
   }
 }
-.vapps-icon-leading-out {
+.xiaoyuyue-icon-female {
   &:before {
-    content: $vapps-icon-leading-out;
+    content: $xiaoyuyue-icon-female;
   }
 }
-.vapps-icon-linked-qq {
+.xiaoyuyue-icon-leading-out {
   &:before {
-    content: $vapps-icon-linked-qq;
+    content: $xiaoyuyue-icon-leading-out;
   }
 }
-.vapps-icon-linked-wechat {
+.xiaoyuyue-icon-linked-qq {
   &:before {
-    content: $vapps-icon-linked-wechat;
+    content: $xiaoyuyue-icon-linked-qq;
   }
 }
-.vapps-icon-linked-weibo {
+.xiaoyuyue-icon-linked-wechat {
   &:before {
-    content: $vapps-icon-linked-weibo;
+    content: $xiaoyuyue-icon-linked-wechat;
   }
 }
-.vapps-icon-male {
+.xiaoyuyue-icon-linked-weibo {
   &:before {
-    content: $vapps-icon-male;
+    content: $xiaoyuyue-icon-linked-weibo;
   }
 }
-.vapps-icon-oi-menu {
+.xiaoyuyue-icon-male {
   &:before {
-    content: $vapps-icon-oi-menu;
+    content: $xiaoyuyue-icon-male;
   }
 }
-.vapps-icon-print {
+.xiaoyuyue-icon-oi-menu {
   &:before {
-    content: $vapps-icon-print;
+    content: $xiaoyuyue-icon-oi-menu;
   }
 }
-.vapps-icon-save {
+.xiaoyuyue-icon-print {
   &:before {
-    content: $vapps-icon-save;
+    content: $xiaoyuyue-icon-print;
+  }
+}
+.xiaoyuyue-icon-save {
+  &:before {
+    content: $xiaoyuyue-icon-save;
   }
 }
 
