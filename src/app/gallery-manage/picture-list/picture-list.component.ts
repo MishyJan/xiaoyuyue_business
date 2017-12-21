@@ -294,7 +294,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
 
     // 全选和取消全选功能
-    public allSelectedHandler(eventValue: boolean): void {
+    public allSelectedHandler(): void {
         this.allSelected = !this.allSelected;
         if (this.allSelected) {
             // this.selectedPicListArr = this.picGroupItemData;
