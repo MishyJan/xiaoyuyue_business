@@ -13,9 +13,13 @@ import { Observable } from 'rxjs/Observable';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
 
 const UA = require('ua-device');
+declare const FB: any; // Facebook API
+declare const gapi: any; // Google API
 
 export class ExternalLoginProvider extends ExternalLoginProviderInfoModel {
 
+    static readonly FACEBOOK: string = 'Facebook';
+    static readonly GOOGLE: string = 'Google';
     static readonly WECHAT = 'WeChat';
     static readonly WECHATMP = 'WeChatMP';
     static readonly QQ = 'QQ';
@@ -95,8 +99,14 @@ export class LoginService {
 
     externalAuthenticate(provider: ExternalLoginProvider): void {
         this.ensureExternalLoginProviderInitialized(provider, () => {
-            if (provider.name === ExternalLoginProvider.WECHAT) {
-                jQuery.getScript('https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
+            if (provider.name === ExternalLoginProvider.FACEBOOK) {
+                FB.login(function (response) {
+                    // handle the response
+                }, { scope: 'email,public_profile,user_location' });
+            } else if (provider.name === ExternalLoginProvider.GOOGLE) {
+                gapi.auth2.getAuthInstance().signIn();
+            } else if (provider.name === ExternalLoginProvider.WECHAT) {
+                jQuery.getScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
                     const wxLogin = new WxLogin({
                         id: 'externalLoginContainer',
                         appid: provider.clientId,
@@ -228,8 +238,75 @@ export class LoginService {
             return;
         }
 
-        if (loginProvider.name === ExternalLoginProvider.WECHAT) {
+        if (loginProvider.name === ExternalLoginProvider.FACEBOOK) {
+            jQuery.getScript('//connect.facebook.net/zh-hk/sdk.js', () => {
+                FB.init({
+                    appId: loginProvider.clientId,
+                    cookie: false,
+                    xfbml: true,
+                    version: 'v2.9'
+                });
 
+                FB.getLoginStatus(response => {
+                    this.facebookLoginStatusChangeCallback(response);
+                });
+
+                callback();
+            });
+        } else if (loginProvider.name === ExternalLoginProvider.GOOGLE) {
+            jQuery.getScript('https://apis.google.com/js/api.js', () => {
+                gapi.load('client:auth2',
+                    () => {
+                        gapi.client.init({
+                            clientId: loginProvider.clientId,
+                            scope: 'openid profile email'
+                        }).then(() => {
+                            gapi.auth2.getAuthInstance().isSignedIn.listen((isSignedIn) => {
+                                this.googleLoginStatusChangeCallback(isSignedIn);
+                            });
+
+                            this.googleLoginStatusChangeCallback(gapi.auth2.getAuthInstance().isSignedIn.get());
+                        });
+
+                        callback();
+                    });
+            });
+        } else if (loginProvider.name === ExternalLoginProvider.WECHAT) {
+
+        }
+    }
+
+    private facebookLoginStatusChangeCallback(resp) {
+        if (resp.status === 'connected') {
+            var model = new ExternalAuthenticateModel();
+            model.authProvider = ExternalLoginProvider.FACEBOOK;
+            model.providerAccessCode = resp.authResponse.accessToken;
+            model.providerKey = resp.authResponse.userID;
+            this._tokenAuthService.externalAuthenticate(model)
+                .subscribe((result: ExternalAuthenticateResultModel) => {
+                    if (result.waitingForActivation) {
+                        this._messageService.info("您已成功注册,请完善基本信息!");
+                        return;
+                    }
+                    this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
+                });
+        }
+    }
+
+    private googleLoginStatusChangeCallback(isSignedIn) {
+        if (isSignedIn) {
+            var model = new ExternalAuthenticateModel();
+            model.authProvider = ExternalLoginProvider.GOOGLE;
+            model.providerAccessCode = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
+            model.providerKey = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getId();
+            this._tokenAuthService.externalAuthenticate(model)
+                .subscribe((result: ExternalAuthenticateResultModel) => {
+                    if (result.waitingForActivation) {
+                        this._messageService.info("您已成功注册,请完善基本信息!");
+                        return;
+                    }
+                    this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
+                });
         }
     }
 

@@ -14,10 +14,10 @@ import { SidebarService } from 'shared/services/side-bar.service';
 export class MobileSideBarComponent extends AppComponentBase implements OnInit {
     toggleSidebarFlag: boolean = false;
     mobileMenu: SideBarMenu = new SideBarMenu('Menu', 'Menu', [
-        new SideBarMenuItem('机构中心', this.permissions.Dashboard, 'vapps-icon-app-org-center-menu', '/dashboard'),
-        new SideBarMenuItem('预约管理', this.permissions.bookingManage_Bookings, 'vapps-icon-app-booking-menu', '/booking/list'),
-        new SideBarMenuItem('机构信息', this.permissions.organization_BaseInfo, 'vapps-icon-app-org-info-menu', '/organization/info'),
-        new SideBarMenuItem('门店管理', this.permissions.organization_Outlets, 'vapps-icon-app-outlet-menu', '/outlet/list')
+        new SideBarMenuItem(this.l('Mobile.Menu.Dashboard'), this.permissions.Dashboard, 'vapps-icon-app-org-center-menu', '/dashboard'),
+        new SideBarMenuItem(this.l('Mobile.Menu.BookingManage_Bookings'), this.permissions.bookingManage_Bookings, 'vapps-icon-app-booking-menu', '/booking/list'),
+        new SideBarMenuItem(this.l('Mobile.Menu.Organization_BaseInfo'), this.permissions.organization_BaseInfo, 'vapps-icon-app-org-info-menu', '/organization/info'),
+        new SideBarMenuItem(this.l('Mobile.Menu.Organization_Outlets'), this.permissions.organization_Outlets, 'vapps-icon-app-outlet-menu', '/outlet/list')
     ]);
     constructor(
         private injector: Injector,

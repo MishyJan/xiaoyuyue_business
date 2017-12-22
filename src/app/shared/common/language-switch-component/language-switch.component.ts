@@ -7,7 +7,8 @@ import { CookiesService } from 'shared/services/cookies.service';
 
 @Component({
     selector: 'languageSwitch',
-    templateUrl: './language-switch.component.html'
+    templateUrl: './language-switch.component.html',
+    styleUrls: ['./language-switch.component.scss']
 })
 export class LanguageSwitchComponent extends AppComponentBase implements OnInit {
 

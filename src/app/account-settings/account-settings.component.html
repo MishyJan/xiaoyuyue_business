@@ -6,7 +6,7 @@
                     <div class="page-head">
                         <div class="page-title">
                             <h1>
-                                <span>账户安全</span>
+                                <span>{{ l('Menu.Account.Security') }}</span>
                             </h1>
                             <div>
                                 <breadcrumb></breadcrumb>
@@ -21,40 +21,40 @@
                     <div class="card">
                         <div class="form-horizontal">
                             <div class="card-header card-header-text" data-background-color="orange">
-                                <h6 class="card-title">安全信息</h6>
+                                <h6 class="card-title">{{ l('Security.InfoField') }}</h6>
                             </div>
                             <div class="card-content">
                                 <div class="login-passwd content-item clearfix">
                                     <p class="left-item pull-left">
-                                        <span class="tip-title pull-left">登录密码</span>
-                                        <span class="pull-left already-set">已设置</span>
+                                        <span class="tip-title pull-left">{{ l('Security.PasswordField') }}</span>
+                                        <span class="pull-left already-set">{{ l('Security.Set') }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" (click)="showChangePasswdModel()">设置</button>
+                                        <button type="button" class="btn primary-bgcolor" (click)="showChangePasswdModel()">{{ l('Setting') }}</button>
                                     </div>
                                 </div>
 
                                 <div class="verify-phone content-item clearfix">
                                     <p class="left-item pull-left">
-                                        <span class="tip-title pull-left">验证手机</span>
-                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.phoneNumber">未设置</span>
-                                        <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber">已设置</span>
+                                        <span class="tip-title pull-left">{{ l('Security.VerifyPhone') }}</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.phoneNumber">{{ l('Security.Unset') }}</span>
+                                        <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber">{{ l('Security.Set') }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">修改</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.phoneNumber" (click)="showBindingPhoneModel()">设置</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.phoneNumber" (click)="showBindingPhoneModel()">{{ l('Setting') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">{{ l('Revise') }}</button>
                                     </div>
                                 </div>
 
                                 <div class="verify-email content-item clearfix">
                                     <p class="left-item pull-left">
-                                        <span class="tip-title pull-left">验证邮箱</span>
-                                        <span class="pull-left not-set">未设置</span>
-                                        <!-- <span class="pull-left already-set">已设置</span> -->
+                                        <span class="tip-title pull-left">{{ l('Security.VerifyEmail') }}</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.emailAddress">{{ l('Security.Unset') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.emailAddress">{{ l('Security.Set') }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <!-- <button type="button" class="btn primary-bgcolor">修改</button> -->
-                                        <button type="button" class="btn primary-bgcolor">设置</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.emailAddress" (click)="showBindingEmailModel()">{{ l('Setting') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.emailAddress" (click)="showChangeEmailModel()">{{ l('Revise') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -65,19 +65,19 @@
                     <div class="card">
                         <div class="form-horizontal">
                             <div class="card-header card-header-text" data-background-color="orange">
-                                <h6 class="card-title">账户关联</h6>
+                                <h6 class="card-title">{{ l('Security.AccountAssociation') }}</h6>
                             </div>
                             <div class="card-content">
                                 <div class="login-passwd content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left"><img src="assets/common/images/social/wechat-x2.png" style="width: 36px;" alt="wechat"></span>
-                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.weChat">未绑定</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.weChat">{{ l('Security.Unbound') }}</span>
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.weChat">{{ userSecurityInfo.weChat }}</span>
                                         <!-- <span class="pull-left already-set">微信名</span> -->
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBinding" [busyText]=" '解绑中'">解绑</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.weChat" (click)="bindWeChat()">绑定</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBinding" [busyText]=" '解绑中'">{{ l('Security.Unbinding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.weChat" (click)="bindWeChat()">{{ l('Security.Binding') }}</button>
                                     </div>
                                 </div>
 
@@ -96,12 +96,12 @@
                                 <div class="verify-qq content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left"><img src="assets/common/images/social/qq-x2.png" style="width: 28px;" alt="qq"></span>
-                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.qq">未绑定</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.qq">{{ l('Security.Unbound') }}</span>
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.qq">{{ userSecurityInfo.qq }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()">解绑</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">绑定</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()">{{ l('Security.Unbinding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Security.Binding') }}</button>
                                     </div>
                                 </div>
 
@@ -114,6 +114,8 @@
         <xiaoyuyue-change-passwd-model #changePasswdModel></xiaoyuyue-change-passwd-model>
         <xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>
         <xiaoyuyue-unbinding-phone-model #unbindingPhoneModel></xiaoyuyue-unbinding-phone-model>
+        <xiaoyuyue-binding-email-model #bindingEmailModel></xiaoyuyue-binding-email-model>
+        <xiaoyuyue-unbinding-email-model #unbindingEmailModel></xiaoyuyue-unbinding-email-model>
         <xiaoyuyue-external-binding-model [wechatName]="userSecurityInfo.weChat" #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
     </div>
 </div>
@@ -125,7 +127,7 @@
                 <div class="item">
                     <div class="content">
                         <span class="icon vapps-icon-app-user-security"></span>
-                        <p class="text">账户安全</p>
+                        <p class="text">{{ l('Menu.Account.Security') }}</p>
                     </div>
                 </div>
             </div>

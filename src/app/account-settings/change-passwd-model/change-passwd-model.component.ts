@@ -18,20 +18,18 @@ export class RepeatPasswdDto extends ChangePasswordInput {
 })
 export class ChangePasswdModelComponent extends AppComponentBase implements OnInit {
     input: RepeatPasswdDto = new RepeatPasswdDto();
-    changePasswdMode: boolean = true;
+    changePasswdMode = true;
     encryptPhoneNum: string;
-    isSendSMS: boolean = false;
     byPhoneInput: ChangePasswordByPhoneInput = new ChangePasswordByPhoneInput();
     phoneNum: string;
+    codeType: number = VerificationCodeType.ChangePassword;
 
     @ViewChild('changePasswdModel') changePasswdModel: ModalDirective;
-    @ViewChild('smsBtn') _smsBtn: ElementRef;
     constructor(
         private injector: Injector,
         private _SMSServiceProxy: SMSServiceProxy,
         private _profileServiceProxy: ProfileServiceProxy,
         private _appSessionService: AppSessionService,
-        
     ) {
         super(injector);
     }
@@ -75,40 +73,10 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
         this.byPhoneInput = new ChangePasswordByPhoneInput();
     }
 
-    // 发送验证码
-    send() {
-        let model = new CodeSendInput();
-        model.targetNumber = this.phoneNum;
-        model.codeType = VerificationCodeType.ChangePassword;
-        // this.captchaResolved();
-
-        this._SMSServiceProxy
-            .sendCodeAsync(model)
-            .subscribe(result => {
-                this.anginSend();
-            });
-    }
-
-    anginSend() {
-        let self = this;
-        let time = 60;
-        this.isSendSMS = true;
-        let set = setInterval(() => {
-            time--;
-            self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
-        }, 1000)
-
-        setTimeout(() => {
-            clearInterval(set);
-            self.isSendSMS = false;
-            self._smsBtn.nativeElement.innerHTML = this.l("AgainSendValidateCode");
-        }, 60000);
-    }
-
     private encrypt(): void {
         if (!this.phoneNum) {
             return;
         }
-        this.encryptPhoneNum = "•••••••" + this.phoneNum.substr(this.phoneNum.length - 4);
+        this.encryptPhoneNum = '•••••••' + this.phoneNum.substr(this.phoneNum.length - 4);
     }
 }

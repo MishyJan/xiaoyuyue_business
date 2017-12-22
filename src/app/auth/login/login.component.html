@@ -26,7 +26,8 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="form-group label-floating">
                                     <label class="control-label"></label>
-                                    <input class="form-control" type="text" placeholder="{{l('Certificate')}}" autofocus [(ngModel)]="loginService.authenticateModel.loginCertificate" name="loginCertificate" required>
+                                    <input class="form-control" type="text" placeholder="{{ l('PlaceholderTips.Login') }}" autofocus [(ngModel)]="loginService.authenticateModel.loginCertificate"
+                                        name="loginCertificate" required>
                                 </div>
                             </div>
                         </div>
@@ -37,13 +38,13 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="form-group label-floating is-empty">
                                     <label class="control-label"></label>
-                                    <input class="form-control" type="password" placeholder="{{l('Pawwword')}}" [(ngModel)]="loginService.authenticateModel.password" name="password" required>
+                                    <input class="form-control" type="password" placeholder="{{l('PlaceholderTips.Passwd')}}" [(ngModel)]="loginService.authenticateModel.password"
+                                        name="password" required>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div [@routerTransition] class="phone-login-wrap form-horizontal" *ngIf="!ordinaryLogin">
-
                         <div class="row">
                             <label class="col-md-1 col-sm-2 label-on-left">
                                 <span class="vapps-icon-app-login-phone"></span>
@@ -51,7 +52,8 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="form-group label-floating is-empty">
                                     <label class="control-label"></label>
-                                    <input class="form-control" type="number" autofocus name="phoneNumber" [(ngModel)]="model.phoneNum" maxlength="11" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" placeholder="{{l('PhoneNumber')}}" required>
+                                    <input class="form-control" type="number" autofocus name="phoneNumber" [(ngModel)]="model.phoneNum" maxlength="11" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}"
+                                        placeholder="{{l('PhoneNumber')}}" required>
                                 </div>
                             </div>
                         </div>
@@ -63,9 +65,7 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="validate-code-wrap form-group form-md-line-input form-md-floating-label">
                                     <input class="form-control" type="number" name="identifyCode" [(ngModel)]="model.loginCode" required placeholder="{{l('VerificationCode')}}">
-                                    <div class="get-sms-btn">
-                                        <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">{{l('GetVerificationCode')}}</button>
-                                    </div>
+                                    <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-sms-code>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +94,8 @@
                         <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,$event)" title="{{provider.name}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,$event)"
+                                        title="{{provider.name}}"></a>
                                 </li>
                             </ul>
 
@@ -129,43 +130,45 @@
                 <div class="login-body">
                     <div class="form-item">
                         <div class="form-group label-floating">
-                            <input class="form-control" type="number" name="phoneNumber" [(ngModel)]="model.phoneNum" maxlength="11" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}" placeholder="{{l('PhoneNumber')}}" autofocus required>
+                            <input class="form-control" type="number" name="phoneNumber" [(ngModel)]="model.phoneNum" maxlength="11" pattern="(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}"
+                                placeholder="{{l('PhoneNumber')}}" autofocus required>
                         </div>
                     </div>
 
                     <div class="form-item">
                         <div class="validate-code-wrap form-group label-floating">
                             <input class="form-control" type="number" name="identifyCode" [(ngModel)]="model.loginCode" required placeholder="{{l('VerificationCode')}}">
-                            <div class="get-sms-btn">
-                                <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="isSendSMS">{{l('GetVerificationCode')}}</button>
-                            </div>
+                            <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-sms-code>
                         </div>
                     </div>
 
-                    <button class="btn primary-bgcolor btn-block login-btn-wrap" type="submit" (click)="login()" [disabled]="!fastLoginForm.form.valid" [buttonBusy]="saving" [busyText]="l('Logging')">
-                            <i></i>
-                            <span>{{l("LogIn")}}</span>
+                    <button class="btn primary-bgcolor btn-block login-btn-wrap" type="submit" (click)="login()" [disabled]="!fastLoginForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('Logging')">
+                        <i></i>
+                        <span>{{l("LogIn")}}</span>
                     </button>
 
                     <div class="form-item clearfix account-action">
-                        <span class="pull-left" routerLink="/auth/register">快速注册</span>
-                        <span class="pull-right" (click)="isOrdinaryLogin()">普通登录</span>
+                        <span class="pull-left" routerLink="/auth/register">{{ l('Page.FastRegister') }}</span>
+                        <span class="pull-right" (click)="isOrdinaryLogin()">{{ l('Page.OrdinaryLogin') }}</span>
                     </div>
 
                     <div class="extra-login">
-                        <div class="title-text"><span class="text">第三方平台登录</span></div>
-                        <!-- <div *ngIf="loginService.externalLoginProviders.length > 0">
+                        <div class="title-text">
+                            <span class="text">{{ l('Page.External') }}</span>
+                        </div>
+                        <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,$event)"
+                                        title="{{provider.name}}"></a>
                                 </li>
                             </ul>
-                        </div> -->
-                        <div class="login-icon">
-                            <span class="item"><img src="/assets/common/images/login/qq-x2.png" (click)="mobileExternalLogin(loginService.externalLoginProviders[2])" width="38px" alt="qq"></span>
-                            <span class="item">
-                                <img src="/assets/common/images/login/weibo-x2.png" width="38px" alt="weibo">
-                            </span>
+
+                            <div class="tooltip in tooltip-top top" id="externalLogin">
+                                <div class="externalLogin-arrow"></div>
+                                <div class="externalLogin-wrapper" id="externalLoginContainer"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,41 +186,47 @@
                 <div class="login-body">
                     <div class="form-item">
                         <div class="form-group label-floating">
-                            <input class="form-control" type="text" placeholder="用户名/手机号/邮箱" [(ngModel)]="loginService.authenticateModel.loginCertificate" name="UserName" required autofocus>
+                            <input class="form-control" type="text" placeholder="{{ l('PlaceholderTips.Login') }}" [(ngModel)]="loginService.authenticateModel.loginCertificate"
+                                name="UserName" required autofocus>
                         </div>
                     </div>
 
                     <div class="form-item">
                         <div class="form-group label-floating">
-                            <input class="form-control" type="password" placeholder="密码" [(ngModel)]="loginService.authenticateModel.password" name="EmailAddress" required>
+                            <input class="form-control" type="password" placeholder="{{ l('PlaceholderTips.Passwd') }}" [(ngModel)]="loginService.authenticateModel.password"
+                                name="EmailAddress" required>
                         </div>
                     </div>
 
-                    <button class="btn primary-bgcolor btn-block login-btn-wrap" type="submit" (click)="login()" [disabled]="!ordinaryLoginForm.form.valid" [buttonBusy]="saving" [busyText]="l('Logging')">
+                    <button class="btn primary-bgcolor btn-block login-btn-wrap" type="submit" (click)="login()" [disabled]="!ordinaryLoginForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('Logging')">
                         <i></i>
                         <span>{{l("LogIn")}}</span>
                     </button>
 
                     <div class="form-item clearfix account-action">
-                        <span class="pull-left" routerLink="/auth/register">快速注册</span>
-                        <span class="pull-right" (click)="isPhoneLogin()">短信登录</span>
+                        <span class="pull-left" routerLink="/auth/register">{{ l('Page.FastRegister') }}</span>
+                        <span class="pull-right" (click)="isPhoneLogin()">{{ l('Page.SmsLogin') }}</span>
                     </div>
 
                     <div class="extra-login">
-                        <div class="title-text"><span class="text">第三方平台登录</span></div>
-                        <!-- <div *ngIf="loginService.externalLoginProviders.length > 0">
+                        <div class="title-text">
+                            <span class="text">{{ l('Page.External') }}</span>
+                        </div>
+                        <div *ngIf="loginService.externalLoginProviders.length > 0">
                             <ul class="social-icons-wrap">
                                 <li *ngFor="let provider of loginService.externalLoginProviders">
-                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}"></a>
+                                    <a *ngIf="provider.name!='WeChatMP'" class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalLogin(provider,$event)"
+                                        title="{{provider.name}}"></a>
                                 </li>
                             </ul>
-                        </div> -->
-                        <div class="login-icon">
-                            <span class="item"><img src="/assets/common/images/login/qq-x2.png" (click)="mobileExternalLogin(loginService.externalLoginProviders[2])" width="38px" alt="qq"></span>
-                            <span class="item">
-                                <img src="/assets/common/images/login/weibo-x2.png" width="38px" alt="weibo">
-                            </span>
+
+                            <div class="tooltip in tooltip-top top" id="externalLogin">
+                                <div class="externalLogin-arrow"></div>
+                                <div class="externalLogin-wrapper" id="externalLoginContainer"></div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>

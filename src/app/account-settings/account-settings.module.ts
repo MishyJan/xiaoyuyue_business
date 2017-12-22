@@ -16,6 +16,8 @@ import { ResponsiveModule } from 'ng2-responsive';
 import { SecurityComponent } from './security/security.component';
 import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
 import { UtilsModule } from 'shared/utils/utils.module';
+import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
+import { UnbindingEmailModelComponent } from 'app/account-settings/email-model/unbinding-email-model/unbinding-email-model.component';
 
 @NgModule({
     imports: [
@@ -35,6 +37,8 @@ import { UtilsModule } from 'shared/utils/utils.module';
         SecurityComponent,
         UnbindingPhoneModelComponent,
         BindingPhoneModelComponent,
+        BindingEmailModelComponent,
+        UnbindingEmailModelComponent,
         PhoneComponent,
         ExternalBindingModelComponent
     ],

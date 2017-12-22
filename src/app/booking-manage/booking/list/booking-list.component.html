@@ -292,19 +292,19 @@
                                 </div>
                                 <div class="flex-right">
                                     <div class="content-item">
-                                        <span class="name">所属门店 : </span>
-                                        <span class="desc">门店名称</span>
+                                        <span class="name">{{ l('Booking.Outlet') }} : </span>
+                                        <span class="desc">{{ l('Outlet.Name') }}</span>
                                     </div>
                                     <div class="content-item">
-                                        <span class="name">预约进度 : </span>
+                                        <span class="name">{{ l('Dashboard.BookingRate') }} : </span>
                                         <span class="desc">{{bookingResultItem.subBookedNum}} / {{bookingResultItem.subMaxBookingNum}}</span>
                                     </div>
                                     <div class="content-item">
-                                        <span class="name">应约人数 : </span>
+                                        <span class="name">{{ l('Booking.ResponderNumber') }} : </span>
                                         <span class="desc">{{bookingResultItem.subBookedNum}}</span>
                                     </div>
                                     <div class="content-item">
-                                        <span class="name">排队人数 : </span>
+                                        <span class="name">{{ l('Dashboard.SubQueueNum') }} : </span>
                                         <span class="desc">{{bookingResultItem.subQueueNum}}</span>
                                     </div>
                                 </div>
@@ -312,16 +312,16 @@
                         </div>
                         <div class="bottom-action" *ngIf="actionFlag[indexJ]">
                             <button class="action-item" (click)="showDetail(bookingResultItem.id)">
-                            <span class="icon vapps-icon-app-detail"></span>查看详情</button>
+                            <span class="icon vapps-icon-app-detail"></span>{{ l('BookingList.ViewEdit') }}</button>
                             <span class="line">|</span>
                             <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
-                            <span class="icon vapps-icon-app-cancel"></span>禁用预约</button>
+                            <span class="icon vapps-icon-app-cancel"></span>{{ l('BookingList.DisabledBooking') }}</button>
                             <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(indexI, indexJ)">
-                            <span class="icon vapps-icon-app-active"></span>激活预约</button>
+                            <span class="icon vapps-icon-app-active"></span>{{ l('BookingList.ActivBooking') }}</button>
                             <span class="line">|</span>
                             <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingResultItem.id, indexI)">
                                 <span class="icon vapps-icon-app-confirm-2"></span>
-                                待确认
+                                {{ l('BookingList.WaitConfirm') }}
                                 <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
                             </button>
                         </div>

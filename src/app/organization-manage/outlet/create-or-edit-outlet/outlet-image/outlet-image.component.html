@@ -3,7 +3,7 @@
         <div class="gallery-wrap col-md-12">
             <div class="img-wrap">
                 <span class="add-img-icon vapps-icon-cb-add-img" *ngIf="pictureInfo.pictureUrl == ''"></span>
-                <p *ngIf="pictureInfo.pictureUrl == ''">请上传代表本店形象的图片</p>
+                <p *ngIf="pictureInfo.pictureUrl == ''">{{ l('PlaceholderTips.UploadTenantImage') }}</p>
                 <img alt="outletPicUrl" *ngIf="pictureInfo.pictureUrl !== ''" [src]="pictureInfo.pictureUrl" height="100%">
             </div>
         </div>

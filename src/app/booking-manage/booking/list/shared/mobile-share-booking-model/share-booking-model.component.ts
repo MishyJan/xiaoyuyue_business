@@ -1,17 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 
 import { ModalDirective } from 'ngx-bootstrap';
+import { AppComponentBase } from 'shared/common/app-component-base';
 
 @Component({
     selector: 'xiaoyuyue-mobile-share-booking-model',
     templateUrl: './share-booking-model.component.html',
     styleUrls: ['./share-booking-model.component.scss']
 })
-export class MobileShareBookingModelComponent implements OnInit {
+export class MobileShareBookingModelComponent extends AppComponentBase implements OnInit {
     shareUrl: string;
 
     @ViewChild('shareBookingModel') shareBookingModel: ModalDirective;
-    constructor() { }
+    constructor(
+        private injector: Injector
+    ) {
+        super(injector);
+    }
 
     ngOnInit() {
     }

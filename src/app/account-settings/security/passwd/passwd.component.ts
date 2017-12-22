@@ -19,13 +19,13 @@ export class RepeatPasswdDto extends ChangePasswordInput {
 })
 export class PasswdComponent extends AppComponentBase implements OnInit {
     encryptPhoneNum: string;
-    isSendSMS = false;
     input: RepeatPasswdDto = new RepeatPasswdDto();
     byPhoneInput: ChangePasswordByPhoneInput = new ChangePasswordByPhoneInput();
     phoneChangePasswd = false;
     oldPasswdChangePasswd = false;
     showCommandWrap = true;
     phoneNum: string;
+    codeType = VerificationCodeType.ChangePassword;
 
     @ViewChild('smsBtn') _smsBtn: ElementRef;
     constructor(
@@ -80,45 +80,6 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
         this.oldPasswdChangePasswd = false;
         this.phoneChangePasswd = true;
     }
-
-    // 发送验证码
-    send() {
-        const model = new CodeSendInput();
-        model.targetNumber = this.phoneNum;
-        model.codeType = VerificationCodeType.ChangePassword;
-        // this.captchaResolved();
-
-        this._SMSServiceProxy
-            .sendCodeAsync(model)
-            .subscribe(result => {
-                this.anginSend();
-            });
-    }
-
-    anginSend() {
-        const self = this;
-        let time = 60;
-        this.isSendSMS = true;
-        const set = setInterval(() => {
-            time--;
-            self._smsBtn.nativeElement.innerHTML = `${time} 秒`;
-        }, 1000)
-
-        setTimeout(() => {
-            clearInterval(set);
-            self.isSendSMS = false;
-            self._smsBtn.nativeElement.innerHTML = this.l('AgainSendValidateCode');
-        }, 60000);
-    }
-
-    // getUserPhoneNum(): void {
-    //     this._profileServiceProxy
-    //         .getCurrentUserProfileForEdit()
-    //         .subscribe(result => {
-    //             this.phoneNum = result.phoneNumber;
-    //             this.encrypt();
-    //         })
-    // }
 
     isBindingPhoneHandler(): boolean {
         if (this._appSessionService.user.phoneNumber != null) {

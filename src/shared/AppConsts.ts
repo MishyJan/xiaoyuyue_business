@@ -58,6 +58,7 @@ export class MediaCompressFormat {
 
 export class SMSProviderDto {
     static phoneNum: string;
+    static emailAddress: string;
     static sendCodeSecond = 60;
     static readonly timeInterval = 1000;
 }

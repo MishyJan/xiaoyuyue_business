@@ -164,15 +164,6 @@
 
 .validate-code-wrap {
     position: relative;
-    .get-sms-btn {
-        position: absolute;
-        top: -12px;
-        right: 0;
-        .btn {
-            font-size: 12px;
-            background-color: #ff9742;
-        }
-    }
 }
 
 // 添加第三方登录样式
@@ -199,12 +190,24 @@
                 &.qq {
                     background-image: url('/assets/common/images/login/qq-shadow-x2.png');
                 }
+                &.facebook {
+                    background-image: url('/assets/common/images/login/facebook-shadow-x2.png');
+                }
+                &.google {
+                    background-image: url('/assets/common/images/login/google-shadow-x2.png');
+                }
             }
             &.wechat {
                 background-image: url('/assets/common/images/login/weChat-x2.png');
             }
             &.qq {
                 background-image: url('/assets/common/images/login/qq-x2.png');
+            }
+            &.facebook {
+                background-image: url('/assets/common/images/login/facebook-x2.png');
+            }
+            &.google {
+                background-image: url('/assets/common/images/login/google-x2.png');
             }
         }
     }

@@ -148,19 +148,19 @@
                     <div class="bottom" *ngIf="dataStatistics">
                         <div class="flex-item">
                             <p class="amount">{{ bookingData.history.pv }}</p>
-                            <p>昨日访问量</p>
+                            <p>{{l('Dashboard.HistoryPv')}}</p>
                         </div>
                         <div class="flex-item">
                             <p class="amount">{{ bookingData.history.uv }}</p>
-                            <p>首次访问</p>
+                            <p>{{l('Dashboard.HistoryUv')}}</p>
                         </div>
                         <div class="flex-item">
                             <p class="amount">{{ bookingData.history.bookingNum }}</p>
-                            <p>昨日预约量</p>
+                            <p>{{l('Dashboard.HistoryBookingNum')}}</p>
                         </div>
                         <div class="flex-item">
                             <p class="amount">{{ bookingData.today.waitConfirmNum }}</p>
-                            <p>待确认</p>
+                            <p>{{l('Dashboard.WaitConfirmNum')}}</p>
                         </div>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
         <div class="content-wrap">
             <div [@routerTransition] *ngIf="tabToggle" class="org-center-tab-content">
                 <div class="wrap">
-                    <h4 class="title">近7天应约数</h4>
+                    <h4 class="title">{{ l('Last7Days') }}</h4>
                     <div class="content">
                         <div class="echarts" echarts [options]="forSevenDaysOptions" [loading]="showloading" theme="shine"></div>
                     </div>
@@ -185,7 +185,7 @@
                         <div class="item">
                             <div class="content">
                                 <span class="icon vapps-icon-app-booking-menu"></span>
-                                <p class="text">预约管理</p>
+                                <p class="text">{{ l('Menu.ManageBooking') }}</p>
                             </div>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                         <div class="item">
                             <div class="content">
                                 <span class="icon vapps-icon-app-org-info-menu"></span>
-                                <p class="text">机构信息</p>
+                                <p class="text">{{ l('Menu.Org') }}</p>
                             </div>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                         <div class="item">
                             <div class="content">
                                 <span class="icon vapps-icon-app-outlet-menu"></span>
-                                <p class="text">门店管理</p>
+                                <p class="text">{{ l('Menu.Org.OutletManage') }}</p>
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                         <div class="item">
                             <div class="content">
                                 <span class="icon vapps-icon-app-settings-menu"></span>
-                                <p class="text">设置管理</p>
+                                <p class="text">{{ l('Menu.Org.SettingManage') }}</p>
                             </div>
                         </div>
                     </div>
@@ -226,11 +226,11 @@
         <div class="footer-tab">
             <div class="item active col-xs-6" [class.active]="tabToggle" (click)="switchTabs(true)">
                 <span class="icon vapps-icon-app-home-menu"></span>
-                <p class="text">机构中心</p>
+                <p class="text">{{ l('BusinessCenter') }}</p>
             </div>
             <div class="item col-xs-6" [class.active]="!tabToggle" (click)="switchTabs(false)">
                 <span class="icon vapps-icon-app-manage"></span>
-                <p class="text">管理中心</p>
+                <p class="text">{{ l('Menu.ManageCenter') }}</p>
             </div>
         </div>
     </div>

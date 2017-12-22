@@ -7,7 +7,7 @@
                         <div class="page-title">
                             <h1>
                                 <span *ngIf="!isCreateOrEditFlag">{{l('Outlet.Create')}}</span>
-                                <span *ngIf="isCreateOrEditFlag">编辑门店</span>
+                                <span *ngIf="isCreateOrEditFlag">{{l('Outlet.Edit')}}</span>
                                 <small routerLink="/outlet/list" class="back-btn">
                                     <span class="vapps-icon-app-back"></span>
                                     <span class="text">{{l('Back')}}</span>
@@ -18,9 +18,9 @@
                 </div>
                 <div class="col-xs-6 text-right">
                     <button type="button" *ngIf="isCreateOrEditFlag && isGranted(permissions.organization_OutletDelete)" (click)="removeOutlet()"
-                        class="btn primary-bgcolor" [buttonBusy]="deleting" [busyText]="'删除中...'">
+                        class="btn primary-bgcolor" [buttonBusy]="deleting" [busyText]="l('Deleting')">
                         <i class="vapps-icon vapps-icon-app-delete"></i>
-                        <span>删除门店</span>
+                        <span>{{l('Outlet.Delete')}}</span>
                     </button>
                     <button type="submit" *ngIf="isGranted(permissions.organization_OutletEdit)" [disabled]="!createBookingForm.form.valid" (click)="save()"
                         class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="l('Saving')">
@@ -49,8 +49,11 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" type="text" [(ngModel)]="input.outlet.name" name="outletName" placeholder="{{l('Outlet.Name')}}"
+                                            <input class="form-control" type="text" #outletName="ngModel" [(ngModel)]="input.outlet.name" name="outletName" placeholder="{{l('Outlet.Name')}}"
                                                 required autofocus>
+                                            <div *ngIf="outletName.invalid && (outletName.dirty || outletName.touched)">
+                                                <small class="text-danger" *ngIf="outletName.errors.required">{{l('Outlet.OutletName.Required')}}</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +77,7 @@
 
                                 <!-- 门店形象 -->
                                 <div class="row">
-                                    <label class="col-sm-2 label-on-left">门店形象</label>
+                                    <label class="col-sm-2 label-on-left">{{ l('Outlet.Image') }}</label>
                                     <div class="col-sm-10 outlet-image-wrap">
                                         <div class="outlet-image">
                                             <xiaoyuyue-outlet-image [pictureInfo]="pictureInfo" (pictureInfoHandler)="getPictureInfo($event)"></xiaoyuyue-outlet-image>
@@ -88,7 +91,10 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control" id="landlinePhone" type="text" [(ngModel)]="input.outlet.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}">
+                                            <input class="form-control" id="landlinePhone" type="text" #landlinePhone="ngModel" [(ngModel)]="input.outlet.phoneNum" name="landlinePhone" placeholder="{{l('Outlet.PhoneNum')}}">
+                                            <div *ngIf="!isValidLandlinePhone && (landlinePhone.dirty || landlinePhone.touched)">
+                                                <small class="text-danger">{{l('Outlet.LandlinePhone.Error')}}</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +126,7 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.name}">
-                                            <label class="control-label">门店名称</label>
+                                            <label class="control-label">{{ l('Outlet.Name') }}</label>
                                             <input class="form-control" type="text" [(ngModel)]="input.outlet.name" name="mobileOutletName" autofocus required>
                                             <!-- <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
                                                 <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
@@ -174,7 +180,7 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.detailAddress}">
-                                            <label class="control-label">详细地址</label>
+                                            <label class="control-label">{{ l('Outlet.Address') }}</label>
                                             <textarea class="form-control" rows="3" [(ngModel)]="input.outlet.detailAddress" name="mobileDetailAddress"></textarea>
                                         </div>
                                     </div>
@@ -183,8 +189,9 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="form-group label-floating" [ngClass]="{'is-empty': !input.outlet.phoneNum}">
-                                            <label class="control-label">固定电话</label>
-                                            <input class="form-control" id="landlinePhone" type="text" [(ngModel)]="input.outlet.phoneNum" name="mobileLandlinePhone" required>
+                                            <label class="control-label">{{ l('Outlet.PhoneNum') }}</label>
+                                            <input class="form-control" id="landlinePhone" type="text" [(ngModel)]="input.outlet.phoneNum" name="mobileLandlinePhone"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -194,15 +201,15 @@
                     </div>
                 </div>
             </tab>
-            <tab heading="门店形象" (select)="updateNextIndex(2)">
+            <tab heading="{{ l('Outlet.Image') }}" (select)="updateNextIndex(2)">
                 <div class="outlet-bg">
                     <div class="card" style="height: 200px;">
-                        <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="'请上传代表本店形象的照片'" [groupId]="groupId"
-                            [existedPicUrl]="input.outlet.pictureUrl" (picUploadInfoHandler)="getPictureInfo($event)"></xiaoyuyue-mobile-upload-picture>
+                        <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="l('PlaceholderTips.UploadTenantImage')"
+                            [groupId]="groupId" [existedPicUrl]="input.outlet.pictureUrl" (picUploadInfoHandler)="getPictureInfo($event)"></xiaoyuyue-mobile-upload-picture>
                     </div>
                 </div>
             </tab>
-            <tab heading="联系人" (select)="updateNextIndex(3)">
+            <tab heading="{{ l('Outlet.Contactor') }}" (select)="updateNextIndex(3)">
                 <div class="outlet-contact">
                     <xiaoyuyue-contact-info [existedContactors]="input.contactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
                 </div>

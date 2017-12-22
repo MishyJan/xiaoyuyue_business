@@ -40,7 +40,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     cEndCreationTime: any;
     cStartCreationTime: any;
     cBookingOrderDate: any;
-    bookingId: number;
+    bookingId = 0;
     creationEndDate: any;
     creationStartDate: any;
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();

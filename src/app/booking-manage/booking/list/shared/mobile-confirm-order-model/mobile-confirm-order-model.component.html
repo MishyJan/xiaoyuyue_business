@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">订单确认</h4>
+                    <h4 class="modal-title">{{ l('BookingOrder.ConfirmOrder') }}</h4>
                 </div>
                 <div class="modal-body">
                     <p class="order-item text-overflow" *ngFor="let orgBookingOrderItem of orgBookingOrderData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }">
@@ -14,7 +14,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn confirm-btn primary-bgcolor" (click)="batchConfirmBookingOrder()" [buttonBusy]="confirming" [busyText]="'确认中...'"><i></i><span>一键确认</span></button>
+                    <button type="button" class="btn confirm-btn primary-bgcolor" (click)="batchConfirmBookingOrder()" [buttonBusy]="confirming" [busyText]="l('Confirming')"><i></i><span>{{ l('BookingOrder.ConfirmAllOrder') }}</span></button>
                     <div class="col-lg-12 pagination-wrap" *ngIf="!orgBookingOrderData">
                         <div class="pull-right">
                             <div class="has-text-centered">

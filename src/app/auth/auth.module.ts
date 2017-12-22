@@ -16,13 +16,12 @@ import { ExternalAuthComponent } from 'app/auth/external-auth/external-auth.comp
 import { FooterComponent } from 'app/auth/layout/footer/footer.component';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { FormsModule } from '@angular/forms';
-import { LanguageSwitchComponent } from './language-switch.component';
+import { HeaderComponent } from './layout/header/header.component';
 import { LoginComponent } from './login/login.component';
 import { LoginService } from 'shared/services/login.service';
 import { LuosimaoCaptcha } from 'app/auth/shared/luosimao-captcha/luosimao-captcha.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgModule } from '@angular/core';
-import { PhoneValidateComponent } from 'app/auth/shared/phone-validate/phone-validate.component';
 import { ProtocolModelComponent } from './register/protocol-model/protocol-model.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './password/reset-password.component';
@@ -35,7 +34,7 @@ import { TenantRegistrationHelperService } from './register/tenant-registration-
 import { TooltipModule } from 'ngx-bootstrap';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
-import { AuthHeaderComponent } from 'app/auth/layout/header/header.component';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
     imports: [
@@ -43,17 +42,15 @@ import { AuthHeaderComponent } from 'app/auth/layout/header/header.component';
         FormsModule,
         HttpModule,
         JsonpModule,
-
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
         AppCommonModule.forRoot(),
         AbpModule,
-
         CommonModule,
-
         UtilsModule,
         AuthRoutingModule,
-        ResponsiveModule
+        ResponsiveModule,
+        DropDownsModule
     ],
     declarations: [
         AuthComponent,
@@ -69,11 +66,8 @@ import { AuthHeaderComponent } from 'app/auth/layout/header/header.component';
         ConfirmEmailComponent,
         SendTwoFactorCodeComponent,
         ValidateTwoFactorCodeComponent,
-        LanguageSwitchComponent,
-        PhoneValidateComponent,
         LuosimaoCaptcha,
-
-        AuthHeaderComponent,
+        HeaderComponent,
         FooterComponent,
         BackgroundImgComponent,
         SupplyRegisterComponent,

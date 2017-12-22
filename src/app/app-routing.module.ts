@@ -6,6 +6,7 @@ import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NgModule } from '@angular/core';
 import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
+import { HkComponent } from 'app/lang-route/hk/hk.component';
 
 @NgModule({
     imports: [
@@ -66,6 +67,10 @@ import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers
             {
                 path: 'supported-browsers',
                 component: SupportedBrowsersComponent
+            },
+            {
+                path: 'hk',
+                component: HkComponent
             }
         ])
     ],

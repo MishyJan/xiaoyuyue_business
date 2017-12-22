@@ -27,6 +27,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
 import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-master.component';
 import { WangEditorComponent } from './wang-editor/wang-editor.component';
 import { SendSmsCodeComponent } from './send-sms-code/send-sms-code.component';
+import { LanguageSwitchComponent } from 'app/shared/common/language-switch-component/language-switch.component';
 
 @NgModule({
     imports: [
@@ -55,7 +56,8 @@ import { SendSmsCodeComponent } from './send-sms-code/send-sms-code.component';
         MobileUploadPictureListComponent,
         ViewArtworkMasterComponent,
         QrCodeComponent,
-        SendSmsCodeComponent
+        SendSmsCodeComponent,
+        LanguageSwitchComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -73,7 +75,8 @@ import { SendSmsCodeComponent } from './send-sms-code/send-sms-code.component';
         MobileUploadPictureListComponent,
         ViewArtworkMasterComponent,
         QrCodeComponent,
-        SendSmsCodeComponent
+        SendSmsCodeComponent,
+        LanguageSwitchComponent
     ]
 })
 export class AppCommonModule {

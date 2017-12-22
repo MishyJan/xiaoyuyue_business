@@ -1,6 +1,6 @@
 <div class="card org-bg-wrap">
     <div class="card-header card-header-text" data-background-color="orange">
-        <h6 class="card-title">预约背景图</h6>
+        <h6 class="card-title">{{ l('Tenant.BookingBgImage') }}</h6>
     </div>
     <div class="card-content">
         <div class="upload-bg-pic-wrap" [ngStyle]="{'background-image': 'url(' + getTenantBgurl() + ')'}" (click)="uploadOrgBg()">

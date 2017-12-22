@@ -125,8 +125,6 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                         },
                         'BeforeUpload': function (up, file) {
                             // 每个文件上传前,处理相关的事情
-                            console.log('上传时', up);
-                            console.log('上传时', file);
                             self.uploading = true;
                         },
                         'UploadProgress': function (up, file) {

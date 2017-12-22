@@ -21,7 +21,7 @@
                         <div class="form-group label-floating">
                             <label class="control-label">验证码</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="code" required>
-                            <button class="btn btn-warning btn-sm vaildate-code" (click)="send($event, currentPhoneNum, 60)" [disabled]="isSendSMS">发送验证码</button>
+                            <xiaoyuyue-send-sms-code [codeType]="'60'" [phoneNumber]="currentPhoneNum"></xiaoyuyue-send-sms-code>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
@@ -62,8 +62,7 @@
                         <div class="form-group label-floating">
                             <label class="control-label">验证码</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="changeBindingPhoneNumInput.bundlingCode" required>
-                            <button class="btn btn-warning btn-sm vaildate-code" (click)="send($event, changeBindingPhoneNumInput.newTelephone, 50)"
-                                #smsBtn [disabled]="isSendNewPhone">发送验证码</button>
+                                <xiaoyuyue-send-sms-code [codeType]="'50'" [phoneNumber]="changeBindingPhoneNumInput.newTelephone"></xiaoyuyue-send-sms-code>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
@@ -104,7 +103,7 @@
                         <div class="form-group label-floating">
                             <label class="control-label">验证码</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="bindingPhoneNumInput.code" required>
-                            <button class="btn btn-warning btn-sm vaildate-code" (click)="send($event, bindingPhoneNumInput.phoneNum, 50)" #smsBtn [disabled]="isSendNewPhone">发送验证码</button>
+                            <xiaoyuyue-send-sms-code [codeType]="'50'" [phoneNumber]="bindingPhoneNumInput.phoneNum"></xiaoyuyue-send-sms-code>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
