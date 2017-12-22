@@ -379,7 +379,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             },
         });
 
-        if ($("#landlinePhone").inputmask("isComplete")) {
+        if ($('#landlinePhone').inputmask('isComplete')) {
             this.isValidLandlinePhone = true;
         } else {
             this.isValidLandlinePhone = false;

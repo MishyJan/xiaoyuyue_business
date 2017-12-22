@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { CodeSendInput, RegisterTenantInput, SMSServiceProxy, CodeSendInputCodeType, AccountServiceProxy, SendEmailActivationCodeInput } from 'shared/service-proxies/service-proxies';
+import { CodeSendInput, RegisterTenantInput, SMSServiceProxy, CodeSendInputCodeType, AccountServiceProxy, SendEmailVerificationCodeInput } from 'shared/service-proxies/service-proxies';
 import { VerificationCodeType, SendCodeType } from 'shared/AppEnums';
 import { SMSProviderDto } from 'shared/AppConsts';
 
@@ -94,7 +94,7 @@ export class SendSmsCodeComponent extends AppComponentBase implements OnInit, On
 
     // 发送邮件验证码
     private sendEmail(): void {
-        let input: SendEmailActivationCodeInput = new SendEmailActivationCodeInput();
+        let input: SendEmailVerificationCodeInput = new SendEmailVerificationCodeInput();
         input.emailAddress = SMSProviderDto.emailAddress = this.emailAddress;
         input.codeType = this.codeType;
         this._accountServiceProxy

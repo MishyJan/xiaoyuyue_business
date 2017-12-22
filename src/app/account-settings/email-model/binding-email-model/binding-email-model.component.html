@@ -1,0 +1,33 @@
+<div class="modal fade" bsModal #bindingEmailModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="xiaoyuyue-title-box">{{ l('Security.VerifyEmail') }}</div>
+            </div>
+            <div class="modal-body">
+                <form #currentEmailFrom="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="text" name="newPassword" [(ngModel)]="input.emailAddress">
+                                <label class="control-label">{{ l('EmailAddressField') }}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 validate-code-wrap">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="number" name="validateCode" [(ngModel)]="input.code">
+                                <label class="control-label">{{ l('VerifyCodeField') }}</label>
+                                <xiaoyuyue-send-sms-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="input.emailAddress"></xiaoyuyue-send-sms-code>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn primary-bgcolor" (click)="bindingPhone()" [disabled]="!currentEmailFrom.form.valid">{{ l('Confirm') }}</button>
+            </div>
+        </div>
+    </div>
+</div>

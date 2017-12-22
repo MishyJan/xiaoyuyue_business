@@ -289,7 +289,7 @@ export class AccountServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    sendEmailVerificationCode(input: SendEmailActivationCodeInput): Observable<void> {
+    sendEmailVerificationCode(input: SendEmailVerificationCodeInput): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Account/SendEmailVerificationCode";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -8089,6 +8089,146 @@ export class ProfileServiceProxy {
         }
         return Observable.of<UserSecurityInfoDto>(<any>null);
     }
+
+    /**
+     * 绑定邮箱
+     * @input (optional) 
+     * @return Success
+     */
+    bindingEmailAddress(input: BindingEmailInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Profile/BindingEmailAddress";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processBindingEmailAddress(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processBindingEmailAddress(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processBindingEmailAddress(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * 修改绑定邮箱
+     * @input (optional) 
+     * @return Success
+     */
+    changeBindingEmail(input: ChangeBindingEmailInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Profile/ChangeBindingEmail";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processChangeBindingEmail(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processChangeBindingEmail(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processChangeBindingEmail(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * 解绑邮箱
+     * @code (optional) 
+     * @return Success
+     */
+    unBindingEmailAddress(code: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Profile/UnBindingEmailAddress?";
+        if (code !== undefined)
+            url_ += "code=" + encodeURIComponent("" + code) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processUnBindingEmailAddress(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processUnBindingEmailAddress(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processUnBindingEmailAddress(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -12822,13 +12962,13 @@ export interface IResetPasswordOutput {
     userName: string;
 }
 
-export class SendEmailActivationCodeInput implements ISendEmailActivationCodeInput {
-    /** 待激活账号邮箱地址 */
+export class SendEmailVerificationCodeInput implements ISendEmailVerificationCodeInput {
+    /** 收件邮箱地址 */
     emailAddress: string;
     /** 验证类型 */
-    codeType: SendEmailActivationCodeInputCodeType;
+    codeType: SendEmailVerificationCodeInputCodeType;
 
-    constructor(data?: ISendEmailActivationCodeInput) {
+    constructor(data?: ISendEmailVerificationCodeInput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -12844,8 +12984,8 @@ export class SendEmailActivationCodeInput implements ISendEmailActivationCodeInp
         }
     }
 
-    static fromJS(data: any): SendEmailActivationCodeInput {
-        let result = new SendEmailActivationCodeInput();
+    static fromJS(data: any): SendEmailVerificationCodeInput {
+        let result = new SendEmailVerificationCodeInput();
         result.init(data);
         return result;
     }
@@ -12858,11 +12998,11 @@ export class SendEmailActivationCodeInput implements ISendEmailActivationCodeInp
     }
 }
 
-export interface ISendEmailActivationCodeInput {
-    /** 待激活账号邮箱地址 */
+export interface ISendEmailVerificationCodeInput {
+    /** 收件邮箱地址 */
     emailAddress: string;
     /** 验证类型 */
-    codeType: SendEmailActivationCodeInputCodeType;
+    codeType: SendEmailVerificationCodeInputCodeType;
 }
 
 export class SendEmailActivationLinkInput implements ISendEmailActivationLinkInput {
@@ -13480,6 +13620,8 @@ export class JoinBookingInfoDto implements IJoinBookingInfoDto {
     outletAddress: string;
     /** 门店经纬度 */
     outletLongitude: string;
+    /** 门店固话 */
+    outletPhone: string;
     /** 是否需要填写性别 */
     needGender: boolean;
     /** 需要年龄 */
@@ -13514,6 +13656,7 @@ export class JoinBookingInfoDto implements IJoinBookingInfoDto {
             this.outletName = data["outletName"];
             this.outletAddress = data["outletAddress"];
             this.outletLongitude = data["outletLongitude"];
+            this.outletPhone = data["outletPhone"];
             this.needGender = data["needGender"];
             this.needAge = data["needAge"];
             this.needEmail = data["needEmail"];
@@ -13544,6 +13687,7 @@ export class JoinBookingInfoDto implements IJoinBookingInfoDto {
         data["outletName"] = this.outletName;
         data["outletAddress"] = this.outletAddress;
         data["outletLongitude"] = this.outletLongitude;
+        data["outletPhone"] = this.outletPhone;
         data["needGender"] = this.needGender;
         data["needAge"] = this.needAge;
         data["needEmail"] = this.needEmail;
@@ -13574,6 +13718,8 @@ export interface IJoinBookingInfoDto {
     outletAddress: string;
     /** 门店经纬度 */
     outletLongitude: string;
+    /** 门店固话 */
+    outletPhone: string;
     /** 是否需要填写性别 */
     needGender: boolean;
     /** 需要年龄 */
@@ -23357,6 +23503,98 @@ export interface IUserSecurityInfoDto {
     weiBo: string;
 }
 
+export class BindingEmailInput implements IBindingEmailInput {
+    /** 手机号码 */
+    emailAddress: string;
+    /** 邮箱验证码 */
+    code: string;
+
+    constructor(data?: IBindingEmailInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.emailAddress = data["emailAddress"];
+            this.code = data["code"];
+        }
+    }
+
+    static fromJS(data: any): BindingEmailInput {
+        let result = new BindingEmailInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["emailAddress"] = this.emailAddress;
+        data["code"] = this.code;
+        return data; 
+    }
+}
+
+export interface IBindingEmailInput {
+    /** 手机号码 */
+    emailAddress: string;
+    /** 邮箱验证码 */
+    code: string;
+}
+
+export class ChangeBindingEmailInput implements IChangeBindingEmailInput {
+    /** 解绑码 */
+    validCode: string;
+    /** 新邮箱验证码 */
+    newEmailAddress: string;
+    /** 绑定码 */
+    bindlingCode: string;
+
+    constructor(data?: IChangeBindingEmailInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.validCode = data["validCode"];
+            this.newEmailAddress = data["newEmailAddress"];
+            this.bindlingCode = data["bindlingCode"];
+        }
+    }
+
+    static fromJS(data: any): ChangeBindingEmailInput {
+        let result = new ChangeBindingEmailInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["validCode"] = this.validCode;
+        data["newEmailAddress"] = this.newEmailAddress;
+        data["bindlingCode"] = this.bindlingCode;
+        return data; 
+    }
+}
+
+export interface IChangeBindingEmailInput {
+    /** 解绑码 */
+    validCode: string;
+    /** 新邮箱验证码 */
+    newEmailAddress: string;
+    /** 绑定码 */
+    bindlingCode: string;
+}
+
 export class PagedResultDtoOfRoleListDto implements IPagedResultDtoOfRoleListDto {
     totalCount: number;
     items: RoleListDto[];
@@ -28637,7 +28875,7 @@ export enum IsTenantAvailableOutputState {
     _3 = 3, 
 }
 
-export enum SendEmailActivationCodeInputCodeType {
+export enum SendEmailVerificationCodeInputCodeType {
     _10 = 10, 
     _20 = 20, 
     _30 = 30, 
@@ -28645,6 +28883,7 @@ export enum SendEmailActivationCodeInputCodeType {
     _50 = 50, 
     _60 = 60, 
     _70 = 70, 
+    _80 = 80, 
 }
 
 export enum JoinBookingInputGender {
@@ -28872,6 +29111,7 @@ export enum UserCodeSendInputCodeType {
     _50 = 50, 
     _60 = 60, 
     _70 = 70, 
+    _80 = 80, 
 }
 
 export enum CodeSendInputCodeType {
@@ -28882,6 +29122,7 @@ export enum CodeSendInputCodeType {
     _50 = 50, 
     _60 = 60, 
     _70 = 70, 
+    _80 = 80, 
 }
 
 export enum CheckUserCodeInputCodeType {
@@ -28892,6 +29133,7 @@ export enum CheckUserCodeInputCodeType {
     _50 = 50, 
     _60 = 60, 
     _70 = 70, 
+    _80 = 80, 
 }
 
 export enum RegisterTenantInputType {

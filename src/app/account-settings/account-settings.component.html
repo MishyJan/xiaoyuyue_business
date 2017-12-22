@@ -41,20 +41,20 @@
                                         <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber">{{ l('Security.Set') }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">{{ l('Revise') }}</button>
                                         <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.phoneNumber" (click)="showBindingPhoneModel()">{{ l('Setting') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">{{ l('Revise') }}</button>
                                     </div>
                                 </div>
 
                                 <div class="verify-email content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-title pull-left">{{ l('Security.VerifyEmail') }}</span>
-                                        <span class="pull-left not-set">{{ l('Security.Unset') }}</span>
-                                        <!-- <span class="pull-left already-set">已设置</span> -->
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.emailAddress">{{ l('Security.Unset') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.emailAddress">{{ l('Security.Set') }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <!-- <button type="button" class="btn primary-bgcolor">修改</button> -->
-                                        <button type="button" class="btn primary-bgcolor">{{ l('Setting') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.emailAddress" (click)="showBindingEmailModel()">{{ l('Setting') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.emailAddress" (click)="showChangeEmailModel()">{{ l('Revise') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -114,6 +114,8 @@
         <xiaoyuyue-change-passwd-model #changePasswdModel></xiaoyuyue-change-passwd-model>
         <xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>
         <xiaoyuyue-unbinding-phone-model #unbindingPhoneModel></xiaoyuyue-unbinding-phone-model>
+        <xiaoyuyue-binding-email-model #bindingEmailModel></xiaoyuyue-binding-email-model>
+        <xiaoyuyue-unbinding-email-model #unbindingEmailModel></xiaoyuyue-unbinding-email-model>
         <xiaoyuyue-external-binding-model [wechatName]="userSecurityInfo.weChat" #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
     </div>
 </div>
