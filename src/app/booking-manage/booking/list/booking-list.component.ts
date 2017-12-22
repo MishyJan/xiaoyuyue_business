@@ -137,24 +137,32 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 禁用预约样式
     disabledBookingClass(indexI, indexJ) {
-        this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
+        if (this.isMobile($('.mobile-manage-booking'))) {
+            this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
+            this.updateDataIndex = indexI;
+            this.skipCount = this.maxResultCount * this.updateDataIndex;
+        } else {
+            this.activeOrDisable.id = this.organizationBookingResultData[indexI].id;
+        }
         this.activeOrDisable.isActive = false;
-        this.updateDataIndex = indexI;
-        this.skipCount = this.maxResultCount * this.updateDataIndex;
         this._organizationBookingServiceProxy
-            .activedOrDisableBooking(this.activeOrDisable)
-            .subscribe(result => {
-                this.notify.success('已关闭预约!');
-                this.loadData();
-            });
+        .activedOrDisableBooking(this.activeOrDisable)
+        .subscribe(result => {
+            this.notify.success('已关闭预约!');
+            this.loadData();
+        });
     }
 
     // 显示禁用之前预约样式
     beforeBookingClass(indexI, indexJ) {
-        this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
+        if (this.isMobile($('.mobile-manage-booking'))) {
+            this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
+            this.updateDataIndex = indexI;
+            this.skipCount = this.maxResultCount * this.updateDataIndex;
+        } else {
+            this.activeOrDisable.id = this.organizationBookingResultData[indexI].id;
+        }
         this.activeOrDisable.isActive = true;
-        this.updateDataIndex = indexI;
-        this.skipCount = this.maxResultCount * this.updateDataIndex;
         this._organizationBookingServiceProxy
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
