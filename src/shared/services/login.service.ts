@@ -100,7 +100,9 @@ export class LoginService {
     externalAuthenticate(provider: ExternalLoginProvider): void {
         this.ensureExternalLoginProviderInitialized(provider, () => {
             if (provider.name === ExternalLoginProvider.FACEBOOK) {
-                FB.login();
+                FB.login(function (response) {
+                    // handle the response
+                }, { scope: 'email,public_profile,user_location' });
             } else if (provider.name === ExternalLoginProvider.GOOGLE) {
                 gapi.auth2.getAuthInstance().signIn();
             } else if (provider.name === ExternalLoginProvider.WECHAT) {
