@@ -11,7 +11,7 @@ import { VerificationCodeType, SendCodeType } from 'shared/AppEnums';
 })
 export class BindingEmailModelComponent extends AppComponentBase implements OnInit {
     input: BindingEmailInput = new BindingEmailInput();
-    codeType = 40;
+    codeType = VerificationCodeType.EmailBinding;
     sendCodeType = SendCodeType.Email;
 
     @ViewChild('bindingEmailModel') bindingEmailModel: ModalDirective;

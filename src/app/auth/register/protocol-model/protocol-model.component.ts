@@ -32,8 +32,13 @@ export class ProtocolModelComponent extends AppComponentBase implements OnInit {
     }
 
     private getProtocolData(): void {
+        let cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
+        if (!cookieLangValue) {
+            cookieLangValue = 'zh-CN';
+         }
+         const url = `/assets/protocol.${cookieLangValue}.txt`;
         $.ajax({
-            url: '/assets/protocol.txt',
+            url: url,
             dataType: 'text',
             type: 'GET',
             success: result => {

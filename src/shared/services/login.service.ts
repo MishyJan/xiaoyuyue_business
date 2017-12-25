@@ -233,6 +233,7 @@ export class LoginService {
     }
 
     ensureExternalLoginProviderInitialized(loginProvider: ExternalLoginProvider, callback: () => void) {
+        debugger
         if (loginProvider.initialized) {
             callback();
             return;
@@ -278,14 +279,16 @@ export class LoginService {
 
     private facebookLoginStatusChangeCallback(resp) {
         if (resp.status === 'connected') {
-            var model = new ExternalAuthenticateModel();
+            const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.FACEBOOK;
             model.providerAccessCode = resp.authResponse.accessToken;
             model.providerKey = resp.authResponse.userID;
+            this.showLoading();
             this._tokenAuthService.externalAuthenticate(model)
+                .finally(() => { this.hideLoading(); })
                 .subscribe((result: ExternalAuthenticateResultModel) => {
                     if (result.waitingForActivation) {
-                        this._messageService.info("您已成功注册,请完善基本信息!");
+                        this._messageService.info('您已成功注册,请完善基本信息!');
                         return;
                     }
                     this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
@@ -295,14 +298,16 @@ export class LoginService {
 
     private googleLoginStatusChangeCallback(isSignedIn) {
         if (isSignedIn) {
-            var model = new ExternalAuthenticateModel();
+            const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.GOOGLE;
             model.providerAccessCode = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
             model.providerKey = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getId();
+            this.showLoading();
             this._tokenAuthService.externalAuthenticate(model)
+                .finally(() => { this.hideLoading(); })
                 .subscribe((result: ExternalAuthenticateResultModel) => {
                     if (result.waitingForActivation) {
-                        this._messageService.info("您已成功注册,请完善基本信息!");
+                        this._messageService.info('您已成功注册,请完善基本信息!');
                         return;
                     }
                     this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
@@ -348,8 +353,6 @@ export class LoginService {
 
     }
 
-
-
     protected processExternalAuthenticate(response: Response): ExternalAuthenticateResultModel {
         const responseText = response.text();
         const status = response.status;
@@ -364,4 +367,23 @@ export class LoginService {
         }
         return null;
     }
+
+    private showLoading(): void {
+        const dom = `
+        <div id="externalLoading" class="swal-overlay swal-overlay--show-modal" tabindex="-1">
+            <div class="swal-modal">
+                <div class="swal-loading-spinner"><i></i></div>
+                <div class="swal-title">授权中</div>
+                <div class="swal-footer"></div>
+            </div>
+        </div>`;
+
+        const bodyEle = $('body');
+        bodyEle.append(dom);
+    }
+
+    private hideLoading(): void {
+        $('#externalLoading').remove();
+    }
+
 }

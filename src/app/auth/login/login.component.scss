@@ -169,14 +169,9 @@
 // 添加第三方登录样式
 .social-icons-wrap {
     padding: 0;
-    li+li {
-        margin-left: 6px;
-    }
     li {
         display: inline-block;
         a {
-            width: 32px;
-            height: 32px;
             display: inline-block;
             background-size: contain;
             background-position: center;
@@ -185,28 +180,42 @@
             transition: all .15s;
             &:hover {
                 &.wechat {
+                    width: 36px;
                     background-image: url('/assets/common/images/login/weChat-shadow-x2.png');
                 }
                 &.qq {
+                    width: 36px;
                     background-image: url('/assets/common/images/login/qq-shadow-x2.png');
                 }
                 &.facebook {
+                    width: 32px;
+                    height: 32px;
                     background-image: url('/assets/common/images/login/facebook-shadow-x2.png');
                 }
                 &.google {
+                    width: 32px;
+                    height: 32px;
                     background-image: url('/assets/common/images/login/google-shadow-x2.png');
                 }
             }
             &.wechat {
+                width: 32px;
+                height: 32px;
                 background-image: url('/assets/common/images/login/weChat-x2.png');
             }
             &.qq {
+                width: 32px;
+                height: 32px;
                 background-image: url('/assets/common/images/login/qq-x2.png');
             }
             &.facebook {
+                width: 28px;
+                height: 28px;
                 background-image: url('/assets/common/images/login/facebook-x2.png');
             }
             &.google {
+                width: 28px;
+                height: 28px;
                 background-image: url('/assets/common/images/login/google-x2.png');
             }
         }

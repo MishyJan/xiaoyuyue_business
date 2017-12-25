@@ -16,7 +16,7 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     code: string;
     model: CodeSendInput = new CodeSendInput();
     emailAddressText: string;
-    codeType = 50;
+    codeType = VerificationCodeType.ChangeEmail;
     sendCodeType = SendCodeType.Email;
 
     @ViewChild('unbindingEmailModel') unbindingEmailModel: ModalDirective;
@@ -35,6 +35,9 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     }
 
     ngOnInit() {
+        if (!this.emailAddress) {
+            return;
+        }
         this.encrypt();
     }
     show(): void {
@@ -56,9 +59,6 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     }
 
     private encrypt(): void {
-        if (!this.emailAddress) {
-            return;
-        }
-        this.emailAddressText = '•••••••' + this.emailAddress.substr(this._appSessionService.user.phoneNumber.length - 8);
+        this.emailAddressText = '•••••••' + this.emailAddress.substr(this._appSessionService.user.emailAddress.length - 8);
     }
 }
