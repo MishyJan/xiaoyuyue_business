@@ -12,6 +12,8 @@ import { LoginService, ExternalLoginProvider } from 'shared/services/login.servi
 import { ExternalLoginProviderInfoModel, ProfileServiceProxy, UserSecurityInfoDto } from '@shared/service-proxies/service-proxies';
 import { CookiesService } from 'shared/services/cookies.service';
 import { AppConsts } from '@shared/AppConsts';
+import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
+import { UnbindingEmailModelComponent } from 'app/account-settings/email-model/unbinding-email-model/unbinding-email-model.component';
 
 @Component({
     selector: 'xiaoyuyue-acount-settings',
@@ -24,6 +26,8 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     @ViewChild('changePasswdModel') changePasswdModel: ChangePasswdModelComponent;
     @ViewChild('bindingPhoneModel') bindingPhoneModel: BindingPhoneModelComponent;
     @ViewChild('unbindingPhoneModel') unbindingPhoneModel: UnbindingPhoneModelComponent;
+    @ViewChild('bindingEmailModel') bindingEmailModel: BindingEmailModelComponent;
+    @ViewChild('unbindingEmailModel') unbindingEmailModel: UnbindingEmailModelComponent;
     @ViewChild('externalBindingModel') externalBindingModel: ExternalBindingModelComponent;
 
     unBinding = false;
@@ -115,5 +119,13 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
 
     showBindingPhoneModel(): void {
         this.bindingPhoneModel.show();
+    }
+
+    showChangeEmailModel(): void {
+        this.unbindingEmailModel.show();
+    }
+
+    showBindingEmailModel(): void {
+        this.bindingEmailModel.show();
     }
 }

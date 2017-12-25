@@ -21,6 +21,7 @@ import { SideBarComponent } from './shared/layout/side-bar.component';
 import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
 import { UserNotificationHelper } from './shared/layout/notifications/UserNotificationHelper';
 import { UtilsModule } from '@shared/utils/utils.module';
+import { HkComponent } from 'app/lang-route/hk/hk.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         MobileSideBarComponent,
         PageNotFoundComponent,
         SupportedBrowsersComponent,
+        HkComponent
 ],
     imports: [
         ngCommon.CommonModule,

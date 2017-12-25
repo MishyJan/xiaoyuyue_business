@@ -16,7 +16,6 @@ import { ExternalAuthComponent } from 'app/auth/external-auth/external-auth.comp
 import { FooterComponent } from 'app/auth/layout/footer/footer.component';
 import { ForgotPasswordComponent } from './password/forgot-password.component';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from './layout/header/header.component';
 import { LoginComponent } from './login/login.component';
 import { LoginService } from 'shared/services/login.service';
 import { LuosimaoCaptcha } from 'app/auth/shared/luosimao-captcha/luosimao-captcha.component';
@@ -35,6 +34,7 @@ import { TooltipModule } from 'ngx-bootstrap';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { AuthHeaderComponent } from 'app/auth/layout/header/header.component';
 
 @NgModule({
     imports: [
@@ -67,7 +67,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
         SendTwoFactorCodeComponent,
         ValidateTwoFactorCodeComponent,
         LuosimaoCaptcha,
-        HeaderComponent,
+        AuthHeaderComponent,
         FooterComponent,
         BackgroundImgComponent,
         SupplyRegisterComponent,
