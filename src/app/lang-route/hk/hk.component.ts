@@ -18,8 +18,7 @@ export class HkComponent implements OnInit {
 
     ngOnInit() {
         this.changeLanguage();
-        // window.location.href = AppConsts.appBaseUrl;
-        this._router.navigate(['/dashboard']);
+        window.location.href = AppConsts.appBaseUrl;
     }
 
     changeLanguage() {
