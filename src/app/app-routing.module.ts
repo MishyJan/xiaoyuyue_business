@@ -7,6 +7,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { NgModule } from '@angular/core';
 import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
 import { HkComponent } from 'app/lang-route/hk/hk.component';
+import { PageNotFoundComponent } from 'app/shared/layout/page-not-found/page-not-found.component';
 
 @NgModule({
     imports: [
@@ -65,13 +66,20 @@ import { HkComponent } from 'app/lang-route/hk/hk.component';
                 ]
             },
             {
+                path: 'auth',
+                loadChildren: 'app/auth/auth.module#AuthModule', // Lazy load account module
+                data: { preload: true }
+            },
+            {
                 path: 'supported-browsers',
                 component: SupportedBrowsersComponent
             },
             {
                 path: 'hk',
                 component: HkComponent
-            }
+            },
+            { path: '**', component: PageNotFoundComponent }
+
         ])
     ],
     exports: [RouterModule]

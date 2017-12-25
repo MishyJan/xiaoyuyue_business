@@ -28,6 +28,7 @@ export class AppAuthService {
     }
 
     recordRedirectUrl(): void {
+        if (location.href.indexOf('auth') > 0) { return; }
         const exdate = new Date();
         exdate.setDate(exdate.getDate() + 1);
         this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
