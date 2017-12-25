@@ -16,7 +16,7 @@ export class AnchorsDto {
     providers: [AnchorsDto]
 })
 
-export class HeaderComponent extends AppComponentBase implements OnInit {
+export class AuthHeaderComponent extends AppComponentBase implements OnInit {
 
     constructor(
         injector: Injector,
