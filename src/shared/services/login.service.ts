@@ -256,21 +256,20 @@ export class LoginService {
             });
         } else if (loginProvider.name === ExternalLoginProvider.GOOGLE) {
             jQuery.getScript('https://apis.google.com/js/api.js', () => {
-                gapi.load('client:auth2',
-                    () => {
-                        gapi.client.init({
-                            clientId: loginProvider.clientId,
-                            scope: 'openid profile email'
-                        }).then(() => {
-                            gapi.auth2.getAuthInstance().isSignedIn.listen((isSignedIn) => {
-                                this.googleLoginStatusChangeCallback(isSignedIn);
-                            });
-
-                            this.googleLoginStatusChangeCallback(gapi.auth2.getAuthInstance().isSignedIn.get());
+                gapi.load('client:auth2', () => {
+                    gapi.client.init({
+                        clientId: loginProvider.clientId,
+                        scope: 'openid profile email'
+                    }).then(() => {
+                        gapi.auth2.getAuthInstance().isSignedIn.listen((isSignedIn) => {
+                            this.googleLoginStatusChangeCallback(isSignedIn);
                         });
 
-                        callback();
+                        this.googleLoginStatusChangeCallback(gapi.auth2.getAuthInstance().isSignedIn.get());
                     });
+
+                    callback();
+                });
             });
         } else if (loginProvider.name === ExternalLoginProvider.WECHAT) {
 
