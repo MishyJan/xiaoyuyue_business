@@ -382,7 +382,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             this._weChatShareTimelineService.input.title = this.l('ShareMyBooking', this.input.booking.name);
             this._weChatShareTimelineService.input.desc = this.l(this.input.booking.name);
             this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
-            this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+            this._weChatShareTimelineService.input.link = AppConsts.userCenterUrl + '/booking/' + this.bookingId;
             this._weChatShareTimelineService.initWeChatShareConfig();
         }
     }

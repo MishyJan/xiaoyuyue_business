@@ -76,7 +76,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
             if (externalLoginProviders[i].name === 'WeChatMP') {
                 const authBaseUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize';
                 const appid = externalLoginProviders[i].clientId;
-                const redirect_url = AppConsts.shareBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.WECHATMP + '&isAuthBind=' + this.isAuthBind;
+                const redirect_url = AppConsts.userCenterUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.WECHATMP + '&isAuthBind=' + this.isAuthBind;
                 const response_type = 'code';
                 const scope = 'snsapi_userinfo';
 

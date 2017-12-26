@@ -2,6 +2,7 @@
 
 import { CompilerOptions, NgModuleRef, Type } from '@angular/core';
 
+import { AppConfig } from 'shared/AppConfig';
 import { AppConsts } from '@shared/AppConsts';
 import { CookiesService } from 'shared/services/cookies.service';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
@@ -37,31 +38,31 @@ export class AppPreBootstrap {
     }
 
     private static getApplicationConfig(callback: () => void) {
-        return abp.ajax({
-            url: '/assets/appconfig.json',
-            method: 'GET',
-            headers: {
-                'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
-            }
-        }).done(result => {
+        // return abp.ajax({
+        //     url: '/assets/appconfig.json',
+        //     method: 'GET',
+        //     headers: {
+        //         'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
+        //     }
+        // }).done(result => {
 
-            const subdomainTenancyNameFinder = new SubdomainTenancyNameFinder();
-            const tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(result.appBaseUrl);
+        const subdomainTenancyNameFinder = new SubdomainTenancyNameFinder();
+        const tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(AppConfig.AppBaseUrl);
 
-            AppConsts.appBaseUrlFormat = result.appBaseUrl;
-            AppConsts.shareBaseUrl = result.shareBaseUrl;
-            AppConsts.remoteServiceBaseUrlFormat = result.remoteServiceBaseUrl;
+        AppConsts.appBaseUrlFormat = AppConfig.AppBaseUrl;
+        AppConsts.userCenterUrl = AppConfig.UserCenterUrl;
+        AppConsts.remoteServiceBaseUrlFormat = AppConfig.RemoteServiceBaseUrl;
 
-            if (tenancyName == null) {
-                AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
-                AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
-            } else {
-                AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
-                AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
-            }
+        if (tenancyName == null) {
+            AppConsts.appBaseUrl = AppConfig.AppBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
+            AppConsts.remoteServiceBaseUrl = AppConfig.RemoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
+        } else {
+            AppConsts.appBaseUrl = AppConfig.AppBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
+            AppConsts.remoteServiceBaseUrl = AppConfig.RemoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
+        }
 
-            callback();
-        });
+        callback();
+        // });
     }
 
     private static getCurrentClockProvider(currentProviderName: string): abp.timing.IClockProvider {
