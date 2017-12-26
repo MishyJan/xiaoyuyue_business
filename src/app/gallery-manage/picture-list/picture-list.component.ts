@@ -11,6 +11,9 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { element } from 'protractor';
 
+export class PictureGroupListActiveDto extends PictureGroupListDto {
+    active: boolean;
+}
 @Component({
     selector: 'xiaoyuyue-picture-list',
     templateUrl: './picture-list.component.html',
@@ -76,6 +79,9 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
             .getPictureGroupAsync()
             .subscribe(result => {
                 this.picGalleryGroupData = result;
+                this.picGalleryGroupData.forEach((groupItem: PictureGroupListActiveDto) => {
+                    groupItem.active = false;
+                });
                 this.selectedGroupId = this.selectedGroupId ? this.selectedGroupId : DefaultUploadPictureGroundId.AllGroup;
                 this.selectedGroupName = '所有';
                 this.loadAllPicAsync();
@@ -126,10 +132,13 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 this.loadPicGalleryData();
             });
     }
+
     // 删除分组请求数据
-    removePicGroupService(selectedGroupId: number): void {
+    removePicGroupService(selectedGroupItem: PictureGroupListActiveDto): void {
+        if (selectedGroupItem.active) { return; }
+        selectedGroupItem.active = true;
         this._pictureServiceProxy
-            .deleteGroupAsync(selectedGroupId)
+            .deleteGroupAsync(selectedGroupItem.id)
             .subscribe(result => {
                 this.notify.success('删除分组成功');
                 this.loadPicGalleryData();
@@ -165,6 +174,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
             $('#newGroupName').trigger('focus');
         }, 600);
     }
+
     //  关闭创建分组（隐藏input框，初始化数据）
     closeCreatePicGroup(): void {
         this.picGroupCreating = false;
@@ -173,6 +183,8 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 删除某一分组的图片
     deletePicHandler(event: Event, data: SelectedPicListDto): void {
+        if (data.active) { return; }
+        data.active = true;
         event.stopPropagation();
         // data存在就是单个图片，不存在则是批量被选中的图片
         let picIds = [];
@@ -191,6 +203,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     deletePicService(picIds: number[]): void {
         this._pictureServiceProxy
             .deleteAsync(picIds)
+            // .finally( () => { this.deletingPicListItem = false; })
             .subscribe(result => {
                 // 如果是批量移动成功情况下，则清空数据
                 if (this.selectedPicListArr.length > 0) {
@@ -203,6 +216,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 移动分组
     movePicHandler(event: any, data: SelectedPicListDto): void {
+        if (event.pageX === 0 && event.pageY === 0) { return; }
         event.stopPropagation();
 
         // data存在就是单个图片，不存在则是批量被选中的图片
@@ -213,7 +227,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 this.selectedMoveGroupInput.ids.push(element.picId);
             });
         }
-
+        debugger
         this.moveGroupTemplateX = event.pageX;
         this.moveGroupTemplateY = event.pageY;
         this.showMoveGroupTemplate();
@@ -331,7 +345,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     // 获取图片上传URL
     public getPicUploadInfoHandler(pictureInfo: UploadPictureDto): void {
         this.notify.success('已上传到分组：' + this.selectedGroupName);
-        this.loadAllPicAsync();
+        this.loadPicGalleryData();
     }
 
     private showMoveGroupTemplate(): void {
