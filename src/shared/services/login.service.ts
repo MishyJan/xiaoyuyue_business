@@ -233,7 +233,6 @@ export class LoginService {
     }
 
     ensureExternalLoginProviderInitialized(loginProvider: ExternalLoginProvider, callback: () => void) {
-        debugger
         if (loginProvider.initialized) {
             callback();
             return;
