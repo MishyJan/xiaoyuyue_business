@@ -7,7 +7,9 @@ import { ExternalLoginProviderInfoModel, TokenAuthServiceProxy } from '@shared/s
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { CookiesService } from 'shared/services/cookies.service';
+import { UrlHelper } from 'shared/helpers/UrlHelper';
 
 @Component({
     selector: 'xiaoyuyue-loading',
@@ -22,7 +24,8 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
         private _loginService: LoginService,
         private _activatedRoute: ActivatedRoute,
         private _tokenAuthService: TokenAuthServiceProxy,
-        private _cookiesService: CookiesService
+        private _cookiesService: CookiesService,
+        private _sessionService: AppSessionService,
     ) {
         super(injector);
     }
@@ -50,6 +53,8 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
                 self.isAuthBind = params['isAuthBind'];
             }
 
+            if (self.isAuthBind !== 'true') { this.isLogin(); }
+
             if (params['providerName'] !== undefined) {
                 if (self.isAuthBind === 'true') {
                     this._loginService.externalBindingCallback(params);
@@ -71,7 +76,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
             if (externalLoginProviders[i].name === 'WeChatMP') {
                 const authBaseUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize';
                 const appid = externalLoginProviders[i].clientId;
-                const redirect_url = AppConsts.appBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.WECHATMP + '&isAuthBind=' + this.isAuthBind;
+                const redirect_url = AppConsts.shareBaseUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.WECHATMP + '&isAuthBind=' + this.isAuthBind;
                 const response_type = 'code';
                 const scope = 'snsapi_userinfo';
 
@@ -79,5 +84,14 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
                 window.location.href = authUrl;
             }
         }
+    }
+
+    // 如果已登录 直接跳转
+    isLogin() {
+        if (!this._sessionService.user) { return; }
+        UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
+        this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
+        const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+        location.href = initialUrl;
     }
 }
