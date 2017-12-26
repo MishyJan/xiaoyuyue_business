@@ -82,7 +82,7 @@
                                             <div class="right-item clearfix" *ngIf="!groupItem.isSystemGroup">
                                                 <div class="pull-right" *ngIf="!editingGroupName || editingGroupNameIndex !== index">
                                                     <span class="vapps-icon-app-edit-group pull-right" title="{{ l('PictureGallery.EditGroup') }}" (click)="showUpdatePicInput(index)"></span>
-                                                    <span class="vapps-icon-app-remove-group pull-right" title="{{ l('PictureGallery.DeleteGroup') }}" (click)="removePicGroupService(groupItem.id)"></span>
+                                                    <span class="vapps-icon-app-remove-group pull-right" title="{{ l('PictureGallery.DeleteGroup') }}" (click)="removePicGroupService(groupItem)"></span>
                                                 </div>
                                                 <div class="pull-right" *ngIf="editingGroupName && editingGroupNameIndex == index" (click)="updatePicGroupService(groupItem.id, $event)">
                                                     <span class="vapps-icon-app-confirm" title="{{ l('PictureGallery.SaveGroup') }}"></span>

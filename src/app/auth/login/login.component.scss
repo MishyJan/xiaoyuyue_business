@@ -133,11 +133,12 @@
         }
         .extra-login {
             margin-top: 50px;
-            text-align: center;
+            text-align: left;
             .title-text {
                 display: flex;
                 position: relative;
                 color: #AAAAAA;
+                margin-bottom: 10px;
                 .text {
                     padding: 0 10px;
                 }
@@ -169,15 +170,16 @@
 // 添加第三方登录样式
 .social-icons-wrap {
     padding: 0;
-    li+li {
-        margin-left: 6px;
-    }
+    margin: 0;
+    display: flex;
+    height: 32px;
     li {
-        display: inline-block;
+        list-style-type: none;
+        flex: 1;
+        position: relative;
         a {
-            width: 32px;
-            height: 32px;
-            display: inline-block;
+            position: absolute;
+            bottom: 0;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -185,28 +187,42 @@
             transition: all .15s;
             &:hover {
                 &.wechat {
+                    width: 36px;
                     background-image: url('/assets/common/images/login/weChat-shadow-x2.png');
                 }
                 &.qq {
+                    width: 36px;
                     background-image: url('/assets/common/images/login/qq-shadow-x2.png');
                 }
                 &.facebook {
+                    width: 32px;
+                    height: 32px;
                     background-image: url('/assets/common/images/login/facebook-shadow-x2.png');
                 }
                 &.google {
+                    width: 32px;
+                    height: 32px;
                     background-image: url('/assets/common/images/login/google-shadow-x2.png');
                 }
             }
             &.wechat {
+                width: 32px;
+                height: 32px;
                 background-image: url('/assets/common/images/login/weChat-x2.png');
             }
             &.qq {
+                width: 32px;
+                height: 32px;
                 background-image: url('/assets/common/images/login/qq-x2.png');
             }
             &.facebook {
+                width: 28px;
+                height: 28px;
                 background-image: url('/assets/common/images/login/facebook-x2.png');
             }
             &.google {
+                width: 28px;
+                height: 28px;
                 background-image: url('/assets/common/images/login/google-x2.png');
             }
         }

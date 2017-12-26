@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { SendTwoFactorCodeComponent } from './login/send-two-factor-code.component';
 import { SupplyRegisterComponent } from './supply-register/supply-register.component';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
+import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
 
 @NgModule({
     imports: [
@@ -26,7 +27,11 @@ import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code
                     { path: 'login', component: LoginComponent, data: { breadcrumb: 'Page.Login' } },
                     { path: 'external', component: ExternalAuthComponent, data: { breadcrumb: 'Page.External' } },
                     { path: 'register', component: RegisterComponent, data: { breadcrumb: 'Page.Register' } },
-                    { path: 'supply-register', component: SupplyRegisterComponent, data: { breadcrumb: 'Page.SupplyRegister' } },
+                    {
+                        canActivate: [AppRouteGuard],
+                        canActivateChild: [AppRouteGuard],
+                        path: 'supply-register', component: SupplyRegisterComponent, data: { breadcrumb: 'Page.SupplyRegister' } 
+                    },
                     { path: 'forgot-password', component: ForgotPasswordComponent, data: { breadcrumb: 'Page.ForgotPassword' } },
                     { path: 'reset-password', component: ResetPasswordComponent, data: { breadcrumb: 'Page.ResetPassword' } },
                     { path: 'email-activation', component: EmailActivationComponent, data: { breadcrumb: 'Page.EmailActivation' } },

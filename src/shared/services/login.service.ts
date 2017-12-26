@@ -255,21 +255,20 @@ export class LoginService {
             });
         } else if (loginProvider.name === ExternalLoginProvider.GOOGLE) {
             jQuery.getScript('https://apis.google.com/js/api.js', () => {
-                gapi.load('client:auth2',
-                    () => {
-                        gapi.client.init({
-                            clientId: loginProvider.clientId,
-                            scope: 'openid profile email'
-                        }).then(() => {
-                            gapi.auth2.getAuthInstance().isSignedIn.listen((isSignedIn) => {
-                                this.googleLoginStatusChangeCallback(isSignedIn);
-                            });
-
-                            this.googleLoginStatusChangeCallback(gapi.auth2.getAuthInstance().isSignedIn.get());
+                gapi.load('client:auth2', () => {
+                    gapi.client.init({
+                        clientId: loginProvider.clientId,
+                        scope: 'openid profile email'
+                    }).then(() => {
+                        gapi.auth2.getAuthInstance().isSignedIn.listen((isSignedIn) => {
+                            this.googleLoginStatusChangeCallback(isSignedIn);
                         });
 
-                        callback();
+                        this.googleLoginStatusChangeCallback(gapi.auth2.getAuthInstance().isSignedIn.get());
                     });
+
+                    callback();
+                });
             });
         } else if (loginProvider.name === ExternalLoginProvider.WECHAT) {
 
@@ -278,14 +277,16 @@ export class LoginService {
 
     private facebookLoginStatusChangeCallback(resp) {
         if (resp.status === 'connected') {
-            var model = new ExternalAuthenticateModel();
+            const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.FACEBOOK;
             model.providerAccessCode = resp.authResponse.accessToken;
             model.providerKey = resp.authResponse.userID;
+            this.showLoading();
             this._tokenAuthService.externalAuthenticate(model)
+                .finally(() => { this.hideLoading(); })
                 .subscribe((result: ExternalAuthenticateResultModel) => {
                     if (result.waitingForActivation) {
-                        this._messageService.info("您已成功注册,请完善基本信息!");
+                        this._messageService.info('您已成功注册,请完善基本信息!');
                         return;
                     }
                     this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
@@ -295,14 +296,16 @@ export class LoginService {
 
     private googleLoginStatusChangeCallback(isSignedIn) {
         if (isSignedIn) {
-            var model = new ExternalAuthenticateModel();
+            const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.GOOGLE;
             model.providerAccessCode = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
             model.providerKey = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getId();
+            this.showLoading();
             this._tokenAuthService.externalAuthenticate(model)
+                .finally(() => { this.hideLoading(); })
                 .subscribe((result: ExternalAuthenticateResultModel) => {
                     if (result.waitingForActivation) {
-                        this._messageService.info("您已成功注册,请完善基本信息!");
+                        this._messageService.info('您已成功注册,请完善基本信息!');
                         return;
                     }
                     this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
@@ -348,8 +351,6 @@ export class LoginService {
 
     }
 
-
-
     protected processExternalAuthenticate(response: Response): ExternalAuthenticateResultModel {
         const responseText = response.text();
         const status = response.status;
@@ -364,4 +365,23 @@ export class LoginService {
         }
         return null;
     }
+
+    private showLoading(): void {
+        const dom = `
+        <div id="externalLoading" class="swal-overlay swal-overlay--show-modal" tabindex="-1">
+            <div class="swal-modal">
+                <div class="swal-loading-spinner"><i></i></div>
+                <div class="swal-title">授权中</div>
+                <div class="swal-footer"></div>
+            </div>
+        </div>`;
+
+        const bodyEle = $('body');
+        bodyEle.append(dom);
+    }
+
+    private hideLoading(): void {
+        $('#externalLoading').remove();
+    }
+
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CookiesService } from 'shared/services/cookies.service';
+
 import { AppConsts } from '../../../shared/AppConsts';
+import { CookiesService } from 'shared/services/cookies.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'xiaoyuyue-hk',
@@ -10,7 +12,8 @@ import { AppConsts } from '../../../shared/AppConsts';
 export class HkComponent implements OnInit {
 
     constructor(
-        private _cookiesService: CookiesService
+        private _cookiesService: CookiesService,
+        private _router: Router,
     ) { }
 
     ngOnInit() {
