@@ -18,6 +18,7 @@ export class SelectedPicListDto {
     picUrl: string;
     picId: number;
     selected: boolean;
+    active: boolean;
 }
 
 @Component({
@@ -142,6 +143,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                         this.existsBookingPictureEdit.forEach(element => {
                             if (element.pictureId == pagesItem.id) {
                                 this.selectedPicList.selected = true;
+                                this.selectedPicList.active = false;
                             }
                         });
                     }

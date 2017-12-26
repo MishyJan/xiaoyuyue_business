@@ -8,11 +8,11 @@
                     </div>
                     <div class="toggle-wrap clearfix">
                         <span class="ordinary-login col-md-6" (click)="isPhoneRegister()">
-                            手机注册
+                            {{ l('PhoneRegister') }}
                             <span class="line" *ngIf="phoneRegister"></span>
                         </span>
                         <span class="phone-login col-md-6" (click)="isEmailRegister()">
-                            邮件注册
+                            {{ l('EmailRegister') }}
                             <span class="line" *ngIf="!phoneRegister"></span>
                         </span>
                     </div>
