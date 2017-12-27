@@ -1,6 +1,6 @@
 export class AppConfig {
-    public static readonly RemoteServiceBaseUrl = 'http://vappshk.oicp.net:9090';
-    public static readonly AppBaseUrl = 'http:///localhost:5202';
-    public static readonly UserCenterUrl = 'http:///localhost:5201';
-    public static readonly BusinessCenterUrl = 'http:///localhost:5202';
+    public static readonly RemoteServiceBaseUrl = 'https://api.xiaoyuyue.com';
+    public static readonly AppBaseUrl = 'https://business.xiaoyuyue.com';
+    public static readonly UserCenterUrl = 'https://www.xiaoyuyue.com';
+    public static readonly BusinessCenterUrl = 'https://business.xiaoyuyue.com';
 }
