@@ -28,9 +28,9 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
 
   show(bookingId?: number): void {
     if (bookingId) {
-      this.shareUrl = AppConsts.shareBaseUrl + '/booking/' + bookingId;
+      this.shareUrl = AppConsts.userCenterUrl + '/booking/' + bookingId;
     } else {
-      this.shareUrl = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+      this.shareUrl = AppConsts.userCenterUrl + '/booking/' + this.bookingId;
     }
     this.model.show();
   }

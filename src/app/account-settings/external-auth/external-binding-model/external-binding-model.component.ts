@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, Input, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
@@ -43,7 +43,7 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
     show(provideName): void {
         this.title = this.l('Binding') + this.l(provideName)
         this.slogen = this.l('BindingSlogen', this.l(provideName));
-        this.externalUrl = AppConsts.shareBaseUrl + '/auth/external?authToken=' + this._cookiesService.getToken() + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href);
+        this.externalUrl = AppConsts.userCenterUrl + '/auth/external?authToken=' + this._cookiesService.getToken() + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href);
         this.model.show();
     }
 

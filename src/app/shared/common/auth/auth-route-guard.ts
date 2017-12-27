@@ -29,11 +29,7 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
         if (!this._sessionService.user) {
             this._appAuthService.recordRedirectUrl();
 
-            if (this.isWeiXin()) {
-                location.href = AppConsts.shareBaseUrl + '/auth/login';
-            } else {
-                this._router.navigate(['/auth/login']);
-            }
+            this._router.navigate(['/auth/login']);
             return false;
         }
 
@@ -55,11 +51,7 @@ export class AppRouteGuard implements CanActivate, CanActivateChild {
 
     selectBestRoute(): string {
         if (!this._sessionService.user) {
-            if (this.isWeiXin()) {
-                location.href = AppConsts.shareBaseUrl + '/auth/login';
-            } else {
-                this._router.navigate(['/auth/login']);
-            }
+            this._router.navigate(['/auth/login']);
         } else if (!this._sessionService.tenantId) {
             return '/auth/supply-register';
         }
