@@ -1367,6 +1367,9 @@ a:focus {
 
 
 /* sweet-alert弹窗 */
+.swal-footer {
+    text-align: center;
+}
 
 .sweet-alert {
     left: 15px;
