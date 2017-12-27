@@ -123,7 +123,7 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="validate-code-wrap form-group label-floating">
                                     <label class="control-label"></label>
-                                    <input class="form-control" placeholder="{{ l('EmailAddressField') }}" type="tel" name="adminEmailAddress" required [(ngModel)]="model.adminEmailAddress">
+                                    <input class="form-control" placeholder="{{ l('EmailAddressField') }}" type="tel" name="adminEmailAddress" required [(ngModel)]="model.emailAddress">
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                                 <div class="form-group label-floating">
                                     <label class="control-label"></label>
                                     <input class="form-control" placeholder="{{l('VerificationCode')}}" type="text" name="registerCode" required [(ngModel)]="model.registerCode">
-                                    <xiaoyuyue-send-sms-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="model.adminEmailAddress"></xiaoyuyue-send-sms-code>
+                                    <xiaoyuyue-send-sms-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="model.emailAddress"></xiaoyuyue-send-sms-code>
                                 </div>
                             </div>
                         </div>

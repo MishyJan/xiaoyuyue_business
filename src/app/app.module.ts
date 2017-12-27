@@ -1,6 +1,6 @@
 import * as ngCommon from '@angular/common';
 
-import { HttpModule, JsonpModule } from '@angular/http';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 
 import { AbpModule } from '@abp/abp.module';
@@ -11,6 +11,7 @@ import { FooterComponent } from './shared/layout/footer.component';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './shared/layout/header.component';
 import { HeaderNotificationsComponent } from './shared/layout/notifications/header-notifications.component';
+import { HkComponent } from 'app/lang-route/hk/hk.component';
 import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-side-bar.component';
 import { NgModule } from '@angular/core';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
@@ -21,7 +22,6 @@ import { SideBarComponent } from './shared/layout/side-bar.component';
 import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
 import { UserNotificationHelper } from './shared/layout/notifications/UserNotificationHelper';
 import { UtilsModule } from '@shared/utils/utils.module';
-import { HkComponent } from 'app/lang-route/hk/hk.component';
 
 @NgModule({
     declarations: [
@@ -35,12 +35,12 @@ import { HkComponent } from 'app/lang-route/hk/hk.component';
         PageNotFoundComponent,
         SupportedBrowsersComponent,
         HkComponent
-],
+    ],
     imports: [
         ngCommon.CommonModule,
         FormsModule,
-        HttpModule,
-        JsonpModule,
+        HttpClientModule,
+        HttpClientJsonpModule,
 
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
