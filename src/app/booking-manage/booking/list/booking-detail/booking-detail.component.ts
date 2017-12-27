@@ -69,7 +69,7 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit, 
     //   获取bookingID
     getBookingId(): void {
         this.bookingId = this._route.snapshot.paramMap.get('id');
-        this.shareUrl = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+        this.shareUrl = AppConsts.userCenterUrl + '/booking/' + this.bookingId;
     }
 
     getBookingDetailData(): void {
@@ -161,7 +161,7 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit, 
             this._weChatShareTimelineService.input.title = this.l('ShareMyBooking', this.bookingForEditData.name);
             this._weChatShareTimelineService.input.desc = this.l(this.bookingForEditData.name);
             this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
-            this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+            this._weChatShareTimelineService.input.link = AppConsts.userCenterUrl + '/booking/' + this.bookingId;
             this._weChatShareTimelineService.initWeChatShareConfig();
         }
     }

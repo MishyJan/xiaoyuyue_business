@@ -1,5 +1,5 @@
-﻿import { state } from '@angular/core';
-import { SMSProviderInfoDto } from './service-proxies/service-proxies';
+﻿import { SMSProviderInfoDto } from './service-proxies/service-proxies';
+import { state } from '@angular/core';
 
 export class AppConsts {
 
@@ -8,8 +8,10 @@ export class AppConsts {
     static remoteServiceBaseUrlFormat: string;
 
     static appBaseUrl: string;
-    static shareBaseUrl: string;
     static appBaseUrlFormat: string;
+
+    static userCenterUrl: string;
+
     static readonly externalLoginUrl = '/auth/external';
     static readonly userManagement = {
         defaultAdminUserName: 'admin'

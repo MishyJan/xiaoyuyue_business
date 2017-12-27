@@ -7,9 +7,9 @@ import { CodeSendInput, PhoneAuthenticateModel, SMSServiceProxy } from 'shared/s
 import { ExternalLoginProvider, LoginService } from 'shared/services/login.service';
 import { Headers, Http } from '@angular/http';
 
-import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { Location } from '@angular/common';
 import { TooltipConfig } from 'ngx-bootstrap';
 import { VerificationCodeType } from 'shared/AppEnums';
@@ -21,7 +21,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     styleUrls: ['./login.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class LoginComponent extends AppComponentBase implements AfterViewInit {
+export class LoginComponent extends AppComponentBase implements OnInit, AfterViewInit {
     externalLoginProviders: ExternalLoginProvider[];
     submitting = false;
     flag = true;
@@ -39,12 +39,22 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         private _router: Router,
         private _location: Location,
         private _activatedRoute: ActivatedRoute,
-        private _sessionService: AbpSessionService,
+        private _sessionService: AppSessionService,
         private _tokenAuthService: TokenAuthServiceProxy,
         private _SMSServiceProxy: SMSServiceProxy,
     ) {
         super(injector);
         loginService.rememberMe = true;
+    }
+
+    ngOnInit(): void {
+        if (this._sessionService.user) {
+            this._router.navigate(['/dashboard']);
+        }
+
+        if (this.isWeiXin()) {
+            this._router.navigate(['/auth/external']);
+        }
     }
 
     ngAfterViewInit(): void {
@@ -86,15 +96,6 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
         );
     }
 
-    is_weixn() {
-        const ua = navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     externalLogin(provider: ExternalLoginProvider, $event) {
         $event.cancelBubble = true;
         this.flag && this.loginService.externalAuthenticate(provider); // 执行第三方登陆逻辑
@@ -111,7 +112,7 @@ export class LoginComponent extends AppComponentBase implements AfterViewInit {
     // NgxAni动画
     private animationShow() {
         $('#externalLogin').addClass('active');
-        setTimeout( () => {
+        setTimeout(() => {
             $('#externalLoginContainer').addClass('active');
         }, 10);
     }

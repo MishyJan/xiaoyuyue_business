@@ -30,9 +30,9 @@ export class AuthHeaderComponent extends AppComponentBase implements OnInit {
     }
 
     init(): void {
-        this.anchorsLinksData.aboutLink = AppConsts.shareBaseUrl + '/#about';
-        this.anchorsLinksData.howUsed = AppConsts.shareBaseUrl + '/#table';
-        this.anchorsLinksData.contactUs = AppConsts.shareBaseUrl + '/#contact';
+        this.anchorsLinksData.aboutLink = AppConsts.userCenterUrl + '/#about';
+        this.anchorsLinksData.howUsed = AppConsts.userCenterUrl + '/#table';
+        this.anchorsLinksData.contactUs = AppConsts.userCenterUrl + '/#contact';
     }
 
     goToHome(): void {
