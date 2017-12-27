@@ -7,6 +7,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss'],
     animations: [accountModuleAnimation()]
 })
 export class ForgotPasswordComponent extends AppComponentBase {

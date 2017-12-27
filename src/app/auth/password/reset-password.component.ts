@@ -12,6 +12,7 @@ import { LoginService } from "shared/services/login.service";
 
 @Component({
     templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss'],
     animations: [accountModuleAnimation()]
 })
 export class ResetPasswordComponent extends AppComponentBase implements OnInit {

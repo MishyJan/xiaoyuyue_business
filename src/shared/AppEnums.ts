@@ -47,12 +47,12 @@ export class OrgBookingOrderStatus {
     static WaitComment: number = BookingOrderListDtoStatus._5;
     static Complete: number = BookingOrderListDtoStatus._6;
 
-    static WaitConfirmLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.WaitConfirm';
-    static ConfirmSuccessLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.ConfirmSuccess';
-    static ConfirmFailLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.ConfirmFail';
-    static CancelLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.Cancel';
-    static CompleteLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.Complete';
-    static WaitCommentLocalization = 'Enums.Xiaoyuyue.Enums.BookingOrderStatus.WaitComment';
+    static WaitConfirmLocalization = 'BookingOrderStatus.WaitConfirm';
+    static ConfirmSuccessLocalization = 'BookingOrderStatus.ConfirmSuccess';
+    static ConfirmFailLocalization = 'BookingOrderStatus.ConfirmFail';
+    static CancelLocalization = 'BookingOrderStatus.Cancel';
+    static CompleteLocalization = 'BookingOrderStatus.Complete';
+    static WaitCommentLocalization = 'BookingOrderStatus.WaitComment';
 }
 
 // 手机验证的类型
