@@ -117,6 +117,17 @@
                     <img src="/assets/common/images/login/logo-colorized.png" width="40px" alt="logo">
                 </div>
 
+                <div class="toggle-wrap clearfix">
+                    <span class="ordinary-login col-xs-6" (click)="isOrdinaryLogin()">
+                        {{l('Account')}}
+                        <span class="line" *ngIf="ordinaryLogin"></span>
+                    </span>
+                    <span class="phone-login col-xs-6" (click)="isPhoneLogin()">
+                        {{l('Telephone')}}
+                        <span class="line" *ngIf="!ordinaryLogin"></span>
+                    </span>
+                </div>
+
                 <div class="login-body">
                     <div class="form-item">
                         <div class="form-group label-floating">
@@ -141,7 +152,6 @@
                     <div class="form-item clearfix account-action">
                         <span class="flex-item" routerLink="/auth/register">{{ l('Page.FastRegister') }}</span>
                         <span class="flex-item" routerLink="/auth/forgot-password">{{l("ForgotPassword")}}</span>
-                        <span class="flex-item" (click)="isOrdinaryLogin()">{{ l('Page.OrdinaryLogin') }}</span>
                     </div>
 
                     <div class="extra-login">
@@ -173,6 +183,17 @@
                     <img src="/assets/common/images/login/logo-colorized.png" width="40px" alt="logo">
                 </div>
 
+                <div class="toggle-wrap clearfix">
+                    <span class="ordinary-login col-xs-6" (click)="isOrdinaryLogin()">
+                        {{l('Account')}}
+                        <span class="line" *ngIf="ordinaryLogin"></span>
+                    </span>
+                    <span class="phone-login col-xs-6" (click)="isPhoneLogin()">
+                        {{l('Telephone')}}
+                        <span class="line" *ngIf="!ordinaryLogin"></span>
+                    </span>
+                </div>
+
                 <div class="login-body">
                     <div class="form-item">
                         <div class="form-group label-floating">
@@ -197,7 +218,6 @@
                     <div class="form-item clearfix account-action">
                         <span class="flex-item" routerLink="/auth/register">{{ l('Page.FastRegister') }}</span>
                         <span class="flex-item" routerLink="/auth/forgot-password">{{l("ForgotPassword")}}</span>
-                        <span class="flex-item" (click)="isPhoneLogin()">{{ l('Page.SmsLogin') }}</span>
                     </div>
 
                     <div class="extra-login">

@@ -16,7 +16,7 @@
                             <label class="control-label"></label>
                             <input class="form-control" placeholder="{{l('TenantName')}}" [(ngModel)]="model.tenantName" #tenantName="ngModel" type="text" name="tenancyName" maxlength="20" required autofocus>
                             <div *ngIf="tenantName.invalid && (tenantName.dirty || tenantName.touched)" class="text-danger">
-                                <div *ngIf="tenantName.errors.required">{{ l('PlaceholderTips.TenantNameReq') }}</div>
+                                <small *ngIf="tenantName.errors.required">{{ l('PlaceholderTips.TenantNameReq') }}</small>
                             </div>
                         </div>
                     </div>
