@@ -30,6 +30,6 @@ export class CreateSucceededComponent extends AppComponentBase implements OnInit
         }
         this.bookingId = this._route.snapshot.paramMap.get('id');
 
-        this.shareUrl = AppConsts.shareBaseUrl + '/booking/' + this.bookingId;
+        this.shareUrl = AppConsts.userCenterUrl + '/booking/' + this.bookingId;
     }
 }

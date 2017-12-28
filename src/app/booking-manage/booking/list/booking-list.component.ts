@@ -69,7 +69,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     currentPage = 0;
     slogan = '啥都没有，赶紧去创建预约吧';
 
-    shareBaseUrl: string = AppConsts.shareBaseUrl + '/booking/';
+    shareBaseUrl: string = AppConsts.userCenterUrl + '/booking/';
     @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
     @ViewChild('bookingCustomModelComponent') BookingCustomModelComponent: BookingCustomModelComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
@@ -364,7 +364,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     showShareModel(bookingId: number): void {
-        const shareUrl = AppConsts.shareBaseUrl + '/booking/' + bookingId;
+        const shareUrl = AppConsts.userCenterUrl + '/booking/' + bookingId;
         this.mobileShareBookingModel.show(shareUrl);
     }
 

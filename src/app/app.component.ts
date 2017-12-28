@@ -81,7 +81,7 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
             this._weChatShareTimelineService.input.title = this.l('ShareApp');
             this._weChatShareTimelineService.input.desc = this.l('Slogan');
             this._weChatShareTimelineService.input.imgUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
-            this._weChatShareTimelineService.input.link = AppConsts.shareBaseUrl;
+            this._weChatShareTimelineService.input.link = AppConsts.userCenterUrl;
 
             this._weChatShareTimelineService.initWeChatShareConfig();
         }

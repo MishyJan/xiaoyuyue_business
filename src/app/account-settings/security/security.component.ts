@@ -1,11 +1,12 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
+import { ExternalUnBindingModel, ProfileServiceProxy, TokenAuthServiceProxy, UserSecurityInfoDto } from 'shared/service-proxies/service-proxies';
+
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { AppSessionService } from '@shared/common/session/app-session.service';
 import { AppConsts } from 'shared/AppConsts';
+import { AppSessionService } from '@shared/common/session/app-session.service';
 import { CookiesService } from 'shared/services/cookies.service';
-import { ProfileServiceProxy, UserSecurityInfoDto, ExternalUnBindingModel, TokenAuthServiceProxy } from 'shared/service-proxies/service-proxies';
 import { LoginService } from 'shared/services/login.service';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-security',
@@ -54,7 +55,7 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
         const exdate = new Date();
         exdate.setDate(exdate.getDate() + 1);
         this._cookiesService.setCookieValue('UrlHelper.redirectUrl', location.href, exdate, '/');
-        this.externalWechatUrl = AppConsts.shareBaseUrl + '/auth/external?authToken=' + this._cookiesService.getToken() + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href);
+        this.externalWechatUrl = AppConsts.userCenterUrl + '/auth/external?authToken=' + this._cookiesService.getToken() + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href);
         window.location.href = this.externalWechatUrl;
     }
 

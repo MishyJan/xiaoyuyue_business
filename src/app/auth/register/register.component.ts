@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { AccountServiceProxy, PasswordComplexitySetting, ProfileServiceProxy, SMSServiceProxy, TenantRegistrationServiceProxy, RegisterTenantInput } from '@shared/service-proxies/service-proxies'
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { RegisterModel } from './register.model';
 import { LoginService } from "shared/services/login.service";
 import { VerificationCodeType, SendCodeType } from "shared/AppEnums";
 import { ProtocolModelComponent } from './protocol-model/protocol-model.component';
+import { RegisterTenantModel } from 'app/auth/register/register.model';
 
 @Component({
     templateUrl: './register.component.html',
@@ -14,12 +14,13 @@ import { ProtocolModelComponent } from './protocol-model/protocol-model.componen
     animations: [accountModuleAnimation()]
 })
 export class RegisterComponent extends AppComponentBase implements OnInit {
+    readAndAgreeProtocol: false;
     phoneRegister: boolean = true;
     protocolText: string;
     phoneNumber: string;
     confirmPasswd: string;
     codeType = VerificationCodeType.Register;
-    model: RegisterTenantInput = new RegisterTenantInput();
+    model: RegisterTenantModel = new RegisterTenantModel();
     passwordComplexitySetting: PasswordComplexitySetting = new PasswordComplexitySetting();
     saving: boolean = false;
     emailAddress: string;

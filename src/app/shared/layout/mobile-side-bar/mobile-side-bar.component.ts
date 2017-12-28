@@ -52,7 +52,7 @@ export class MobileSideBarComponent extends AppComponentBase implements OnInit {
     }
 
     toOfficialSite(): void {
-        window.location.href = AppConsts.shareBaseUrl;
+        window.location.href = AppConsts.userCenterUrl;
     }
 
     logout(): void {
