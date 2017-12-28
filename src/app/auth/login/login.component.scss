@@ -115,6 +115,29 @@
             margin-right: 6px;
         }
     }
+    .toggle-wrap {
+        padding: 15px 0;
+        text-align: center;
+        .ordinary-login {
+            border-right: 1px solid #3C4858;
+        }
+        .ordinary-login,
+        .phone-login {
+            position: relative;
+            line-height: 24px;
+            cursor: pointer;
+            .line {
+                width: 60%;
+                height: 2px;
+                position: absolute;
+                top: 28px;
+                left: 50%;
+                transform: translateX(-50%);
+                margin: 0 auto;
+                background-color: #FF9641;
+            }
+        }
+    }
     .login-body {
         text-align: center;
         .form-item {
