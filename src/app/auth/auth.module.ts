@@ -1,16 +1,18 @@
 import * as ngCommon from '@angular/common';
 
-import { HttpModule, JsonpModule } from '@angular/http';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 
 import { AbpModule } from '@abp/abp.module';
 import { AppCommonModule } from 'app/shared/common/app-common.module';
 import { AppConsts } from '@shared/AppConsts';
 import { AuthComponent } from 'app/auth/auth.component';
+import { AuthHeaderComponent } from 'app/auth/layout/header/header.component';
 import { AuthRoutingModule } from 'app/auth/auth-routing.module';
 import { BackgroundImgComponent } from 'app/auth/layout/background-img/background-img.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@shared/common/common.module';
 import { ConfirmEmailComponent } from './email-activation/confirm-email.component';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
 import { ExternalAuthComponent } from 'app/auth/external-auth/external-auth.component';
 import { FooterComponent } from 'app/auth/layout/footer/footer.component';
@@ -33,15 +35,13 @@ import { TenantRegistrationHelperService } from './register/tenant-registration-
 import { TooltipModule } from 'ngx-bootstrap';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ValidateTwoFactorCodeComponent } from './login/validate-two-factor-code.component';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { AuthHeaderComponent } from 'app/auth/layout/header/header.component';
 
 @NgModule({
     imports: [
         ngCommon.CommonModule,
         FormsModule,
-        HttpModule,
-        JsonpModule,
+        HttpClientModule,
+        HttpClientJsonpModule,
         ModalModule.forRoot(),
         TooltipModule.forRoot(),
         AppCommonModule.forRoot(),
