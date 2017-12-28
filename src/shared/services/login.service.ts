@@ -106,7 +106,7 @@ export class LoginService {
             } else if (provider.name === ExternalLoginProvider.GOOGLE) {
                 gapi.auth2.getAuthInstance().signIn();
             } else if (provider.name === ExternalLoginProvider.WECHAT) {
-                jQuery.getScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
+                jQuery.getScript('https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', () => {
                     const wxLogin = new WxLogin({
                         id: 'externalLoginContainer',
                         appid: provider.clientId,
