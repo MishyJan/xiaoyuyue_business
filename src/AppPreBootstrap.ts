@@ -124,6 +124,7 @@ export class AppPreBootstrap {
             data: data,
             headers: {
                 Authorization: 'Bearer ' + abp.auth.getToken(),
+                'AspNetCoreCulture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue), // 处理nginx转发header丢失问题
                 '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }

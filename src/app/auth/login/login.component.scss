@@ -1,3 +1,4 @@
+@import '../../../sass/xiaoyuyue/_mixin';
 .login-wrap {
     width: 380px;
     position: relative;
@@ -120,8 +121,18 @@
             width: 100%;
         }
         .account-action {
+            display: flex;
             color: #FF9641;
             margin-top: 20px;
+            .flex-item {
+                flex: 1;
+                &:first-of-type {
+                    text-align: left;
+                }
+                &:last-of-type {
+                    text-align: right;
+                }
+            }
         }
         .login-btn-wrap {
             background-color: #FF9641; // border-radius: 30px;
@@ -184,6 +195,7 @@
             background-position: center;
             background-repeat: no-repeat;
             cursor: pointer;
+            @include positionMiddle(1);
             transition: all .15s;
             &:hover {
                 &.wechat {
