@@ -69,7 +69,7 @@
                                             {{ l('VerificationCode_Require_Hint') }}
                                         </small>
                                     </div>
-                                    <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNumber"></xiaoyuyue-send-sms-code>
+                                    <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="model.phoneNumber"></xiaoyuyue-send-code>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                                             {{ l('VerificationCode_Require_Hint') }}
                                         </small>
                                     </div>
-                                    <xiaoyuyue-send-sms-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="model.emailAddress"></xiaoyuyue-send-sms-code>
+                                    <xiaoyuyue-send-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="model.emailAddress"></xiaoyuyue-send-code>
                                 </div>
                             </div>
                         </div>
@@ -312,7 +312,7 @@
                             <div class="validate-code-wrap form-group label-floating">
                                 <label class="control-label"></label>
                                 <input class="form-control" placeholder="{{l('PhoneNumber')}}" type="tel" name="phoneNumber" required [(ngModel)]="model.phoneNumber">
-                                <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNumber"></xiaoyuyue-send-sms-code>
+                                <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="model.phoneNumber"></xiaoyuyue-send-code>
                             </div>
                         </div>
                     </div>

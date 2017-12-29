@@ -131,6 +131,13 @@
         }
         .time-view-wrap {
             .time-item {
+                .booking-time {
+                    line-height: 40px;
+                    color: #FFF;
+                    text-align: center;
+                    background-color: #FF9641;
+                    border-radius: 4px;
+                }
                 .command-wrap {
                     text-align: center;
                     margin-top: 20px;
@@ -138,11 +145,11 @@
                         border-left: 1px solid #CCC;
                     }
                     .command-item {
-                        border: none !important;
-                        background-color: transparent !important;
+                        // border: none !important;
+                        // background-color: transparent !important;
                         .icon {
                             display: inline-block;
-                            color: #FF9641;
+                            color: #FFF;
                             transform: translateY(1px);
                         }
                     }

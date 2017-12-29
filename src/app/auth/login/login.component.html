@@ -65,7 +65,7 @@
                             <div class="col-md-11 col-sm-10">
                                 <div class="validate-code-wrap form-group form-md-line-input form-md-floating-label">
                                     <input class="form-control" type="number" name="identifyCode" [(ngModel)]="model.loginCode" required placeholder="{{l('VerificationCode')}}">
-                                    <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-sms-code>
+                                    <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-code>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                     <div class="form-item">
                         <div class="validate-code-wrap form-group label-floating">
                             <input class="form-control" type="number" name="identifyCode" [(ngModel)]="model.loginCode" required placeholder="{{l('VerificationCode')}}">
-                            <xiaoyuyue-send-sms-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-sms-code>
+                            <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="model.phoneNum"></xiaoyuyue-send-code>
                         </div>
                     </div>
 

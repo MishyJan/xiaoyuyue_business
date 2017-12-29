@@ -88,6 +88,19 @@ export class AppRoutingModule {
     constructor(private router: Router) {
         router.events.subscribe((event: NavigationEnd) => {
             if (!(event instanceof NavigationEnd)) { return; }
+            // TODO: 软键盘推出处理input输入框居中在页面中的bug
+            $('input[type="text"],input[type="password"],input[type="number"],textarea,.wangedit-container').on('click', function (event) {
+                const eventPageY = event.pageY;
+                const wrapHeight = $('.wrap').height();
+
+                if ((wrapHeight - eventPageY) < (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight / 2) - (wrapHeight - eventPageY));
+                }
+
+                if ((wrapHeight - eventPageY) > (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight - eventPageY) - (wrapHeight / 2));
+                }
+            });
             setTimeout(() => {
                 this.resetYAxial();
                 this.toggleBodyCssClass();
