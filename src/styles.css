@@ -1223,6 +1223,14 @@ fieldset[disabled] .form-group .form-control {
     background: #FF9641;
 }
 
+.form-control[disabled],
+fieldset[disabled] .form-control,
+.form-group .form-control[disabled],
+fieldset[disabled] .form-group .form-control {
+    border-bottom: 1px solid #D2D2D2;
+    color: #D2D2D2;
+}
+
 .radio input[type=radio]:checked~.check {
     background-color: #FF9641;
 }
@@ -1367,6 +1375,7 @@ a:focus {
 
 
 /* sweet-alert弹窗 */
+
 .swal-footer {
     text-align: center;
 }
@@ -1403,6 +1412,8 @@ a:focus {
 
 
 /* 由于bootstrap的弹窗modal导致部分不能点击的bug */
+
+
 /* @media screen and (max-width: 1024px) {
     .modal-backdrop.in {
         display: none;
