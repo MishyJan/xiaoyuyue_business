@@ -155,8 +155,8 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
     softKeyboardBug(): void {
         if (device.android) {
             // 获取当前页面高度
-            const winHeight = $(window).height();
             $(window).resize(function () {
+                const winHeight = $(window).height();
                 const thisHeight = $(this).height();
                 if (winHeight - thisHeight > 50) {
                     // 当软键盘弹出，在这里面操作
@@ -166,12 +166,17 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
                     $('.mobile-create-booking .next-step').show();
                 }
             });
+            $('input[type="text"],input[type="password"],input[type="number"],textarea,.wangedit-container').on('click', function (event) {
+                const eventPageY = event.pageY;
+                const wrapHeight = $('.wrap').height();
 
-            $('input[type="text"],textarea').on('click', function () {
-                const target: any = this;
-                setTimeout(function () {
-                    target.scrollIntoViewIfNeeded();
-                }, 400);
+                if ((wrapHeight - eventPageY) < (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight / 2) - (wrapHeight - eventPageY));
+                }
+
+                if ((wrapHeight - eventPageY) > (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight - eventPageY) - (wrapHeight / 2));
+                }
             });
         }
     }

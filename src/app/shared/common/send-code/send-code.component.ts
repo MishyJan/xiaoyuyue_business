@@ -5,11 +5,11 @@ import { VerificationCodeType, SendCodeType } from 'shared/AppEnums';
 import { SMSProviderDto } from 'shared/AppConsts';
 
 @Component({
-    selector: 'xiaoyuyue-send-sms-code',
-    templateUrl: './send-sms-code.component.html',
-    styleUrls: ['./send-sms-code.component.scss']
+    selector: 'xiaoyuyue-send-code',
+    templateUrl: './send-code.component.html',
+    styleUrls: ['./send-code.component.scss']
 })
-export class SendSmsCodeComponent extends AppComponentBase implements OnInit, OnChanges {
+export class SendCodeComponent extends AppComponentBase implements OnInit, OnChanges {
     timeDiffTimer: NodeJS.Timer;
     sendTimer: NodeJS.Timer;
     isSend = false;

@@ -26,8 +26,8 @@ import { UploadPictureNoneGalleryComponent } from './upload-picture-none-gallery
 import { UtilsModule } from '@shared/utils/utils.module';
 import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-master.component';
 import { WangEditorComponent } from './wang-editor/wang-editor.component';
-import { SendSmsCodeComponent } from './send-sms-code/send-sms-code.component';
 import { LanguageSwitchComponent } from 'app/shared/common/language-switch-component/language-switch.component';
+import { SendCodeComponent } from 'app/shared/common/send-code/send-code.component';
 
 @NgModule({
     imports: [
@@ -56,7 +56,7 @@ import { LanguageSwitchComponent } from 'app/shared/common/language-switch-compo
         MobileUploadPictureListComponent,
         ViewArtworkMasterComponent,
         QrCodeComponent,
-        SendSmsCodeComponent,
+        SendCodeComponent,
         LanguageSwitchComponent
     ],
     exports: [
@@ -75,7 +75,7 @@ import { LanguageSwitchComponent } from 'app/shared/common/language-switch-compo
         MobileUploadPictureListComponent,
         ViewArtworkMasterComponent,
         QrCodeComponent,
-        SendSmsCodeComponent,
+        SendCodeComponent,
         LanguageSwitchComponent
     ]
 })

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SendSmsCodeComponent } from './send-sms-code.component';
+import { SendCodeComponent } from './send-code.component';
 
-describe('SendSmsCodeComponent', () => {
-  let component: SendSmsCodeComponent;
-  let fixture: ComponentFixture<SendSmsCodeComponent>;
+describe('SendCodeComponent', () => {
+  let component: SendCodeComponent;
+  let fixture: ComponentFixture<SendCodeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendSmsCodeComponent ]
+      declarations: [ SendCodeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SendSmsCodeComponent);
+    fixture = TestBed.createComponent(SendCodeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

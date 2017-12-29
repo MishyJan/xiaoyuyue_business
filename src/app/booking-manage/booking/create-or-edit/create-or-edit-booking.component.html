@@ -313,10 +313,11 @@
                                 <div class="card-content">
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.BookingTime')}}</label>
-                                                <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required>
-                                            </div>
+                                            <div class="booking-time">{{item.hourOfDay}}</div>
+                                            <!-- <div class="form-group label-floating"> -->
+                                            <!-- <label class="control-label">{{l('Booking.BookingTime')}}</label>
+                                                <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required> -->
+                                            <!-- </div> -->
                                         </div>
                                     </div>
 
@@ -357,17 +358,23 @@
                                         <span class="vapps-icon-app-copy-2 icon"></span>
                                         <span class="text">复制</span>
                                     </div> -->
-                                        <button class="col-xs-4 col-xs-offset-2 command-item" *ngIf="!editingIndex[index]" (click)="editingTimeField(index)">
-                                            <span class="vapps-icon-app-edit icon"></span>
-                                            <span class="text">{{l('Edit')}}</span>
-                                        </button>
-                                        <button class="col-xs-4 col-xs-offset-2 command-item" [disabled]="!timeViewForm.form.valid" *ngIf="editingIndex[index]" (click)="saveTimeField(index)">
-                                            <span class="vapps-icon-app-edit icon"></span>
-                                            <span class="text">{{l('Save')}}</span>
-                                        </button>
-                                        <div class="col-xs-4 command-item" (click)="deleteTimeField(index)">
-                                            <span class="vapps-icon-app-delete icon"></span>
-                                            <span class="text">{{l('Delete')}}</span>
+                                        <div class="col-xs-4 col-xs-offset-2" *ngIf="!editingIndex[index]">
+                                            <button class="btn primary-bgcolor command-item" (click)="editingTimeField(index)">
+                                                <span class="vapps-icon-app-edit icon"></span>
+                                                <span class="text">{{l('Edit')}}</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-4 col-xs-offset-2" *ngIf="editingIndex[index]">
+                                            <button class="btn primary-bgcolor command-item" [disabled]="!timeViewForm.form.valid" (click)="saveTimeField(index)">
+                                                <span class="vapps-icon-app-confirm icon"></span>
+                                                <span class="text">{{l('Save')}}</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <button class="btn primary-bgcolor command-item" (click)="deleteTimeField(index)">
+                                                <span class="vapps-icon-app-delete icon"></span>
+                                                <span class="text">{{l('Delete')}}</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
