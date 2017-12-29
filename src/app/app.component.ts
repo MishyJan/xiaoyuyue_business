@@ -53,6 +53,7 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
         Layout.init();
 
         this.sidebarIsShow();
+        this.softKeyboardBug();
         this.initWechatShareConfig();
     }
 
@@ -147,6 +148,29 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
         if (window.scrollY > 0) {
             this.hideTipOldBrowser();
         }
+    }
+
+    // 解决安卓下软键盘弹出，挡住input以及footer被推上来
+    softKeyboardBug(): void {
+        // 获取当前页面高度
+        const winHeight = $(window).height();
+        $(window).resize(function () {
+            const thisHeight = $(this).height();
+            if (winHeight - thisHeight > 50) {
+                // 当软键盘弹出，在这里面操作
+                $('.mobile-create-booking .next-step').hide();
+            } else {
+                // 当软键盘收起，在此处操作
+                $('.mobile-create-booking .next-step').show();
+            }
+        });
+
+        $('input[type="text"],textarea').on('click', function () {
+            const target: any = this;
+            setTimeout(function () {
+                target.scrollIntoViewIfNeeded();
+            }, 400);
+        });
     }
 }
 
