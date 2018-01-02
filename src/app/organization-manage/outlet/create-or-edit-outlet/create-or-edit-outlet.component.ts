@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, GetOutletForEditDto, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 import { IDailyDataStatistics, IListResultDtoOfLinkedUserDto } from '@shared/service-proxies/service-proxies';
 
@@ -25,7 +25,8 @@ import { test } from '@shared/animations/gridToggleTransition';
     animations: [accountModuleAnimation()],
     encapsulation: ViewEncapsulation.None
 })
-export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    isValidLandlinePhone: boolean;
     outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
@@ -111,7 +112,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     checkDataNeed2Reconvert() {
-        this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId))
+        this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
                     this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
@@ -315,14 +316,14 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            if (this.isDataNoSave()) {
-                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId), this.input);
+            if (this.isTemDataNeedSave()) {
+                this._localStorageService.setItem(this.getCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }
         }, 3000)
     }
 
-    isDataNoSave(): boolean {
+    isTemDataNeedSave(): boolean {
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
         return this.isDataNoEqual(this.originalinput, this.input);
     }
@@ -330,13 +331,13 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     isDataNoEqual(source: CreateOrUpdateOutletInput, destination: CreateOrUpdateOutletInput): boolean {
         if (!source.outlet.id && destination.outlet.id) { return false; }
 
-        if (source.outlet.id !== destination.outlet.id) { return false; }
+        if (source.outlet.id !== destination.outlet.id) { this.removeEditCache(); return false; }
 
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 
     removeEditCache() {
-        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId));
+        this._localStorageService.removeItem(this.getCacheItemKey());
     }
 
     public provinceSelectHandler(provinceId: any): void {
@@ -388,5 +389,9 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     private isValidLandlingPhone(num: string): boolean {
         const reg = /^((0\d{2,3}) )(\d{7,8})$/;
         return reg.test(num);
+    }
+
+    private getCacheItemKey() {
+        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId, this.input.outlet.id);
     }
 }

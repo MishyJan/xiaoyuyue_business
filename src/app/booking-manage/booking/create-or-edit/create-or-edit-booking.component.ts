@@ -392,7 +392,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 检查数据是否需要恢复
     checkDataNeed2Reconvert() {
-        this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId))
+        this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
                     this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
@@ -411,26 +411,28 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
             if (this.isDataNoSave()) {
-                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId), this.input);
+                console.log('保存数据')
+                this._localStorageService.setItem(this.getCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }
         }, 3000)
     }
 
     isDataNoSave(): boolean {
+        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
         return this.isDataNoEqual(this.originalinput, this.input);
     }
 
     isDataNoEqual(source: CreateOrUpdateBookingInput, destination: CreateOrUpdateBookingInput): boolean {
         if (!source.booking.id && destination.booking.id) { return false; }
 
-        if (source.booking.id !== destination.booking.id) { return false; }
+        if (source.booking.id !== destination.booking.id) { this.removeEditCache(); return false; }
 
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 
     removeEditCache() {
-        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId));
+        this._localStorageService.removeItem(this.getCacheItemKey());
     }
 
     // 跳转编辑预约
@@ -443,5 +445,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 url: `/pages/business-center/business-center?route=${encodeURIComponent(url)}`
             })
         }
+    }
+
+    private getCacheItemKey() {
+        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId);
     }
 }
