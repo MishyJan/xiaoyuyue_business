@@ -1367,6 +1367,7 @@ a:focus {
 
 
 /* sweet-alert弹窗 */
+
 .swal-footer {
     text-align: center;
 }
@@ -1403,6 +1404,8 @@ a:focus {
 
 
 /* 由于bootstrap的弹窗modal导致部分不能点击的bug */
+
+
 /* @media screen and (max-width: 1024px) {
     .modal-backdrop.in {
         display: none;
