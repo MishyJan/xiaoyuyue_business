@@ -52,7 +52,8 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
         this._profileServiceProxy
             .unBindingEmailAddress(this.code)
             .subscribe(result => {
-                this.notify.success('解绑成功，请绑定新邮箱');
+                this.notify.success(this.l('RebindingEmail.Success.Hint'));
+                abp.event.trigger('getUserSecurityInfo');
                 this.hide();
                 this.bindingEmailModel.show();
             })

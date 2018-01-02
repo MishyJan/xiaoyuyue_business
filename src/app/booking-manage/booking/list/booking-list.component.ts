@@ -320,6 +320,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                     .deleteBooking(bookingId)
                     .subscribe(() => {
                         this.loadData();
+                        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this._sessionService.tenantId));
                         this.notify.success('删除成功！');
                     });
             }

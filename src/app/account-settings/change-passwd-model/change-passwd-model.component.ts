@@ -59,6 +59,11 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
     }
 
     changePasswdModeHandler(modeFlag: boolean): void {
+        if (!this.phoneNum) {
+            this.message.warn(this.l('NotBindingPhone.Hint'));
+            this.hide();
+            return;
+        }
         this.changePasswdMode = modeFlag;
     }
 

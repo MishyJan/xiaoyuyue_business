@@ -26,7 +26,6 @@ import { test } from '@shared/animations/gridToggleTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
-    isValidLandlinePhone: boolean;
     outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
@@ -166,7 +165,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
         this.input.outlet.isActive = true;
 
-        if (!this.isValidLandlinePhone) {
+        if (!this.isValidLandlingPhone(this.input.outlet.phoneNum)) {
             this.message.warn('固话格式错误');
             return;
         }
@@ -197,6 +196,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                     .finally(() => { this.deleting = false })
                     .subscribe(() => {
                         this.message.success('门店删除成功');
+                        // 清理缓存数据
+                        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId));
                         this._router.navigate(['/outlet/list']);
                     })
             }
@@ -367,23 +368,25 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         $('#landlinePhone').inputmask({
             mask: '(9{1,4}) 9{4}-9{3,4}',
             oncomplete: () => {
-                let phoneNum = $('#landlinePhone').val() + '';
-                phoneNum = phoneNum.replace(/\(/, '');
-                phoneNum = phoneNum.replace(/\)/, '');
-                phoneNum = phoneNum.replace(/-/, '');
-                this.input.outlet.phoneNum = phoneNum;
-                this.isValidLandlinePhone = true;
+                this.input.outlet.phoneNum = this.getLandlinePhoneInput();
             },
             onincomplete: () => {
-                this.isValidLandlinePhone = false;
-            },
+                this.input.outlet.phoneNum = this.getLandlinePhoneInput();
+            }
         });
-
-        if ($('#landlinePhone').inputmask('isComplete')) {
-            this.isValidLandlinePhone = true;
-        } else {
-            this.isValidLandlinePhone = false;
-        }
     }
 
+    private getLandlinePhoneInput(): string {
+        let phoneNum = $('#landlinePhone').val() + '';
+        phoneNum = phoneNum.replace(/\(/, '');
+        phoneNum = phoneNum.replace(/\)/, '');
+        phoneNum = phoneNum.replace(/-/, '');
+        console.log(phoneNum);
+        return phoneNum;
+    }
+
+    private isValidLandlingPhone(num: string): boolean {
+        const reg = /^((0\d{2,3}) )(\d{7,8})$/;
+        return reg.test(num);
+    }
 }

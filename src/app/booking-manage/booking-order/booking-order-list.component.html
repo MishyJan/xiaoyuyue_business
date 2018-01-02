@@ -160,14 +160,14 @@
                                 pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
 
                             <!-- 订单状态  -->
-                            <kendo-grid-column title="{{l('BookingOrder.Status')}}" width="84px">
+                            <kendo-grid-column title="{{l('BookingOrder.Status')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem="dataItem">
                                     <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
                                 </ng-template>
                             </kendo-grid-column>
 
                             <!-- 应约人 -->
-                            <kendo-grid-column title="{{l('BookingOrder.Name')}}" width="160px">
+                            <kendo-grid-column title="{{l('BookingOrder.Name')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <img [src]="getBookingCustomerAvatar(dataItem.profilePictureUrl)" style="width:50px;" alt="avatar" class="avatar">
                                     <span>{{ dataItem.customerName }}</span>

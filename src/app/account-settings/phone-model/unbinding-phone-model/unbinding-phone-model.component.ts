@@ -48,7 +48,8 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
         this._profileServiceProxy
             .unBindingPhoneNum(this.code)
             .subscribe(result => {
-                this.notify.success('解绑成功，请绑定新手机');
+                this.notify.success(this.l('RebindingPhone.Success.Hint'));
+                abp.event.trigger('getUserSecurityInfo');
                 this.hide();
                 this.bindingPhoneModel.show();
             })

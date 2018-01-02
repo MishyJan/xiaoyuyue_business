@@ -21,7 +21,8 @@
                 <div class="item">
                     <div class="content">
                         <span class="icon vapps-icon-app-login-phone"></span>
-                        <p class="text">{{ l('Security.RevisePhone') }}</p>
+                        <p class="text" *ngIf="userSecurityInfo.phoneNumber">{{ l('Security.RevisePhone') }}</p>
+                        <p class="text" *ngIf="!userSecurityInfo.phoneNumber">{{ l('Security.VerifyPhone') }}</p>
                     </div>
                 </div>
             </div>

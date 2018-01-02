@@ -47,6 +47,13 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     ngOnInit() {
         this._loginService.init();
         this.getUserSecurityInfo();
+        this.registerToEvents();
+    }
+
+    registerToEvents(): void {
+        abp.event.on('getUserSecurityInfo', () => {
+            this.getUserSecurityInfo();
+        });
     }
 
     // 获取当前用户安全信息

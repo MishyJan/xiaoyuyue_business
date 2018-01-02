@@ -57,7 +57,7 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
             .subscribe(() => {
                 this._location.back();
                 setTimeout(() => {
-                    this.notify.success('更绑成功');
+                    this.notify.success(this.l('ChangeBinding.Success.Hint'));
                 }, 1000);
             });
     }
@@ -69,7 +69,7 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
             .subscribe(() => {
                 this._location.back();
                 setTimeout(() => {
-                    this.notify.success('绑定成功');
+                    this.notify.success(this.l('Binding.Success.Hint'));
                 }, 1000);
             });
     }

@@ -18,7 +18,7 @@ export class OutletImageComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
   @Output() pictureInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
-  @Input() pictureInfo: UploadPictureDto;
+  @Input() pictureInfo: UploadPictureDto = new UploadPictureDto();
 
   constructor(
     injector: Injector,
@@ -29,16 +29,6 @@ export class OutletImageComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    if (this.outletId) {
-      this.loadData();
-    } else {
-      this.pictureInfo.pictureUrl = '';
-    }
-
-  }
-
-  loadData(): void {
-    this.pictureInfo = this.pictureInfo;
   }
 
   // 弹出上传Model
