@@ -8,6 +8,7 @@ import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-s
 import { SidebarService } from 'shared/services/side-bar.service';
 import { WeChatShareResultDto } from 'app/shared/utils/wechat-share-timeline.input.dto';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
+import { device } from 'device.js';
 
 @Component({
     templateUrl: './app.component.html',
@@ -53,6 +54,7 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
         Layout.init();
 
         this.sidebarIsShow();
+        this.softKeyboardBug();
         this.initWechatShareConfig();
     }
 
@@ -146,6 +148,36 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
     isScrollToBottom() {
         if (window.scrollY > 0) {
             this.hideTipOldBrowser();
+        }
+    }
+
+    // 解决安卓下软键盘弹出，挡住input以及footer被推上来
+    softKeyboardBug(): void {
+        if (device.android) {
+            // 获取当前页面高度
+            $(window).resize(function () {
+                const winHeight = $(window).height();
+                const thisHeight = $(this).height();
+                if (winHeight - thisHeight > 50) {
+                    // 当软键盘弹出，在这里面操作
+                    $('.mobile-create-booking .next-step').hide();
+                } else {
+                    // 当软键盘收起，在此处操作
+                    $('.mobile-create-booking .next-step').show();
+                }
+            });
+            $('input[type="text"],input[type="password"],input[type="number"],textarea,.wangedit-container').on('click', function (event) {
+                const eventPageY = event.pageY;
+                const wrapHeight = $('.wrap').height();
+
+                if ((wrapHeight - eventPageY) < (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight / 2) - (wrapHeight - eventPageY));
+                }
+
+                if ((wrapHeight - eventPageY) > (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight - eventPageY) - (wrapHeight / 2));
+                }
+            });
         }
     }
 }

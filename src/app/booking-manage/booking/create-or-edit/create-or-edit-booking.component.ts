@@ -363,6 +363,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     deleteTimeField(index: number): void {
         this.input.items.splice(index, 1);
+        if (this.input.items.length <= 0) {
+            this.isNew = true;
+        }
     }
 
     saveTimeField(index: number): void {
