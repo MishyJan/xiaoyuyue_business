@@ -21,7 +21,7 @@
                         <div class="form-group label-floating">
                             <label class="control-label">验证码</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="code" required>
-                            <xiaoyuyue-send-code [codeType]="'60'" [phoneNumber]="currentPhoneNum"></xiaoyuyue-send-code>
+                            <xiaoyuyue-send-code [codeType]="unbindingCodeType" [phoneNumber]="currentPhoneNum"></xiaoyuyue-send-code>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                         <div class="form-group label-floating">
                             <label class="control-label">验证码</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="changeBindingPhoneNumInput.bundlingCode" required>
-                                <xiaoyuyue-send-code [codeType]="'50'" [phoneNumber]="changeBindingPhoneNumInput.newTelephone"></xiaoyuyue-send-code>
+                                <xiaoyuyue-send-code [codeType]="bindingCodeType" [phoneNumber]="changeBindingPhoneNumInput.newTelephone"></xiaoyuyue-send-code>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                         <div class="form-group label-floating">
                             <label class="control-label">验证码</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="bindingPhoneNumInput.code" required>
-                            <xiaoyuyue-send-code [codeType]="'50'" [phoneNumber]="bindingPhoneNumInput.phoneNum"></xiaoyuyue-send-code>
+                            <xiaoyuyue-send-code [codeType]="bindingCodeType" [phoneNumber]="bindingPhoneNumInput.phoneNum"></xiaoyuyue-send-code>
                             <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>

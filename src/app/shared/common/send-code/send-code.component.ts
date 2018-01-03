@@ -85,7 +85,7 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
         input.codeType = this.codeType;
         // this.captchaResolved();
         this._SMSServiceProxy
-            .sendCodeAsync(input)
+            .sendCode(input)
             .subscribe(result => {
                 this.anginSend();
                 this.codeInterval();
