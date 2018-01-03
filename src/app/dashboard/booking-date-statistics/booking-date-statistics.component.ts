@@ -18,7 +18,7 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
     chartOption: object = {};
     count = 0;
     showloading = false;
-    slogan: string = '暂无数据';
+    slogan = this.l('NoData');
 
     constructor(
         injector: Injector,

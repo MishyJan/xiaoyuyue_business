@@ -1,7 +1,8 @@
-import { Component, OnInit, Injector, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
+import { AccountServiceProxy, CodeSendInput, CodeSendInputCodeType, RegisterTenantInput, SMSServiceProxy, SendEmailVerificationCodeInput } from 'shared/service-proxies/service-proxies';
+import { Component, ElementRef, Injector, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { SendCodeType, VerificationCodeType } from 'shared/AppEnums';
+
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { CodeSendInput, RegisterTenantInput, SMSServiceProxy, CodeSendInputCodeType, AccountServiceProxy, SendEmailVerificationCodeInput } from 'shared/service-proxies/service-proxies';
-import { VerificationCodeType, SendCodeType } from 'shared/AppEnums';
 import { SMSProviderDto } from 'shared/AppConsts';
 
 @Component({
@@ -13,6 +14,7 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
     timeDiffTimer: NodeJS.Timer;
     sendTimer: NodeJS.Timer;
     isSend = false;
+    sending = false;
     @ViewChild('smsBtn') _smsBtn: ElementRef;
     @Input() codeType;
     @Input() sendCodeType = SendCodeType.ShortMessage;
@@ -36,7 +38,8 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
             if (this.phoneNumber === SMSProviderDto.phoneNum) {
                 this.anginSend();
             } else {
-                this._smsBtn.nativeElement.innerHTML = '获取验证码';
+                const span = this._smsBtn.nativeElement.find('span');
+                span.innerHTML = this.l('GetVerificationCode');
                 this.clearSendHandle();
             }
         }
@@ -46,7 +49,8 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
             if (this.emailAddress === SMSProviderDto.emailAddress) {
                 this.anginSend();
             } else {
-                this._smsBtn.nativeElement.innerHTML = '获取验证码';
+                const span = this._smsBtn.nativeElement.find('span');
+                span.nativeElement.innerHTML = this.l('GetVerificationCode');
                 this.clearSendHandle();
             }
         }
@@ -70,7 +74,7 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
         const self = this;
         this.isSend = false;
         this.sendTimer = setInterval(() => {
-            self._smsBtn.nativeElement.innerHTML = `${SMSProviderDto.sendCodeSecond} 秒`;
+            self._smsBtn.nativeElement.innerHTML = `${SMSProviderDto.sendCodeSecond} ${this.l('Second')}`;
         }, SMSProviderDto.timeInterval);
     }
 
@@ -80,13 +84,15 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
 
     // 发送短信验证码
     private sendShortMessage(): void {
-        let input: CodeSendInput = new CodeSendInput();
+        this.sending = true;
+        const input: CodeSendInput = new CodeSendInput();
         input.targetNumber = SMSProviderDto.phoneNum = this.phoneNumber;
         input.codeType = this.codeType;
         // this.captchaResolved();
         this._SMSServiceProxy
             .sendCode(input)
             .subscribe(result => {
+                this.sending = false;
                 this.anginSend();
                 this.codeInterval();
             });
@@ -94,12 +100,14 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
 
     // 发送邮件验证码
     private sendEmail(): void {
-        let input: SendEmailVerificationCodeInput = new SendEmailVerificationCodeInput();
+        this.sending = true;
+        const input: SendEmailVerificationCodeInput = new SendEmailVerificationCodeInput();
         input.emailAddress = SMSProviderDto.emailAddress = this.emailAddress;
         input.codeType = this.codeType;
         this._accountServiceProxy
             .sendEmailVerificationCode(input)
             .subscribe(result => {
+                this.sending = false;
                 this.anginSend();
                 this.codeInterval();
             })

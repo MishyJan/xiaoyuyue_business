@@ -205,10 +205,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     createOrUpdateBooking(saveAndEdit: boolean = false) {
         if (this.bookingBaseInfoForm.invalid) {
             if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn('预约信息未完善');
+                this.message.warn(this.l('Booking.BaseInfo.Required'));
                 this.staticTabs.tabs[0].active = true;
             } else {
-                this.message.error('', '预约信息未完善!');
+                this.message.error('', this.l('Booking.BaseInfo.Required'));
                 this.saving = false;
                 this.savingAndEditing = false;
             }
@@ -217,10 +217,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
         if (this.input.items.length < 1) {
             if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn('时间信息未完善');
+                this.message.warn(this.l('Booking.TimeInfo.Required'));
                 this.staticTabs.tabs[1].active = true;
             } else {
-                this.message.error('', '时间信息未完善!');
+                this.message.error('', this.l('Booking.TimeInfo.Required'));
                 this.saving = false;
                 this.savingAndEditing = false;
             }
@@ -228,7 +228,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         }
 
         if (!this.timeInfoFormValid) {
-            this.message.error('', '时间信息尚未保存!');
+            this.message.error('', this.l('Booking.TimeInfo.NotSaved'));
             this.saving = false;
             this.savingAndEditing = false;
             return;
@@ -252,7 +252,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 abp.event.trigger('bookingListSelectChanged');
                 this.removeEditCache(); // 清理缓存数据
                 if (saveAndEdit) {
-                    this.notify.success('保存成功');
+                    this.notify.success(this.l('SavaSuccess'));
                     return;
                 }
 
@@ -395,7 +395,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
-                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                    this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
                             this.originalinput = _.cloneDeep(this.input);
@@ -411,7 +411,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
             if (this.isDataNoSave()) {
-                console.log('保存数据')
                 this._localStorageService.setItem(this.getCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }

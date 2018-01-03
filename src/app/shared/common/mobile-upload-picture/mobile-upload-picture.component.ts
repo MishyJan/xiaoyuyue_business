@@ -162,7 +162,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                             // 上传出错时,处理相关的事情
                             self.uploading = false;
                             self.hideCropArea();
-                            self.notify.error('上传失败，请重新上传');
+                            self.notify.error(this.l('Upload.Failed'));
                         },
                         'UploadComplete': function () {
                             // uploader.destroy();

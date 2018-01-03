@@ -71,6 +71,8 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     this.l(OrgBookingOrderStatus.CancelLocalization),
     this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
+    searching = false;
+
     @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: BookingOrderInfoModelComponent;
 
     private editedRowIndex: number;
@@ -128,6 +130,11 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
     }
 
+    searchData() {
+        this.searching = true;
+        this.loadData();
+    }
+
     loadData(): void {
         this.bookingDate = this.bookingDate ? moment(this.bookingDate) : undefined;
         this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
@@ -151,7 +158,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                 this.gridParam.SkipCount);
         };
 
-        this.customerListData.query(loadOrgBookingOrderData);
+        this.customerListData.query(loadOrgBookingOrderData, false, () => {
+            this.searching = false;
+        });
         if (typeof this.creationStartDate === 'object') {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
         }
@@ -237,7 +246,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.loadData();
     }
 
-    //获取日期搜索
+    // 获取日期搜索
     dateSelectHandler(date: string): void {
         if (date === '') {
             this.bookingDate = undefined;

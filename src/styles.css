@@ -1373,6 +1373,14 @@ a:focus {
     background-color: #FF9641;
 }
 
+.toast-message {
+    background-color: #FF9641;
+}
+
+.toast-info {
+    background-color: #FF9641;
+}
+
 
 /* sweet-alert弹窗 */
 

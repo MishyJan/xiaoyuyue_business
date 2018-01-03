@@ -102,7 +102,7 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     // 编辑联系人
     editContact(index: number): void {
         if (this.isEditing) {
-            this.message.warn('您有未保存的联系人');
+            this.message.warn(this.l('Outlet.Contactor.UnSaved'));
             return;
         }
         this.currentIndex = index;

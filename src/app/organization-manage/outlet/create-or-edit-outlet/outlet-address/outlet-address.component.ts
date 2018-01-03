@@ -168,7 +168,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         });
         // 若服务请求失败，则运行以下函数
         geocoder.setError(() => {
-            this.notify.warn('地址未找到');
+            this.notify.warn(this.l('Address.NotFound'));
         });
     }
 
