@@ -115,7 +115,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
-                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                    this.message.confirm(this.l('emporaryData.Unsaved'), this.l('emporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
                             this.initOutletInfoToDisplay(this.input.outlet);
@@ -167,12 +167,12 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.input.outlet.isActive = true;
 
         if (!this.isValidLandlingPhone(this.input.outlet.phoneNum)) {
-            this.message.warn('固话格式错误');
+            this.message.warn(this.l('Verify.Telephone.Invalid'));
             return;
         }
 
         if (this.input.contactors.length < 1) {
-            this.message.warn('请添加联系人');
+            this.message.warn(this.l('Outlet.Contactor.Required'));
             this.savingAndEditing = false
             return;
         }
@@ -183,20 +183,20 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 abp.event.trigger('outletListSelectChanged');
                 abp.event.trigger('contactorListSelectChanged');
                 this.removeEditCache(); // 清理缓存数据
-                this.message.success('保存成功!');
+                this.message.success(this.l('SavaSuccess'));
                 if (!saveAndEdit) { this._router.navigate(['/outlet/list']); }
             });
     }
 
     removeOutlet(): void {
-        this.message.confirm('确定要删除此门店?', (result) => {
+        this.message.confirm(this.l('Outlet.Confirm2Delete'), (result) => {
             if (result) {
                 this.deleting = true;
                 this._outletServiceServiceProxy
                     .deleteOutlet(+this.outletId)
                     .finally(() => { this.deleting = false })
                     .subscribe(() => {
-                        this.message.success('门店删除成功');
+                        this.message.success(this.l('DeleteSuccess'));
                         // 清理缓存数据
                         this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId));
                         this._router.navigate(['/outlet/list']);

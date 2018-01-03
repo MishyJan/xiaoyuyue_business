@@ -22,7 +22,7 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
     chartOption: object = {};
     count = 0;
     showloading = true;
-    slogan: string = '暂无数据';
+    slogan = this.l('NoData');
 
     constructor(
         injector: Injector,

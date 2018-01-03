@@ -27,7 +27,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     currentPage = 0;
 
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
-    slogan = '啥都没有，赶紧去创建门店吧';
+    slogan = this.l('Nothing.Need2Create');
 
     constructor(
         injector: Injector,

@@ -189,9 +189,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             },
             series: [
                 {
-                    name: '近七天统计量',
+                    name: this.l('Dashboard.CurrentlyWeek.Statistic'),
                     type: 'line',
-                    stack: '统计量',
+                    stack: this.l('Dashboard.Statistic'),
                     smooth: true,
                     data: (() => {
                         const res = [];

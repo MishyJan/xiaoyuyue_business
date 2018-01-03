@@ -115,7 +115,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
 
     private confirmUpdatetenancyName(callback: any) {
         if (this.currentUserName !== this.tenantInfo.tenancyName) {
-            this.message.confirm('是否更改您的机构名称?', (result) => {
+            this.message.confirm(this.l('Organization.ChangeName'), (result) => {
                 if (result) {
                     this.updateData(() => {
                         callback();
@@ -142,7 +142,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
                 this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId));
                 callback();
                 this.removeEditCache(); // 清理缓存数据
-                this.notify.success('保存成功!');
+                this.notify.success(this.l('SavaSuccess'));
             });
     }
 
@@ -176,7 +176,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
         this._localStorageService.getItemOrNull<TenantInfoEditDto>(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId))
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.tenantInfo)) {
-                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                    this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.tenantInfo = editCache;
                             this.originalTenantInfo = _.cloneDeep(this.tenantInfo);

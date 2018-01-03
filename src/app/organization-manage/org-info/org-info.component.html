@@ -15,11 +15,13 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving" [busyText]="l('saving')">
+                    <button type="submit" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="save()" class="btn primary-bgcolor" [buttonBusy]="saving"
+                        [busyText]="l('saving')">
                         <i class="vapps-icon vapps-icon-app-submit"></i>
                         <span>{{l("Save")}}</span>
                     </button>
-                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor" [buttonBusy]="savingAndEditing" [busyText]="l('saving')">
+                    <button type="botton" *ngIf="isGranted(permissions.organization_BaseInfo)" (click)="saveAndEdit()" class="btn primary-bgcolor"
+                        [buttonBusy]="savingAndEditing" [busyText]="l('saving')">
                         <i class="vapps-icon-save"></i>{{l("SavingAndEditing")}}
                     </button>
                 </div>
@@ -40,7 +42,8 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tenancyName" name="tenancyName" placeholder="{{ l('Tenant.Name') }}" required autofocus>
+                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tenancyName" name="tenancyName" placeholder="{{ l('Tenant.Name') }}"
+                                                required autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +53,8 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tagline" name="tagline" placeholder="{{ l('Tenant.Tagline') }}" required>
+                                            <input class="form-control " type="text" [(ngModel)]="tenantInfo.tagline" name="tagline" placeholder="{{ l('Tenant.Tagline') }}"
+                                                required>
                                         </div>
                                     </div>
                                 </div>
@@ -97,14 +101,16 @@
                     <div class="front" *ngIf="!filpActive">
                         <div class="card">
                             <div class="avatar-wrap">
-                                <xiaoyuyue-mobile-upload-picture [slogan]="" [borderRadius]="'50%'" [groupId]="groupId" [width]="'80px'" [height]="'80px'" [existedPicUrl]="tenantInfo.logoUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                                <xiaoyuyue-mobile-upload-picture [slogan]="" [borderRadius]="'50%'" [groupId]="groupId" [width]="'80px'" [height]="'80px'"
+                                    [existedPicUrl]="tenantInfo.logoUrl" (picUploadInfoHandler)="getLogoUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                             </div>
                             <div class="card-content">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group label-floating">
                                             <label class="control-label">{{ l('Tenant.Name') }}</label>
-                                            <input type="text" class="form-control" name="orgName" #orgName="ngModel" [(ngModel)]="tenantInfo.tenancyName" autofocus required>
+                                            <input type="text" class="form-control" name="orgName" #orgName="ngModel" [(ngModel)]="tenantInfo.tenancyName" autofocus
+                                                required>
                                         </div>
                                         <div *ngIf="orgName.invalid && (orgName.dirty || orgName.touched)">
                                             <small class="text-danger" *ngIf="orgName.errors.required">{{ l('Tenant.Tips.RequiredName') }}</small>
@@ -138,7 +144,8 @@
                                             <p class="control-label">{{ l('Tenant.BgImage') }}</p>
                                             <div class="img-wrap">
                                                 <div class="img">
-                                                    <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="tenantInfo.backgroundPictureUrl" (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
+                                                    <xiaoyuyue-mobile-upload-picture [cropScaleX]="16" [cropScaleY]="9" [height]="'200px'" [slogan]="" [groupId]="1" [existedPicUrl]="tenantInfo.backgroundPictureUrl"
+                                                        (picUploadInfoHandler)="getOrgBgUploadHandler($event)"></xiaoyuyue-mobile-upload-picture>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,7 +157,11 @@
                                         <button class="btn btn-block" type="button" (click)="cancel()">{{ l('Cancel') }}</button>
                                     </div>
                                     <div class="col-xs-6">
-                                        <button class="btn btn-block btn-warning" type="submit" (click)="saveAndEdit()" [disabled]="!userProfile.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa"></i> <span>{{l("Save")}}</span></button>
+                                        <button class="btn btn-block btn-warning" type="submit" (click)="saveAndEdit()" [disabled]="!userProfile.form.valid" [buttonBusy]="savingAndEditing"
+                                            [busyText]="l('Saving')">
+                                            <i class="fa"></i>
+                                            <span>{{l("Save")}}</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

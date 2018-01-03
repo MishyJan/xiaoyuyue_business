@@ -20,7 +20,7 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
     chartOption: object = {};
     count = 0;
     showloading = true;
-    slogan = '暂无数据';
+    slogan = this.l('NoData');
 
     constructor(
         injector: Injector,
