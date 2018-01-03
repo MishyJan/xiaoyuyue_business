@@ -207,5 +207,6 @@ export class CookiesService {
 
     clearToken(): void {
         this.setToken(undefined, undefined);
+        this.setTenantIdCookie(undefined);
     }
 }
