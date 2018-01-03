@@ -170,52 +170,58 @@
         </div>
 
         <div class="content-wrap">
-            <div [@routerTransition] *ngIf="tabToggle" class="org-center-tab-content">
-                <div class="wrap">
-                    <h4 class="title">{{ l('Last7Days') }}</h4>
-                    <div class="content">
-                        <div class="echarts" echarts [options]="forSevenDaysOptions" [loading]="showloading" theme="shine"></div>
+            <div [@routerTransition] *ngIf="tabToggle">
+                <div class="org-center-tab-content">
+                    <div class="wrap">
+                        <h4 class="title">{{ l('Last7Days') }}</h4>
+                        <div class="content">
+                            <div class="echarts" echarts [options]="forSevenDaysOptions" [loading]="showloading" theme="shine"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div [@routerTransition] *ngIf="!tabToggle" class="manage-center-tab-content">
-                <div class="card-wrap col-xs-4 col-sm-3">
-                    <div class="card" routerLink="/booking/list">
-                        <div class="item">
-                            <div class="content">
-                                <span class="icon vapps-icon-app-booking-menu"></span>
-                                <p class="text">{{ l('Menu.ManageBooking') }}</p>
+            <div [@routerTransition] *ngIf="!tabToggle">
+
+
+                <div class="manage-center-tab-content">
+                    <div class="card-wrap col-xs-4 col-sm-3">
+                        <div class="card" routerLink="/booking/list">
+                            <div class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-booking-menu"></span>
+                                    <p class="text">{{ l('Menu.ManageBooking') }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-wrap col-xs-4 col-sm-3">
-                    <div class="card" routerLink="/organization/info">
-                        <div class="item">
-                            <div class="content">
-                                <span class="icon vapps-icon-app-org-info-menu"></span>
-                                <p class="text">{{ l('Menu.Org') }}</p>
+                    <div class="card-wrap col-xs-4 col-sm-3">
+                        <div class="card" routerLink="/organization/info">
+                            <div class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-org-info-menu"></span>
+                                    <p class="text">{{ l('Menu.Org') }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-wrap col-xs-4 col-sm-3">
-                    <div class="card" routerLink="/outlet/list">
-                        <div class="item">
-                            <div class="content">
-                                <span class="icon vapps-icon-app-outlet-menu"></span>
-                                <p class="text">{{ l('Menu.Org.OutletManage') }}</p>
+                    <div class="card-wrap col-xs-4 col-sm-3">
+                        <div class="card" routerLink="/outlet/list">
+                            <div class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-outlet-menu"></span>
+                                    <p class="text">{{ l('Menu.Org.OutletManage') }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-wrap col-xs-4 col-sm-3">
-                    <div class="card" routerLink="/settings">
-                        <div class="item">
-                            <div class="content">
-                                <span class="icon vapps-icon-app-settings-menu"></span>
-                                <p class="text">{{ l('Menu.Org.SettingManage') }}</p>
+                    <div class="card-wrap col-xs-4 col-sm-3">
+                        <div class="card" routerLink="/settings">
+                            <div class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-settings-menu"></span>
+                                    <p class="text">{{ l('Menu.Org.SettingManage') }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
