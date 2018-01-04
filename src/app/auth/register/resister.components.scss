@@ -6,6 +6,33 @@
     top: 0;
     left: 0;
     @include flexMiddle(3);
+    &.mobile {
+        .register-wrap {
+            [class^="vapps-icon-"],
+            [class*=" vapps-icon-"] {
+                margin-top: 28px;
+            }
+            .form-group {
+                margin-top: 20px;
+            }
+            .toggle-wrap {
+                .ordinary-login {
+                    .text {
+                        border-right: 1px solid #FF9641;
+                    }
+                }
+                .phone-login,
+                .ordinary-login {
+                    text-align: center;
+                    .content {
+                        .line {
+                            background-color: #FF9641;
+                        }
+                    }
+                }
+            }
+        }
+    }
     .register-wrap {
         width: 380px;
         position: relative;
@@ -26,6 +53,33 @@
             img {
                 display: inline-block;
                 margin-right: 6px;
+            }
+        }
+        .toggle-wrap {
+            .ordinary-login {
+                padding-right: 0;
+                .text {
+                    border-right: 1px solid #FFF;
+                }
+            }
+            .ordinary-login,
+            .phone-login {
+                .content {
+                    position: relative;
+                    line-height: 30px;
+                    padding: 15px 0;
+                    cursor: pointer;
+                    .line {
+                        width: 60%;
+                        height: 2px;
+                        position: absolute;
+                        top: 44px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        margin: 0 auto;
+                        background-color: #FFF;
+                    }
+                }
             }
         }
         .mt-checkbox {
@@ -58,40 +112,6 @@
                 .logo {
                     width: 46px;
                     margin-right: 8px;
-                }
-            }
-            .toggle-wrap {
-                padding: 15px 0;
-                .ordinary-login {
-                    position: relative;
-                    line-height: 30px;
-                    cursor: pointer;
-                    border-right: 1px solid #FFF;
-                    .line {
-                        width: 60%;
-                        height: 2px;
-                        position: absolute;
-                        top: 28px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        margin: 0 auto;
-                        background-color: #FFF;
-                    }
-                }
-                .phone-login {
-                    position: relative;
-                    line-height: 30px;
-                    cursor: pointer;
-                    .line {
-                        width: 60%;
-                        height: 2px;
-                        position: absolute;
-                        top: 28px;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        margin: 0 auto;
-                        background-color: #FFF;
-                    }
                 }
             }
         }
