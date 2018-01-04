@@ -100,7 +100,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     save(): void {
         this.saving = true;
         this.confirmUpdatetenancyName(() => {
-            this.saving = false
             this._router.navigate(['/outlet/list']);
         });
     }
@@ -108,7 +107,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     saveAndEdit() {
         this.savingAndEditing = true;
         this.confirmUpdatetenancyName(() => {
-            this.savingAndEditing = false
             this.filpActive = true;
         });
     }
@@ -126,7 +124,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
                 }
             })
         } else {
-            this.savingAndEditing = true;
             this.updateData(() => {
                 callback();
             })
@@ -138,6 +135,10 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
         this.currentUserName = this.tenantInfo.tenancyName;
         this._tenantInfoServiceProxy
             .updateTenantInfo(this.tenantInfo)
+            .finally(() => {
+                this.savingAndEditing = false
+                this.saving = false;
+            })
             .subscribe(() => {
                 this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId));
                 callback();

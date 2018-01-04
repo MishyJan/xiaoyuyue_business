@@ -95,11 +95,12 @@
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.qq">{{ userSecurityInfo.qq }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()" [buttonBusy]="unBindingQQ" [busyText]="l('Security.Unbinding')" >
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()" [buttonBusy]="unBindingQQ"
+                                            [busyText]="l('Security.Unbinding')">
                                             <i></i>
                                             <span>{{ l('Security.Unbind') }}</span>
                                         </button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Security.Bind') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Security.Binding') }}</button>
                                     </div>
                                 </div>
 

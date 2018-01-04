@@ -25,7 +25,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     sorting: string;
     totalItems = 0;
     currentPage = 0;
-
+    searching = false;
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
     slogan = this.l('Nothing.Need2Create');
 
@@ -44,10 +44,18 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     ngAfterViewInit() {
     }
 
+    searchData(): void {
+        this.searching = true;
+        this.loadData();
+    }
+
     loadData(): void {
 
         this._outletServiceServiceProxy
             .getOutlets(this.outletName, this.sorting, this.maxResultCount, this.skipCount)
+            .finally(() => {
+                this.searching = false;
+            })
             .subscribe(result => {
                 this.totalItems = result.totalCount;
                 this.allOutlets = result.items;

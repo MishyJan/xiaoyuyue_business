@@ -270,6 +270,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
                 }
 
+            }, error => {
+                this.searching = false;
             });
     }
 

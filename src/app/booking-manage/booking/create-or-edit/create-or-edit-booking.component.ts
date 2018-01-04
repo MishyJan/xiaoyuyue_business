@@ -246,7 +246,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
-            .finally(() => { this.savingAndEditing = false })
+            .finally(() => {
+                this.saving = false;
+                this.savingAndEditing = false;
+            })
             .subscribe((result) => {
                 this.bookingId = result.id;
                 abp.event.trigger('bookingListSelectChanged');

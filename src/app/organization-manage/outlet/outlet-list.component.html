@@ -14,7 +14,8 @@
                 </div>
             </div>
             <div class="col-xs-6 text-right">
-                <button (click)="createOutlet()" *ngIf="isGranted(permissions.organization_OutletCreate)" class="btn primary-bgcolor"><i class="vapps-icon-app-outlet-image"></i>{{l('Outlet.Create')}}</button>
+                <button (click)="createOutlet()" *ngIf="isGranted(permissions.organization_OutletCreate)" class="btn primary-bgcolor">
+                    <i class="vapps-icon-app-outlet-image"></i>{{l('Outlet.Create')}}</button>
             </div>
         </div>
 
@@ -41,8 +42,11 @@
 
                             <div class="row search-btn-wrap">
                                 <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
-                                    <div class="text-center filter-action">
-                                        <button class="btn btn-block primary-bgcolor" (click)="loadData()"><i class="fa fa-search"></i> {{l("Search")}}</button>
+                                    <div class="text-center">
+                                        <button class="btn btn-block primary-bgcolor" (click)="searchData()" [buttonBusy]="searching" [busyText]="l('Searching')">
+                                            <i class="fa fa-search"></i>
+                                            <span>{{l("Search")}}</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -66,25 +70,26 @@
 
                             <div class="content-item clearfix">
                                 <span class="flex-right" title="{{l('Outlet.BusinessHours')}}">
-                                            <span class="vapps-icon-app-shop-hours flex-right"></span>
-                                <span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
+                                    <span class="vapps-icon-app-shop-hours flex-right"></span>
+                                    <span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
                                 </span>
                                 <span class="flex-left"></span>
                             </div>
 
                             <div class="content-item clearfix">
                                 <span class="flex-right" title="{{l('Outlet.Address')}}">
-                                            <span class="vapps-icon-app-location flex-right"></span>
-                                <span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress
-                                            }}</span>
+                                    <span class="vapps-icon-app-location flex-right"></span>
+                                    <span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress
+                                        }}
+                                    </span>
                                 </span>
                                 <span class="vapps-icon-app-phone flex-left orange-icon"></span>
                             </div>
 
                             <div class="content-item clearfix">
                                 <span class="flex-right" title="{{l('Outlet.Contactor')}}">
-                                            <span class="vapps-icon-app-contact flex-right"></span>
-                                <span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
+                                    <span class="vapps-icon-app-contact flex-right"></span>
+                                    <span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
                                 </span>
                                 <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
                             </div>
@@ -124,25 +129,26 @@
 
                             <div class="content-item clearfix">
                                 <span class="flex-right" title="{{l('Outlet.BusinessHours')}}">
-                                                    <span class="vapps-icon-app-shop-hours flex-right"></span>
-                                <span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
+                                    <span class="vapps-icon-app-shop-hours flex-right"></span>
+                                    <span class="flex-left text-overflow" [title]="outletItem.businessHours">{{ outletItem.businessHours }}</span>
                                 </span>
                                 <span class="flex-left"></span>
                             </div>
 
                             <div class="content-item clearfix">
                                 <span class="flex-right" title="{{l('Outlet.Contactor')}}">
-                                                    <span class="vapps-icon-app-contact flex-right"></span>
-                                <span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
+                                    <span class="vapps-icon-app-contact flex-right"></span>
+                                    <span class="flex-left text-overflow" *ngIf="outletItem.contactor" [title]="outletItem.contactor.name+outletItem.contactor.phoneNum">{{ outletItem.contactor.name }} {{ outletItem.contactor.phoneNum }}</span>
                                 </span>
                                 <span class="vapps-icon-app-qr-code flex-left orange-icon"></span>
                             </div>
 
                             <div class="content-item clearfix">
                                 <span class="flex-right" title="{{l('Outlet.Address')}}">
-                                                        <span class="vapps-icon-app-location flex-right"></span>
-                                <span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress
-                                                        }}</span>
+                                    <span class="vapps-icon-app-location flex-right"></span>
+                                    <span class="flex-left text-overflow" [title]="outletItem.province+outletItem.city+outletItem.district+outletItem.detailAddress">{{ outletItem.province }}{{ outletItem.city }}{{ outletItem.district }}{{ outletItem.detailAddress
+                                        }}
+                                    </span>
                                 </span>
                                 <span class="vapps-icon-app-phone flex-left orange-icon"></span>
                             </div>
