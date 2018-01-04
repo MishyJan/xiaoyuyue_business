@@ -9,7 +9,7 @@
                     <p class="order-item text-overflow" *ngFor="let orgBookingOrderItem of orgBookingOrderData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }">
                         <img class="item" [src]="getProfilePictureUrl(orgBookingOrderItem.profilePictureUrl)" width="30px" height="30px">
                         <span class="item">{{ orgBookingOrderItem.customerName }}</span>
-                        <span class="item">{{ t(orgBookingOrderItem.bookingDate, 'YYYY-HH-DD') }}</span>
+                        <span class="item">{{ t(orgBookingOrderItem.bookingDate, 'YYYY-MM-DD') }}</span>
                         <span class="item">{{ orgBookingOrderItem.hourOfDay }}</span>
                     </p>
                 </div>

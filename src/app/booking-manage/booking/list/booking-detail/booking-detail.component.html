@@ -15,7 +15,7 @@
             <div class="swiper-container" id="tenantBgSwiperContainer">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" *ngFor="let bookingPicturesItem of bookingPictures">
-                        <span class="img-item" [ngStyle]="{'background-image': 'url(' + bookingPicturesItem + ')'}"></span>
+                        <img [src]="bookingPicturesItem" class="img-item" alt="image">
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
