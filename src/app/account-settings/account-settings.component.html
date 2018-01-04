@@ -70,25 +70,36 @@
                             <div class="card-content">
                                 <div class="login-passwd content-item clearfix">
                                     <p class="left-item pull-left">
-                                        <span class="tip-icon pull-left"><img src="assets/common/images/social/wechat-x2.png" style="width: 36px;" alt="wechat"></span>
+                                        <span class="tip-icon pull-left">
+                                            <img src="assets/common/images/social/wechat-x2.png" style="width: 36px;" alt="wechat">
+                                        </span>
                                         <span class="pull-left not-set" *ngIf="!userSecurityInfo.weChat">{{ l('Security.Unbound') }}</span>
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.weChat">{{ userSecurityInfo.weChat }}</span>
                                         <!-- <span class="pull-left already-set">微信名</span> -->
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBinding" [busyText]=" '解绑中'">{{ l('Security.Unbinding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBindingWechat"
+                                            [busyText]="l('Security.Unbinding')">
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
                                         <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.weChat" (click)="bindWeChat()">{{ l('Security.Binding') }}</button>
                                     </div>
                                 </div>
                                 <div class="verify-qq content-item clearfix">
                                     <p class="left-item pull-left">
-                                        <span class="tip-icon pull-left"><img src="assets/common/images/social/qq-x2.png" style="width: 28px;" alt="qq"></span>
+                                        <span class="tip-icon pull-left">
+                                            <img src="assets/common/images/social/qq-x2.png" style="width: 28px;" alt="qq">
+                                        </span>
                                         <span class="pull-left not-set" *ngIf="!userSecurityInfo.qq">{{ l('Security.Unbound') }}</span>
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.qq">{{ userSecurityInfo.qq }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()">{{ l('Security.Unbinding') }}</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Security.Binding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()" [buttonBusy]="unBindingQQ" [busyText]="l('Security.Unbinding')" >
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Security.Bind') }}</button>
                                     </div>
                                 </div>
 

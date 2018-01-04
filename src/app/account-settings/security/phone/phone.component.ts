@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { VerificationCodeType } from 'shared/AppEnums';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { BindingPhoneNumInput, CodeSendInput, ChangeBindingPhoneNumInput, CheckUserCodeInput, SMSServiceProxy, ProfileServiceProxy } from 'shared/service-proxies/service-proxies';
+import { BindingPhoneNumInput, ChangeBindingPhoneNumInput, CheckUserCodeInput, SMSServiceProxy, ProfileServiceProxy } from 'shared/service-proxies/service-proxies';
 
 @Component({
     selector: 'xiaoyuyue-phone',
@@ -20,9 +20,10 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
     currentPhoneNum: string;
     encryptPhoneNum: string;
     code: string;
-    codeSendInput: CodeSendInput = new CodeSendInput();
     changeBindingPhoneNumInput: ChangeBindingPhoneNumInput = new ChangeBindingPhoneNumInput();
     checkUserCodeInput: CheckUserCodeInput = new CheckUserCodeInput();
+    unbindingCodeType: VerificationCodeType = VerificationCodeType.PhoneUnBinding;
+    bindingCodeType: VerificationCodeType = VerificationCodeType.PhoneBinding;
     @ViewChild('smsBtn') smsBtn: ElementRef;
 
     constructor(
@@ -42,12 +43,11 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
     verificationPhoneNum(): void {
         this.checkUserCodeInput.code = this.code;
         this.checkUserCodeInput.codeType = VerificationCodeType.PhoneUnBinding;
-        this.isVerified = true;
-        // this._SMSServiceProxy
-        //     .checkCodeByCurrentUserAsync(this.checkUserCodeInput)
-        //     .subscribe(() => {
-        //         this.codeSendInput = new CodeSendInput();
-        //     })
+        this._SMSServiceProxy
+            .checkCodeByCurrentUser(this.checkUserCodeInput)
+            .subscribe(() => {
+                this.isVerified = true;
+            })
     }
 
     changeBindPhone(): void {
