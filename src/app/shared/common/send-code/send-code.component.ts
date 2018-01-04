@@ -16,6 +16,7 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
     isSend = false;
     sending = false;
     @ViewChild('smsBtn') _smsBtn: ElementRef;
+    @ViewChild('smsBtnSpan') _smsBtnSpan: ElementRef;
     @Input() codeType;
     @Input() sendCodeType = SendCodeType.ShortMessage;
     @Input() phoneNumber: string;
@@ -38,8 +39,7 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
             if (this.phoneNumber === SMSProviderDto.phoneNum) {
                 this.anginSend();
             } else {
-                const span = this._smsBtn.nativeElement.find('span');
-                span.innerHTML = this.l('GetVerificationCode');
+                this._smsBtnSpan.nativeElement.innerHTML = this.l('GetVerificationCode');
                 this.clearSendHandle();
             }
         }
@@ -49,8 +49,7 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
             if (this.emailAddress === SMSProviderDto.emailAddress) {
                 this.anginSend();
             } else {
-                const span = this._smsBtn.nativeElement.find('span');
-                span.nativeElement.innerHTML = this.l('GetVerificationCode');
+                this._smsBtnSpan.nativeElement.innerHTML = this.l('GetVerificationCode');
                 this.clearSendHandle();
             }
         }
@@ -73,9 +72,10 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
     anginSend() {
         const self = this;
         this.isSend = false;
+        self._smsBtnSpan.nativeElement.innerHTML = `${SMSProviderDto.sendCodeSecond} ${this.l('Second')}`;
         this.sendTimer = setInterval(() => {
-            self._smsBtn.nativeElement.innerHTML = `${SMSProviderDto.sendCodeSecond} ${this.l('Second')}`;
-        }, SMSProviderDto.timeInterval);
+            self._smsBtnSpan.nativeElement.innerHTML = `${SMSProviderDto.sendCodeSecond} ${this.l('Second')}`;
+        }, 100);
     }
 
     clearSendHandle(): void {
@@ -110,16 +110,18 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
                 this.sending = false;
                 this.anginSend();
                 this.codeInterval();
+            }, error => {
+                this.sending = false;
             })
     }
 
     private codeInterval(): void {
-        SMSProviderDto.sendCodeSecond = 60;
+        SMSProviderDto.sendCodeSecond = 59;
         const timer = setInterval(() => {
             SMSProviderDto.sendCodeSecond--;
             if (SMSProviderDto.sendCodeSecond <= 0) {
                 this.isSend = true;
-                this._smsBtn.nativeElement.innerHTML = this.l('AgainSendValidateCode');
+                this._smsBtnSpan.nativeElement.innerHTML = this.l('AgainSendValidateCode');
                 SMSProviderDto.phoneNum = '';
                 SMSProviderDto.emailAddress = '';
                 this.clearSendHandle();
