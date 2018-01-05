@@ -47,7 +47,7 @@
                                         <div [@routerTransition] class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let selectPicIndex = index;">
                                             <div class="pic-item" [ngClass]="{'active': item.selected == true }">
                                                 <!-- <div class="img-wrap"></div> -->
-                                                <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}" (click)="selectPicHandler(item, selectPicIndex)">
+                                                <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}" (click)="selectPicHandler(item)">
                                                     <div class="bg-cover"></div>
                                                     <div class="bg-tools">
                                                         <div class="wrap clearfix">
@@ -125,7 +125,7 @@
     </div>
 
     <div class="action-btn-wrap col-lg-12">
-        <button class="btn primary-bgcolor" (click)="movePicToGroupService()">{{ l('Confirm') }}</button>
+        <button class="btn primary-bgcolor" (click)="comfirmMovePicToGroup()">{{ l('Confirm') }}</button>
         <button class="btn" (click)="hideMoveGroupTemplate()">{{ l('Cancel') }}</button>
     </div>
 </div>

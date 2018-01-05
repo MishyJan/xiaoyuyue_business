@@ -183,8 +183,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 删除某一分组的图片
     deletePicHandler(event: Event, data: SelectedPicListDto): void {
-        if (data.active) { return; }
-        data.active = true;
         event.stopPropagation();
         // data存在就是单个图片，不存在则是批量被选中的图片
         let picIds = [];
@@ -209,6 +207,10 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 if (this.selectedPicListArr.length > 0) {
                     this.selectedPicListArr = [];
                 }
+                if (this.allSelected) {
+                    this.checkAllText = '全选';
+                    this.allSelected = false;
+                }
                 this.notify.success('删除成功');
                 this.loadPicGalleryData();
             })
@@ -227,20 +229,24 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 this.selectedMoveGroupInput.ids.push(element.picId);
             });
         }
-        debugger
         this.moveGroupTemplateX = event.pageX;
         this.moveGroupTemplateY = event.pageY;
         this.showMoveGroupTemplate();
     }
 
-    //  移动分组请求数据
-    movePicToGroupService(): void {
+    // 确认移动分组
+    comfirmMovePicToGroup(): void {
+
         this._pictureServiceProxy
             .batchMove2Group(this.selectedMoveGroupInput)
             .subscribe(result => {
                 // 如果是批量移动成功情况下，则清空数据
                 if (this.selectedPicListArr.length > 0) {
                     this.selectedPicListArr = [];
+                }
+                if (this.allSelected) {
+                    this.checkAllText = '全选';
+                    this.allSelected = false;
                 }
                 this.notify.success('移动成功');
                 this.hideMoveGroupTemplate();
