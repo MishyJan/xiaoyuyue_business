@@ -46,7 +46,7 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
         this._profileServiceProxy
             .changePassword(this.input)
             .subscribe(result => {
-                this.notify.success('密码修改成功');
+                this.notify.success(this.l('ChangePasswdSuccessed'));
                 this.showCommandWrap = true;
             });
         this.input = new RepeatPasswdDto();
@@ -57,7 +57,7 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
         this._profileServiceProxy
             .changePasswordByPhone(this.byPhoneInput)
             .subscribe(result => {
-                this.notify.success('密码修改成功');
+                this.notify.success(this.l('ChangePasswdSuccessed'));
                 this.showCommandWrap = true;
                 this.phoneChangePasswd = false;
                 this.oldPasswdChangePasswd = false;
@@ -87,7 +87,7 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
             this.encrypt();
             return true;
         } else {
-            this.message.confirm('您当前未绑定手机，绑定手机号才能更改密码', (result) => {
+            this.message.confirm(this.l('Security.ChangePasswd.MustBingPhone'), (result) => {
                 if (result) {
                     this._router.navigate(['/settings/phone']);
                 } else {
