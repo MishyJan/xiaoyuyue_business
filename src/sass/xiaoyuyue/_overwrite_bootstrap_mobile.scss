@@ -1,0 +1,9 @@
+@import '_colors';
+
+/* 覆盖bootstrap样式 */
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        margin: 160px auto;
+    }
+}
