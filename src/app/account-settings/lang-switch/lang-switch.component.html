@@ -1,0 +1,17 @@
+<div class="lang-switch" [@routerTransition]>
+    <div class="card">
+        <div class="card-header card-header-text" data-background-color="orange">
+            <span class="title-icon vapps-icon-app-login-passwd"></span>
+        </div>
+        <div class="card-content">
+            <div *ngFor="let language of languages">
+                <div class="flex-item" [ngClass]="{'active': currentLanguage.displayName === language.displayName}">
+                    <a class="flex-left" href="javascript:;" (click)="changeLanguage(language)">
+                        <i [class]="language.icon"></i> {{language.displayName}}
+                    </a>
+                    <div class="flex-right" *ngIf="currentLanguage.displayName === language.displayName"><i class="fa fa-check"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
