@@ -91,6 +91,9 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
         // this.captchaResolved();
         this._SMSServiceProxy
             .sendCode(input)
+            .finally(() => {
+                this.sending = false;
+            })
             .subscribe(result => {
                 this.sending = false;
                 this.anginSend();
@@ -106,12 +109,13 @@ export class SendCodeComponent extends AppComponentBase implements OnInit, OnCha
         input.codeType = this.codeType;
         this._accountServiceProxy
             .sendEmailVerificationCode(input)
+            .finally(() => {
+                this.sending = false;
+            })
             .subscribe(result => {
                 this.sending = false;
                 this.anginSend();
                 this.codeInterval();
-            }, error => {
-                this.sending = false;
             })
     }
 

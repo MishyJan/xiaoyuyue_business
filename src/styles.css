@@ -1276,6 +1276,13 @@ a:focus {
     transform: translateY(-50%);
 }
 
+@media (max-width: 767px) {
+    /* 767px */
+    .modal .modal-dialog {
+        margin-top: 100px;
+    }
+}
+
 
 /* 覆盖分页插件样式 */
 
@@ -1411,10 +1418,14 @@ a:focus {
 }
 
 .swal-button {
+    /* background-color: #FF9641; */
+}
+
+.swal-button--confirm {
     background-color: #FF9641;
 }
 
-.swal-button:active {
+.swal-button--confirm:active {
     background-color: #FF9641;
 }
 
