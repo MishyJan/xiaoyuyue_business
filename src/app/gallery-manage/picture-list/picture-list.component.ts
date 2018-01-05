@@ -26,7 +26,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     selectedGroupName: string;
     // 保存正在编辑分组名称的索引值
     editingGroupNameIndex: number;
-    checkAllText = this.l('CheckAll');
+    checkAllText: string = '全选';
     // 移动弹窗的X轴偏移量
     moveGroupTemplateX: number;
     // 移动弹窗的Y轴偏移量
@@ -36,18 +36,18 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     isMoveGroupTemplate: boolean;
     picGroupCreating: boolean;
-    groupActiveIndex = 0;
+    groupActiveIndex: number = 0;
     onceTime: number;
     twiceTime: number;
-    clickNum = 0;
+    clickNum: number = 0;
     // 是否可以编辑图片名称，存储数组
     editingPicName: boolean[] = [];
     // 是否可以编辑分组名称
-    editingGroupName = false;
-    currentPage = 0;
+    editingGroupName: boolean = false;
+    currentPage: number = 0;
     picGroupItemData: SelectedPicListDto[] = [];
     totalItems: number;
-    maxResultCount = 12;
+    maxResultCount: number = 12;
     selectedGroupId: number;
     picGalleryGroupData: PictureGroupListDto[];
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
@@ -55,10 +55,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     picGroupInputDto: CreateOrUpdatePictureGroupInput = new CreateOrUpdatePictureGroupInput();
     uploadUid: number = new Date().valueOf();
-
-    moving = false;
-    deleting = false;
-
     @Output() pictureInfoHandler: EventEmitter<UploadPictureDto> = new EventEmitter();
     @ViewChild('uploadPictureNoneGalleryModel') uploadPictureNoneGalleryModel: UploadPictureNoneGalleryComponent;
 
@@ -95,7 +91,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     // 根据分组ID获取某分组下所有图片数据
     loadAllPicAsync(): void {
         this.gridParam.MaxResultCount = this.maxResultCount;
-        const self = this;
+        let self = this;
         this._pictureServiceProxy
             .getPictureAsync(
             this.selectedGroupId,
@@ -108,7 +104,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 this.picGroupItemData = [];
 
                 result.items.forEach((pagesItem, inx) => {
-                    const picListItem = new SelectedPicListDto();
+                    let picListItem = new SelectedPicListDto();
                     picListItem.picId = pagesItem.id;
                     picListItem.picUrl = pagesItem.originalUrl;
                     picListItem.name = pagesItem.name;
@@ -148,7 +144,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 this.loadPicGalleryData();
             })
     }
-
     // 更新分组名称
     updatePicGroupService(groupId: number, event: any): void {
         this.picGroupInputDto.id = groupId;
@@ -188,8 +183,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 删除某一分组的图片
     deletePicHandler(event: Event, data: SelectedPicListDto): void {
-        if (data.active) { return; }
-        data.active = true;
         event.stopPropagation();
         // data存在就是单个图片，不存在则是批量被选中的图片
         let picIds = [];
@@ -206,23 +199,24 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
     // 删除某一分组的图片请求数据
     deletePicService(picIds: number[]): void {
-        this.deleting = true;
         this._pictureServiceProxy
             .deleteAsync(picIds)
-            .finally(() => {
-                this.deleting = false;
-            })
+            // .finally( () => { this.deletingPicListItem = false; })
             .subscribe(result => {
                 // 如果是批量移动成功情况下，则清空数据
                 if (this.selectedPicListArr.length > 0) {
                     this.selectedPicListArr = [];
+                }
+                if (this.allSelected) {
+                    this.checkAllText = this.l('CheckAll');
+                    this.allSelected = false;
                 }
                 this.notify.success(this.l('DeleteSuccess'));
                 this.loadPicGalleryData();
             })
     }
 
-    // 显示移动分组面板
+    // 移动分组
     movePicHandler(event: any, data: SelectedPicListDto): void {
         if (event.pageX === 0 && event.pageY === 0) { return; }
         event.stopPropagation();
@@ -240,18 +234,19 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         this.showMoveGroupTemplate();
     }
 
-    // 移动分组请求数据
-    movePicToGroupService(): void {
-        this.moving = true;
+    // 确认移动分组
+    comfirmMovePicToGroup(): void {
+
         this._pictureServiceProxy
             .batchMove2Group(this.selectedMoveGroupInput)
-            .finally(() => {
-                this.moving = false;
-            })
             .subscribe(result => {
                 // 如果是批量移动成功情况下，则清空数据
                 if (this.selectedPicListArr.length > 0) {
                     this.selectedPicListArr = [];
+                }
+                if (this.allSelected) {
+                    this.checkAllText = this.l('CheckAll');
+                    this.allSelected = false;
                 }
                 this.notify.success(this.l('PictureGallery.MoveSeccessed'));
                 this.hideMoveGroupTemplate();
@@ -276,14 +271,20 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
             this.selectedPicListArr.push(data);
             if (this.selectedPicListArr.length === this.picGroupItemData.length) {
                 this.allSelected = true;
-                this.checkAllText = this.l('Cancel');
+                this.checkAllText =this.l('Cancel');
             }
         }
     }
 
-    groupItemActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
+    // 切换分组
+    changeGroupActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
         if (groupActiveIndex === this.groupActiveIndex) {
             return;
+        }
+        if (this.allSelected) {
+            this.checkAllText = this.l('CheckAll');
+            this.allSelected = false;
+            this.allPicCancelSelected();
         }
         this.groupActiveIndex = groupActiveIndex;
         this.selectedGroupId = groupItem.id;
@@ -319,26 +320,35 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
 
     // 全选和取消全选功能
-    public allSelectedHandler(): void {
+    public allSelectedToggleHandler(): void {
         this.allSelected = !this.allSelected;
         if (this.allSelected) {
-            // this.selectedPicListArr = this.picGroupItemData;
-            this.picGroupItemData.forEach((ele, inx) => {
-                this.selectedPicListArr[inx] = ele;
-            });
-            this.selectedPicListArr.forEach(ele => {
-                ele.selected = true;
-            });
-            this.allSelected = true;
-            this.checkAllText = this.l('Cancel');
+            this.allPicSelected();
         } else {
-            this.selectedPicListArr.forEach(ele => {
-                ele.selected = false;
-            });
-            this.selectedPicListArr = [];
-            this.allSelected = false;
-            this.checkAllText = this.l('CheckAll');
+            this.allPicCancelSelected();
         }
+    }
+
+    // 全选所有的图片
+    private allPicSelected(): void {
+        this.picGroupItemData.forEach((ele, inx) => {
+            this.selectedPicListArr[inx] = ele;
+        });
+        this.selectedPicListArr.forEach(ele => {
+            ele.selected = true;
+        });
+        this.allSelected = true;
+        this.checkAllText = this.l('Cancel');
+    }
+
+    // 取消所有全选的图片
+    private allPicCancelSelected(): void {
+        this.selectedPicListArr.forEach(ele => {
+            ele.selected = false;
+        });
+        this.selectedPicListArr = [];
+        this.allSelected = false;
+        this.checkAllText = this.l('CheckAll');
     }
 
     // 分页

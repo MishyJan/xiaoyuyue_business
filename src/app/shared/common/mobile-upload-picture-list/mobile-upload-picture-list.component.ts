@@ -148,9 +148,6 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
-                            alert(up);
-                            alert(err);
-                            alert(errTip);
                             self.uploading = false;
                             self.hideCropArea();
                             self.notify.error(this.l('Upload.Failed'));
