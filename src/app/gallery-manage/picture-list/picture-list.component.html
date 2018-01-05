@@ -29,7 +29,7 @@
 
                         <div class="checkbox pull-left">
                             <label>
-                                <input type="checkbox" name="checkAll" [(ngModel)]="allSelected" (click)="allSelectedHandler()" />{{ checkAllText }}
+                                <input type="checkbox" name="checkAll" [(ngModel)]="allSelected" (click)="allSelectedToggleHandler()" />{{ checkAllText }}
                             </label>
                         </div>
 
@@ -76,7 +76,7 @@
                                     <div class="side-bar">
                                         <div class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})" (click)="eventStopPropagation($event)">
                                             <div class="left-item text-overflow">
-                                                <div (click)="groupItemActive(groupItem,index)" *ngIf="!editingGroupName || !(editingGroupNameIndex == index)">{{ groupItem.name }} ({{ groupItem.pictureNum}})</div>
+                                                <div (click)="changeGroupActive(groupItem,index)" *ngIf="!editingGroupName || !(editingGroupNameIndex == index)">{{ groupItem.name }} ({{ groupItem.pictureNum}})</div>
                                                 <input type="text text-overflow" style="width: 100%;" autofocus name="groupName" *ngIf="editingGroupName && editingGroupNameIndex == index" [value]="groupItem.name" [readonly]="!editingGroupName" (keyup.enter)="updatePicGroupService(groupItem.id, $event)">
                                             </div>
                                             <div class="right-item clearfix" *ngIf="!groupItem.isSystemGroup">

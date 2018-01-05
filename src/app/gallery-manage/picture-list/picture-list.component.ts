@@ -276,9 +276,15 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         }
     }
 
-    groupItemActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
+    // 切换分组
+    changeGroupActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
         if (groupActiveIndex === this.groupActiveIndex) {
             return;
+        }
+        if (this.allSelected) {
+            this.checkAllText = '全选';
+            this.allSelected = false;
+            this.allPicCancelSelected();
         }
         this.groupActiveIndex = groupActiveIndex;
         this.selectedGroupId = groupItem.id;
@@ -314,26 +320,35 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
 
     // 全选和取消全选功能
-    public allSelectedHandler(): void {
+    public allSelectedToggleHandler(): void {
         this.allSelected = !this.allSelected;
         if (this.allSelected) {
-            // this.selectedPicListArr = this.picGroupItemData;
-            this.picGroupItemData.forEach((ele, inx) => {
-                this.selectedPicListArr[inx] = ele;
-            });
-            this.selectedPicListArr.forEach(ele => {
-                ele.selected = true;
-            });
-            this.allSelected = true;
-            this.checkAllText = '取消';
+            this.allPicSelected();
         } else {
-            this.selectedPicListArr.forEach(ele => {
-                ele.selected = false;
-            });
-            this.selectedPicListArr = [];
-            this.allSelected = false;
-            this.checkAllText = '全选';
+            this.allPicCancelSelected();
         }
+    }
+
+    // 全选所有的图片
+    private allPicSelected(): void {
+        this.picGroupItemData.forEach((ele, inx) => {
+            this.selectedPicListArr[inx] = ele;
+        });
+        this.selectedPicListArr.forEach(ele => {
+            ele.selected = true;
+        });
+        this.allSelected = true;
+        this.checkAllText = '取消';
+    }
+
+    // 取消所有全选的图片
+    private allPicCancelSelected(): void {
+        this.selectedPicListArr.forEach(ele => {
+            ele.selected = false;
+        });
+        this.selectedPicListArr = [];
+        this.allSelected = false;
+        this.checkAllText = '全选';
     }
 
     // 分页
