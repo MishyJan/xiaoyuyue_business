@@ -10,6 +10,7 @@ import { BookingCustomModelComponent } from './shared/booking-custom-model/booki
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-model/share-booking-model.component';
 import { Moment } from 'moment';
@@ -119,7 +120,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
      */
     initFlatpickr() {
         this.bStartCreationTime = $('.startCreationTime').flatpickr({
-            'locale': 'zh',
+            'locale': LocalizationHelper.getFlatpickrLocale(),
             // clickOpens: false,
             onClose: (element) => {
                 $(this.bStartCreationTime.input).blur();
@@ -127,7 +128,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         })
 
         this.bEndCreationTime = $('.endCreationTime').flatpickr({
-            'locale': 'zh',
+            'locale': LocalizationHelper.getFlatpickrLocale(),
             // clickOpens: false,
             onClose: (element) => {
                 $(this.bEndCreationTime.input).blur();

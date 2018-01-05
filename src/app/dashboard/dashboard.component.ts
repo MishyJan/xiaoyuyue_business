@@ -3,6 +3,7 @@ import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterD
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
 import { NavigationEnd } from '@angular/router';
@@ -52,7 +53,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             return;
         }
         this.dateFlatpickr = $('.flatpickr').flatpickr({
-            'locale': 'zh',
+            'locale': LocalizationHelper.getFlatpickrLocale(),
             wrap: true,
             defaultDate: this.dateSelected,
             maxDate: this.dateSelected,

@@ -15,6 +15,7 @@ import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 export class SingleBookingStatus {
     value: any;
@@ -111,13 +112,13 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         } else {
             this.loadData();
             this.cBookingOrderDate = $('#bookingDate').flatpickr({
-                'locale': 'zh'
+                'locale': LocalizationHelper.getFlatpickrLocale(),
             });
             this.cStartCreationTime = $('#startCreationTime').flatpickr({
-                'locale': 'zh'
+                'locale': LocalizationHelper.getFlatpickrLocale(),
             });
             this.cEndCreationTime = $('#endCreationTime').flatpickr({
-                'locale': 'zh'
+                'locale': LocalizationHelper.getFlatpickrLocale(),
             });
         }
     }
