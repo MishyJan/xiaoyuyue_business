@@ -82,7 +82,8 @@
             "../src/assets/metronic/layouts/global/scripts/quick-sidebar.min.js",
 
             "../src/assets/common/js/flatpickr.min.js",
-            "../src/assets/common/js/flatpickr-zh.js",
+            "../src/assets/common/js/flatpickr-zh-CN.js",
+            "../src/assets/common/js/flatpickr-zh-HK.js",
 
             "../node_modules/inputmask/dist/min/jquery.inputmask.bundle.min.js",
 

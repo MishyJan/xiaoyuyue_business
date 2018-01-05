@@ -23,4 +23,15 @@ export class LocalizationHelper {
     static localize(key: string, sourceName: string): string {
         return abp.localization.localize(key, sourceName);
     }
+
+    static getFlatpickrLocale() {
+        switch (abp.localization.currentLanguage.name) {
+            case 'zh-CN':
+                return 'zh';
+            case 'zh-HK':
+                return 'hk';
+            default:
+                return 'zh';
+        }
+    }
 }

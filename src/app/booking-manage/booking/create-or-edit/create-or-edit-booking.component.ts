@@ -21,6 +21,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -306,7 +307,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             $('#createTimeFlatpickr').flatpickr({
                 disableMobile: false,
                 wrap: true,
-                'locale': 'zh',
+                'locale': LocalizationHelper.getFlatpickrLocale(),
                 defaultDate: self.dafaultDate
             })
         }
