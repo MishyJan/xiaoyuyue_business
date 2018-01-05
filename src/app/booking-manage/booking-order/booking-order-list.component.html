@@ -266,20 +266,23 @@
             <div class="flex-left"></div>
         </div>
 
-        <div class="content-wrap">
+        <div class="content-wrap" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="infiniteScrollDistance" [infiniteScrollThrottle]="infiniteScrollThrottle"
+            (scrolled)="onScrollDown()">
             <div class="card" *ngIf="mobileCustomerListData.length > 0">
                 <div class="card-content">
-                    <div class="flex-item" (click)="showCustomerForEditHander(customerListItem.id)" *ngFor="let customerListItem of mobileCustomerListData">
-                        <div class="flex-left">
-                            <div class="avatar" [ngStyle]="{'background-image': 'url(' + getProfilePictureUrl(customerListItem.profilePictureUrl) + ')'}"></div>
-                        </div>
-                        <div class="flex-right">
-                            <div class="pull-left info">
-                                <p class="name">{{ customerListItem.customerName }}</p>
-                                <p class="state">{{ bookingOrderStatusName[customerListItem.status-1] }}</p>
+                    <div *ngFor="let customerListItem of allMobileCustomerListData">
+                        <div class="flex-item" (click)="showCustomerForEditHander(item.id)" *ngFor="let item of customerListItem">
+                            <div class="flex-left">
+                                <div class="avatar" [ngStyle]="{'background-image': 'url(' + getProfilePictureUrl(item.profilePictureUrl) + ')'}"></div>
                             </div>
-                            <div class="pull-right time-ago">
-                                <span>{{ getTimeAgo(customerListItem.creationTime) }}</span>
+                            <div class="flex-right">
+                                <div class="pull-left info">
+                                    <p class="name">{{ item.customerName }}</p>
+                                    <p class="state">{{ bookingOrderStatusName[item.status-1] }}</p>
+                                </div>
+                                <div class="pull-right time-ago">
+                                    <span>{{ getTimeAgo(item.creationTime) }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -29,10 +29,17 @@ export class SingleBookingStatus {
 })
 
 export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    totalItems: number;
     availableTimesSelectListData: SelectListItemDto[];
     availableDatesSelectListData: SelectListItemDto[];
     hourOfDay: string;
+
     mobileCustomerListData: OrgBookingOrderListDto[] = [];
+    allMobileCustomerListData: any[] = [];
+    updateDataIndex = -1;
+    infiniteScrollDistance = 1;
+    infiniteScrollThrottle = 300;
+
     bookingCustomerDate: string;
     bookingDateSelectDefaultItem: SelectListItemDto;
     bookingItemSelectListData: SelectListItemDto[];
@@ -286,6 +293,12 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.gridParam.SkipCount)
             .subscribe(result => {
                 this.mobileCustomerListData = result.items;
+                this.totalItems = result.totalCount;
+                if (this.mobileCustomerListData.length > 0 && this.updateDataIndex < 0) {
+                    this.allMobileCustomerListData.push(this.mobileCustomerListData);
+                } else {
+                    this.allMobileCustomerListData[this.updateDataIndex] = this.mobileCustomerListData;
+                }
             })
     }
 
@@ -334,6 +347,21 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             return;
         }
         this.hourOfDay = value;
+        this.mobileLoadData();
+    }
+
+    public onScrollDown(): void {
+        this.updateDataIndex = -1;
+        let totalCount = 0;
+        this.allMobileCustomerListData.forEach(organizationBookingResultData => {
+            organizationBookingResultData.forEach(element => {
+                totalCount++;
+            });
+        });
+        this.gridParam.SkipCount = totalCount;
+        if (this.gridParam.SkipCount >= this.totalItems) {
+            return;
+        }
         this.mobileLoadData();
     }
 }

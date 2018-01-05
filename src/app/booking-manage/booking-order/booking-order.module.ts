@@ -15,6 +15,7 @@ import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ResponsiveModule } from 'ng2-responsive'
 import { UtilsModule } from '@shared/utils/utils.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         ButtonsModule,
         DialogModule,
         DateInputModule,
-        ResponsiveModule
+        ResponsiveModule,
+        InfiniteScrollModule
     ],
     declarations: [
         BookingOrderListComponent,

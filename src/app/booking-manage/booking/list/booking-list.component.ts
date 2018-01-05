@@ -32,7 +32,7 @@ import { debug } from 'util';
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     flipIsToBackFlag: boolean[] = [];
-    updateDataIndex: number = -1;
+    updateDataIndex = -1;
     allOrganizationBookingResultData: any[] = [];
 
     infiniteScrollDistance = 1;
