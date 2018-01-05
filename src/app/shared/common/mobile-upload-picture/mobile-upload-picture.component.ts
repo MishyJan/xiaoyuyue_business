@@ -119,7 +119,7 @@ export class MobileUploadPictureComponent extends AppComponentBase implements On
                                     self._$cropImg.attr('src', src);
                                     self._$cropImg.cropper({
                                         dragMode: 'move',
-                                        viewMode: 3,
+                                        viewMode: 2,
                                         aspectRatio: self.cropScaleX / self.cropScaleY,
                                         crop: function (e) {
                                             const cropValue = `!${e.width >> 0}x${e.height >> 0}a${e.x >> 0}a${e.y >> 0}`;
