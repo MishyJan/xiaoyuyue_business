@@ -12,6 +12,7 @@ import { BindingPhoneModelComponent } from 'app/account-settings/phone-model/bin
     styleUrls: ['./unbinding-phone-model.component.scss']
 })
 export class UnbindingPhoneModelComponent extends AppComponentBase implements OnInit {
+    emailAddress: string;
     phoneNumber: string;
     code: string;
     model: CodeSendInput = new CodeSendInput();
@@ -30,6 +31,7 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
 
     ) {
         super(injector);
+        this.emailAddress = this._appSessionService.user.emailAddress;
         this.phoneNumber = this._appSessionService.user.phoneNumber;
     }
 
@@ -45,13 +47,25 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
     }
 
     unbindingPhone(): void {
+        if (!this.checkMustBinding()) {
+            return;
+        }
         this._profileServiceProxy
             .unBindingPhoneNum(this.code)
             .subscribe(result => {
-                this.notify.success('解绑成功，请绑定新手机');
+                this.notify.success(this.l('RebindingPhone.Success.Hint'));
+                abp.event.trigger('getUserSecurityInfo');
                 this.hide();
                 this.bindingPhoneModel.show();
             })
+    }
+
+    private checkMustBinding(): boolean {
+        if (!this.emailAddress) {
+            this.message.error(this.l('UnBindingPhoneNum.RequiredEmail.Hint'));
+            return false;
+        }
+        return true;
     }
 
     private encrypt(): void {

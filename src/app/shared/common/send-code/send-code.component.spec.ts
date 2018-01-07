@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { HkComponent } from './hk.component';
+import { SendCodeComponent } from './send-code.component';
 
-describe('HkComponent', () => {
-  let component: HkComponent;
-  let fixture: ComponentFixture<HkComponent>;
+describe('SendCodeComponent', () => {
+  let component: SendCodeComponent;
+  let fixture: ComponentFixture<SendCodeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HkComponent ]
+      declarations: [ SendCodeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HkComponent);
+    fixture = TestBed.createComponent(SendCodeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

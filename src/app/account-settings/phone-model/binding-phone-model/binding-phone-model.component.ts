@@ -43,7 +43,8 @@ export class BindingPhoneModelComponent extends AppComponentBase implements OnIn
         this._profileServiceProxy
             .bindingPhoneNum(input)
             .subscribe(result => {
-                this.notify.success('绑定成功');
+                this.notify.success(this.l('Binding.Success.Hint'));
+                abp.event.trigger('getUserSecurityInfo');
                 this.hide();
             })
     }

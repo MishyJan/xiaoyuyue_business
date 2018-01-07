@@ -18,7 +18,7 @@
                             <div class="form-group label-floating">
                                 <input class="form-control edited" type="number" name="validateCode" [(ngModel)]="input.code">
                                 <label class="control-label">{{ l('VerifyCodeField') }}</label>
-                                <xiaoyuyue-send-sms-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="input.emailAddress"></xiaoyuyue-send-sms-code>
+                                <xiaoyuyue-send-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="input.emailAddress"></xiaoyuyue-send-code>
                             </div>
                         </div>
                     </div>

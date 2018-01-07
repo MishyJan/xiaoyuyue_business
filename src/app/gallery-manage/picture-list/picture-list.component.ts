@@ -83,7 +83,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                     groupItem.active = false;
                 });
                 this.selectedGroupId = this.selectedGroupId ? this.selectedGroupId : DefaultUploadPictureGroundId.AllGroup;
-                this.selectedGroupName = '所有';
+                this.selectedGroupName = this.l('PictureGallery.Group.Default.All');
                 this.loadAllPicAsync();
             })
     }
@@ -127,7 +127,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         this._pictureServiceProxy
             .createOrUpdatePictureGroup(this.picGroupInputDto)
             .subscribe(result => {
-                this.notify.success('创建分组成功');
+                this.notify.success(this.l('PictureGallery.Group.CreateSuccess'));
                 this.closeCreatePicGroup();
                 this.loadPicGalleryData();
             });
@@ -140,7 +140,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         this._pictureServiceProxy
             .deleteGroupAsync(selectedGroupItem.id)
             .subscribe(result => {
-                this.notify.success('删除分组成功');
+                this.notify.success(this.l('PictureGallery.Group.DateleSuccess'));
                 this.loadPicGalleryData();
             })
     }
@@ -152,7 +152,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         this._pictureServiceProxy
             .createOrUpdatePictureGroup(this.picGroupInputDto)
             .subscribe(result => {
-                this.notify.success('更新分组成功');
+                this.notify.success(this.l('PictureGallery.Group.UpdateSuccess'));
                 this.editingGroupName = false;
                 this.loadPicGalleryData();
             });
@@ -183,8 +183,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 删除某一分组的图片
     deletePicHandler(event: Event, data: SelectedPicListDto): void {
-        if (data.active) { return; }
-        data.active = true;
         event.stopPropagation();
         // data存在就是单个图片，不存在则是批量被选中的图片
         let picIds = [];
@@ -209,7 +207,11 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 if (this.selectedPicListArr.length > 0) {
                     this.selectedPicListArr = [];
                 }
-                this.notify.success('删除成功');
+                if (this.allSelected) {
+                    this.checkAllText = this.l('CheckAll');
+                    this.allSelected = false;
+                }
+                this.notify.success(this.l('DeleteSuccess'));
                 this.loadPicGalleryData();
             })
     }
@@ -227,14 +229,14 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 this.selectedMoveGroupInput.ids.push(element.picId);
             });
         }
-        debugger
         this.moveGroupTemplateX = event.pageX;
         this.moveGroupTemplateY = event.pageY;
         this.showMoveGroupTemplate();
     }
 
-    //  移动分组请求数据
-    movePicToGroupService(): void {
+    // 确认移动分组
+    comfirmMovePicToGroup(): void {
+
         this._pictureServiceProxy
             .batchMove2Group(this.selectedMoveGroupInput)
             .subscribe(result => {
@@ -242,7 +244,11 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 if (this.selectedPicListArr.length > 0) {
                     this.selectedPicListArr = [];
                 }
-                this.notify.success('移动成功');
+                if (this.allSelected) {
+                    this.checkAllText = this.l('CheckAll');
+                    this.allSelected = false;
+                }
+                this.notify.success(this.l('PictureGallery.MoveSeccessed'));
                 this.hideMoveGroupTemplate();
                 this.loadPicGalleryData();
             });
@@ -259,20 +265,26 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         });
         if (selectedIndex > -1) {
             this.selectedPicListArr.splice(selectedIndex, 1);
-            this.checkAllText = '全选';
+            this.checkAllText = this.l('CheckAll');
             this.allSelected = false;
         } else {
             this.selectedPicListArr.push(data);
             if (this.selectedPicListArr.length === this.picGroupItemData.length) {
                 this.allSelected = true;
-                this.checkAllText = '取消';
+                this.checkAllText =this.l('Cancel');
             }
         }
     }
 
-    groupItemActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
+    // 切换分组
+    changeGroupActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
         if (groupActiveIndex === this.groupActiveIndex) {
             return;
+        }
+        if (this.allSelected) {
+            this.checkAllText = this.l('CheckAll');
+            this.allSelected = false;
+            this.allPicCancelSelected();
         }
         this.groupActiveIndex = groupActiveIndex;
         this.selectedGroupId = groupItem.id;
@@ -281,7 +293,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
 
     picRename(name: string): string {
-        return name ? name : '未命名';
+        return name ? name : this.l('PictureGallery.Group.Default.UnName');
         // return name ? name = name.substr(0,6)+'...' : '未命名';
     }
 
@@ -308,26 +320,35 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
 
     // 全选和取消全选功能
-    public allSelectedHandler(): void {
+    public allSelectedToggleHandler(): void {
         this.allSelected = !this.allSelected;
         if (this.allSelected) {
-            // this.selectedPicListArr = this.picGroupItemData;
-            this.picGroupItemData.forEach((ele, inx) => {
-                this.selectedPicListArr[inx] = ele;
-            });
-            this.selectedPicListArr.forEach(ele => {
-                ele.selected = true;
-            });
-            this.allSelected = true;
-            this.checkAllText = '取消';
+            this.allPicSelected();
         } else {
-            this.selectedPicListArr.forEach(ele => {
-                ele.selected = false;
-            });
-            this.selectedPicListArr = [];
-            this.allSelected = false;
-            this.checkAllText = '全选';
+            this.allPicCancelSelected();
         }
+    }
+
+    // 全选所有的图片
+    private allPicSelected(): void {
+        this.picGroupItemData.forEach((ele, inx) => {
+            this.selectedPicListArr[inx] = ele;
+        });
+        this.selectedPicListArr.forEach(ele => {
+            ele.selected = true;
+        });
+        this.allSelected = true;
+        this.checkAllText = this.l('Cancel');
+    }
+
+    // 取消所有全选的图片
+    private allPicCancelSelected(): void {
+        this.selectedPicListArr.forEach(ele => {
+            ele.selected = false;
+        });
+        this.selectedPicListArr = [];
+        this.allSelected = false;
+        this.checkAllText = this.l('CheckAll');
     }
 
     // 分页
@@ -344,7 +365,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 获取图片上传URL
     public getPicUploadInfoHandler(pictureInfo: UploadPictureDto): void {
-        this.notify.success('已上传到分组：' + this.selectedGroupName);
+        this.notify.success(this.l('PictureGallery.UploadSeccessed') + this.selectedGroupName);
         this.loadPicGalleryData();
     }
 

@@ -6,8 +6,9 @@ import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NgModule } from '@angular/core';
 import { SupportedBrowsersComponent } from 'app/shared/layout/supported-browsers/supported-browsers.component';
-import { HkComponent } from 'app/lang-route/hk/hk.component';
 import { PageNotFoundComponent } from 'app/shared/layout/page-not-found/page-not-found.component';
+import { InitLanguage, AppConsts } from 'shared/AppConsts';
+import { CookiesService } from 'shared/services/cookies.service';
 
 @NgModule({
     imports: [
@@ -74,24 +75,36 @@ import { PageNotFoundComponent } from 'app/shared/layout/page-not-found/page-not
                 path: 'supported-browsers',
                 component: SupportedBrowsersComponent
             },
-            {
-                path: 'hk',
-                component: HkComponent
-            },
             { path: '**', component: PageNotFoundComponent }
-
         ])
     ],
     exports: [RouterModule]
 })
 export class AppRoutingModule {
-    constructor(private router: Router) {
+    constructor(
+        private router: Router,
+        private _cookiesService: CookiesService
+    ) {
         router.events.subscribe((event: NavigationEnd) => {
             if (!(event instanceof NavigationEnd)) { return; }
+            // TODO: 软键盘推出处理input输入框居中在页面中的bug
+            $('input[type="text"],input[type="password"],input[type="number"],textarea,.wangedit-container').on('click', function (event) {
+                const eventPageY = event.pageY;
+                const wrapHeight = $('.wrap').height();
+
+                if ((wrapHeight - eventPageY) < (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight / 2) - (wrapHeight - eventPageY));
+                }
+
+                if ((wrapHeight - eventPageY) > (wrapHeight / 2)) {
+                    $('.wrap').scrollTop((wrapHeight - eventPageY) - (wrapHeight / 2));
+                }
+            });
             setTimeout(() => {
                 this.resetYAxial();
                 this.toggleBodyCssClass();
             }, 0);
+            this.initLanguage(event);
         });
     }
 
@@ -108,5 +121,26 @@ export class AppRoutingModule {
             $('.mobile-manage-booking').css('height', '100vh');
             $('.manage-org').css('height', '100vh');
         }
+    }
+
+    initLanguage(event: NavigationEnd): void {
+        if (event.url === '/') { return; }
+        InitLanguage.all.forEach((langName: string) => {
+            let url = event.url;
+            url = url.replace(/\//, '');
+            const value = langName.toLocaleLowerCase().indexOf(url.toLocaleLowerCase());
+            if (value < 0) { return; }
+            this.changeLanguage(langName);
+        });
+    }
+
+    changeLanguage(langName: string) {
+        this._cookiesService.setCookieValue(
+            'Abp.Localization.CultureName',
+            langName,
+            new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
+            abp.appPath
+        );
+        window.location.href = AppConsts.appBaseUrl;
     }
 }

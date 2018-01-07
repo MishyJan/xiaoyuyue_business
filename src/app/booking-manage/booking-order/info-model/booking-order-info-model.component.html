@@ -100,7 +100,7 @@
 
                 <div class="row item">
                     <div class="col-xs-4 name">{{l('BookingOrder.Datetime')}}</div>
-                    <div class="col-xs-8 desc">{{ dataItem.hourOfDay }}</div>
+                    <div class="col-xs-8 desc">{{ t(dataItem.bookingDate, 'YYYY-MM-DD') }} {{ dataItem.hourOfDay }}</div>
                 </div>
 
                 <div class="row item">

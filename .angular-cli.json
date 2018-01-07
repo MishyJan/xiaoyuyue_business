@@ -30,7 +30,6 @@
             "../node_modules/toastr/build/toastr.css",
             "../node_modules//@progress/kendo-theme-default/dist/all.css",
 
-            "../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
             "../node_modules/bootstrap-select/dist/css/bootstrap-select.css",
 
             "assets/md-pro/css/material-dashboard.css",
@@ -43,8 +42,7 @@
             "assets/common/styles/xiaoyuyue-icon.css",
             "assets/common/styles/flatpickr.css",
             "assets/swiper/css/swiper.css",
-            "sass/xiaoyuyue.scss",
-            "styles.css"
+            "sass/xiaoyuyue.scss"
         ],
         "scripts": [
             "../node_modules/jquery/dist/jquery.min.js",
@@ -83,7 +81,8 @@
             "../src/assets/metronic/layouts/global/scripts/quick-sidebar.min.js",
 
             "../src/assets/common/js/flatpickr.min.js",
-            "../src/assets/common/js/flatpickr-zh.js",
+            "../src/assets/common/js/flatpickr-zh-CN.js",
+            "../src/assets/common/js/flatpickr-zh-HK.js",
 
             "../node_modules/inputmask/dist/min/jquery.inputmask.bundle.min.js",
 

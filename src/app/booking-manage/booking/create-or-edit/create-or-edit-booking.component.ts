@@ -21,6 +21,7 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -205,10 +206,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     createOrUpdateBooking(saveAndEdit: boolean = false) {
         if (this.bookingBaseInfoForm.invalid) {
             if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn('预约信息未完善');
+                this.message.warn(this.l('Booking.BaseInfo.Required'));
                 this.staticTabs.tabs[0].active = true;
             } else {
-                this.message.error('', '预约信息未完善!');
+                this.message.error('', this.l('Booking.BaseInfo.Required'));
                 this.saving = false;
                 this.savingAndEditing = false;
             }
@@ -217,10 +218,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
         if (this.input.items.length < 1) {
             if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn('时间信息未完善');
+                this.message.warn(this.l('Booking.TimeInfo.Required'));
                 this.staticTabs.tabs[1].active = true;
             } else {
-                this.message.error('', '时间信息未完善!');
+                this.message.error('', this.l('Booking.TimeInfo.Required'));
                 this.saving = false;
                 this.savingAndEditing = false;
             }
@@ -228,7 +229,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         }
 
         if (!this.timeInfoFormValid) {
-            this.message.error('', '时间信息尚未保存!');
+            this.message.error('', this.l('Booking.TimeInfo.NotSaved'));
             this.saving = false;
             this.savingAndEditing = false;
             return;
@@ -246,13 +247,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
-            .finally(() => { this.savingAndEditing = false })
+            .finally(() => {
+                this.saving = false;
+                this.savingAndEditing = false;
+            })
             .subscribe((result) => {
                 this.bookingId = result.id;
                 abp.event.trigger('bookingListSelectChanged');
                 this.removeEditCache(); // 清理缓存数据
                 if (saveAndEdit) {
-                    this.notify.success('保存成功');
+                    this.notify.success(this.l('SavaSuccess'));
                     return;
                 }
 
@@ -303,7 +307,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             $('#createTimeFlatpickr').flatpickr({
                 disableMobile: false,
                 wrap: true,
-                'locale': 'zh',
+                'locale': LocalizationHelper.getFlatpickrLocale(),
                 defaultDate: self.dafaultDate
             })
         }
@@ -363,6 +367,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     deleteTimeField(index: number): void {
         this.input.items.splice(index, 1);
+        if (this.input.items.length <= 0) {
+            this.isNew = true;
+        }
     }
 
     saveTimeField(index: number): void {
@@ -389,10 +396,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 检查数据是否需要恢复
     checkDataNeed2Reconvert() {
-        this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId))
+        this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
-                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                    this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
                             this.originalinput = _.cloneDeep(this.input);
@@ -408,26 +415,27 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
             if (this.isDataNoSave()) {
-                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId), this.input);
+                this._localStorageService.setItem(this.getCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }
         }, 3000)
     }
 
     isDataNoSave(): boolean {
+        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
         return this.isDataNoEqual(this.originalinput, this.input);
     }
 
     isDataNoEqual(source: CreateOrUpdateBookingInput, destination: CreateOrUpdateBookingInput): boolean {
         if (!source.booking.id && destination.booking.id) { return false; }
 
-        if (source.booking.id !== destination.booking.id) { return false; }
+        if (source.booking.id !== destination.booking.id) { this.removeEditCache(); return false; }
 
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 
     removeEditCache() {
-        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId));
+        this._localStorageService.removeItem(this.getCacheItemKey());
     }
 
     // 跳转编辑预约
@@ -440,5 +448,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 url: `/pages/business-center/business-center?route=${encodeURIComponent(url)}`
             })
         }
+    }
+
+    private getCacheItemKey() {
+        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId);
     }
 }

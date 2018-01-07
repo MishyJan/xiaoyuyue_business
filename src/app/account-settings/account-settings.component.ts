@@ -30,7 +30,8 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     @ViewChild('unbindingEmailModel') unbindingEmailModel: UnbindingEmailModelComponent;
     @ViewChild('externalBindingModel') externalBindingModel: ExternalBindingModelComponent;
 
-    unBinding = false;
+    unBindingWechat = false;
+    unBindingQQ = false;
     constructor(
         private injector: Injector,
         private _appSessionService: AppSessionService,
@@ -47,6 +48,13 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     ngOnInit() {
         this._loginService.init();
         this.getUserSecurityInfo();
+        this.registerToEvents();
+    }
+
+    registerToEvents(): void {
+        abp.event.on('getUserSecurityInfo', () => {
+            this.getUserSecurityInfo();
+        });
     }
 
     // 获取当前用户安全信息
@@ -91,19 +99,24 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
 
     // 解绑微信
     unBindWeChat() {
-        this.unBinding = true;
+        this.unBindingWechat = true;
         const data = new ExternalUnBindingModel();
         data.authProvider = 'WeChat'
-        this._tokenAuthService.externalUnBinding(data).subscribe(result => {
+        this._tokenAuthService.externalUnBinding(data)
+        .finally( () => { this.unBindingWechat = false; })
+        .subscribe(result => {
             this.getUserSecurityInfo();
             this.notify.success('解绑成功');
         });
     }
 
     unBindQQ(): void {
+        this.unBindingQQ = true;
         const data = new ExternalUnBindingModel();
         data.authProvider = 'QQ';
-        this._tokenAuthService.externalUnBinding(data).subscribe(result => {
+        this._tokenAuthService.externalUnBinding(data)
+        .finally( () => { this.unBindingQQ = false; })
+        .subscribe(result => {
             this.getUserSecurityInfo();
             this.notify.success('解绑成功');
         });

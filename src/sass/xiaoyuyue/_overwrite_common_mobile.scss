@@ -1,0 +1,45 @@
+@import '_colors';
+@media (max-width: 767px) {
+    /* 767px */
+    .navbar-nav .open .dropdown-menu {
+        position: absolute;
+        float: left;
+        width: auto;
+        margin-top: 0;
+        background-color: #ffffff;
+        border: 1px solid #efefef;
+        box-shadow: 5px 5px rgba(102, 102, 102, 0.1);
+    }
+    .navbar-nav .open .dropdown-menu>li>a {
+        padding: 6px 0 6px 13px;
+        color: #333;
+    }
+    .navbar-nav .open .dropdown-menu>li>a:hover,
+    .navbar-nav .open .dropdown-menu>li>a:active {
+        background-color: #eee;
+    }
+    .empty-wrap {
+        margin-top: 0px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .toast-bottom-right {
+        right: 12px;
+        bottom: 54px;
+    }
+    .toast-bottom-left {
+        bottom: 54px;
+        left: 12px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .moxie-shim {
+        width: 100% !important;
+        height: 100% !important;
+        top: 0 !important;
+        z-index: 999 !important;
+    }
+}

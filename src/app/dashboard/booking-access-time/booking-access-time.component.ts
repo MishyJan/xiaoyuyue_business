@@ -29,7 +29,7 @@ export class BookingAccessTimeComponent extends AppComponentBase implements Afte
     chartOption: object = {};
     count = 0;
     showloading = true;
-    slogan: string = '暂无数据';
+    slogan = this.l('NoData');
 
     constructor(
         injector: Injector,

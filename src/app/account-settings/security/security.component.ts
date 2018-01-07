@@ -42,8 +42,8 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
             .getCurrentUserSecurityInfo()
             .subscribe(result => {
                 this.userSecurityInfo = result;
-                this.linkedWechatText = result.weChat ? result.weChat : '未关联';
-                this.linkedQQText = result.qq ? result.qq : '未关联';
+                this.linkedWechatText = result.weChat ? result.weChat : this.l('Unrelated');
+                this.linkedQQText = result.qq ? result.qq : this.l('Unrelated');
             })
     }
 
@@ -75,7 +75,7 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
             this.linkedWechatText = this.userSecurityInfo.weChat;
             return true;
         }
-        this.linkedWechatText = '未关联';
+        this.linkedWechatText = this.l('Unrelated');
         return false;
     }
 
@@ -84,7 +84,7 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
             this.linkedQQText = this.userSecurityInfo.qq;
             return true;
         }
-        this.linkedWechatText = '未关联';
+        this.linkedWechatText = this.l('Unrelated');
         return false;
     }
 
@@ -93,7 +93,7 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
         data.authProvider = 'QQ';
         this._tokenAuthService.externalUnBinding(data).subscribe(result => {
             this.getUserSecurityInfo();
-            this.notify.success('解绑成功');
+            this.notify.success(this.l('Unbinding.Success.Hint'));
         });
     }
 
@@ -103,7 +103,7 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
         data.authProvider = 'WeChat'
         this._tokenAuthService.externalUnBinding(data).subscribe(result => {
             this.getUserSecurityInfo();
-            this.notify.success('解绑成功');
+            this.notify.success(this.l('Unbinding.Success.Hint'));
         });
     }
 

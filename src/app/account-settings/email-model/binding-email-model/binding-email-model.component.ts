@@ -40,7 +40,8 @@ export class BindingEmailModelComponent extends AppComponentBase implements OnIn
         this._profileServiceProxy
             .bindingEmailAddress(this.input)
             .subscribe(result => {
-                this.notify.success('绑定成功');
+                this.notify.success(this.l('Binding.Success.Hint'));
+                abp.event.trigger('getUserSecurityInfo');
                 this.hide();
             })
     }

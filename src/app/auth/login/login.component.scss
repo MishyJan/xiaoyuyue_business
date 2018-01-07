@@ -26,36 +26,29 @@
             }
         }
         .toggle-wrap {
-            padding: 15px 0;
             .ordinary-login {
-                position: relative;
-                line-height: 30px;
-                cursor: pointer;
-                border-right: 1px solid #FFF;
-                .line {
-                    width: 60%;
-                    height: 2px;
-                    position: absolute;
-                    top: 28px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    margin: 0 auto;
-                    background-color: #FFF;
+                padding-right: 0;
+                .text {
+                    border-right: 1px solid #FFF;
                 }
             }
+            .ordinary-login,
             .phone-login {
-                position: relative;
-                line-height: 30px;
-                cursor: pointer;
-                .line {
-                    width: 60%;
-                    height: 2px;
-                    position: absolute;
-                    top: 28px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    margin: 0 auto;
-                    background-color: #FFF;
+                .content {
+                    position: relative;
+                    line-height: 30px;
+                    padding: 15px 0;
+                    cursor: pointer;
+                    .line {
+                        width: 60%;
+                        height: 2px;
+                        position: absolute;
+                        top: 44px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        margin: 0 auto;
+                        background-color: #FFF;
+                    }
                 }
             }
         }
@@ -113,6 +106,29 @@
         img {
             display: inline-block;
             margin-right: 6px;
+        }
+    }
+    .toggle-wrap {
+        padding: 15px 0;
+        text-align: center;
+        .ordinary-login {
+            border-right: 1px solid #3C4858;
+        }
+        .ordinary-login,
+        .phone-login {
+            position: relative;
+            line-height: 24px;
+            cursor: pointer;
+            .line {
+                width: 60%;
+                height: 2px;
+                position: absolute;
+                top: 28px;
+                left: 50%;
+                transform: translateX(-50%);
+                margin: 0 auto;
+                background-color: #FF9641;
+            }
         }
     }
     .login-body {

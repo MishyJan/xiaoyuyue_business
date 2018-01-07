@@ -2,7 +2,6 @@
     .search-btn-wrap {
         margin: 15px;
     }
-    .card-content {}
     .avatar {
         border-radius: 50%;
         overflow: hidden;
@@ -89,6 +88,20 @@
         }
     }
     .content-wrap {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        bottom: 20px;
+        left: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 15px;
+        .card {
+            margin: 0;
+            .card-content {
+                padding: 0px 20px;
+            }
+        }
         .flex-item+.flex-item {
             border-top: 1px solid #DADADA;
         }

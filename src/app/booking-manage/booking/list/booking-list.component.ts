@@ -10,6 +10,7 @@ import { BookingCustomModelComponent } from './shared/booking-custom-model/booki
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
 import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-model/share-booking-model.component';
 import { Moment } from 'moment';
@@ -20,6 +21,7 @@ import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { debug } from 'util';
 
 @Component({
     selector: 'app-manage-booking',
@@ -31,7 +33,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     flipIsToBackFlag: boolean[] = [];
-    updateDataIndex: number = -1;
+    updateDataIndex = -1;
     allOrganizationBookingResultData: any[] = [];
 
     infiniteScrollDistance = 1;
@@ -62,12 +64,16 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId = 0;
     bookingName: string;
 
-    maxResultCount = AppConsts.grid.defaultPageSize;
+    maxResultCount = 8;
     skipCount = 0;
     sorting: string;
     totalItems = 0;
     currentPage = 0;
-    slogan = '啥都没有，赶紧去创建预约吧';
+    slogan = this.l('Nothing.Need2Create');
+
+    copying = false;
+    deleting = false;
+    searching = false;
 
     shareBaseUrl: string = AppConsts.userCenterUrl + '/booking/';
     @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
@@ -114,7 +120,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
      */
     initFlatpickr() {
         this.bStartCreationTime = $('.startCreationTime').flatpickr({
-            'locale': 'zh',
+            'locale': LocalizationHelper.getFlatpickrLocale(),
             // clickOpens: false,
             onClose: (element) => {
                 $(this.bStartCreationTime.input).blur();
@@ -122,7 +128,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         })
 
         this.bEndCreationTime = $('.endCreationTime').flatpickr({
-            'locale': 'zh',
+            'locale': LocalizationHelper.getFlatpickrLocale(),
             // clickOpens: false,
             onClose: (element) => {
                 $(this.bEndCreationTime.input).blur();
@@ -146,11 +152,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         }
         this.activeOrDisable.isActive = false;
         this._organizationBookingServiceProxy
-        .activedOrDisableBooking(this.activeOrDisable)
-        .subscribe(result => {
-            this.notify.success('已关闭预约!');
-            this.loadData();
-        });
+            .activedOrDisableBooking(this.activeOrDisable)
+            .subscribe(result => {
+                this.notify.success(this.l('Booking.Disabled.Success'));
+                this.loadData();
+            });
     }
 
     // 显示禁用之前预约样式
@@ -166,7 +172,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this._organizationBookingServiceProxy
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
-                this.notify.success('已开启预约!');
+                this.notify.success(this.l('Booking.UnDisabled.Success'));
                 this.loadData();
             });
     }
@@ -237,6 +243,11 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.shareBookingModel.show(bookingId);
     }
 
+    searchData() {
+        this.searching = true;
+        this.loadData();
+    }
+
     loadData(): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
@@ -245,6 +256,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this._organizationBookingServiceProxy
             .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
             .subscribe(result => {
+                this.searching = false;
                 const self = this;
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
@@ -259,6 +271,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
                 }
 
+            }, error => {
+                this.searching = false;
             });
     }
 
@@ -279,50 +293,60 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 复制预约
     copyBooking(index) {
+        this.copying = true;
         const bookingId = this.organizationBookingResultData[index].id;
         const input = new CreateOrUpdateBookingInput();
 
-        this.message.confirm('是否要复制当前预约', (isCopy) => {
-            if (isCopy) {
-                this._organizationBookingServiceProxy
-                    .getBookingForEdit(bookingId)
-                    .subscribe(result => {
-
-                        input.booking = result.booking;
-                        input.booking.id = 0;
-                        input.bookingPictures = result.bookingPictures;
-                        input.items = result.items;
-                        if (input.items) {
-                            for (let i = 0; i < input.items.length; i++) {
-                                input.items[i].id = 0;
-                                input.items[i].bookingId = 0;
-                            }
-                        }
-
-                        // 创建预约
-                        this._organizationBookingServiceProxy
-                            .createOrUpdateBooking(input)
-                            .subscribe(() => {
-                                this.loadData();
-                                this.notify.success('复制成功！');
-                            });
-                    });
+        this.message.confirm(this.l('Booking.Copy.Confirm'), (isCopy) => {
+            if (!isCopy) {
+                this.copying = false;
+                return;
             }
+
+            this._organizationBookingServiceProxy
+                .getBookingForEdit(bookingId)
+                .subscribe(result => {
+
+                    input.booking = result.booking;
+                    input.booking.id = 0;
+                    input.bookingPictures = result.bookingPictures;
+                    input.items = result.items;
+                    if (input.items) {
+                        for (let i = 0; i < input.items.length; i++) {
+                            input.items[i].id = 0;
+                            input.items[i].bookingId = 0;
+                        }
+                    }
+
+                    // 创建预约
+                    this._organizationBookingServiceProxy
+                        .createOrUpdateBooking(input)
+                        .subscribe(() => {
+                            this.copying = false;
+                            this.loadData();
+                            this.notify.success(this.l('Booking.Copy.Success'));
+                        });
+                });
         });
     }
 
     // 删除预约
     removeBooking(index) {
+        this.deleting = true;
         const bookingId = this.organizationBookingResultData[index].id;
-        this.message.confirm('是否要删除当前预约', (isDelete) => {
-            if (isDelete) {
-                this._organizationBookingServiceProxy
-                    .deleteBooking(bookingId)
-                    .subscribe(() => {
-                        this.loadData();
-                        this.notify.success('删除成功！');
-                    });
+        this.message.confirm(this.l('Booking.Delete.Confirm'), (isDelete) => {
+            if (!isDelete) {
+                this.deleting = false;
+                return;
             }
+            this._organizationBookingServiceProxy
+                .deleteBooking(bookingId)
+                .subscribe(() => {
+                    this.deleting = false;
+                    this.loadData();
+                    this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this._sessionService.tenantId));
+                    this.notify.success(this.l('DeleteSuccess'));
+                });
         });
     }
 

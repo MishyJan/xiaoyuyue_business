@@ -2,9 +2,13 @@
     <div class="row">
         <div class="gallery-wrap col-md-12">
             <div class="img-wrap">
-                <span class="add-img-icon vapps-icon-cb-add-img" *ngIf="pictureInfo.pictureUrl == ''"></span>
-                <p *ngIf="pictureInfo.pictureUrl == ''">{{ l('PlaceholderTips.UploadTenantImage') }}</p>
-                <img alt="outletPicUrl" *ngIf="pictureInfo.pictureUrl !== ''" [src]="pictureInfo.pictureUrl" height="100%">
+                <ng-container *ngIf="pictureInfo.pictureUrl; else elseTemplate">
+                    <img alt="outletPicUrl" [src]="pictureInfo.pictureUrl" height="100%">
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <span class="add-img-icon vapps-icon-cb-add-img"></span>
+                    <p>{{ l('PlaceholderTips.UploadTenantImage') }}</p>
+                </ng-template>
             </div>
         </div>
     </div>
