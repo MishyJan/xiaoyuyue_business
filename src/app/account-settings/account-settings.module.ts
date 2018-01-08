@@ -19,6 +19,7 @@ import { UtilsModule } from 'shared/utils/utils.module';
 import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
 import { UnbindingEmailModelComponent } from 'app/account-settings/email-model/unbinding-email-model/unbinding-email-model.component';
 import { LangSwitchComponent } from './lang-switch/lang-switch.component';
+import { EmailComponent } from 'app/account-settings/security/email/email.component';
 
 @NgModule({
     imports: [
@@ -41,9 +42,10 @@ import { LangSwitchComponent } from './lang-switch/lang-switch.component';
         BindingEmailModelComponent,
         UnbindingEmailModelComponent,
         PhoneComponent,
-        ExternalBindingModelComponent,
-    LangSwitchComponent
-],
+        ExternalBindingModelComponent,
+        LangSwitchComponent,
+        EmailComponent
+    ],
     providers: [
         LoginService
     ]
