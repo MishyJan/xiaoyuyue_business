@@ -115,7 +115,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
-                    this.message.confirm(this.l('emporaryData.Unsaved'), this.l('emporaryData.Recover'), (confirm) => {
+                    this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
                             this.initOutletInfoToDisplay(this.input.outlet);
