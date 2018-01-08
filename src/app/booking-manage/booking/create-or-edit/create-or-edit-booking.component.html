@@ -16,6 +16,7 @@
                             <breadcrumb></breadcrumb>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="col-xs-6 text-right">
@@ -91,7 +92,7 @@
                             <!--应约人所需信息选项-->
                             <div class="row">
                                 <div class="info-checkbox name col-md-3 text-right label-on-left">
-                                    <span>{{l('Booking.InfoOptions')}}</span>
+                                    <span>{{l('Booking.CustomerOptions')}}</span>
                                 </div>
                                 <div class="col-md-9 row content">
                                     <div class="margin-top-14">
@@ -151,7 +152,10 @@
         </div>
     </form>
     <xiaoyuyue-share-booking-model #shareBookingModel [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
+
 </div>
+
+
 
 <div class="mobile-create-booking common-container" [@routerTransition] *showItBootstrap="['xs','sm']">
     <tabset class="side-bar" #staticTabs>
@@ -389,7 +393,7 @@
                 <div class="card">
                     <div class="card-content clearfix">
                         <div class="col-xs-12 title-wrap">
-                            <p class="title">{{l('Booking.InfoOptions')}}</p>
+                            <p class="title">{{l('Booking.CustomerOptions')}}</p>
                         </div>
                         <div class="col-xs-4 item">
                             <div class="checkbox">
