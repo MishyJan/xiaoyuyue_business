@@ -1,92 +1,34 @@
-.confirm-order-wrap {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    transition: all .3s;
-    visibility: hidden;
-    opacity: 0;
+.booking-custom-wrap {
     .btn-white {
         color: #FF9641;
         background-color: #FFF;
     }
-    &.ani.fade-in {
-        visibility: visible;
-        opacity: 1;
-        .wrap {
-            transform: translateY(0);
-            opacity: 1;
+    .modal-dialog {
+        width: 974px;
+        .modal-header {
+            height: 72px;
+            line-height: 72px;
+            padding: 0 40px;
+            color: #FFF;
+            background-color: #FF9641;
+            .title-name {
+                float: left;
+            }
+            .process-batch {
+                float: right;
+                margin-top: 16px;
+            }
         }
-    }
-    &.ani.fade-out {
-        visibility: hidden;
-        opacity: 0;
-        .wrap {
-            transform: translateY(-100px);
-            opacity: 0;
-        }
-    }
-    .wrap {
-        width: 100%;
-        height: 100%;
-        max-width: 974px;
-        position: relative;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        transition: transform .25s, opacity .15s;
-        transform: translateY(-100px);
-        opacity: 0;
-        overflow: auto;
-        .confirm-model {
-            width: 100%;
-            max-width: 974px;
-            position: absolute;
-            left: 0;
-            right: 0;
-            margin: 80px auto 40px;
-            z-index: 1001;
-            background-color: #FFF;
-            .header-model {
-                height: 72px;
-                line-height: 72px;
-                padding: 0 40px;
-                color: #FFF;
+        .modal-body {
+            .serach-wrap {
+                margin: 10px 0;
+            }
+            .vapps-icon-app-search {
+                font-size: 18px;
                 background-color: #FF9641;
-                .title-name {
-                    float: left;
-                }
-                .process-batch {
-                    float: right;
-                    margin-top: 16px;
-                }
+                padding: 6px;
+                margin: 20px 0 0 0;
             }
-            .content-model {
-                .card {
-                    margin: 0;
-                }
-                .serach-wrap {
-                    margin: 10px 0;
-                }
-                .vapps-icon-app-search {
-                    font-size: 18px;
-                    background-color: #FF9641;
-                    padding: 6px;
-                    margin: 20px 0 0 0;
-                }
-            }
-            .footer-model {}
         }
-    }
-    .bg-cover {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, .4);
     }
 }

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { BatchConfirmInput, BookingListDto, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
-import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -11,13 +11,16 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { ModalDirective } from 'ngx-bootstrap';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 @Component({
     selector: 'xiaoyuyue-booking-custom-model',
     templateUrl: './booking-custom-model.component.html',
     styleUrls: ['./booking-custom-model.component.scss']
 })
-export class BookingCustomModelComponent extends AppComponentBase implements OnInit {
+export class BookingCustomModelComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    creationTime: any;
     hourOfDay: string;
     batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
     batchConfirmCount = 0;
@@ -28,7 +31,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     bookingName: string;
     confirmOrderText = this.l('Batch');
     creationEndDate: Moment;
-    creationStartDate: Moment;
+    creationStartDate: any;
     customerName: string;
     endMinute: number;
     gender: Gender;
@@ -40,6 +43,8 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     status: Status[] = [OrgBookingOrderStatus.WaitConfirm, OrgBookingOrderStatus.ConfirmSuccess, OrgBookingOrderStatus.ConfirmFail, OrgBookingOrderStatus.Cancel, OrgBookingOrderStatus.Complete];
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
+    @ViewChild('bookingCustomModel') modal: ModalDirective;
+
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
@@ -51,7 +56,18 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
 
     }
 
+    ngAfterViewInit() {
+        this.initFlatpickr();
+    }
+
+    ngOnDestroy() {
+        if (this.creationTime) {
+            this.creationTime.destroy();
+        }
+    }
+
     loadData(): void {
+        this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
         this.bookingCustomListData.query(() => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
@@ -78,18 +94,37 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                     return gridData;
                 });
         }, true);
+        if (typeof this.creationStartDate === 'object') {
+            this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
+        }
+    }
+
+    initFlatpickr() {
+        this.creationTime = $('.creationTime').flatpickr({
+            'locale': LocalizationHelper.getFlatpickrLocale(),
+            // clickOpens: false,
+            onClose: (element) => {
+                $(this.creationTime.input).blur();
+            },
+            onOpen: (dateObj, dateStr) => {
+                this.creationStartDate = null;
+            }
+        })
     }
 
     public showModel(bookingItem: BookingListDto): void {
+        this.bookingItem = bookingItem;
         if (bookingItem.id) {
             this.bookingId = bookingItem.id;
         }
         this.loadData();
-        this.isShowModelFlag = true;
+        this.modal.show();
+        // this.isShowModelFlag = true;
     }
 
     public hideModel(): void {
-        this.isShowModelFlag = false;
+        // this.isShowModelFlag = false;
+        this.modal.hide();
         this.isShowModelHander.emit(this.isShowModelFlag);
     }
 

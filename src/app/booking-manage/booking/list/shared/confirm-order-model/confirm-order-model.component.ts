@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
-import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -11,6 +11,7 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'xiaoyuyue-confirm-order-model',
@@ -41,6 +42,8 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     wait4ConfirmOrderListData: any;
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
+    @ViewChild('confirmOrderModel') modal: ModalDirective;
+
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
@@ -148,14 +151,14 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
         if (!bookingId) {
             return;
         }
+        this.modal.show();
         this.bookingId = bookingId;
         this.loadData();
         this.isFreshenData = false;
-        this.isShowModelFlag = true;
     }
 
     public hideModel(): void {
-        this.isShowModelFlag = false;
+        this.modal.hide();
         this.isShowModelHander.emit(this.isFreshenData);
     }
 

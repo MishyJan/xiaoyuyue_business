@@ -308,7 +308,10 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 disableMobile: false,
                 wrap: true,
                 'locale': LocalizationHelper.getFlatpickrLocale(),
-                defaultDate: self.dafaultDate
+                defaultDate: self.dafaultDate,
+                onOpen: (dateObj, dateStr) => {
+                    this.editingBookingItem.availableDates = null;
+                }
             })
         }
     }

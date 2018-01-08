@@ -113,12 +113,21 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.loadData();
             this.cBookingOrderDate = $('#bookingDate').flatpickr({
                 'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.bookingDate = null;
+                }
             });
             this.cStartCreationTime = $('#startCreationTime').flatpickr({
                 'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.creationStartDate = null;
+                }
             });
             this.cEndCreationTime = $('#endCreationTime').flatpickr({
                 'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.creationEndDate = null;
+                }
             });
         }
     }
