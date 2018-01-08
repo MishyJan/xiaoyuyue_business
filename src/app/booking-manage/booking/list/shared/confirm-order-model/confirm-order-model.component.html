@@ -20,6 +20,7 @@
                         <!-- 应约人 -->
                         <kendo-grid-column title="{{l('BookingOrder.Name')}}">
                             <ng-template kendoGridCellTemplate let-dataItem>
+                                <img [src]="dataItem.profilePictureUrl" width="50px" height="50px" alt="avatar" style="border-radius: 100%;">
                                 <span>{{ dataItem.customerName }}</span>
                             </ng-template>
                         </kendo-grid-column>
@@ -42,13 +43,6 @@
                         <kendo-grid-column title="{{l('BookingOrder.PhoneNumber')}}">
                             <ng-template kendoGridCellTemplate let-dataItem>
                                 <span>{{ dataItem.phoneNum }}</span>
-                            </ng-template>
-                        </kendo-grid-column>
-
-                        <!-- 预约时间 -->
-                        <kendo-grid-column title="{{l('BookingOrder.CreationTime')}}">
-                            <ng-template kendoGridCellTemplate let-dataItem>
-                                <span>{{ t(dataItem.creationTime) }}</span>
                             </ng-template>
                         </kendo-grid-column>
 
