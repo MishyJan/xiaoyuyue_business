@@ -1,4 +1,5 @@
 @import '_colors';
+@import '_variables';
 
 /* kendo grid */
 
@@ -85,7 +86,7 @@
 .k-i-collapse:before,
 .k-i-expand-s:before,
 .k-i-sarrow-s:before {
-    font-family: 'xiaoyuyue' !important;
+    font-family: $xiaoyuyue-font-family !important;
     content: '\e919';
 }
 
