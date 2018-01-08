@@ -18,7 +18,6 @@ export class RepeatPasswdDto extends ChangePasswordInput {
     animations: [accountModuleAnimation()]
 })
 export class PasswdComponent extends AppComponentBase implements OnInit {
-    encryptPhoneNum: string;
     input: RepeatPasswdDto = new RepeatPasswdDto();
     byPhoneInput: ChangePasswordByPhoneInput = new ChangePasswordByPhoneInput();
     phoneChangePasswd = false;
@@ -84,7 +83,6 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
     isBindingPhoneHandler(): boolean {
         if (this._appSessionService.user.phoneNumber != null) {
             this.phoneNum = this._appSessionService.user.phoneNumber;
-            this.encrypt();
             return true;
         } else {
             this.message.confirm(this.l('Security.ChangePasswd.MustBingPhone'), (result) => {
@@ -95,12 +93,5 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
                 }
             })
         }
-    }
-
-    private encrypt(): void {
-        if (!this.phoneNum) {
-            return;
-        }
-        this.encryptPhoneNum = '•••••••' + this.phoneNum.substr(this.phoneNum.length - 4);
     }
 }

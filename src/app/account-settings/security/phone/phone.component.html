@@ -1,6 +1,6 @@
 <!-- 验证旧手机  -->
 <div class="current-phone-wrap">
-    <div [@routerTransition] *ngIf="!currentPhoneNum ? false :  !isVerified">
+    <div [@routerTransition] *ngIf="!phoneNum ? false :  !isVerified">
         <form #currentPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
@@ -8,9 +8,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="form-group label-floating" [class.is-empty]="!encryptPhoneNum">
+                        <div class="form-group label-floating">
                             <label class="control-label">{{l('Security.OldTelephone')}}</label>
-                            <input type="text" class="form-control" name="beforePhone" [value]="encryptPhoneNum" disabled>
+                            <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
                         </div>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                         <div class="form-group label-floating">
                             <label class="control-label">{{l('VerifyCode')}}</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="code" required>
-                            <xiaoyuyue-send-code [codeType]="unbindingCodeType" [phoneNumber]="currentPhoneNum"></xiaoyuyue-send-code>
+                            <xiaoyuyue-send-code [codeType]="unbindingCodeType" [phoneNumber]="phoneNum"></xiaoyuyue-send-code>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
     </div>
 
     <!-- 验证旧手机后，绑定新手机 -->
-    <div class="new-phone-wrap" *ngIf="!currentPhoneNum ? false :  isVerified">
+    <div class="new-phone-wrap" *ngIf="!phoneNum ? false :  isVerified">
         <form #newPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
@@ -71,7 +71,7 @@
     </div>
 
     <!-- 没有绑定过手机，绑定手机 -->
-    <div class="new-phone-wrap" *ngIf="!currentPhoneNum">
+    <div class="new-phone-wrap" *ngIf="!phoneNum">
         <form #newPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
