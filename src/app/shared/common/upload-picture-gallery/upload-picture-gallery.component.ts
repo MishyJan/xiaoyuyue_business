@@ -18,7 +18,6 @@ export class SelectedPicListDto {
     picUrl: string;
     picId: number;
     selected: boolean;
-    active: boolean;
 }
 
 @Component({
@@ -37,8 +36,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     selectedPicList: SelectedPicListDto = new SelectedPicListDto();
     selectedPicListArr: SelectedPicListDto[] = [];
 
-    // 获取最大页码数
-    maxPageNum: number;
     // 保存当前页码的数据是否选中的数据
     totalItems: number;
     currentPage = 0;
@@ -46,17 +43,18 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     selectedPicIndex: number;
 
-    groupActiveIndex: number = 0;
+    groupActiveIndex = 0;
     picGroupItemData: SelectedPicListDto[] = [];
     defaultPicGalleryGroupId: number;
     picGalleryGroupData: PictureGroupListDto[];
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
 
     loading = false;
+    addedFile = false;
     tabToggle = true;
 
     // 是否多选图片
-    isMutliPic: boolean = true;
+    isMutliPic = true;
 
     // 记录已选中图片的数据
     public selectedPicData: PictureListDto[] = [];
@@ -74,7 +72,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     private _$profilePicture: JQuery;
 
     @Input() groupId: number = 0;
-    @Input() existingPicNum: number;
     @Input() cropScaleX: number = 1;
     @Input() cropScaleY: number = 1;
     @Output() sendPictureForEdit: EventEmitter<BookingPictureEditDto> = new EventEmitter();
@@ -98,8 +95,18 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     show(bookingPictureEdit?: any, isMutliPic?: boolean): void {
         if (bookingPictureEdit) {
             this.isMutliPic = isMutliPic;
-            this.existsBookingPictureEdit = bookingPictureEdit
+            this.existsBookingPictureEdit = bookingPictureEdit;
+            // 将存在的图片数据放到选中数组中
+            this.picturyGalleryDestroy();
+            this.existsBookingPictureEdit.forEach(element => {
+                const selectedPicList = new SelectedPicListDto();
+                selectedPicList.picId = element.pictureId;
+                selectedPicList.picUrl = element.pictureUrl;
+                selectedPicList.selected = true;
+                this.selectedPicListArr.push(selectedPicList);
+            });
         }
+        this.addedFile = false;
         this.modal.show();
         this.loadPicGalleryData();
     }
@@ -136,27 +143,15 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     this.selectedPicList.name = pagesItem.name;
                     this.selectedPicList.selected = false;
 
-                    if (this.existsBookingPictureEdit.pictureId && this.existsBookingPictureEdit.pictureId == pagesItem.id) {
-                        this.selectedPicList.selected = true;
-                    }
                     if (this.existsBookingPictureEdit.length > 0) {
                         this.existsBookingPictureEdit.forEach(element => {
-                            if (element.pictureId == pagesItem.id) {
+                            if (element.pictureId === pagesItem.id) {
                                 this.selectedPicList.selected = true;
-                                this.selectedPicList.active = false;
                             }
                         });
                     }
                     this.picGroupItemData.push(this.selectedPicList);
-                    if (this.selectedPicListArr.length > 0) {
-                        this.selectedPicListArr.forEach((selectedPicListArrItem) => {
-                            if (selectedPicListArrItem.picId === pagesItem.id) {
-                                (this.picGroupItemData[inx].selected = true);
-                            }
-                        });
-                    }
                 });
-                this.maxPageNum = Math.ceil(this.totalItems / this.maxResultCount);
             })
     }
 
@@ -206,12 +201,11 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
             this.selectedPicListArr.splice(this.selectedPicListArr.length - 1, 1);
             this.message.warn('图片超过上限');
         }
-
     }
 
     // 获取可选择图片的数量
     public setPicElectiveNum(): number {
-        return this.maxPicNum - this.existingPicNum - this.setPicSelectNum();
+        return this.maxPicNum - this.setPicSelectNum();
     }
 
     // 获取选中图片数组中，返回已选择的数据长度
@@ -303,6 +297,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     init: {
                         'FilesAdded': (up, files) => {
                             self.picturyDestroy();
+                            self.addedFile = true;
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
                                 // 上传之前本地预览
@@ -335,7 +330,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                             });
                         },
                         'BeforeUpload': (up, file) => {
-                            self.loading = true;
                             // 每个文件上传前,处理相关的事情
                             self.loading = true;
                         },

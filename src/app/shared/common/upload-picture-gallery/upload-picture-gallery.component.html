@@ -86,7 +86,7 @@
                     <div class="modal-footer">
                         <div id="uploadAreaWrap">
                             <button type="button" class="btn primary-bgcolor" id="uploadArea"><span class="vapps-icon vapps-icon-app-add-time-field"></span>选择文件</button>
-                            <button type="submit" class="btn primary-bgcolor" id="confirmUpload" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+                            <button type="submit" class="btn primary-bgcolor" [disabled]="!addedFile" id="confirmUpload" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
                         </div>
                     </div>
                 </div>

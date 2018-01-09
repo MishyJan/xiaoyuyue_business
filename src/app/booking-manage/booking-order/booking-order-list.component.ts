@@ -192,7 +192,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     // 应约人列表model弹窗，若关闭应该刷新数据
     isShowConfirmOrderModelHander(flag: boolean): void {
-        if (!flag) {
+        if (flag) {
             this.loadData();
         }
     }

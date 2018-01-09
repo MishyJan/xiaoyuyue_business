@@ -10,7 +10,7 @@ import { UploadPictureGalleryComponent } from 'app/shared/common/upload-picture-
     templateUrl: './picture-manage.component.html',
     styleUrls: ['./picture-manage.component.scss']
 })
-export class PictureManageComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
+export class PictureManageComponent extends AppComponentBase implements OnInit, OnChanges {
     isMutliSelect = true;
     pictrueIndex: number;
     displayOrder = 0;
@@ -29,19 +29,12 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
     ngOnInit() {
     }
 
-    ngAfterViewInit() {
-    }
-
     ngOnChanges(changes: SimpleChanges) {
         this.selectedPictures = this.selectedPictures;
     }
 
     uploadPicHandler(): void {
         this.isMutliSelect = true;
-        if (this.selectedPictures.length >= 4) {
-            this.message.warn('不能超过四张图');
-            return;
-        }
         this.show(this.selectedPictures, this.isMutliSelect);
     }
 
@@ -79,6 +72,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
             maxDisplayOrder = this.selectedPictures[this.selectedPictures.length - 1].displayOrder;
         }
         if (this.isMutliSelect) {
+            this.selectedPictures = [];
             picGalleryForEdit.forEach(element => {
                 element.displayOrder = ++maxDisplayOrder;
                 this.selectedPictures.unshift(element);
@@ -98,7 +92,7 @@ export class PictureManageComponent extends AppComponentBase implements OnInit, 
         this.isMutliSelect = false;
         this.pictrueIndex = pictureIndex;
         this.displayOrder = displayOrder;
-        this.show(this.selectedPictures[pictureIndex], this.isMutliSelect);
+        this.show(this.selectedPictures, this.isMutliSelect);
     }
 
     // 移除数组某个索引的值
