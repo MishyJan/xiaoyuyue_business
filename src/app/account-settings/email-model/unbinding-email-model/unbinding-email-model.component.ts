@@ -12,12 +12,11 @@ import { BindingEmailModelComponent } from 'app/account-settings/email-model/bin
     styleUrls: ['./unbinding-email-model.component.scss']
 })
 export class UnbindingEmailModelComponent extends AppComponentBase implements OnInit {
-    phoneNumber: string;
+    phoneNum: string;
     userSecurityInfo: UserSecurityInfoDto;
     emailAddress: string;
     code: string;
     model: CodeSendInput = new CodeSendInput();
-    emailAddressText: string;
     codeType = VerificationCodeType.ChangeEmail;
     sendCodeType = SendCodeType.Email;
 
@@ -34,14 +33,10 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     ) {
         super(injector);
         this.emailAddress = this._appSessionService.user.emailAddress;
-        this.phoneNumber = this._appSessionService.user.phoneNumber;
+        this.phoneNum = this._appSessionService.user.phoneNumber;
     }
 
     ngOnInit() {
-        if (!this.emailAddress) {
-            return;
-        }
-        this.encrypt();
     }
     show(): void {
         this.unbindingEmailModel.show();
@@ -66,14 +61,10 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     }
 
     private checkMustBinding(): boolean {
-        if (!this.phoneNumber) {
+        if (!this.phoneNum) {
             this.message.error(this.l('UnBindingEmail.RequiredPhoneNumber.Hint'));
             return false;
         }
         return true;
-    }
-
-    private encrypt(): void {
-        this.emailAddressText = '•••••••' + this.emailAddress.substr(this._appSessionService.user.emailAddress.length - 8);
     }
 }

@@ -59,7 +59,10 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
             this.timeInfoFlatpickr = $('#timeInfoFlatpickr').flatpickr({
                 wrap: true,
                 'locale': LocalizationHelper.getFlatpickrLocale(),
-                defaultDate: defaultDate
+                defaultDate: defaultDate,
+                onOpen: (dateObj, dateStr) => {
+                    this.editingBookingItem.availableDates = null;
+                }
             })
         }, 100);
     }

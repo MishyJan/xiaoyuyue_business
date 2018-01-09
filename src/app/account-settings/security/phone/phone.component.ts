@@ -17,8 +17,7 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
 
     bindingPhoneNumInput: BindingPhoneNumInput = new BindingPhoneNumInput();
     isVerified = false;
-    currentPhoneNum: string;
-    encryptPhoneNum: string;
+    phoneNum: string;
     code: string;
     changeBindingPhoneNumInput: ChangeBindingPhoneNumInput = new ChangeBindingPhoneNumInput();
     checkUserCodeInput: CheckUserCodeInput = new CheckUserCodeInput();
@@ -34,10 +33,10 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
         private _sessionService: AppSessionService,
     ) {
         super(injector);
+        this.phoneNum = this._sessionService.user.phoneNumber;
     }
 
     ngOnInit() {
-        this.getUserPhoneNum();
     }
 
     verificationPhoneNum(): void {
@@ -72,17 +71,5 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
                     this.notify.success(this.l('Binding.Success.Hint'));
                 }, 1000);
             });
-    }
-
-    getUserPhoneNum(): void {
-        this.currentPhoneNum = this._sessionService.user.phoneNumber;
-        this.encrypt();
-    }
-
-    private encrypt(): void {
-        if (!this.currentPhoneNum) {
-            return;
-        }
-        this.encryptPhoneNum = '•••••••' + this.currentPhoneNum.substr(this.currentPhoneNum.length - 4);
     }
 }

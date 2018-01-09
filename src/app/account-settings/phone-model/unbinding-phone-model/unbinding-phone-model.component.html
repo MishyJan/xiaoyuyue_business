@@ -9,8 +9,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group label-floating">
-                                <input class="form-control edited" type="text" name="currentPassword" [(ngModel)]="phoneNumText" readonly required>
                                 <label class="control-label">{{ l('Security.Filed.OldPhoneNum') }}</label>
+                                <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
                             </div>
                         </div>
 
@@ -18,7 +18,7 @@
                             <div class="form-group label-floating">
                                 <input class="form-control edited" type="number" name="newPassword" [(ngModel)]="code" required>
                                 <label class="control-label">{{ l('VerifyCodeField') }}</label>
-                                <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="phoneNumber"></xiaoyuyue-send-code>
+                                <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="phoneNum"></xiaoyuyue-send-code>
                             </div>
                         </div>
                     </div>

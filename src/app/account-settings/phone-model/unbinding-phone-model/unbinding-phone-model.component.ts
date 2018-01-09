@@ -13,7 +13,7 @@ import { BindingPhoneModelComponent } from 'app/account-settings/phone-model/bin
 })
 export class UnbindingPhoneModelComponent extends AppComponentBase implements OnInit {
     emailAddress: string;
-    phoneNumber: string;
+    phoneNum: string;
     code: string;
     model: CodeSendInput = new CodeSendInput();
     phoneNumText: string;
@@ -32,11 +32,10 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
     ) {
         super(injector);
         this.emailAddress = this._appSessionService.user.emailAddress;
-        this.phoneNumber = this._appSessionService.user.phoneNumber;
+        this.phoneNum = this._appSessionService.user.phoneNumber;
     }
 
     ngOnInit() {
-        this.encrypt();
     }
     show(): void {
         this.unbindingPhoneModel.show();
@@ -66,12 +65,5 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
             return false;
         }
         return true;
-    }
-
-    private encrypt(): void {
-        if (!this._appSessionService.user.phoneNumber) {
-            return;
-        }
-        this.phoneNumText = '•••••••' + this._appSessionService.user.phoneNumber.substr(this._appSessionService.user.phoneNumber.length - 4);
     }
 }

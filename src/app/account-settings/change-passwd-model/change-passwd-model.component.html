@@ -63,7 +63,7 @@
                             <div class="col-md-12">
                                 <div class="form-group label-floating">
                                     <label class="control-label">{{ l('PhoneNumField') }}</label>
-                                    <input type="text" class="form-control" name="currentPassword" [(ngModel)]="encryptPhoneNum" readonly>
+                                    <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
                                     <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                 </div>
                             </div>

@@ -1,0 +1,109 @@
+<!-- 验证旧邮箱  -->
+<div class="email-wrap">
+        <div class="current-email-wrap">
+            <div [@routerTransition] *ngIf="!emailAddress ? false :  !isVerified">
+                <form #currentEmailAddressFrom="ngForm">
+                    <div class="card">
+                        <div class="card-header card-header-text" data-background-color="orange">
+                            <span class="title-icon vapps-icon-app-email"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group label-floating" [class.is-empty]="!encryptEmailAddress">
+                                    <label class="control-label">{{l('Security.Filed.OldEmailAddress')}}</label>
+                                    <input type="text" class="form-control" name="beforeEmail" [value]="encryptEmailAddress" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">{{l('VerifyCode')}}</label>
+                                    <input type="text" class="form-control" name="validateCode" [(ngModel)]="code" required>
+                                    <xiaoyuyue-send-code [codeType]="changeEmailCodeType" [sendCodeType]="sendCodeType" [emailAddress]="emailAddress"></xiaoyuyue-send-code>
+    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-block btn-warning" type="submit" (click)="verificationEmailAddress()" [disabled]="!currentEmailAddressFrom.form.valid">{{l('NextStep')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+        <!-- 验证旧邮箱后，绑定新邮箱 -->
+        <div class="new-email-wrap" *ngIf="!emailAddress ? false :  isVerified">
+            <form #newEmailAddressFrom="ngForm">
+                <div class="card">
+                    <div class="card-header card-header-text" data-background-color="orange">
+                        <span class="title-icon vapps-icon-app-validate-email"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{l('Security.Filed.NewEmailAddres')}}</label>
+                                <input type="text" class="form-control" name="beforeEmailAddress" [(ngModel)]="changeBindingEmailInput.newEmailAddress" required>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{l('VerifyCode')}}</label>
+                                <input type="text" class="form-control" name="validateCode" [(ngModel)]="changeBindingEmailInput.bindlingCode" required>
+                                <xiaoyuyue-send-code [codeType]="bindingEmailCodeType" [sendCodeType]="sendCodeType" [emailAddress]="changeBindingEmailInput.newEmailAddress"></xiaoyuyue-send-code>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-block btn-warning" type="submit" (click)="changeBindEmail()" [disabled]="!newEmailAddressFrom.form.valid">{{l('Save')}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    
+        <!-- 未绑定过邮箱，绑定邮箱 -->
+        <div class="new-email-wrap" *ngIf="!emailAddress" [@routerTransition]>
+            <form #newEmailAddressFrom="ngForm">
+                <div class="card">
+                    <div class="card-header card-header-text" data-background-color="orange">
+                        <span class="title-icon vapps-icon-app-validate-email"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{l('Security.Filed.EmailAddress')}}</label>
+                                <input type="text" class="form-control" name="beforeEmail" [(ngModel)]="bindingEmailInput.emailAddress" required>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{l('Verify.Code')}}</label>
+                                <input type="text" class="form-control" name="validateCode" [(ngModel)]="bindingEmailInput.code" required>
+                                <xiaoyuyue-send-code [codeType]="bindingEmailCodeType" [sendCodeType]="sendCodeType" [emailAddress]="bindingEmailInput.emailAddress"></xiaoyuyue-send-code>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-block btn-warning" type="submit" (click)="bindEmailAddress()" [disabled]="!newEmailAddressFrom.form.valid">{{l('Binging')}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
