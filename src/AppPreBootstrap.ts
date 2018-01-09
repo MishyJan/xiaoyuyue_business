@@ -38,14 +38,6 @@ export class AppPreBootstrap {
     }
 
     private static getApplicationConfig(callback: () => void) {
-        // return abp.ajax({
-        //     url: '/assets/appconfig.json',
-        //     method: 'GET',
-        //     headers: {
-        //         'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
-        //     }
-        // }).done(result => {
-
         const subdomainTenancyNameFinder = new SubdomainTenancyNameFinder();
         const tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(AppConfig.AppBaseUrl);
 
@@ -62,7 +54,6 @@ export class AppPreBootstrap {
         }
 
         callback();
-        // });
     }
 
     private static getCurrentClockProvider(currentProviderName: string): abp.timing.IClockProvider {

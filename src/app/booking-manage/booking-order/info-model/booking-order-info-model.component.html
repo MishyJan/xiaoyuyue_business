@@ -61,8 +61,15 @@
 
             <div class="footer-model">
                 <button type="button" class="btn primary-bgcolor" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)&&(dataItem.status === 1)"
-                    (click)="confirmCustomerOrder()">{{l('Confirm')}}</button>
-                <button type="button" class="btn btn-perfect" *ngIf="isGranted(permissions.bookingManage_BookingOrderRemark)" (click)="remarkBookingOrder()">{{l('BookingOrder.UpdateRemark')}}</button>
+                    (click)="confirmCustomerOrder()" [buttonBusy]="confirming" [busyText]="l('Confirming')">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    <span>{{l("ConfirmBooking")}}</span>
+                </button>
+                <button type="button" class="btn btn-perfect" *ngIf="isGranted(permissions.bookingManage_BookingOrderRemark)" (click)="remarkBookingOrder()"
+                    [buttonBusy]="updating" [busyText]="l('Updating')">
+                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                    <span>{{l("BookingOrder.UpdateRemark")}}</span>
+                </button>
             </div>
         </div>
 
