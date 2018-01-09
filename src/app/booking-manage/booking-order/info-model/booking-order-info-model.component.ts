@@ -57,7 +57,6 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
 
     hideModel(): void {
         this.isShowModelFlag = false;
-        this.isShowModelHander.emit(this.isShowModelFlag);
     }
 
     // 备注订单
@@ -68,6 +67,8 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
             .subscribe(() => {
+                this.hideModel();
+                this.isShowModelHander.emit(true);
                 this.notify.success(this.l('UpdateSuccess'));
             });
     }
@@ -80,7 +81,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
             .confirmBookingOrder(input)
             .subscribe(() => {
                 this.hideModel();
-                this.isShowModelHander.emit(false);
+                this.isShowModelHander.emit(true);
                 this.notify.success(this.l('Booking.Confirm.Success'));
             });
     }
