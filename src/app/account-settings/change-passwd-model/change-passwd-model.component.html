@@ -1,10 +1,15 @@
-<div class="modal fade" bsModal #changePasswdModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel" aria-hidden="true">
+<div class="modal fade" bsModal #changePasswdModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel"
+    aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="xiaoyuyue-title-box">
-                    <div class="flex-item" (click)="changePasswdModeHandler(true)"><span class="text active" [ngClass]="{'active': changePasswdMode}">{{ l('Security.ChangePasswdWay.OldPasswd') }}</span></div>
-                    <div class="flex-item" (click)="changePasswdModeHandler(false)"><span class="text" [ngClass]="{'active': !changePasswdMode}">{{ l('Security.ChangePasswdWay.Phone') }}</span></div>
+                    <div class="flex-item" (click)="changePasswdModeHandler(true)">
+                        <span class="text active" [ngClass]="{'active': changePasswdMode}">{{ l('Security.ChangePasswd.ByOldPasswd') }}</span>
+                    </div>
+                    <div class="flex-item" (click)="changePasswdModeHandler(false)">
+                        <span class="text" [ngClass]="{'active': !changePasswdMode}">{{ l('Security.ChangePasswd.ByPhone') }}</span>
+                    </div>
                 </div>
             </div>
             <div *ngIf="changePasswdMode" [@routerTransition]>
@@ -13,7 +18,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group label-floating">
-                                    <input class="form-control edited" type="password" name="currentPassword" [(ngModel)]="input.currentPassword" #CurrentPassword="ngModel" required>
+                                    <input class="form-control edited" type="password" name="currentPassword" [(ngModel)]="input.currentPassword" #CurrentPassword="ngModel"
+                                        required>
                                     <label class="control-label">{{ l('Security.Filed.OldPasswd') }}</label>
                                 </div>
                                 <div *ngIf="CurrentPassword.invalid && (CurrentPassword.dirty || CurrentPassword.touched)">
@@ -23,7 +29,8 @@
 
                             <div class="col-md-12">
                                 <div class="form-group label-floating">
-                                    <input class="form-control edited" type="password" name="Password" [(ngModel)]="input.newPassword" #Password="ngModel" reverse="false" validateEqual="PasswordRepeat" required>
+                                    <input class="form-control edited" type="password" name="Password" [(ngModel)]="input.newPassword" #Password="ngModel" reverse="false"
+                                        validateEqual="PasswordRepeat" required>
                                     <label class="control-label">{{ l('Security.Filed.NewPasswd') }}</label>
                                 </div>
                                 <div *ngIf="Password.invalid && (Password.dirty || Password.touched)">
@@ -33,7 +40,8 @@
 
                             <div class="col-md-12">
                                 <div class="form-group label-floating">
-                                    <input class="form-control edited" type="password" name="PasswordRepeat" [(ngModel)]="input.repeatPasswd" #PasswordRepeat="ngModel" reverse="true" validateEqual="Password" required>
+                                    <input class="form-control edited" type="password" name="PasswordRepeat" [(ngModel)]="input.repeatPasswd" #PasswordRepeat="ngModel"
+                                        reverse="true" validateEqual="Password" required>
                                     <label class="control-label">{{ l('Security.Filed.ComfirmPasswd') }}</label>
                                 </div>
                                 <div *ngIf="Password.invalid && Password.touched">
@@ -55,7 +63,7 @@
                             <div class="col-md-12">
                                 <div class="form-group label-floating">
                                     <label class="control-label">{{ l('PhoneNumField') }}</label>
-                                    <input type="text" class="form-control" name="currentPassword" [(ngModel)]="encryptPhoneNum" readonly>
+                                    <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
                                     <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                                 </div>
                             </div>

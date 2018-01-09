@@ -16,16 +16,16 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
     // 保存待上传队列的所有文件
     waitingUploadFiles: any[] = [];
     uploader: any;
-    isShowCropArea: boolean = false;
+    isShowCropArea = false;
     _$cropImg: JQuery<HTMLElement>;
-    uploading: boolean = false;
+    uploading = false;
     imageMogr2Link: string;
 
     uploadPictureInfo: BookingPictureEditDto = new BookingPictureEditDto();
     @Input() allUploadPictureInfo: BookingPictureEditDto[] = [];
-    @Input() groupId: number = 0;
-    @Input() cropScaleX: number = 1;
-    @Input() cropScaleY: number = 1;
+    @Input() groupId = 0;
+    @Input() cropScaleX = 1;
+    @Input() cropScaleY = 1;
     @Output() picUploadInfoHandler: EventEmitter<BookingPictureEditDto[]> = new EventEmitter();
     @ViewChild('viewArtworkMasterModel') viewArtworkMasterModel: ViewArtworkMasterComponent;
     constructor(
@@ -55,7 +55,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                     runtimes: 'html5,flash,html4',    // 上传模式,依次退化
                     browse_button: 'bookingListUploadArea',       // 上传选择的点选按钮，**必需**
                     // uptoken_url: '/token',            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
-                    uptoken: token, //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+                    uptoken: token, // 若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
                     // unique_names: true, // 默认 false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
                     // save_key: true,   // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK会忽略对key的处理
                     domain: 'https://image.xiaoyuyue.com/',   // bucket 域名，下载资源时用到，**必需**
@@ -135,7 +135,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                             const currentPicUrl = res.originalUrl;
                             const currentPicId = res.pictureId;
                             if (self.allUploadPictureInfo.length >= 4) {
-                                self.notify.warn('不能超过四张');
+                                self.notify.warn(this.l('Booking.Picture.MaxCount'));
                             } else {
                                 self.uploadPictureInfo = new BookingPictureEditDto();
                                 self.uploadPictureInfo.pictureUrl = currentPicUrl;
@@ -148,12 +148,9 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
                         },
                         'Error': function (up, err, errTip) {
                             // 上传出错时,处理相关的事情
-                            alert(up);
-                            alert(err);
-                            alert(errTip);
                             self.uploading = false;
                             self.hideCropArea();
-                            self.notify.error('上传失败，请重新上传');
+                            self.notify.error(this.l('Upload.Failed'));
                         },
                         'UploadComplete': function () {
                             // uploader.destroy();
@@ -185,7 +182,7 @@ export class MobileUploadPictureListComponent extends AppComponentBase implement
 
     cropClear(): void {
         this._$cropImg.removeAttr('src');
-        this._$cropImg.cropper("destroy");
+        this._$cropImg.cropper('destroy');
     }
 
 

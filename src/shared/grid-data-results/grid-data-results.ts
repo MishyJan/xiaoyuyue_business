@@ -19,10 +19,10 @@ export class AppGridData extends BehaviorSubject<GridDataResult> {
 
     /**
      * 返回gridData数据
-     * @param getUsersForGrid 接收一个函数，此函数去获取api数据
+     * @param subscribe 接收一个函数，此函数去获取api数据
      */
 
-    public query(getForGrid: () => any, transform: boolean = false) {
+    public query(getForGrid: () => any, transform: boolean = false, callback: () => void = () => { }) {
         if (transform) {
             getForGrid().subscribe(x => super.next(x));
             return;
@@ -30,11 +30,16 @@ export class AppGridData extends BehaviorSubject<GridDataResult> {
 
         getForGrid()
             .map(response => {
-                let dataResult = (<GridDataResult>{
+                const dataResult = (<GridDataResult>{
                     data: response.items,
                     total: response.totalCount
                 });
                 return dataResult;
-            }).subscribe(x => super.next(x));
+            }).subscribe(x => {
+                super.next(x);
+                callback();
+            });
     }
+
+
 }

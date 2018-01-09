@@ -1,7 +1,8 @@
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
+import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { CreateOrEditOutletComponent } from './create-or-edit-outlet/create-or-edit-outlet.component';
 import { NgModule } from '@angular/core';
 import { OutletListComponent } from './outlet-list.component';

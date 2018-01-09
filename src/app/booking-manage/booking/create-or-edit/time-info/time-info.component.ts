@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingItemEditDto } from 'shared/service-proxies/service-proxies';
 import { Location } from '@angular/common';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 @Component({
     selector: 'app-time-info',
@@ -57,8 +58,11 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         setTimeout(() => {
             this.timeInfoFlatpickr = $('#timeInfoFlatpickr').flatpickr({
                 wrap: true,
-                'locale': 'zh',
-                defaultDate: defaultDate
+                'locale': LocalizationHelper.getFlatpickrLocale(),
+                defaultDate: defaultDate,
+                onOpen: (dateObj, dateStr) => {
+                    this.editingBookingItem.availableDates = null;
+                }
             })
         }, 100);
     }

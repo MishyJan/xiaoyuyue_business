@@ -21,7 +21,20 @@
                 <div class="item">
                     <div class="content">
                         <span class="icon vapps-icon-app-login-phone"></span>
-                        <p class="text">{{ l('Security.RevisePhone') }}</p>
+                        <p class="text" *ngIf="userSecurityInfo.phoneNumber">{{ l('Security.RevisePhone') }}</p>
+                        <p class="text" *ngIf="!userSecurityInfo.phoneNumber">{{ l('Security.VerifyPhone') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 更绑邮箱 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" routerLink="/settings/email">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-message"></span>
+                        <p class="text" *ngIf="userSecurityInfo.emailAddress">{{ l('Security.ReviseEmail') }}</p>
+                        <p class="text" *ngIf="!userSecurityInfo.emailAddress">{{ l('Security.VerifyEmail') }}</p>
                     </div>
                 </div>
             </div>

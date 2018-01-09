@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, GetOutletForEditDto, OutletEditDto, OutletServiceServiceProxy, SelectListItemDto, StateServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 import { IDailyDataStatistics, IListResultDtoOfLinkedUserDto } from '@shared/service-proxies/service-proxies';
 
@@ -25,7 +25,7 @@ import { test } from '@shared/animations/gridToggleTransition';
     animations: [accountModuleAnimation()],
     encapsulation: ViewEncapsulation.None
 })
-export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit {
+export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit, AfterViewInit {
     isValidLandlinePhone: boolean;
     outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
@@ -112,10 +112,10 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     checkDataNeed2Reconvert() {
-        this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId))
+        this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
-                    this.message.confirm('检查到有未保存数据!', '是否恢复数据', (confirm) => {
+                    this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
                             this.initOutletInfoToDisplay(this.input.outlet);
@@ -166,13 +166,13 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
         this.input.outlet.isActive = true;
 
-        if (!this.isValidLandlinePhone) {
-            this.message.warn('固话格式错误');
+        if (!this.isValidLandlingPhone(this.input.outlet.phoneNum)) {
+            this.message.warn(this.l('Verify.Telephone.Invalid'));
             return;
         }
 
         if (this.input.contactors.length < 1) {
-            this.message.warn('请添加联系人');
+            this.message.warn(this.l('Outlet.Contactor.Required'));
             this.savingAndEditing = false
             return;
         }
@@ -183,20 +183,22 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 abp.event.trigger('outletListSelectChanged');
                 abp.event.trigger('contactorListSelectChanged');
                 this.removeEditCache(); // 清理缓存数据
-                this.message.success('保存成功!');
+                this.message.success(this.l('SavaSuccess'));
                 if (!saveAndEdit) { this._router.navigate(['/outlet/list']); }
             });
     }
 
     removeOutlet(): void {
-        this.message.confirm('确定要删除此门店?', (result) => {
+        this.message.confirm(this.l('Outlet.Confirm2Delete'), (result) => {
             if (result) {
                 this.deleting = true;
                 this._outletServiceServiceProxy
                     .deleteOutlet(+this.outletId)
                     .finally(() => { this.deleting = false })
                     .subscribe(() => {
-                        this.message.success('门店删除成功');
+                        this.message.success(this.l('DeleteSuccess'));
+                        // 清理缓存数据
+                        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId));
                         this._router.navigate(['/outlet/list']);
                     })
             }
@@ -314,14 +316,14 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            if (this.isDataNoSave()) {
-                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId), this.input);
+            if (this.isTemDataNeedSave()) {
+                this._localStorageService.setItem(this.getCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }
         }, 3000)
     }
 
-    isDataNoSave(): boolean {
+    isTemDataNeedSave(): boolean {
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
         return this.isDataNoEqual(this.originalinput, this.input);
     }
@@ -329,13 +331,13 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     isDataNoEqual(source: CreateOrUpdateOutletInput, destination: CreateOrUpdateOutletInput): boolean {
         if (!source.outlet.id && destination.outlet.id) { return false; }
 
-        if (source.outlet.id !== destination.outlet.id) { return false; }
+        if (source.outlet.id !== destination.outlet.id) { this.removeEditCache(); return false; }
 
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 
     removeEditCache() {
-        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId));
+        this._localStorageService.removeItem(this.getCacheItemKey());
     }
 
     public provinceSelectHandler(provinceId: any): void {
@@ -367,23 +369,29 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         $('#landlinePhone').inputmask({
             mask: '(9{1,4}) 9{4}-9{3,4}',
             oncomplete: () => {
-                let phoneNum = $('#landlinePhone').val() + '';
-                phoneNum = phoneNum.replace(/\(/, '');
-                phoneNum = phoneNum.replace(/\)/, '');
-                phoneNum = phoneNum.replace(/-/, '');
-                this.input.outlet.phoneNum = phoneNum;
-                this.isValidLandlinePhone = true;
+                this.input.outlet.phoneNum = this.getLandlinePhoneInput();
             },
             onincomplete: () => {
-                this.isValidLandlinePhone = false;
-            },
+                this.input.outlet.phoneNum = this.getLandlinePhoneInput();
+            }
         });
-
-        if ($('#landlinePhone').inputmask('isComplete')) {
-            this.isValidLandlinePhone = true;
-        } else {
-            this.isValidLandlinePhone = false;
-        }
     }
 
+    private getLandlinePhoneInput(): string {
+        let phoneNum = $('#landlinePhone').val() + '';
+        phoneNum = phoneNum.replace(/\(/, '');
+        phoneNum = phoneNum.replace(/\)/, '');
+        phoneNum = phoneNum.replace(/-/, '');
+        console.log(phoneNum);
+        return phoneNum;
+    }
+
+    private isValidLandlingPhone(num: string): boolean {
+        const reg = /^((0\d{2,3}) )(\d{7,8})$/;
+        return reg.test(num);
+    }
+
+    private getCacheItemKey() {
+        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId, this.input.outlet.id);
+    }
 }

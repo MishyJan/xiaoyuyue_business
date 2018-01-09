@@ -12,7 +12,8 @@ import { BindingPhoneModelComponent } from 'app/account-settings/phone-model/bin
     styleUrls: ['./unbinding-phone-model.component.scss']
 })
 export class UnbindingPhoneModelComponent extends AppComponentBase implements OnInit {
-    phoneNumber: string;
+    emailAddress: string;
+    phoneNum: string;
     code: string;
     model: CodeSendInput = new CodeSendInput();
     phoneNumText: string;
@@ -30,11 +31,11 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
 
     ) {
         super(injector);
-        this.phoneNumber = this._appSessionService.user.phoneNumber;
+        this.emailAddress = this._appSessionService.user.emailAddress;
+        this.phoneNum = this._appSessionService.user.phoneNumber;
     }
 
     ngOnInit() {
-        this.encrypt();
     }
     show(): void {
         this.unbindingPhoneModel.show();
@@ -45,19 +46,24 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
     }
 
     unbindingPhone(): void {
+        if (!this.checkMustBinding()) {
+            return;
+        }
         this._profileServiceProxy
             .unBindingPhoneNum(this.code)
             .subscribe(result => {
-                this.notify.success('解绑成功，请绑定新手机');
+                this.notify.success(this.l('RebindingPhone.Success.Hint'));
+                abp.event.trigger('getUserSecurityInfo');
                 this.hide();
                 this.bindingPhoneModel.show();
             })
     }
 
-    private encrypt(): void {
-        if (!this._appSessionService.user.phoneNumber) {
-            return;
+    private checkMustBinding(): boolean {
+        if (!this.emailAddress) {
+            this.message.error(this.l('UnBindingPhoneNum.RequiredEmail.Hint'));
+            return false;
         }
-        this.phoneNumText = '•••••••' + this._appSessionService.user.phoneNumber.substr(this._appSessionService.user.phoneNumber.length - 4);
+        return true;
     }
 }

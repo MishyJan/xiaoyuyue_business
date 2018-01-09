@@ -1,0 +1,289 @@
+@import '_colors';
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 0!important;
+}
+
+a,
+a:hover,
+a:focus {
+    text-decoration: none;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px white inset !important;
+    border-bottom: 1px solid #D2D2D2 !important;
+}
+
+textarea {
+    resize: none;
+}
+
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+/*定义滚动条轨道 内阴影+圆角*/
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #CCC;
+}
+
+
+/*定义滑块 内阴影+圆角*/
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(94, 94, 94, 0.83);
+}
+
+.bas-reset {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.bootstrap-select .dropdown-toggle {
+    box-shadow: none !important;
+    outline: none;
+}
+
+.title {
+    color: inherit;
+}
+
+a:-webkit-any-link {
+    cursor: pointer;
+}
+
+
+/***
+下拉菜单
+***/
+
+.dropdown-menu {
+    left: 0;
+    min-width: 175px;
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    float: left;
+    list-style: none;
+    text-shadow: none;
+    padding: 0px;
+    background-color: #ffffff;
+    margin: 10px 0px 0px 0px;
+    border: 1px solid #eee;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.dropdown-hoverable:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li.divider {
+    background: #f1f3f6;
+}
+
+.dropdown-menu li.header {
+    padding: 8px 14px 2px 14px;
+}
+
+.dropdown-menu>li>a {
+    padding: 8px 16px;
+    color: #6f6f6f;
+    text-decoration: none;
+    display: block;
+    clear: both;
+    font-weight: 300;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
+.dropdown-menu>li>a>[class^="fa-"],
+.dropdown-menu>li>a>[class*=" fa-"] {
+    color: #888;
+}
+
+.dropdown-menu>li>a>[class^="icon-"],
+.dropdown-menu>li>a>[class*=" icon-"] {
+    color: #666;
+}
+
+.dropdown-menu>li>a>[class^="glyphicon-"],
+.dropdown-menu>li>a>[class*=" glyphicon-"] {
+    color: #888;
+}
+
+.dropdown-menu>li:hover>a,
+.dropdown-menu>li.active>a,
+.dropdown-menu>li.active:hover>a {
+    text-decoration: none;
+    background-image: none;
+    background-color: #f6f6f6;
+    color: #555;
+    filter: none;
+}
+
+.dropdown-menu.bottom-up {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 2px;
+}
+
+.dropdown-menu.bottom-up:before,
+.dropdown-menu.bottom-up:after {
+    display: none !important;
+}
+
+.dropdown-menu>li:first-child:hover>a {
+    border-radius: 2px 2px 0px 0px;
+}
+
+.dropdown-menu>li:last-child:hover>a {
+    border-radius: 0px 0px 2px 2px;
+}
+
+.dropdown-hover:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown>.dropdown-menu.pull-left:before,
+.dropdown-toggle>.dropdown-menu.pull-left:before,
+.btn-group>.dropdown-menu.pull-left:before {
+    left: auto;
+    right: 9px;
+}
+
+.dropdown>.dropdown-menu.pull-left:after,
+.dropdown-toggle>.dropdown-menu.pull-left:after,
+.btn-group>.dropdown-menu.pull-left:after {
+    left: auto;
+    right: 10px;
+}
+
+.dropdown>.dropdown-menu.pull-right:before,
+.dropdown-toggle>.dropdown-menu.pull-right:before,
+.btn-group>.dropdown-menu.pull-right:before {
+    left: auto;
+    right: 9px;
+}
+
+.dropdown>.dropdown-menu.pull-right:after,
+.dropdown-toggle>.dropdown-menu.pull-right:after,
+.btn-group>.dropdown-menu.pull-right:after {
+    left: auto;
+    right: 10px;
+}
+
+.dropdown.dropup>.dropdown-menu,
+.dropdown-toggle.dropup>.dropdown-menu,
+.btn-group.dropup>.dropdown-menu {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.dropdown.dropup>.dropdown-menu:after,
+.dropdown.dropup>.dropdown-menu:before,
+.dropdown-toggle.dropup>.dropdown-menu:after,
+.dropdown-toggle.dropup>.dropdown-menu:before,
+.btn-group.dropup>.dropdown-menu:after,
+.btn-group.dropup>.dropdown-menu:before {
+    display: none !important;
+}
+
+.dropdown-toggle:after {
+    display: none;
+}
+
+
+/* 面包屑 */
+
+.breadcrumb {
+    display: inline-block;
+    padding: 15px 0 0;
+    margin: 0;
+    color: #3C4858
+}
+
+.breadcrumb>a {
+    color: #3C4858
+}
+
+.breadcrumb>span {
+    color: $main-color
+}
+
+.breadcrumb:first-child:before {
+    display: none;
+}
+
+.breadcrumb:before {
+    content: '>';
+    vertical-align: top;
+    display: inline-block;
+    margin: 0 10px 0 8px;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* icon样式 */
+
+[class^="vapps-icon-"],
+[class*=" vapps-icon-"] {
+    transform: translateY(1px);
+    display: inline-block;
+}
+
+
+/* 移除默认日期选择下拉箭头 */
+
+::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.qrcode-block {
+    display: inline-block
+}
+
+.btn {
+    font-weight: normal !important;
+}
+
+.btn:hover,
+.btn:focus,
+.btn.focus {
+    color: #FFF;
+}
+
+.btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    padding: 8px 14px 7px 14px;
+}

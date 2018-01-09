@@ -42,8 +42,7 @@
             "assets/common/styles/xiaoyuyue-icon.css",
             "assets/common/styles/flatpickr.css",
             "assets/swiper/css/swiper.css",
-            "sass/xiaoyuyue.scss",
-            "styles.css"
+            "sass/xiaoyuyue.scss"
         ],
         "scripts": [
             "../node_modules/jquery/dist/jquery.min.js",
@@ -82,7 +81,8 @@
             "../src/assets/metronic/layouts/global/scripts/quick-sidebar.min.js",
 
             "../src/assets/common/js/flatpickr.min.js",
-            "../src/assets/common/js/flatpickr-zh.js",
+            "../src/assets/common/js/flatpickr-zh-CN.js",
+            "../src/assets/common/js/flatpickr-zh-HK.js",
 
             "../node_modules/inputmask/dist/min/jquery.inputmask.bundle.min.js",
 

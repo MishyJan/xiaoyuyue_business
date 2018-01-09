@@ -64,3 +64,7 @@ export class SMSProviderDto {
     static sendCodeSecond = 60;
     static readonly timeInterval = 1000;
 }
+
+export class InitLanguage {
+    static all = ['zh-CN', 'zh-HK'];
+}

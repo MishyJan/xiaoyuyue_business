@@ -18,7 +18,6 @@ export class RepeatPasswdDto extends ChangePasswordInput {
     animations: [accountModuleAnimation()]
 })
 export class PasswdComponent extends AppComponentBase implements OnInit {
-    encryptPhoneNum: string;
     input: RepeatPasswdDto = new RepeatPasswdDto();
     byPhoneInput: ChangePasswordByPhoneInput = new ChangePasswordByPhoneInput();
     phoneChangePasswd = false;
@@ -46,7 +45,7 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
         this._profileServiceProxy
             .changePassword(this.input)
             .subscribe(result => {
-                this.notify.success('密码修改成功');
+                this.notify.success(this.l('ChangePasswdSuccessed'));
                 this.showCommandWrap = true;
             });
         this.input = new RepeatPasswdDto();
@@ -57,7 +56,7 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
         this._profileServiceProxy
             .changePasswordByPhone(this.byPhoneInput)
             .subscribe(result => {
-                this.notify.success('密码修改成功');
+                this.notify.success(this.l('ChangePasswdSuccessed'));
                 this.showCommandWrap = true;
                 this.phoneChangePasswd = false;
                 this.oldPasswdChangePasswd = false;
@@ -84,10 +83,9 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
     isBindingPhoneHandler(): boolean {
         if (this._appSessionService.user.phoneNumber != null) {
             this.phoneNum = this._appSessionService.user.phoneNumber;
-            this.encrypt();
             return true;
         } else {
-            this.message.confirm('您当前未绑定手机，绑定手机号才能更改密码', (result) => {
+            this.message.confirm(this.l('Security.ChangePasswd.MustBingPhone'), (result) => {
                 if (result) {
                     this._router.navigate(['/settings/phone']);
                 } else {
@@ -95,12 +93,5 @@ export class PasswdComponent extends AppComponentBase implements OnInit {
                 }
             })
         }
-    }
-
-    private encrypt(): void {
-        if (!this.phoneNum) {
-            return;
-        }
-        this.encryptPhoneNum = '•••••••' + this.phoneNum.substr(this.phoneNum.length - 4);
     }
 }

@@ -15,6 +15,7 @@ import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 export class SingleBookingStatus {
     value: any;
@@ -29,10 +30,17 @@ export class SingleBookingStatus {
 })
 
 export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    totalItems: number;
     availableTimesSelectListData: SelectListItemDto[];
     availableDatesSelectListData: SelectListItemDto[];
     hourOfDay: string;
+
     mobileCustomerListData: OrgBookingOrderListDto[] = [];
+    allMobileCustomerListData: any[] = [];
+    updateDataIndex = -1;
+    infiniteScrollDistance = 1;
+    infiniteScrollThrottle = 300;
+
     bookingCustomerDate: string;
     bookingDateSelectDefaultItem: SelectListItemDto;
     bookingItemSelectListData: SelectListItemDto[];
@@ -71,6 +79,8 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     this.l(OrgBookingOrderStatus.CancelLocalization),
     this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
+    searching = false;
+
     @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: BookingOrderInfoModelComponent;
 
     private editedRowIndex: number;
@@ -102,13 +112,22 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         } else {
             this.loadData();
             this.cBookingOrderDate = $('#bookingDate').flatpickr({
-                'locale': 'zh'
+                'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.bookingDate = null;
+                }
             });
             this.cStartCreationTime = $('#startCreationTime').flatpickr({
-                'locale': 'zh'
+                'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.creationStartDate = null;
+                }
             });
             this.cEndCreationTime = $('#endCreationTime').flatpickr({
-                'locale': 'zh'
+                'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.creationEndDate = null;
+                }
             });
         }
     }
@@ -126,6 +145,11 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.cStartCreationTime.destroy();
             this.cEndCreationTime.destroy();
         }
+    }
+
+    searchData() {
+        this.searching = true;
+        this.loadData();
     }
 
     loadData(): void {
@@ -151,7 +175,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                 this.gridParam.SkipCount);
         };
 
-        this.customerListData.query(loadOrgBookingOrderData);
+        this.customerListData.query(loadOrgBookingOrderData, false, () => {
+            this.searching = false;
+        });
         if (typeof this.creationStartDate === 'object') {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
         }
@@ -237,7 +263,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.loadData();
     }
 
-    //获取日期搜索
+    // 获取日期搜索
     dateSelectHandler(date: string): void {
         if (date === '') {
             this.bookingDate = undefined;
@@ -277,6 +303,12 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.gridParam.SkipCount)
             .subscribe(result => {
                 this.mobileCustomerListData = result.items;
+                this.totalItems = result.totalCount;
+                if (this.mobileCustomerListData.length > 0 && this.updateDataIndex < 0) {
+                    this.allMobileCustomerListData.push(this.mobileCustomerListData);
+                } else {
+                    this.allMobileCustomerListData[this.updateDataIndex] = this.mobileCustomerListData;
+                }
             })
     }
 
@@ -325,6 +357,21 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             return;
         }
         this.hourOfDay = value;
+        this.mobileLoadData();
+    }
+
+    public onScrollDown(): void {
+        this.updateDataIndex = -1;
+        let totalCount = 0;
+        this.allMobileCustomerListData.forEach(organizationBookingResultData => {
+            organizationBookingResultData.forEach(element => {
+                totalCount++;
+            });
+        });
+        this.gridParam.SkipCount = totalCount;
+        if (this.gridParam.SkipCount >= this.totalItems) {
+            return;
+        }
         this.mobileLoadData();
     }
 }

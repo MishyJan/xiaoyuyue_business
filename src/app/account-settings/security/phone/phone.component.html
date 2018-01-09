@@ -1,6 +1,6 @@
 <!-- 验证旧手机  -->
 <div class="current-phone-wrap">
-    <div [@routerTransition] *ngIf="!currentPhoneNum ? false :  !isVerified">
+    <div [@routerTransition] *ngIf="!phoneNum ? false :  !isVerified">
         <form #currentPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
@@ -8,10 +8,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="form-group label-floating" [class.is-empty]="!encryptPhoneNum">
-                            <label class="control-label">原手机号</label>
-                            <input type="text" class="form-control" name="beforePhone" [value]="encryptPhoneNum" disabled>
-                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                        <div class="form-group label-floating">
+                            <label class="control-label">{{l('Security.OldTelephone')}}</label>
+                            <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
                         </div>
                     </div>
                 </div>
@@ -19,20 +18,16 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
-                            <label class="control-label">验证码</label>
+                            <label class="control-label">{{l('VerifyCode')}}</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="code" required>
-                            <xiaoyuyue-send-code [codeType]="'60'" [phoneNumber]="currentPhoneNum"></xiaoyuyue-send-code>
-                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                            <xiaoyuyue-send-code [codeType]="unbindingCodeType" [phoneNumber]="phoneNum"></xiaoyuyue-send-code>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- <div class="col-xs-6">
-                            <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
-                        </div> -->
                     <div class="col-xs-12">
-                        <button class="btn btn-block btn-warning" type="submit" (click)="verificationPhoneNum()" [disabled]="!currentPhoneFrom.form.valid">下一步</button>
+                        <button class="btn btn-block btn-warning" type="submit" (click)="verificationPhoneNum()" [disabled]="!currentPhoneFrom.form.valid">{{l('NextStep')}}</button>
                     </div>
                 </div>
             </div>
@@ -40,7 +35,7 @@
     </div>
 
     <!-- 验证旧手机后，绑定新手机 -->
-    <div class="new-phone-wrap" *ngIf="!currentPhoneNum ? false :  isVerified">
+    <div class="new-phone-wrap" *ngIf="!phoneNum ? false :  isVerified">
         <form #newPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
@@ -49,10 +44,9 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
-                            <label class="control-label">新手机号</label>
+                            <label class="control-label">{{l('Security.NewTelephone')}}</label>
                             <input type="text" class="form-control" name="beforePhone" [(ngModel)]="changeBindingPhoneNumInput.newTelephone" (ngModelChange)="getPhoneNum($event)"
                                 required>
-                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
                 </div>
@@ -60,20 +54,16 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
-                            <label class="control-label">验证码</label>
+                            <label class="control-label">{{l('VerifyCode')}}</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="changeBindingPhoneNumInput.bundlingCode" required>
-                                <xiaoyuyue-send-code [codeType]="'50'" [phoneNumber]="changeBindingPhoneNumInput.newTelephone"></xiaoyuyue-send-code>
-                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                            <xiaoyuyue-send-code [codeType]="bindingCodeType" [phoneNumber]="changeBindingPhoneNumInput.newTelephone"></xiaoyuyue-send-code>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- <div class="col-xs-6">
-                            <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
-                        </div> -->
                     <div class="col-xs-12">
-                        <button class="btn btn-block btn-warning" type="submit" (click)="changeBindPhone()" [disabled]="!newPhoneFrom.form.valid">保存</button>
+                        <button class="btn btn-block btn-warning" type="submit" (click)="changeBindPhone()" [disabled]="!newPhoneFrom.form.valid">{{l('Confirm')}}</button>
                     </div>
                 </div>
             </div>
@@ -81,7 +71,7 @@
     </div>
 
     <!-- 没有绑定过手机，绑定手机 -->
-    <div class="new-phone-wrap" *ngIf="!currentPhoneNum">
+    <div class="new-phone-wrap" *ngIf="!phoneNum">
         <form #newPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
@@ -90,10 +80,9 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
-                            <label class="control-label">新手机号</label>
+                            <label class="control-label">{{l('Security.NewTelephone')}}</label>
                             <input type="text" class="form-control" name="beforePhone" [(ngModel)]="bindingPhoneNumInput.phoneNum" (ngModelChange)="getPhoneNum($event)"
                                 required>
-                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
                         </div>
                     </div>
                 </div>
@@ -101,20 +90,16 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
-                            <label class="control-label">验证码</label>
+                            <label class="control-label">{{l('VerifyCode')}}</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="bindingPhoneNumInput.code" required>
-                            <xiaoyuyue-send-code [codeType]="'50'" [phoneNumber]="bindingPhoneNumInput.phoneNum"></xiaoyuyue-send-code>
-                            <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                            <xiaoyuyue-send-code [codeType]="bindingCodeType" [phoneNumber]="bindingPhoneNumInput.phoneNum"></xiaoyuyue-send-code>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <!-- <div class="col-xs-6">
-                            <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
-                        </div> -->
                     <div class="col-xs-12">
-                        <button class="btn btn-block btn-warning" type="submit" (click)="bindPhone()" [disabled]="!newPhoneFrom.form.valid">绑定</button>
+                        <button class="btn btn-block btn-warning" type="submit" (click)="bindPhone()" [disabled]="!newPhoneFrom.form.valid">{{l('Binding')}}</button>
                     </div>
                 </div>
             </div>

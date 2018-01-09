@@ -4,7 +4,7 @@
             <div class="page-head">
                 <div class="page-title">
                     <h1>
-                        <span>图片库</span>
+                        <span>{{l('PictureGallery')}}</span>
                     </h1>
                     <div>
                         <breadcrumb></breadcrumb>
@@ -14,7 +14,7 @@
         </div>
         <div class="col-xs-6 text-right">
             <button class="btn primary-bgcolor" (click)="uploadPicModel()">
-                <i class="vapps-icon-app-upload"></i>本地上传</button>
+                <i class="vapps-icon-app-upload"></i>{{l('PictureGallery.LocalUpload')}}</button>
         </div>
     </div>
 
@@ -29,14 +29,20 @@
 
                         <div class="checkbox pull-left">
                             <label>
-                                <input type="checkbox" name="checkAll" [(ngModel)]="allSelected" (click)="allSelectedHandler()" />{{ checkAllText }}
+                                <input type="checkbox" name="checkAll" [(ngModel)]="allSelected" (click)="allSelectedToggleHandler()" />{{ checkAllText }}
                             </label>
                         </div>
 
-                        <button class="btn" (click)="movePicHandler($event, undefined)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!(selectedPicListArr.length > 0)">
-                            <span class="vapps-icon-app-move"></span> {{ l('Move') }}</button>
-                        <button class="btn" (click)="deletePicHandler($event, undefined)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}" [disabled]="!(selectedPicListArr.length > 0)">
-                            <span class="vapps-icon-app-delete"></span> {{ l('Delete') }}</button>
+                        <button class="btn" (click)="movePicHandler($event, undefined)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}"
+                            [disabled]="!(selectedPicListArr.length > 0)" [buttonBusy]="moving" [busyText]="l('Moving')">
+                            <i class="vapps-icon-app-move"></i>
+                            <span>{{ l('Move') }}</span>
+                        </button>
+                        <button class="btn" (click)="deletePicHandler($event, undefined)" [ngClass]="{'primary-bgcolor': selectedPicListArr.length > 0}"
+                            [disabled]="!(selectedPicListArr.length > 0)" [buttonBusy]="deleting" [busyText]="l('Deleting')">
+                            <i class="vapps-icon-app-delete"></i>
+                            <span>{{ l('Delete') }}</span>
+                        </button>
                     </div>
 
                     <div class="card-content clearfix">
@@ -61,23 +67,26 @@
                                                     </div>
                                                 </div>
                                                 <p class="img-name text-overflow" (dblclick)="editingPicNameHandler($event, selectPicIndex)" title="{{ l('PlaceholderTips.DblclickReviseName') }}">
-                                                    <input type="text" class="text-overflow" name="picName" [title]="picRename(item.name)" [ngClass]="{'input-border': editingPicName[selectPicIndex]}" [readonly]="!editingPicName[selectPicIndex]" [value]="picRename(item.name)" (keyup.enter)="picRenameEnter($event, selectPicIndex)"
-                                                        (blur)="picRenameEnter($event, selectPicIndex)">
+                                                    <input type="text" class="text-overflow" name="picName" [title]="picRename(item.name)" [ngClass]="{'input-border': editingPicName[selectPicIndex]}"
+                                                        [readonly]="!editingPicName[selectPicIndex]" [value]="picRename(item.name)"
+                                                        (keyup.enter)="picRenameEnter($event, selectPicIndex)" (blur)="picRenameEnter($event, selectPicIndex)">
                                                 </p>
                                             </div>
                                         </div>
                                     </ng-container>
                                     <ng-template #elseTemplate>
-                                            <xiaoyuyue-empty-page [text]="'未上传图片'"></xiaoyuyue-empty-page>
+                                        <xiaoyuyue-empty-page [text]="l('PictureGallery.NotPictures')"></xiaoyuyue-empty-page>
                                     </ng-template>
-                                    
+
                                 </div>
                                 <div [@routerTransition] class="flex-right">
                                     <div class="side-bar">
-                                        <div class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" [ngClass]="{'active': groupActiveIndex == index }" title="{{ groupItem.name }}({{ groupItem.pictureNum }})" (click)="eventStopPropagation($event)">
+                                        <div class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" [ngClass]="{'active': groupActiveIndex == index }"
+                                            title="{{ groupItem.name }}({{ groupItem.pictureNum }})" (click)="eventStopPropagation($event)">
                                             <div class="left-item text-overflow">
-                                                <div (click)="groupItemActive(groupItem,index)" *ngIf="!editingGroupName || !(editingGroupNameIndex == index)">{{ groupItem.name }} ({{ groupItem.pictureNum}})</div>
-                                                <input type="text text-overflow" style="width: 100%;" autofocus name="groupName" *ngIf="editingGroupName && editingGroupNameIndex == index" [value]="groupItem.name" [readonly]="!editingGroupName" (keyup.enter)="updatePicGroupService(groupItem.id, $event)">
+                                                <div (click)="changeGroupActive(groupItem,index)" *ngIf="!editingGroupName || !(editingGroupNameIndex == index)">{{ groupItem.name }} ({{ groupItem.pictureNum}})</div>
+                                                <input type="text text-overflow" style="width: 100%;" autofocus name="groupName" *ngIf="editingGroupName && editingGroupNameIndex == index"
+                                                    [value]="groupItem.name" [readonly]="!editingGroupName" (keyup.enter)="updatePicGroupService(groupItem.id, $event)">
                                             </div>
                                             <div class="right-item clearfix" *ngIf="!groupItem.isSystemGroup">
                                                 <div class="pull-right" *ngIf="!editingGroupName || editingGroupNameIndex !== index">
@@ -89,9 +98,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="sub-item text-overflow" (click)="showCreatePicInput()">+ {{ l('PictureGallery.CreateGroup') }}</p>
+                                        <p class="sub-item text-overflow" (click)="showCreatePicInput()"><span class="vapps-icon-app-add-booking-item add-icon"></span> {{ l('PictureGallery.CreateGroup') }}</p>
                                         <p class="sub-item text-overflow new-group" *ngIf="picGroupCreating">
-                                            <input type="text" placeholder="{{ l('PictureGallery.GroupName') }}" id="newGroupName" name="newGroupName" [(ngModel)]="picGroupInputDto.name" (keyup.enter)="createPicGroupService()" (blur)="closeCreatePicGroup()">
+                                            <input type="text" placeholder="{{ l('PictureGallery.GroupName') }}" id="newGroupName" name="newGroupName" [(ngModel)]="picGroupInputDto.name"
+                                                (keyup.enter)="createPicGroupService()" (blur)="closeCreatePicGroup()">
                                         </p>
                                     </div>
                                 </div>
@@ -115,7 +125,8 @@
 <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel [cropScaleX]="16" [cropScaleY]="9" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"
     [groupId]="selectedGroupId" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>
 
-<div class="move-action-wrap clearfix" (click)="eventStopPropagation($event)" [style.top]="moveGroupTemplateY-50+'px'" [style.left]="moveGroupTemplateX+'px'" [hidden]="!isMoveGroupTemplate">
+<div class="move-action-wrap clearfix" (click)="eventStopPropagation($event)" [style.top]="moveGroupTemplateY-50+'px'" [style.left]="moveGroupTemplateX+'px'"
+    [hidden]="!isMoveGroupTemplate">
     <div class="checkbox-radios col-lg-6 col-md-6 col-sm-6" *ngFor="let groupItem of picGalleryGroupData; let index = index">
         <div class="radio">
             <label>
@@ -125,7 +136,7 @@
     </div>
 
     <div class="action-btn-wrap col-lg-12">
-        <button class="btn primary-bgcolor" (click)="movePicToGroupService()">{{ l('Confirm') }}</button>
+        <button class="btn primary-bgcolor" (click)="comfirmMovePicToGroup()">{{ l('Confirm') }}</button>
         <button class="btn" (click)="hideMoveGroupTemplate()">{{ l('Cancel') }}</button>
     </div>
 </div>

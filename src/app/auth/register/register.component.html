@@ -7,18 +7,22 @@
                         <img class="logo" src="/assets/common/images/login/logo-x2.png" alt="小预约">
                     </div>
                     <div class="toggle-wrap clearfix">
-                        <span class="ordinary-login col-md-6" (click)="isPhoneRegister()">
-                            {{ l('PhoneRegister') }}
-                            <span class="line" *ngIf="phoneRegister"></span>
-                        </span>
-                        <span class="phone-login col-md-6" (click)="isEmailRegister()">
-                            {{ l('EmailRegister') }}
-                            <span class="line" *ngIf="!phoneRegister"></span>
-                        </span>
-                    </div>
+                            <div class="ordinary-login col-md-6" (click)="isPhoneRegister()">
+                                <div class="content">
+                                    <div class="text">{{l('PhoneRegister')}}</div>
+                                    <span class="line" *ngIf="phoneRegister"></span>
+                                </div>
+                            </div>
+                            <div class="phone-login col-md-6" (click)="isEmailRegister()">
+                                <div class="content">
+                                    <div class="text">{{l('EmailRegister')}}</div>
+                                    <span class="line" *ngIf="!phoneRegister"></span>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div [@routerTransition] *ngIf="phoneRegister">
-                    <div class="register-body form-horizontal" style="margin-top: 60px;">
+                    <div class="register-body form-horizontal" style="margin-top: 70px;">
                         <div class="row">
                             <label class="col-md-1 col-sm-2 label-on-left">
                                 <span class="vapps-icon-app-login-name"></span>
@@ -139,8 +143,8 @@
                         </div>
 
                         <div class="register-btn-wrap">
-                            <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!readAndAgreeProtocol || !registerForm.form.valid" [buttonBusy]="saving"
-                                [busyText]="l('Page.Registering')">
+                            <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!readAndAgreeProtocol || !registerForm.form.valid"
+                                [buttonBusy]="saving" [busyText]="l('Page.Registering')">
                                 <i></i>
                                 <span>{{l("CreateAnAccount")}}</span>
                             </button>
@@ -148,7 +152,7 @@
                     </div>
                 </div>
                 <div [@routerTransition] *ngIf="!phoneRegister">
-                    <div class="register-body form-horizontal" style="margin-top: 60px;">
+                    <div class="register-body form-horizontal" style="margin-top: 70px;">
                         <div class="row">
                             <label class="col-md-1 col-sm-2 label-on-left">
                                 <span class="vapps-icon-app-login-name"></span>
@@ -269,8 +273,8 @@
                         </div>
 
                         <div class="register-btn-wrap">
-                            <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!readAndAgreeProtocol || !registerForm.form.valid" [buttonBusy]="saving"
-                                [busyText]="l('Page.Registering')">
+                            <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!readAndAgreeProtocol || !registerForm.form.valid"
+                                [buttonBusy]="saving" [busyText]="l('Page.Registering')">
                                 <i></i>
                                 <span>{{l("CreateAnAccount")}}</span>
                             </button>
@@ -284,93 +288,284 @@
 </div>
 
 <div *showItBootstrap="['xs','sm']">
-    <div [@routerTransition] class="wrapper">
+    <div [@routerTransition] class="wrapper mobile">
         <form #registerForm="ngForm" method="post">
             <div class="register-wrap card">
                 <div class="logo-wrap">
-                    <img class="ng-tns-c1-0" alt="logo" src="/assets/common/images/login/logo-colorized.png" style="width: 40px;">
+                    <img alt="logo" src="/assets/common/images/login/logo-colorized.png" style="width: 40px;">
                 </div>
-                <div class="register-body form-horizontal">
-
-                    <div class="row">
-                        <label class="col-md-1 col-sm-2 label-on-left">
-                            <span class="vapps-icon-app-login-name"></span>
-                        </label>
-                        <div class="col-md-11 col-sm-10">
-                            <div class="form-group label-floating">
-                                <label class="control-label"></label>
-                                <input class="form-control" placeholder="{{l('TenantName')}}" type="text" name="tenancyName" required autofocus [(ngModel)]="model.tenancyName">
-                            </div>
+                <div class="toggle-wrap clearfix">
+                    <div class="ordinary-login col-xs-6" (click)="isPhoneRegister()">
+                        <div class="content">
+                            <div class="text">{{l('PhoneRegister')}}</div>
+                            <span class="line" *ngIf="phoneRegister"></span>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <label class="col-md-1 col-sm-2 label-on-left">
-                            <span class="vapps-icon-app-login-phone"></span>
-                        </label>
-                        <div class="col-md-11 col-sm-10">
-                            <div class="validate-code-wrap form-group label-floating">
-                                <label class="control-label"></label>
-                                <input class="form-control" placeholder="{{l('PhoneNumber')}}" type="tel" name="phoneNumber" required [(ngModel)]="model.phoneNumber">
-                                <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="model.phoneNumber"></xiaoyuyue-send-code>
-                            </div>
+                    <div class="phone-login col-xs-6" (click)="isEmailRegister()">
+                        <div class="content">
+                            <div class="text">{{l('EmailRegister')}}</div>
+                            <span class="line" *ngIf="!phoneRegister"></span>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <label class="col-md-1 col-sm-2 label-on-left">
-                            <span class="vapps-icon-app-login-code"></span>
-                        </label>
-                        <div class="col-md-11 col-sm-10">
-                            <div class="form-group label-floating">
-                                <label class="control-label"></label>
-                                <input class="form-control" placeholder="{{l('VerificationCode')}}" type="text" name="registerCode" required [(ngModel)]="model.registerCode">
+                </div>
+                <div [@routerTransition] *ngIf="phoneRegister">
+                    <div class="register-body form-horizontal">
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-name"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input class="form-control" placeholder="{{l('TenantName')}}" #tenancyName="ngModel" type="text" name="tenancyName" maxlength="20"
+                                        required autofocus [(ngModel)]="model.tenancyName">
+                                    <div *ngIf="tenancyName.invalid && (tenancyName.dirty || tenancyName.touched)">
+                                        <small class="text-danger" *ngIf="tenancyName.errors.required">
+                                            {{ l('TenantName_Require_Hint') }}
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <label class="col-md-1 col-sm-2 label-on-left">
-                            <span class="vapps-icon-app-login-passwd"></span>
-                        </label>
-                        <div class="col-md-11 col-sm-10">
-                            <div class="form-group label-floating">
-                                <label class="control-label"></label>
-                                <input class="form-control" placeholder="{{l('SetPassword')}}" type="password" name="password" required [(ngModel)]="model.password">
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-phone"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input class="form-control" placeholder="{{l('PhoneNumber')}}" #phoneNumber="ngModel" type="tel" name="phoneNumber" required
+                                        [(ngModel)]="model.phoneNumber">
+                                    <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)">
+                                        <small class="text-danger" *ngIf="phoneNumber.errors.required">
+                                            {{ l('PhoneNumber_Require_Hint') }}
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <label class="col-md-1 col-sm-2 label-on-left">
-                            <span class="vapps-icon-app-login-passwd"></span>
-                        </label>
-                        <div class="col-md-11 col-sm-10">
-                            <div class="form-group label-floating">
-                                <label class="control-label"></label>
-                                <input class="form-control" placeholder="{{l('ConfirmPasswd')}}" type="password" name="confirmPasswd" required [(ngModel)]="confirmPasswd">
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-code"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="validate-code-wrap form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input class="form-control" placeholder="{{l('VerificationCode')}}" #registerCode="ngModel" type="text" name="registerCode"
+                                        required [(ngModel)]="model.registerCode">
+                                    <div *ngIf="registerCode.invalid && (registerCode.dirty || registerCode.touched)">
+                                        <small class="text-danger" *ngIf="registerCode.errors.required">
+                                            {{ l('VerificationCode_Require_Hint') }}
+                                        </small>
+                                    </div>
+                                    <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="model.phoneNumber"></xiaoyuyue-send-code>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="checkbox col-md-12">
-                                <label>
-                                    <input type="checkbox" name="aboutTerms" [(ngModel)]="readAndAgreeProtocol" />{{l('ReadAndAgree')}}
-                                </label>
-                                <span>
-                                    <a href="javascript:;" (click)="readProtocolModal()">《{{ l('ReadProtocol') }}》</a>
-                                </span>
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-passwd"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input type="password" name="Password" class="form-control" [(ngModel)]="model.password" #Password="ngModel" placeholder="{{l('SetPassword')}}"
+                                        validateEqual="PasswordRepeat" reverse="true" [requireDigit]="passwordComplexitySetting.requireDigit"
+                                        [requireLowercase]="passwordComplexitySetting.requireLowercase" [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                                        [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                        required>
+                                    <div [hidden]="registerForm.form.valid || registerForm.form.pristine">
+                                        <ul class="help-block text-danger" *ngIf="Password.errors">
+                                            <li [hidden]="!Password.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-passwd"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input type="password" name="PasswordRepeat" class="form-control" [ngModel]="model.passwordRepeat" #PasswordRepeat="ngModel"
+                                        placeholder="{{l('PasswordRepeat')}}" validateEqual="Password" reverse="false" [requireDigit]="passwordComplexitySetting.requireDigit"
+                                        [requireLowercase]="passwordComplexitySetting.requireLowercase" [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                                        [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                        required>
+
+                                    <div [hidden]="registerForm.form.valid || registerForm.form.pristine">
+                                        <ul class="help-block text-danger" *ngIf="PasswordRepeat.errors">
+                                            <li [hidden]="!PasswordRepeat.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="checkbox col-md-12">
+                                    <label>
+                                        <input type="checkbox" name="aboutTerms" [(ngModel)]="readAndAgreeProtocol" />{{l('ReadAndAgree')}}
+                                    </label>
+                                    <span>
+                                        <a href="javascript:;" (click)="readProtocolModal()">《{{ l('ReadProtocol') }}》</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="register-btn-wrap">
+                            <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!readAndAgreeProtocol || !registerForm.form.valid"
+                                [buttonBusy]="saving" [busyText]="l('Page.Registering')">
+                                <i></i>
+                                <span>{{l("CreateAnAccount")}}</span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="register-btn-wrap">
-                        <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!readAndAgreeProtocol || !registerForm.form.valid" [buttonBusy]="saving"
-                            [busyText]="l('Page.Registering')">
-                            <i></i>
-                            <span>{{l("CreateAnAccount")}}</span>
-                        </button>
+                </div>
+                <div [@routerTransition] *ngIf="!phoneRegister">
+                    <div class="register-body form-horizontal">
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-name"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input class="form-control" placeholder="{{l('TenantName')}}" #tenancyName="ngModel" type="text" name="tenancyName" maxlength="20"
+                                        required autofocus [(ngModel)]="model.tenancyName">
+                                    <div *ngIf="tenancyName.invalid && (tenancyName.dirty || tenancyName.touched)">
+                                        <small class="text-danger" *ngIf="tenancyName.errors.required">
+                                            {{ l('TenantName_Require_Hint') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-email email-icon"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="validate-code-wrap form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input class="form-control" placeholder="{{ l('EmailAddressField') }}" #emailAddress="ngModel" type="text" name="emailAddress"
+                                        required [(ngModel)]="model.emailAddress">
+                                    <div *ngIf="emailAddress.invalid && (emailAddress.dirty || emailAddress.touched)">
+                                        <small class="text-danger" *ngIf="emailAddress.errors.required">
+                                            {{ l('EmailAddress_Require_Hint') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-code"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input class="form-control" placeholder="{{l('VerificationCode')}}" #registerCode="ngModel" type="text" name="registerCode"
+                                        required [(ngModel)]="model.registerCode">
+                                    <div *ngIf="registerCode.invalid && (registerCode.dirty || registerCode.touched)">
+                                        <small class="text-danger" *ngIf="registerCode.errors.required">
+                                            {{ l('VerificationCode_Require_Hint') }}
+                                        </small>
+                                    </div>
+                                    <xiaoyuyue-send-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="model.emailAddress"></xiaoyuyue-send-code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-passwd"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input type="password" name="Password" class="form-control" [(ngModel)]="model.password" #Password="ngModel" placeholder="{{l('SetPassword')}}"
+                                        validateEqual="PasswordRepeat" reverse="true" [requireDigit]="passwordComplexitySetting.requireDigit"
+                                        [requireLowercase]="passwordComplexitySetting.requireLowercase" [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                                        [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                        required>
+                                    <div [hidden]="registerForm.form.valid || registerForm.form.pristine">
+                                        <ul class="help-block text-danger" *ngIf="Password.errors">
+                                            <li [hidden]="!Password.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                            <li [hidden]="!Password.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-xs-1">
+                                <span class="vapps-icon-app-login-passwd"></span>
+                            </label>
+                            <div class="col-xs-11">
+                                <div class="form-group label-floating">
+                                    <label class="control-label"></label>
+                                    <input type="password" name="PasswordRepeat" class="form-control" [ngModel]="model.passwordRepeat" #PasswordRepeat="ngModel"
+                                        placeholder="{{l('PasswordRepeat')}}" validateEqual="Password" reverse="false" [requireDigit]="passwordComplexitySetting.requireDigit"
+                                        [requireLowercase]="passwordComplexitySetting.requireLowercase" [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                                        [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                        required>
+
+                                    <div [hidden]="registerForm.form.valid || registerForm.form.pristine">
+                                        <ul class="help-block text-danger" *ngIf="PasswordRepeat.errors">
+                                            <li [hidden]="!PasswordRepeat.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                            <li [hidden]="!PasswordRepeat.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="checkbox col-md-12">
+                                    <label>
+                                        <input type="checkbox" name="aboutTerms" [(ngModel)]="readAndAgreeProtocol" />{{l('ReadAndAgree')}}
+                                    </label>
+                                    <span>
+                                        <a href="javascript:;" (click)="readProtocolModal()">《{{ l('ReadProtocol') }}》</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="register-btn-wrap">
+                            <button class="btn btn-register" type="submit" (click)="register()" [disabled]="!readAndAgreeProtocol || !registerForm.form.valid"
+                                [buttonBusy]="saving" [busyText]="l('Page.Registering')">
+                                <i></i>
+                                <span>{{l("CreateAnAccount")}}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="register-footer"></div>

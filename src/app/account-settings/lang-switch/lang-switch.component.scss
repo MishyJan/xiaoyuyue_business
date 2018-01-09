@@ -1,0 +1,32 @@
+.lang-switch {
+    padding: 0 10px 10px;
+    .card {
+        padding: 0px;
+        .card-header.card-header-text {
+            display: inline-block;
+            .title-icon {
+                font-size: 30px;
+            }
+        }
+        .flex-item {
+            display: flex;
+            border-bottom: 1px solid rgba(221, 221, 221, 0.603);
+            padding: 10px 0;
+            &.active {
+                .flex-left,
+                .flex-right {
+                    color: #FF9641;
+                }
+            }
+            .flex-left {
+                flex: 1;
+                color: #000;
+            }
+            .flex-right {
+                width: 40px;
+                flex: 0 0 40px;
+                color: #000;
+            }
+        }
+    }
+}

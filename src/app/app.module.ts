@@ -11,7 +11,6 @@ import { FooterComponent } from './shared/layout/footer.component';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './shared/layout/header.component';
 import { HeaderNotificationsComponent } from './shared/layout/notifications/header-notifications.component';
-import { HkComponent } from 'app/lang-route/hk/hk.component';
 import { MobileSideBarComponent } from './shared/layout/mobile-side-bar/mobile-side-bar.component';
 import { NgModule } from '@angular/core';
 import { NotificationSettingsModalCompoent } from './shared/layout/notifications/notification-settings-modal.component';
@@ -34,7 +33,6 @@ import { UtilsModule } from '@shared/utils/utils.module';
         MobileSideBarComponent,
         PageNotFoundComponent,
         SupportedBrowsersComponent,
-        HkComponent
     ],
     imports: [
         ngCommon.CommonModule,

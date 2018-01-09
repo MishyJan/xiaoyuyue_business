@@ -3,6 +3,7 @@ import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterD
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
 import { NavigationEnd } from '@angular/router';
@@ -52,13 +53,16 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             return;
         }
         this.dateFlatpickr = $('.flatpickr').flatpickr({
-            'locale': 'zh',
+            'locale': LocalizationHelper.getFlatpickrLocale(),
             wrap: true,
             defaultDate: this.dateSelected,
             maxDate: this.dateSelected,
             onChange: (selectedDates, dateStr, instance) => {
                 this.dateSelected = moment(new Date(selectedDates)).local().format('YYYY-MM-DD');
                 this.loadData();
+            },
+            onOpen: (dateObj, dateStr) => {
+                this.dateSelected = null;
             }
         });
     }
@@ -189,9 +193,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             },
             series: [
                 {
-                    name: '近七天统计量',
+                    name: this.l('Dashboard.CurrentlyWeek.Statistic'),
                     type: 'line',
-                    stack: '统计量',
+                    stack: this.l('Dashboard.Statistic'),
                     smooth: true,
                     data: (() => {
                         const res = [];

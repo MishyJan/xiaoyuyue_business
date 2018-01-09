@@ -332,6 +332,53 @@ export class AccountServiceProxy {
     }
 
     /**
+     * 验证当前用户的验证码
+     * @input (optional) 
+     * @return Success
+     */
+    checkEmailCodeByCurrentUser(input: CheckEmailCodeInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Account/CheckEmailCodeByCurrentUser";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processCheckEmailCodeByCurrentUser(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processCheckEmailCodeByCurrentUser(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processCheckEmailCodeByCurrentUser(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
      * 发送激活邮件
      * @input (optional) 
      * @return Success
@@ -8574,8 +8621,8 @@ export class SMSServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    batchSendAsync(input: BatchSendSMSInput): Observable<SendResult> {
-        let url_ = this.baseUrl + "/api/services/app/SMS/BatchSendAsync";
+    batchSend(input: BatchSendSMSInput): Observable<SendResult> {
+        let url_ = this.baseUrl + "/api/services/app/SMS/BatchSend";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -8590,11 +8637,11 @@ export class SMSServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processBatchSendAsync(response_);
+            return this.processBatchSend(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processBatchSendAsync(<any>response_);
+                    return this.processBatchSend(<any>response_);
                 } catch (e) {
                     return <Observable<SendResult>><any>Observable.throw(e);
                 }
@@ -8603,7 +8650,7 @@ export class SMSServiceProxy {
         });
     }
 
-    protected processBatchSendAsync(response: Response): Observable<SendResult> {
+    protected processBatchSend(response: Response): Observable<SendResult> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -8625,8 +8672,8 @@ export class SMSServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    sendCodeByCurrentUserAsync(input: UserCodeSendInput): Observable<SendResult> {
-        let url_ = this.baseUrl + "/api/services/app/SMS/SendCodeByCurrentUserAsync";
+    sendCodeByCurrentUser(input: UserCodeSendInput): Observable<SendResult> {
+        let url_ = this.baseUrl + "/api/services/app/SMS/SendCodeByCurrentUser";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -8641,11 +8688,11 @@ export class SMSServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processSendCodeByCurrentUserAsync(response_);
+            return this.processSendCodeByCurrentUser(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processSendCodeByCurrentUserAsync(<any>response_);
+                    return this.processSendCodeByCurrentUser(<any>response_);
                 } catch (e) {
                     return <Observable<SendResult>><any>Observable.throw(e);
                 }
@@ -8654,7 +8701,7 @@ export class SMSServiceProxy {
         });
     }
 
-    protected processSendCodeByCurrentUserAsync(response: Response): Observable<SendResult> {
+    protected processSendCodeByCurrentUser(response: Response): Observable<SendResult> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -8676,8 +8723,8 @@ export class SMSServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    sendCodeAsync(input: CodeSendInput): Observable<SendResult> {
-        let url_ = this.baseUrl + "/api/services/app/SMS/SendCodeAsync";
+    sendCode(input: CodeSendInput): Observable<SendResult> {
+        let url_ = this.baseUrl + "/api/services/app/SMS/SendCode";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -8692,11 +8739,11 @@ export class SMSServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processSendCodeAsync(response_);
+            return this.processSendCode(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processSendCodeAsync(<any>response_);
+                    return this.processSendCode(<any>response_);
                 } catch (e) {
                     return <Observable<SendResult>><any>Observable.throw(e);
                 }
@@ -8705,7 +8752,7 @@ export class SMSServiceProxy {
         });
     }
 
-    protected processSendCodeAsync(response: Response): Observable<SendResult> {
+    protected processSendCode(response: Response): Observable<SendResult> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -8727,8 +8774,8 @@ export class SMSServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    checkCodeByCurrentUserAsync(input: CheckUserCodeInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/SMS/CheckCodeByCurrentUserAsync";
+    checkCodeByCurrentUser(input: CheckUserCodeInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/SMS/CheckCodeByCurrentUser";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -8742,11 +8789,11 @@ export class SMSServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processCheckCodeByCurrentUserAsync(response_);
+            return this.processCheckCodeByCurrentUser(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processCheckCodeByCurrentUserAsync(<any>response_);
+                    return this.processCheckCodeByCurrentUser(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -8755,7 +8802,7 @@ export class SMSServiceProxy {
         });
     }
 
-    protected processCheckCodeByCurrentUserAsync(response: Response): Observable<void> {
+    protected processCheckCodeByCurrentUser(response: Response): Observable<void> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -12740,6 +12787,10 @@ export class RegisterInput implements IRegisterInput {
     name: string;
     /** 手机号码 */
     phoneNumber: string;
+    /** 邮箱 */
+    emailAddress: string;
+    /** 注册类型 */
+    type: RegisterInputType;
     /** 注册验证码 */
     registerCode: string;
     /** 密码 */
@@ -12758,6 +12809,8 @@ export class RegisterInput implements IRegisterInput {
         if (data) {
             this.name = data["name"];
             this.phoneNumber = data["phoneNumber"];
+            this.emailAddress = data["emailAddress"];
+            this.type = data["type"];
             this.registerCode = data["registerCode"];
             this.password = data["password"];
         }
@@ -12773,6 +12826,8 @@ export class RegisterInput implements IRegisterInput {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["phoneNumber"] = this.phoneNumber;
+        data["emailAddress"] = this.emailAddress;
+        data["type"] = this.type;
         data["registerCode"] = this.registerCode;
         data["password"] = this.password;
         return data; 
@@ -12784,6 +12839,10 @@ export interface IRegisterInput {
     name: string;
     /** 手机号码 */
     phoneNumber: string;
+    /** 邮箱 */
+    emailAddress: string;
+    /** 注册类型 */
+    type: RegisterInputType;
     /** 注册验证码 */
     registerCode: string;
     /** 密码 */
@@ -13003,6 +13062,55 @@ export interface ISendEmailVerificationCodeInput {
     emailAddress: string;
     /** 验证类型 */
     codeType: SendEmailVerificationCodeInputCodeType;
+}
+
+export class CheckEmailCodeInput implements ICheckEmailCodeInput {
+    /** 验证码 */
+    code: string;
+    /** 验证码类型 */
+    codeType: CheckEmailCodeInputCodeType;
+    /** 验证码结果字符串 */
+    captchaResponse: string;
+
+    constructor(data?: ICheckEmailCodeInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.codeType = data["codeType"];
+            this.captchaResponse = data["captchaResponse"];
+        }
+    }
+
+    static fromJS(data: any): CheckEmailCodeInput {
+        let result = new CheckEmailCodeInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["codeType"] = this.codeType;
+        data["captchaResponse"] = this.captchaResponse;
+        return data; 
+    }
+}
+
+export interface ICheckEmailCodeInput {
+    /** 验证码 */
+    code: string;
+    /** 验证码类型 */
+    codeType: CheckEmailCodeInputCodeType;
+    /** 验证码结果字符串 */
+    captchaResponse: string;
 }
 
 export class SendEmailActivationLinkInput implements ISendEmailActivationLinkInput {
@@ -28875,7 +28983,23 @@ export enum IsTenantAvailableOutputState {
     _3 = 3, 
 }
 
+export enum RegisterInputType {
+    _1 = 1, 
+    _2 = 2, 
+}
+
 export enum SendEmailVerificationCodeInputCodeType {
+    _10 = 10, 
+    _20 = 20, 
+    _30 = 30, 
+    _40 = 40, 
+    _50 = 50, 
+    _60 = 60, 
+    _70 = 70, 
+    _80 = 80, 
+}
+
+export enum CheckEmailCodeInputCodeType {
     _10 = 10, 
     _20 = 20, 
     _30 = 30, 

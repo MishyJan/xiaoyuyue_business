@@ -92,7 +92,7 @@
                             <!--应约人所需信息选项-->
                             <div class="row">
                                 <div class="info-checkbox name col-md-3 text-right label-on-left">
-                                    <span>{{l('Booking.InfoOptions')}}</span>
+                                    <span>{{l('Booking.CustomerOptions')}}</span>
                                 </div>
                                 <div class="col-md-9 row content">
                                     <div class="margin-top-14">
@@ -388,12 +388,12 @@
                 </div>
             </div>
         </tab>
-        <tab heading="应约人选项" (select)="updateNextIndex(3)">
+        <tab heading="{{l('Booking.CustomerInfo.Option')}}" (select)="updateNextIndex(3)">
             <div class="customer-info-wrap">
                 <div class="card">
                     <div class="card-content clearfix">
                         <div class="col-xs-12 title-wrap">
-                            <p class="title">{{l('Booking.InfoOptions')}}</p>
+                            <p class="title">{{l('Booking.CustomerOptions')}}</p>
                         </div>
                         <div class="col-xs-4 item">
                             <div class="checkbox">
@@ -441,10 +441,16 @@
         </tab>
     </tabset>
     <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()" [buttonBusy]="savingAndEditing"
-        [busyText]="l('Saving')">{{l('Submit')}}</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="save()" [buttonBusy]="savingAndEditing"
-        [busyText]="l('Saving')">{{l('Update')}}</button>
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()" [buttonBusy]="saving" [busyText]="l('Saving')">
+        <i></i>
+        <span>{{l("Submit")}}</span>
+    </button>
+
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&bookingId" (click)="save()" [buttonBusy]="saving"
+        [busyText]="l('Updating')">
+        <i></i>
+        <span>{{l("Update")}}</span>
+    </button>
 </div>
 
 <xiaoyuyue-tips *ngIf="isShowImperfectTip" [slogen]="l('PlaceholderTips.RequiredTenantInfo')" [redirectRoute]="'/organization/info'"></xiaoyuyue-tips>
