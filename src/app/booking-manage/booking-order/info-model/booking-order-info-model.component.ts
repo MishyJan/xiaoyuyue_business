@@ -93,4 +93,16 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
         }
         return this.defaultAvatarUrl;
     }
+
+    // 订单状态样式
+    setOrderTipsClass(status: number): any {
+        const tipsClass = {
+            status1: status === 1,
+            status2: status === 2,
+            status3: status === 3,
+            status4: status === 4,
+            status5: status === 5
+        };
+        return tipsClass;
+    }
 }

@@ -50,6 +50,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
 
     loading = false;
+    addedFile = false;
     tabToggle = true;
 
     // 是否多选图片
@@ -105,6 +106,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                 this.selectedPicListArr.push(selectedPicList);
             });
         }
+        this.addedFile = false;
         this.modal.show();
         this.loadPicGalleryData();
     }
@@ -295,6 +297,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                     init: {
                         'FilesAdded': (up, files) => {
                             self.picturyDestroy();
+                            self.addedFile = true;
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
                                 // 上传之前本地预览
@@ -327,7 +330,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                             });
                         },
                         'BeforeUpload': (up, file) => {
-                            self.loading = true;
                             // 每个文件上传前,处理相关的事情
                             self.loading = true;
                         },

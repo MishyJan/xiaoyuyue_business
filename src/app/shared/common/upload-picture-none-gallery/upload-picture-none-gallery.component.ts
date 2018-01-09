@@ -19,6 +19,7 @@ import { UploadPictureService } from './../../../../shared/services/upload-pictu
 export class UploadPictureNoneGalleryComponent extends AppComponentBase implements OnInit {
     uploader: any;
     imageMogr2Link: string;
+    addedFile = false;
     loading = false;
     private _$profilePicture: JQuery;
 
@@ -47,6 +48,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
     }
 
     show(): void {
+        this.addedFile = false;
         this.modal.show();
         this.initFileUploader();
     }
@@ -103,6 +105,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                     init: {
                         'FilesAdded': function (up, files) {
                             self.picturyDestroy();
+                            self.addedFile = true;
                             plupload.each(files, function (file) {
                                 // 文件添加进队列后,处理相关的事情
                                 // 上传之前本地预览
