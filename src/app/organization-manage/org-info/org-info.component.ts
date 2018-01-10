@@ -211,7 +211,8 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 
-    getEditorHTMLContent($event: string): void {
+    // 富文本编辑器回调事件
+    editorContentChangeHandler($event: string): void {
         this.tenantInfo.description = $event;
     }
 

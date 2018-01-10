@@ -64,7 +64,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="getEditorHTMLContent($event)" [baseInfoDesc]="tenantInfo.description"></xiaoyuyue-wang-editor>
+                                            <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="tenantInfo.description"></xiaoyuyue-wang-editor>
                                             <!-- <textarea class="form-control " rows="5" [(ngModel)]="tenantInfo.description" name="description" placeholder="机构简介..."></textarea> -->
                                         </div>
                                     </div>
@@ -134,7 +134,7 @@
                                             <label class="control-label">{{ l('Tenant.Desc') }}</label>
                                         </div>
                                         <div class="org-desc-wrap">
-                                            <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="getEditorHTMLContent($event)" [baseInfoDesc]="tenantInfo.description"></xiaoyuyue-wang-editor>
+                                            <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="tenantInfo.description"></xiaoyuyue-wang-editor>
                                         </div>
                                     </div>
                                 </div>
