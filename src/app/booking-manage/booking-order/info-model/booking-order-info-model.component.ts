@@ -59,7 +59,6 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
 
     hideModel(): void {
         this.isShowModelFlag = false;
-        this.isShowModelHander.emit(this.isShowModelFlag);
     }
 
     // 备注订单
@@ -74,6 +73,8 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
                 this.updating = false;
             })
             .subscribe(() => {
+                this.hideModel();
+                this.isShowModelHander.emit(true);
                 this.notify.success(this.l('UpdateSuccess'));
             });
     }
@@ -90,7 +91,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
             })
             .subscribe(() => {
                 this.hideModel();
-                this.isShowModelHander.emit(false);
+                this.isShowModelHander.emit(true);
                 this.notify.success(this.l('Booking.Confirm.Success'));
             });
     }
@@ -101,5 +102,17 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
             return this.dataItem.profilePictureUrl;
         }
         return this.defaultAvatarUrl;
+    }
+
+    // 订单状态样式
+    setOrderTipsClass(status: number): any {
+        const tipsClass = {
+            status1: status === 1,
+            status2: status === 2,
+            status3: status === 3,
+            status4: status === 4,
+            status5: status === 5
+        };
+        return tipsClass;
     }
 }

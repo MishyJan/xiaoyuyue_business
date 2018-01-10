@@ -60,9 +60,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             onChange: (selectedDates, dateStr, instance) => {
                 this.dateSelected = moment(new Date(selectedDates)).local().format('YYYY-MM-DD');
                 this.loadData();
-            },
-            onOpen: (dateObj, dateStr) => {
-                this.dateSelected = null;
             }
         });
     }
