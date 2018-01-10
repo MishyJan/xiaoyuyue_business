@@ -11,6 +11,7 @@ import { AppConsts } from 'shared/AppConsts';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
 import { PictureManageComponent } from './picture-manage/picture-manage.component';
@@ -21,7 +22,6 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -146,7 +146,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     loadData() {
         if (!this.bookingId) {
             this.checkDataNeed2Reconvert();
-            this.startSaveEditInfoInBower();
             this.loadOutletData();
             return;
         }
@@ -161,10 +160,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 if (this.isMobile($('.mobile-create-booking'))) {
                     this.isNew = false;
                 }
-                this.originalinput = _.cloneDeep(this.input);
-                this.checkDataNeed2Reconvert();
-                this.startSaveEditInfoInBower();
                 this.loadOutletData();
+
+                this.checkDataNeed2Reconvert();
                 this.initWechatShareConfig();
                 this.timeInfoFormValid = true;
             });
@@ -180,76 +178,39 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             } else {
                 this.outletSelectDefaultItem = this.input.booking.outletId ? this.input.booking.outletId.toString() : outletResult[0].value;
                 this.outletSelectListData = outletResult;
-                this.selectOutletId = +this.outletSelectDefaultItem;
-                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId), () => {
+                this.input.booking.outletId = this.selectOutletId = +this.outletSelectDefaultItem;
+                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId, this.selectOutletId), () => {
                     return this._outletServiceServiceProxy.getContactorSelectList(+this.outletSelectDefaultItem)
                 }).then(contactorResult => {
                     if (contactorResult.length <= 0) { return; }
-                    this.contactorSelectDefaultItem = this.input.booking.outletId ? this.input.booking.contactorId.toString() : contactorResult[0].value;
+                    this.contactorSelectDefaultItem = this.input.booking.contactorId ? this.input.booking.contactorId.toString() : contactorResult[0].value;
                     this.contactorSelectListData = contactorResult;
-                    this.selectContactorId = +this.contactorSelectDefaultItem;
+                    this.input.booking.contactorId = this.selectContactorId = +this.contactorSelectDefaultItem;
+                    this.getBookingBaseInfo();
+                    this.originalinput = _.cloneDeep(this.input);
                 })
             }
         })
     }
 
     save() {
-        this.saving = true;
+        this.setLoadingStatus();
         this.createOrUpdateBooking();
     }
 
     saveAndEdit() {
-        this.savingAndEditing = true;
+        this.setLoadingStatus(true);
         this.createOrUpdateBooking(true);
     }
 
     createOrUpdateBooking(saveAndEdit: boolean = false) {
-        if (this.bookingBaseInfoForm.invalid) {
-            if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn(this.l('Booking.BaseInfo.Required'));
-                this.staticTabs.tabs[0].active = true;
-            } else {
-                this.message.error('', this.l('Booking.BaseInfo.Required'));
-                this.saving = false;
-                this.savingAndEditing = false;
-            }
-            return;
-        }
+        if (!this.formValid()) { return; }
 
-        if (this.input.items.length < 1) {
-            if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn(this.l('Booking.TimeInfo.Required'));
-                this.staticTabs.tabs[1].active = true;
-            } else {
-                this.message.error('', this.l('Booking.TimeInfo.Required'));
-                this.saving = false;
-                this.savingAndEditing = false;
-            }
-            return;
-        }
-
-        if (!this.timeInfoFormValid) {
-            this.message.error('', this.l('Booking.TimeInfo.NotSaved'));
-            this.saving = false;
-            this.savingAndEditing = false;
-            return;
-        }
-        this.wangEditorModel.save();
-        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
-        this.input.booking.id = this.bookingId;
-        this.input.booking.outletId = this.selectOutletId;
-        this.input.booking.contactorId = this.selectContactorId;
-        this.input.booking.isActive = true;
-        // 判断是否有添加新的时间信息
-        this.input.items = this.input.items;
-        // 判断是否上传过图片
-        this.input.bookingPictures = this.input.bookingPictures;
-
+        this.getBookingBaseInfo();
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => {
-                this.saving = false;
-                this.savingAndEditing = false;
+                this.clearLoadingStatus();
             })
             .subscribe((result) => {
                 this.bookingId = result.id;
@@ -269,6 +230,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             });
     }
 
+    getBookingBaseInfo() {
+
+        this.input.booking.id = this.bookingId <= 0 ? undefined : this.bookingId;
+        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
+        this.input.booking.outletId = this.selectOutletId;
+        this.input.booking.contactorId = this.selectContactorId;
+        this.input.booking.isActive = true;
+        this.wangEditorModel.save();
+    }
+
     getTimeInfoInput(allBookingTime: BookingItemEditDto[]) {
         this.input.items = allBookingTime;
     }
@@ -279,13 +250,13 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     public outletChange(outlet: any): void {
         this.selectOutletId = parseInt(outlet, null);
-        this._outletServiceServiceProxy
-            .getContactorSelectList(this.selectOutletId)
-            .subscribe(result => {
-                this.contactorSelectListData = result;
-                this.contactorSelectDefaultItem = result[0].value;
-                this.selectContactorId = +result[0].value;
-            })
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId, this.selectOutletId), () => {
+            return this._outletServiceServiceProxy.getContactorSelectList(this.selectOutletId)
+        }).then(result => {
+            this.contactorSelectListData = result;
+            this.contactorSelectDefaultItem = result[0].value;
+            this.selectContactorId = +result[0].value;
+        })
     }
 
     public contactorChange(contactor: any): void {
@@ -401,40 +372,59 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     checkDataNeed2Reconvert() {
         this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(this.getCacheItemKey())
             .then((editCache) => {
+                this.getBookingBaseInfo();
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
                     this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
                             this.originalinput = _.cloneDeep(this.input);
-                        } else {
-                            this.removeEditCache();
+                            this.initFormValidation();
+                            this.loadOutletData();
                         }
+                        this.removeEditCache();
                     });
                 }
+                this.startSaveEditInfoInBower();
             });
     }
 
     // 开始定时保存临时数据
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            if (this.isDataNoSave()) {
+            if (this.isEmptyData(this.input)) {
+                this.removeEditCache()
+            } else if (this.isTemDataNeedSave()) {
                 this._localStorageService.setItem(this.getCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }
         }, 3000)
     }
 
-    isDataNoSave(): boolean {
-        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
+    isTemDataNeedSave(): boolean {
+        this.getBookingBaseInfo();
         return this.isDataNoEqual(this.originalinput, this.input);
     }
 
     isDataNoEqual(source: CreateOrUpdateBookingInput, destination: CreateOrUpdateBookingInput): boolean {
-        if (!source.booking.id && destination.booking.id) { return false; }
-
+        // 编辑预约时判断
         if (source.booking.id !== destination.booking.id) { this.removeEditCache(); return false; }
 
         return JSON.stringify(source) !== JSON.stringify(destination);
+    }
+
+    isEmptyData(input: CreateOrUpdateBookingInput) {
+        let isEmpty = true;
+
+        if (input.booking) {
+            if (input.booking.name) { isEmpty = false; }
+            if (input.booking.description !== '00:00 - 00:00') { isEmpty = false; }
+            if (input.booking.outletId > 0) { isEmpty = false; }
+            if (input.booking.contactorId > 0) { isEmpty = false; }
+
+        }
+        if (input.bookingPictures && input.bookingPictures.length > 0) { isEmpty = false; }
+        if (input.items && input.items.length > 0) { isEmpty = false; }
+        return isEmpty;
     }
 
     removeEditCache() {
@@ -453,7 +443,52 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         }
     }
 
-    private getCacheItemKey() {
-        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId);
+    getCacheItemKey() {
+        return abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId);
+    }
+
+    formValid(): boolean {
+        if (this.bookingBaseInfoForm.invalid) {
+            if (this.isMobile($('.mobile-create-booking'))) {
+                this.message.warn(this.l('Booking.BaseInfo.Required'));
+                this.staticTabs.tabs[0].active = true;
+            } else {
+                this.message.error('', this.l('Booking.BaseInfo.Required'));
+                this.clearLoadingStatus();
+            }
+            return false;
+        }
+
+        if (this.input.items.length < 1) {
+            if (this.isMobile($('.mobile-create-booking'))) {
+                this.message.warn(this.l('Booking.TimeInfo.Required'));
+                this.staticTabs.tabs[1].active = true;
+            } else {
+                this.message.error('', this.l('Booking.TimeInfo.Required'));
+                this.clearLoadingStatus();
+            }
+            return false;
+        }
+
+        if (!this.timeInfoFormValid) {
+            this.message.error('', this.l('Booking.TimeInfo.NotSaved'));
+            this.clearLoadingStatus();
+            return false;
+        }
+
+        return true;
+    }
+
+    setLoadingStatus(editing: boolean = false) {
+        if (editing) {
+            this.savingAndEditing = false;
+        } else {
+            this.saving = false;
+        }
+    }
+
+    clearLoadingStatus() {
+        this.saving = false;
+        this.savingAndEditing = false;
     }
 }

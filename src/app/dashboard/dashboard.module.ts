@@ -1,6 +1,5 @@
 import { ModalModule, TabsModule, TooltipModule } from 'ngx-bootstrap';
 
-import { AngularEchartsModule } from 'ngx-echarts';
 import { AppCommonModule } from '@app/shared/common/app-common.module';
 import { BookingAccessRegionComponent } from './booking-access-region/booking-access-region.component';
 import { BookingAccessSourceComponent } from './booking-access-source/booking-access-source.component';
@@ -14,6 +13,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { ResponsiveModule } from 'ng2-responsive';
 import { ServicesModule } from 'shared/services/services.module';
 import { UtilsModule } from '@shared/utils/utils.module';
@@ -28,7 +28,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
         AppCommonModule,
         UtilsModule,
         DashboardRoutingModule,
-        AngularEchartsModule,
+        NgxEchartsModule,
         DropDownsModule,
         ResponsiveModule,
         ServicesModule

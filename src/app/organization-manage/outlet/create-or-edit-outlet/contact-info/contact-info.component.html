@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="card-content">
-                    <!-- 创建时间段 -->
+                    <!-- 创建联系人 -->
                     <div style="width: 100%;" *ngIf="isCreating" class="clearfix">
                         <div class="col-md-4 contact-info-wrap box-shadow border-radius-14 pull-left paddingTop-32">
                             <div class="xiaoyuyue-title-box">{{ contactName }}</div>
@@ -119,7 +119,6 @@
         <xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel [groupId]="groupId" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-upload-picture-none-gallery>
     </div>
 </div>
-
 
 <div *showItBootstrap="['xs','sm']">
     <div class="mobile-contact-info">
