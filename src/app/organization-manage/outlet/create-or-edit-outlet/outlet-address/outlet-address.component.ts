@@ -112,7 +112,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         if (!provinceId) {
             return;
         }
-        this._localStorageService.getItem(abp.utils.formatString(AppConsts.citysSelectListCache), () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.citysSelectListCache, provinceId), () => {
             return this._stateServiceServiceProxy.getCitySelectList(provinceId)
         }).then(result => {
             this.citysSelectListData = result;
@@ -128,7 +128,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         if (!cityId) {
             return;
         }
-        this._localStorageService.getItem(abp.utils.formatString(AppConsts.districtsSelectListCache), () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.districtsSelectListCache, cityId), () => {
             return this._stateServiceServiceProxy.getDistrictSelectList(cityId)
         }).then(result => {
             this.districtSelectListData = result;
@@ -261,8 +261,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     }
 
     public openProvinceSledct(): void {
-        this._localStorageService.removeItem(AppConsts.citysSelectListCache);
-        this._localStorageService.removeItem(AppConsts.districtsSelectListCache);
         this.getProvinceSelectList();
     }
 

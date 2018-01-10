@@ -42,9 +42,9 @@ export class AppConsts {
 
     static bookingSelectListCache = 'BookingSelectListCache-{0}';
 
-    static provinceSelectListCache = 'ProvinceSelectListCache';
+    static provinceSelectListCache = 'ProvinceSelectListCache-{0}';
 
-    static citysSelectListCache = 'CitysSelectListCache';
+    static citysSelectListCache = 'CitysSelectListCache-{0}';
 
     static districtsSelectListCache = 'DistrictsSelectListCache';
 
