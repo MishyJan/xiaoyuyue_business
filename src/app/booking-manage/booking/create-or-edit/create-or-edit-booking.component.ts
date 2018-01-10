@@ -11,6 +11,7 @@ import { AppConsts } from 'shared/AppConsts';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { Location } from '@angular/common';
 import { Moment } from 'moment';
 import { PictureManageComponent } from './picture-manage/picture-manage.component';
@@ -21,7 +22,6 @@ import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { WangEditorComponent } from 'app/shared/common/wang-editor/wang-editor.component';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 @Component({
     selector: 'app-create-or-edit-booking',
@@ -146,7 +146,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     loadData() {
         if (!this.bookingId) {
             this.checkDataNeed2Reconvert();
-            this.startSaveEditInfoInBower();
             this.loadOutletData();
             return;
         }
@@ -161,10 +160,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 if (this.isMobile($('.mobile-create-booking'))) {
                     this.isNew = false;
                 }
-                this.originalinput = _.cloneDeep(this.input);
-                this.checkDataNeed2Reconvert();
-                this.startSaveEditInfoInBower();
                 this.loadOutletData();
+
+                this.checkDataNeed2Reconvert();
                 this.initWechatShareConfig();
                 this.timeInfoFormValid = true;
             });
@@ -180,81 +178,44 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             } else {
                 this.outletSelectDefaultItem = this.input.booking.outletId ? this.input.booking.outletId.toString() : outletResult[0].value;
                 this.outletSelectListData = outletResult;
-                this.selectOutletId = +this.outletSelectDefaultItem;
-                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId), () => {
+                this.input.booking.outletId = this.selectOutletId = +this.outletSelectDefaultItem;
+                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId, this.selectOutletId), () => {
                     return this._outletServiceServiceProxy.getContactorSelectList(+this.outletSelectDefaultItem)
                 }).then(contactorResult => {
                     if (contactorResult.length <= 0) { return; }
-                    this.contactorSelectDefaultItem = this.input.booking.outletId ? this.input.booking.contactorId.toString() : contactorResult[0].value;
+                    this.contactorSelectDefaultItem = this.input.booking.contactorId ? this.input.booking.contactorId.toString() : contactorResult[0].value;
                     this.contactorSelectListData = contactorResult;
-                    this.selectContactorId = +this.contactorSelectDefaultItem;
+                    this.input.booking.contactorId = this.selectContactorId = +this.contactorSelectDefaultItem;
+                    this.getBookingBaseInfo();
+                    this.originalinput = _.cloneDeep(this.input);
                 })
             }
         })
     }
 
     save() {
-        this.saving = true;
+        this.setLoadingStatus();
         this.createOrUpdateBooking();
     }
 
     saveAndEdit() {
-        this.savingAndEditing = true;
+        this.setLoadingStatus(true);
         this.createOrUpdateBooking(true);
     }
 
     createOrUpdateBooking(saveAndEdit: boolean = false) {
-        if (this.bookingBaseInfoForm.invalid) {
-            if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn(this.l('Booking.BaseInfo.Required'));
-                this.staticTabs.tabs[0].active = true;
-            } else {
-                this.message.error('', this.l('Booking.BaseInfo.Required'));
-                this.saving = false;
-                this.savingAndEditing = false;
-            }
-            return;
-        }
+        if (!this.formValid()) { return; }
 
-        if (this.input.items.length < 1) {
-            if (this.isMobile($('.mobile-create-booking'))) {
-                this.message.warn(this.l('Booking.TimeInfo.Required'));
-                this.staticTabs.tabs[1].active = true;
-            } else {
-                this.message.error('', this.l('Booking.TimeInfo.Required'));
-                this.saving = false;
-                this.savingAndEditing = false;
-            }
-            return;
-        }
-
-        if (!this.timeInfoFormValid) {
-            this.message.error('', this.l('Booking.TimeInfo.NotSaved'));
-            this.saving = false;
-            this.savingAndEditing = false;
-            return;
-        }
-        this.wangEditorModel.save();
-        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
-        this.input.booking.id = this.bookingId;
-        this.input.booking.outletId = this.selectOutletId;
-        this.input.booking.contactorId = this.selectContactorId;
-        this.input.booking.isActive = true;
-        // 判断是否有添加新的时间信息
-        this.input.items = this.input.items;
-        // 判断是否上传过图片
-        this.input.bookingPictures = this.input.bookingPictures;
-
+        this.getBookingBaseInfo();
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => {
-                this.saving = false;
-                this.savingAndEditing = false;
+                this.clearLoadingStatus();
             })
             .subscribe((result) => {
                 this.bookingId = result.id;
                 abp.event.trigger('bookingListSelectChanged');
-                this.removeEditCache(); // 清理缓存数据
+                this.removeTempCache(); // 清理缓存数据
                 if (saveAndEdit) {
                     this.notify.success(this.l('SavaSuccess'));
                     return;
@@ -269,34 +230,50 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             });
     }
 
+    // 更新数据到DTO
+    getBookingBaseInfo() {
+        this.input.booking.id = this.bookingId <= 0 ? undefined : this.bookingId;
+        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
+        this.input.booking.outletId = this.selectOutletId;
+        this.input.booking.contactorId = this.selectContactorId;
+        this.input.booking.isActive = true;
+        this.wangEditorModel.save();
+    }
+
+    // 获取预约时间项
     getTimeInfoInput(allBookingTime: BookingItemEditDto[]) {
         this.input.items = allBookingTime;
     }
 
-    getInfoFormValid(timeInfoFormValid: boolean) {
+    // 获取时间项表单验证结果
+    getTimeInfoFormValid(timeInfoFormValid: boolean) {
         this.timeInfoFormValid = timeInfoFormValid;
     }
 
+    // 门店选择事件
     public outletChange(outlet: any): void {
         this.selectOutletId = parseInt(outlet, null);
-        this._outletServiceServiceProxy
-            .getContactorSelectList(this.selectOutletId)
-            .subscribe(result => {
-                this.contactorSelectListData = result;
-                this.contactorSelectDefaultItem = result[0].value;
-                this.selectContactorId = +result[0].value;
-            })
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId, this.selectOutletId), () => {
+            return this._outletServiceServiceProxy.getContactorSelectList(this.selectOutletId)
+        }).then(result => {
+            this.contactorSelectListData = result;
+            this.contactorSelectDefaultItem = result[0].value;
+            this.selectContactorId = +result[0].value;
+        })
     }
 
+    // 联系人选择事件
     public contactorChange(contactor: any): void {
         this.selectContactorId = parseInt(contactor, null);
     }
 
-    getAllPictureForEdit(pictureForEdit: BookingPictureEditDto[]) {
+    // 选择图片事件
+    pictureListChangeHandler(pictureForEdit: BookingPictureEditDto[]) {
         this.input.bookingPictures = pictureForEdit;
     }
 
-    getEditorHTMLContent($event: string): void {
+    // 富文本编辑器回调事件
+    editorContentChangeHandler($event: string): void {
         this.input.booking.description = $event;
     }
 
@@ -308,25 +285,31 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 disableMobile: false,
                 wrap: true,
                 'locale': LocalizationHelper.getFlatpickrLocale(),
-                defaultDate: self.dafaultDate
+                defaultDate: self.dafaultDate,
+                onOpen: (dateObj, dateStr) => {
+                    this.editingBookingItem.availableDates = null;
+                }
             })
         }
     }
 
+    // 删除图片
     removeBookingPic(picIndex: number): void {
         this.input.bookingPictures.splice(picIndex, 1);
     }
 
+    // 下一步
     nextStep(): void {
         this.staticTabs.tabs[this.nextIndex].active = true;
     }
 
-    // tab点击的时候更新tab索引值
+    // tab点击的时候更新索引值
     updateNextIndex(index: number): void {
         this.nextIndex = index;
         this.refreshData();
     }
 
+    // 显示提交按钮
     isShowConfirm(): boolean {
         if (this.nextIndex === 3) {
             return true;
@@ -334,6 +317,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         return false;
     }
 
+    // 显示添加时间面板
     createTimeField(): void {
         this.isNew = true;
         this.editingBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
@@ -343,6 +327,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         }, 100);
     }
 
+    // 保存时间到队列
     savePanelTimeField(): void {
         this.isNew = false;
         this.timeInfoFormValid = true;
@@ -357,14 +342,12 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.editingBookingItem = new BookingItemEditDto();
     }
 
-    getPicUploadInfoHandler(allPicUploadInfo: BookingPictureEditDto[]): void {
-        this.input.bookingPictures = allPicUploadInfo;
-    }
-
+    // 编辑时间项
     editingTimeField(index: number): void {
         this.editingIndex[index] = true;
     }
 
+    // 删除时间项
     deleteTimeField(index: number): void {
         this.input.items.splice(index, 1);
         if (this.input.items.length <= 0) {
@@ -372,8 +355,14 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         }
     }
 
+    // 保存时间项
     saveTimeField(index: number): void {
         this.editingIndex[index] = false;
+    }
+
+    // 上传图片事件
+    getPicUploadInfoHandler(allPicUploadInfo: BookingPictureEditDto[]): void {
+        this.input.bookingPictures = allPicUploadInfo;
     }
 
     // 刷新数据（由于使用模型驱动表单验证，所以需要更新数据到DTO）
@@ -381,7 +370,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
     }
 
-    // PC端代码
     /* 业务代码 */
     initWechatShareConfig() {
         if (this.input.booking && this.isWeiXin()) {
@@ -396,46 +384,123 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 检查数据是否需要恢复
     checkDataNeed2Reconvert() {
-        this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(this.getCacheItemKey())
+        this._localStorageService.getItemOrNull<CreateOrUpdateBookingInput>(this.getTemCacheItemKey())
             .then((editCache) => {
+                this.getBookingBaseInfo();
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
                     this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
                             this.originalinput = _.cloneDeep(this.input);
-                        } else {
-                            this.removeEditCache();
+                            this.initFormValidation();
+                            this.loadOutletData();
                         }
+                        this.removeTempCache();
                     });
                 }
+                this.startSaveEditInfoInBower();
             });
     }
 
     // 开始定时保存临时数据
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            if (this.isDataNoSave()) {
-                this._localStorageService.setItem(this.getCacheItemKey(), this.input);
+            if (this.isEmptyData(this.input)) {
+                this.removeTempCache()
+            } else if (this.isTemDataNeedSave()) {
+                this._localStorageService.setItem(this.getTemCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }
         }, 3000)
     }
 
-    isDataNoSave(): boolean {
-        this.input.booking.name = this.bookingBaseInfoForm.value.bookingName;
+    // 数据是否需要保存
+    isTemDataNeedSave(): boolean {
+        this.getBookingBaseInfo();
         return this.isDataNoEqual(this.originalinput, this.input);
     }
 
+    // 数据是否相等
     isDataNoEqual(source: CreateOrUpdateBookingInput, destination: CreateOrUpdateBookingInput): boolean {
-        if (!source.booking.id && destination.booking.id) { return false; }
-
-        if (source.booking.id !== destination.booking.id) { this.removeEditCache(); return false; }
+        // 编辑预约时判断
+        if (source.booking.id !== destination.booking.id) { this.removeTempCache(); return false; }
 
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 
-    removeEditCache() {
-        this._localStorageService.removeItem(this.getCacheItemKey());
+    // 是否空对象
+    isEmptyData(input: CreateOrUpdateBookingInput) {
+        let isEmpty = true;
+
+        if (input.booking) {
+            if (input.booking.name) { isEmpty = false; }
+            if (input.booking.description !== '00:00 - 00:00') { isEmpty = false; }
+            if (input.booking.outletId > 0) { isEmpty = false; }
+            if (input.booking.contactorId > 0) { isEmpty = false; }
+
+        }
+        if (input.bookingPictures && input.bookingPictures.length > 0) { isEmpty = false; }
+        if (input.items && input.items.length > 0) { isEmpty = false; }
+        return isEmpty;
+    }
+
+    // 删除临时数据
+    removeTempCache() {
+        this._localStorageService.removeItem(this.getTemCacheItemKey());
+    }
+
+
+    // 获取临时数据key
+    getTemCacheItemKey() {
+        return abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId);
+    }
+
+    // 验证表单
+    formValid(): boolean {
+        if (this.bookingBaseInfoForm.invalid) {
+            if (this.isMobile($('.mobile-create-booking'))) {
+                this.message.warn(this.l('Booking.BaseInfo.Required'));
+                this.staticTabs.tabs[0].active = true;
+            } else {
+                this.message.error('', this.l('Booking.BaseInfo.Required'));
+                this.clearLoadingStatus();
+            }
+            return false;
+        }
+
+        if (this.input.items.length < 1) {
+            if (this.isMobile($('.mobile-create-booking'))) {
+                this.message.warn(this.l('Booking.TimeInfo.Required'));
+                this.staticTabs.tabs[1].active = true;
+            } else {
+                this.message.error('', this.l('Booking.TimeInfo.Required'));
+                this.clearLoadingStatus();
+            }
+            return false;
+        }
+
+        if (!this.timeInfoFormValid) {
+            this.message.error('', this.l('Booking.TimeInfo.NotSaved'));
+            this.clearLoadingStatus();
+            return false;
+        }
+
+        return true;
+    }
+
+    // 设置loading状态
+    setLoadingStatus(editing: boolean = false) {
+        if (editing) {
+            this.savingAndEditing = false;
+        } else {
+            this.saving = false;
+        }
+    }
+
+    // 清除loading状态
+    clearLoadingStatus() {
+        this.saving = false;
+        this.savingAndEditing = false;
     }
 
     // 跳转编辑预约
@@ -448,9 +513,5 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 url: `/pages/business-center/business-center?route=${encodeURIComponent(url)}`
             })
         }
-    }
-
-    private getCacheItemKey() {
-        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId);
     }
 }

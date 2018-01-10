@@ -1,9 +1,11 @@
 @import '_colors';
+@import '_variables';
 
 /* kendo grid */
 
 .k-grid thead th {
-    padding: 20px 14px 20px 24px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-bottom: 1px solid #E8E7E7;
 }
 
@@ -12,7 +14,8 @@
 }
 
 .k-grid tbody td {
-    padding: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 .k-textbox::selection {
@@ -85,7 +88,7 @@
 .k-i-collapse:before,
 .k-i-expand-s:before,
 .k-i-sarrow-s:before {
-    font-family: 'xiaoyuyue' !important;
+    font-family: $xiaoyuyue-font-family !important;
     content: '\e919';
 }
 

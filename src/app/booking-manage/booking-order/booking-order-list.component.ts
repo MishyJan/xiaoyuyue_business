@@ -70,7 +70,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     OrgBookingOrderStatus.ConfirmSuccess,
     OrgBookingOrderStatus.ConfirmFail,
     OrgBookingOrderStatus.Cancel,
-    OrgBookingOrderStatus.WaitComment,
+    // OrgBookingOrderStatus.WaitComment,
     OrgBookingOrderStatus.Complete];
 
     bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
@@ -113,12 +113,21 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.loadData();
             this.cBookingOrderDate = $('#bookingDate').flatpickr({
                 'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.bookingDate = null;
+                }
             });
             this.cStartCreationTime = $('#startCreationTime').flatpickr({
                 'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.creationStartDate = null;
+                }
             });
             this.cEndCreationTime = $('#endCreationTime').flatpickr({
                 'locale': LocalizationHelper.getFlatpickrLocale(),
+                onOpen: (dateObj, dateStr) => {
+                    this.creationEndDate = null;
+                }
             });
         }
     }
@@ -183,7 +192,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     // 应约人列表model弹窗，若关闭应该刷新数据
     isShowConfirmOrderModelHander(flag: boolean): void {
-        if (!flag) {
+        if (flag) {
             this.loadData();
         }
     }
@@ -217,6 +226,8 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.singleBookingStatus.displayText = this.bookingOrderStatusName[index];
             this.orderStatusSelectList.push(this.singleBookingStatus);
         });
+        console.log(this.orderStatusSelectList);
+        
     }
 
     // 获取应约人头像

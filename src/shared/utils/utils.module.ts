@@ -11,6 +11,7 @@ import { MobileHeaderDirective } from 'shared/utils/mobile-header.directive';
 import { MomentFormatPipe } from './moment-format.pipe';
 import { NgModule } from '@angular/core';
 import { PasswordComplexityValidator } from './validation/password-complexity-validator.directive'
+import { StringEncryptDirective } from './string-encrypt.directive';
 
 @NgModule({
     providers: [
@@ -28,6 +29,7 @@ import { PasswordComplexityValidator } from './validation/password-complexity-va
         GridRowClickDirective,
         CurrencyInputDirective,
         MobileHeaderDirective,
+        StringEncryptDirective,
     ],
     exports: [
         EqualValidator,
@@ -40,6 +42,7 @@ import { PasswordComplexityValidator } from './validation/password-complexity-va
         GridRowClickDirective,
         CurrencyInputDirective,
         MobileHeaderDirective,
+        StringEncryptDirective
     ]
 })
 export class UtilsModule { }

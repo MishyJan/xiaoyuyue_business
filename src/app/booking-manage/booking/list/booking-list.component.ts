@@ -124,6 +124,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             // clickOpens: false,
             onClose: (element) => {
                 $(this.bStartCreationTime.input).blur();
+            },
+            onOpen: (dateObj, dateStr) => {
+                this.startCreationTime = null;
             }
         })
 
@@ -132,6 +135,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             // clickOpens: false,
             onClose: (element) => {
                 $(this.bEndCreationTime.input).blur();
+            },
+            onOpen: (dateObj, dateStr) => {
+                this.endCreationTime = null;
             }
         })
     }

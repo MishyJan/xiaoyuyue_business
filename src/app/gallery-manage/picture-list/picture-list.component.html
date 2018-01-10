@@ -84,7 +84,7 @@
                                         <div class="sub-item" *ngFor="let groupItem of picGalleryGroupData; let index = index" [ngClass]="{'active': groupActiveIndex == index }"
                                             title="{{ groupItem.name }}({{ groupItem.pictureNum }})" (click)="eventStopPropagation($event)">
                                             <div class="left-item text-overflow">
-                                                <div (click)="groupItemActive(groupItem,index)" *ngIf="!editingGroupName || !(editingGroupNameIndex == index)">{{ groupItem.name }} ({{ groupItem.pictureNum}})</div>
+                                                <div (click)="changeGroupActive(groupItem,index)" *ngIf="!editingGroupName || !(editingGroupNameIndex == index)">{{ groupItem.name }} ({{ groupItem.pictureNum}})</div>
                                                 <input type="text text-overflow" style="width: 100%;" autofocus name="groupName" *ngIf="editingGroupName && editingGroupNameIndex == index"
                                                     [value]="groupItem.name" [readonly]="!editingGroupName" (keyup.enter)="updatePicGroupService(groupItem.id, $event)">
                                             </div>
@@ -98,7 +98,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="sub-item text-overflow" (click)="showCreatePicInput()">+ {{ l('PictureGallery.CreateGroup') }}</p>
+                                        <p class="sub-item text-overflow" (click)="showCreatePicInput()"><span class="vapps-icon-app-add-booking-item add-icon"></span> {{ l('PictureGallery.CreateGroup') }}</p>
                                         <p class="sub-item text-overflow new-group" *ngIf="picGroupCreating">
                                             <input type="text" placeholder="{{ l('PictureGallery.GroupName') }}" id="newGroupName" name="newGroupName" [(ngModel)]="picGroupInputDto.name"
                                                 (keyup.enter)="createPicGroupService()" (blur)="closeCreatePicGroup()">

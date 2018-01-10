@@ -46,6 +46,8 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     public save() {
+        if ('<p><br></p>' === this.editor.txt.html()) { return; }
+
         this.editorOnChange(this.editor.txt.html());
     }
 

@@ -28,6 +28,8 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
     this.l(OrgBookingOrderStatus.CancelLocalization),
     this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
+    confirming = false;
+    updating = false;
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
 
@@ -57,30 +59,39 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
 
     hideModel(): void {
         this.isShowModelFlag = false;
-        this.isShowModelHander.emit(this.isShowModelFlag);
     }
 
     // 备注订单
     remarkBookingOrder(): void {
+        this.updating = true;
         this.remarkInput = new RemarkBookingOrderInput();
         this.remarkInput.id = this.dataItem.id;
         this.remarkInput.remark = this.dataItem.remark;
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
+            .finally(() => {
+                this.updating = false;
+            })
             .subscribe(() => {
+                this.hideModel();
+                this.isShowModelHander.emit(true);
                 this.notify.success(this.l('UpdateSuccess'));
             });
     }
 
     // 确认订单
     confirmCustomerOrder(): void {
+        this.confirming = true;
         const input = new EntityDtoOfInt64();
         input.id = this.dataItem.id;
         this._orgBookingOrderServiceProxy
             .confirmBookingOrder(input)
+            .finally(() => {
+                this.confirming = false;
+            })
             .subscribe(() => {
                 this.hideModel();
-                this.isShowModelHander.emit(false);
+                this.isShowModelHander.emit(true);
                 this.notify.success(this.l('Booking.Confirm.Success'));
             });
     }
@@ -91,5 +102,17 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
             return this.dataItem.profilePictureUrl;
         }
         return this.defaultAvatarUrl;
+    }
+
+    // 订单状态样式
+    setOrderTipsClass(status: number): any {
+        const tipsClass = {
+            status1: status === 1,
+            status2: status === 2,
+            status3: status === 3,
+            status4: status === 4,
+            status5: status === 5
+        };
+        return tipsClass;
     }
 }

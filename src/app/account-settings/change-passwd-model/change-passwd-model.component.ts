@@ -19,7 +19,6 @@ export class RepeatPasswdDto extends ChangePasswordInput {
 export class ChangePasswdModelComponent extends AppComponentBase implements OnInit {
     input: RepeatPasswdDto = new RepeatPasswdDto();
     changePasswdMode = true;
-    encryptPhoneNum: string;
     byPhoneInput: ChangePasswordByPhoneInput = new ChangePasswordByPhoneInput();
     phoneNum: string;
     codeType: number = VerificationCodeType.ChangePassword;
@@ -36,7 +35,6 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
 
     ngOnInit() {
         this.phoneNum = this._appSessionService.user.phoneNumber;
-        this.encrypt();
     }
 
     show(): void {
@@ -76,12 +74,5 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
                 this.notify.success('密码修改成功');
             });
         this.byPhoneInput = new ChangePasswordByPhoneInput();
-    }
-
-    private encrypt(): void {
-        if (!this.phoneNum) {
-            return;
-        }
-        this.encryptPhoneNum = '•••••••' + this.phoneNum.substr(this.phoneNum.length - 4);
     }
 }

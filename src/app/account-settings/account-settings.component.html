@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row"> 
                 <div class="security-info col-lg-6">
                     <div class="card">
                         <div class="form-horizontal">
@@ -38,7 +38,7 @@
                                     <p class="left-item pull-left">
                                         <span class="tip-title pull-left">{{ l('Security.VerifyPhone') }}</span>
                                         <span class="pull-left not-set" *ngIf="!userSecurityInfo.phoneNumber">{{ l('Security.Unset') }}</span>
-                                        <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber">{{ l('Security.Set') }}</span>
+                                        <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber" appStringEncrypt>{{ userSecurityInfo.phoneNumber }}</span>
                                     </p>
                                     <div class="right-item pull-right">
                                         <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">{{ l('Revise') }}</button>
@@ -49,8 +49,8 @@
                                 <div class="verify-email content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-title pull-left">{{ l('Security.VerifyEmail') }}</span>
-                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.emailAddress">{{ l('Security.Set') }}</span>
                                         <span class="pull-left not-set" *ngIf="!userSecurityInfo.emailAddress">{{ l('Security.Unset') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.emailAddress" appStringEncrypt>{{ userSecurityInfo.emailAddress }}</span>
                                     </p>
                                     <div class="right-item pull-right">
                                         <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.emailAddress" (click)="showBindingEmailModel()">{{ l('Setting') }}</button>
