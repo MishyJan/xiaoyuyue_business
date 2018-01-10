@@ -399,7 +399,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     picturyDestroy(): void {
         this.pictureForEdit = new BookingPictureEditDto();
         this._$profilePicture.removeAttr('src');
-        this._$profilePicture.cropper("destroy");
+        this._$profilePicture.cropper('destroy');
     }
 
     // bootstrap modal显示事件
