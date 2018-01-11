@@ -29,9 +29,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     selectedCityId: string;
     selectedProvinceId: string;
 
-    isCitySelect = false;
-    isDistrictSelect = false;
-
     provinceSelectListData: SelectListItemDto[] = [];
     citysSelectListData: SelectListItemDto[] = [];
     districtSelectListData: SelectListItemDto[] = [];
@@ -55,8 +52,8 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     ngOnInit() {
         // this.getQQMapScript();
-        this.provinceSelectListData.unshift(this._selectHelper.provinceSelectList());
-        this.selectedProvinceId = this.provinceSelectListData[0].value;
+        // this.provinceSelectListData.unshift(this._selectHelper.provinceSelectList());
+        // this.selectedProvinceId = this.provinceSelectListData[0].value;
     }
 
     ngAfterViewInit() {
@@ -66,34 +63,55 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.outletInfo.firstChange) { return };
-
+        if (changes.outletInfo.firstChange) {
+            this.initSelectListData();
+            return
+        };
         this.outletInfo.provinceId = changes.outletInfo.currentValue.provinceId;
         this.selectedProvinceId = this.outletInfo.provinceId + '';
         this.getProvinceSelectList();
 
         this.outletInfo.cityId = changes.outletInfo.currentValue.cityId;
         this.selectedCityId = this.outletInfo.cityId + '';
-        this.getCitysSelectList(this.outletInfo.cityId);
+        this.getCitysSelectList(this.outletInfo.provinceId);
 
         this.outletInfo.districtId = changes.outletInfo.currentValue.districtId;
         this.selectedDistrictId = this.outletInfo.districtId + '';
-        this.getDistrictsSelectList(this.outletInfo.districtId);
+        this.getDistrictsSelectList(this.outletInfo.cityId);
 
         this.outletInfo.detailAddress = changes.outletInfo.currentValue.detailAddress;
+        // 如果数据恢复时，没有省/市的下拉数据，则初始下拉数据
+        if (!this.outletInfo.provinceId) { this.initSelectListData(); }
         const longitude = changes.outletInfo.currentValue.longitude;
-        if (longitude !== null) {
+        if (longitude) {
             const temp = longitude.split(',');
             this.lat = temp[0];
             this.lng = temp[1];
         }
 
         this.mapsReady();
+    }
 
-        if (changes.outletInfo.currentValue.provinceId >= 0) {
-            this.isCitySelect = true;
-            this.isDistrictSelect = true;
-        }
+    // 在创建状态下，下拉数据源为索引值为0的值，比如：北京，北京，东城区
+    initSelectListData(): void {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.provinceSelectListCache), () => {
+            return this._stateServiceServiceProxy.getProvinceSelectList()
+        }).then(provinceSelectListResult => {
+            this.provinceSelectListData = provinceSelectListResult;
+            this.selectedProvinceId = provinceSelectListResult[0].value;
+            this._localStorageService.getItem(abp.utils.formatString(AppConsts.citysSelectListCache, provinceSelectListResult[0].value), () => {
+                return this._stateServiceServiceProxy.getCitySelectList(+this.selectedProvinceId)
+            }).then(citysSelectListResult => {
+                this.citysSelectListData = citysSelectListResult;
+                this.selectedCityId = citysSelectListResult[0].value;
+                this._localStorageService.getItem(abp.utils.formatString(AppConsts.districtsSelectListCache, citysSelectListResult[0].value), () => {
+                    return this._stateServiceServiceProxy.getDistrictSelectList(+this.selectedCityId)
+                }).then(districtsSelectListResult => {
+                    this.districtSelectListData = districtsSelectListResult;
+                    this.selectedDistrictId = districtsSelectListResult[0].value;
+                });
+            });
+        });
     }
 
     getProvinceSelectList(): void {
@@ -130,7 +148,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         }).then(result => {
             this.districtSelectListData = result;
             if (result.length <= 0) {
-                this.isDistrictSelect = false;
                 this.selectedDistrictId = '';
                 this.outletInfo.districtId = 0;
             } else {
@@ -232,15 +249,8 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     public provinceSelectHandler(provinceId: any): void {
         this.outletInfo.provinceId = this.outletInfo.provinceId = parseInt(provinceId, null);
         this.selectedProvinceId = provinceId;
-        if (this.outletInfo.provinceId <= 0) {
-            this.isCitySelect = false;
-            this.isDistrictSelect = false;
-        } else {
-            this.isCitySelect = true;
-            this.isDistrictSelect = true;
             this.getCitysSelectList(provinceId);
             this.getOutletInfoHandler.emit(this.outletInfo);
-        }
     }
     public citySelectHandler(cityId: any): void {
         this.outletInfo.cityId = this.outletInfo.cityId = parseInt(cityId, null);

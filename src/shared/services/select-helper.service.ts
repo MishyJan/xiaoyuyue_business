@@ -4,7 +4,7 @@ import { Injector, Injectable } from '@angular/core';
 
 @Injectable()
 export class SelectHelperService extends AppComponentBase {
-    constructor (
+    constructor(
         private injector: Injector
     ) {
         super(injector);
@@ -23,14 +23,6 @@ export class SelectHelperService extends AppComponentBase {
         input.value = '0';
         return input;
     };
-
-     provinceSelectList(): SelectListItemDto {
-        const input = new SelectListItemDto();
-        input.text = this.l('ProvinceOrCity');
-        input.value = '0';
-        return input;
-    };
-
 
     boolList(): Object[] {
         return [
