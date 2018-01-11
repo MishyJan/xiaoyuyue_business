@@ -28,6 +28,8 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
     this.l(OrgBookingOrderStatus.CancelLocalization),
     this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
+    confirming = false;
+    updating = false;
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
 
@@ -61,11 +63,15 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
 
     // 备注订单
     remarkBookingOrder(): void {
+        this.updating = true;
         this.remarkInput = new RemarkBookingOrderInput();
         this.remarkInput.id = this.dataItem.id;
         this.remarkInput.remark = this.dataItem.remark;
         this._orgBookingOrderServiceProxy
             .remarkBookingOrder(this.remarkInput)
+            .finally(() => {
+                this.updating = false;
+            })
             .subscribe(() => {
                 this.hideModel();
                 this.isShowModelHander.emit(true);
@@ -75,10 +81,14 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
 
     // 确认订单
     confirmCustomerOrder(): void {
+        this.confirming = true;
         const input = new EntityDtoOfInt64();
         input.id = this.dataItem.id;
         this._orgBookingOrderServiceProxy
             .confirmBookingOrder(input)
+            .finally(() => {
+                this.confirming = false;
+            })
             .subscribe(() => {
                 this.hideModel();
                 this.isShowModelHander.emit(true);

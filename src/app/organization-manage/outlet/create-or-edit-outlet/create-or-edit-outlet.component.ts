@@ -30,7 +30,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
 
-    outletForEdit: GetOutletForEditDto = new GetOutletForEditDto(); // 传输地址下拉框数据用 TODO:修改api，改为从统一接口获取
     input: CreateOrUpdateOutletInput = new CreateOrUpdateOutletInput();
     originalinput: CreateOrUpdateOutletInput;
 
@@ -92,65 +91,19 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     loadData(): void {
         if (!this.isCreateOrEditFlag) {
             this.checkDataNeed2Reconvert();
-            this.startSaveEditInfoInBower();
             return;
         }
 
         this._outletServiceServiceProxy
             .getOutletForEdit(+this.outletId)
             .subscribe(result => {
-                this.outletForEdit = result;
                 this.input.outlet = result.outlet;
                 this.input.contactors = result.contactors;
                 this.originalinput = _.cloneDeep(this.input);
 
                 this.initDataToDisplay(result);
-
                 this.checkDataNeed2Reconvert(); // 检查数据是否需要恢复
-
-                this.startSaveEditInfoInBower(); // 开始保存临时数据
             })
-    }
-
-    checkDataNeed2Reconvert() {
-        this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(this.getCacheItemKey())
-            .then((editCache) => {
-                if (editCache && this.isDataNoEqual(editCache, this.input)) {
-                    this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
-                        if (confirm) {
-                            this.input = editCache;
-                            this.initOutletInfoToDisplay(this.input.outlet);
-                            this.originalinput = _.cloneDeep(this.input);
-                        } else {
-                            this.removeEditCache();
-                        }
-                    });
-                }
-            });
-    }
-
-    // 初始化显示数据
-    initDataToDisplay(result: GetOutletForEditDto) {
-        this.provinceSelectListData = result.availableProvinces;
-        this.citysSelectListData = result.availableCitys;
-        this.districtSelectListData = result.availableDistricts;
-
-        this.initOutletInfoToDisplay(result.outlet);
-    }
-
-    // 初始化门店显示数据
-    initOutletInfoToDisplay(outlet: OutletEditDto) {
-        this.pictureInfo.pictureId = outlet.pictureId;
-        this.pictureInfo.pictureUrl = outlet.pictureUrl;
-        this.businessHour = this.checkHourOfDay(outlet.businessHours);
-        this.selectedProvinceId = outlet.provinceId + '';
-        this.selectedCityId = outlet.cityId + '';
-        this.selectedDistrictId = outlet.districtId + '';
-
-        if (outlet.provinceId >= 0) {
-            this.isCitySelect = true;
-            this.isDistrictSelect = true;
-        }
     }
 
     save(): void {
@@ -230,7 +183,9 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     /* hourOfDay = '10:00 - 12:00' */
     private checkHourOfDay(hourOfDay: string): BusinessHour {
-
+        if (!hourOfDay) {
+            hourOfDay = '00:00 - 00:00';
+        }
         let tempHourOfDay = '';
         let tempStart = '';
         let tempEnd = '';
@@ -317,7 +272,9 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
-            if (this.isTemDataNeedSave()) {
+            if (this.isEmptyData(this.input)) {
+                this.removeEditCache()
+            } else if (this.isTemDataNeedSave()) {
                 this._localStorageService.setItem(this.getCacheItemKey(), this.input);
                 this.originalinput = _.cloneDeep(this.input);
             }
@@ -329,9 +286,23 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         return this.isDataNoEqual(this.originalinput, this.input);
     }
 
-    isDataNoEqual(source: CreateOrUpdateOutletInput, destination: CreateOrUpdateOutletInput): boolean {
-        if (!source.outlet.id && destination.outlet.id) { return false; }
+    isEmptyData(input: CreateOrUpdateOutletInput): boolean {
+        let isEmpty = true;
 
+        if (input.outlet) {
+            if (input.outlet.name) { isEmpty = false; }
+            if (input.outlet.businessHours !== '00:00 - 00:00') { isEmpty = false; }
+            if (input.outlet.pictureId > 0) { isEmpty = false; }
+            if (input.outlet.provinceId > 0) { isEmpty = false; }
+            if (input.outlet.cityId > 0) { isEmpty = false; }
+            if (input.outlet.districtId > 0) { isEmpty = false; }
+            if (input.outlet.detailAddress) { isEmpty = false; }
+        }
+        if (input.contactors && input.contactors.length > 0) { isEmpty = false; }
+        return isEmpty;
+    }
+
+    isDataNoEqual(source: CreateOrUpdateOutletInput, destination: CreateOrUpdateOutletInput): boolean {
         if (source.outlet.id !== destination.outlet.id) { this.removeEditCache(); return false; }
 
         return JSON.stringify(source) !== JSON.stringify(destination);
@@ -378,6 +349,50 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         });
     }
 
+    checkDataNeed2Reconvert() {
+        this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(this.getCacheItemKey())
+            .then((editCache) => {
+                if (editCache && this.isDataNoEqual(editCache, this.input)) {
+                    this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
+                        if (confirm) {
+                            this.input = editCache;
+                            this.initOutletInfoToDisplay(this.input.outlet);
+                            this.originalinput = _.cloneDeep(this.input);
+                        } else {
+                            this.removeEditCache();
+                        }
+                    });
+                }
+                this.startSaveEditInfoInBower();
+            });
+    }
+
+    // 初始化显示数据
+    initDataToDisplay(result: GetOutletForEditDto) {
+        this.provinceSelectListData = result.availableProvinces;
+        this.citysSelectListData = result.availableCitys;
+        this.districtSelectListData = result.availableDistricts;
+
+        this.initOutletInfoToDisplay(result.outlet);
+    }
+
+    // 初始化门店显示数据
+    initOutletInfoToDisplay(outlet: OutletEditDto) {
+        this.pictureInfo.pictureId = outlet.pictureId;
+        this.pictureInfo.pictureUrl = outlet.pictureUrl;
+        this.businessHour = this.checkHourOfDay(outlet.businessHours);
+        this.selectedProvinceId = outlet.provinceId + '';
+        this.selectedCityId = outlet.cityId + '';
+        this.selectedDistrictId = outlet.districtId + '';
+
+        if (outlet.provinceId >= 0) {
+            this.isCitySelect = true;
+            this.isDistrictSelect = true;
+        }
+    }
+
+
+
     private getLandlinePhoneInput(): string {
         let phoneNum = $('#landlinePhone').val() + '';
         phoneNum = phoneNum.replace(/\(/, '');
@@ -393,6 +408,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     private getCacheItemKey() {
-        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId, this.input.outlet.id);
+        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId);
     }
 }

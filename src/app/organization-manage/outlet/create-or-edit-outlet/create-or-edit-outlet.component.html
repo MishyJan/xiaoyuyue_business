@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-7">
-                    <xiaoyuyue-outlet-address [outletForEdit]="outletForEdit" (getOutletInfoHandler)="getOutletInfoHandler($event)"></xiaoyuyue-outlet-address>
+                    <xiaoyuyue-outlet-address [outletInfo]="input.outlet" (getOutletInfoHandler)="getOutletInfoHandler($event)"></xiaoyuyue-outlet-address>
                 </div>
                 <div class="col-md-12 col-lg-12">
                     <xiaoyuyue-contact-info [existedContactors]="input.contactors" (contactorEditHandler)="getContactorEdit($event)"></xiaoyuyue-contact-info>
@@ -115,7 +115,7 @@
 <div *showItBootstrap="['xs','sm']">
     <div class="mobile-create-outlet common-container" [@routerTransition]>
         <tabset class="side-bar" #staticTabs>
-            <tab heading="门店信息" (select)="updateNextIndex(1)">
+            <tab heading="{{l('Outlet.Info')}}" (select)="updateNextIndex(1)">
                 <div class="outlet-info">
                     <div class="card">
                         <form #mobileOutletInfo="ngForm">

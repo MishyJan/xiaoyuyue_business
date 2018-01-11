@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ContactorEditDto, CreateOrUpdateOutletInput, OutletServiceServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
     templateUrl: './contact-info.component.html',
     styleUrls: ['./contact-info.component.scss']
 })
-export class ContactInfoComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class ContactInfoComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
     groupId: number = DefaultUploadPictureGroundId.LinkmanGroup;
     outletId: number;
     uploadPicInfo: UploadPictureDto = new UploadPictureDto();
@@ -55,6 +55,15 @@ export class ContactInfoComponent extends AppComponentBase implements OnInit, Af
     }
 
     loadData(): void {
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.existedContactors.currentValue.length <= 0 && !changes.existedContactors.firstChange) {
+            this.isCreating = true;
+            return;
+        } else {
+            this.isCreating = false;
+        }
     }
 
     save(): void {

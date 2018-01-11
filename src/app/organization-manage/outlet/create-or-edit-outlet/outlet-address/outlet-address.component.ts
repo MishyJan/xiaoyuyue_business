@@ -36,9 +36,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     citysSelectListData: SelectListItemDto[] = [];
     districtSelectListData: SelectListItemDto[] = [];
 
-    outletInfo: OutletEditDto = new OutletEditDto();
-
-    @Input() outletForEdit: GetOutletForEditDto = new GetOutletForEditDto();
+    @Input() outletInfo: OutletEditDto = new OutletEditDto();
     @Output() getOutletInfoHandler: EventEmitter<OutletEditDto> = new EventEmitter();
     @ViewChild('searchWrap') searchWrap: ElementRef;
     constructor(
@@ -68,34 +66,33 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.outletForEdit.currentValue.availableProvinces) {
+        if (changes.outletInfo.firstChange) { return };
 
-            this.provinceSelectListData = changes.outletForEdit.currentValue.availableProvinces;
-            this.selectedProvinceId = changes.outletForEdit.currentValue.outlet.provinceId + '';
-            this.outletInfo.provinceId = changes.outletForEdit.currentValue.outlet.provinceId;
+        this.outletInfo.provinceId = changes.outletInfo.currentValue.provinceId;
+        this.selectedProvinceId = this.outletInfo.provinceId + '';
+        this.getProvinceSelectList();
 
-            this.citysSelectListData = changes.outletForEdit.currentValue.availableCitys;
-            this.selectedCityId = changes.outletForEdit.currentValue.outlet.cityId + '';
-            this.outletInfo.cityId = changes.outletForEdit.currentValue.outlet.cityId;
+        this.outletInfo.cityId = changes.outletInfo.currentValue.cityId;
+        this.selectedCityId = this.outletInfo.cityId + '';
+        this.getCitysSelectList(this.outletInfo.cityId);
 
-            this.districtSelectListData = changes.outletForEdit.currentValue.availableDistricts;
-            this.selectedDistrictId = changes.outletForEdit.currentValue.outlet.districtId + '';
-            this.outletInfo.districtId = changes.outletForEdit.currentValue.outlet.districtId;
+        this.outletInfo.districtId = changes.outletInfo.currentValue.districtId;
+        this.selectedDistrictId = this.outletInfo.districtId + '';
+        this.getDistrictsSelectList(this.outletInfo.districtId);
 
-            this.outletInfo.detailAddress = changes.outletForEdit.currentValue.outlet.detailAddress;
-            const longitude = changes.outletForEdit.currentValue.outlet.longitude;
-            if (longitude !== null) {
-                const temp = longitude.split(',');
-                this.lat = temp[0];
-                this.lng = temp[1];
-            }
+        this.outletInfo.detailAddress = changes.outletInfo.currentValue.detailAddress;
+        const longitude = changes.outletInfo.currentValue.longitude;
+        if (longitude !== null) {
+            const temp = longitude.split(',');
+            this.lat = temp[0];
+            this.lng = temp[1];
+        }
 
-            this.mapsReady();
+        this.mapsReady();
 
-            if (changes.outletForEdit.currentValue.outlet.provinceId >= 0) {
-                this.isCitySelect = true;
-                this.isDistrictSelect = true;
-            }
+        if (changes.outletInfo.currentValue.provinceId >= 0) {
+            this.isCitySelect = true;
+            this.isDistrictSelect = true;
         }
     }
 

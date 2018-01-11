@@ -174,7 +174,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
 
 
     checkDataNeed2Reconvert() {
-        this._localStorageService.getItemOrNull<TenantInfoEditDto>(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId))
+        this._localStorageService.getItemOrNull<TenantInfoEditDto>(this.getCacheItemKey())
             .then((editCache) => {
                 if (editCache && this.isDataNoEqual(editCache, this.tenantInfo)) {
                     this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
@@ -211,7 +211,12 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
         return JSON.stringify(source) !== JSON.stringify(destination);
     }
 
-    getEditorHTMLContent($event: string): void {
+    // 富文本编辑器回调事件
+    editorContentChangeHandler($event: string): void {
         this.tenantInfo.description = $event;
+    }
+
+    private getCacheItemKey() {
+        return abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId);
     }
 }
