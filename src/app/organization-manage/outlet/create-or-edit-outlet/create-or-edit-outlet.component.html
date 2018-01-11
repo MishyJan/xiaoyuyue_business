@@ -64,11 +64,11 @@
                                         <div class="label-floating is-empty">
                                             <label class="control-label"></label>
                                             <span class="col-md-6 no-left-padding shop-hours-start">
-                                                <input class="form-control" type="time" [(ngModel)]="businessHour.start" name="businessHour.start" placeholder="{{l('StartTime')}}"
+                                                <input class="form-control" type="text" id="startBusinessHour" [(ngModel)]="businessHour.start" name="businessHour.start" placeholder="{{l('StartTime')}}"
                                                     required>
                                             </span>
                                             <span class="col-md-6 no-right-padding shop-hours-end">
-                                                <input class="form-control" type="time" [(ngModel)]="businessHour.end" name="businessHour.end" placeholder="{{l('EndTime')}}"
+                                                <input class="form-control" type="text" id="endBusinessHour" [(ngModel)]="businessHour.end" name="businessHour.end" placeholder="{{l('EndTime')}}"
                                                     required>
                                             </span>
                                         </div>
