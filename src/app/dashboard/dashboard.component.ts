@@ -76,10 +76,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             'background-image': 'none',
             'background-color': 'transparent'
         });
-
-        $('.mobile-page-content').css({
-            'top': '0px'
-        });
     }
 
     beforeHeaderStyle(): void {
@@ -87,12 +83,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             'background-image': 'url("/assets/common/images/booking/header-bg.png")',
             'background-color': '#FF9641'
         });
-
-        if (!ClientTypeHelper.isWeChatMiniProgram) {
-            $('.mobile-page-content').css({
-                'top': '55px'
-            });
-        }
     }
 
     loadData(): void {

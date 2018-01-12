@@ -10,6 +10,7 @@ import { TitleService } from 'shared/services/title.service';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
 import { SelectHelperService } from 'shared/services/select-helper.service';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 
 @NgModule({
     providers: [
@@ -23,7 +24,8 @@ import { SelectHelperService } from 'shared/services/select-helper.service';
         SidebarService,
         WeChatShareTimelineService,
         UploadPictureService,
-        SelectHelperService
+        SelectHelperService,
+        ListScrollService
     ]
 })
 export class ServicesModule { }

@@ -21,6 +21,7 @@ import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descript
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 import { SelectHelperService } from 'shared/services/select-helper.service';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 
 @Component({
     selector: 'app-manage-booking',
@@ -64,7 +65,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId = 0;
     bookingName: string;
 
-    maxResultCount = 8;
+    maxResultCount = 3;
     skipCount = 0;
     sorting: string;
     totalItems = 0;
@@ -86,6 +87,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     constructor(
         injector: Injector,
         private _router: Router,
+        private _listScrollService: ListScrollService,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
         private _localStorageService: LocalStorageService,
@@ -259,11 +261,14 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
         if (this.skipCount < 0) { this.skipCount = 0 };
-
         this._organizationBookingServiceProxy
             .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
-            .subscribe(result => {
+            .finally(() => {
+                this._listScrollService.pullDownFinished.emit(true);
+                this._listScrollService.pullUpFinished.emit(true);
                 this.searching = false;
+            })
+            .subscribe(result => {
                 const self = this;
                 this.totalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
@@ -272,7 +277,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 } else {
                     this.allOrganizationBookingResultData[this.updateDataIndex] = this.organizationBookingResultData;
                 }
-
+                console.log(this.allOrganizationBookingResultData);
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
@@ -282,6 +287,30 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 this.searching = false;
             });
     }
+
+    pullDownRefresh(): void {
+        this.updateDataIndex = 0;
+        this.skipCount = 0;
+        this._listScrollService.pullDownFinished.emit(false);
+        this.loadData();
+    }
+
+    pullUpRefresh(): void {
+        this.updateDataIndex = -1;
+        let totalCount = 0;
+        this._listScrollService.pullUpFinished.emit(false);
+        this.allOrganizationBookingResultData.forEach(organizationBookingResultData => {
+            organizationBookingResultData.forEach(element => {
+                totalCount++;
+            });
+        });
+        this.skipCount = totalCount;
+        if (this.skipCount >= this.totalItems) {
+            return;
+        }
+        this.loadData();
+    }
+
 
     // 获取可用下拉框数据源
     private loadSelectListData(): void {
@@ -404,19 +433,4 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.mobileConfirmOrderModel.show(bookingId);
     }
 
-    public onScrollDown(): void {
-        console.log('down');
-        this.updateDataIndex = -1;
-        let totalCount = 0;
-        this.allOrganizationBookingResultData.forEach(organizationBookingResultData => {
-            organizationBookingResultData.forEach(element => {
-                totalCount++;
-            });
-        });
-        this.skipCount = totalCount;
-        if (this.skipCount >= this.totalItems) {
-            return;
-        }
-        this.loadData();
-    }
 }
