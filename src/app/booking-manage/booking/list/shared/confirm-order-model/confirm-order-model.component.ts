@@ -1,25 +1,26 @@
 import * as _ from 'lodash';
 
 import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
-import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from '@shared/grid-data-results/grid-data-results';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'xiaoyuyue-confirm-order-model',
     templateUrl: './confirm-order-model.component.html',
-    styleUrls: ['./confirm-order-model.component.scss']
+    styleUrls: ['./confirm-order-model.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class ConfirmOrderModelComponent extends AppComponentBase implements OnInit {
-    isFreshenData: boolean = false;
+    isFreshenData = false;
     hourOfDay: string;
     confirmOrderText = this.l('Batch');
 

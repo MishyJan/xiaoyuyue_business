@@ -4,7 +4,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="title-name">{{ bookingItem.outlet}} {{ bookingItem.name }}</div>
+                    <div class="title-name">{{ bookingItem.name }}</div>
                     <div class="command-wrap">
                     </div>
                 </div>
@@ -16,16 +16,16 @@
                                 <div class="col-md-4">
                                     <div class="col-md-8">
                                         <div class="form-group label-floating is-empty">
-                                            <label class="control-label">{{l('BookingOrder.Name')}}</label>
-                                            <input class="form-control common-max-width" [(ngModel)]="customerName" type="text" name="customerName">
+                                            <label class="control-label"></label>
+                                            <input class="form-control common-max-width" [(ngModel)]="customerName" type="text" name="customerName" placeholder="{{l('BookingOrder.Name')}}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="col-md-8">
                                         <div class="form-group label-floating is-empty">
-                                            <label class="control-label">{{l('BookingOrder.PhoneNumber')}}</label>
-                                            <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber">
+                                            <label class="control-label"></label>
+                                            <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="{{l('BookingOrder.PhoneNumber')}}">
                                         </div>
                                     </div>
                                 </div>
@@ -33,8 +33,9 @@
                                     <div class="col-md-8">
                                         <div class="form-group label-floating is-empty">
                                             <div class="flatpickr-wrap">
-                                                <label class="control-label">{{l('BookingOrder.CreationTime')}}</label>
-                                                <input class="form-control common-max-width creationTime" [(ngModel)]="creationStartDate" type="text" name="creationStartDate" data-input>
+                                                <label class="control-label"></label>
+                                                <input class="form-control common-max-width creationTime" [(ngModel)]="creationStartDate" type="text" placeholder="{{l('BookingOrder.CreationTime')}}" name="creationStartDate"
+                                                    data-input>
                                                 <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                     <i class="vapps-icon-dc-calendar"></i>
                                                 </a>

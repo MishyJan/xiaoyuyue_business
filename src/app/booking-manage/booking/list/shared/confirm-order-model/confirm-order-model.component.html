@@ -13,14 +13,15 @@
                 <div class="modal-body">
                     <kendo-grid [data]="wait4ConfirmOrderListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount"
                         [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
-                        [sortable]="gridParam.Sortable" (dataStateChange)="dataStateChange($event)" [scrollable]="gridParam.Scrollable">
+                        [sortable]="gridParam.Sortable" (dataStateChange)="dataStateChange($event)" [scrollable]="gridParam.Scrollable"
+                        class="order-grid">
                         <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
                             pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
                             pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
                         <!-- 应约人 -->
                         <kendo-grid-column title="{{l('BookingOrder.Name')}}">
                             <ng-template kendoGridCellTemplate let-dataItem>
-                                <img [src]="dataItem.profilePictureUrl" width="50px" height="50px" alt="avatar" style="border-radius: 100%;">
+                                <img class="avatar" [src]="dataItem.profilePictureUrl" alt="avatar" style="border-radius: 100%;">
                                 <span>{{ dataItem.customerName }}</span>
                             </ng-template>
                         </kendo-grid-column>

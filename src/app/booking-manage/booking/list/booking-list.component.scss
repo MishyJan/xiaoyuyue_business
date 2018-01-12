@@ -303,6 +303,43 @@
             }
         }
     }
+    .k-grid td:first-child,
+    .k-grid th:first-child {
+        padding-left: 24px;
+    }
+    .k-grid thead th {
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+    .modal-dialog {
+        width: 974px;
+        .modal-header {
+            height: 52px;
+            line-height: 52px;
+            padding: 0 24px;
+            color: #FFF;
+            background-color: #FF9641;
+            .title-name {
+                float: left;
+            }
+            .process-batch {
+                float: right;
+                margin-top: 12px;
+            }
+        }
+        .modal-body {
+            padding: 0px;
+            .serach-wrap {
+                margin: 10px 0;
+            }
+            .vapps-icon-app-search {
+                font-size: 18px;
+                background-color: #FF9641;
+                padding: 6px;
+                margin: 20px 0 0 0;
+            }
+        }
+    }
 }
 
 .mobile-manage-booking {
