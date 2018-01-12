@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { ActiveOrDisableInput, BookingListDto, CreateOrUpdateBookingInput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, SelectListItemDto } from 'shared/service-proxies/service-proxies';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, QueryList, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, QueryList, ViewChild, ViewEncapsulation } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
@@ -28,7 +28,8 @@ import { debug } from 'util';
     templateUrl: './booking-list.component.html',
     styleUrls: ['./booking-list.component.scss'],
     animations: [appModuleSlowAnimation()],
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.Default,
+    encapsulation: ViewEncapsulation.None,
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {

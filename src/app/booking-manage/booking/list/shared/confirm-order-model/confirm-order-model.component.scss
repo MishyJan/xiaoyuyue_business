@@ -14,20 +14,19 @@
                 margin: 0;
                 background-color: #FF9641;
             }
-            .modal-header {
-                height: 72px;
-                line-height: 72px;
-                padding: 0 40px;
-                color: #FFF;
-                background-color: #FF9641;
-                .title-name {
-                    float: left;
-                }
-                .process-batch {
-                    float: right;
-                    margin-top: 16px;
-                }
-            }
         }
+    }
+    .modal-body {
+        padding: 0px;
+        img.avatar {
+            border-radius: 100%;
+            width: 26px;
+        }
+        .order-grid {
+            width: 100%;
+        }
+    }
+    .modal .modal-dialog {
+        margin-top: 40px;
     }
 }

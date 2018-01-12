@@ -3,32 +3,26 @@
         color: #FF9641;
         background-color: #FFF;
     }
-    .modal-dialog {
-        width: 974px;
-        .modal-header {
-            height: 72px;
-            line-height: 72px;
-            padding: 0 40px;
-            color: #FFF;
-            background-color: #FF9641;
-            .title-name {
-                float: left;
-            }
-            .process-batch {
-                float: right;
-                margin-top: 16px;
-            }
-        }
-        .modal-body {
-            .serach-wrap {
-                margin: 10px 0;
-            }
-            .vapps-icon-app-search {
-                font-size: 18px;
-                background-color: #FF9641;
-                padding: 6px;
-                margin: 20px 0 0 0;
+    .modal-dialog .modal-body {
+        .serach-wrap {
+            margin-top: 0px;
+            .form-group {
+                margin-top: 0px;
             }
         }
     }
+}
+
+.modal .modal-dialog {
+    margin-top: 40px;
+}
+
+.k-grid td:first-child,
+.k-grid th:first-child {
+    padding-left: 24px;
+}
+
+.k-grid td:first-child,
+.k-grid th:first-child {
+    padding-left: 24px;
 }
