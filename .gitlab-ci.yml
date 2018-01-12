@@ -75,7 +75,7 @@ build_and_deploy_develop:
     - copy 'dist\*' -Destination 'D:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程
   tags:
-    - deloy_xiaoyuyue_business_center_23
+    - deloy_xiaoyuyue_business_center
 
 build_and_deploy_test:
   stage: build_and_deploy_test
@@ -91,4 +91,4 @@ build_and_deploy_test:
     - copy 'dist\*' -Destination 'D:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程
   tags:
-    - deploy_xiaoyuyue_business_center_168
+    - deploy_xiaoyuyue_business_center_113
