@@ -46,7 +46,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
 
     ngAfterViewInit(): void {
-
         if (this.isMobile($('.mobile-org-center'))) {
             this.resetHeaderStyle();
             this.getCurrentlyBookingData();

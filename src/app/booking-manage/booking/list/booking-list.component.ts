@@ -405,6 +405,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     public onScrollDown(): void {
+        console.log('down');
         this.updateDataIndex = -1;
         let totalCount = 0;
         this.allOrganizationBookingResultData.forEach(organizationBookingResultData => {

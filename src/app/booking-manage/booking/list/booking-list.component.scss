@@ -343,16 +343,7 @@
 }
 
 .mobile-manage-booking {
-    // 移动端
-    // .booking-item-wrap {
-    // margin-bottom: 10px;
-    width: 100%;
-    height: calc(100vh - 55px);
-    position: absolute;
-    bottom: 0;
-    overflow: auto;
     padding-top: 0px;
-    -webkit-overflow-scrolling: touch;
     .add-time-btn {
         position: fixed;
         right: 10px;

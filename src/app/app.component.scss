@@ -28,12 +28,10 @@
 }
 
 .wrap {
-    height: 100vh;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+    width: 100%;
     .mobile-page-content {
         width: 100%;
-        height: calc(100vh - 55px);
+        height: 100vh;
         position: absolute;
         top: 0px;
         bottom: 0;
