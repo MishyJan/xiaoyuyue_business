@@ -78,7 +78,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         });
 
         $('.mobile-page-content').css({
-            'margin-top': '0px'
+            'top': '0px'
         });
     }
 
@@ -90,7 +90,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
         if (!ClientTypeHelper.isWeChatMiniProgram) {
             $('.mobile-page-content').css({
-                'margin-top': '65px'
+                'top': '55px'
             });
         }
     }
