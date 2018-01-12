@@ -278,65 +278,66 @@
     </div>
 
     <div *showItBootstrap="['xs','sm']">
-        <div class="mobile-manage-booking common-container" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="infiniteScrollDistance"
-            [infiniteScrollThrottle]="infiniteScrollThrottle" (scrolled)="onScrollDown()">
-            <div class="add-time-btn">
-                <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
-            </div>
-            <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
-                <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
-                    <div class="booking-item box-shadow" (click)="setActionFlag(indexJ)" *ngFor="let bookingResultItem of organizationBookingResultData; let indexJ=index">
-                        <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
-                            <div class="top-wrap clearfix">
-                                <div class="title pull-left">{{bookingResultItem.name}}</div>
-                                <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[indexJ], 'rotate-360': !actionFlag[indexJ]}">
-                                    <span class="vapps-icon-app-drop-down"></span>
+        <div class="mobile-manage-booking common-container">
+            <div class="content">
+                <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
+                    <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
+                        <div class="booking-item box-shadow" (click)="setActionFlag(indexJ)" *ngFor="let bookingResultItem of organizationBookingResultData; let indexJ=index">
+                            <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
+                                <div class="top-wrap clearfix">
+                                    <div class="title pull-left">{{bookingResultItem.name}}</div>
+                                    <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[indexJ], 'rotate-360': !actionFlag[indexJ]}">
+                                        <span class="vapps-icon-app-drop-down"></span>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="flex-left">
+                                        <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)"
+                                            [class]="'booking-overbrim indicator-container-'+bookingResultItem.id">
+                                        </div>
+                                    </div>
+                                    <div class="flex-right">
+                                        <div class="content-item">
+                                            <span class="name">{{ l('Booking.Outlet') }} : </span>
+                                            <span class="desc">{{ l('Outlet.Name') }}</span>
+                                        </div>
+                                        <div class="content-item">
+                                            <span class="name">{{ l('Dashboard.BookingRate') }} : </span>
+                                            <span class="desc">{{bookingResultItem.subBookedNum}} / {{bookingResultItem.subMaxBookingNum}}</span>
+                                        </div>
+                                        <div class="content-item">
+                                            <span class="name">{{ l('Booking.ResponderNumber') }} : </span>
+                                            <span class="desc">{{bookingResultItem.subBookedNum}}</span>
+                                        </div>
+                                        <div class="content-item">
+                                            <span class="name">{{ l('Dashboard.SubQueueNum') }} : </span>
+                                            <span class="desc">{{bookingResultItem.subQueueNum}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="content">
-                                <div class="flex-left">
-                                    <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)"
-                                        [class]="'booking-overbrim indicator-container-'+bookingResultItem.id">
-                                    </div>
-                                </div>
-                                <div class="flex-right">
-                                    <div class="content-item">
-                                        <span class="name">{{ l('Booking.Outlet') }} : </span>
-                                        <span class="desc">{{ l('Outlet.Name') }}</span>
-                                    </div>
-                                    <div class="content-item">
-                                        <span class="name">{{ l('Dashboard.BookingRate') }} : </span>
-                                        <span class="desc">{{bookingResultItem.subBookedNum}} / {{bookingResultItem.subMaxBookingNum}}</span>
-                                    </div>
-                                    <div class="content-item">
-                                        <span class="name">{{ l('Booking.ResponderNumber') }} : </span>
-                                        <span class="desc">{{bookingResultItem.subBookedNum}}</span>
-                                    </div>
-                                    <div class="content-item">
-                                        <span class="name">{{ l('Dashboard.SubQueueNum') }} : </span>
-                                        <span class="desc">{{bookingResultItem.subQueueNum}}</span>
-                                    </div>
-                                </div>
+                            <div class="bottom-action" *ngIf="actionFlag[indexJ]">
+                                <button class="action-item" (click)="showDetail(bookingResultItem.id)">
+                                    <span class="icon vapps-icon-app-detail"></span>{{ l('BookingList.ViewEdit') }}</button>
+                                <span class="line">|</span>
+                                <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
+                                    <span class="icon vapps-icon-app-cancel"></span>{{ l('BookingList.DisabledBooking') }}</button>
+                                <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(indexI, indexJ)">
+                                    <span class="icon vapps-icon-app-active"></span>{{ l('BookingList.ActivBooking') }}</button>
+                                <span class="line">|</span>
+                                <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0"
+                                    (click)="showMobileConfirmOrderModel(bookingResultItem.id, indexI)">
+                                    <span class="icon vapps-icon-app-confirm-2"></span>
+                                    {{ l('BookingList.WaitConfirm') }}
+                                    <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
+                                </button>
                             </div>
-                        </div>
-                        <div class="bottom-action" *ngIf="actionFlag[indexJ]">
-                            <button class="action-item" (click)="showDetail(bookingResultItem.id)">
-                                <span class="icon vapps-icon-app-detail"></span>{{ l('BookingList.ViewEdit') }}</button>
-                            <span class="line">|</span>
-                            <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
-                                <span class="icon vapps-icon-app-cancel"></span>{{ l('BookingList.DisabledBooking') }}</button>
-                            <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(indexI, indexJ)">
-                                <span class="icon vapps-icon-app-active"></span>{{ l('BookingList.ActivBooking') }}</button>
-                            <span class="line">|</span>
-                            <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0"
-                                (click)="showMobileConfirmOrderModel(bookingResultItem.id, indexI)">
-                                <span class="icon vapps-icon-app-confirm-2"></span>
-                                {{ l('BookingList.WaitConfirm') }}
-                                <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
-                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="add-time-btn">
+                <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
             </div>
             <!-- <xiaoyuyue-booking-cancel (isCancelBooking)="getIsCancelBooking($event)" #cancelBookingModal></xiaoyuyue-booking-cancel> -->
         </div>

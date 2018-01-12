@@ -51,6 +51,7 @@
             "../node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
 
             "../node_modules/moment/min/moment.min.js",
+            "../node_modules/better-scroll/dist/bscroll.min.js",
 
             "../node_modules/jquery-backstretch/jquery.backstretch.min.js",
 

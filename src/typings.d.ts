@@ -6,6 +6,7 @@
 ///<reference path="../node_modules/@types/bootstrap/index.d.ts"/>
 ///<reference path="../node_modules/@types/toastr/index.d.ts"/>
 ///<reference path="../node_modules/@types/jquery-backstretch/index.d.ts"/>
+///<reference path="../node_modules/better-scroll/types/index.d.ts"/>
 
 // Typings reference file, see links for more information
 // https://github.com/typings/typings
@@ -13,7 +14,7 @@
 
 declare var System: any;
 declare var echarts: any;
-
+declare var BScroll: any;
 declare var App: any; //Related to Metronic
 declare var Layout: any; //Related to Metronic
 

@@ -30,7 +30,9 @@
     <div class="wrap side-bar ani" [ngClass]="{'fade-in': toggleSidebarFlag, 'fade-out': !toggleSidebarFlag}">
         <header></header>
         <div class="mobile-page-content">
-            <router-outlet></router-outlet>
+            <div class="content">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
     <xiaoyuyue-mobile-side-bar></xiaoyuyue-mobile-side-bar>
