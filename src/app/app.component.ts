@@ -56,6 +56,9 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
         this.sidebarIsShow();
         this.softKeyboardBug();
         this.initWechatShareConfig();
+        let scroll = new BScroll('.mobile-page-content', {
+            click: true
+        })
     }
 
     /**

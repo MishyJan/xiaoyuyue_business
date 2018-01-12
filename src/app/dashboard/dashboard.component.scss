@@ -127,6 +127,7 @@
 }
 
 .mobile-org-center {
+    min-height: 100vh;
     .header {
         width: 100vw;
         height: 210px;
@@ -203,13 +204,10 @@
         }
     }
     .content-wrap {
-        height: calc(100vh - 265px);
         .manage-center-tab-content {
             padding: 5px;
-            height: calc(100vh - 265px);
             .card-wrap {
-                // display: inline-block;
-                float: left; // width: calc(100% / 3);
+                float: left;
                 position: relative;
                 padding: 10px 10px 4px 10px;
                 .card {
@@ -251,7 +249,6 @@
             }
         }
         .org-center-tab-content {
-            height: calc(100vh - 265px);
             padding: 10px;
             .wrap {
                 height: 100%;
@@ -277,8 +274,8 @@
         width: 100vw;
         height: 55px;
         position: fixed;
+        right: 0;
         bottom: 0;
-        left: 0;
         text-align: center;
         background-color: #FFF;
         box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);

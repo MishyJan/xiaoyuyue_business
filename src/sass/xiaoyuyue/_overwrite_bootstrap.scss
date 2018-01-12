@@ -97,3 +97,11 @@ fieldset[disabled] .form-group .form-control {
 .hidden {
     display: none;
 }
+
+.modal .modal-dialog {
+    margin-top: 160px;
+}
+
+.modal-backdrop {
+    background: rgba(0, 0, 0, 0.8)
+}

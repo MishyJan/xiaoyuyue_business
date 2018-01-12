@@ -3,7 +3,10 @@ import { GetOutletForEditDto, OutletEditDto, SelectListItemDto, StateServiceServ
 
 import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { SelectHelper } from 'shared/helpers/SelectHelper';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
+import { AppConsts } from 'shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 
 declare const qq: any;
 
@@ -26,9 +29,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     selectedCityId: string;
     selectedProvinceId: string;
 
-    isCitySelect = false;
-    isDistrictSelect = false;
-
     provinceSelectListData: SelectListItemDto[] = [];
     citysSelectListData: SelectListItemDto[] = [];
     districtSelectListData: SelectListItemDto[] = [];
@@ -38,7 +38,10 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     @ViewChild('searchWrap') searchWrap: ElementRef;
     constructor(
         private injector: Injector,
+        private _selectHelper: SelectHelperService,
         private _stateServiceServiceProxy: StateServiceServiceProxy,
+        private _localStorageService: LocalStorageService,
+        private _sessionService: AppSessionService,
         private _route: ActivatedRoute,
         private el: ElementRef,
         private zone: NgZone
@@ -49,8 +52,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     ngOnInit() {
         // this.getQQMapScript();
-        this.provinceSelectListData.unshift(SelectHelper.ProvinceSelectList());
-        this.selectedProvinceId = this.provinceSelectListData[0].value;
+            this.initSelectListData();
     }
 
     ngAfterViewInit() {
@@ -60,81 +62,93 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.outletInfo.firstChange) { return };
+        if (!changes.outletInfo.firstChange) {
+            this.selectedProvinceId = this.outletInfo.provinceId + '';
+            this.getProvinceSelectList();
 
-        this.outletInfo.provinceId = changes.outletInfo.currentValue.provinceId;
-        this.selectedProvinceId = this.outletInfo.provinceId + '';
-        this.getProvinceSelectList();
+            this.selectedCityId = this.outletInfo.cityId + '';
+            this.getCitysSelectList(this.outletInfo.provinceId, false);
 
-        this.outletInfo.cityId = changes.outletInfo.currentValue.cityId;
-        this.selectedCityId = this.outletInfo.cityId + '';
-        this.getCitysSelectList(this.outletInfo.cityId);
+            this.selectedDistrictId = this.outletInfo.districtId + '';
+            this.getDistrictsSelectList(this.outletInfo.cityId, false);
 
-        this.outletInfo.districtId = changes.outletInfo.currentValue.districtId;
-        this.selectedDistrictId = this.outletInfo.districtId + '';
-        this.getDistrictsSelectList(this.outletInfo.districtId);
+            // 如果数据恢复时，没有省/市的下拉数据，则初始下拉数据
+            if (!this.outletInfo.provinceId) { this.initSelectListData(); }
 
-        this.outletInfo.detailAddress = changes.outletInfo.currentValue.detailAddress;
-        const longitude = changes.outletInfo.currentValue.longitude;
-        if (longitude !== null) {
-            const temp = longitude.split(',');
-            this.lat = temp[0];
-            this.lng = temp[1];
+            const longitude = changes.outletInfo.currentValue.longitude;
+            if (longitude) {
+                const temp = longitude.split(',');
+                this.lat = temp[0];
+                this.lng = temp[1];
+            }
+
+            this.mapsReady();
         }
+    }
 
-        this.mapsReady();
-
-        if (changes.outletInfo.currentValue.provinceId >= 0) {
-            this.isCitySelect = true;
-            this.isDistrictSelect = true;
-        }
+    // 在创建状态下，下拉数据源为索引值为0的值，比如：北京，北京，东城区
+    initSelectListData(): void {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.provinceSelectListCache), () => {
+            return this._stateServiceServiceProxy.getProvinceSelectList()
+        }).then(provinceSelectListResult => {
+            this.provinceSelectListData = provinceSelectListResult;
+            this.selectedProvinceId = provinceSelectListResult[0].value;
+            this._localStorageService.getItem(abp.utils.formatString(AppConsts.citysSelectListCache, provinceSelectListResult[0].value), () => {
+                return this._stateServiceServiceProxy.getCitySelectList(+this.selectedProvinceId)
+            }).then(citysSelectListResult => {
+                this.citysSelectListData = citysSelectListResult;
+                this.selectedCityId = citysSelectListResult[0].value;
+                this._localStorageService.getItem(abp.utils.formatString(AppConsts.districtsSelectListCache, citysSelectListResult[0].value), () => {
+                    return this._stateServiceServiceProxy.getDistrictSelectList(+this.selectedCityId)
+                }).then(districtsSelectListResult => {
+                    this.districtSelectListData = districtsSelectListResult;
+                    this.selectedDistrictId = districtsSelectListResult[0].value;
+                });
+            });
+        });
     }
 
     getProvinceSelectList(): void {
-        this._stateServiceServiceProxy
-            .getProvinceSelectList()
-            .subscribe(result => {
-                this.provinceSelectListData = result;
-                this.outletInfo.provinceId = parseInt(this.selectedProvinceId, null);
-            })
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.provinceSelectListCache), () => {
+            return this._stateServiceServiceProxy.getProvinceSelectList()
+        }).then(result => {
+            this.provinceSelectListData = result;
+            // this.outletInfo.provinceId = parseInt(this.selectedProvinceId, null);
+        });
     }
 
-    getCitysSelectList(provinceId: number): void {
+    getCitysSelectList(provinceId: number, isDefaultVaule: boolean): void {
         if (!provinceId) {
             return;
         }
-        this._stateServiceServiceProxy
-            .getCitySelectList(this.outletInfo.provinceId)
-            .subscribe(result => {
-                this.citysSelectListData = result;
-                this.selectedCityId = this.citysSelectListData[0].value;
-                this.outletInfo.cityId = parseInt(this.selectedCityId, null);
-                this.getDistrictsSelectList(this.outletInfo.cityId);
-                this.outletInfo.cityId = this.outletInfo.cityId;
-                this.getOutletInfoHandler.emit(this.outletInfo);
-            })
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.citysSelectListCache, provinceId), () => {
+            return this._stateServiceServiceProxy.getCitySelectList(provinceId)
+        }).then(result => {
+            this.citysSelectListData = result;
+            if (isDefaultVaule) { this.selectedCityId = this.citysSelectListData[0].value; }
+            this.outletInfo.cityId = parseInt(this.selectedCityId, null);
+            this.getOutletInfoHandler.emit(this.outletInfo);
+            this.getDistrictsSelectList(this.outletInfo.cityId, isDefaultVaule);
+        });
     }
 
-    getDistrictsSelectList(cityId: number): void {
+    getDistrictsSelectList(cityId: number, isDefaultVaule: boolean): void {
         if (!cityId) {
             return;
         }
-        this._stateServiceServiceProxy
-            .getDistrictSelectList(cityId)
-            .subscribe(result => {
-                this.districtSelectListData = result;
-                if (result.length <= 0) {
-                    this.isDistrictSelect = false;
-                    this.selectedDistrictId = '';
-                    this.outletInfo.districtId = 0;
-                } else {
-                    this.selectedDistrictId = this.districtSelectListData[0].value;
-                    this.outletInfo.districtId = parseInt(this.selectedDistrictId, null);
-                }
-                this.codeAddress();
-                this.outletInfo.districtId = this.outletInfo.districtId;
-                this.getOutletInfoHandler.emit(this.outletInfo);
-            })
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.districtsSelectListCache, cityId), () => {
+            return this._stateServiceServiceProxy.getDistrictSelectList(cityId)
+        }).then(result => {
+            this.districtSelectListData = result;
+            this.codeAddress();
+            if (result.length <= 0) {
+                this.selectedDistrictId = '';
+                return;
+            }
+            if (isDefaultVaule) { this.selectedDistrictId = this.districtSelectListData[0].value; }
+            this.outletInfo.districtId = parseInt(this.selectedDistrictId, null);
+            this.getOutletInfoHandler.emit(this.outletInfo);
+        });
     }
 
     /* 腾讯地图相关代码 */
@@ -224,28 +238,19 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     }
 
     public provinceSelectHandler(provinceId: any): void {
-        this.outletInfo.provinceId = this.outletInfo.provinceId = parseInt(provinceId, null);
-        this.selectedProvinceId = provinceId;
-        if (this.outletInfo.provinceId <= 0) {
-            this.isCitySelect = false;
-            this.isDistrictSelect = false;
-        } else {
-            this.isCitySelect = true;
-            this.isDistrictSelect = true;
-            this.getCitysSelectList(provinceId);
-            this.getOutletInfoHandler.emit(this.outletInfo);
-        }
+        this.outletInfo.provinceId = parseInt(provinceId, null);
+        this.getCitysSelectList(provinceId, true);
+        this.getOutletInfoHandler.emit(this.outletInfo);
     }
+
     public citySelectHandler(cityId: any): void {
-        this.outletInfo.cityId = this.outletInfo.cityId = parseInt(cityId, null);
-        this.selectedCityId = cityId;
-        this.getDistrictsSelectList(cityId);
+        this.outletInfo.cityId = parseInt(cityId, null);
+        this.getDistrictsSelectList(cityId, true);
         this.codeAddress();
         this.getOutletInfoHandler.emit(this.outletInfo);
     }
 
     public districtSelectHandler(districtId: any): void {
-        this.outletInfo.districtId = this.selectedDistrictId = districtId;
         this.outletInfo.districtId = parseInt(districtId, null);
         this.codeAddress();
         this.getOutletInfoHandler.emit(this.outletInfo);
@@ -256,9 +261,9 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     }
 
     getQQMapScript() {
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = "https://map.qq.com/api/js?v=2.exp&key=3ZBBZ-S4OWQ-N4U5Y-GYQRZ-FKASV-TOFLQ";
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://map.qq.com/api/js?v=2.exp&key=3ZBBZ-S4OWQ-N4U5Y-GYQRZ-FKASV-TOFLQ';
         document.body.appendChild(script);
     }
 }

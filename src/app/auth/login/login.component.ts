@@ -24,7 +24,6 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 export class LoginComponent extends AppComponentBase implements OnInit, AfterViewInit {
     externalLoginProviders: ExternalLoginProvider[];
     submitting = false;
-    flag = true;
     // 普通登录或者手机验证登录，默认普通登录
     ordinaryLogin = true;
     isSendSMS = false;
@@ -60,7 +59,6 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
     ngAfterViewInit(): void {
         const self = this;
         $(document).click(() => {
-            self.flag = true;
             $('#externalLogin').removeClass('active');
             $('#externalLoginContainer').removeClass('active');
         })
@@ -96,17 +94,16 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
         );
     }
 
-    externalLogin(provider: ExternalLoginProvider, $event) {
-        $event.cancelBubble = true;
-        this.flag && this.loginService.externalAuthenticate(provider); // 执行第三方登陆逻辑
+    externalLogin(provider: ExternalLoginProvider, $event: Event) {
+        $event.stopPropagation();
+        this.loginService.externalAuthenticate(provider); // 执行第三方登陆逻辑
 
-        if (provider.name === 'WeChat' && this.flag) {
+        if (provider.name === 'WeChat') {
             // 由于每次点击都回去请求微信，但是微信图片隐藏时没必要也去请求
             this.animationShow();
         } else {
             this.animationHide();
         }
-        this.flag = !this.flag;
     }
 
     // NgxAni动画
@@ -134,5 +131,9 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
 
     mobileExternalLogin(provider: ExternalLoginProvider): void {
         this.loginService.externalAuthenticate(provider);
+    }
+
+    checkInputAutofill(): boolean {
+        return $('input:-webkit-autofill').length === 2 ? false : true;
     }
 }

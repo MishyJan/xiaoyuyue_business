@@ -9,7 +9,7 @@
         <!-- 门店地址 -->
         <div class="row address-wrap">
             <label class="col-md-1 label-on-left">{{l('Outlet.Address')}}</label>
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <div class="form-group label-floating is-empty">
                     <label class="control-label"></label>
                     <div class="select-address-wrap col-md-8">
@@ -19,12 +19,12 @@
                         </div>
                         <div class="col-md-4 item no-lr-padding">
                             <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
-                                [valuePrimitive]="true" [value]="selectedCityId" [disabled]="!isCitySelect">
+                                [valuePrimitive]="true" [value]="selectedCityId">
                             </kendo-dropdownlist>
                         </div>
                         <div class="col-md-4 item no-right-padding">
                             <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
-                                [valuePrimitive]="true" [value]="selectedDistrictId" [disabled]="!isDistrictSelect">
+                                [valuePrimitive]="true" [value]="selectedDistrictId">
                             </kendo-dropdownlist>
                         </div>
                     </div>
