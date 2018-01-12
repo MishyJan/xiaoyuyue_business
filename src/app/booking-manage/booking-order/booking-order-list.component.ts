@@ -11,11 +11,11 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -54,7 +54,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
     searchActiveSelectDefaultItem: { value: string, displayText: string; };
     orderStatusSelectList: Object[] = [];
-    genderSelectListData: Object[] = SelectHelper.GenderList();
+    genderSelectListData: Object[] = this._selectHelper.genderList();
 
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
     gender: Gender;
@@ -92,6 +92,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     constructor(
         injector: Injector,
         private _route: ActivatedRoute,
+        private _selectHelper: SelectHelperService,
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
     ) {
@@ -100,8 +101,8 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     ngOnInit() {
         this.bookingCustomerDate = moment().local().format('YYYY-MM-DD');
-        this.bookingDateSelectDefaultItem = SelectHelper.DefaultSelectList();
-        this.searchActiveSelectDefaultItem = SelectHelper.DefaultList();
+        this.bookingDateSelectDefaultItem = this._selectHelper.defaultSelectList();
+        this.searchActiveSelectDefaultItem = this._selectHelper.defaultList();
         this.getOrderStatusSelectList();
     }
 

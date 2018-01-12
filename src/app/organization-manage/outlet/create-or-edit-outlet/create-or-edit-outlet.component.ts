@@ -12,11 +12,11 @@ import { BusinessHour } from 'app/shared/utils/outlet-display.dto';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
-import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { test } from '@shared/animations/gridToggleTransition';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 
 @Component({
     selector: 'xiaoyuyue-create-or-edit-outlet',
@@ -60,6 +60,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         injector: Injector,
         private _route: ActivatedRoute,
         private _router: Router,
+        private _selectHelper: SelectHelperService,
         private _stateServiceServiceProxy: StateServiceServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _localStorageService: LocalStorageService,
@@ -78,13 +79,15 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     ngOnInit() {
         this.outletId = this._route.snapshot.paramMap.get('id');
         this.isCreateOrEditState();
-        this.provinceSelectListData.unshift(SelectHelper.DefaultSelectList());
+        this.provinceSelectListData.unshift(this._selectHelper.defaultSelectList());
         this.selectedProvinceId = this.provinceSelectListData[0].value;
         this.loadData();
     }
 
     ngAfterViewInit() {
         this.initValidLandlinePhone();
+        this.initStartBusinessHour();
+        this.initEndBusinessHour();
     }
 
     loadData(): void {
@@ -335,7 +338,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.getProvinceSelectList();
     }
 
-    // 固话验证初始化
+    // 固话验证inputmask初始化
     private initValidLandlinePhone(): void {
         $('#landlinePhone').inputmask({
             mask: '(9{1,4}) 9{4}-9{3,4}',
@@ -344,6 +347,35 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             },
             onincomplete: () => {
                 this.input.outlet.phoneNum = this.getLandlinePhoneInput();
+            }
+        });
+    }
+
+    // 营业开始时间inputmask初始化
+    private initStartBusinessHour(): void {
+        $('#startBusinessHour').inputmask({
+            alias: 'hh:mm',
+            'placeholder': this.l('HourAndMinute'),
+            oncomplete: () => {
+                this.businessHour.start = this.getStartBusinessHour();
+                $('#endBusinessHour').focus();
+            },
+            onincomplete: () => {
+                this.businessHour.start = '00:00';
+            }
+        });
+    }
+
+    // 营业结束时间inputmask初始化
+    private initEndBusinessHour(): void {
+        $('#endBusinessHour').inputmask({
+            alias: 'hh:mm',
+            'placeholder': this.l('HourAndMinute'),
+            oncomplete: () => {
+                this.businessHour.end = this.getEndBusinessHour();
+            },
+            onincomplete: () => {
+                this.businessHour.end = '00:00';
             }
         });
     }
@@ -399,6 +431,16 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         phoneNum = phoneNum.replace(/-/, '');
         console.log(phoneNum);
         return phoneNum;
+    }
+    private getStartBusinessHour(): string {
+        const startBusinessHour = $('#startBusinessHour').val() + '';
+        console.log(startBusinessHour);
+        return startBusinessHour;
+    }
+    private getEndBusinessHour(): string {
+        const endBusinessHour = $('#endBusinessHour').val() + '';
+        console.log(endBusinessHour);
+        return endBusinessHour;
     }
 
     private isValidLandlingPhone(num: string): boolean {

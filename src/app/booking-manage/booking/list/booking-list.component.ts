@@ -16,12 +16,11 @@ import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-
 import { Moment } from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-import { SelectHelper } from 'shared/helpers/SelectHelper';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { debug } from 'util';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 
 @Component({
     selector: 'app-manage-booking',
@@ -52,7 +51,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     activeOrDisable: ActiveOrDisableInput = new ActiveOrDisableInput();
     outletSelectDefaultItem = '0';
     outletSelectListData: SelectListItemDto[] = [];
-    bookingActiveSelectListData: Object[] = SelectHelper.BoolList();
+    bookingActiveSelectListData: Object[] = this._selectHelper.boolList();
     bookingActiveSelectDefaultItem: object;
 
     organizationBookingResultData: BookingListDto[] = [];
@@ -91,14 +90,15 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _organizationBookingServiceProxy: OrgBookingServiceProxy,
         private _localStorageService: LocalStorageService,
         private _title: Title,
+        private _selectHelper: SelectHelperService,
         private _sessionService: AppSessionService
     ) {
         super(injector);
     }
 
     ngOnInit() {
-        this.bookingActiveSelectDefaultItem = SelectHelper.DefaultList();
-        this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
+        this.bookingActiveSelectDefaultItem = this._selectHelper.defaultList();
+        this.outletSelectListData.unshift(this._selectHelper.defaultSelectList());
         this.loadSelectListData();
     }
 
@@ -290,7 +290,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         }).then(result => {
             // 添加请选择数据源
             this.outletSelectListData = result;
-            this.outletSelectListData.unshift(SelectHelper.DefaultSelectList());
+            this.outletSelectListData.unshift(this._selectHelper.defaultSelectList());
         });
     }
 

@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div class="login-btn-wrap">
-                        <button class="btn btn-login" type="submit" (click)="login()" [disabled]="!loginForm.form.valid" [buttonBusy]="saving" [busyText]="l('Logging')">
+                        <button class="btn btn-login" type="submit" (click)="login()" [disabled]="!loginForm.form.valid && checkInputAutofill()" [buttonBusy]="saving" [busyText]="l('Logging')">
                             <i></i>
                             <span>{{l("LogIn")}}</span>
                         </button>

@@ -42,6 +42,12 @@ export class AppConsts {
 
     static bookingSelectListCache = 'BookingSelectListCache-{0}';
 
+    static provinceSelectListCache = 'ProvinceSelectListCache';
+
+    static citysSelectListCache = 'CitysSelectListCache-{0}';
+
+    static districtsSelectListCache = 'DistrictsSelectListCache-{0}';
+
     static readonly templateEditStore = {
         booking: 'templateEditBooking-{0}',
         outlet: 'templateEditOutlet-{0}',
