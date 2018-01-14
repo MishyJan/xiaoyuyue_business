@@ -34,6 +34,12 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
         this.meta.updateTag({ name: 'generator', content: this.l('MetaGenerator') });
         this.meta.updateTag({ name: 'keywords', content: this.l('MetaKey') });
         this.meta.updateTag({ name: 'description', content: this.l('MetaDescription') });
+
+        this.meta.updateTag({ name: 'og:title', content: this.l('ShareApp') });
+        this.meta.updateTag({ name: 'og:description', content: this.l('MetaDescription') });
+        this.meta.updateTag({ name: 'og:image', content: this.l('MetaDescription') });
+        this.meta.updateTag({ name: 'og:url', content: location.href });
+
         this.viewContainerRef = viewContainerRef; // You need this small hack in order to catch application root view container ref (required by ng2 bootstrap modal)
         this._sidebarService
             .toggleSidebarFlag.subscribe(flag => {
@@ -56,9 +62,7 @@ export class AppComponent extends AppComponentBase implements OnInit, AfterViewI
         this.sidebarIsShow();
         this.softKeyboardBug();
         this.initWechatShareConfig();
-        let scroll = new BScroll('.mobile-page-content', {
-            click: true
-        })
+
     }
 
     /**

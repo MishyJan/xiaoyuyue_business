@@ -5,9 +5,21 @@
     }
     .modal-dialog .modal-body {
         .serach-wrap {
-            margin-top: 0px;
+            padding: 0 24px;
+            margin: 0px;
+            .vapps-icon-app-search {
+                font-size: 18px;
+                background-color: #FF9641;
+                padding: 6px;
+                margin: 10px 0;
+            }
             .form-group {
-                margin-top: 0px;
+                margin-top: 5px;
+            }
+            .col-md-11,
+            .col-md-4,
+            .col-md-8 {
+                padding: 0;
             }
         }
     }
@@ -15,6 +27,10 @@
 
 .modal .modal-dialog {
     margin-top: 40px;
+    img.avatar {
+        border-radius: 100%;
+        width: 26px;
+    }
 }
 
 .k-grid td:first-child,
