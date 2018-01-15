@@ -56,7 +56,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
             .getOutlets(this.outletName, this.sorting, this.maxResultCount, this.skipCount)
             .finally(() => {
                 this.searching = false;
-                this._listScrollService.pullDownFinished.emit(true);
+                this._listScrollService.listScrollFinished.emit();
             })
             .subscribe(result => {
                 this.totalItems = result.totalCount;
@@ -65,12 +65,12 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     }
 
     pullDownRefresh(): void {
-        this._listScrollService.pullDownFinished.emit(false);
+        this._listScrollService.listScrollFinished.emit();
         this.loadData();
     }
 
     pullUpRefresh(): void {
-        this._listScrollService.pullDownFinished.emit(true);
+        this._listScrollService.listScrollFinished.emit();
     }
 
     createOutlet(): void {

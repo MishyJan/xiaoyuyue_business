@@ -227,8 +227,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.singleBookingStatus.displayText = this.bookingOrderStatusName[index];
             this.orderStatusSelectList.push(this.singleBookingStatus);
         });
-        console.log(this.orderStatusSelectList);
-        
     }
 
     // 获取应约人头像

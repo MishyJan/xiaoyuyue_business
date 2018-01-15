@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, Input, ElementRef, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
 import { ListScrollService } from 'shared/services/list-scroll.service';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 
 @Component({
     selector: 'xiaoyuyue-list-scroll',
@@ -7,9 +8,9 @@ import { ListScrollService } from 'shared/services/list-scroll.service';
     styleUrls: ['./list-scroll.component.scss']
 })
 export class ListScrollComponent implements OnInit, AfterViewInit {
-    isPullingDown: boolean;
     isPullingUp: boolean;
     bscroll: BScroll;
+    scrollStatusOutput: ScrollStatusOutput = new ScrollStatusOutput();
     @ViewChild('bscrollEl') bscrollEl: ElementRef;
     @Input() height = '100vh';
     @Input() isNeedPullUpLoad = false;
@@ -21,22 +22,17 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
         private _listScrollService: ListScrollService
     ) {
         this._listScrollService
-            .pullDownFinished
-            .subscribe(result => {
-                if (result) {
-                    this.isPullingDown = false;
+            .listScrollFinished
+            .subscribe((result: ScrollStatusOutput) => {
+                this.scrollStatusOutput = result;
+                if (result.pulledUpActive !== null && !result.pulledUpActive) {
+                    this.refresh();
+                    // this.bscroll.finishPullUp();
+                }
+                if (result.pulledDownActive !== null && !result.pulledDownActive) {
                     this.bscroll.finishPullDown();
                 }
-            })
-        this._listScrollService
-            .pullUpFinished
-            .subscribe(result => {
-                if (result) {
-                    // this.enable();
-                    this.isPullingUp = false;
-                    this.bscroll.finishPullUp();
-                    this.refresh();
-                }
+                console.log(this.scrollStatusOutput);
             })
     }
 
@@ -48,8 +44,8 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
         this.bscroll = new BScroll(this.bscrollEl.nativeElement, {
             probeType: 1,
             click: true,
-            pullUpLoad: true,
-            pullDownRefresh: true
+            pullDownRefresh: this.isNeedPullDownRefresh,
+            // pullUpLoad: this.isNeedPullUpLoad
         });
 
         this.bscroll.on('scroll', () => {
@@ -58,14 +54,13 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
         this.bscroll.on('touchEnd', () => {
             this.pullingUp();
             if (this.isPullingUp) {
-                this.finishPullUpHandle.emit(true);
+                this.finishPullUpHandle.emit();
                 // this.disable();
             }
         })
 
         this.bscroll.on('pullingDown', () => {
-            this.isPullingDown = true;
-            this.finishPullDownHandle.emit(true);
+            this.finishPullDownHandle.emit();
         })
 
         // this.bscroll.on('pullingUp', () => {
@@ -90,6 +85,7 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
         } else {
             this.isPullingUp = false;
         }
+        console.log(this.isPullingUp);
     }
 
     private disable() { this.bscroll && this.bscroll.disable(); }

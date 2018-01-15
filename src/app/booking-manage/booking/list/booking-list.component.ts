@@ -22,6 +22,7 @@ import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 import { SelectHelperService } from 'shared/services/select-helper.service';
 import { ListScrollService } from 'shared/services/list-scroll.service';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 
 @Component({
     selector: 'app-manage-booking',
@@ -33,6 +34,7 @@ import { ListScrollService } from 'shared/services/list-scroll.service';
 })
 
 export class BookingListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    scrollStatusOutput: ScrollStatusOutput = new ScrollStatusOutput();
     flipIsToBackFlag: boolean[] = [];
     updateDataIndex = -1;
     allOrganizationBookingResultData: any[] = [];
@@ -65,7 +67,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId = 0;
     bookingName: string;
 
-    maxResultCount = 3;
+    maxResultCount = 8;
     skipCount = 0;
     sorting: string;
     totalItems = 0;
@@ -257,16 +259,16 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.loadData();
     }
 
-    loadData(): void {
+    // scrollHandleBack: 接收一个回调函数，控制下拉刷新，上拉加载的状态
+    loadData(scrollHandleBack?: any): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
         if (this.skipCount < 0) { this.skipCount = 0 };
         this._organizationBookingServiceProxy
             .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
             .finally(() => {
-                this._listScrollService.pullDownFinished.emit(true);
-                this._listScrollService.pullUpFinished.emit(true);
                 this.searching = false;
+                scrollHandleBack && scrollHandleBack();
             })
             .subscribe(result => {
                 const self = this;
@@ -277,7 +279,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 } else {
                     this.allOrganizationBookingResultData[this.updateDataIndex] = this.organizationBookingResultData;
                 }
-                console.log(this.allOrganizationBookingResultData);
                 if (typeof this.startCreationTime === 'object') {
                     this.startCreationTime = this.startCreationTime.format('YYYY-MM-DD');
                     this.endCreationTime = this.endCreationTime.format('YYYY-MM-DD');
@@ -291,14 +292,19 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     pullDownRefresh(): void {
         this.updateDataIndex = 0;
         this.skipCount = 0;
-        this._listScrollService.pullDownFinished.emit(false);
-        this.loadData();
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledDownActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.loadData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.pulledDownActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
     }
 
-    pullUpRefresh(): void {
+    pullUpLoad(): void {
         this.updateDataIndex = -1;
         let totalCount = 0;
-        this._listScrollService.pullUpFinished.emit(false);
         this.allOrganizationBookingResultData.forEach(organizationBookingResultData => {
             organizationBookingResultData.forEach(element => {
                 totalCount++;
@@ -306,9 +312,19 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         });
         this.skipCount = totalCount;
         if (this.skipCount >= this.totalItems) {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.noMore = true;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
             return;
         }
-        this.loadData();
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledUpActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.loadData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledUpActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
     }
 
 

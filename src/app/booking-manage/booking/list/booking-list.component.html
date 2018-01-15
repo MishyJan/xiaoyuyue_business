@@ -279,7 +279,7 @@
 
     <div *showItBootstrap="['xs','sm']">
         <div class="mobile-manage-booking">
-            <xiaoyuyue-list-scroll [height]="'calc(100vh - 55px)'" [isNeedPullUpLoad]="'true'" [isNeedPullDownRefresh]="'true'" (finishPullUpHandle)="pullUpRefresh()" (finishPullDownHandle)="pullDownRefresh()">
+            <xiaoyuyue-list-scroll [height]="'calc(100vh - 55px)'" [isNeedPullUpLoad]="'true'" [isNeedPullDownRefresh]="'true'" (finishPullUpHandle)="pullUpLoad()" (finishPullDownHandle)="pullDownRefresh()">
                 <div class="content">
                     <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
                         <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">

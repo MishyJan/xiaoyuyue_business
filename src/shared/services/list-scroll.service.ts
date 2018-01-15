@@ -1,9 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 
 @Injectable()
 export class ListScrollService {
-    pullDownFinished = new EventEmitter<boolean>(false);
-    pullUpFinished = new EventEmitter<boolean>(false);
+    listScrollFinished = new EventEmitter<ScrollStatusOutput>();
 
     constructor() {
      }
