@@ -127,61 +127,165 @@
 }
 
 .mobile-org-center {
-    min-height: 100vh;
-    .header {
-        width: 100vw;
-        height: 210px;
-        .tenant-base-info {
+    .scroll-content {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        .header {
+            width: 100vw;
             height: 210px;
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            &.reset-style {
-                background-size: initial;
-                background-position: initial;
-            }
-            .bg-cover {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100vw;
+            .tenant-base-info {
                 height: 210px;
-                z-index: 1;
-                background-color: rgba(0, 0, 0, 0.3);
-            }
-            .info-wrap {
                 position: relative;
-                z-index: 2;
-                .top {
-                    text-align: center;
-                    padding-top: 60px;
-                    .tenant-logo {
-                        border-radius: 50%;
+                background-size: cover;
+                background-position: center;
+                &.reset-style {
+                    background-size: initial;
+                    background-position: initial;
+                }
+                .bg-cover {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 210px;
+                    z-index: 1;
+                    background-color: rgba(0, 0, 0, 0.3);
+                }
+                .info-wrap {
+                    position: relative;
+                    z-index: 2;
+                    .top {
+                        text-align: center;
+                        padding-top: 60px;
+                        .tenant-logo {
+                            border-radius: 50%;
+                        }
+                        .tenant-name {
+                            font-size: 24px;
+                            color: #FFF;
+                            margin-left: 30px;
+                            display: inline-block;
+                            transform: translateY(5px);
+                        }
                     }
-                    .tenant-name {
-                        font-size: 24px;
+                    .bottom {
+                        display: flex;
                         color: #FFF;
-                        margin-left: 30px;
-                        display: inline-block;
-                        transform: translateY(5px);
+                        text-align: center;
+                        .flex-item {
+                            flex: 1;
+                            height: 85px;
+                            margin-top: 20px;
+                            .amount {
+                                margin-bottom: 2px;
+                                font-size: 24px;
+                            }
+                            p:last-child {
+                                font-size: 12px;
+                            }
+                        }
                     }
                 }
-                .bottom {
-                    display: flex;
-                    color: #FFF;
-                    text-align: center;
-                    .flex-item {
-                        flex: 1;
-                        height: 85px;
-                        margin-top: 20px;
-                        .amount {
-                            margin-bottom: 2px;
-                            font-size: 24px;
-                        }
-                        p:last-child {
-                            font-size: 12px;
+            }
+        }
+        .content-wrap {
+            .manage-center-tab-content {
+                padding: 5px;
+                .card-wrap {
+                    float: left;
+                    position: relative;
+                    padding: 10px 10px 4px 10px;
+                    .card {
+                        margin: 0;
+                        border-radius: 4px;
+                        overflow: hidden;
+                        .item {
+                            display: inline-block;
+                            width: 100%;
+                            height: 100%;
+                            background: #FFF;
+                            font-size: 34px;
+                            &:before {
+                                content: "";
+                                display: inline-block;
+                                padding-bottom: 100%;
+                                width: .1px;
+                                vertical-align: middle;
+                            }
+                            .content {
+                                position: absolute;
+                                width: 100%;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                text-align: center;
+                                .icon {
+                                    color: #FF9641;
+                                }
+                                .text {
+                                    font-size: 16px;
+                                    margin-top: 14px;
+                                    margin-bottom: 0;
+                                    color: #666;
+                                }
+                            }
                         }
                     }
+                }
+            }
+            .org-center-tab-content {
+                padding: 10px;
+                .wrap {
+                    height: 100%;
+                    background-color: #FFF;
+                    border-radius: 6px;
+                    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+                    .content {
+                        height: calc(100vh - 265px - 80px);
+                        .echarts {
+                            height: calc(100vh - 265px - 80px);
+                        }
+                    }
+                    .title {
+                        line-height: 60px;
+                        text-align: center;
+                        margin: 0 15px;
+                        border-bottom: 1px solid #e2e2e2;
+                    }
+                }
+            }
+        }
+        .footer-tab {
+            width: 100vw;
+            height: 55px;
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            background-color: #FFF;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+            .item:last-child {
+                .icon {
+                    font-size: 20px;
+                }
+            }
+            .item {
+                height: 100%;
+                margin-bottom: 10px;
+                &.active {
+                    color: #FF9641;
+                }
+                .icon {
+                    font-size: 20px;
+                    display: inline-block;
+                    margin-top: 6px;
+                }
+                .text {
+                    font-size: 14px;
+                    margin: 0 0 2px;
                 }
             }
         }
@@ -201,104 +305,6 @@
             background-color: #FF9641;
             color: #FFF;
             font-size: 18px;
-        }
-    }
-    .content-wrap {
-        .manage-center-tab-content {
-            padding: 5px;
-            .card-wrap {
-                float: left;
-                position: relative;
-                padding: 10px 10px 4px 10px;
-                .card {
-                    margin: 0;
-                    border-radius: 4px;
-                    overflow: hidden;
-                    .item {
-                        display: inline-block;
-                        width: 100%;
-                        height: 100%;
-                        background: #FFF;
-                        font-size: 34px;
-                        &:before {
-                            content: "";
-                            display: inline-block;
-                            padding-bottom: 100%;
-                            width: .1px;
-                            vertical-align: middle;
-                        }
-                        .content {
-                            position: absolute;
-                            width: 100%;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            text-align: center;
-                            .icon {
-                                color: #FF9641;
-                            }
-                            .text {
-                                font-size: 16px;
-                                margin-top: 14px;
-                                margin-bottom: 0;
-                                color: #666;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .org-center-tab-content {
-            padding: 10px;
-            .wrap {
-                height: 100%;
-                background-color: #FFF;
-                border-radius: 6px;
-                box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-                .content {
-                    height: calc(100vh - 265px - 80px);
-                    .echarts {
-                        height: calc(100vh - 265px - 80px);
-                    }
-                }
-                .title {
-                    line-height: 60px;
-                    text-align: center;
-                    margin: 0 15px;
-                    border-bottom: 1px solid #e2e2e2;
-                }
-            }
-        }
-    }
-    .footer-tab {
-        width: 100vw;
-        height: 55px;
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        text-align: center;
-        background-color: #FFF;
-        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
-        .item:last-child {
-            .icon {
-                font-size: 20px;
-            }
-        }
-        .item {
-            height: 100%;
-            margin-bottom: 10px;
-            &.active {
-                color: #FF9641;
-            }
-            .icon {
-                font-size: 20px;
-                display: inline-block;
-                margin-top: 6px;
-            }
-            .text {
-                font-size: 14px;
-                margin: 0 0 2px;
-            }
         }
     }
 }

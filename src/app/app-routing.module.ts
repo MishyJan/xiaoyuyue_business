@@ -117,9 +117,6 @@ export class AppRoutingModule {
         if (ClientTypeHelper.isWeChatMiniProgram) {
             $('.mobile-page-content').css('top', '0px');
             $('.mobile-page-content').css('height', '100vh');
-
-            $('.mobile-manage-booking').css('height', '100vh');
-            $('.manage-org').css('height', '100vh');
         }
     }
 

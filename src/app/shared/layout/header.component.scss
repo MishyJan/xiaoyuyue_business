@@ -61,6 +61,8 @@
 }
 
 #fixed-header {
+    position: relative;
+    z-index: 10000;
     .top-title {
         .back-icon {
             margin-left: -19px;
@@ -76,10 +78,6 @@
     #fixed-header {
         width: 100vw;
         height: 55px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
         background-image: url("/assets/common/images/booking/header-bg.png");
         background-color: #FF9641;
         background-size: cover;
