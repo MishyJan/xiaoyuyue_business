@@ -74,12 +74,10 @@ export class QrCodeComponent implements OnInit, AfterViewInit, OnChanges, OnDest
         // subTitleTop: 40, // draws y coordinates. default is 50
 
         // ==== Logo
-        logo: '/assets/common/images/logo.jpg', // Relative address, relative to `easy.qrcode.min.js`
+        logo: '/assets/common/images/qrcode-logo.png', // Relative address, relative to `easy.qrcode.min.js`
         // 	logoWidth:80, // widht. default is automatic width
         // 	logoHeight:80 // height. default is automatic height
       });
     }
-
-
   }
 }

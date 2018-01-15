@@ -9,6 +9,7 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
@@ -16,12 +17,12 @@ import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-
 import { Moment } from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { SelectHelperService } from 'shared/services/select-helper.service';
-import { ListScrollService } from 'shared/services/list-scroll.service';
+import { BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 
 @Component({
     selector: 'app-manage-booking',
@@ -65,11 +66,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId = 0;
     bookingName: string;
 
-    maxResultCount = 3;
-    skipCount = 0;
-    sorting: string;
-    totalItems = 0;
-    currentPage = 0;
+    listParam = new BaseLsitDataInputDto();
     slogan = this.l('Nothing.Need2Create');
 
     copying = false;
@@ -155,7 +152,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         if (this.isMobile($('.mobile-manage-booking'))) {
             this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
             this.updateDataIndex = indexI;
-            this.skipCount = this.maxResultCount * this.updateDataIndex;
+            this.listParam.SkipCount = this.listParam.MaxResultCount * this.updateDataIndex;
         } else {
             this.activeOrDisable.id = this.organizationBookingResultData[indexI].id;
         }
@@ -173,7 +170,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         if (this.isMobile($('.mobile-manage-booking'))) {
             this.activeOrDisable.id = this.allOrganizationBookingResultData[indexI][indexJ].id;
             this.updateDataIndex = indexI;
-            this.skipCount = this.maxResultCount * this.updateDataIndex;
+            this.listParam.SkipCount = this.listParam.MaxResultCount * this.updateDataIndex;
         } else {
             this.activeOrDisable.id = this.organizationBookingResultData[indexI].id;
         }
@@ -260,9 +257,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     loadData(): void {
         this.startCreationTime = this.startCreationTime ? moment(this.startCreationTime) : undefined;
         this.endCreationTime = this.endCreationTime ? moment(this.endCreationTime) : undefined;
-        if (this.skipCount < 0) { this.skipCount = 0 };
+        if (this.listParam.SkipCount < 0) { this.listParam.SkipCount = 0 };
         this._organizationBookingServiceProxy
-            .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.sorting, this.maxResultCount, this.skipCount)
+            .getBookings(this.bookingName, this.outletId, this.isActive, this.startCreationTime, this.endCreationTime, this.listParam.Sorting, this.listParam.MaxResultCount, this.listParam.SkipCount)
             .finally(() => {
                 this._listScrollService.pullDownFinished.emit(true);
                 this._listScrollService.pullUpFinished.emit(true);
@@ -270,7 +267,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
             })
             .subscribe(result => {
                 const self = this;
-                this.totalItems = result.totalCount;
+                this.listParam.TotalItems = result.totalCount;
                 this.organizationBookingResultData = result.items;
                 if (this.organizationBookingResultData.length > 0 && this.updateDataIndex < 0) {
                     this.allOrganizationBookingResultData.push(this.organizationBookingResultData);
@@ -290,7 +287,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     pullDownRefresh(): void {
         this.updateDataIndex = 0;
-        this.skipCount = 0;
+        this.listParam.SkipCount = 0;
         this._listScrollService.pullDownFinished.emit(false);
         this.loadData();
     }
@@ -304,8 +301,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 totalCount++;
             });
         });
-        this.skipCount = totalCount;
-        if (this.skipCount >= this.totalItems) {
+        this.listParam.SkipCount = totalCount;
+        if (this.listParam.SkipCount >= this.listParam.TotalItems) {
             return;
         }
         this.loadData();
@@ -387,14 +384,14 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     onPageChange(index: number): void {
-        this.currentPage = index;
-        this.skipCount = this.maxResultCount * (this.currentPage - 1);
+        this.listParam.CurrentPage = index;
+        this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
         this.loadData();
     }
 
     batchConfirmStateHanlder(batchConfirmState: boolean): void {
         if (batchConfirmState) {
-            this.skipCount = this.maxResultCount * this.updateDataIndex;
+            this.listParam.SkipCount = this.listParam.MaxResultCount * this.updateDataIndex;
             this.loadData();
         }
     }
