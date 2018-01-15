@@ -9,6 +9,7 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { MobileConfirmOrderModelComponent } from './shared/mobile-confirm-order-model/mobile-confirm-order-model.component';
@@ -16,12 +17,11 @@ import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-
 import { Moment } from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { SelectHelperService } from 'shared/services/select-helper.service';
-import { ListScrollService } from 'shared/services/list-scroll.service';
 
 @Component({
     selector: 'app-manage-booking',
@@ -65,7 +65,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId = 0;
     bookingName: string;
 
-    maxResultCount = 3;
+    maxResultCount = 8;
     skipCount = 0;
     sorting: string;
     totalItems = 0;
