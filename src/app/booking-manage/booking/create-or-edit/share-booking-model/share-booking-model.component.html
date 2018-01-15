@@ -2,18 +2,48 @@
     <div bsModal #shareBookingModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="shareBookingModel"
         aria-hidden="true">
         <div class="modal-dialog">
-            <div class="xiaoyuyue-title-box">{{l('SavaSuccess')}}</div>
+            <div class="xiaoyuyue-title-box">{{slogen}}</div>
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="share-source-wrap">
                         <p class="share-title">{{l('Booking.ShareTitle')}}</p>
-                        <!-- <div class="share-btn-wrap">
-                            <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/wechat-x2.png" alt="wechat" width="100%"></span></a>
-                            <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/friends-x2.png" alt="friends" width="100%"></span></a>
-                            <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/qq-x2.png" alt="qq" width="100%"></span></a>
-                            <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/qzone-x2.png" alt="qzone" width="100%"></span></a>
-                            <a href="#" class="btn-item"><span><img src="/assets/common/images/admin/weibo-x2.png" alt="weibo" width="100%"></span></a>
-                        </div> -->
+                        <div class="share-btn-wrap">
+                            <a class="btn-item">
+                                <span>
+                                    <img src="/assets/common/images/admin/wechat-x2.png" alt="wechat" width="100%">
+                                </span>
+                            </a>
+                            <a (click)="getQQShareUrl()" class="btn-item">
+                                <span>
+                                    <img src="/assets/common/images/admin/qq-x2.png" alt="qq" width="100%">
+                                </span>
+                            </a>
+                            <a (click)="getQzoneShareUrl()" class="btn-item">
+                                <span>
+                                    <img src="/assets/common/images/admin/qzone-x2.png" alt="qzone" width="100%">
+                                </span>
+                            </a>
+                            <a (click)="getWeiBoShareUrl()" class="btn-item">
+                                <span>
+                                    <img src="/assets/common/images/admin/weibo-x2.png" alt="weibo" width="100%">
+                                </span>
+                            </a>
+                            <a (click)="getFacebookShareUrl()" class="btn-item">
+                                <span>
+                                    <img src="/assets/common/images/admin/facebook-x2.png" alt="facebook" width="100%">
+                                </span>
+                            </a>
+                            <a (click)="getTwitterShareUrl()" class="btn-item">
+                                <span>
+                                    <img src="/assets/common/images/admin/twitter-x2.png" alt="twitter" width="100%">
+                                </span>
+                            </a>
+                            <a (click)="getLinkInShareUrl()" class="btn-item">
+                                <span>
+                                    <img src="/assets/common/images/admin/linkin-x2.png" alt="linkin" width="100%">
+                                </span>
+                            </a>
+                        </div>
                         <p class="share-url-text" title="{{l('Booking.Share.Copy')}}"> {{ shareUrl }}</p>
                         <div class="qr-code-wrap">
                             <qr-code [value]="shareUrl" [size]="200"></qr-code>

@@ -28,6 +28,7 @@ import { ViewArtworkMasterComponent } from './view-artwork-master/view-artwork-m
 import { WangEditorComponent } from './wang-editor/wang-editor.component';
 import { LanguageSwitchComponent } from 'app/shared/common/language-switch-component/language-switch.component';
 import { SendCodeComponent } from 'app/shared/common/send-code/send-code.component';
+import { ListScrollComponent } from './list-scroll/list-scroll.component';
 
 @NgModule({
     imports: [
@@ -57,7 +58,8 @@ import { SendCodeComponent } from 'app/shared/common/send-code/send-code.compone
         ViewArtworkMasterComponent,
         QrCodeComponent,
         SendCodeComponent,
-        LanguageSwitchComponent
+        LanguageSwitchComponent,
+        ListScrollComponent
     ],
     exports: [
         TimeZoneComboComponent,
@@ -76,7 +78,8 @@ import { SendCodeComponent } from 'app/shared/common/send-code/send-code.compone
         ViewArtworkMasterComponent,
         QrCodeComponent,
         SendCodeComponent,
-        LanguageSwitchComponent
+        LanguageSwitchComponent,
+        ListScrollComponent
     ]
 })
 export class AppCommonModule {

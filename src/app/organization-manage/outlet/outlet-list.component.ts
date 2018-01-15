@@ -8,6 +8,7 @@ import { AppConsts } from 'shared/AppConsts';
 import { Router } from '@angular/router';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 
 @Component({
     selector: 'xiaoyuyue-outlet-list',
@@ -32,6 +33,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     constructor(
         injector: Injector,
         private _router: Router,
+        private _listScrollService: ListScrollService,
         private _outletServiceServiceProxy: OutletServiceServiceProxy
     ) {
         super(injector);
@@ -50,16 +52,25 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     }
 
     loadData(): void {
-
         this._outletServiceServiceProxy
             .getOutlets(this.outletName, this.sorting, this.maxResultCount, this.skipCount)
             .finally(() => {
                 this.searching = false;
+                this._listScrollService.pullDownFinished.emit(true);
             })
             .subscribe(result => {
                 this.totalItems = result.totalCount;
                 this.allOutlets = result.items;
             });
+    }
+
+    pullDownRefresh(): void {
+        this._listScrollService.pullDownFinished.emit(false);
+        this.loadData();
+    }
+
+    pullUpRefresh(): void {
+        this._listScrollService.pullDownFinished.emit(true);
     }
 
     createOutlet(): void {

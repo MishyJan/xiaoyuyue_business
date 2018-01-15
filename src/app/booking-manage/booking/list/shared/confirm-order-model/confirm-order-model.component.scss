@@ -1,32 +1,17 @@
 .confirm-order-wrap {
     .modal-dialog {
-        width: 974px;
-        border-radius: 2px;
-        .modal-content {
-            border-radius: 4px;
-            overflow: hidden;
-            .btn-white {
-                color: #FF9641;
-                background-color: #FFF;
-            }
-            .confirm-btn {
-                padding: 4px 8px;
-                margin: 0;
-                background-color: #FF9641;
-            }
-        }
-    }
-    .modal-body {
-        padding: 0px;
-        img.avatar {
-            border-radius: 100%;
-            width: 26px;
-        }
-        .order-grid {
-            width: 100%;
-        }
-    }
-    .modal .modal-dialog {
         margin-top: 40px;
+        .modal-content {
+            .modal-body {
+                padding: 0px;
+                img.avatar {
+                    border-radius: 100%;
+                    width: 26px;
+                }
+                .order-grid {
+                    width: 100%;
+                }
+            }
+        }
     }
 }

@@ -11,12 +11,12 @@
         z-index: 12000;
     }
     .share-source-wrap {
-        .share-title {}
         .share-btn-wrap {
             height: 50px;
             display: flex;
             margin-bottom: 16px;
             .btn-item {
+                cursor: pointer;
                 flex: 1;
                 text-align: center;
                 span {
@@ -38,12 +38,24 @@
             }
         }
         .share-url-text {
-            font-size: 24px;
+            font-size: 18px;
             text-align: center;
             color: #FF9641;
         }
         .qr-code-wrap {
             text-align: center;
+        }
+    }
+    .modal-dialog {
+        width: 420px;
+        border-radius: 2px;
+        .modal-content {
+            .modal-body {
+                margin: 50px 20px 20px 20px;
+            }
+            .modal-footer {
+                text-align: center;
+            }
         }
     }
 }

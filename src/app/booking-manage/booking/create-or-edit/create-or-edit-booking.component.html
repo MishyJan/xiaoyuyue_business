@@ -151,11 +151,8 @@
             </div>
         </div>
     </form>
-    <xiaoyuyue-share-booking-model #shareBookingModel [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
-
+    <xiaoyuyue-share-booking-model #shareBookingModel [slogen]="l('SavaSuccess')" [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
 </div>
-
-
 
 <div class="mobile-create-booking common-container" [@routerTransition] *showItBootstrap="['xs','sm']">
     <tabset class="side-bar" #staticTabs>

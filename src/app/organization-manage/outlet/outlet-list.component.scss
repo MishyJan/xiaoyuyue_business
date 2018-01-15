@@ -63,10 +63,8 @@
         width: 100%;
         height: calc(100vh - 55px);
         position: absolute;
-        top: 0;
-        bottom: 0;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
+        top: 55px;
+        left: 0;
         .add-outlet-btn {
             position: fixed;
             right: 10px;
