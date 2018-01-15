@@ -28,11 +28,10 @@
 
 <div *showItBootstrap="['xs','sm']">
     <div class="wrap side-bar ani" [ngClass]="{'fade-in': toggleSidebarFlag, 'fade-out': !toggleSidebarFlag}">
+    <!-- <div class="wrap side-bar"> -->
         <header></header>
         <div class="mobile-page-content">
-            <div class="content">
-                <router-outlet></router-outlet>
-            </div>
+            <router-outlet></router-outlet>
         </div>
     </div>
     <xiaoyuyue-mobile-side-bar></xiaoyuyue-mobile-side-bar>
