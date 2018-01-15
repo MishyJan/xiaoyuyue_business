@@ -230,6 +230,7 @@ var QRCode;
 			}
 		};
 		Drawing.prototype.clear = function () {
+			debugger;
 			while (this._el.hasChildNodes())
 				this._el.removeChild(this._el.lastChild);
 		};

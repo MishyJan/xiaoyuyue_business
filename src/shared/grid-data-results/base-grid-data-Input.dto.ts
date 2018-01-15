@@ -30,6 +30,15 @@ export class BaseGridDataInputDto {
     }
 }
 
+
+export class BaseLsitDataInputDto {
+    maxResultCount: number = AppConsts.grid.defaultPageSize;
+    skipCount = 0;
+    sorting: string;
+    totalItems = 0;
+    currentPage = 0;
+}
+
 export class UserGridDataInputDto extends BaseGridDataInputDto {
     Permission: string;
     RoleIds: number[];

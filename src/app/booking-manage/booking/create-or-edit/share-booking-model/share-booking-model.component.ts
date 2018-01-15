@@ -6,6 +6,8 @@ import { AppConsts } from 'shared/AppConsts';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 
+declare const FB: any; // Facebook API
+
 @Component({
   selector: 'xiaoyuyue-share-booking-model',
   templateUrl: './share-booking-model.component.html',
@@ -14,6 +16,8 @@ import { Router } from '@angular/router';
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
   shareUrl = '';
+  sharePic = 'https://www.xiaoyuyue.com/assets/common/images/index/contact/logo.png';
+  openWindowsOptions = 'toolbar=0,status=0,width=580,height=636';
   bookingDto: GetBookingDetailOutput;
   @ViewChild('shareBookingModel') model: ModalDirective;
   @Input() bookingId: number;
@@ -56,15 +60,12 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
       desc: this.l('ShareMyBooking', this.bookingDto.name),
       title: this.l('ShareApp'),
       summary: this.l('MetaDescription'),
-      pics: 'https://www.xiaoyuyue.com/assets/common/images/index/contact/logo.png',
+      pics: this.sharePic,
       site: this.l('Xiaoyuyue'),
       style: '201',
     };
 
-    let s = [];
-    for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
-
-    const qqShareUrl = 'https://connect.qq.com/widget/shareqq/index.html?' + s.join('&');
+    const qqShareUrl = 'https://connect.qq.com/widget/shareqq/index.html?' + this.getParamArray(para).join('&');
     window.open(qqShareUrl);
   }
 
@@ -74,17 +75,14 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
       showcount: '0',
       descriptiont: this.l('ShareMyBooking', this.bookingDto.name),
       summary: this.l('MetaDescription'),
-      title: this.l('ShareApp'),
+      title: this.l('ShareMyBooking', this.bookingDto.name),
       site: this.l('Xiaoyuyue'),
-      pics: 'https://www.xiaoyuyue.com/assets/common/images/index/contact/logo.png',
+      pics: this.sharePic,
       style: '203',
     };
 
-    let s = [];
-    for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
-
-    const qqShareUrl = 'https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?' + s.join('&');
-    window.open(qqShareUrl);
+    const qzoneShareUrl = 'https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?' + this.getParamArray(para).join('&');
+    window.open(qzoneShareUrl, '_blank', this.openWindowsOptions);
   }
 
   getWeiBoShareUrl() {
@@ -92,33 +90,59 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
       url: this.shareUrl,
       appkey: 160189366,
       title: this.l('ShareMyBooking', this.bookingDto.name),
-      pic: 'https://www.xiaoyuyue.com/assets/common/images/index/contact/logo.png',
+      pic: this.sharePic,
       searchPic: true,
     };
 
-    let s = [];
-    for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
-
-    const qqShareUrl = 'https://service.weibo.com/share/share.php?' + s.join('&');
-    window.open(qqShareUrl);
+    const wbShareUrl = 'https://service.weibo.com/share/share.php?' + this.getParamArray(para).join('&');
+    window.open(wbShareUrl, '_blank', this.openWindowsOptions);
   }
 
   getFacebookShareUrl() {
     const para = {
-      u: this.shareUrl,
+      u: 'https://www.xiaoyuyue.com/booking/10',
       t: this.l('ShareApp'),
       description: this.l('ShareMyBooking', this.bookingDto.name),
-      picture: 'https://www.xiaoyuyue.com/assets/common/images/index/contact/logo.png',
-      quote: this.l('ShareApp'),
+      quote: this.l('ShareMyBooking', this.bookingDto.name),
+      hashtag: '#' + this.l('Xiaoyuyue'),
     };
 
-    let s = [];
-    for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
-
-    const qqShareUrl = 'https://www.facebook.com/sharer/sharer.php?' + s.join('&');
-    window.open(qqShareUrl);
+    const fbShareUrl = 'https://www.facebook.com/sharer.php?' + this.getParamArray(para).join('&');
+    window.open(fbShareUrl, '_blank', this.openWindowsOptions);
   }
 
+  getTwitterShareUrl() {
+    const para = {
+      url: this.shareUrl,
+      text: this.l('ShareMyBooking', this.bookingDto.name),
+      hashtags: this.l('Xiaoyuyue'),
+    };
+
+    const s = [];
+    for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
+
+    const twShareUrl = 'https://twitter.com/share?' + s.join('&');
+    window.open(twShareUrl, '_blank', this.openWindowsOptions);
+  }
+
+  getLinkInShareUrl() {
+    const para = {
+      url: this.shareUrl,
+      mini: true,
+      title: this.l('ShareMyBooking', this.bookingDto.name),
+      summary: this.l('ShareApp'),
+      source: this.l('Xiaoyuyue'),
+    };
+
+    const liShareUrl = 'https://www.linkedin.com/shareArticle?' + this.getParamArray(para).join('&');
+    window.open(liShareUrl, '_blank', this.openWindowsOptions);
+  }
+
+  getParamArray(para: object): string[] {
+    const s = [];
+    for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
+    return s;
+  }
 
   // 单击复制文本
   // copyText(text: string): void {

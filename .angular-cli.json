@@ -94,7 +94,7 @@
 
             "../src/assets/common/js/jweixin-1.3.0.js",
             "../external_libs/radialIndicator/radialIndicator.min.js",
-            "../external_libs/easyqrcodejs/easy.qrcode.min.js"
+            "../external_libs/easyqrcodejs/easy.qrcode.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {
