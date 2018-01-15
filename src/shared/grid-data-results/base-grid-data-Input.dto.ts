@@ -30,6 +30,15 @@ export class BaseGridDataInputDto {
     }
 }
 
+
+export class BaseLsitDataInputDto {
+    MaxResultCount: number = 8;
+    SkipCount = 0;
+    Sorting: string;
+    TotalItems = 0;
+    CurrentPage = 0;
+}
+
 export class UserGridDataInputDto extends BaseGridDataInputDto {
     Permission: string;
     RoleIds: number[];

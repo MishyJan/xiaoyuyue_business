@@ -5,10 +5,11 @@ import { ContactorEditDto, OutletListDto, OutletServiceServiceProxy, PagedResult
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 import { Router } from '@angular/router';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { ListScrollService } from 'shared/services/list-scroll.service';
 
 @Component({
     selector: 'xiaoyuyue-outlet-list',
@@ -21,11 +22,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     allOutlets: OutletListDto[] = [];
     contactInfo: ContactorEditDto;
 
-    maxResultCount: number = AppConsts.grid.defaultPageSize;
-    skipCount = 0;
-    sorting: string;
-    totalItems = 0;
-    currentPage = 0;
+    listParam = new BaseLsitDataInputDto();
     searching = false;
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
     slogan = this.l('Nothing.Need2Create');
@@ -53,13 +50,13 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
 
     loadData(): void {
         this._outletServiceServiceProxy
-            .getOutlets(this.outletName, this.sorting, this.maxResultCount, this.skipCount)
+            .getOutlets(this.outletName, this.listParam.Sorting, this.listParam.MaxResultCount, this.listParam.SkipCount)
             .finally(() => {
                 this.searching = false;
                 this._listScrollService.listScrollFinished.emit();
             })
             .subscribe(result => {
-                this.totalItems = result.totalCount;
+                this.listParam.TotalItems = result.totalCount;
                 this.allOutlets = result.items;
             });
     }
@@ -82,8 +79,8 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     }
 
     onPageChange(index: number): void {
-        this.currentPage = index;
-        this.skipCount = this.maxResultCount * this.currentPage;
+        this.listParam.CurrentPage = index;
+        this.listParam.SkipCount = this.listParam.MaxResultCount * this.listParam.CurrentPage;
         this.loadData();
     }
 
