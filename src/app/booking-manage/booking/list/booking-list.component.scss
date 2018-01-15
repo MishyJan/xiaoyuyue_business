@@ -308,35 +308,43 @@
         padding-left: 24px;
     }
     .k-grid thead th {
-        padding-top: 16px;
-        padding-bottom: 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
     }
     .modal-dialog {
         width: 974px;
-        .modal-header {
-            height: 54px;
-            line-height: 54px;
-            padding: 0 24px;
-            color: #FFF;
-            background-color: #FF9641;
-            .title-name {
-                float: left;
+        border-radius: 2px;
+        .modal-content {
+            border-radius: 4px;
+            overflow: hidden;
+            .btn-white {
+                color: #FF9641;
+                background-color: #FFF;
             }
-            .process-batch {
-                float: right;
-                margin-top: 12px;
-            }
-        }
-        .modal-body {
-            padding: 0px;
-            .serach-wrap {
-                margin: 10px 0;
-            }
-            .vapps-icon-app-search {
-                font-size: 18px;
+            .confirm-btn {
+                padding: 4px 8px;
+                margin: 0;
                 background-color: #FF9641;
-                padding: 6px;
-                margin: 20px 0 0 0;
+            }
+            .modal-header {
+                height: 54px;
+                line-height: 54px;
+                padding: 0 24px;
+                color: #FFF;
+                background-color: #FF9641;
+                .title-name {
+                    float: left;
+                }
+                .process-batch {
+                    float: right;
+                    margin-top: 12px;
+                }
+            }
+            .modal-body {
+                padding: 0px;
+                .serach-wrap {
+                    margin: 10px 0;
+                }
             }
         }
     }
