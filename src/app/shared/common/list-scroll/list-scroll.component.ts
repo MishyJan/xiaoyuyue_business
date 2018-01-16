@@ -27,12 +27,11 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
                 this.scrollStatusOutput = result;
                 if (result.pulledUpActive !== null && !result.pulledUpActive) {
                     this.refresh();
-                    // this.bscroll.finishPullUp();
+                    // this.bscroll.finishPullUp(); 
                 }
                 if (result.pulledDownActive !== null && !result.pulledDownActive) {
                     this.bscroll.finishPullDown();
                 }
-                console.log(this.scrollStatusOutput);
             })
     }
 
@@ -70,7 +69,7 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
 
     /*
         封装上拉下载数据方法
-        由于bscroll的pullingUp事件，在下上拉时会出现多次执行，导致多次请求数据的问题
+        由于bscroll的pullingUp事件，在上拉时会出现多次执行，导致多次请求数据的问题
      */
     private pullingUp(): void {
         // -1 表示从上往下滑，1 表示从下往上滑，0 表示没有滑动。
@@ -85,7 +84,6 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
         } else {
             this.isPullingUp = false;
         }
-        console.log(this.isPullingUp);
     }
 
     private disable() { this.bscroll && this.bscroll.disable(); }

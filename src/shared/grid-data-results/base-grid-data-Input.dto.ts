@@ -32,7 +32,7 @@ export class BaseGridDataInputDto {
 
 
 export class BaseLsitDataInputDto {
-    MaxResultCount: number = 8;
+    MaxResultCount = 8;
     SkipCount = 0;
     Sorting: string;
     TotalItems = 0;

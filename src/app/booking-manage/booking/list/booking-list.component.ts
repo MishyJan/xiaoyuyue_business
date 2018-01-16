@@ -319,7 +319,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
         this.loadData(() => {
             this.scrollStatusOutput = new ScrollStatusOutput();
-        this.scrollStatusOutput.pulledUpActive = false;
+            this.scrollStatusOutput.pulledUpActive = false;
             this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
         });
     }
