@@ -41,6 +41,14 @@
 
 // 移动端样式
 .mobile-custom-list {
+    width: 100%;
+    height: calc(100vh - 55px);
+    position: absolute;
+    top: 55px;
+    left: 0;
+    bottom: 50px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     .top-action-wrap {
         display: flex;
         width: 100%;
