@@ -39,6 +39,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     flipIsToBackFlag: boolean[] = [];
     updateDataIndex = -1;
     allOrganizationBookingResultData: any[] = [];
+    organizationBookingResultData: BookingListDto[] = [];
 
     infiniteScrollDistance = 1;
     infiniteScrollThrottle = 300;
@@ -58,7 +59,6 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     bookingActiveSelectListData: Object[] = this._selectHelper.boolList();
     bookingActiveSelectDefaultItem: object;
 
-    organizationBookingResultData: BookingListDto[] = [];
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
     // pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
 

@@ -27,10 +27,10 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
                 this.scrollStatusOutput = result;
                 if (result.pulledUpActive !== null && !result.pulledUpActive) {
                     this.refresh();
-                    // this.bscroll.finishPullUp(); 
+                    // this.bscroll.finishPullUp();
                 }
                 if (result.pulledDownActive !== null && !result.pulledDownActive) {
-                    this.bscroll.finishPullDown();
+                    this.finishPullDown();
                 }
             })
     }
@@ -90,4 +90,5 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
     private enable() { this.bscroll && this.bscroll.enable(); }
     private refresh() { this.bscroll && this.bscroll.refresh(); }
     private finishPullUp() { this.bscroll && this.bscroll.finishPullUp(); }
+    private finishPullDown() { this.bscroll && this.bscroll.finishPullDown(); }
 }
