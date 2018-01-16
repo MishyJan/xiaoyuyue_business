@@ -1,6 +1,5 @@
 .manage-org {
     position: relative;
-    padding-top: 10px;
     .search-btn-wrap {
         margin: 15px;
     }
@@ -65,7 +64,7 @@
         position: absolute;
         top: 55px;
         left: 0;
-        .add-outlet-btn {
+        .add-outlet-btn { 
             position: fixed;
             right: 10px;
             bottom: 60px;
@@ -84,34 +83,40 @@
         }
         .outlet-list-wrap {
             margin-top: 0;
-            .outlet-item {
-                border-radius: 4px;
-                margin-bottom: 10px;
-                padding: 0;
-                .item {
+            .outlet-content + .outlet-content { 
+                padding-top: 0;
+            }
+            .outlet-content {
+                padding: 10px;
+                .outlet-item {
                     border-radius: 4px;
+                    margin-bottom: 0;
                     padding: 0;
-                }
-                .top-wrap {
-                    margin-top: 0;
-                    border-radius: 0;
-                    border-top-left-radius: 4px;
-                    border-top-right-radius: 4px;
-                }
-                .content-wrap {
-                    padding: 15px;
-                    .content-item+.content-item {
-                        margin-top: 20px;
+                    .item {
+                        border-radius: 4px;
+                        padding: 0;
                     }
-                    .content-item {
-                        .outlet-name {
-                            color: #FF9641;
-                            font-size: 16px;
+                    .top-wrap {
+                        margin-top: 0;
+                        border-radius: 0;
+                        border-top-left-radius: 4px;
+                        border-top-right-radius: 4px;
+                    }
+                    .content-wrap {
+                        padding: 15px;
+                        .content-item+.content-item {
+                            margin-top: 20px;
                         }
-                        >.flex-right {
-                            .flex-right {
-                                color: #CCC;
-                                margin-right: 0;
+                        .content-item {
+                            .outlet-name {
+                                color: #FF9641;
+                                font-size: 16px;
+                            }
+                            >.flex-right {
+                                .flex-right {
+                                    color: #CCC;
+                                    margin-right: 0;
+                                }
                             }
                         }
                     }

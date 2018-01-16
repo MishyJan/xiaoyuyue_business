@@ -429,17 +429,14 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         phoneNum = phoneNum.replace(/\(/, '');
         phoneNum = phoneNum.replace(/\)/, '');
         phoneNum = phoneNum.replace(/-/, '');
-        console.log(phoneNum);
         return phoneNum;
     }
     private getStartBusinessHour(): string {
         const startBusinessHour = $('#startBusinessHour').val() + '';
-        console.log(startBusinessHour);
         return startBusinessHour;
     }
     private getEndBusinessHour(): string {
         const endBusinessHour = $('#endBusinessHour').val() + '';
-        console.log(endBusinessHour);
         return endBusinessHour;
     }
 

@@ -2,8 +2,8 @@
     <div class="bscroll-content">
         <!-- 顶部提示信息 -->
         <div class="top-tip" *ngIf="isNeedPullDownRefresh">
-            <span class="refresh-hook" *ngIf="!isPullingDown">下拉刷新数据</span>
-            <span class="refresh-hook" *ngIf="isPullingDown">
+            <span class="refresh-hook" *ngIf="!scrollStatusOutput.pulledDownActive">下拉刷新数据</span>
+            <span class="refresh-hook" *ngIf="scrollStatusOutput.pulledDownActive">
                 <i class="fa fa-spin fa-spinner"></i> 正在刷新...
             </span>
         </div>
@@ -13,8 +13,9 @@
         2、这里有一种情况,就是没有更多数据时,这里的文本应该显示"暂无更多数据"
       -->
         <div class="bottom-tip" *ngIf="isNeedPullUpLoad">
-            <span class="loading-hook" *ngIf="!isPullingUp">上拉加载更多</span>
-            <span class="loading-hook" *ngIf="isPullingUp">
+            <span class="loading-hook" *ngIf="scrollStatusOutput.noMore">我也是有底线的</span>
+            <span class="loading-hook" *ngIf="scrollStatusOutput.noMore ? false : !scrollStatusOutput.pulledUpActive">上拉加载更多</span>
+            <span class="loading-hook" *ngIf="scrollStatusOutput.noMore ? false : scrollStatusOutput.pulledUpActive">
                 <i class="fa fa-spin fa-spinner"></i> 正在加载...
             </span>
         </div>

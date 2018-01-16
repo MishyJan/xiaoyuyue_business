@@ -153,8 +153,8 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
             return;
         }
         this.bookingId = bookingId;
-        this.loadData();
         this.modal.show();
+        this.loadData();
         this.isFreshenData = false;
     }
 

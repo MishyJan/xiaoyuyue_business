@@ -1,5 +1,12 @@
 .booking-detail {
     width: 100%;
+    height: calc(100vh - 55px);
+    position: absolute;
+    top: 55px;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     .command-wrap {
         display: flex;
         padding: 10px 0;

@@ -10,6 +10,7 @@ import { ListScrollService } from 'shared/services/list-scroll.service';
 import { Router } from '@angular/router';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 
 @Component({
     selector: 'xiaoyuyue-outlet-list',
@@ -18,8 +19,14 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     animations: [accountModuleAnimation()],
 })
 export class OutletListComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    scrollStatusOutput: ScrollStatusOutput;
+    updateDataIndex = -1;
+    // 将单次获取到的数据，追加到数组，作用：上拉加载功能
+    allOutletsResultData: any[] = [];
+    // 单次获取数据
+    outletsResultData: OutletListDto[] = [];
+
     outletName: string;
-    allOutlets: OutletListDto[] = [];
     contactInfo: ContactorEditDto;
 
     listParam = new BaseLsitDataInputDto();
@@ -48,26 +55,61 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
         this.loadData();
     }
 
-    loadData(): void {
+    // scrollHandleBack: 接收一个回调函数，控制下拉刷新，上拉加载的状态
+    loadData(scrollHandleBack?: any): void {
         this._outletServiceServiceProxy
             .getOutlets(this.outletName, this.listParam.Sorting, this.listParam.MaxResultCount, this.listParam.SkipCount)
             .finally(() => {
                 this.searching = false;
-                this._listScrollService.pullDownFinished.emit(true);
+                scrollHandleBack && scrollHandleBack();
             })
             .subscribe(result => {
                 this.listParam.TotalItems = result.totalCount;
-                this.allOutlets = result.items;
+                this.outletsResultData = result.items;
+                if (this.outletsResultData.length > 0 && this.updateDataIndex < 0) {
+                    this.allOutletsResultData.push(this.outletsResultData);
+                } else {
+                    this.allOutletsResultData[this.updateDataIndex] = this.outletsResultData;
+                }
             });
     }
 
     pullDownRefresh(): void {
-        this._listScrollService.pullDownFinished.emit(false);
-        this.loadData();
+        this.updateDataIndex = 0;
+        this.listParam.SkipCount = 0;
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledDownActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.loadData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.pulledDownActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
     }
 
-    pullUpRefresh(): void {
-        this._listScrollService.pullDownFinished.emit(true);
+    pullUpLoad(): void {
+        this.updateDataIndex = -1;
+        let totalCount = 0;
+        this.allOutletsResultData.forEach(organizationBookingResultData => {
+            organizationBookingResultData.forEach(element => {
+                totalCount++;
+            });
+        });
+        this.listParam.SkipCount = totalCount;
+        if (this.listParam.SkipCount >= this.listParam.TotalItems) {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.noMore = true;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+            return;
+        }
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledUpActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.loadData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.pulledUpActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
     }
 
     createOutlet(): void {
