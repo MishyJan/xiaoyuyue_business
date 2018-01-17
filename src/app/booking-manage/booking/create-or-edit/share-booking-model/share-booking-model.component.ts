@@ -12,7 +12,7 @@ declare const FB: any; // Facebook API
   selector: 'xiaoyuyue-share-booking-model',
   templateUrl: './share-booking-model.component.html',
   styleUrls: ['./share-booking-model.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
   shareUrl = '';

@@ -4,8 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { BookingItemEditDto } from 'shared/service-proxies/service-proxies';
-import { Location } from '@angular/common';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-time-info',
@@ -112,7 +112,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
                 const bookingItem = new BookingItemEditDto();
                 bookingItem.maxBookingNum = this.editingBookingItem.maxBookingNum;
                 bookingItem.maxQueueNum = this.editingBookingItem.maxQueueNum;
-                bookingItem.availableDates = this.editingBookingItem.availableDates;
+                bookingItem.availableDates = this.replaceSeparator4Save(this.editingBookingItem.availableDates);
                 bookingItem.hourOfDay = allBookingTimeItem[i];
                 bookingItem.isActive = true;
                 if (!this.bookingId) {
@@ -123,8 +123,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         } else {
             this.editingBookingItem.isActive = true;
             this.editingBookingItem.hourOfDay = allBookingTimeItem[0];
-            const reg = new RegExp('; ', 'g');
-            this.editingBookingItem.availableDates = this.editingBookingItem.availableDates.replace(reg, ',');
+            this.editingBookingItem.availableDates = this.replaceSeparator4Save(this.editingBookingItem.availableDates);
             this.timeInfo.push(this.editingBookingItem);
         }
 
@@ -213,8 +212,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.editingBookingItem.id = temp.id;
         this.editingBookingItem.maxBookingNum = temp.maxBookingNum;
         this.editingBookingItem.maxQueueNum = temp.maxQueueNum;
-        const reg = new RegExp(',', 'g');
-        this.editingBookingItem.availableDates = temp.availableDates.replace(reg, '; ');
+        this.editingBookingItem.availableDates = this.replaceSeparator4Edit(temp.availableDates);
         if (this.editingBookingItem.availableDates.split(';').length > 1) {
             this.isMultipleDateFlag = true;
         }
@@ -289,5 +287,15 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
             allBookingTime.push(date);
         }
         return allBookingTime;
+    }
+
+    replaceSeparator4Save(availableDates: string): string {
+        const reg = new RegExp('; ', 'g');
+        return availableDates.replace(reg, ',');
+    }
+
+    replaceSeparator4Edit(availableDates: string): string {
+        const reg = new RegExp(',', 'g');
+        return availableDates.replace(reg, '; ');
     }
 }

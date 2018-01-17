@@ -316,7 +316,6 @@
         border-radius: 2px;
         .modal-content {
             border-radius: 4px;
-            overflow: hidden;
             .btn-white {
                 color: #FF9641;
                 background-color: #FFF;
@@ -374,7 +373,7 @@
             font-size: 18px;
         }
     }
-    .booking-content + .booking-content { 
+    .booking-content+.booking-content {
         padding-top: 0;
     }
     .booking-content {
