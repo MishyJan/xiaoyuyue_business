@@ -72,6 +72,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         document.addEventListener('click', () => {
             this.hideMoveGroupTemplate();
             this.hideUpdatePicInput();
+            this.closeCreatePicGroup();
         });
     }
 
@@ -170,7 +171,8 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
 
     //  创建分组显示输入框
-    showCreatePicInput(): void {
+    showCreatePicInput(event: Event): void {
+        event.stopPropagation();
         this.picGroupCreating = true;
         setTimeout(() => {
             $('#newGroupName').trigger('focus');
