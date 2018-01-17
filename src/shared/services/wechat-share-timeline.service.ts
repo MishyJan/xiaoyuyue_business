@@ -37,7 +37,7 @@ export class WeChatShareTimelineService {
                 timestamp: timestamp,
                 nonceStr: nonceStr,
                 signature: result.signature,
-                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage',]
+                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
             });
 
             wx.ready(function () {
