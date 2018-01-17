@@ -98,10 +98,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="sub-item text-overflow" (click)="showCreatePicInput()"><span class="vapps-icon-app-add-booking-item add-icon"></span> {{ l('PictureGallery.CreateGroup') }}</p>
+                                        <p class="sub-item text-overflow" (click)="showCreatePicInput($event)">
+                                            <span class="vapps-icon-app-add-booking-item add-icon"></span> {{ l('PictureGallery.CreateGroup') }}</p>
                                         <p class="sub-item text-overflow new-group" *ngIf="picGroupCreating">
                                             <input type="text" placeholder="{{ l('PictureGallery.GroupName') }}" id="newGroupName" name="newGroupName" [(ngModel)]="picGroupInputDto.name"
-                                                (keyup.enter)="createPicGroupService()" (blur)="closeCreatePicGroup()">
+                                                (keyup.enter)="createPicGroupService()"
+                                                (click)="event = $event; event.stopPropagation();">
+                                            <span class="vapps-icon-app-confirm" (click)="createPicGroupService()" title="{{ l('PictureGallery.SaveGroup') }}"></span>
                                         </p>
                                     </div>
                                 </div>
