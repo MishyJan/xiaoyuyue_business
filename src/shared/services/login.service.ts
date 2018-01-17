@@ -352,14 +352,14 @@ export class LoginService {
             // .catch((error: any) => {
             //     UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
             //     this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-            //     const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+            //     const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
             //     location.href = initialUrl;
             //     return Observable.throw(error);
             // })
             .subscribe(() => {
                 UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
                 this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-                const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+                const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
                 location.href = initialUrl;
             });
 
