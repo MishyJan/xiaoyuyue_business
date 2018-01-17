@@ -56,8 +56,8 @@
                 </div>
             </div>
 
-            <div class="col-lg-12 outlet-list-wrap" *ngIf="allOutlets.length>0; else empty">
-                <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of allOutlets | paginate: { itemsPerPage: listParam.MaxResultCount, currentPage: listParam.CurrentPage,totalItems: totalItems }">
+            <div class="col-lg-12 outlet-list-wrap" *ngIf="outletsResultData.length>0; else empty">
+                <div class="col-lg-3 col-md-4 col-sm-4 outlet-item clearfix" *ngFor="let outletItem of outletsResultData | paginate: { itemsPerPage: listParam.MaxResultCount, currentPage: listParam.CurrentPage,totalItems: totalItems }">
                     <div class="item box-shadow">
                         <div class="top-wrap box-shadow" [ngStyle]="{'background-image': 'url(' + getOutletBgUrl(outletItem.pictureUrl) + ')'}">
                         </div>
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-12 pagination-wrap" *ngIf="allOutlets.length>0">
+            <div class="col-lg-12 pagination-wrap" *ngIf="outletsResultData.length>0">
                 <div class="pull-right">
                     <div class="has-text-centered">
                         <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
