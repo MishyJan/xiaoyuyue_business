@@ -7,6 +7,7 @@ import { Params, Router } from '@angular/router';
 
 import { AppConsts } from '@shared/AppConsts';
 import { CookiesService } from 'shared/services/cookies.service';
+import { LocalizationService } from 'abp-ng2-module/src/localization/localization.service';
 import { LogService } from '@abp/log/log.service';
 import { MessageService } from '@abp/message/message.service';
 import { Observable } from 'rxjs/Observable';
@@ -45,6 +46,9 @@ export class ExternalLoginProvider extends ExternalLoginProviderInfoModel {
 @Injectable()
 export class LoginService {
     static readonly twoFactorRememberClientTokenName = 'TwoFactorRememberClientToken';
+
+    localizationSourceName = AppConsts.localization.defaultLocalizationSourceName;
+    commonlocalizationSourceName = AppConsts.localization.commonLocalizationSourceName;
     outputUa: any;
     throwException: any;
     jsonParseReviver: any;
@@ -54,6 +58,7 @@ export class LoginService {
     rememberMe: boolean;
 
     constructor(
+        private _localization: LocalizationService,
         private _tokenAuthService: TokenAuthServiceProxy,
         private _router: Router,
         private _messageService: MessageService,
@@ -249,9 +254,17 @@ export class LoginService {
 
                 FB.getLoginStatus(response => {
                     this.facebookLoginStatusChangeCallback(response);
+                    if (response.status !== 'connected') {
+                        callback();
+                    }
                 });
 
-                callback();
+                FB.Event.subscribe('auth.login', response => {
+                    this.facebookLoginStatusChangeCallback(response);
+                    if (response.status !== 'connected') {
+                        callback();
+                    }
+                });
             });
         } else if (loginProvider.name === ExternalLoginProvider.GOOGLE) {
             jQuery.getScript('https://apis.google.com/js/api.js', () => {
@@ -276,6 +289,7 @@ export class LoginService {
     }
 
     private facebookLoginStatusChangeCallback(resp) {
+        debugger;
         if (resp.status === 'connected') {
             const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.FACEBOOK;
@@ -286,7 +300,7 @@ export class LoginService {
                 .finally(() => { this.hideLoading(); })
                 .subscribe((result: ExternalAuthenticateResultModel) => {
                     if (result.waitingForActivation) {
-                        this._messageService.info('您已成功注册,请完善基本信息!');
+                        this._messageService.info(this.l('RegisterSuccessAndNeed2PerfectInfo'));
                         return;
                     }
                     this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
@@ -305,7 +319,7 @@ export class LoginService {
                 .finally(() => { this.hideLoading(); })
                 .subscribe((result: ExternalAuthenticateResultModel) => {
                     if (result.waitingForActivation) {
-                        this._messageService.info('您已成功注册,请完善基本信息!');
+                        this._messageService.info(this.l('RegisterSuccessAndNeed2PerfectInfo'));
                         return;
                     }
                     this.login(result.tenantId, result.accessToken, result.encryptedAccessToken, result.expireInSeconds, true);
@@ -338,14 +352,14 @@ export class LoginService {
             // .catch((error: any) => {
             //     UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
             //     this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-            //     const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+            //     const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
             //     location.href = initialUrl;
             //     return Observable.throw(error);
             // })
             .subscribe(() => {
                 UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
                 this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-                const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+                const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
                 location.href = initialUrl;
             });
 
@@ -384,4 +398,22 @@ export class LoginService {
         $('#externalLoading').remove();
     }
 
+    l(key: string, ...args: any[]): string {
+        let localizedText = this._localization.localize(key, this.localizationSourceName);
+
+        if (localizedText === key) {
+            localizedText = this._localization.localize(key, this.commonlocalizationSourceName);
+        }
+
+        if (!localizedText) {
+            localizedText = key;
+        }
+
+        if (!args || !args.length) {
+            return localizedText;
+        }
+
+        args.unshift(localizedText);
+        return abp.utils.formatString.apply(this, args);
+    }
 }

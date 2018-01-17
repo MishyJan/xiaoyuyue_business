@@ -1,8 +1,10 @@
 ﻿import * as _ from 'lodash';
 
+import { ChangeUserLanguageDto, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
 import { Component, Injector, OnInit } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { CookiesService } from 'shared/services/cookies.service';
 
 @Component({
@@ -16,7 +18,9 @@ export class LanguageSwitchComponent extends AppComponentBase implements OnInit 
     languages: abp.localization.ILanguageInfo[] = [];
 
     constructor(injector: Injector,
-        private _cookiesService: CookiesService) {
+        private _sessionService: AppSessionService,
+        private _cookiesService: CookiesService,
+        private _profileServiceProxy: ProfileServiceProxy) {
         super(injector);
     }
 
@@ -26,13 +30,26 @@ export class LanguageSwitchComponent extends AppComponentBase implements OnInit 
     }
 
     changeLanguage(language: abp.localization.ILanguageInfo) {
-        this._cookiesService.setCookieValue(
+        // 登陆状态下修改默认语言
+        if (this._sessionService.user) {
+            const input = new ChangeUserLanguageDto();
+            input.languageName = language.name;
+
+            this._profileServiceProxy.changeLanguage(input).subscribe(() => {
+                this.setLanguageCookies(language.name)
+            });
+        } else {
+            this.setLanguageCookies(language.name)
+        }
+    }
+
+    setLanguageCookies(languageName: string) {
+        abp.utils.setCookieValue(
             'Abp.Localization.CultureName',
-            language.name,
-            new Date(new Date().getTime() + 5 * 365 * 86400000), // 5 year
+            languageName,
+            new Date(new Date().getTime() + 5 * 365 * 86400000), //5 year
             abp.appPath
         );
-
         location.reload();
     }
 }

@@ -78,7 +78,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
                 const appid = externalLoginProviders[i].clientId;
                 const redirect_url = AppConsts.userCenterUrl + '/auth/external' + '?providerName=' + ExternalLoginProvider.WECHATMP + '&isAuthBind=' + this.isAuthBind;
                 const response_type = 'code';
-                const scope = 'snsapi_userinfo';
+                const scope = 'snsapi_base';
 
                 const authUrl = `${authBaseUrl}?appid=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&response_type=${response_type}&scope=${scope}#wechat_redirect`;
                 window.location.href = authUrl;
@@ -91,7 +91,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
         if (!this._sessionService.user) { return; }
         UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
         this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-        const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/user/home';
+        const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
         location.href = initialUrl;
     }
 }
