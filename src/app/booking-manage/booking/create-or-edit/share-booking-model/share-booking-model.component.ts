@@ -12,7 +12,7 @@ declare const FB: any; // Facebook API
   selector: 'xiaoyuyue-share-booking-model',
   templateUrl: './share-booking-model.component.html',
   styleUrls: ['./share-booking-model.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class ShareBookingModelComponent extends AppComponentBase implements OnInit {
   shareUrl = '';
@@ -31,6 +31,7 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   }
 
   ngOnInit() {
+
   }
 
   show(bookingId?: number): void {
@@ -142,6 +143,11 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
     const s = [];
     for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
     return s;
+  }
+
+
+  onHidden() {
+    this._router.navigate(['/booking/list']);
   }
 
   // 单击复制文本

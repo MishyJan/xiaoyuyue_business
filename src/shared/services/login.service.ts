@@ -118,8 +118,8 @@ export class LoginService {
                         scope: 'snsapi_login',
                         redirect_uri: AppConsts.appBaseUrl + AppConsts.externalLoginUrl + '?providerName=' + ExternalLoginProvider.WECHAT, /*暂用测试域名*/
                         state: 'xiaoyuyue',
-                        style: 'black',
-                        href: 'https://static.vapps.com.cn/vappszero/wechat-login.css'
+                        style: 'white',
+                        // href: 'https://static.vapps.com.cn/vappszero/wechat-login.css'
                     });
                 });
             } else if (provider.name === ExternalLoginProvider.QQ) {
