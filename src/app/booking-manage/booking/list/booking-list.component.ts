@@ -6,6 +6,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
+import { BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
@@ -17,13 +18,12 @@ import { MobileShareBookingModelComponent } from './shared/mobile-share-booking-
 import { Moment } from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 import { SelectHelperService } from 'shared/services/select-helper.service';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
-import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 
 @Component({
     selector: 'app-manage-booking',
