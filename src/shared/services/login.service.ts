@@ -349,13 +349,16 @@ export class LoginService {
         model.providerAccessCode = params['code'];
         model.providerKey = params['code'];
         this._tokenAuthService.externalBinding(model)
-            // .catch((error: any) => {
-            //     UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
-            //     this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-            //     const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
-            //     location.href = initialUrl;
-            //     return Observable.throw(error);
-            // })
+            .catch((error: any) => {
+                UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
+                this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
+                const initialUrl: string = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
+                const tempUrl = initialUrl.split(AppConsts.appBaseUrl)[1];
+                this._messageService.confirm(error.message, () => {
+                    this._router.navigate([tempUrl]);
+                });
+                return Observable.throw(error);
+            })
             .subscribe(() => {
                 UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
                 this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');

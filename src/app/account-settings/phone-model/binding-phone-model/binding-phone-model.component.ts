@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { ProfileServiceProxy, CodeSendInput, SMSServiceProxy, BindingPhoneNumInput } from '@shared/service-proxies/service-proxies';
+import { ProfileServiceProxy, CodeSendInput, BindingPhoneNumInput } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { VerificationCodeType } from 'shared/AppEnums';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-binding-phone-model',
@@ -20,7 +21,7 @@ export class BindingPhoneModelComponent extends AppComponentBase implements OnIn
     constructor(
         private injector: Injector,
         private _profileServiceProxy: ProfileServiceProxy,
-        private _SMSServiceProxy: SMSServiceProxy
+        public _sessionService: AppSessionService
     ) {
         super(injector);
     }
@@ -44,6 +45,7 @@ export class BindingPhoneModelComponent extends AppComponentBase implements OnIn
             .bindingPhoneNum(input)
             .subscribe(result => {
                 this.notify.success(this.l('Binding.Success.Hint'));
+                this._sessionService.init();
                 abp.event.trigger('getUserSecurityInfo');
                 this.hide();
             })

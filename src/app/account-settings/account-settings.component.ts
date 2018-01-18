@@ -87,7 +87,6 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
                 const scope = 'get_user_info';
 
                 const authUrl = `${authBaseUrl}?client_id=${appid}&response_type=${response_type}&scope=${scope}&redirect_uri=${encodeURIComponent(redirect_url)}&display=`;
-
                 window.location.href = authUrl;
             }
         }

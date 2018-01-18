@@ -16,60 +16,41 @@ import { BindingPhoneNumInput, ChangeBindingPhoneNumInput, CheckUserCodeInput, S
 export class PhoneComponent extends AppComponentBase implements OnInit {
 
     bindingPhoneNumInput: BindingPhoneNumInput = new BindingPhoneNumInput();
-    isVerified = false;
     phoneNum: string;
     code: string;
-    changeBindingPhoneNumInput: ChangeBindingPhoneNumInput = new ChangeBindingPhoneNumInput();
-    checkUserCodeInput: CheckUserCodeInput = new CheckUserCodeInput();
     unbindingCodeType: VerificationCodeType = VerificationCodeType.PhoneUnBinding;
     bindingCodeType: VerificationCodeType = VerificationCodeType.PhoneBinding;
-    @ViewChild('smsBtn') smsBtn: ElementRef;
 
     constructor(
         injector: Injector,
         private _location: Location,
-        private _SMSServiceProxy: SMSServiceProxy,
         private _profileServiceProxy: ProfileServiceProxy,
-        private _sessionService: AppSessionService,
+        public sessionService: AppSessionService,
     ) {
         super(injector);
-        this.phoneNum = this._sessionService.user.phoneNumber;
     }
 
     ngOnInit() {
     }
 
-    verificationPhoneNum(): void {
-        this.checkUserCodeInput.code = this.code;
-        this.checkUserCodeInput.codeType = VerificationCodeType.PhoneUnBinding;
-        this._SMSServiceProxy
-            .checkCodeByCurrentUser(this.checkUserCodeInput)
-            .subscribe(() => {
-                this.isVerified = true;
-            })
-    }
-
-    changeBindPhone(): void {
-        this.changeBindingPhoneNumInput.validCode = this.code;
-        this._profileServiceProxy
-            .changeBindingPhoneNum(this.changeBindingPhoneNumInput)
-            .subscribe(() => {
-                this._location.back();
-                setTimeout(() => {
-                    this.notify.success(this.l('ChangeBinding.Success.Hint'));
-                }, 1000);
-            });
-    }
-
     bindPhone(): void {
-        this.changeBindingPhoneNumInput.validCode = this.code;
         this._profileServiceProxy
             .bindingPhoneNum(this.bindingPhoneNumInput)
             .subscribe(() => {
+                this.sessionService.init();
                 this._location.back();
                 setTimeout(() => {
                     this.notify.success(this.l('Binding.Success.Hint'));
                 }, 1000);
             });
+    }
+
+    unbindPhone(): void {
+        this._profileServiceProxy
+            .unBindingPhoneNum(this.code)
+            .subscribe(() => {
+                this.sessionService.init();
+                this.notify.success('解绑成功');
+            })
     }
 }
