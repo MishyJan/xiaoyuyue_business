@@ -131,7 +131,7 @@
                                             <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)-2+'px'}"></span>
                                         </div>
                                     </div>
-                                    <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)}}%
+                                    <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)}}%
                                     </div>
                                 </div>
                                 <div class="booking-info pull-right">
@@ -279,7 +279,8 @@
 
     <div *showItBootstrap="['xs','sm']">
         <div class="mobile-manage-booking">
-            <xiaoyuyue-list-scroll [height]="'calc(100vh - 55px)'" [isNeedPullUpLoad]="'true'" [isNeedPullDownRefresh]="'true'" (finishPullUpHandle)="pullUpLoad()" (finishPullDownHandle)="pullDownRefresh()">
+            <xiaoyuyue-list-scroll [height]="'calc(100vh - 55px)'" [isNeedPullUpLoad]="'true'" [isNeedPullDownRefresh]="'true'" (finishPullUpHandle)="pullUpLoad()"
+                (finishPullDownHandle)="pullDownRefresh()">
                 <div class="content">
                     <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
                         <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
@@ -294,7 +295,7 @@
                                         </div>
                                         <div class="content">
                                             <div class="flex-left">
-                                                <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)"
+                                                <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)"
                                                     [class]="'booking-overbrim indicator-container-'+bookingResultItem.id">
                                                 </div>
                                             </div>
