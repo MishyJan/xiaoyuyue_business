@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
-import { ProfileServiceProxy, CodeSendInput, SMSServiceProxy, BindingPhoneNumInput } from '@shared/service-proxies/service-proxies';
+import { BindingPhoneNumInput, CodeSendInput, ProfileServiceProxy, SMSServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { ModalDirective } from 'ngx-bootstrap';
 import { VerificationCodeType } from 'shared/AppEnums';
 
 @Component({
@@ -37,7 +38,7 @@ export class BindingPhoneModelComponent extends AppComponentBase implements OnIn
     }
 
     bindingPhone(): void {
-        let input = new BindingPhoneNumInput();
+        const input = new BindingPhoneNumInput();
         input.phoneNum = this.model.targetNumber;
         input.code = this.code;
         this._profileServiceProxy

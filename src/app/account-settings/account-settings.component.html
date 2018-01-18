@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            <div class="row"> 
+            <div class="row">
                 <div class="security-info col-lg-6">
                     <div class="card">
                         <div class="form-horizontal">
@@ -41,8 +41,8 @@
                                         <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber" appStringEncrypt>{{ userSecurityInfo.phoneNumber }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">{{ l('Revise') }}</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.phoneNumber" (click)="showBindingPhoneModel()">{{ l('Setting') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">{{ l('Change') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.phoneNumber" (click)="showBindingPhoneModel()">{{ l('Binding') }}</button>
                                     </div>
                                 </div>
 
@@ -54,7 +54,7 @@
                                     </p>
                                     <div class="right-item pull-right">
                                         <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.emailAddress" (click)="showBindingEmailModel()">{{ l('Setting') }}</button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.emailAddress" (click)="showChangeEmailModel()">{{ l('Revise') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.emailAddress" (click)="showChangeEmailModel()">{{ l('Binding') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@
                                             <i></i>
                                             <span>{{ l('Security.Unbind') }}</span>
                                         </button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.weChat" (click)="bindWeChat()">{{ l('Security.Binding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.weChat" (click)="bindWeChat()">{{ l('Binding') }}</button>
                                     </div>
                                 </div>
                                 <div class="verify-qq content-item clearfix">
@@ -100,7 +100,7 @@
                                             <i></i>
                                             <span>{{ l('Security.Unbind') }}</span>
                                         </button>
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Security.Binding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Binding') }}</button>
                                     </div>
                                 </div>
 

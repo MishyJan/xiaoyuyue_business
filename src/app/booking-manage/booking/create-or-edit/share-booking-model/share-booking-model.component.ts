@@ -31,6 +31,7 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   }
 
   ngOnInit() {
+
   }
 
   show(bookingId?: number): void {
@@ -142,6 +143,11 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
     const s = [];
     for (const i in para) { s.push(i + '=' + encodeURIComponent(para[i] || '')); }
     return s;
+  }
+
+
+  onHidden() {
+    this._router.navigate(['/booking/list']);
   }
 
   // 单击复制文本

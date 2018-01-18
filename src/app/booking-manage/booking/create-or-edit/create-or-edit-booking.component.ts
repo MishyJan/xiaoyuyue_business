@@ -213,12 +213,16 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.clearLoadingStatus();
             })
             .subscribe((result) => {
-                this.bookingId = result.id;
+                // this.bookingId = result.id;
                 abp.event.trigger('bookingListSelectChanged');
                 this.removeTempCache(); // 清理缓存数据
+
                 if (saveAndEdit) {
                     this.notify.success(this.l('SavaSuccess'));
-                    return;
+                    if (this.bookingId > 0) {
+                        return;
+                    }
+                    this._router.navigate([this.getBookingEditUrl(result.id)]);
                 }
 
                 if (this.isMobile($('.mobile-create-booking'))) {
@@ -513,5 +517,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 url: `/pages/business-center/business-center?route=${encodeURIComponent(url)}`
             })
         }
+    }
+
+    getBookingEditUrl(bookingId: number): string {
+        return `/booking/edit/${bookingId}`;
     }
 }

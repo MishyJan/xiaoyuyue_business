@@ -19,7 +19,7 @@ export class MobileHeaderDirective implements OnInit {
 
     ngOnInit(): void {
 
-    } ac
+    }
 
     refreshState(): void {
         if (!this._$titleSpan) {

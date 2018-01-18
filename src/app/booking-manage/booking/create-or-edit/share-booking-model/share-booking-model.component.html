@@ -1,6 +1,6 @@
 <div class="share-booking">
     <div bsModal #shareBookingModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="shareBookingModel"
-        aria-hidden="true">
+        aria-hidden="true" (onHidden)="onHidden()">
         <div class="modal-dialog">
             <div class="xiaoyuyue-title-box">{{slogen}}</div>
             <div class="modal-content">
