@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as wangEditor from 'wangeditor/release/wangEditor.js'
 
-import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { LanguageServiceProxy } from './../../../../shared/service-proxies/service-proxies';
@@ -17,7 +17,7 @@ const Base64 = require('js-base64').Base64;
     encapsulation: ViewEncapsulation.None
 })
 
-export class WangEditorComponent implements AfterViewInit, OnChanges {
+export class WangEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
     private editor: any;
     private transformHtml: string;
@@ -34,14 +34,17 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         private _uploadPictureService: UploadPictureService) {
 
     }
+    ngOnInit() {
+    }
     ngAfterViewInit(): void {
+
         this.initEditor();
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.editor && this.baseInfoDesc) {
+            this.transformHtml = this.baseInfoDesc;
             this.editor.txt.html(this.baseInfoDesc);
-            this.editorOnChange(this.baseInfoDesc);
         }
     }
 
@@ -52,7 +55,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     public getBaseInfoDesc() {
-        this.editorOnChange(this.editor.txt.html());
+        this.sendEditorHTMLContent.emit(this.editor.txt.html());
     }
 
     initEditor() {
@@ -116,6 +119,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             this.oldpictures = this.newpictures;
             this.newpictures = [];
         }
+        // this.editor.txt.html(this.transformHtml);
         this.sendEditorHTMLContent.emit(this.transformHtml);
     }
 
