@@ -1,4 +1,4 @@
-import { AccountServiceProxy, BindingEmailInput, ChangeBindingEmailInput, CheckEmailCodeInput, ProfileServiceProxy, SMSServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AccountServiceProxy, BindingEmailInput, CheckEmailCodeInput, ProfileServiceProxy, SMSServiceProxy } from '@shared/service-proxies/service-proxies';
 import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { SendCodeType, VerificationCodeType } from 'shared/AppEnums';
 
@@ -18,7 +18,7 @@ export class EmailComponent extends AppComponentBase implements OnInit {
     bindingEmailInput: BindingEmailInput = new BindingEmailInput();
     sendCodeType: number = SendCodeType.Email;
     bindingEmailCodeType = VerificationCodeType.EmailBinding;
-    unbindingEmailCodeType = VerificationCodeType.ChangeEmail;
+    unbindingEmailCodeType = VerificationCodeType.EmailUnbinding;
     code: string;
     emailAddress: string;
 
