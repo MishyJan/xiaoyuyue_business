@@ -125,10 +125,10 @@
                             <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
                             <div class="content clearfix">
                                 <div class="pull-left">
-                                    <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)">
+                                    <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)">
                                         <div class="wave">
-                                            <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)+'px'}"></span>
-                                            <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subBookedNum)-2+'px'}"></span>
+                                            <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)+'px'}"></span>
+                                            <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)-2+'px'}"></span>
                                         </div>
                                     </div>
                                     <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)}}%
