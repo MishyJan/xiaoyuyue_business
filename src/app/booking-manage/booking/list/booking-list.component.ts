@@ -402,7 +402,14 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     onPageChange(index: number): void {
         this.listParam.CurrentPage = index;
         this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
+        this.resetFlipBack();
         this.loadData();
+    }
+
+    private resetFlipBack(): void {
+        this.flipIsToBackFlag.forEach((element, index) => {
+            this.flipIsToBackFlag[index] = false;
+        });
     }
 
     batchConfirmStateHanlder(batchConfirmState: boolean): void {
