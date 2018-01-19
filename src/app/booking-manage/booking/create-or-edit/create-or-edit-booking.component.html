@@ -63,7 +63,7 @@
                                 <div class="col-md-9">
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
-                                        <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="input.booking.description"></xiaoyuyue-wang-editor>
+                                        <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="baseInfoDesc"></xiaoyuyue-wang-editor>
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@
                                 <div class="col-sm-7">
                                     <div class="form-group label-floating">
                                         <!-- <label class="control-label" style="top: 14px;left: 2px;font-size: 14px;"><span *ngIf="!baseInfo.description || baseInfo.description == '<p><br></p>'">预约简介</span></label> -->
-                                        <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="input.booking.description"></xiaoyuyue-wang-editor>
+                                        <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="baseInfoDesc"></xiaoyuyue-wang-editor>
                                     </div>
                                 </div>
                             </div>

@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import * as wangEditor from 'wangeditor/release/wangEditor.js'
 
-import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
 import { AbpSessionService } from '@abp/session/abp-session.service';
 import { LanguageServiceProxy } from './../../../../shared/service-proxies/service-proxies';
@@ -17,7 +17,7 @@ const Base64 = require('js-base64').Base64;
     encapsulation: ViewEncapsulation.None
 })
 
-export class WangEditorComponent implements AfterViewInit, OnChanges {
+export class WangEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
     private editor: any;
     private transformHtml: string;
@@ -34,14 +34,17 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         private _uploadPictureService: UploadPictureService) {
 
     }
+    ngOnInit() {
+    }
     ngAfterViewInit(): void {
+
         this.initEditor();
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.editor && this.baseInfoDesc) {
+            this.transformHtml = this.baseInfoDesc;
             this.editor.txt.html(this.baseInfoDesc);
-            this.editorOnChange(this.baseInfoDesc);
         }
     }
 
@@ -49,6 +52,10 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         if ('<p><br></p>' === this.editor.txt.html()) { return; }
 
         this.editorOnChange(this.editor.txt.html());
+    }
+
+    public getBaseInfoDesc() {
+        this.sendEditorHTMLContent.emit(this.editor.txt.html());
     }
 
     initEditor() {
@@ -112,6 +119,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
             this.oldpictures = this.newpictures;
             this.newpictures = [];
         }
+        // this.editor.txt.html(this.transformHtml);
         this.sendEditorHTMLContent.emit(this.transformHtml);
     }
 
@@ -251,7 +259,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
 
     clearPicture() {
         const picture2Delete: string[] = [];
-        for (let i of this.oldpictures) {
+        for (const i of this.oldpictures) {
             if (!this.getPictureByUrl(this.newpictures, i.url)) {
                 picture2Delete.unshift(i.url);
             }
@@ -268,7 +276,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     getPictureByUrl(pictures: PictureEditDto[], url: string): PictureEditDto {
-        for (let picture of pictures) {
+        for (const picture of pictures) {
             if (picture.url === url) {
                 return picture;
             }
@@ -277,7 +285,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     getPictureByBase64(pictures: PictureEditDto[], base: string): PictureEditDto {
-        for (let picture of pictures) {
+        for (const picture of pictures) {
             if (picture.picBase === base) {
                 return picture;
             }
@@ -303,8 +311,6 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         return json;
     }
 }
-
-
 
 class PictureEditDto {
     picBase: string;

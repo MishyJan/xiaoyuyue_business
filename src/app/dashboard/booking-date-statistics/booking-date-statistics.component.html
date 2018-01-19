@@ -5,7 +5,8 @@
     </div>
 </div>
 <ng-container *ngIf="bookingStatisticalData.length > 0; else elseTemplate">
-    <div id="bookingDateStatisticEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="dashboard-chart" (chartInit)="onChartInit($event)"></div>
+    <div id="bookingDateStatisticEcharts" echarts [initOpts]="initOptions" [options]="chartOption" [loading]="showloading" theme="shine"
+        class="dashboard-chart" (chartInit)="onChartInit($event)"></div>
 </ng-container>
 <ng-template #elseTemplate>
     <xiaoyuyue-empty-page [text]="slogan" [height]="'380px'"></xiaoyuyue-empty-page>
