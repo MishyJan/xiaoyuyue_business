@@ -68,7 +68,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     outletId = 0;
     bookingName: string;
 
-    listParam = new BaseLsitDataInputDto();
+    listParam: BaseLsitDataInputDto;
     slogan = this.l('Nothing.Need2Create');
 
     copying = false;
@@ -95,6 +95,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _sessionService: AppSessionService
     ) {
         super(injector);
+        this.listParam = new BaseLsitDataInputDto(this._sessionService);
+        this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
     }
 
     ngOnInit() {
@@ -401,8 +403,16 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     onPageChange(index: number): void {
         this.listParam.CurrentPage = index;
+        this.listParam.setPage();
         this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
+        this.resetFlipBack();
         this.loadData();
+    }
+
+    private resetFlipBack(): void {
+        this.flipIsToBackFlag.forEach((element, index) => {
+            this.flipIsToBackFlag[index] = false;
+        });
     }
 
     batchConfirmStateHanlder(batchConfirmState: boolean): void {

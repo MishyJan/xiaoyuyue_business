@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-outlet-list',
@@ -29,7 +30,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     outletName: string;
     contactInfo: ContactorEditDto;
 
-    listParam = new BaseLsitDataInputDto();
+    listParam = new BaseLsitDataInputDto(this._sessionService);
     searching = false;
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
     slogan = this.l('Nothing.Need2Create');
@@ -38,7 +39,9 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
         injector: Injector,
         private _router: Router,
         private _listScrollService: ListScrollService,
-        private _outletServiceServiceProxy: OutletServiceServiceProxy
+        private _outletServiceServiceProxy: OutletServiceServiceProxy,
+        private _sessionService: AppSessionService
+
     ) {
         super(injector);
     }

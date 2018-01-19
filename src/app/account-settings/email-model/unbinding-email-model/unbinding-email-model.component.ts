@@ -17,7 +17,7 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     emailAddress: string;
     code: string;
     model: CodeSendInput = new CodeSendInput();
-    codeType = VerificationCodeType.ChangeEmail;
+    codeType = VerificationCodeType.EmailUnbinding;
     sendCodeType = SendCodeType.Email;
 
     @ViewChild('unbindingEmailModel') unbindingEmailModel: ModalDirective;

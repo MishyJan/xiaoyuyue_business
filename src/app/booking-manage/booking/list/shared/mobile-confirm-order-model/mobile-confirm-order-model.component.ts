@@ -6,6 +6,7 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-mobile-confirm-order-model',
@@ -29,7 +30,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
     phoneNumber: string;
     startMinute: number;
     status: Status[] = [OrgBookingOrderStatus.WaitConfirm];
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
     currentPage: number = 0;
     maxResultCount: number;
 
@@ -38,6 +39,8 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
     constructor(
         private injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
+        private _sessionService: AppSessionService
+
     ) {
         super(injector);
     }

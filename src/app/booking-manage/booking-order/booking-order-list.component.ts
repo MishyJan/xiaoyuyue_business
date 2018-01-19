@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BookingOrderListDtoStatus, PagedResultDtoOfOrgBookingOrderListDto } from '@shared/service-proxies/service-proxies';
-import { DataStateChangeEvent, EditEvent } from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, EditEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Gender, OrgBookingOrderListDto, OrgBookingOrderServiceProxy, OrgBookingServiceProxy, RemarkBookingOrderInput, SelectListItemDto, Status } from 'shared/service-proxies/service-proxies';
 
 import { ActivatedRoute } from '@angular/router';
@@ -16,6 +16,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { SelectHelperService } from 'shared/services/select-helper.service';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -56,7 +57,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     orderStatusSelectList: Object[] = [];
     genderSelectListData: Object[] = this._selectHelper.genderList();
 
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
+    gridParam: BaseGridDataInputDto
     gender: Gender;
     phoneNumber: string;
     endMinute: number;
@@ -90,13 +91,18 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     }
 
     constructor(
+
         injector: Injector,
         private _route: ActivatedRoute,
         private _selectHelper: SelectHelperService,
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
+        private _sessionService: AppSessionService
+
     ) {
         super(injector);
+        this.gridParam = new BaseGridDataInputDto(this._sessionService);
+        this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
     }
 
     ngOnInit() {
@@ -359,6 +365,12 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
         this.hourOfDay = value;
         this.mobileLoadData();
+    }
+
+    public pageChange(event: PageChangeEvent): void {
+        this.gridParam.CurrentPage = (this.gridParam.SkipCount + this.gridParam.MaxResultCount) / this.gridParam.MaxResultCount;
+        this.gridParam.setPage();
+        this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
     }
 
     public onScrollDown(): void {
