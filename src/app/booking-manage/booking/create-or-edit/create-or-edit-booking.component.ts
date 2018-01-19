@@ -210,7 +210,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
         this.getBookingBaseInfo();
         this.wangEditorModel.save(); // 保存编辑器图片到七牛
-        debugger;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => {
@@ -399,6 +398,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                     this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {
                             this.input = editCache;
+                            this.baseInfoDesc = this.input.booking.description;
                             this.originalinput = _.cloneDeep(this.input);
                             this.initFormValidation();
                             this.loadOutletData();
@@ -456,7 +456,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     removeTempCache() {
         this._localStorageService.removeItem(this.getTemCacheItemKey());
     }
-
 
     // 获取临时数据key
     getTemCacheItemKey() {
