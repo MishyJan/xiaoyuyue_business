@@ -1,6 +1,6 @@
-<!-- 验证旧手机  -->
 <div class="current-phone-wrap">
-    <div [@routerTransition] *ngIf="!phoneNum ? false :  !isVerified">
+    <!-- 解绑手机  -->
+    <div [@routerTransition] *ngIf="sessionService.user.phoneNumber">
         <form #currentPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
@@ -10,7 +10,7 @@
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
                             <label class="control-label">{{l('Security.OldTelephone')}}</label>
-                            <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
+                            <span class="form-control" appStringEncrypt>{{ sessionService.user.phoneNumber }}</span>
                         </div>
                     </div>
                 </div>
@@ -20,22 +20,22 @@
                         <div class="form-group label-floating">
                             <label class="control-label">{{l('VerifyCode')}}</label>
                             <input type="text" class="form-control" name="validateCode" [(ngModel)]="code" required>
-                            <xiaoyuyue-send-code [codeType]="unbindingCodeType" [phoneNumber]="phoneNum"></xiaoyuyue-send-code>
+                            <xiaoyuyue-send-code [codeType]="unbindingCodeType" [phoneNumber]="sessionService.user.phoneNumber"></xiaoyuyue-send-code>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <button class="btn btn-block btn-warning" type="submit" (click)="verificationPhoneNum()" [disabled]="!currentPhoneFrom.form.valid">{{l('NextStep')}}</button>
+                        <button class="btn btn-block btn-warning" type="submit" (click)="unbindPhone()" [disabled]="!currentPhoneFrom.form.valid">解绑</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 
-    <!-- 验证旧手机后，绑定新手机 -->
-    <div class="new-phone-wrap" *ngIf="!phoneNum ? false :  isVerified">
+    <!-- 绑定手机 -->
+    <div class="new-phone-wrap" *ngIf="!sessionService.user.phoneNumber">
         <form #newPhoneFrom="ngForm">
             <div class="card">
                 <div class="card-header card-header-text" data-background-color="orange">
@@ -45,44 +45,7 @@
                     <div class="col-sm-12">
                         <div class="form-group label-floating">
                             <label class="control-label">{{l('Security.NewTelephone')}}</label>
-                            <input type="text" class="form-control" name="beforePhone" [(ngModel)]="changeBindingPhoneNumInput.newTelephone" (ngModelChange)="getPhoneNum($event)"
-                                required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group label-floating">
-                            <label class="control-label">{{l('VerifyCode')}}</label>
-                            <input type="text" class="form-control" name="validateCode" [(ngModel)]="changeBindingPhoneNumInput.bundlingCode" required>
-                            <xiaoyuyue-send-code [codeType]="bindingCodeType" [phoneNumber]="changeBindingPhoneNumInput.newTelephone"></xiaoyuyue-send-code>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        <button class="btn btn-block btn-warning" type="submit" (click)="changeBindPhone()" [disabled]="!newPhoneFrom.form.valid">{{l('Confirm')}}</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- 没有绑定过手机，绑定手机 -->
-    <div class="new-phone-wrap" *ngIf="!phoneNum">
-        <form #newPhoneFrom="ngForm">
-            <div class="card">
-                <div class="card-header card-header-text" data-background-color="orange">
-                    <span class="title-icon vapps-icon-app-login-phone"></span>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group label-floating">
-                            <label class="control-label">{{l('Security.NewTelephone')}}</label>
-                            <input type="text" class="form-control" name="beforePhone" [(ngModel)]="bindingPhoneNumInput.phoneNum" (ngModelChange)="getPhoneNum($event)"
-                                required>
+                            <input type="text" class="form-control" name="beforePhone" [(ngModel)]="bindingPhoneNumInput.phoneNum" required>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ProfileServiceProxy, CodeSendInput, SMSServiceProxy, UserSecurityInfoDto } from '@shared/service-proxies/service-proxies';
+import { ProfileServiceProxy, CodeSendInput, UserSecurityInfoDto } from '@shared/service-proxies/service-proxies';
 import { VerificationCodeType, SendCodeType } from 'shared/AppEnums';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
@@ -27,13 +27,11 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     constructor(
         private injector: Injector,
         private _profileServiceProxy: ProfileServiceProxy,
-        private _SMSServiceProxy: SMSServiceProxy,
-        private _appSessionService: AppSessionService
-
+        public _sessionService: AppSessionService
     ) {
         super(injector);
-        this.emailAddress = this._appSessionService.user.emailAddress;
-        this.phoneNum = this._appSessionService.user.phoneNumber;
+        this.emailAddress = this._sessionService.user.emailAddress;
+        this.phoneNum = this._sessionService.user.phoneNumber;
     }
 
     ngOnInit() {
@@ -47,24 +45,14 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     }
 
     unbindingEmail(): void {
-        if (!this.checkMustBinding()) {
-            return;
-        }
         this._profileServiceProxy
             .unBindingEmailAddress(this.code)
             .subscribe(result => {
                 this.notify.success(this.l('RebindingEmail.Success.Hint'));
+                this._sessionService.init();
                 abp.event.trigger('getUserSecurityInfo');
                 this.hide();
                 this.bindingEmailModel.show();
             })
-    }
-
-    private checkMustBinding(): boolean {
-        if (!this.phoneNum) {
-            this.message.error(this.l('UnBindingEmail.RequiredPhoneNumber.Hint'));
-            return false;
-        }
-        return true;
     }
 }

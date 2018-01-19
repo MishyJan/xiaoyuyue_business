@@ -16,6 +16,7 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
     bookingStatisticalCharts;
     bookingStatisticalDate: string;
     chartOption: object = {};
+    initOptions: object = {};
     count = 0;
     showloading = false;
     slogan = this.l('NoData');
@@ -25,6 +26,10 @@ export class BookingDateStatisticsComponent extends AppComponentBase implements 
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
         super(injector);
+
+        this.initOptions = {
+            renderer: "svg"
+        };
     }
 
     ngAfterViewInit() {

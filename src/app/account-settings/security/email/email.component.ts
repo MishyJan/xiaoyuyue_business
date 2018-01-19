@@ -6,6 +6,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { appModuleAnimation } from 'shared/animations/routerTransition';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-email',
@@ -14,60 +15,31 @@ import { appModuleAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleAnimation()]
 })
 export class EmailComponent extends AppComponentBase implements OnInit {
-    checkEmailCodeInput: CheckEmailCodeInput = new CheckEmailCodeInput();
     bindingEmailInput: BindingEmailInput = new BindingEmailInput();
     sendCodeType: number = SendCodeType.Email;
     bindingEmailCodeType = VerificationCodeType.EmailBinding;
-    changeEmailCodeType = VerificationCodeType.ChangeEmail;
-    changeBindingEmailInput: ChangeBindingEmailInput = new ChangeBindingEmailInput();
-    emailAddress: string;
-    encryptEmailAddress: string;
-    isVerified = false;
+    unbindingEmailCodeType = VerificationCodeType.ChangeEmail;
     code: string;
-    @ViewChild('smsBtn') smsBtn: ElementRef;
+    emailAddress: string;
 
     constructor(
         injector: Injector,
         private _router: Router,
         private _location: Location,
-        private _SMSServiceProxy: SMSServiceProxy,
-        private _accountServiceProxy: AccountServiceProxy,
-        private _profileServiceProxy: ProfileServiceProxy
+        private _profileServiceProxy: ProfileServiceProxy,
+        public sessionService: AppSessionService
     ) {
         super(injector);
     }
 
     ngOnInit() {
-        this.getUserPhoneNum();
-    }
-
-    verificationEmailAddress(): void {
-        this.checkEmailCodeInput.code = this.code;
-        this.checkEmailCodeInput.codeType = VerificationCodeType.ChangeEmail;
-        this._accountServiceProxy
-            .checkEmailCodeByCurrentUser(this.checkEmailCodeInput)
-            .subscribe(() => {
-                this.isVerified = true;
-            })
-    }
-
-    changeBindEmail(): void {
-        this.changeBindingEmailInput.validCode = this.code;
-        this._profileServiceProxy
-            .changeBindingEmail(this.changeBindingEmailInput)
-            .subscribe(() => {
-                this._location.back();
-                setTimeout(() => {
-                    this.notify.success(this.l('ChangeBingingSuccess'));
-                }, 1000);
-            });
     }
 
     bindEmailAddress(): void {
-        this.bindingEmailInput.code = this.code;
         this._profileServiceProxy
             .bindingEmailAddress(this.bindingEmailInput)
             .subscribe(() => {
+                this.sessionService.init();
                 this._location.back();
                 setTimeout(() => {
                     this.notify.success(this.l('BingingSuccess'));
@@ -75,20 +47,12 @@ export class EmailComponent extends AppComponentBase implements OnInit {
             });
     }
 
-    getUserPhoneNum(): void {
+    unBindEmailAddress(): void {
         this._profileServiceProxy
-            .getCurrentUserSecurityInfo()
-            .subscribe(result => {
-                this.emailAddress = result.emailAddress;
-                this.emailAddressEncrypt();
+            .unBindingEmailAddress(this.code)
+            .subscribe(() => {
+                this.sessionService.init();
+                this.notify.success('解绑成功');
             })
-    }
-
-
-    private emailAddressEncrypt(): void {
-        if (!this.emailAddress) {
-            return;
-        }
-        this.encryptEmailAddress = '•••••••' + this.emailAddress.substr(this.emailAddress.length - 11);
     }
 }

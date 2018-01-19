@@ -51,6 +51,10 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         this.editorOnChange(this.editor.txt.html());
     }
 
+    public getBaseInfoDesc() {
+        this.editorOnChange(this.editor.txt.html());
+    }
+
     initEditor() {
         const toolbar = this._element.nativeElement.querySelector('.wangedit-toolbar');
         const container = this._element.nativeElement.querySelector('.wangedit-container');
@@ -251,7 +255,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
 
     clearPicture() {
         const picture2Delete: string[] = [];
-        for (let i of this.oldpictures) {
+        for (const i of this.oldpictures) {
             if (!this.getPictureByUrl(this.newpictures, i.url)) {
                 picture2Delete.unshift(i.url);
             }
@@ -268,7 +272,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     getPictureByUrl(pictures: PictureEditDto[], url: string): PictureEditDto {
-        for (let picture of pictures) {
+        for (const picture of pictures) {
             if (picture.url === url) {
                 return picture;
             }
@@ -277,7 +281,7 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
     }
 
     getPictureByBase64(pictures: PictureEditDto[], base: string): PictureEditDto {
-        for (let picture of pictures) {
+        for (const picture of pictures) {
             if (picture.picBase === base) {
                 return picture;
             }
@@ -303,8 +307,6 @@ export class WangEditorComponent implements AfterViewInit, OnChanges {
         return json;
     }
 }
-
-
 
 class PictureEditDto {
     picBase: string;
