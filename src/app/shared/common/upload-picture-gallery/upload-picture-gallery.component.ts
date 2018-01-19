@@ -7,7 +7,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
-import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { BaseGridDataInputDto, BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { IAjaxResponse } from 'abp-ng2-module/src/abpHttp';
 import { ModalDirective } from 'ngx-bootstrap';
 import { UploadPictureService } from './../../../../shared/services/upload-picture.service';
@@ -47,7 +47,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
     picGroupItemData: SelectedPicListDto[] = [];
     defaultPicGalleryGroupId: number;
     picGalleryGroupData: PictureGroupListDto[];
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
+    gridParam: BaseLsitDataInputDto = new BaseLsitDataInputDto(this._appSessionService);
 
     loading = false;
     addedFile = false;
@@ -83,7 +83,8 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         private _pictureServiceProxy: PictureServiceProxy,
         private _uploadPictureService: UploadPictureService,
         private _appSessionService: AppSessionService,
-        private _sanitizer: DomSanitizer
+        private _sanitizer: DomSanitizer,
+
     ) {
         super(injector);
     }
@@ -129,7 +130,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         this._pictureServiceProxy
             .getPictureAsync(
             this.groupId,
-            this.gridParam.GetSortingString(),
+            this.gridParam.Sorting,
             this.gridParam.MaxResultCount,
             this.gridParam.SkipCount
             )

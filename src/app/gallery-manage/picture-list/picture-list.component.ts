@@ -2,7 +2,7 @@ import { BatchMove2GroupInput, CreateOrUpdatePictureGroupInput, IPictureGroupLis
 import { Component, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { BaseGridDataInputDto, BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { SelectedPicListDto } from 'app/shared/common/upload-picture-gallery/upload-picture-gallery.component';
 import { TooltipDirective } from 'ngx-bootstrap';
@@ -11,6 +11,7 @@ import { UploadPictureNoneGalleryComponent } from 'app/shared/common/upload-pict
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { element } from 'protractor';
 import { fail } from 'assert';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 export class PictureGroupListActiveDto extends PictureGroupListDto {
     active: boolean;
@@ -51,7 +52,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     maxResultCount = 12;
     selectedGroupId: number;
     picGalleryGroupData: PictureGroupListDto[];
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto();
+    gridParam: BaseLsitDataInputDto = new BaseLsitDataInputDto(this._sessionService);
     selectedPicListArr: SelectedPicListDto[] = [];
     moving = false;
     deleting = false;
@@ -63,6 +64,8 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     constructor(
         private injector: Injector,
         private _pictureServiceProxy: PictureServiceProxy,
+        private _sessionService: AppSessionService
+
     ) {
         super(injector);
     }
@@ -98,7 +101,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
         this._pictureServiceProxy
             .getPictureAsync(
             this.selectedGroupId,
-            this.gridParam.GetSortingString(),
+            this.gridParam.Sorting,
             this.gridParam.MaxResultCount,
             this.gridParam.SkipCount
             )

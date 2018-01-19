@@ -12,6 +12,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-confirm-order-model',
@@ -34,7 +35,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     customerName: string;
     endMinute: number;
     gender: Gender;
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
     isBatchConfirmFlag = false;
     isShowModelFlag = false;
     phoneNumber: string;
@@ -48,7 +49,8 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _orgConfirmOrderGridDataResult: AppGridData
+        private _orgConfirmOrderGridDataResult: AppGridData,
+        private _sessionService: AppSessionService
     ) {
         super(injector);
     }

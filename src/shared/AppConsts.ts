@@ -53,6 +53,10 @@ export class AppConsts {
         outlet: 'templateEditOutlet-{0}',
         orgInfo: 'templateEditOrgInfo-{0}'
     };
+
+    static bookingListPageCache = 'bookingListPageCache-{0}';
+    static bookingorderListPageCache = 'bookingorderListPageCache-{0}';
+
 }
 
 export class MediaCompressFormat {

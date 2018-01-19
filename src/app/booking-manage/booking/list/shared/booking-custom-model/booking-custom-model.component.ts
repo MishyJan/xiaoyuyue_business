@@ -13,6 +13,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-booking-custom-model',
@@ -36,7 +37,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     customerName: string;
     endMinute: number;
     gender: Gender;
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(5, false);
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
     isBatchConfirmFlag = false;
     isShowModelFlag = false;
     phoneNumber: string;
@@ -49,6 +50,8 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
+        private _sessionService: AppSessionService
+
     ) {
         super(injector);
     }
