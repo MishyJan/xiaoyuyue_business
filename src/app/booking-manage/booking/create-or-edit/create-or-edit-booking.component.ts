@@ -38,6 +38,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     editingIndex: boolean[] = [];
     startHourOfDay = '00:00';
     endHourOfDay = '00:00';
+    baseInfoDesc: string;
 
     selectOutletId: number;
     selectContactorId: number;
@@ -156,6 +157,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.input.booking = result.booking;
                 this.input.items = result.items;
                 this.input.bookingPictures = result.bookingPictures;
+                this.baseInfoDesc = this.input.booking.description;
                 this.initFormValidation();
                 if (this.isMobile($('.mobile-create-booking'))) {
                     this.isNew = false;
@@ -207,6 +209,8 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         if (!this.formValid()) { return; }
 
         this.getBookingBaseInfo();
+        this.wangEditorModel.save(); // 保存编辑器图片到七牛
+        debugger;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => {
@@ -241,7 +245,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
         this.input.booking.outletId = this.selectOutletId;
         this.input.booking.contactorId = this.selectContactorId;
         this.input.booking.isActive = true;
-        this.wangEditorModel.save();
+        this.wangEditorModel.getBaseInfoDesc();
     }
 
     // 获取预约时间项
@@ -438,7 +442,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
         if (input.booking) {
             if (input.booking.name) { isEmpty = false; }
-            if (input.booking.description !== '00:00 - 00:00') { isEmpty = false; }
+            if (this.isEmtyDescription(input.booking.description)) { isEmpty = false; }
             if (input.booking.outletId > 0) { isEmpty = false; }
             if (input.booking.contactorId > 0) { isEmpty = false; }
 
@@ -521,5 +525,9 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     getBookingEditUrl(bookingId: number): string {
         return `/booking/edit/${bookingId}`;
+    }
+
+    isEmtyDescription(description) {
+        return !description || description === '<p><br></p>';
     }
 }
