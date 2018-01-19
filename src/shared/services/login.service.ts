@@ -289,7 +289,6 @@ export class LoginService {
     }
 
     private facebookLoginStatusChangeCallback(resp) {
-        debugger;
         if (resp.status === 'connected') {
             const model = new ExternalAuthenticateModel();
             model.authProvider = ExternalLoginProvider.FACEBOOK;
