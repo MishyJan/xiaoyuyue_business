@@ -1,9 +1,9 @@
-import { BindingPhoneNumInput, CodeSendInput, ProfileServiceProxy, SMSServiceProxy } from '@shared/service-proxies/service-proxies';
-import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
-
-import { AppComponentBase } from '@shared/common/app-component-base';
+import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
+import { ProfileServiceProxy, CodeSendInput, BindingPhoneNumInput } from '@shared/service-proxies/service-proxies';
+import { AppComponentBase } from '@shared/common/app-component-base';
 import { VerificationCodeType } from 'shared/AppEnums';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-binding-phone-model',
@@ -21,7 +21,7 @@ export class BindingPhoneModelComponent extends AppComponentBase implements OnIn
     constructor(
         private injector: Injector,
         private _profileServiceProxy: ProfileServiceProxy,
-        private _SMSServiceProxy: SMSServiceProxy
+        public _sessionService: AppSessionService
     ) {
         super(injector);
     }
@@ -38,13 +38,14 @@ export class BindingPhoneModelComponent extends AppComponentBase implements OnIn
     }
 
     bindingPhone(): void {
-        const input = new BindingPhoneNumInput();
+        let input = new BindingPhoneNumInput();
         input.phoneNum = this.model.targetNumber;
         input.code = this.code;
         this._profileServiceProxy
             .bindingPhoneNum(input)
             .subscribe(result => {
                 this.notify.success(this.l('Binding.Success.Hint'));
+                this._sessionService.init();
                 abp.event.trigger('getUserSecurityInfo');
                 this.hide();
             })

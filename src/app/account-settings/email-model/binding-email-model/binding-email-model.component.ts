@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { ProfileServiceProxy, CodeSendInput, SMSServiceProxy, BindingEmailInput } from '@shared/service-proxies/service-proxies';
+import { ProfileServiceProxy, CodeSendInput, BindingEmailInput } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { VerificationCodeType, SendCodeType } from 'shared/AppEnums';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-binding-email-model',
@@ -20,7 +21,7 @@ export class BindingEmailModelComponent extends AppComponentBase implements OnIn
     constructor(
         private injector: Injector,
         private _profileServiceProxy: ProfileServiceProxy,
-        private _SMSServiceProxy: SMSServiceProxy
+        public _sessionService: AppSessionService,
     ) {
         super(injector);
     }
@@ -41,6 +42,7 @@ export class BindingEmailModelComponent extends AppComponentBase implements OnIn
             .bindingEmailAddress(this.input)
             .subscribe(result => {
                 this.notify.success(this.l('Binding.Success.Hint'));
+                this._sessionService.init();
                 abp.event.trigger('getUserSecurityInfo');
                 this.hide();
             })
