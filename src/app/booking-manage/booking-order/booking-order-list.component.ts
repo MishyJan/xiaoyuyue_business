@@ -7,16 +7,16 @@ import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
-import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
-import { SelectHelperService } from 'shared/services/select-helper.service';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -103,6 +103,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         super(injector);
         this.gridParam = new BaseGridDataInputDto(this._sessionService);
         this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
+        if (this.gridParam.SkipCount < 0) {
+            this.gridParam.SkipCount = 0;
+        }
     }
 
     ngOnInit() {
@@ -115,7 +118,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     ngAfterViewInit() {
         const self = this;
         if (this.isMobile($('.mobile-custom-list'))) {
-            this.getBookingId();
+            this.getMobileBookingData();
         } else {
             this.loadData();
             this.cBookingOrderDate = $('#bookingDate').flatpickr({
@@ -282,7 +285,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     }
 
     // PC端是返回的kendo的数据格式，移动端重写获取数据方法
-    getBookingId(): void {
+    getMobileBookingData(): void {
         this._route.queryParams
             .subscribe(params => {
                 this.bookingId = params['bookingId'];
