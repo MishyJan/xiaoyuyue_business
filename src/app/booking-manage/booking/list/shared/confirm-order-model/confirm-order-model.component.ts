@@ -11,7 +11,7 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { BookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
@@ -30,7 +30,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
     isBatchConfirmFlag = false;
     isShowModelFlag = false;
-    status: Status[] = [OrgBookingOrderStatus.WaitConfirm];
+    status: Status[] = [BookingOrderStatus.WaitConfirm];
     wait4ConfirmOrderListData = new AppGridData();
 
     batchConfirming = false;

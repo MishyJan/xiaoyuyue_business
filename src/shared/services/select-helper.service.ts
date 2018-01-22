@@ -1,6 +1,7 @@
-import { SelectListItemDto } from './../service-proxies/service-proxies';
+import { Injectable, Injector } from '@angular/core';
+
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { Injector, Injectable } from '@angular/core';
+import { SelectListItemDto } from './../service-proxies/service-proxies';
 
 @Injectable()
 export class SelectHelperService extends AppComponentBase {
@@ -14,6 +15,13 @@ export class SelectHelperService extends AppComponentBase {
         return {
             value: '',
             displayText: this.l('Please_Choose')
+        };
+    };
+
+    defaultListWithText(text: string) {
+        return {
+            value: '',
+            displayText: this.l(text)
         };
     };
 

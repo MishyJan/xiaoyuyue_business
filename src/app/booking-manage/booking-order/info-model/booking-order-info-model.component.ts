@@ -8,7 +8,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { Moment } from 'moment';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { BookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
@@ -22,11 +22,11 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
     isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl = 'assets/common/images/default-profile-picture.png';
-    bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
-    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
-    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
-    this.l(OrgBookingOrderStatus.CancelLocalization),
-    this.l(OrgBookingOrderStatus.CompleteLocalization)];
+    bookingOrderStatusName: string[] = [this.l(BookingOrderStatus.WaitConfirmLocalization),
+    this.l(BookingOrderStatus.ConfirmSuccessLocalization),
+    this.l(BookingOrderStatus.WaitCommentLocalization),
+    this.l(BookingOrderStatus.CancelLocalization),
+    this.l(BookingOrderStatus.CompleteLocalization)];
 
     confirming = false;
     updating = false;

@@ -60,8 +60,8 @@
                                         <div class="col-md-9">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="genderSelectListData" (valueChange)="genderChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="genderSelectListData" [(ngModel)]="gender" name="gender" [textField]="'displayText'" [valueField]="'value'"
+                                                    [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>
@@ -139,7 +139,7 @@
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
                                                 <kendo-dropdownlist [data]="orderStatusSelectList" (valueChange)="orderStatusChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>

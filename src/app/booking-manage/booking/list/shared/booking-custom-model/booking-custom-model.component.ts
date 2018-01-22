@@ -8,10 +8,12 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { BookingOrderStatus } from 'shared/AppEnums';
+import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
@@ -30,12 +32,10 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     bookingItem: BookingListDto = new BookingListDto();
 
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
-    status: Status[] = [OrgBookingOrderStatus.WaitConfirm, OrgBookingOrderStatus.ConfirmSuccess, OrgBookingOrderStatus.ConfirmFail, OrgBookingOrderStatus.Cancel, OrgBookingOrderStatus.Complete];
-    displayStatus: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
-    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
-    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
-    this.l(OrgBookingOrderStatus.CancelLocalization),
-    this.l(OrgBookingOrderStatus.CompleteLocalization)];
+    selectDefaultItem: { value: string, displayText: string; };
+    status: Status;
+    displayStatus: string[];
+    orderStatusSelectList: Object[] = [];
 
     searching = false;
 
@@ -44,14 +44,16 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _sessionService: AppSessionService
+        private _sessionService: AppSessionService,
+        private _selectHelper: SelectHelperService,
+        private _orderStatusService: BookingOrderStatusService
 
     ) {
         super(injector);
     }
 
     ngOnInit() {
-
+        this.getSelectListData();
     }
 
     ngAfterViewInit() {
@@ -64,9 +66,18 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         }
     }
 
+    // 获取预约状态下拉框数据源
+    getSelectListData(): void {
+        this.selectDefaultItem = this._selectHelper.defaultListWithText('Search.ChooseOrderStatus');
+        this.displayStatus = this._orderStatusService.DisplayStatus;
+        this.orderStatusSelectList = this._orderStatusService.getOrderStatusSelectList();
+    }
+
+
     loadData(): void {
         this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
         this.searching = true;
+
         this.bookingCustomListData.query(() => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
@@ -81,7 +92,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 undefined,
                 this.creationStartDate,
                 this.creationStartDate,
-                this.status,
+                this.getSearchStatusArray(),
                 this.gridParam.GetSortingString(),
                 this.gridParam.MaxResultCount,
                 this.gridParam.SkipCount
@@ -118,6 +129,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         if (bookingItem.id) {
             this.bookingId = bookingItem.id;
         }
+        this.status = undefined;
         this.loadData();
         this.modal.show();
     }
@@ -139,5 +151,12 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
             status5: status === 5
         };
         return tipsClass;
+    }
+
+    getSearchStatusArray(): Status[] {
+        if (!!this.status === false) {
+            return [Status._1, Status._2, Status._3, Status._4, Status._5];
+        }
+        return [this.status];
     }
 }

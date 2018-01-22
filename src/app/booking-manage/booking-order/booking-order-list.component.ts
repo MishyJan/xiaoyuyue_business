@@ -10,9 +10,9 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
+import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { Moment } from 'moment';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SelectHelperService } from 'shared/services/select-helper.service';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
@@ -53,9 +53,11 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     creationEndDate: any;
     creationStartDate: any;
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
-    searchActiveSelectDefaultItem: { value: string, displayText: string; };
+    selectDefaultItem: { value: string, displayText: string; };
     orderStatusSelectList: Object[] = [];
-    genderSelectListData: Object[] = this._selectHelper.genderList();
+    genderSelectListData = this._selectHelper.genderList();
+    orderStatus: Status[];
+    displayStatus: string[];
 
     gridParam: BaseGridDataInputDto
     gender: Gender;
@@ -67,37 +69,24 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     bookingName: string;
     customerListData = new AppGridData();
     remarkBookingOrderInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
-    bookingOrderStatus: Status[] = [OrgBookingOrderStatus.WaitConfirm,
-    OrgBookingOrderStatus.ConfirmSuccess,
-    OrgBookingOrderStatus.ConfirmFail,
-    OrgBookingOrderStatus.Cancel,
-    // OrgBookingOrderStatus.WaitComment,
-    OrgBookingOrderStatus.Complete];
-
-    displayStatus: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
-    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
-    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
-    this.l(OrgBookingOrderStatus.CancelLocalization),
-    this.l(OrgBookingOrderStatus.CompleteLocalization)];
 
     searching = false;
 
     @ViewChild('customerForEditModelComponent') CustomerForEditModelComponent: BookingOrderInfoModelComponent;
 
     private editedRowIndex: number;
-
     public get isInEditingMode(): boolean {
         return this.editedRowIndex !== undefined;
     }
 
     constructor(
-
         injector: Injector,
         private _route: ActivatedRoute,
         private _selectHelper: SelectHelperService,
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _sessionService: AppSessionService
+        private _sessionService: AppSessionService,
+        private _orderStatusService: BookingOrderStatusService
 
     ) {
         super(injector);
@@ -110,9 +99,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     ngOnInit() {
         this.bookingCustomerDate = moment().local().format('YYYY-MM-DD');
-        this.bookingDateSelectDefaultItem = this._selectHelper.defaultSelectList();
-        this.searchActiveSelectDefaultItem = this._selectHelper.defaultList();
-        this.getOrderStatusSelectList();
+        this.getSelectListData();
     }
 
     ngAfterViewInit() {
@@ -179,7 +166,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                 this.gender,
                 this.creationStartDate,
                 this.creationEndDate,
-                this.bookingOrderStatus,
+                this.orderStatus,
                 this.gridParam.GetSortingString(),
                 this.gridParam.MaxResultCount,
                 this.gridParam.SkipCount);
@@ -218,24 +205,16 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     // 订单状态样式
     setOrderTipsClass(status: number): any {
-        const tipsClass = {
-            status1: status === 1,
-            status2: status === 2,
-            status3: status === 3,
-            status4: status === 4,
-            status5: status === 5
-        };
-        return tipsClass;
+        return this._orderStatusService.getTipsClass(status);
     }
 
     // 获取预约状态下拉框数据源
-    getOrderStatusSelectList(): void {
-        this.bookingOrderStatus.forEach((value, index) => {
-            this.singleBookingStatus = new SingleBookingStatus();
-            this.singleBookingStatus.value = value;
-            this.singleBookingStatus.displayText = this.displayStatus[index];
-            this.orderStatusSelectList.push(this.singleBookingStatus);
-        });
+    getSelectListData(): void {
+        this.bookingDateSelectDefaultItem = this._selectHelper.defaultSelectList();
+        this.selectDefaultItem = this._selectHelper.defaultList();
+        this.orderStatus = this._orderStatusService.BookingOrderStatus;
+        this.displayStatus = this._orderStatusService.DisplayStatus;
+        this.orderStatusSelectList = this._orderStatusService.getOrderStatusSelectList();
     }
 
     // 获取应约人头像
@@ -260,10 +239,10 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
 
     public orderStatusChangeHandler(status: Status): void {
         if (!!status === false) {
-            this.bookingOrderStatus = [Status._1, Status._2, Status._3, Status._4, Status._5];
+            this.orderStatus = [Status._1, Status._2, Status._3, Status._4, Status._5];
             return;
         }
-        this.bookingOrderStatus = [status];
+        this.orderStatus = [status];
     }
 
     public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
@@ -307,7 +286,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.gender,
             this.creationStartDate,
             this.creationEndDate,
-            this.bookingOrderStatus,
+            this.orderStatus,
             this.gridParam.GetSortingString(),
             this.gridParam.MaxResultCount,
             this.gridParam.SkipCount)
