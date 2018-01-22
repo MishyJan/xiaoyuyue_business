@@ -1,45 +1,23 @@
-    .custom-list {
-        .search-btn-wrap {
-            margin: 15px;
-        }
-        .avatar {
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        .btn.btn-primary {
-            background-color: #3598dc;
-        }
-        .btn.btn-success {
-            background-color: #e73d4a;
-        }
-        .btn.btn-danger {
-            background-color: #36c6d3;
-        }
-        .btn+.btn {
-            margin: 0;
-        }
-        .order-status {
-            color: #FFF;
-            border-radius: 2px;
-            padding: 4px;
-            font-size: 14px;
-            &.status1 {
-                background-color: #e32600;
-            }
-            &.status2 {
-                background-color: #2aad1c;
-            }
-            &.status3 {}
-            &.status4 {
-                background-color: #808080;
-            }
-            &.status5 {
-                background-color: #FF9641;
-            }
-        }
+.custom-list {
+    .search-btn-wrap {
+        margin: 15px;
     }
-
-    // 移动端样式
+    .avatar {
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    .btn.btn-primary {
+        background-color: #3598dc;
+    }
+    .btn.btn-success {
+        background-color: #e73d4a;
+    }
+    .btn.btn-danger {
+        background-color: #36c6d3;
+    }
+    .btn+.btn {
+        margin: 0;
+    } // 移动端样式
     .mobile-custom-list {
         width: 100%;
         .top-action-wrap {
@@ -102,7 +80,7 @@
                     margin: 0;
                     .card-content {
                         padding: 0px 20px;
-                        .content-item + .content-item {
+                        .content-item+.content-item {
                             border-top: 1px solid #DADADA;
                         }
                         .content-item {
@@ -149,3 +127,4 @@
             }
         }
     }
+}

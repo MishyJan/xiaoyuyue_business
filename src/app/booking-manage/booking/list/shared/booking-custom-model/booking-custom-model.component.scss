@@ -7,19 +7,42 @@
         .serach-wrap {
             padding: 0 24px;
             margin: 0px;
-            .vapps-icon-app-search {
+            .btn {
                 font-size: 18px;
                 background-color: #FF9641;
                 padding: 6px;
                 margin: 10px 0;
+                line-height: 18px;
             }
             .form-group {
-                margin-top: 5px;
+                margin-top: 6px;
             }
             .col-md-11,
-            .col-md-4,
-            .col-md-8 {
+            .col-md-3,
+            .col-md-10 {
                 padding: 0;
+            }
+            .k-dropdown {
+                top: 1px;
+            }
+        }
+        .order-status {
+            color: #FFF;
+            border-radius: 2px;
+            padding: 4px;
+            font-size: 14px;
+            &.status1 {
+                background-color: #e32600;
+            }
+            &.status2 {
+                background-color: #2aad1c;
+            }
+            &.status3 {}
+            &.status4 {
+                background-color: #808080;
+            }
+            &.status5 {
+                background-color: #FF9641;
             }
         }
     }

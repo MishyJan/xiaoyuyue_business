@@ -60,8 +60,8 @@
                                         <div class="col-md-9">
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="genderSelectListData" (valueChange)="genderChangeHandle($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                <kendo-dropdownlist [data]="genderSelectListData" [(ngModel)]="gender" name="gender" [textField]="'displayText'" [valueField]="'value'"
+                                                    [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>
@@ -139,7 +139,7 @@
                                             <div class="form-group label-floating is-empty">
                                                 <label class="control-label"></label>
                                                 <kendo-dropdownlist [data]="orderStatusSelectList" (valueChange)="orderStatusChangeHandle($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
                                             </div>
                                         </div>
                                     </div>
@@ -177,7 +177,7 @@
                             <!-- 订单状态  -->
                             <kendo-grid-column title="{{l('BookingOrder.Status')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-                                    <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
+                                    <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ displayStatus[dataItem.status-1] }}</span>
                                 </ng-template>
                             </kendo-grid-column>
 

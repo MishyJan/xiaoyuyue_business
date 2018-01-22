@@ -5,15 +5,16 @@ import { BatchConfirmInput, BookingListDto, EntityDtoOfInt64, Gender, OrgBooking
 import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { BookingOrderStatus } from 'shared/AppEnums';
+import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-booking-custom-model',
@@ -22,42 +23,37 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
     encapsulation: ViewEncapsulation.Emulated,
 })
 export class BookingCustomModelComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
-    creationTime: any;
-    hourOfDay: string;
-    batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
-    batchConfirmCount = 0;
-    bookingCustomListData = new AppGridData();
-    bookingDate: Moment;
     bookingId: number;
-    bookingItem: BookingListDto = new BookingListDto();
-    bookingName: string;
-    confirmOrderText = this.l('Batch');
-    creationEndDate: Moment;
-    creationStartDate: any;
     customerName: string;
-    endMinute: number;
-    gender: Gender;
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
-    isBatchConfirmFlag = false;
-    isShowModelFlag = false;
-    phoneNumber: string;
-    startMinute: number;
-    status: Status[] = [OrgBookingOrderStatus.WaitConfirm, OrgBookingOrderStatus.ConfirmSuccess, OrgBookingOrderStatus.ConfirmFail, OrgBookingOrderStatus.Cancel, OrgBookingOrderStatus.Complete];
+    creationStartDate: any;
 
-    @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
+    creationTimePicker: any;
+    bookingCustomListData = new AppGridData();
+    bookingItem: BookingListDto = new BookingListDto();
+
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
+    selectDefaultItem: { value: string, displayText: string; };
+    status: Status;
+    displayStatus: string[];
+    orderStatusSelectList: Object[] = [];
+
+    searching = false;
+
     @ViewChild('bookingCustomModel') modal: ModalDirective;
 
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _sessionService: AppSessionService
+        private _sessionService: AppSessionService,
+        private _selectHelper: SelectHelperService,
+        private _orderStatusService: BookingOrderStatusService
 
     ) {
         super(injector);
     }
 
     ngOnInit() {
-
+        this.getSelectListData();
     }
 
     ngAfterViewInit() {
@@ -65,28 +61,38 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     }
 
     ngOnDestroy() {
-        if (this.creationTime) {
-            this.creationTime.destroy();
+        if (this.creationTimePicker) {
+            this.creationTimePicker.destroy();
         }
     }
 
+    // 获取预约状态下拉框数据源
+    getSelectListData(): void {
+        this.selectDefaultItem = this._selectHelper.defaultListWithText('Search.ChooseOrderStatus');
+        this.displayStatus = this._orderStatusService.DisplayStatus;
+        this.orderStatusSelectList = this._orderStatusService.getOrderStatusSelectList();
+    }
+
+
     loadData(): void {
         this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
+        this.searching = true;
+
         this.bookingCustomListData.query(() => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
                 this.bookingId,
-                this.bookingName,
+                undefined,
                 this.customerName,
-                this.bookingDate,
-                this.hourOfDay,
-                this.startMinute,
-                this.endMinute,
-                this.phoneNumber,
-                this.gender,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
                 this.creationStartDate,
-                this.creationEndDate,
-                this.status,
+                this.creationStartDate,
+                this.getSearchStatusArray(),
                 this.gridParam.GetSortingString(),
                 this.gridParam.MaxResultCount,
                 this.gridParam.SkipCount
@@ -97,18 +103,20 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                     });
                     return gridData;
                 });
-        }, true);
+        }, true, () => {
+            this.searching = false;
+        });
+
         if (typeof this.creationStartDate === 'object') {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
         }
     }
 
     initFlatpickr() {
-        this.creationTime = $('.creationTime').flatpickr({
+        this.creationTimePicker = $('.creationTime').flatpickr({
             'locale': LocalizationHelper.getFlatpickrLocale(),
-            // clickOpens: false,
             onClose: (element) => {
-                $(this.creationTime.input).blur();
+                $(this.creationTimePicker.input).blur();
             },
             onOpen: (dateObj, dateStr) => {
                 this.creationStartDate = null;
@@ -121,15 +129,10 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         if (bookingItem.id) {
             this.bookingId = bookingItem.id;
         }
+        this.status = undefined;
+        this.gridParam = new BaseGridDataInputDto(this._sessionService);
         this.loadData();
         this.modal.show();
-        // this.isShowModelFlag = true;
-    }
-
-    public hideModel(): void {
-        // this.isShowModelFlag = false;
-        this.modal.hide();
-        this.isShowModelHander.emit(this.isShowModelFlag);
     }
 
     public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
@@ -137,5 +140,24 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
         this.loadData();
+    }
+
+    // 订单状态样式
+    setOrderTipsClass(status: number): any {
+        const tipsClass = {
+            status1: status === 1,
+            status2: status === 2,
+            status3: status === 3,
+            status4: status === 4,
+            status5: status === 5
+        };
+        return tipsClass;
+    }
+
+    getSearchStatusArray(): Status[] {
+        if (!!this.status === false) {
+            return [Status._1, Status._2, Status._3, Status._4, Status._5];
+        }
+        return [this.status];
     }
 }
