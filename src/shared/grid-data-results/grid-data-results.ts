@@ -24,7 +24,11 @@ export class AppGridData extends BehaviorSubject<GridDataResult> {
 
     public query(getForGrid: () => any, transform: boolean = false, callback: () => void = () => { }) {
         if (transform) {
-            getForGrid().subscribe(x => super.next(x));
+            getForGrid().subscribe(x => {
+                super.next(x);
+                callback();
+            });
+
             return;
         }
 

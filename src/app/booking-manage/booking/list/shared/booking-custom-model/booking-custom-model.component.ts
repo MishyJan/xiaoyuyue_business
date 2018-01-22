@@ -5,15 +5,14 @@ import { BatchConfirmInput, BookingListDto, EntityDtoOfInt64, Gender, OrgBooking
 import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-booking-custom-model',
@@ -22,29 +21,24 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
     encapsulation: ViewEncapsulation.Emulated,
 })
 export class BookingCustomModelComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
-    creationTime: any;
-    hourOfDay: string;
-    batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
-    batchConfirmCount = 0;
-    bookingCustomListData = new AppGridData();
-    bookingDate: Moment;
     bookingId: number;
-    bookingItem: BookingListDto = new BookingListDto();
-    bookingName: string;
-    confirmOrderText = this.l('Batch');
-    creationEndDate: Moment;
-    creationStartDate: any;
     customerName: string;
-    endMinute: number;
-    gender: Gender;
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
-    isBatchConfirmFlag = false;
-    isShowModelFlag = false;
-    phoneNumber: string;
-    startMinute: number;
-    status: Status[] = [OrgBookingOrderStatus.WaitConfirm, OrgBookingOrderStatus.ConfirmSuccess, OrgBookingOrderStatus.ConfirmFail, OrgBookingOrderStatus.Cancel, OrgBookingOrderStatus.Complete];
+    creationStartDate: any;
 
-    @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
+    creationTimePicker: any;
+    bookingCustomListData = new AppGridData();
+    bookingItem: BookingListDto = new BookingListDto();
+
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
+    status: Status[] = [OrgBookingOrderStatus.WaitConfirm, OrgBookingOrderStatus.ConfirmSuccess, OrgBookingOrderStatus.ConfirmFail, OrgBookingOrderStatus.Cancel, OrgBookingOrderStatus.Complete];
+    displayStatus: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
+    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
+    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
+    this.l(OrgBookingOrderStatus.CancelLocalization),
+    this.l(OrgBookingOrderStatus.CompleteLocalization)];
+
+    searching = false;
+
     @ViewChild('bookingCustomModel') modal: ModalDirective;
 
     constructor(
@@ -65,27 +59,28 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     }
 
     ngOnDestroy() {
-        if (this.creationTime) {
-            this.creationTime.destroy();
+        if (this.creationTimePicker) {
+            this.creationTimePicker.destroy();
         }
     }
 
     loadData(): void {
         this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
+        this.searching = true;
         this.bookingCustomListData.query(() => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
                 this.bookingId,
-                this.bookingName,
+                undefined,
                 this.customerName,
-                this.bookingDate,
-                this.hourOfDay,
-                this.startMinute,
-                this.endMinute,
-                this.phoneNumber,
-                this.gender,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
                 this.creationStartDate,
-                this.creationEndDate,
+                this.creationStartDate,
                 this.status,
                 this.gridParam.GetSortingString(),
                 this.gridParam.MaxResultCount,
@@ -97,18 +92,20 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                     });
                     return gridData;
                 });
-        }, true);
+        }, true, () => {
+            this.searching = false;
+        });
+
         if (typeof this.creationStartDate === 'object') {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
         }
     }
 
     initFlatpickr() {
-        this.creationTime = $('.creationTime').flatpickr({
+        this.creationTimePicker = $('.creationTime').flatpickr({
             'locale': LocalizationHelper.getFlatpickrLocale(),
-            // clickOpens: false,
             onClose: (element) => {
-                $(this.creationTime.input).blur();
+                $(this.creationTimePicker.input).blur();
             },
             onOpen: (dateObj, dateStr) => {
                 this.creationStartDate = null;
@@ -123,13 +120,6 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         }
         this.loadData();
         this.modal.show();
-        // this.isShowModelFlag = true;
-    }
-
-    public hideModel(): void {
-        // this.isShowModelFlag = false;
-        this.modal.hide();
-        this.isShowModelHander.emit(this.isShowModelFlag);
     }
 
     public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
@@ -137,5 +127,17 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
         this.loadData();
+    }
+
+    // 订单状态样式
+    setOrderTipsClass(status: number): any {
+        const tipsClass = {
+            status1: status === 1,
+            status2: status === 2,
+            status3: status === 3,
+            status4: status === 4,
+            status5: status === 5
+        };
+        return tipsClass;
     }
 }

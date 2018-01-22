@@ -1,6 +1,6 @@
 import { AppConsts } from '@shared/AppConsts';
-import { SortDescriptor } from '@progress/kendo-data-query';
 import { AppSessionService } from 'shared/common/session/app-session.service';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 export class BaseGridDataInputDto {
     CurrentPage = 1;

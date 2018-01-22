@@ -65,7 +65,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     bookingDate: Moment;
     customerName: string;
     bookingName: string;
-    customerListData: AppGridData = new AppGridData();
+    customerListData = new AppGridData();
     remarkBookingOrderInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     bookingOrderStatus: Status[] = [OrgBookingOrderStatus.WaitConfirm,
     OrgBookingOrderStatus.ConfirmSuccess,
@@ -74,7 +74,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     // OrgBookingOrderStatus.WaitComment,
     OrgBookingOrderStatus.Complete];
 
-    bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
+    displayStatus: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
     this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
     this.l(OrgBookingOrderStatus.WaitCommentLocalization),
     this.l(OrgBookingOrderStatus.CancelLocalization),
@@ -233,7 +233,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.bookingOrderStatus.forEach((value, index) => {
             this.singleBookingStatus = new SingleBookingStatus();
             this.singleBookingStatus.value = value;
-            this.singleBookingStatus.displayText = this.bookingOrderStatusName[index];
+            this.singleBookingStatus.displayText = this.displayStatus[index];
             this.orderStatusSelectList.push(this.singleBookingStatus);
         });
     }

@@ -177,7 +177,7 @@
                             <!-- 订单状态  -->
                             <kendo-grid-column title="{{l('BookingOrder.Status')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-                                    <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
+                                    <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ displayStatus[dataItem.status-1] }}</span>
                                 </ng-template>
                             </kendo-grid-column>
 
@@ -278,7 +278,7 @@
                             <div class="flex-right">
                                 <div class="pull-left info">
                                     <p class="name">{{ item.customerName }}</p>
-                                    <p class="state">{{ bookingOrderStatusName[item.status-1] }}</p>
+                                    <p class="state">{{ displayStatus[item.status-1] }}</p>
                                 </div>
                                 <div class="pull-right time-ago">
                                     <span>{{ getTimeAgo(item.creationTime) }}</span>

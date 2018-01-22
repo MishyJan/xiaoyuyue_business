@@ -218,6 +218,9 @@ button {
     i {
         margin-right: 5px;
     }
+    i.empty-ico {
+        margin-right: 0px;
+    }
 }
 
 .btn+.btn {
@@ -286,27 +289,6 @@ input[type="tel"] {
 
 .form-group.form-md-line-input .form-control.edited:not([readonly]):not(:focus)~.help-block {
     opacity: 1;
-}
-
-
-/* JS Tree */
-
-.jstree-default .jstree-icon,
-.jstree-default-small .jstree-icon,
-.jstree-default-large .jstree-icon {
-    background-image: url("../../assets/common/images/32px.png");
-}
-
-#jstree-dnd.jstree-default .jstree-er,
-#jstree-dnd.jstree-default-small .jstree-er,
-#jstree-dnd.jstree-default-large .jstree-er {
-    background-image: url("../../assets/common/images/32px.png");
-    background-repeat: no-repeat;
-    background-color: transparent;
-}
-
-.jstree-default .jstree-themeicon-custom {
-    background-image: none;
 }
 
 .btn:hover,
