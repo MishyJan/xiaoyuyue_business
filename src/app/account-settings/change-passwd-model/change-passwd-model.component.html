@@ -29,23 +29,40 @@
 
                             <div class="col-md-12">
                                 <div class="form-group label-floating">
-                                    <input class="form-control edited" type="password" name="Password" [(ngModel)]="input.newPassword" #Password="ngModel" reverse="false"
-                                        validateEqual="PasswordRepeat" required>
+                                    <input class="form-control edited" type="password" name="Password" [(ngModel)]="input.newPassword" #Password="ngModel" validateEqual="PasswordRepeat"
+                                        reverse="true" [requireDigit]="passwordComplexitySetting.requireDigit" [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                                        [requireUppercase]="passwordComplexitySetting.requireUppercase" [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric"
+                                        [requiredLength]="passwordComplexitySetting.requiredLength" required>
                                     <label class="control-label">{{ l('Security.Filed.NewPasswd') }}</label>
                                 </div>
-                                <div *ngIf="Password.invalid && (Password.dirty || Password.touched)">
-                                    <small class="text-danger" *ngIf="Password.errors.required">{{ l('Security.Tips.NewPasswd') }}</small>
+                                <div [hidden]="changePasswordModalForm.form.valid || changePasswordModalForm.form.pristine">
+                                    <ul class="help-block text-danger" *ngIf="Password.errors">
+                                        <li [hidden]="!Password.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                    </ul>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group label-floating">
                                     <input class="form-control edited" type="password" name="PasswordRepeat" [(ngModel)]="input.repeatPasswd" #PasswordRepeat="ngModel"
-                                        reverse="true" validateEqual="Password" required>
+                                        validateEqual="Password" reverse="false" [requireDigit]="passwordComplexitySetting.requireDigit"
+                                        [requireLowercase]="passwordComplexitySetting.requireLowercase" [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                                        [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                        required>
                                     <label class="control-label">{{ l('Security.Filed.ComfirmPasswd') }}</label>
                                 </div>
-                                <div *ngIf="Password.invalid && Password.touched">
-                                    <small class="text-danger">{{ l('Security.Tips.Mismatching') }}</small>
+                                <div [hidden]="changePasswordModalForm.form.valid || changePasswordModalForm.form.pristine">
+                                    <ul class="help-block text-danger" *ngIf="PasswordRepeat.errors">
+                                        <li [hidden]="!PasswordRepeat.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
