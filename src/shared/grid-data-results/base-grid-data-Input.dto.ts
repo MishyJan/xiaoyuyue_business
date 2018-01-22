@@ -17,7 +17,9 @@ export class BaseGridDataInputDto {
     constructor(
         private sessionService: AppSessionService
     ) {
-        this.init();
+        // this.init();
+        //  TODO：移除所有存储页码的功能
+        this.removePage();
     }
 
     GetSortingString(): string {
@@ -37,6 +39,10 @@ export class BaseGridDataInputDto {
             localStorage.setItem(abp.utils.formatString(AppConsts.bookingorderListPageCache, this.sessionService.tenantId), currentPage + '');
             this.CurrentPage = +currentPage;
         }
+    }
+
+    private removePage(): void {
+        localStorage.clear();
     }
 
     // 保存页码到localStorage中
