@@ -25,6 +25,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 export class BookingCustomModelComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
     bookingId: number;
     customerName: string;
+    phoneNumber: string;
     creationStartDate: any;
 
     creationTimePicker: any;
@@ -88,7 +89,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 undefined,
                 undefined,
                 undefined,
-                undefined,
+                this.phoneNumber,
                 undefined,
                 this.creationStartDate,
                 this.creationStartDate,
