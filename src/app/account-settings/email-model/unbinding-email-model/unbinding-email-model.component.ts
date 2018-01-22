@@ -12,9 +12,7 @@ import { BindingEmailModelComponent } from 'app/account-settings/email-model/bin
     styleUrls: ['./unbinding-email-model.component.scss']
 })
 export class UnbindingEmailModelComponent extends AppComponentBase implements OnInit {
-    phoneNum: string;
     userSecurityInfo: UserSecurityInfoDto;
-    emailAddress: string;
     code: string;
     model: CodeSendInput = new CodeSendInput();
     codeType = VerificationCodeType.EmailUnbinding;
@@ -27,11 +25,9 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
     constructor(
         private injector: Injector,
         private _profileServiceProxy: ProfileServiceProxy,
-        public _sessionService: AppSessionService
+        public sessionService: AppSessionService
     ) {
         super(injector);
-        this.emailAddress = this._sessionService.user.emailAddress;
-        this.phoneNum = this._sessionService.user.phoneNumber;
     }
 
     ngOnInit() {
@@ -49,7 +45,7 @@ export class UnbindingEmailModelComponent extends AppComponentBase implements On
             .unBindingEmailAddress(this.code)
             .subscribe(result => {
                 this.notify.success(this.l('RebindingEmail.Success.Hint'));
-                this._sessionService.init();
+                this.sessionService.init();
                 abp.event.trigger('getUserSecurityInfo');
                 this.hide();
                 this.bindingEmailModel.show();

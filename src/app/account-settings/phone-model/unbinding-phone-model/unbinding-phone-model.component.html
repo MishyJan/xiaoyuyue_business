@@ -16,7 +16,7 @@
 
                         <div class="col-md-12 validate-code-wrap">
                             <div class="form-group label-floating">
-                                <input class="form-control edited" type="number" name="newPassword" [(ngModel)]="code" required>
+                                <input class="form-control edited" type="text" name="newPassword" [(ngModel)]="code" required>
                                 <label class="control-label">{{ l('VerifyCodeField') }}</label>
                                 <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="phoneNum"></xiaoyuyue-send-code>
                             </div>
