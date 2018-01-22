@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { BookingOrderListDtoStatus, PagedResultDtoOfOrgBookingOrderListDto } from '@shared/service-proxies/service-proxies';
-import { DataStateChangeEvent, EditEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { Gender, OrgBookingOrderListDto, OrgBookingOrderServiceProxy, OrgBookingServiceProxy, RemarkBookingOrderInput, SelectListItemDto, Status } from 'shared/service-proxies/service-proxies';
 
 import { ActivatedRoute } from '@angular/router';
@@ -14,9 +13,10 @@ import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { Moment } from 'moment';
 import { OrgBookingOrderStatus } from 'shared/AppEnums';
 import { SelectHelperService } from 'shared/services/select-helper.service';
-import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -31,6 +31,7 @@ export class SingleBookingStatus {
 })
 
 export class BookingOrderListComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    scrollStatusOutput: ScrollStatusOutput;
     totalItems: number;
     availableTimesSelectListData: SelectListItemDto[];
     availableDatesSelectListData: SelectListItemDto[];
@@ -39,13 +40,10 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     mobileCustomerListData: OrgBookingOrderListDto[] = [];
     allMobileCustomerListData: any[] = [];
     updateDataIndex = -1;
-    infiniteScrollDistance = 1;
-    infiniteScrollThrottle = 300;
 
     bookingCustomerDate: string;
+    bookingTimeSelectDefaultItem: SelectListItemDto;
     bookingDateSelectDefaultItem: SelectListItemDto;
-    bookingItemSelectListData: SelectListItemDto[];
-    bookingCustomerFlatpickr: any;
     cEndCreationTime: any;
     cStartCreationTime: any;
     cBookingOrderDate: any;
@@ -91,26 +89,23 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     }
 
     constructor(
-
         injector: Injector,
         private _route: ActivatedRoute,
         private _selectHelper: SelectHelperService,
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
+        private _listScrollService: ListScrollService,
         private _sessionService: AppSessionService
-
     ) {
         super(injector);
         this.gridParam = new BaseGridDataInputDto(this._sessionService);
         this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
-        if (this.gridParam.SkipCount < 0) {
-            this.gridParam.SkipCount = 0;
-        }
     }
 
     ngOnInit() {
         this.bookingCustomerDate = moment().local().format('YYYY-MM-DD');
-        this.bookingDateSelectDefaultItem = this._selectHelper.defaultSelectList();
+        this.bookingDateSelectDefaultItem = this._selectHelper.defaultDateSelectList();
+        this.bookingTimeSelectDefaultItem = this._selectHelper.defaultTimeSelectList();
         this.searchActiveSelectDefaultItem = this._selectHelper.defaultList();
         this.getOrderStatusSelectList();
     }
@@ -141,6 +136,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             });
         }
     }
+
     ngOnDestroy() {
         if (this.isMobile($('.mobile-custom-list'))) {
             return;
@@ -149,13 +145,26 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
     }
 
-    destroyDesktopFlatpickr(): void {
-        if (this.cBookingOrderDate && this.cStartCreationTime && this.cEndCreationTime) {
-            this.cBookingOrderDate.destroy();
-            this.cStartCreationTime.destroy();
-            this.cEndCreationTime.destroy();
-        }
+    /*
+        公用相关代码
+    */
+    // 显示用户订单弹窗model
+    showCustomerForEditHandle(dataItemId: any): void {
+        this.CustomerForEditModelComponent.showModel(dataItemId);
     }
+
+    // 如果头像URL不存在，则使用默认头像
+    public transferAvatarPictureUrl(profilePictureUrl: string): string {
+        const defaultAvatar = 'assets/common/images/default-profile-picture.png';
+        if (profilePictureUrl === '') {
+            return defaultAvatar;
+        }
+        return profilePictureUrl;
+    }
+
+    /*
+        桌面端相关代码
+    */
 
     searchData() {
         this.searching = true;
@@ -196,38 +205,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
     }
 
-    showCustomerForEditHander(dataItemId: any): void {
-        this.CustomerForEditModelComponent.showModel(dataItemId);
-    }
-
-    // 应约人列表model弹窗，若关闭应该刷新数据
-    isShowConfirmOrderModelHander(flag: boolean): void {
-        if (flag) {
-            this.loadData();
-        }
-    }
-
-    // 备注订单
-    remarkBookingOrder(remarkInput: RemarkBookingOrderInput): void {
-        this._orgBookingOrderServiceProxy
-            .remarkBookingOrder(remarkInput)
-            .subscribe(() => {
-                this.loadData();
-            });
-    }
-
-    // 订单状态样式
-    setOrderTipsClass(status: number): any {
-        const tipsClass = {
-            status1: status === 1,
-            status2: status === 2,
-            status3: status === 3,
-            status4: status === 4,
-            status5: status === 5
-        };
-        return tipsClass;
-    }
-
     // 获取预约状态下拉框数据源
     getOrderStatusSelectList(): void {
         this.bookingOrderStatus.forEach((value, index) => {
@@ -238,27 +215,50 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         });
     }
 
-    // 获取应约人头像
-    getBookingCustomerAvatar(url: string): string {
-        const defaultAvatar = 'assets/common/images/default-profile-picture.png';
-        if (url !== '') {
-            return url;
+    destroyDesktopFlatpickr(): void {
+        if (this.cBookingOrderDate && this.cStartCreationTime && this.cEndCreationTime) {
+            this.cBookingOrderDate.destroy();
+            this.cStartCreationTime.destroy();
+            this.cEndCreationTime.destroy();
         }
-        return defaultAvatar;
     }
 
-    public onStateonStateChange(event): void { }
+    // 应约人列表model弹窗，若关闭应该刷新数据
+    public hiddenOrderModelHandle(flag: boolean): void {
+        if (flag) {
+            this.loadData();
+        }
+    }
 
-    public genderChangeHandler(gender: Gender): void {
+    // 订单状态样式
+    public setOrderTipsClass(status: number): any {
+        const tipsClass = {
+            status1: status === 1,
+            status2: status === 2,
+            status3: status === 3,
+            status4: status === 4,
+            status5: status === 5
+        };
+        return tipsClass;
+    }
+
+    // 切换页码
+    public pageChange(event: PageChangeEvent): void {
+        this.gridParam.CurrentPage = (this.gridParam.SkipCount + this.gridParam.MaxResultCount) / this.gridParam.MaxResultCount;
+        this.gridParam.setPage();
+        this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
+    }
+
+    public genderChangeHandle(gender: Gender): void {
         this.gender = gender;
     }
 
-    public editRowHandler(index): void {
+    public editRowHandle(index): void {
         const dataItem = this.customerListData.value.data[index];
         this.showCustomerForEditHander(dataItem.id);
     }
 
-    public orderStatusChangeHandler(status: Status): void {
+    public orderStatusChangeHandle(status: Status): void {
         if (!!status === false) {
             this.bookingOrderStatus = [Status._1, Status._2, Status._3, Status._4, Status._5];
             return;
@@ -273,17 +273,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.loadData();
     }
 
-    // 获取日期搜索
-    dateSelectHandler(date: string): void {
-        if (date === '') {
-            this.bookingDate = undefined;
-            this.mobileLoadData();
-            return;
-        }
-        this.bookingDate = moment(date).local();
-        this.mobileLoadData();
-    }
-
+    /*
+        移动端相关代码
+    */
     // PC端是返回的kendo的数据格式，移动端重写获取数据方法
     getMobileBookingData(): void {
         this._route.queryParams
@@ -294,7 +286,8 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             })
     }
 
-    mobileLoadData(): void {
+    // scrollHandleBack: 接收一个回调函数，控制下拉刷新，上拉加载的状态
+    mobileLoadData(scrollHandleBack?: any): void {
         this._orgBookingOrderServiceProxy
             .getOrders(this.bookingId,
             this.bookingName,
@@ -311,6 +304,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.gridParam.GetSortingString(),
             this.gridParam.MaxResultCount,
             this.gridParam.SkipCount)
+            .finally(() => {
+                scrollHandleBack && scrollHandleBack();
+            })
             .subscribe(result => {
                 this.mobileCustomerListData = result.items;
                 this.totalItems = result.totalCount;
@@ -320,24 +316,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                     this.allMobileCustomerListData[this.updateDataIndex] = this.mobileCustomerListData;
                 }
             })
-    }
-
-    getProfilePictureUrl(profilePictureUrl: string): string {
-        const defaultAvatar = 'assets/common/images/default-profile-picture.png';
-        if (profilePictureUrl === '') {
-            return defaultAvatar;
-        }
-        return profilePictureUrl;
-    }
-
-    getTimeAgo(time: any): string {
-        const timeagoInstance = timeago(moment().local().format('YYYY-MM-DD hh:mm:ss'));
-        return timeagoInstance.format(time.local().format('YYYY-MM-DD hh:mm:ss'), 'zh_CN');
-    }
-
-    private isHourOfDate(str: string): boolean {
-        let temp = str.split('-')
-        return;
     }
 
     // 获取可用日期和时间下拉框数据源
@@ -350,7 +328,60 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             })
     }
 
+    // 应约人列表model弹窗，若关闭应该刷新数据
+    public hiddenMobileOrderModelHandle(flag: boolean): void {
+        if (flag) {
+            this.mobileLoadData();
+        }
+    }
+
+    public getTimeAgo(time: any): string {
+        const timeagoInstance = timeago(moment().local().format('YYYY-MM-DD hh:mm:ss'));
+        return timeagoInstance.format(time.local().format('YYYY-MM-DD hh:mm:ss'), 'zh_CN');
+    }
+
+    // 下拉刷新
+    public pullDownRefresh(): void {
+        this.updateDataIndex = 0;
+        this.gridParam.SkipCount = 0;
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledDownActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.mobileLoadData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.pulledDownActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
+    }
+
+    // 上拉加载
+    public pullUpLoad(): void {
+        this.updateDataIndex = -1;
+        let totalCount = 0;
+        this.allMobileCustomerListData.forEach(personBookingTotalCount => {
+            personBookingTotalCount.forEach(element => {
+                totalCount++;
+            });
+        });
+        this.gridParam.SkipCount = totalCount;
+        if (this.gridParam.SkipCount >= this.totalItems) {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.noMore = true;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+            return;
+        }
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledUpActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.mobileLoadData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.pulledUpActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
+    }
+
     public bookingDateChangeHandler(value: any): void {
+        this.updateDataIndex = 0;
         if (value === '0' || value === '') {
             this.bookingDate = undefined;
             this.mobileLoadData();
@@ -361,6 +392,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     }
 
     public bookingTimeChangeHandler(value: any): void {
+        this.updateDataIndex = 0;
         if (value === '0' || value === '') {
             this.hourOfDay = undefined;
             this.mobileLoadData();
@@ -369,26 +401,4 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.hourOfDay = value;
         this.mobileLoadData();
     }
-
-    public pageChange(event: PageChangeEvent): void {
-        this.gridParam.CurrentPage = (this.gridParam.SkipCount + this.gridParam.MaxResultCount) / this.gridParam.MaxResultCount;
-        this.gridParam.setPage();
-        this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
-    }
-
-    public onScrollDown(): void {
-        this.updateDataIndex = -1;
-        let totalCount = 0;
-        this.allMobileCustomerListData.forEach(organizationBookingResultData => {
-            organizationBookingResultData.forEach(element => {
-                totalCount++;
-            });
-        });
-        this.gridParam.SkipCount = totalCount;
-        if (this.gridParam.SkipCount >= this.totalItems) {
-            return;
-        }
-        this.mobileLoadData();
-    }
 }
-

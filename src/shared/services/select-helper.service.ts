@@ -24,6 +24,20 @@ export class SelectHelperService extends AppComponentBase {
         return input;
     };
 
+    defaultDateSelectList(): SelectListItemDto {
+        const input = new SelectListItemDto();
+        input.text = '请选择日期';
+        input.value = '0';
+        return input;
+    };
+
+    defaultTimeSelectList(): SelectListItemDto {
+        const input = new SelectListItemDto();
+        input.text = '请选择时间';
+        input.value = '0';
+        return input;
+    };
+
     boolList(): Object[] {
         return [
             {
