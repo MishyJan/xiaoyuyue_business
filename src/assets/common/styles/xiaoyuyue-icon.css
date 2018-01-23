@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'xiaoyuyue-icon';
-  src:  url('../fonts/xiaoyuyue-icon.eot?4wpqmc');
-  src:  url('../fonts/xiaoyuyue-icon.eot?4wpqmc#iefix') format('embedded-opentype'),
-    url('../fonts/xiaoyuyue-icon.ttf?4wpqmc') format('truetype'),
-    url('../fonts/xiaoyuyue-icon.woff?4wpqmc') format('woff'),
-    url('../fonts/xiaoyuyue-icon.svg?4wpqmc#xiaoyuyue-icon') format('svg');
+  src:  url('../fonts/xiaoyuyue-icon.eot?kbriln');
+  src:  url('../fonts/xiaoyuyue-icon.eot?kbriln#iefix') format('embedded-opentype'),
+    url('../fonts/xiaoyuyue-icon.ttf?kbriln') format('truetype'),
+    url('../fonts/xiaoyuyue-icon.woff?kbriln') format('woff'),
+    url('../fonts/xiaoyuyue-icon.svg?kbriln#xiaoyuyue-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-check-in:before {
+  content: "\e95e";
+}
 .vapps-icon-app-active:before {
   content: "\e900";
 }
@@ -218,7 +221,6 @@
 }
 .vapps-icon-app-share-2:before {
   content: "\e940";
-  color: #000;
 }
 .vapps-icon-app-shop-hours:before {
   content: "\e941";
@@ -270,7 +272,6 @@
 }
 .vapps-icon-dc-customer-vip:before {
   content: "\e951";
-  color: #000;
 }
 .vapps-icon-dc-menu:before {
   content: "\e952";

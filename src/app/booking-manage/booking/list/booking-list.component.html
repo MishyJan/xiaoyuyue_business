@@ -157,10 +157,12 @@
                             </div>
                             <div class="handle-wrap">
                                 <div class="handle-item-1 row">
-                                    <span class="item col-md-6 col-sm-6 col-xs-6" *ngIf="isGranted(permissions.bookingManage_BookingDisable)" (click)="disabledBookingClass(index)">
+                                    <span class="item col-md-4 col-sm-4 col-xs-4" *ngIf="isGranted(permissions.bookingManage_BookingDisable)" (click)="disabledBookingClass(index)">
                                         <i class="vapps-icon-app-disabled"></i>{{l('Booking.Disabled')}}</span>
-                                    <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)">
+                                    <span class="item col-md-4 col-sm-4 col-xs-4" (click)="shareHandler(bookingResultItem.id)">
                                         <i class="vapps-icon-app-share"></i>{{l('Booking.Share')}}</span>
+                                    <span class="item col-md-4 col-sm-4 col-xs-4" (click)="showCheckInOrderHandle(bookingResultItem.id)">
+                                        <i class="vapps-icon-app-check-in"></i>{{ l('Booking.CheckIn') }}</span>
                                 </div>
                                 <div class="handle-item-2 pull-right">
                                     <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="{{l('Booking.Edit')}}">
@@ -273,6 +275,7 @@
             </div>
         </div>
         <xiaoyuyue-share-booking-model #shareBookingModel [slogen]="l('Booking.ShareTitle')"></xiaoyuyue-share-booking-model>
+        <xiaoyuyue-check-in-order-model #checkInOrderModelComponent></xiaoyuyue-check-in-order-model>
         <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHandler($event)"></xiaoyuyue-confirm-order-model>
         <xiaoyuyue-booking-custom-model #bookingCustomModelComponent></xiaoyuyue-booking-custom-model>
     </div>

@@ -1,0 +1,129 @@
+<div class="confirm-order-wrap">
+    <div bsModal #confirmOrderModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmOrderModel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="title-name">{{l('Booking.CheckIn')}}</div>
+                    <div class="command-wrap">
+                        <span class="process-batch btn btn-white" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchConfirmBookingOrderHandler()"
+                            [buttonBusy]="batchConfirming" [busyText]="l('Confirming')" [originalText]="l('Batch')">
+                            <i class="empty-ico"></i>
+                            <span #buttonInnerSpan class="show-text"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="row serach-wrap">
+                            <div class="col-md-11">
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control common-max-width" type="text" name="customerName" placeholder="{{l('BookingOrder.Name')}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <input class="form-control common-max-width" type="text" name="phoneNumber" placeholder="{{l('BookingOrder.PhoneNumber')}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <div class="flatpickr-wrap">
+                                                <label class="control-label"></label>
+                                                <input class="form-control common-max-width creationTime" type="text" placeholder="{{l('BookingOrder.CreationTime')}}" name="creationStartDate"
+                                                    data-input>
+                                                <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                                    <i class="vapps-icon-dc-calendar"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <kendo-dropdownlist></kendo-dropdownlist>
+                                            <!-- <kendo-dropdownlist [data]="orderStatusSelectList" [(ngModel)]="status" name="status" [textField]="'displayText'" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <span class="btn" (click)="loadData()" [buttonBusy]="searching">
+                                    <i class="vapps-icon-app-search"></i>
+                                    <span class="show-text"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <kendo-grid [data]="wait4ConfirmOrderListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount"
+                        [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
+                        [sortable]="gridParam.Sortable" (dataStateChange)="dataStateChange($event)" [scrollable]="gridParam.Scrollable"
+                        class="order-grid">
+                        <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
+                            pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
+                            pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+                        <!-- 应约人 -->
+                        <kendo-grid-column title="{{l('BookingOrder.Name')}}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <img class="avatar" [src]="dataItem.profilePictureUrl" alt="avatar">
+                                <span>{{ dataItem.customerName }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 预约时间 -->
+                        <kendo-grid-column title="{{l('BookingOrder.Datetime')}}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ t(dataItem.bookingDate,'YYYY-MM-DD') }} {{ dataItem.hourOfDay }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 预约人数 -->
+                        <kendo-grid-column title="{{l('BookingOrder.Num')}}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.subscriberNum }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <!-- 联系电话 -->
+                        <kendo-grid-column title="{{l('BookingOrder.PhoneNumber')}}">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <span>{{ dataItem.phoneNum }}</span>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column title="{{l('Booking.CheckIn')}}">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <!-- edit command directive, will be visible when not in edit mode -->
+                                <button title="{{l('Confirm')}}" class="btn confirm-btn" *ngIf="!isBatchConfirmFlag" (click)="confirmBookingOrderHander(dataItem.id,rowIndex)"
+                                    [buttonBusy]="singleConfirmingArray[rowIndex]">
+                                    <i class="empty-ico"></i>
+                                    <span class="show-text">{{l('Booking.CheckIn')}}</span>
+                                </button>
+                                <div class="md-checkbox-list" *ngIf="isBatchConfirmFlag" [ngClass]="{'k-button': false}">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input [id]="'name'+dataItem.id" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchConfirmBookingOrder($event.target.checked,dataItem.id)"
+                                                class="md-check" type="checkbox">
+                                        </label>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
