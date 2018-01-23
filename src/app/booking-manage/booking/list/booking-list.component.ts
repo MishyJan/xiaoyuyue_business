@@ -207,7 +207,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     // 获取预约完成百分比
     public getOverbrimValue(val1, val2): number {
         if (val1 <= 0 || val2 <= 0) { return 0; };
-        this.bookingOverbrimValue = Math.round(val2 / val1 * 100);
+        this.bookingOverbrimValue = Math.round((1 - (val2 / val1)) * 100);
         return this.bookingOverbrimValue;
     }
 
