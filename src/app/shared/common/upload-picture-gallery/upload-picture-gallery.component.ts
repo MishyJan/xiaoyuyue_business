@@ -38,9 +38,6 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     // 保存当前页码的数据是否选中的数据
     totalItems: number;
-    currentPage = 0;
-    maxResultCount = 12;
-
     selectedPicIndex: number;
 
     groupActiveIndex = 0;
@@ -125,7 +122,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     // 根据分组ID获取某分组下所有图片数据
     loadAllPicAsync(): void {
-        this.gridParam.MaxResultCount = this.maxResultCount;
+        this.gridParam.MaxResultCount = this.gridParam.MaxResultCount;
         const self = this;
         this._pictureServiceProxy
             .getPictureAsync(
@@ -242,15 +239,21 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
 
     // 分页
     public onPageChange(index: number): void {
-        this.currentPage = index;
-        this.gridParam.SkipCount = this.maxResultCount * (this.currentPage - 1);
+        this.gridParam.CurrentPage = index;
+        this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
         this.loadAllPicAsync()
     }
 
     public groupItemActive(groupItem: IPictureGroupListDto, groupActiveIndex: number): void {
         this.groupActiveIndex = groupActiveIndex;
         this.groupId = groupItem.id;
+        this.resetPageState();
         this.loadAllPicAsync();
+    }
+
+    private resetPageState(): void {
+        this.gridParam.CurrentPage = 0;
+        this.gridParam.SkipCount = 0;
     }
 
     initFileUploader(): void {
