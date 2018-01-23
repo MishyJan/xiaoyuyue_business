@@ -212,23 +212,29 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     }
 
     // 获取预约完成百分比
-    public getOverbrimValue(val1, val2): number {
-        if (val1 <= 0 || val2 <= 0) { return 0; };
-        this.bookingOverbrimValue = Math.round(val2 / val1 * 100);
+    public getOverbrimValue(maxNum, availableNum): number {
+        if (maxNum <= 0 || availableNum <= 0) { return 0; };
+
+        const bookedNum = maxNum - availableNum;
+        this.bookingOverbrimValue = Math.round(bookedNum / maxNum * 100);
         return this.bookingOverbrimValue;
     }
 
-    private countOverbrimTop(val1, val2): number {
-        if (val1 <= 0 || val2 <= 0) { return 32; };
+    private countOverbrimTop(maxNum, availableNum): number {
+        if (maxNum <= 0 || availableNum <= 0) { return 32; };
+
         const maxResult = 74;
         const ratio = maxResult / 100;
-        this.countOverbrimTopValue = -Math.round(((val2 / val1 * 100)) * ratio - 32);
+
+        const bookedNum = maxNum - availableNum;
+        this.countOverbrimTopValue = -Math.round((bookedNum / maxNum * 100) * ratio - 32);
         return this.countOverbrimTopValue;
     }
 
-    private countOverbrimState(val1, val2): any {
-        let temp = Math.round(val2 / val1 * 100);
-        (val1 === 0 || val2 === 0) && (temp = 0);
+    private countOverbrimState(maxNum, availableNum): any {
+        const bookedNum = maxNum - availableNum;
+        let temp = Math.round(bookedNum / maxNum * 100);
+        (maxNum === 0 || availableNum === 0) && (temp = 0);
         const state = {
             state1: 0 <= temp && temp <= 30,
             state2: 30 < temp && temp <= 60,
