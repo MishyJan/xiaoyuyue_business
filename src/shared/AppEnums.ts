@@ -39,7 +39,7 @@ export class AppEnumSelectItemSource {
 }
 
 // 应约人订单状态
-export class OrgBookingOrderStatus {
+export class BookingOrderStatus {
     static WaitConfirm: number = BookingOrderListDtoStatus._1;
     static ConfirmSuccess: number = BookingOrderListDtoStatus._2;
     static ConfirmFail: number = BookingOrderListDtoStatus._3;

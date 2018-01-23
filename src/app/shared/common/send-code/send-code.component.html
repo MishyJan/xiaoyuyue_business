@@ -1,6 +1,6 @@
 <div class="get-sms-btn">
     <button type="button" class="btn" (click)="send()" #smsBtn [disabled]="!isSend" [buttonBusy]="sending" [busyText]="l('Sending')">
         <i class="send-code"></i>
-        <span #smsBtnSpan>{{l("GetVerificationCode")}}</span>
+        <span #smsBtnSpan>{{ buttonText }}</span>
     </button>
 </div>

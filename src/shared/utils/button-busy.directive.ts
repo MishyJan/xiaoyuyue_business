@@ -10,6 +10,7 @@ export class ButtonBusyDirective implements OnInit {
     }
 
     @Input() busyText: string;
+    @Input() originalText: string;
 
     private _$button: JQuery;
     private _$buttonInnerSpan: JQuery;
@@ -66,6 +67,10 @@ export class ButtonBusyDirective implements OnInit {
             // restore text
             if (this._$buttonInnerSpan.length && this._$buttonInnerSpan.data('_originalText')) {
                 this._$buttonInnerSpan.html(this._$buttonInnerSpan.data('_originalText'));
+            }
+
+            if (this._$buttonInnerSpan.length && this.originalText) {
+                this._$buttonInnerSpan.html(this.originalText);
             }
         }
     }

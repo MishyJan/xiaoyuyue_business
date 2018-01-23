@@ -12,24 +12,24 @@
                     <form class="form-horizontal">
                         <div class="row serach-wrap">
                             <div class="col-md-11">
-                                <div class="col-md-4">
-                                    <div class="col-md-8">
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
                                             <input class="form-control common-max-width" [(ngModel)]="customerName" type="text" name="customerName" placeholder="{{l('BookingOrder.Name')}}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="col-md-8">
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
                                             <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="{{l('BookingOrder.PhoneNumber')}}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="col-md-8">
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
                                         <div class="form-group label-floating is-empty">
                                             <div class="flatpickr-wrap">
                                                 <label class="control-label"></label>
@@ -42,13 +42,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="col-md-10">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label"></label>
+                                            <kendo-dropdownlist [data]="orderStatusSelectList" [(ngModel)]="status" name="status" [textField]="'displayText'" [valueField]="'value'"
+                                                [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-1">
-                                <span class="btn vapps-icon-app-search" (click)="loadData()"></span>
+                                <span class="btn" (click)="loadData()" [buttonBusy]="searching">
+                                    <i class="vapps-icon-app-search"></i>
+                                    <span class="show-text"></span>
+                                </span>
                             </div>
                         </div>
                     </form>
-
                     <div class="grid-wrap">
                         <kendo-grid [data]="bookingCustomListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting"
                             [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
@@ -56,6 +67,14 @@
                             <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
                                 pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
                                 pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+
+                            <!-- 订单状态  -->
+                            <kendo-grid-column title="{{l('BookingOrder.Status')}}">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                    <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ displayStatus[dataItem.status-1] }}</span>
+                                </ng-template>
+                            </kendo-grid-column>
+
                             <!-- 应约人 -->
                             <kendo-grid-column title="{{l('BookingOrder.Name')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
