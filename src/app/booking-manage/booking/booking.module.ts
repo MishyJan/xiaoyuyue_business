@@ -26,6 +26,7 @@ import { ResponsiveModule } from 'ng2-responsive';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { TimeInfoComponent } from 'app/booking-manage/booking/create-or-edit/time-info/time-info.component';
 import { UtilsModule } from '@shared/utils/utils.module';
+import { CheckInOrderModelComponent } from 'app/booking-manage/booking/list/shared/check-in-order-model/check-in-order-model.component';
 
 @NgModule({
     imports: [
@@ -63,7 +64,8 @@ import { UtilsModule } from '@shared/utils/utils.module';
         CreateSucceededComponent,
         BookingDetailComponent,
         MobileShareBookingModelComponent,
-        MobileConfirmOrderModelComponent
+        MobileConfirmOrderModelComponent,
+        CheckInOrderModelComponent
     ],
     providers: [
 

@@ -239,9 +239,9 @@
                     }
                     .handle-wrap {
                         .handle-item-1 {
-                            width: 150px;
-                            margin: 36px auto 0;
+                            margin: 36px 40px 0;
                             .item {
+                                padding: 0;
                                 text-align: center;
                                 >i {
                                     display: block;
@@ -252,6 +252,7 @@
                                     background-color: #AAA;
                                     font-size: 18px;
                                     transition: all .15s;
+                                    margin: 0 auto;
                                 }
                             }
                             .item:hover>i {

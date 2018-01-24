@@ -28,7 +28,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     phoneNumber: string;
     creationStartDate: any;
 
-    creationTimePicker: any;
+    bookingCustomCreationTimePicker: any;
     bookingCustomListData = new AppGridData();
     bookingItem: BookingListDto = new BookingListDto();
 
@@ -62,8 +62,8 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     }
 
     ngOnDestroy() {
-        if (this.creationTimePicker) {
-            this.creationTimePicker.destroy();
+        if (this.bookingCustomCreationTimePicker) {
+            this.bookingCustomCreationTimePicker.destroy();
         }
     }
 
@@ -114,10 +114,10 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     }
 
     initFlatpickr() {
-        this.creationTimePicker = $('.creationTime').flatpickr({
+        this.bookingCustomCreationTimePicker = $('.booking-custom-creation-time').flatpickr({
             'locale': LocalizationHelper.getFlatpickrLocale(),
             onClose: (element) => {
-                $(this.creationTimePicker.input).blur();
+                $(this.bookingCustomCreationTimePicker.input).blur();
             },
             onOpen: (dateObj, dateStr) => {
                 this.creationStartDate = null;

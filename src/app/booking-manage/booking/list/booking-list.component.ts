@@ -24,6 +24,7 @@ import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { CheckInOrderModelComponent } from 'app/booking-manage/booking/list/shared/check-in-order-model/check-in-order-model.component';
 
 @Component({
     selector: 'app-manage-booking',
@@ -76,8 +77,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     searching = false;
 
     shareBaseUrl: string = AppConsts.userCenterUrl + '/booking/';
-    @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
-    @ViewChild('bookingCustomModelComponent') BookingCustomModelComponent: BookingCustomModelComponent;
+    @ViewChild('checkInOrderModelComponent') checkInOrderModelComponent: CheckInOrderModelComponent;
+    @ViewChild('confirmOrderModelComponent') confirmOrderModelComponent: ConfirmOrderModelComponent;
+    @ViewChild('bookingCustomModelComponent') bookingCustomModelComponent: BookingCustomModelComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
     @ViewChild('bookingBg') bookingBgElement: ElementRef;
     @ViewChild('mobileShareBookingModel') mobileShareBookingModel: MobileShareBookingModelComponent;
@@ -189,7 +191,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 显示待确认model
     showConfirmOrderHandler(bookingId: number): void {
-        this.ConfirmOrderModelComponent.showModel(bookingId);
+        this.confirmOrderModelComponent.showModel(bookingId);
     }
 
     // 待确认model弹窗，若关闭应该刷新数据
@@ -201,7 +203,12 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 显示应约人列表
     showBookingCostomHandler(bookingItem: BookingListDto): void {
-        this.BookingCustomModelComponent.showModel(bookingItem);
+        this.bookingCustomModelComponent.showModel(bookingItem);
+    }
+
+    // 显示未签到订单model
+    showCheckInOrderHandle(bookingId: number): void {
+        this.checkInOrderModelComponent.showModel(bookingId);
     }
 
     // 获取预约完成百分比
