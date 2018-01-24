@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { Component, ViewEncapsulation, OnInit, ViewChild, ElementRef, Injector } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { BatchSignInInput, Status, OrgBookingOrderServiceProxy } from 'shared/service-proxies/service-proxies';
+import { Status, OrgBookingOrderServiceProxy, BatchCheckInInput } from 'shared/service-proxies/service-proxies';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderStatus } from 'shared/AppEnums';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
@@ -17,7 +17,7 @@ import { GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-gr
     encapsulation: ViewEncapsulation.None,
 })
 export class CheckInOrderModelComponent extends AppComponentBase implements OnInit {
-    batchSignInInput: BatchSignInInput = new BatchSignInInput();
+    batchCheckInInput: BatchCheckInInput = new BatchCheckInInput();
     isFreshenData = false;
     checkInOrderText = this.l('Batch');
 
@@ -44,7 +44,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     ngOnInit() {
-        this.batchSignInInput.ids = [];
+        this.batchCheckInInput.ids = [];
     }
 
     loadData(): void {
@@ -87,10 +87,10 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
 
     // 签到预约订单
     chenkInBookingOrderHandle(bookingOrderId: number, rowIndex: number): void {
-        this.batchSignInInput.ids[0] = bookingOrderId;
+        this.batchCheckInInput.ids[0] = bookingOrderId;
         this.singleCheckInArray[rowIndex] = true;
         this._orgBookingOrderServiceProxy
-            .batchSignInBookingOrder(this.batchSignInInput)
+            .batchCheckInBookingOrder(this.batchCheckInInput)
             .finally(() => {
                 this.singleCheckInArray[rowIndex] = true;
             })
@@ -103,14 +103,14 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
     batchCheckInBookingOrderHandle(): void {
         this.isBatchCheckInFlag = !this.isBatchCheckInFlag;
         this.refeshButtonText();
-        if (this.batchSignInInput.ids.length === 0) {
+        if (this.batchCheckInInput.ids.length === 0) {
             return;
         }
 
         if (!this.isBatchCheckInFlag) {
             this.batchCheckIning = true;
             this._orgBookingOrderServiceProxy
-                .batchSignInBookingOrder(this.batchSignInInput)
+                .batchSignInBookingOrder(this.batchCheckInInput)
                 .finally(() => {
                     this.batchCheckIning = false;
                     this.refeshButtonText();
@@ -124,9 +124,9 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
     // 多选签到预约订单
     batchCheckInBookingOrder(check: boolean, value: number): void {
         if (check) {
-            this.batchSignInInput.ids.push(value);
+            this.batchCheckInInput.ids.push(value);
         } else {
-            this.removeByValue(this.batchSignInInput.ids, value);
+            this.removeByValue(this.batchCheckInInput.ids, value);
         }
         this.refeshButtonText();
     }
@@ -144,7 +144,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
         if (!bookingId) {
             return;
         }
-        this.batchSignInInput.bookingId =  this.bookingId = bookingId;
+        this.batchCheckInInput.bookingId =  this.bookingId = bookingId;
         this.resetCheckInInitStatus();
         this.modal.show();
         this.loadData();
@@ -160,13 +160,13 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
 
     private checkInSuccessStatus() {
         this.isFreshenData = true;
-        this.batchSignInInput.ids = [];
+        this.batchCheckInInput.ids = [];
         this.notify.success(this.l('Booking.CheckIn.Success'));
         this.loadData();
     }
 
     private resetCheckInInitStatus() {
-        this.batchSignInInput.ids = [];
+        this.batchCheckInInput.ids = [];
         this.isBatchCheckInFlag = false;
         this.isFreshenData = false;
         this.refeshButtonText();
@@ -176,7 +176,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
         if (!this.isBatchCheckInFlag) {
             this.checkInOrderText = this.l('Batch');
         } else {
-            if (this.batchSignInInput.ids.length === 0) {
+            if (this.batchCheckInInput.ids.length === 0) {
                 this.checkInOrderText === this.l('Cancel') ? this.checkInOrderText = this.l('Batch') : this.checkInOrderText = this.l('Cancel');
             } else {
                 this.checkInOrderText = this.l('Confirm');

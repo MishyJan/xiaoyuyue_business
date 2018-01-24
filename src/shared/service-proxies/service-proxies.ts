@@ -18,7 +18,7 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response } from '@angular/http';
 
-import { Moment }  from 'moment';
+import { Moment } from 'moment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -5626,8 +5626,8 @@ export class OrgBookingOrderServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    batchSignInBookingOrder(input: BatchSignInInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/OrgBookingOrder/BatchSignInBookingOrder";
+    batchCheckInBookingOrder(input: BatchCheckInInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OrgBookingOrder/BatchCheckInBookingOrder";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -5641,11 +5641,11 @@ export class OrgBookingOrderServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processBatchSignInBookingOrder(response_);
+            return this.processBatchCheckInBookingOrder(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processBatchSignInBookingOrder(<any>response_);
+                    return this.processBatchCheckInBookingOrder(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -5654,7 +5654,7 @@ export class OrgBookingOrderServiceProxy {
         });
     }
 
-    protected processBatchSignInBookingOrder(response: Response): Observable<void> {
+    protected processBatchCheckInBookingOrder(response: Response): Observable<void> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -6892,8 +6892,8 @@ export class PerBookingOrderServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    signBookingOrder(input: SignInBookingOrderInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/PerBookingOrder/SignBookingOrder";
+    checkInBookingOrder(input: CheckInBookingOrderInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PerBookingOrder/CheckInBookingOrder";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -6907,11 +6907,11 @@ export class PerBookingOrderServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processSignBookingOrder(response_);
+            return this.processCheckInBookingOrder(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processSignBookingOrder(<any>response_);
+                    return this.processCheckInBookingOrder(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -6920,7 +6920,7 @@ export class PerBookingOrderServiceProxy {
         });
     }
 
-    protected processSignBookingOrder(response: Response): Observable<void> {
+    protected processCheckInBookingOrder(response: Response): Observable<void> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -9254,13 +9254,15 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
+     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
-     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount === undefined || maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
         else
@@ -9269,8 +9271,6 @@ export class StateServiceServiceProxy {
             throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
         else
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -21118,13 +21118,13 @@ export interface IBatchConfirmInput {
     ids: number[];
 }
 
-export class BatchSignInInput implements IBatchSignInInput {
+export class BatchCheckInInput implements IBatchCheckInInput {
     /** 预约Id */
     bookingId: number;
     /** 预约订单id数组 */
     ids: number[];
 
-    constructor(data?: IBatchSignInInput) {
+    constructor(data?: IBatchCheckInInput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -21144,8 +21144,8 @@ export class BatchSignInInput implements IBatchSignInInput {
         }
     }
 
-    static fromJS(data: any): BatchSignInInput {
-        let result = new BatchSignInInput();
+    static fromJS(data: any): BatchCheckInInput {
+        let result = new BatchCheckInInput();
         result.init(data);
         return result;
     }
@@ -21162,7 +21162,7 @@ export class BatchSignInInput implements IBatchSignInInput {
     }
 }
 
-export interface IBatchSignInInput {
+export interface IBatchCheckInInput {
     /** 预约Id */
     bookingId: number;
     /** 预约订单id数组 */
@@ -22491,12 +22491,12 @@ export interface ICancelBookingOrderInput {
     id: number;
 }
 
-export class SignInBookingOrderInput implements ISignInBookingOrderInput {
+export class CheckInBookingOrderInput implements ICheckInBookingOrderInput {
     /** 签到经纬度（必填） */
     longitude: string;
     id: number;
 
-    constructor(data?: ISignInBookingOrderInput) {
+    constructor(data?: ICheckInBookingOrderInput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -22512,8 +22512,8 @@ export class SignInBookingOrderInput implements ISignInBookingOrderInput {
         }
     }
 
-    static fromJS(data: any): SignInBookingOrderInput {
-        let result = new SignInBookingOrderInput();
+    static fromJS(data: any): CheckInBookingOrderInput {
+        let result = new CheckInBookingOrderInput();
         result.init(data);
         return result;
     }
@@ -22526,7 +22526,7 @@ export class SignInBookingOrderInput implements ISignInBookingOrderInput {
     }
 }
 
-export interface ISignInBookingOrderInput {
+export interface ICheckInBookingOrderInput {
     /** 签到经纬度（必填） */
     longitude: string;
     id: number;
