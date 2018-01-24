@@ -18,9 +18,9 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response } from '@angular/http';
 
-import { Moment } from 'moment';
+import { Moment }  from 'moment';
 
-export const API_BASE_URL = new InjectionToken('API_BASE_URL');
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Injectable()
 export class AccountServiceProxy {
@@ -1496,8 +1496,8 @@ export class BookingRecordServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    recordBookingAccessAsync(input: BookingAccessRecordInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/BookingRecord/RecordBookingAccessAsync";
+    recordBookingAccess(input: BookingAccessRecordInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BookingRecord/RecordBookingAccess";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1511,11 +1511,11 @@ export class BookingRecordServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processRecordBookingAccessAsync(response_);
+            return this.processRecordBookingAccess(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processRecordBookingAccessAsync(<any>response_);
+                    return this.processRecordBookingAccess(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -1524,7 +1524,7 @@ export class BookingRecordServiceProxy {
         });
     }
 
-    protected processRecordBookingAccessAsync(response: Response): Observable<void> {
+    protected processRecordBookingAccess(response: Response): Observable<void> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -1543,8 +1543,8 @@ export class BookingRecordServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    recordBookingShareAsync(input: BookingShareRecordInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/BookingRecord/RecordBookingShareAsync";
+    recordBookingShare(input: BookingShareRecordInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BookingRecord/RecordBookingShare";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1558,11 +1558,11 @@ export class BookingRecordServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processRecordBookingShareAsync(response_);
+            return this.processRecordBookingShare(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processRecordBookingShareAsync(<any>response_);
+                    return this.processRecordBookingShare(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>Observable.throw(e);
                 }
@@ -1571,7 +1571,7 @@ export class BookingRecordServiceProxy {
         });
     }
 
-    protected processRecordBookingShareAsync(response: Response): Observable<void> {
+    protected processRecordBookingShare(response: Response): Observable<void> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -5622,6 +5622,53 @@ export class OrgBookingOrderServiceProxy {
     }
 
     /**
+     * 批量签到预约订单
+     * @input (optional) 
+     * @return Success
+     */
+    batchSignInBookingOrder(input: BatchSignInInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/OrgBookingOrder/BatchSignInBookingOrder";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processBatchSignInBookingOrder(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processBatchSignInBookingOrder(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processBatchSignInBookingOrder(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
      * 确认预约订单
      * @input (optional) 
      * @return Success
@@ -6827,6 +6874,53 @@ export class PerBookingOrderServiceProxy {
     }
 
     protected processCancelBookingOrder(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * 预约签到
+     * @input (optional) 
+     * @return Success
+     */
+    signBookingOrder(input: SignInBookingOrderInput): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PerBookingOrder/SignBookingOrder";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processSignBookingOrder(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processSignBookingOrder(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processSignBookingOrder(response: Response): Observable<void> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -21024,6 +21118,57 @@ export interface IBatchConfirmInput {
     ids: number[];
 }
 
+export class BatchSignInInput implements IBatchSignInInput {
+    /** 预约Id */
+    bookingId: number;
+    /** 预约订单id数组 */
+    ids: number[];
+
+    constructor(data?: IBatchSignInInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.bookingId = data["bookingId"];
+            if (data["ids"] && data["ids"].constructor === Array) {
+                this.ids = [];
+                for (let item of data["ids"])
+                    this.ids.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): BatchSignInInput {
+        let result = new BatchSignInInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["bookingId"] = this.bookingId;
+        if (this.ids && this.ids.constructor === Array) {
+            data["ids"] = [];
+            for (let item of this.ids)
+                data["ids"].push(item);
+        }
+        return data; 
+    }
+}
+
+export interface IBatchSignInInput {
+    /** 预约Id */
+    bookingId: number;
+    /** 预约订单id数组 */
+    ids: number[];
+}
+
 export class RemarkBookingOrderInput implements IRemarkBookingOrderInput {
     /** 备注 */
     remark: string;
@@ -22343,6 +22488,47 @@ export class CancelBookingOrderInput implements ICancelBookingOrderInput {
 export interface ICancelBookingOrderInput {
     /** 取消理由（必填） */
     refuseReason: string;
+    id: number;
+}
+
+export class SignInBookingOrderInput implements ISignInBookingOrderInput {
+    /** 签到经纬度（必填） */
+    longitude: string;
+    id: number;
+
+    constructor(data?: ISignInBookingOrderInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.longitude = data["longitude"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SignInBookingOrderInput {
+        let result = new SignInBookingOrderInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["longitude"] = this.longitude;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ISignInBookingOrderInput {
+    /** 签到经纬度（必填） */
+    longitude: string;
     id: number;
 }
 
