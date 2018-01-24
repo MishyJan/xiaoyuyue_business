@@ -32,6 +32,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
     isShowModelFlag = false;
     status: Status[] = [BookingOrderStatus.WaitConfirm];
     wait4ConfirmOrderListData = new AppGridData();
+    searching = false;
 
     batchConfirming = false;
     singleConfirmingArray = [];
@@ -51,6 +52,8 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     loadData(): void {
+        this.searching = true;
+
         const loadOrgConfirmOrderData = () => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
@@ -82,6 +85,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
 
         this.wait4ConfirmOrderListData.query(loadOrgConfirmOrderData, true, () => {
             this.batchConfirming = false;
+            this.searching = false;
         });
     }
 
