@@ -70,7 +70,7 @@ export class AccessRecordService {
         input.standingTime = moment().diff(this.accessTime); // 计算停留时间
         const data = JSON.stringify(input.toJSON());
         this._bookingRecordService
-            .recordBookingAccessAsync(input)
+            .recordBookingAccess(input)
             .subscribe(result => {
                 finallyCallback();
             });
@@ -84,7 +84,7 @@ export class AccessRecordService {
         input.target = BookingAccessSourceType.getType(resultDto.target); // 分享渠道 ;
         const data = JSON.stringify(input.toJSON());
         this._bookingRecordService
-            .recordBookingShareAsync(input)
+            .recordBookingShare(input)
             .subscribe(result => {
                 finallyCallback();
             });
