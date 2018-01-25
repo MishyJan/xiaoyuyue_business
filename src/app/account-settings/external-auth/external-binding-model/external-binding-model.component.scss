@@ -11,7 +11,9 @@
         z-index: 12000;
     }
     .external-source-wrap {
-        .external-title {}
+        .external-title {
+            text-align: center;
+        }
         .external-btn-wrap {
             height: 50px;
             display: flex;

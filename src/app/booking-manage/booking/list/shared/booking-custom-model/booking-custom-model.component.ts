@@ -91,6 +91,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 undefined,
                 this.phoneNumber,
                 undefined,
+                undefined,
                 this.creationStartDate,
                 this.creationStartDate,
                 this.getSearchStatusArray(),
