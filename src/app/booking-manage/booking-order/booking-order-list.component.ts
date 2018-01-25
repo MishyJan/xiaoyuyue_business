@@ -10,13 +10,13 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
 import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { Moment } from 'moment';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 import { SelectHelperService } from 'shared/services/select-helper.service';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
-import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
-import { ListScrollService } from 'shared/services/list-scroll.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -173,6 +173,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                 this.endMinute,
                 this.phoneNumber,
                 this.gender,
+                undefined,
                 this.creationStartDate,
                 this.creationEndDate,
                 this.orderStatus,
@@ -278,6 +279,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.endMinute,
             this.phoneNumber,
             this.gender,
+            undefined,
             this.creationStartDate,
             this.creationEndDate,
             this.orderStatus,
