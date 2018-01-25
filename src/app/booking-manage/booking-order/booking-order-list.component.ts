@@ -218,6 +218,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.gridParam.setPage();
         this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
     }
+
     // 获取预约状态下拉框数据源
     getSelectListData(): void {
         this.bookingDateSelectDefaultItem = this._selectHelper.defaultSelectList();
@@ -226,7 +227,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.displayStatus = this._orderStatusService.DisplayStatus;
         this.orderStatusSelectList = this._orderStatusService.getOrderStatusSelectList();
         this.bookingTimeSelectDefaultItem = this._selectHelper.defaultTimeSelectList();
-
     }
 
     public genderChangeHandle(gender: Gender): void {

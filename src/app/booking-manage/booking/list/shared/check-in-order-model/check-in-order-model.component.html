@@ -1,13 +1,13 @@
 <div class="confirm-order-wrap">
-    <div bsModal #confirmOrderModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmOrderModel"
+    <div bsModal #checkInOrderModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="checkInOrderModel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="title-name">{{l('Booking.CheckIn')}}</div>
                     <div class="command-wrap">
-                        <span class="process-batch btn btn-white" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchConfirmBookingOrderHandler()"
-                            [buttonBusy]="batchConfirming" [busyText]="l('Confirming')" [originalText]="l('Batch')">
+                        <span class="process-batch btn btn-white" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchCheckInBookingOrderHandle()"
+                            [buttonBusy]="batchCheckIning" [busyText]="l('Confirming')" [originalText]="l('Batch')">
                             <i class="empty-ico"></i>
                             <span #buttonInnerSpan class="show-text"></span>
                         </span>
@@ -52,7 +52,7 @@
                                     <div class="col-md-10">
                                         <div class="form-group label-floating is-empty">
                                             <label class="control-label"></label>
-                                            <kendo-dropdownlist></kendo-dropdownlist>
+                                            <!-- <kendo-dropdownlist></kendo-dropdownlist> -->
                                             <!-- <kendo-dropdownlist [data]="orderStatusSelectList" [(ngModel)]="status" name="status" [textField]="'displayText'" [valueField]="'value'"
                                                         [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist> -->
                                         </div>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </form>
-                    <kendo-grid [data]="wait4ConfirmOrderListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount"
+                    <kendo-grid [data]="wait4CheckInOrderListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount"
                         [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                         [sortable]="gridParam.Sortable" (dataStateChange)="dataStateChange($event)" [scrollable]="gridParam.Scrollable"
                         class="order-grid">
@@ -106,15 +106,15 @@
                         <kendo-grid-column title="{{l('Booking.CheckIn')}}">
                             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <!-- edit command directive, will be visible when not in edit mode -->
-                                <button title="{{l('Confirm')}}" class="btn confirm-btn" *ngIf="!isBatchConfirmFlag" (click)="confirmBookingOrderHander(dataItem.id,rowIndex)"
-                                    [buttonBusy]="singleConfirmingArray[rowIndex]">
+                                <button title="{{l('Confirm')}}" class="btn confirm-btn" *ngIf="!isBatchCheckInFlag" (click)="chenkInBookingOrderHandle(dataItem.id,rowIndex)"
+                                    [buttonBusy]="singleCheckInArray[rowIndex]">
                                     <i class="empty-ico"></i>
                                     <span class="show-text">{{l('Booking.CheckIn')}}</span>
                                 </button>
-                                <div class="md-checkbox-list" *ngIf="isBatchConfirmFlag" [ngClass]="{'k-button': false}">
+                                <div class="md-checkbox-list" *ngIf="isBatchCheckInFlag" [ngClass]="{'k-button': false}">
                                     <div class="checkbox">
                                         <label>
-                                            <input [id]="'name'+dataItem.id" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchConfirmBookingOrder($event.target.checked,dataItem.id)"
+                                            <input [id]="'name'+dataItem.id" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchCheckInBookingOrder($event.target.checked,dataItem.id)"
                                                 class="md-check" type="checkbox">
                                         </label>
                                     </div>

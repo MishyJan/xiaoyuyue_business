@@ -1,18 +1,14 @@
 import * as _ from 'lodash';
-
-import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
-import { Component, ElementRef, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { DataStateChangeEvent, EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
-
+import { Component, ViewEncapsulation, OnInit, ViewChild, ElementRef, Injector } from '@angular/core';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { AppConsts } from 'shared/AppConsts';
-import { AppGridData } from '@shared/grid-data-results/grid-data-results';
-import { AppSessionService } from 'shared/common/session/app-session.service';
+import { Status, OrgBookingOrderServiceProxy, BatchCheckInInput } from 'shared/service-proxies/service-proxies';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
-import { ModalDirective } from 'ngx-bootstrap';
-import { Moment } from 'moment';
 import { BookingOrderStatus } from 'shared/AppEnums';
-import { SortDescriptor } from '@progress/kendo-data-query';
+import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { ModalDirective } from 'ngx-bootstrap';
+import { AppSessionService } from 'shared/common/session/app-session.service';
+import { GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+
 
 @Component({
     selector: 'xiaoyuyue-check-in-order-model',
@@ -21,23 +17,23 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     encapsulation: ViewEncapsulation.None,
 })
 export class CheckInOrderModelComponent extends AppComponentBase implements OnInit {
+    batchCheckInInput: BatchCheckInInput = new BatchCheckInInput();
     isFreshenData = false;
-    confirmOrderText = this.l('Batch');
+    checkInOrderText = this.l('Batch');
 
-    batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
-    batchConfirmCount = 0;
+    batchCheckInCount = 0;
     bookingId: number;
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
-    isBatchConfirmFlag = false;
+    isBatchCheckInFlag = false;
     isShowModelFlag = false;
-    status: Status[] = [BookingOrderStatus.WaitConfirm];
-    wait4ConfirmOrderListData = new AppGridData();
+    status: Status[] = [BookingOrderStatus.ConfirmSuccess];
+    wait4CheckInOrderListData = new AppGridData();
     searching = false;
 
-    batchConfirming = false;
-    singleConfirmingArray = [];
+    batchCheckIning = false;
+    singleCheckInArray = [];
 
-    @ViewChild('confirmOrderModel') modal: ModalDirective;
+    @ViewChild('checkInOrderModel') modal: ModalDirective;
     @ViewChild('buttonInnerSpan') _buttonInnerSpan: ElementRef;
     constructor(
         injector: Injector,
@@ -48,13 +44,13 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
     }
 
     ngOnInit() {
-        this.batchConfirmInput.ids = [];
+        this.batchCheckInInput.ids = [];
     }
 
     loadData(): void {
         this.searching = true;
 
-        const loadOrgConfirmOrderData = () => {
+        const loadOrgCheckInOrderData = () => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
                 this.bookingId,
@@ -77,60 +73,60 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
                         data: response.items,
                         total: response.totalCount
                     });
-                    this.initConfirmingArray(response.items.length);
-                    this.singleConfirmingArray = new Array
+                    this.initCheckInArray(response.items.length);
+                    this.singleCheckInArray = new Array
                     return gridData;
                 });
         }
 
-        this.wait4ConfirmOrderListData.query(loadOrgConfirmOrderData, true, () => {
-            this.batchConfirming = false;
+        this.wait4CheckInOrderListData.query(loadOrgCheckInOrderData, true, () => {
+            this.batchCheckIning = false;
             this.searching = false;
         });
     }
 
-    // 确认预约订单
-    confirmBookingOrderHander(confirmBookingId: number, rowIndex: number): void {
-        const input: EntityDtoOfInt64 = new EntityDtoOfInt64();
-        input.id = confirmBookingId;
-        this.singleConfirmingArray[rowIndex] = true;
+    // 签到预约订单
+    chenkInBookingOrderHandle(bookingOrderId: number, rowIndex: number): void {
+        this.batchCheckInInput.ids[0] = bookingOrderId;
+        this.singleCheckInArray[rowIndex] = true;
         this._orgBookingOrderServiceProxy
-            .confirmBookingOrder(input)
+            .batchCheckInBookingOrder(this.batchCheckInInput)
             .finally(() => {
-                this.singleConfirmingArray[rowIndex] = true;
+                this.singleCheckInArray[rowIndex] = true;
             })
             .subscribe(() => {
-                this.confirmSuccessStatus();
+                this.checkInSuccessStatus();
             })
     }
 
-    batchConfirmBookingOrderHandler(): void {
-        this.isBatchConfirmFlag = !this.isBatchConfirmFlag;
+    // 批量签到预约订单
+    batchCheckInBookingOrderHandle(): void {
+        this.isBatchCheckInFlag = !this.isBatchCheckInFlag;
         this.refeshButtonText();
-        if (this.batchConfirmInput.ids.length === 0) {
+        if (this.batchCheckInInput.ids.length === 0) {
             return;
         }
 
-        if (!this.isBatchConfirmFlag) {
-            this.batchConfirming = true;
+        if (!this.isBatchCheckInFlag) {
+            this.batchCheckIning = true;
             this._orgBookingOrderServiceProxy
-                .batchConfirmBookingOrder(this.batchConfirmInput)
+                .batchSignInBookingOrder(this.batchCheckInInput)
                 .finally(() => {
-                    this.batchConfirming = false;
+                    this.batchCheckIning = false;
                     this.refeshButtonText();
                 })
                 .subscribe(() => {
-                    this.confirmSuccessStatus();
+                    this.checkInSuccessStatus();
                 })
         }
     }
 
-    // 批量确认预约订单
-    batchConfirmBookingOrder(check: boolean, value: number): void {
+    // 多选签到预约订单
+    batchCheckInBookingOrder(check: boolean, value: number): void {
         if (check) {
-            this.batchConfirmInput.ids.push(value);
+            this.batchCheckInInput.ids.push(value);
         } else {
-            this.removeByValue(this.batchConfirmInput.ids, value);
+            this.removeByValue(this.batchCheckInInput.ids, value);
         }
         this.refeshButtonText();
     }
@@ -148,8 +144,8 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
         if (!bookingId) {
             return;
         }
-        this.bookingId = bookingId;
-        this.resetConfirmInitStatus();
+        this.batchCheckInInput.bookingId =  this.bookingId = bookingId;
+        this.resetCheckInInitStatus();
         this.modal.show();
         this.loadData();
     }
@@ -162,36 +158,36 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
         this.loadData();
     }
 
-    confirmSuccessStatus() {
+    private checkInSuccessStatus() {
         this.isFreshenData = true;
-        this.batchConfirmInput.ids = [];
-        this.notify.success(this.l('Booking.Confirm.Success'));
-        this.loadData()
+        this.batchCheckInInput.ids = [];
+        this.notify.success(this.l('Booking.CheckIn.Success'));
+        this.loadData();
     }
 
-    resetConfirmInitStatus() {
-        this.batchConfirmInput.ids = [];
-        this.isBatchConfirmFlag = false;
+    private resetCheckInInitStatus() {
+        this.batchCheckInInput.ids = [];
+        this.isBatchCheckInFlag = false;
         this.isFreshenData = false;
         this.refeshButtonText();
     }
 
-    refeshButtonText() {
-        if (!this.isBatchConfirmFlag) {
-            this.confirmOrderText = this.l('Batch');
+    private refeshButtonText() {
+        if (!this.isBatchCheckInFlag) {
+            this.checkInOrderText = this.l('Batch');
         } else {
-            if (this.batchConfirmInput.ids.length === 0) {
-                this.confirmOrderText === this.l('Cancel') ? this.confirmOrderText = this.l('Batch') : this.confirmOrderText = this.l('Cancel');
+            if (this.batchCheckInInput.ids.length === 0) {
+                this.checkInOrderText === this.l('Cancel') ? this.checkInOrderText = this.l('Batch') : this.checkInOrderText = this.l('Cancel');
             } else {
-                this.confirmOrderText = this.l('Confirm');
+                this.checkInOrderText = this.l('Confirm');
             }
         }
-        this._buttonInnerSpan.nativeElement.innerHTML = this.confirmOrderText;
+        this._buttonInnerSpan.nativeElement.innerHTML = this.checkInOrderText;
     }
 
-    initConfirmingArray(length: number) {
+    private initCheckInArray(length: number) {
         for (let i = 0; i < length; i++) {
-            this.singleConfirmingArray[i] = false;
+            this.singleCheckInArray[i] = false;
         }
     }
 }
