@@ -68,6 +68,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
                 undefined,
                 undefined,
                 undefined,
+                undefined,
                 this.status,
                 this.gridParam.GetSortingString(),
                 this.gridParam.MaxResultCount,

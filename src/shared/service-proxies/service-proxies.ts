@@ -11456,8 +11456,8 @@ export class TokenAuthServiceProxy {
      * 获取登录凭证短链
      * @return Success
      */
-    shortAuthToken(): Observable<ShortAuthTokenModel> {
-        let url_ = this.baseUrl + "/api/TokenAuth/ShortAuthToken";
+    getShortAuthToken(): Observable<ShortAuthTokenModel> {
+        let url_ = this.baseUrl + "/api/TokenAuth/GetShortAuthToken";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11469,11 +11469,11 @@ export class TokenAuthServiceProxy {
         };
 
         return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processShortAuthToken(response_);
+            return this.processGetShortAuthToken(response_);
         }).catch((response_: any) => {
             if (response_ instanceof Response) {
                 try {
-                    return this.processShortAuthToken(<any>response_);
+                    return this.processGetShortAuthToken(<any>response_);
                 } catch (e) {
                     return <Observable<ShortAuthTokenModel>><any>Observable.throw(e);
                 }
@@ -11482,7 +11482,7 @@ export class TokenAuthServiceProxy {
         });
     }
 
-    protected processShortAuthToken(response: Response): Observable<ShortAuthTokenModel> {
+    protected processGetShortAuthToken(response: Response): Observable<ShortAuthTokenModel> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -11497,6 +11497,57 @@ export class TokenAuthServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Observable.of<ShortAuthTokenModel>(<any>null);
+    }
+
+    /**
+     * 获取短链凭证登陆
+     * @model (optional) 
+     * @return Success
+     */
+    authenticateByShortAuth(model: ShortAuthTokenModel): Observable<AuthenticateResultModel> {
+        let url_ = this.baseUrl + "/api/TokenAuth/AuthenticateByShortAuth";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ : any = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processAuthenticateByShortAuth(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processAuthenticateByShortAuth(<any>response_);
+                } catch (e) {
+                    return <Observable<AuthenticateResultModel>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<AuthenticateResultModel>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processAuthenticateByShortAuth(response: Response): Observable<AuthenticateResultModel> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AuthenticateResultModel.fromJS(resultData200) : new AuthenticateResultModel();
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<AuthenticateResultModel>(<any>null);
     }
 
     /**

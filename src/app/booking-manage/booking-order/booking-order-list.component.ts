@@ -283,6 +283,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.endMinute,
             this.phoneNumber,
             this.gender,
+            this.checkIn,
             this.creationStartDate,
             this.creationEndDate,
             this.orderStatus,

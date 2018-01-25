@@ -65,6 +65,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             this.endMinute,
             this.phoneNumber,
             this.gender,
+            undefined,
             this.creationStartDate,
             this.creationEndDate,
             this.status,

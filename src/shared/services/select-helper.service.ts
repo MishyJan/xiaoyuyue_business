@@ -19,8 +19,9 @@ export class SelectHelperService extends AppComponentBase {
     };
 
     defaultListWithText(text: string) {
+        const value: any = '';
         return {
-            value: '',
+            value: value,
             displayText: this.l(text)
         };
     };
