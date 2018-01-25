@@ -17,6 +17,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
 import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 import { ListScrollService } from 'shared/services/list-scroll.service';
+import { SpreadMoreService } from 'shared/services/spread-more.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -53,12 +54,14 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
     selectDefaultItem: { value: string, displayText: string; };
     orderStatusSelectList: Object[] = [];
+    gender: Gender;
     genderSelectListData = this._selectHelper.genderList();
+    checkIn: boolean;
+    checkInSelectListData = this._selectHelper.checkInList();
     orderStatus: Status[];
     displayStatus: string[];
-
+    spreadMoreService: SpreadMoreService;
     gridParam: BaseGridDataInputDto
-    gender: Gender;
     phoneNumber: string;
     endMinute: number;
     startMinute: number;
@@ -88,6 +91,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         private _orderStatusService: BookingOrderStatusService
     ) {
         super(injector);
+        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingOrderSpreadMoreCache, this._sessionService.tenantId);
         this.gridParam = new BaseGridDataInputDto(this._sessionService);
         this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
     }
@@ -173,6 +177,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                 this.endMinute,
                 this.phoneNumber,
                 this.gender,
+                this.checkIn,
                 this.creationStartDate,
                 this.creationEndDate,
                 this.orderStatus,
@@ -207,17 +212,13 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
     }
 
-    // 订单状态样式
-    public setOrderTipsClass(status: number): any {
-        return this._orderStatusService.getTipsClass(status);
-    }
-
     // 切换页码
     public pageChange(event: PageChangeEvent): void {
         this.gridParam.CurrentPage = (this.gridParam.SkipCount + this.gridParam.MaxResultCount) / this.gridParam.MaxResultCount;
         this.gridParam.setPage();
         this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
     }
+
     // 获取预约状态下拉框数据源
     getSelectListData(): void {
         this.bookingDateSelectDefaultItem = this._selectHelper.defaultSelectList();
@@ -226,7 +227,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.displayStatus = this._orderStatusService.DisplayStatus;
         this.orderStatusSelectList = this._orderStatusService.getOrderStatusSelectList();
         this.bookingTimeSelectDefaultItem = this._selectHelper.defaultTimeSelectList();
-
     }
 
     public genderChangeHandle(gender: Gender): void {
@@ -278,6 +278,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
             this.endMinute,
             this.phoneNumber,
             this.gender,
+            this.checkIn,
             this.creationStartDate,
             this.creationEndDate,
             this.orderStatus,

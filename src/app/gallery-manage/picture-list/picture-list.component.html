@@ -50,7 +50,7 @@
                             <div class="pic-gallery-wrap">
                                 <div class="flex-left">
                                     <ng-container *ngIf="picGroupItemData.length > 0; else elseTemplate">
-                                        <div [@routerTransition] class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: maxResultCount, currentPage: currentPage,totalItems: totalItems }; let selectPicIndex = index;">
+                                        <div [@routerTransition] class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of picGroupItemData | paginate: { itemsPerPage: gridParam.MaxResultCount, currentPage: gridParam.CurrentPage,totalItems: totalItems }; let selectPicIndex = index;">
                                             <div class="pic-item" [ngClass]="{'active': item.selected == true }">
                                                 <!-- <div class="img-wrap"></div> -->
                                                 <div class="img-wrap" [ngStyle]="{'background-image': 'url(' + item.picUrl + ')'}" (click)="selectPicHandler(item, selectPicIndex)">
@@ -113,7 +113,7 @@
 
                         <div class="pull-right gallery-pagination">
                             <div class="has-text-centered">
-                                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
+                                <pagination-controls *ngIf="totalItems > 0" (pageChange)="onPageChange($event)" previousLabel="" nextLabel="" autoHide="false"></pagination-controls>
                             </div>
                         </div>
                     </div>
