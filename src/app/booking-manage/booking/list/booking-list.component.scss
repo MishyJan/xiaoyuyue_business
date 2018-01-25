@@ -387,37 +387,6 @@
             padding: 10px 15px;
             background-color: #FFF;
             border-radius: 4px;
-            .top-wrap {
-                height: 50px;
-                line-height: 50px;
-                border-bottom: 1px solid #E5E5E5;
-                .title {
-                    color: #FF9641;
-                    font-size: 16px;
-                    .tips {
-                        font-size: 12px;
-                        color: #FFF;
-                        padding: 2px;
-                        border-radius: 2px;
-                        margin-bottom: 2px;
-                        &.status1 {
-                            background-color: #999;
-                        }
-                        &.status2 {
-                            background-color: #FF9641;
-                        }
-                        &.status3 {}
-                        &.status4 {
-                            background-color: #999;
-                        }
-                        &.status5 {}
-                    }
-                }
-                .icon {
-                    color: #FF9641;
-                    font-size: 22px;
-                }
-            }
             .content {
                 position: relative;
                 padding: 20px 0;

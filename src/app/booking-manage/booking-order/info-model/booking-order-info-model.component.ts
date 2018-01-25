@@ -10,6 +10,7 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { Moment } from 'moment';
 import { BookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
 
 @Component({
     selector: 'xiaoyuyue-customer-info-model',
@@ -22,12 +23,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
     isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl = 'assets/common/images/default-profile-picture.png';
-    bookingOrderStatusName: string[] = [this.l(BookingOrderStatus.WaitConfirmLocalization),
-    this.l(BookingOrderStatus.ConfirmSuccessLocalization),
-    this.l(BookingOrderStatus.WaitCommentLocalization),
-    this.l(BookingOrderStatus.CancelLocalization),
-    this.l(BookingOrderStatus.CompleteLocalization)];
-
+    bookingOrderStatusName: string[];
     confirming = false;
     updating = false;
 
@@ -35,12 +31,14 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
 
     constructor(
         injector: Injector,
+        private _orderStatusService: BookingOrderStatusService,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this.bookingOrderStatusName = this._orderStatusService.DisplayStatus;
     }
 
     showModel(dataItemId: number): void {
@@ -102,17 +100,5 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
             return this.dataItem.profilePictureUrl;
         }
         return this.defaultAvatarUrl;
-    }
-
-    // 订单状态样式
-    setOrderTipsClass(status: number): any {
-        const tipsClass = {
-            status1: status === 1,
-            status2: status === 2,
-            status3: status === 3,
-            status4: status === 4,
-            status5: status === 5
-        };
-        return tipsClass;
     }
 }

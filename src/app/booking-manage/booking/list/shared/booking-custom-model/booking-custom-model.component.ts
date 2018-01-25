@@ -148,18 +148,6 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         this.loadData();
     }
 
-    // 订单状态样式
-    setOrderTipsClass(status: number): any {
-        const tipsClass = {
-            status1: status === 1,
-            status2: status === 2,
-            status3: status === 3,
-            status4: status === 4,
-            status5: status === 5
-        };
-        return tipsClass;
-    }
-
     getSearchStatusArray(): Status[] {
         if (!!this.status === false) {
             return [Status._1, Status._2, Status._3, Status._4, Status._5];

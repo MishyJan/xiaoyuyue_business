@@ -212,11 +212,6 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         }
     }
 
-    // 订单状态样式
-    public setOrderTipsClass(status: number): any {
-        return this._orderStatusService.getTipsClass(status);
-    }
-
     // 切换页码
     public pageChange(event: PageChangeEvent): void {
         this.gridParam.CurrentPage = (this.gridParam.SkipCount + this.gridParam.MaxResultCount) / this.gridParam.MaxResultCount;

@@ -201,7 +201,7 @@
                             <!-- 订单状态  -->
                             <kendo-grid-column title="{{l('BookingOrder.Status')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-                                    <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ displayStatus[dataItem.status-1] }}</span>
+                                    <span class="order-status" [ngClass]="'status-'+dataItem.status">{{ displayStatus[dataItem.status-1] }}</span>
                                 </ng-template>
                             </kendo-grid-column>
 
