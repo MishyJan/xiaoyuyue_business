@@ -13,8 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6 text-right">
-            </div>
+            <div class="col-xs-6 text-right"></div>
         </div>
 
         <div class="row">
@@ -71,34 +70,45 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l("Booking.TenantField")}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'"
-                                                    [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                <div [hidden]="!spreadMoreService.spreadMoreStatus.active">
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l("Booking.TenantField")}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l("Booking.State")}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+    
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l("Booking.State")}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'"
+                                                        [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row search-btn-wrap">
-                                <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
+                            <div class="row btn-wrap">
+                                <div class="col-xs-6 col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-3 common-min-width">
+                                    <div class="text-center spread-more">
+                                        <button class="btn btn-block primary-bgcolor" (click)="spreadMoreService.toggleStatus()">
+                                            <i class="fa " [ngClass]="{'fa-chevron-down': !spreadMoreService.spreadMoreStatus.active, 'fa-chevron-up': spreadMoreService.spreadMoreStatus.active}"></i>
+                                            <span>{{ spreadMoreService.spreadMoreStatus.text }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-md-2 col-sm-3 common-min-width">
                                     <div class="text-center">
                                         <button class="btn btn-block primary-bgcolor" (click)="searchData()" [buttonBusy]="searching" [busyText]="l('Searching')">
                                             <i class="fa fa-search"></i>

@@ -72,13 +72,13 @@
 }
 
 .rotate-180 {
+    display: inline-block;
     transform: rotate(180deg);
-    transition: all 0.6s;
 }
 
 .rotate-360 {
+    display: inline-block;
     transform: rotate(360deg);
-    transition: all 0.6s;
 }
 
 .btn {

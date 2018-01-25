@@ -110,7 +110,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
         if (!this.isBatchCheckInFlag) {
             this.batchCheckIning = true;
             this._orgBookingOrderServiceProxy
-                .batchSignInBookingOrder(this.batchCheckInInput)
+                .batchCheckInBookingOrder(this.batchCheckInInput)
                 .finally(() => {
                     this.batchCheckIning = false;
                     this.refeshButtonText();

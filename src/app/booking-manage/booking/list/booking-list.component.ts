@@ -25,6 +25,7 @@ import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descript
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 import { CheckInOrderModelComponent } from 'app/booking-manage/booking/list/shared/check-in-order-model/check-in-order-model.component';
+import { SpreadMoreService } from 'shared/services/spread-more.service';
 
 @Component({
     selector: 'app-manage-booking',
@@ -68,7 +69,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     isActive: boolean;
     outletId = 0;
     bookingName: string;
-
+    spreadMoreService: SpreadMoreService;
     listParam: BaseLsitDataInputDto;
     slogan = this.l('Nothing.Need2Create');
 
@@ -97,6 +98,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _sessionService: AppSessionService
     ) {
         super(injector);
+        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingListSpreadMoreCache, this._sessionService.tenantId);
         this.listParam = new BaseLsitDataInputDto(this._sessionService);
         this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
     }

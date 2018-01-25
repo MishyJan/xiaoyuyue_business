@@ -17,6 +17,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
 import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 import { ListScrollService } from 'shared/services/list-scroll.service';
+import { SpreadMoreService } from 'shared/services/spread-more.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -56,7 +57,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     genderSelectListData = this._selectHelper.genderList();
     orderStatus: Status[];
     displayStatus: string[];
-
+    spreadMoreService: SpreadMoreService;
     gridParam: BaseGridDataInputDto
     gender: Gender;
     phoneNumber: string;
@@ -88,6 +89,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         private _orderStatusService: BookingOrderStatusService
     ) {
         super(injector);
+        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingOrderSpreadMoreCache, this._sessionService.tenantId);
         this.gridParam = new BaseGridDataInputDto(this._sessionService);
         this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
     }

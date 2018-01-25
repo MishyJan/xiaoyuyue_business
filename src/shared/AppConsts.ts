@@ -56,6 +56,8 @@ export class AppConsts {
 
     static bookingListPageCache = 'bookingListPageCache-{0}';
     static bookingorderListPageCache = 'bookingorderListPageCache-{0}';
+    static bookingListSpreadMoreCache = 'bookingListSpreadMoreCache-{0}';
+    static bookingOrderSpreadMoreCache = 'bookingOrderSpreadMoreCache-{0}';
 
 }
 
