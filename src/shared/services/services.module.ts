@@ -12,7 +12,6 @@ import { TenantService } from './tenant.service';
 import { TitleService } from 'shared/services/title.service';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
-import { SpreadMoreService } from 'shared/services/spread-more.service';
 
 @NgModule({
     providers: [
@@ -28,8 +27,7 @@ import { SpreadMoreService } from 'shared/services/spread-more.service';
         UploadPictureService,
         SelectHelperService,
         ListScrollService,
-        BookingOrderStatusService,
-        SpreadMoreService
+        BookingOrderStatusService
     ]
 })
 export class ServicesModule { }

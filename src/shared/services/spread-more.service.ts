@@ -8,7 +8,6 @@ export class SpreadMoreStatus {
     text: string;
 }
 
-@Injectable()
 export class SpreadMoreService {
     cacheName: string;
     tenantId: number;
