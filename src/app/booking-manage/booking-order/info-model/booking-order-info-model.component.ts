@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderInfolDto, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
-import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -11,6 +11,7 @@ import { Moment } from 'moment';
 import { BookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'xiaoyuyue-customer-info-model',
@@ -20,7 +21,6 @@ import { BookingOrderStatusService } from 'shared/services/booking-order-status.
 export class BookingOrderInfoModelComponent extends AppComponentBase implements OnInit {
     dataItem: OrgBookingOrderInfolDto = new OrgBookingOrderInfolDto();
     dataItemId: number;
-    isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl = 'assets/common/images/default-profile-picture.png';
     bookingOrderStatusName: string[];
@@ -28,6 +28,7 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
     updating = false;
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
+    @ViewChild('bookingOrderInfoModel') modal: ModalDirective;
 
     constructor(
         injector: Injector,
@@ -45,18 +46,18 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
         if (!dataItemId) {
             return;
         }
+        this.modal.show();
         this.dataItemId = dataItemId;
         this._orgBookingOrderServiceProxy
             .getOrderDetail(dataItemId)
             .subscribe(result => {
                 this.dataItem = result;
-                this.isShowModelFlag = true;
             })
 
     }
 
     hideModel(): void {
-        this.isShowModelFlag = false;
+        this.modal.hide();
     }
 
     // 备注订单

@@ -109,6 +109,13 @@
                                     <span>{{ t(dataItem.creationTime) }}</span>
                                 </ng-template>
                             </kendo-grid-column>
+
+                            <!-- 签到状态  -->
+                            <kendo-grid-column title="{{l('Booking.CheckIn')}}">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                    <span class="vapps-icon-app-check-in check-in-icon" [ngClass]="{'disabled-style': !dataItem.checkIn}"></span>
+                                </ng-template>
+                            </kendo-grid-column>
                         </kendo-grid>
                     </div>
                 </div>

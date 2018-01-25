@@ -254,6 +254,13 @@
                                     <span>{{ t(dataItem.creationTime) }}</span>
                                 </ng-template>
                             </kendo-grid-column>
+
+                            <!-- 签到状态  -->
+                            <kendo-grid-column title="{{l('Booking.CheckIn')}}">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                    <span class="vapps-icon-app-check-in check-in-icon" [ngClass]="{'disabled-style': !dataItem.checkIn}"></span>
+                                </ng-template>
+                            </kendo-grid-column>
                         </kendo-grid>
                     </div>
                 </div>
@@ -304,7 +311,7 @@
                                     <div class="flex-right">
                                         <div class="pull-left info">
                                             <p class="name">{{ item.customerName }}</p>
-                                            <p class="state">{{ bookingOrderStatusName[item.status-1] }}</p>
+                                            <p class="state">{{ displayStatus[item.status-1] }}</p>
                                         </div>
                                         <div class="pull-right time-ago">
                                             <span>{{ getTimeAgo(item.creationTime) }}</span>
