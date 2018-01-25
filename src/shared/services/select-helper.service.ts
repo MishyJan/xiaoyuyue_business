@@ -19,8 +19,9 @@ export class SelectHelperService extends AppComponentBase {
     };
 
     defaultListWithText(text: string) {
+        const value: any = '';
         return {
-            value: '',
+            value: value,
             displayText: this.l(text)
         };
     };
@@ -67,6 +68,18 @@ export class SelectHelperService extends AppComponentBase {
             {
                 value: 2,
                 displayText: this.l('Female')
+            }];
+    }
+
+    checkInList(): Object[] {
+        return [
+            {
+                value: false,
+                displayText: '未签到'
+            },
+            {
+                value: true,
+                displayText: '已签到'
             }];
     }
 }

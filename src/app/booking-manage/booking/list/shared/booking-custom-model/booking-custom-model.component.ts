@@ -37,6 +37,9 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     status: Status;
     displayStatus: string[];
     orderStatusSelectList: Object[] = [];
+    checkIn: boolean;
+    selectCheckInDefaultItem: { value: boolean, displayText: string; };
+    checkInSelectListData = this._selectHelper.checkInList();
 
     searching = false;
 
@@ -70,6 +73,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     // 获取预约状态下拉框数据源
     getSelectListData(): void {
         this.selectDefaultItem = this._selectHelper.defaultListWithText('Search.ChooseOrderStatus');
+        this.selectCheckInDefaultItem = this._selectHelper.defaultListWithText('Search.ChooseCheckInStatus');
         this.displayStatus = this._orderStatusService.DisplayStatus;
         this.orderStatusSelectList = this._orderStatusService.getOrderStatusSelectList();
     }
@@ -91,7 +95,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 undefined,
                 this.phoneNumber,
                 undefined,
-                undefined,
+                this.checkIn,
                 this.creationStartDate,
                 this.creationStartDate,
                 this.getSearchStatusArray(),
@@ -142,18 +146,6 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
         this.loadData();
-    }
-
-    // 订单状态样式
-    setOrderTipsClass(status: number): any {
-        const tipsClass = {
-            status1: status === 1,
-            status2: status === 2,
-            status3: status === 3,
-            status4: status === 4,
-            status5: status === 5
-        };
-        return tipsClass;
     }
 
     getSearchStatusArray(): Status[] {

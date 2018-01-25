@@ -8043,8 +8043,8 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 .navbar .navbar-nav>li>a.btn:not(.btn-just-icon):not(.btn-fab) .fa {
     font-size: 18px;
     margin-top: -2px;
-    position: relative;
-    top: 2px;
+    /* position: relative;
+    top: 2px; */
 }
 
 .btn.btn-fab,

@@ -1,152 +1,94 @@
-<div *hideItBootstrap="['xs','sm']">
-    <div class="confirm-order-wrap  box-shadow ani" [ngClass]="{'fade-in': isShowModelFlag, 'fade-out': !isShowModelFlag}">
-        <div class="confirm-model box-shadow">
-            <div class="header-model">
+<div bsModal #bookingOrderInfoModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bookingOrderInfoModel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
                 <img class="avatar box-shadow" [src]="getProfileAvatar()" width="100px" alt="avatar">
             </div>
-
-            <div class="content-model">
-                <div class="row item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.Status')}}</div>
-                    <div class="col-md-5 desc">
-                        <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
-                    </div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.Name')}}</div>
-                    <div class="col-md-5 desc">{{ dataItem.customerName }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.BookingName')}}</div>
-                    <div class="col-md-5 desc">{{ dataItem.bookingName }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.Outlet')}}</div>
-                    <div class="col-md-5 desc">{{ dataItem.outletName }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.Datetime')}}</div>
-                    <div class="col-md-5 desc">{{ dataItem.hourOfDay }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.SubscriberNum')}}</div>
-                    <div class="col-md-5 desc">{{ dataItem.subscriberNum }}</div>
-                </div>
-
-                <div class="row item" *ngIf="dataItem.phoneNum">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.PhoneNumber')}}</div>
-                    <div class="col-md-5 desc">{{ dataItem.phoneNum }}</div>
-                </div>
-
-                <div class="row item" *ngIf="dataItem.emailAddress">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.EmailAddress')}}</div>
-                    <div class="col-md-5 desc">{{ dataItem.emailAddress }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.CreationTime')}}</div>
-                    <div class="col-md-5 desc">{{ t(dataItem.creationTime) }}</div>
-                </div>
-
-                <div class="row item remark-item">
-                    <div class="col-md-3 col-lg-offset-1 name">{{l('BookingOrder.Remark')}}</div>
-                    <div class="col-md-5 desc">
-                        <textarea class="form-control col-md-5 " [(ngModel)]="dataItem.remark" name="remark" placeholder="{{l('BookingOrder.EditRemark')}}"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-model">
-                <button type="button" class="btn primary-bgcolor" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)&&(dataItem.status === 1)"
-                    (click)="confirmCustomerOrder()" [buttonBusy]="confirming" [busyText]="l('Confirming')">
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                    <span>{{l("ConfirmBooking")}}</span>
-                </button>
-                <button type="button" class="btn btn-perfect" *ngIf="isGranted(permissions.bookingManage_BookingOrderRemark)" (click)="remarkBookingOrder()"
-                    [buttonBusy]="updating" [busyText]="l('Updating')">
-                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
-                    <span>{{l("BookingOrder.UpdateRemark")}}</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="bg-cover" (click)="hideModel()"></div>
-    </div>
-</div>
-
-<div *showItBootstrap="['xs','sm']">
-    <div class="confirm-order-wrap mobile box-shadow ani" [ngClass]="{'fade-in': isShowModelFlag, 'fade-out': !isShowModelFlag}">
-        <div class="confirm-model">
-            <div class="header-model">
-                <img class="avatar box-shadow" [src]="getProfileAvatar()" width="100px" alt="avatar">
-            </div>
-
-            <div class="content-model">
-                <div class="row item">
-                    <div class="col-xs-4 name">{{l('BookingOrder.Status')}}</div>
-                    <div class="col-xs-8 desc">{{ bookingOrderStatusName[dataItem.status-1] }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-xs-4 name">{{l('BookingOrder.Name')}}</div>
-                    <div class="col-xs-8 desc">{{ dataItem.customerName }}</div>
-                </div>
-
-                <!-- <div class="row item">
-                    <div class="col-xs-4 name">{{l('BookingOrder.BookingName')}}</div>
-                    <div class="col-xs-8 desc">{{ dataItem.bookingName }}</div>
-                </div> -->
-
-                <!-- <div class="row item">
-                    <div class="col-xs-4 name">{{l('BookingOrder.Outlet')}}</div>
-                    <div class="col-xs-8 desc">{{ dataItem.outletName }}</div>
-                </div> -->
-
-                <div class="row item">
-                    <div class="col-xs-4 name">{{l('BookingOrder.Datetime')}}</div>
-                    <div class="col-xs-8 desc">{{ t(dataItem.bookingDate, 'YYYY-MM-DD') }} {{ dataItem.hourOfDay }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-xs-4 name">{{l('BookingOrder.SubscriberNum')}}</div>
-                    <div class="col-xs-8 desc">{{ dataItem.subscriberNum }}</div>
-                </div>
-
-                <div class="row item">
-                    <div class="col-xs-4 name">{{l('BookingOrder.PhoneNumber')}}</div>
-                    <div class="col-xs-8 desc">{{ dataItem.phoneNum }}</div>
-                </div>
-
-                <!-- <div class="row item">
-                            <div class="col-xs-4 name">{{l('BookingOrder.EmailAddress')}}</div>
-                            <div class="col-xs-8 desc">{{ dataItem.emailAddress }}</div>
-                        </div> -->
-
-                <!-- <div class="row item">
-                            <div class="col-xs-4 name">{{l('BookingOrder.CreationTime')}}</div>
-                            <div class="col-xs-8 desc">{{ t(dataItem.creationTime) }}</div>
-                        </div> -->
-
-                <!-- <div class="row item remark-item">
-                            <div class="col-xs-4 name">{{l('BookingOrder.Remark')}}</div>
-                            <div class="col-xs-8 desc">
-                                <textarea class="form-control col-xs-8 " [(ngModel)]="dataItem.remark" name="remark" placeholder="{{l('BookingOrder.EditRemark')}}"></textarea>
+            <div class="modal-body">
+                    <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.Status')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">
+                                <span class="order-status" [ngClass]="'status-'+dataItem.status">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
                             </div>
-                        </div> -->
+                        </div>
+        
+                        <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.Name')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ dataItem.customerName }}</div>
+                        </div>
+        
+                        <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.BookingName')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ dataItem.bookingName }}</div>
+                        </div>
+        
+                        <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.Outlet')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ dataItem.outletName }}</div>
+                        </div>
+        
+                        <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.Datetime')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ dataItem.hourOfDay }}</div>
+                        </div>
+        
+                        <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.SubscriberNum')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ dataItem.subscriberNum }}</div>
+                        </div>
+        
+                        <div class="row item" *ngIf="dataItem.phoneNum">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.PhoneNumber')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ dataItem.phoneNum }}</div>
+                        </div>
+        
+                        <div class="row item" *ngIf="dataItem.emailAddress">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.EmailAddress')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ dataItem.emailAddress }}</div>
+                        </div>
+        
+                        <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.CreationTime')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ t(dataItem.creationTime) }}</div>
+                        </div>
+        
+                        <div class="row item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">签到状态</div>
+                            <div class="col-md-5 col-xs-8 desc" *ngIf="!dataItem.checkIn">未签到</div>
+                            <div class="col-md-5 col-xs-8 desc" *ngIf="dataItem.checkIn">已签到</div>
+                        </div>
+        
+                        <div class="row item" *ngIf="dataItem.checkIn">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">签到时间</div>
+                            <div class="col-md-5 col-xs-8 desc">{{ t(dataItem.checkInDateTime) }}</div>
+                        </div>
+        
+                        <div class="row item" [title]="dataItem.checkInLocation" *ngIf="dataItem.checkIn && dataItem.checkInLocation">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">签到位置</div>
+                            <div class="col-md-5 col-xs-8 desc text-overflow">{{ dataItem.checkInLocation }}</div>
+                        </div>
+        
+                        <div class="row item remark-item">
+                            <div class="col-md-3 col-xs-4 col-lg-offset-1 name">{{l('BookingOrder.Remark')}}</div>
+                            <div class="col-md-5 col-xs-8 desc">
+                                <textarea class="form-control col-md-5 col-xs-8 " [(ngModel)]="dataItem.remark" name="remark" placeholder="{{l('BookingOrder.EditRemark')}}"></textarea>
+                            </div>
+                        </div>
             </div>
 
-            <div class="footer-model">
-                <button type="button" class="btn primary-bgcolor" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)&&(dataItem.status === 1)"
-                    (click)="confirmCustomerOrder()">{{l('Confirm')}}</button>
-                <!-- <button type="button" class="btn btn-perfect" *ngIf="isGranted(permissions.bookingManage_BookingOrderRemark)" (click)="remarkBookingOrder()">{{l('BookingOrder.UpdateRemark')}}</button> -->
-            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn primary-bgcolor" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)&&(dataItem.status === 1)"
+                        (click)="confirmCustomerOrder()" [buttonBusy]="confirming" [busyText]="l('Confirming')">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        <span>{{l("ConfirmBooking")}}</span>
+                    </button>
+                    <button type="button" class="btn btn-perfect" *ngIf="isGranted(permissions.bookingManage_BookingOrderRemark)" (click)="remarkBookingOrder()"
+                        [buttonBusy]="updating" [busyText]="l('Updating')">
+                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                        <span>{{l("BookingOrder.UpdateRemark")}}</span>
+                    </button>
+                </div>
         </div>
-
-        <div class="bg-cover" (click)="hideModel()"></div>
     </div>
 </div>
