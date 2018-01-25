@@ -1,19 +1,19 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { ExternalLoginProvider, LoginService } from 'shared/services/login.service';
+import { ExternalLoginProviderInfoModel, ProfileServiceProxy, UserSecurityInfoDto } from '@shared/service-proxies/service-proxies';
 import { ExternalUnBindingModel, TokenAuthServiceProxy, UserCodeSendInput } from './../../shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
+import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
 import { BindingPhoneModelComponent } from './phone-model/binding-phone-model/binding-phone-model.component';
 import { ChangePasswdModelComponent } from './change-passwd-model/change-passwd-model.component';
+import { CookiesService } from 'shared/services/cookies.service';
 import { ExternalBindingModelComponent } from './external-auth/external-binding-model/external-binding-model.component';
+import { UnbindingEmailModelComponent } from 'app/account-settings/email-model/unbinding-email-model/unbinding-email-model.component';
 import { UnbindingPhoneModelComponent } from './phone-model/unbinding-phone-model/unbinding-phone-model.component';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { LoginService, ExternalLoginProvider } from 'shared/services/login.service';
-import { ExternalLoginProviderInfoModel, ProfileServiceProxy, UserSecurityInfoDto } from '@shared/service-proxies/service-proxies';
-import { CookiesService } from 'shared/services/cookies.service';
-import { AppConsts } from '@shared/AppConsts';
-import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
-import { UnbindingEmailModelComponent } from 'app/account-settings/email-model/unbinding-email-model/unbinding-email-model.component';
 
 @Component({
     selector: 'xiaoyuyue-acount-settings',
@@ -102,11 +102,11 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
         const data = new ExternalUnBindingModel();
         data.authProvider = 'WeChat'
         this._tokenAuthService.externalUnBinding(data)
-        .finally( () => { this.unBindingWechat = false; })
-        .subscribe(result => {
-            this.getUserSecurityInfo();
-            this.notify.success('解绑成功');
-        });
+            .finally(() => { this.unBindingWechat = false; })
+            .subscribe(result => {
+                this.getUserSecurityInfo();
+                this.notify.success(this.l('UnbindingSuccess'));
+            });
     }
 
     unBindQQ(): void {
@@ -114,11 +114,11 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
         const data = new ExternalUnBindingModel();
         data.authProvider = 'QQ';
         this._tokenAuthService.externalUnBinding(data)
-        .finally( () => { this.unBindingQQ = false; })
-        .subscribe(result => {
-            this.getUserSecurityInfo();
-            this.notify.success('解绑成功');
-        });
+            .finally(() => { this.unBindingQQ = false; })
+            .subscribe(result => {
+                this.getUserSecurityInfo();
+                this.notify.success(this.l('UnbindingSuccess'));
+            });
     }
 
     showChangePasswdModel(): void {

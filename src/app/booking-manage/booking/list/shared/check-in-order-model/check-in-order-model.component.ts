@@ -1,14 +1,15 @@
 import * as _ from 'lodash';
-import { Component, ViewEncapsulation, OnInit, ViewChild, ElementRef, Injector } from '@angular/core';
+
+import { BatchCheckInInput, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
+import { Component, ElementRef, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
+
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { Status, OrgBookingOrderServiceProxy, BatchCheckInInput } from 'shared/service-proxies/service-proxies';
+import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderStatus } from 'shared/AppEnums';
-import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { ModalDirective } from 'ngx-bootstrap';
-import { AppSessionService } from 'shared/common/session/app-session.service';
-import { GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
-
 
 @Component({
     selector: 'xiaoyuyue-check-in-order-model',
@@ -144,7 +145,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
         if (!bookingId) {
             return;
         }
-        this.batchCheckInInput.bookingId =  this.bookingId = bookingId;
+        this.batchCheckInInput.bookingId = this.bookingId = bookingId;
         this.resetCheckInInitStatus();
         this.modal.show();
         this.loadData();
