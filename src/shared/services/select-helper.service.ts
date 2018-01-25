@@ -69,4 +69,16 @@ export class SelectHelperService extends AppComponentBase {
                 displayText: this.l('Female')
             }];
     }
+
+    checkInList(): Object[] {
+        return [
+            {
+                value: false,
+                displayText: '未签到'
+            },
+            {
+                value: true,
+                displayText: '已签到'
+            }];
+    }
 }

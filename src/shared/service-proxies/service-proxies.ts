@@ -5434,6 +5434,7 @@ export class OrgBookingOrderServiceProxy {
      * @endMinute (optional) 预约结束时间
      * @phoneNumber (optional) 电话号码
      * @gender (optional) 性别
+     * @checkIn (optional) 签到状态(可空)
      * @creationStartDate (optional) 创建开始日期
      * @creationEndDate (optional) 创建结束日期
      * @status 预约状态
@@ -5442,7 +5443,7 @@ export class OrgBookingOrderServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getOrders(bookingId: number, bookingName: string, customerName: string, bookingDate: Moment, hourOfDay: string, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, creationStartDate: Moment, creationEndDate: Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfOrgBookingOrderListDto> {
+    getOrders(bookingId: number, bookingName: string, customerName: string, bookingDate: Moment, hourOfDay: string, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, checkIn: boolean, creationStartDate: Moment, creationEndDate: Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfOrgBookingOrderListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrgBookingOrder/GetOrders?";
         if (bookingId === undefined || bookingId === null)
             throw new Error("The parameter 'bookingId' must be defined and cannot be null.");
@@ -5464,6 +5465,8 @@ export class OrgBookingOrderServiceProxy {
             url_ += "PhoneNumber=" + encodeURIComponent("" + phoneNumber) + "&"; 
         if (gender !== undefined)
             url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
+        if (checkIn !== undefined)
+            url_ += "CheckIn=" + encodeURIComponent("" + checkIn) + "&"; 
         if (creationStartDate !== undefined)
             url_ += "CreationStartDate=" + encodeURIComponent(creationStartDate ? "" + creationStartDate.toJSON() : "") + "&"; 
         if (creationEndDate !== undefined)
@@ -11447,6 +11450,53 @@ export class TokenAuthServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Observable.of<SupplementAuthResultModel>(<any>null);
+    }
+
+    /**
+     * 获取登录凭证短链
+     * @return Success
+     */
+    shortAuthToken(): Observable<ShortAuthTokenModel> {
+        let url_ = this.baseUrl + "/api/TokenAuth/ShortAuthToken";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processShortAuthToken(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processShortAuthToken(<any>response_);
+                } catch (e) {
+                    return <Observable<ShortAuthTokenModel>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ShortAuthTokenModel>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processShortAuthToken(response: Response): Observable<ShortAuthTokenModel> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ShortAuthTokenModel.fromJS(resultData200) : new ShortAuthTokenModel();
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<ShortAuthTokenModel>(<any>null);
     }
 
     /**
@@ -20853,6 +20903,8 @@ export class OrgBookingOrderListDto implements IOrgBookingOrderListDto {
     status: OrgBookingOrderListDtoStatus;
     /** 手机号码 */
     phoneNum: string;
+    /** 签到状态 */
+    checkIn: boolean;
     /** 创建时间 */
     creationTime: Moment;
     /** 头像Url */
@@ -20879,6 +20931,7 @@ export class OrgBookingOrderListDto implements IOrgBookingOrderListDto {
             this.subscriberNum = data["subscriberNum"];
             this.status = data["status"];
             this.phoneNum = data["phoneNum"];
+            this.checkIn = data["checkIn"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.profilePictureUrl = data["profilePictureUrl"];
             this.id = data["id"];
@@ -20902,6 +20955,7 @@ export class OrgBookingOrderListDto implements IOrgBookingOrderListDto {
         data["subscriberNum"] = this.subscriberNum;
         data["status"] = this.status;
         data["phoneNum"] = this.phoneNum;
+        data["checkIn"] = this.checkIn;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["profilePictureUrl"] = this.profilePictureUrl;
         data["id"] = this.id;
@@ -20929,6 +20983,8 @@ export interface IOrgBookingOrderListDto {
     status: OrgBookingOrderListDtoStatus;
     /** 手机号码 */
     phoneNum: string;
+    /** 签到状态 */
+    checkIn: boolean;
     /** 创建时间 */
     creationTime: Moment;
     /** 头像Url */
@@ -20967,6 +21023,12 @@ export class OrgBookingOrderInfolDto implements IOrgBookingOrderInfolDto {
     needAge: boolean;
     /** 需要邮箱 */
     needEmail: boolean;
+    /** 签到状态 */
+    checkIn: boolean;
+    /** 签到时间 */
+    checkInDateTime: Moment;
+    /** 签到位置 */
+    checkInLocation: string;
     /** 创建时间 */
     creationTime: Moment;
     /** 头像Url */
@@ -20999,6 +21061,9 @@ export class OrgBookingOrderInfolDto implements IOrgBookingOrderInfolDto {
             this.needGender = data["needGender"];
             this.needAge = data["needAge"];
             this.needEmail = data["needEmail"];
+            this.checkIn = data["checkIn"];
+            this.checkInDateTime = data["checkInDateTime"] ? moment(data["checkInDateTime"].toString()) : <any>undefined;
+            this.checkInLocation = data["checkInLocation"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.profilePictureUrl = data["profilePictureUrl"];
             this.id = data["id"];
@@ -21028,6 +21093,9 @@ export class OrgBookingOrderInfolDto implements IOrgBookingOrderInfolDto {
         data["needGender"] = this.needGender;
         data["needAge"] = this.needAge;
         data["needEmail"] = this.needEmail;
+        data["checkIn"] = this.checkIn;
+        data["checkInDateTime"] = this.checkInDateTime ? this.checkInDateTime.toISOString() : <any>undefined;
+        data["checkInLocation"] = this.checkInLocation;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["profilePictureUrl"] = this.profilePictureUrl;
         data["id"] = this.id;
@@ -21066,6 +21134,12 @@ export interface IOrgBookingOrderInfolDto {
     needAge: boolean;
     /** 需要邮箱 */
     needEmail: boolean;
+    /** 签到状态 */
+    checkIn: boolean;
+    /** 签到时间 */
+    checkInDateTime: Moment;
+    /** 签到位置 */
+    checkInLocation: string;
     /** 创建时间 */
     creationTime: Moment;
     /** 头像Url */
@@ -22351,6 +22425,12 @@ export class BookingOrderInfo implements IBookingOrderInfo {
     needEmail: boolean;
     /** 取消理由 */
     refuseReason: string;
+    /** 签到状态 */
+    checkIn: boolean;
+    /** 签到时间 */
+    checkInDateTime: Moment;
+    /** 签到位置 */
+    checkInLocation: string;
     /** 创建时间 */
     creationTime: Moment;
     /** 预约状态 */
@@ -22381,6 +22461,9 @@ export class BookingOrderInfo implements IBookingOrderInfo {
             this.needAge = data["needAge"];
             this.needEmail = data["needEmail"];
             this.refuseReason = data["refuseReason"];
+            this.checkIn = data["checkIn"];
+            this.checkInDateTime = data["checkInDateTime"] ? moment(data["checkInDateTime"].toString()) : <any>undefined;
+            this.checkInLocation = data["checkInLocation"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.status = data["status"];
             this.id = data["id"];
@@ -22408,6 +22491,9 @@ export class BookingOrderInfo implements IBookingOrderInfo {
         data["needAge"] = this.needAge;
         data["needEmail"] = this.needEmail;
         data["refuseReason"] = this.refuseReason;
+        data["checkIn"] = this.checkIn;
+        data["checkInDateTime"] = this.checkInDateTime ? this.checkInDateTime.toISOString() : <any>undefined;
+        data["checkInLocation"] = this.checkInLocation;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["status"] = this.status;
         data["id"] = this.id;
@@ -22443,6 +22529,12 @@ export interface IBookingOrderInfo {
     needEmail: boolean;
     /** 取消理由 */
     refuseReason: string;
+    /** 签到状态 */
+    checkIn: boolean;
+    /** 签到时间 */
+    checkInDateTime: Moment;
+    /** 签到位置 */
+    checkInLocation: string;
     /** 创建时间 */
     creationTime: Moment;
     /** 预约状态 */
@@ -27080,6 +27172,41 @@ export interface ISupplementAuthResultModel {
     accessToken: string;
     encryptedAccessToken: string;
     expireInSeconds: number;
+}
+
+export class ShortAuthTokenModel implements IShortAuthTokenModel {
+    shortAuthToken: string;
+
+    constructor(data?: IShortAuthTokenModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.shortAuthToken = data["shortAuthToken"];
+        }
+    }
+
+    static fromJS(data: any): ShortAuthTokenModel {
+        let result = new ShortAuthTokenModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["shortAuthToken"] = this.shortAuthToken;
+        return data; 
+    }
+}
+
+export interface IShortAuthTokenModel {
+    shortAuthToken: string;
 }
 
 export class PagedResultDtoOfUserListDto implements IPagedResultDtoOfUserListDto {

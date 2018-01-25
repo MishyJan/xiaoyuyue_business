@@ -54,12 +54,14 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     singleBookingStatus: SingleBookingStatus = new SingleBookingStatus();
     selectDefaultItem: { value: string, displayText: string; };
     orderStatusSelectList: Object[] = [];
+    gender: Gender;
     genderSelectListData = this._selectHelper.genderList();
+    checkIn: boolean;
+    checkInSelectListData = this._selectHelper.checkInList();
     orderStatus: Status[];
     displayStatus: string[];
     spreadMoreService: SpreadMoreService;
     gridParam: BaseGridDataInputDto
-    gender: Gender;
     phoneNumber: string;
     endMinute: number;
     startMinute: number;
@@ -175,6 +177,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
                 this.endMinute,
                 this.phoneNumber,
                 this.gender,
+                this.checkIn,
                 this.creationStartDate,
                 this.creationEndDate,
                 this.orderStatus,
