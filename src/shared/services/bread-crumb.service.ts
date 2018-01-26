@@ -10,6 +10,7 @@ export declare class Breadcrumb {
     url: string;
 }
 
+
 @Injectable()
 export class BreadcrumbService {
     breadcrumbChanged = new EventEmitter<Breadcrumb[]>(false);
@@ -58,6 +59,7 @@ export class BreadcrumbService {
         }
 
         this.breadcrumbChanged.emit(this.breadcrumbs);
+
     }
 
     private createBreadcrumb(route: ActivatedRouteSnapshot, url: string): Breadcrumb {
