@@ -28,8 +28,8 @@
             margin-left: 10px;
         }
         .img {
-            width: 80px;
-            height: 80px;
+            width: calc(25% - 30px / 4);
+            padding-bottom: 22%;
             position: relative;
             float: left;
             background-position: center center;

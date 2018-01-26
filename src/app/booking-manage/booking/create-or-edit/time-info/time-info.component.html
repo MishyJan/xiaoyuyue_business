@@ -143,7 +143,7 @@
                                 <div class="name col-lg-6 col-md-5 col-sm-4 text-right">
                                     <span>{{l("Booking.BookingDate")}}</span>
                                 </div>
-                                <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
+                                <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow" [title]="timeInfoItem.availableDates">
                                     {{timeInfoItem.availableDates}}
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                                 <div class="name col-lg-6 col-md-5 col-sm-4 text-right">
                                     <span>{{l("Booking.BookingTime")}}</span>
                                 </div>
-                                <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow">
+                                <div class="col-lg-6 col-md-7 col-sm-8 view-box text-overflow" [title]="timeInfoItem.hourOfDay">
                                     {{timeInfoItem.hourOfDay}}
                                 </div>
                             </div>
