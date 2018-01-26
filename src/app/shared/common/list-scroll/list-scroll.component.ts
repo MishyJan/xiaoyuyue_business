@@ -27,12 +27,17 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
             .subscribe((result: ScrollStatusOutput) => {
                 this.scrollStatusOutput = result;
                 if (result.pulledUpActive !== null && !result.pulledUpActive) {
+                    this.finishPullUp();
                     this.refresh();
-                    // this.bscroll.finishPullUp();
                 }
                 if (result.pulledDownActive !== null && !result.pulledDownActive) {
                     this.finishPullDown();
                 }
+
+                // setTimeout(() => {
+                //     console.log('加载完，启用');
+                //     this.enable();
+                // }, 60);
             });
 
         this._listScrollService
@@ -58,27 +63,28 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
             probeType: 1,
             click: true,
             pullDownRefresh: this.isNeedPullDownRefresh,
-            // pullUpLoad: this.isNeedPullUpLoad
+            pullUpLoad: this.isNeedPullUpLoad
         });
 
-        this.bscroll.on('scroll', () => {
-        })
+        // this.bscroll.on('scroll', () => {
+        // })
 
-        this.bscroll.on('touchEnd', () => {
-            this.pullingUp();
-            if (this.isPullingUp) {
-                this.finishPullUpHandle.emit();
-                // this.disable();
-            }
-        })
+        // this.bscroll.on('touchEnd', () => {
+        //     this.pullingUp();
+        //     if (this.isPullingUp) {
+        //         this.disable();
+        //         console.log('加载中，禁用');
+        //         this.finishPullUpHandle.emit();
+        //     }
+        // })
 
         this.bscroll.on('pullingDown', () => {
             this.finishPullDownHandle.emit();
         })
 
-        // this.bscroll.on('pullingUp', () => {
-        //     this.isPullingDown = true;
-        // })
+        this.bscroll.on('pullingUp', () => {
+            this.finishPullUpHandle.emit();
+        })
     }
 
     /*
