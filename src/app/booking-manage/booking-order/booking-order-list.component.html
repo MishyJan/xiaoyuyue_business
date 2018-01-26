@@ -53,74 +53,30 @@
                                     </div>
                                 </div>
 
-                                <!-- 性别  -->
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l('BookingOrder.Gender')}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="genderSelectListData" (valueChange)="genderChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 预约日期  -->
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l('BookingOrder.Date')}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <div class="flatpickr-wrap">
-                                                    <input class="form-control common-max-width" id="bookingDate" [(ngModel)]="bookingDate" type="text" name="bookingDate" placeholder="{{l('BookingOrder.Date')}}">
-                                                    <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                        <i class="vapps-icon-dc-calendar"></i>
-                                                    </a>
+                                <div [hidden]="!spreadMoreService.spreadMoreStatus.active">
+                                    <!-- 性别  -->
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l('BookingOrder.Gender')}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <kendo-dropdownlist [data]="genderSelectListData" [(ngModel)]="gender" name="gender" [textField]="'displayText'" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- 电话号码  -->
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l('BookingOrder.PhoneNumber')}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="{{l('BookingOrder.PhoneNumber')}}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- 创建时间  -->
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l('BookingOrder.CreationTime')}}</label>
-                                        <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
-                                            <div class="col-md-6">
+                                    <!-- 预约日期  -->
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l('BookingOrder.Date')}}</label>
+                                            <div class="col-md-9">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
                                                     <div class="flatpickr-wrap">
-                                                        <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
-                                                            data-input>
-                                                        <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                            <i class="vapps-icon-dc-calendar"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group label-floating is-empty">
-                                                    <label class="control-label"></label>
-                                                    <div class="flatpickr-wrap">
-                                                        <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
-                                                            data-input>
+                                                        <input class="form-control common-max-width" id="bookingDate" [(ngModel)]="bookingDate" type="text" name="bookingDate" placeholder="{{l('BookingOrder.Date')}}">
                                                         <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                             <i class="vapps-icon-dc-calendar"></i>
                                                         </a>
@@ -129,30 +85,98 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- 预约状态  -->
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l('BookingOrder.Status')}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="orderStatusSelectList" (valueChange)="orderStatusChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="searchActiveSelectDefaultItem"></kendo-dropdownlist>
+                                    <!-- 电话号码  -->
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l('BookingOrder.PhoneNumber')}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="{{l('BookingOrder.PhoneNumber')}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 创建时间  -->
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l('BookingOrder.CreationTime')}}</label>
+                                            <div class="col-md-9" style="padding-right: 0; padding-left: 0;">
+                                                <div class="col-md-6">
+                                                    <div class="form-group label-floating is-empty">
+                                                        <label class="control-label"></label>
+                                                        <div class="flatpickr-wrap">
+                                                            <input class="form-control" id="startCreationTime" [(ngModel)]="creationStartDate" type="text" name="startCreationTime" placeholder="{{l('Search.CreationTime.ChooseStart')}}"
+                                                                data-input>
+                                                            <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                                                <i class="vapps-icon-dc-calendar"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group label-floating is-empty">
+                                                        <label class="control-label"></label>
+                                                        <div class="flatpickr-wrap">
+                                                            <input class="form-control" id="endCreationTime" [(ngModel)]="creationEndDate" type="text" name="endCreationTime" placeholder="{{l('Search.CreationTime.ChooseEnd')}}"
+                                                                data-input>
+                                                            <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                                                <i class="vapps-icon-dc-calendar"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 预约状态  -->
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l('BookingOrder.Status')}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <kendo-dropdownlist [data]="orderStatusSelectList" (valueChange)="orderStatusChangeHandle($event)" [textField]="'displayText'"
+                                                        [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 签到状态  -->
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l('Booking.CheckInState')}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <kendo-dropdownlist [data]="checkInSelectListData" [(ngModel)]="checkIn" name="checkIn" [textField]="'displayText'" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row btn-wrap">
+                                <div class="col-xs-6 col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-3 common-min-width">
+                                    <div class="text-center spread-more">
+                                        <button class="btn btn-block primary-bgcolor" (click)="spreadMoreService.toggleStatus()">
+                                            <i class="fa " [ngClass]="{'fa-chevron-down': !spreadMoreService.spreadMoreStatus.active, 'fa-chevron-up': spreadMoreService.spreadMoreStatus.active}"></i>
+                                            <span>{{ spreadMoreService.spreadMoreStatus.text }}</span>
+                                        </button>
+                                    </div>
+                                </div>
 
-                                <div class="row search-btn-wrap">
-                                    <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
-                                        <div class="text-center">
-                                            <button class="btn btn-block primary-bgcolor" (click)="searchData()" [buttonBusy]="searching" [busyText]="l('Searching')">
-                                                <i class="fa fa-search"></i>
-                                                <span>{{l("Search")}}</span>
-                                            </button>
-                                        </div>
+                                <div class="col-xs-6 col-md-2 col-sm-3 common-min-width">
+                                    <div class="text-center">
+                                        <button class="btn btn-block primary-bgcolor" (click)="searchData()" [buttonBusy]="searching" [busyText]="l('Searching')">
+                                            <i class="fa fa-search"></i>
+                                            <span>{{l("Search")}}</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +191,7 @@
                 <div class="card no-top-margin">
                     <div class="card-content no-padding">
                         <!-- [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }" -->
-                        <kendo-grid GridRowClick (editRow)="editRowHandler($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
+                        <kendo-grid GridRowClick (editRow)="editRowHandle($event)" [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
                             [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                             [sortable]="false" (dataStateChange)="dataStateChange($event)" [scrollable]="'none'" (pageChange)="pageChange($event)">
                             <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
@@ -177,14 +201,14 @@
                             <!-- 订单状态  -->
                             <kendo-grid-column title="{{l('BookingOrder.Status')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-                                    <span class="order-status" [ngClass]="setOrderTipsClass(dataItem.status)">{{ bookingOrderStatusName[dataItem.status-1] }}</span>
+                                    <span class="order-status" [ngClass]="'status-'+dataItem.status">{{ displayStatus[dataItem.status-1] }}</span>
                                 </ng-template>
                             </kendo-grid-column>
 
                             <!-- 应约人 -->
                             <kendo-grid-column title="{{l('BookingOrder.Name')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
-                                    <img [src]="getBookingCustomerAvatar(dataItem.profilePictureUrl)" style="width:50px;" alt="avatar" class="avatar">
+                                    <img [src]="transferAvatarPictureUrl(dataItem.profilePictureUrl)" style="width:50px;" alt="avatar" class="avatar">
                                     <span>{{ dataItem.customerName }}</span>
                                 </ng-template>
                             </kendo-grid-column>
@@ -230,13 +254,20 @@
                                     <span>{{ t(dataItem.creationTime) }}</span>
                                 </ng-template>
                             </kendo-grid-column>
+
+                            <!-- 签到状态  -->
+                            <kendo-grid-column title="{{l('Booking.CheckIn')}}">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                    <span class="vapps-icon-app-check-in check-in-icon" [ngClass]="{'disabled-style': !dataItem.checkIn}"></span>
+                                </ng-template>
+                            </kendo-grid-column>
                         </kendo-grid>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <xiaoyuyue-customer-info-model #customerForEditModelComponent (isShowModelHander)="isShowConfirmOrderModelHander($event)"></xiaoyuyue-customer-info-model>
+    <xiaoyuyue-customer-info-model #customerForEditModelComponent (isShowModelHander)="hiddenOrderModelHandle($event)"></xiaoyuyue-customer-info-model>
 </div>
 
 <div *showItBootstrap="['xs','sm']">
@@ -245,7 +276,7 @@
             <div class="flex-right">
                 <div class="col-xs-6">
                     <div class="item clearfix">
-                        <span class="pull-left">日期</span>
+                        <span class="pull-left"></span>
                         <span class="select pull-right">
                             <kendo-dropdownlist [data]="availableDatesSelectListData" (valueChange)="bookingDateChangeHandler($event)" [textField]="'text'"
                                 [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
@@ -255,10 +286,10 @@
 
                 <div class="col-xs-6">
                     <div class="item clearfix">
-                        <span class="pull-left">时间</span>
+                        <span class="pull-left"></span>
                         <span class="select pull-right">
                             <kendo-dropdownlist [data]="availableTimesSelectListData" (valueChange)="bookingTimeChangeHandler($event)" [textField]="'text'"
-                                [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingDateSelectDefaultItem"></kendo-dropdownlist>
+                                [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingTimeSelectDefaultItem"></kendo-dropdownlist>
                         </span>
                     </div>
                 </div>
@@ -266,29 +297,34 @@
             <div class="flex-left"></div>
         </div>
 
-        <div class="content-wrap" infinite-scroll [scrollWindow]="false" [infiniteScrollDistance]="infiniteScrollDistance" [infiniteScrollThrottle]="infiniteScrollThrottle"
-            (scrolled)="onScrollDown()">
-            <div class="card" *ngIf="mobileCustomerListData.length > 0">
-                <div class="card-content">
-                    <div *ngFor="let customerListItem of allMobileCustomerListData">
-                        <div class="flex-item" (click)="showCustomerForEditHander(item.id)" *ngFor="let item of customerListItem">
-                            <div class="flex-left">
-                                <div class="avatar" [ngStyle]="{'background-image': 'url(' + getProfilePictureUrl(item.profilePictureUrl) + ')'}"></div>
-                            </div>
-                            <div class="flex-right">
-                                <div class="pull-left info">
-                                    <p class="name">{{ item.customerName }}</p>
-                                    <p class="state">{{ bookingOrderStatusName[item.status-1] }}</p>
-                                </div>
-                                <div class="pull-right time-ago">
-                                    <span>{{ getTimeAgo(item.creationTime) }}</span>
+        <div class="scroll-wrapper">
+            <xiaoyuyue-list-scroll [height]="'calc(100vh - 110px)'" [isNeedPullUpLoad]="'true'" [isNeedPullDownRefresh]="'true'" (finishPullUpHandle)="pullUpLoad()"
+                (finishPullDownHandle)="pullDownRefresh()">
+                <div class="scroll-content">
+                    <div class="card" *ngIf="allMobileCustomerListData.length > 0">
+                        <div class="card-content">
+                            <div class="content-item" *ngFor="let customerListItem of allMobileCustomerListData">
+                                <div class="flex-item" (click)="showCustomerForEditHandle(item.id)" *ngFor="let item of customerListItem">
+                                    <div class="flex-left">
+                                        <div class="avatar" [ngStyle]="{'background-image': 'url(' + transferAvatarPictureUrl(item.profilePictureUrl) + ')'}"></div>
+                                    </div>
+                                    <div class="flex-right">
+                                        <div class="pull-left info">
+                                            <p class="name">{{ item.customerName }}</p>
+                                            <p class="state">{{ displayStatus[item.status-1] }}</p>
+                                        </div>
+                                        <div class="pull-right time-ago">
+                                            <span>{{ getTimeAgo(item.creationTime) }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </xiaoyuyue-list-scroll>
         </div>
+
     </div>
-    <xiaoyuyue-customer-info-model #customerForEditModelComponent (isShowModelHander)="isShowConfirmOrderModelHander($event)"></xiaoyuyue-customer-info-model>
+    <xiaoyuyue-customer-info-model #customerForEditModelComponent (isShowModelHander)="hiddenMobileOrderModelHandle($event)"></xiaoyuyue-customer-info-model>
 </div>

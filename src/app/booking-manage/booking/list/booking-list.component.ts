@@ -24,6 +24,8 @@ import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { CheckInOrderModelComponent } from 'app/booking-manage/booking/list/shared/check-in-order-model/check-in-order-model.component';
+import { SpreadMoreService } from 'shared/services/spread-more.service';
 
 @Component({
     selector: 'app-manage-booking',
@@ -67,7 +69,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     isActive: boolean;
     outletId = 0;
     bookingName: string;
-
+    spreadMoreService: SpreadMoreService;
     listParam: BaseLsitDataInputDto;
     slogan = this.l('Nothing.Need2Create');
 
@@ -76,8 +78,9 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     searching = false;
 
     shareBaseUrl: string = AppConsts.userCenterUrl + '/booking/';
-    @ViewChild('confirmOrderModelComponent') ConfirmOrderModelComponent: ConfirmOrderModelComponent;
-    @ViewChild('bookingCustomModelComponent') BookingCustomModelComponent: BookingCustomModelComponent;
+    @ViewChild('checkInOrderModelComponent') checkInOrderModelComponent: CheckInOrderModelComponent;
+    @ViewChild('confirmOrderModelComponent') confirmOrderModelComponent: ConfirmOrderModelComponent;
+    @ViewChild('bookingCustomModelComponent') bookingCustomModelComponent: BookingCustomModelComponent;
     @ViewChild('shareBookingModel') shareBookingModel: ShareBookingModelComponent;
     @ViewChild('bookingBg') bookingBgElement: ElementRef;
     @ViewChild('mobileShareBookingModel') mobileShareBookingModel: MobileShareBookingModelComponent;
@@ -95,6 +98,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _sessionService: AppSessionService
     ) {
         super(injector);
+        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingListSpreadMoreCache, this._sessionService.tenantId);
         this.listParam = new BaseLsitDataInputDto(this._sessionService);
         this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
     }
@@ -189,7 +193,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 显示待确认model
     showConfirmOrderHandler(bookingId: number): void {
-        this.ConfirmOrderModelComponent.showModel(bookingId);
+        this.confirmOrderModelComponent.showModel(bookingId);
     }
 
     // 待确认model弹窗，若关闭应该刷新数据
@@ -201,27 +205,38 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 显示应约人列表
     showBookingCostomHandler(bookingItem: BookingListDto): void {
-        this.BookingCustomModelComponent.showModel(bookingItem);
+        this.bookingCustomModelComponent.showModel(bookingItem);
+    }
+
+    // 显示未签到订单model
+    showCheckInOrderHandle(bookingId: number): void {
+        this.checkInOrderModelComponent.showModel(bookingId);
     }
 
     // 获取预约完成百分比
-    public getOverbrimValue(val1, val2): number {
-        if (val1 <= 0 || val2 <= 0) { return 0; };
-        this.bookingOverbrimValue = Math.round(val2 / val1 * 100);
+    public getOverbrimValue(maxNum, availableNum): number {
+        if (maxNum <= 0 || availableNum <= 0) { return 0; };
+
+        const bookedNum = maxNum - availableNum;
+        this.bookingOverbrimValue = Math.round(bookedNum / maxNum * 100);
         return this.bookingOverbrimValue;
     }
 
-    private countOverbrimTop(val1, val2): number {
-        if (val1 <= 0 || val2 <= 0) { return 32; };
+    private countOverbrimTop(maxNum, availableNum): number {
+        if (maxNum <= 0 || availableNum <= 0) { return 32; };
+
         const maxResult = 74;
         const ratio = maxResult / 100;
-        this.countOverbrimTopValue = -Math.round(((val2 / val1 * 100)) * ratio - 32);
+
+        const bookedNum = maxNum - availableNum;
+        this.countOverbrimTopValue = -Math.round((bookedNum / maxNum * 100) * ratio - 32);
         return this.countOverbrimTopValue;
     }
 
-    private countOverbrimState(val1, val2): any {
-        let temp = Math.round(val2 / val1 * 100);
-        (val1 === 0 || val2 === 0) && (temp = 0);
+    private countOverbrimState(maxNum, availableNum): any {
+        const bookedNum = maxNum - availableNum;
+        let temp = Math.round(bookedNum / maxNum * 100);
+        (maxNum === 0 || availableNum === 0) && (temp = 0);
         const state = {
             state1: 0 <= temp && temp <= 30,
             state2: 30 < temp && temp <= 60,

@@ -1,15 +1,17 @@
 import * as _ from 'lodash';
 
 import { BatchConfirmInput, EntityDtoOfInt64, Gender, OrgBookingOrderInfolDto, OrgBookingOrderServiceProxy, RemarkBookingOrderInput, Status } from 'shared/service-proxies/service-proxies';
-import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { EditEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { Moment } from 'moment';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
+import { BookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'xiaoyuyue-customer-info-model',
@@ -19,46 +21,43 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 export class BookingOrderInfoModelComponent extends AppComponentBase implements OnInit {
     dataItem: OrgBookingOrderInfolDto = new OrgBookingOrderInfolDto();
     dataItemId: number;
-    isShowModelFlag = false;
     remarkInput: RemarkBookingOrderInput = new RemarkBookingOrderInput();
     defaultAvatarUrl = 'assets/common/images/default-profile-picture.png';
-    bookingOrderStatusName: string[] = [this.l(OrgBookingOrderStatus.WaitConfirmLocalization),
-    this.l(OrgBookingOrderStatus.ConfirmSuccessLocalization),
-    this.l(OrgBookingOrderStatus.WaitCommentLocalization),
-    this.l(OrgBookingOrderStatus.CancelLocalization),
-    this.l(OrgBookingOrderStatus.CompleteLocalization)];
-
+    bookingOrderStatusName: string[];
     confirming = false;
     updating = false;
 
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
+    @ViewChild('bookingOrderInfoModel') modal: ModalDirective;
 
     constructor(
         injector: Injector,
+        private _orderStatusService: BookingOrderStatusService,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this.bookingOrderStatusName = this._orderStatusService.DisplayStatus;
     }
 
     showModel(dataItemId: number): void {
         if (!dataItemId) {
             return;
         }
+        this.modal.show();
         this.dataItemId = dataItemId;
         this._orgBookingOrderServiceProxy
             .getOrderDetail(dataItemId)
             .subscribe(result => {
                 this.dataItem = result;
-                this.isShowModelFlag = true;
             })
 
     }
 
     hideModel(): void {
-        this.isShowModelFlag = false;
+        this.modal.hide();
     }
 
     // 备注订单
@@ -102,17 +101,5 @@ export class BookingOrderInfoModelComponent extends AppComponentBase implements 
             return this.dataItem.profilePictureUrl;
         }
         return this.defaultAvatarUrl;
-    }
-
-    // 订单状态样式
-    setOrderTipsClass(status: number): any {
-        const tipsClass = {
-            status1: status === 1,
-            status2: status === 2,
-            status3: status === 3,
-            status4: status === 4,
-            status5: status === 5
-        };
-        return tipsClass;
     }
 }

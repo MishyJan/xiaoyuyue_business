@@ -1,12 +1,16 @@
 <div class="confirm-order-wrap">
     <div bsModal #confirmOrderModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmOrderModel"
-        aria-hidden="true">
+        aria-hidden="true" (onHide)="hideModel()">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="title-name">{{l('Booking.Confirm')}}</div>
                     <div class="command-wrap">
-                        <span class="process-batch btn btn-white" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchConfirmBookingOrderHandler()">{{ confirmOrderText }}</span>
+                        <span class="process-batch btn btn-white" *ngIf="isGranted(permissions.bookingManage_BookingOrderConfirm)" (click)="batchConfirmBookingOrderHandler()"
+                            [buttonBusy]="batchConfirming" [busyText]="l('Confirming')" [originalText]="l('Batch')">
+                            <i class="empty-ico"></i>
+                            <span #buttonInnerSpan class="show-text"></span>
+                        </span>
                     </div>
                 </div>
 
@@ -48,9 +52,13 @@
                         </kendo-grid-column>
 
                         <kendo-grid-column title="{{l('Actions')}}">
-                            <ng-template kendoGridCellTemplate let-dataItem>
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
                                 <!-- edit command directive, will be visible when not in edit mode -->
-                                <button title="{{l('Confirm')}}" class="btn confirm-btn" *ngIf="!isBatchConfirmFlag" (click)="confirmBookingOrderHander(dataItem.id)">{{l('Confirm')}}</button>
+                                <button title="{{l('Confirm')}}" class="btn confirm-btn" *ngIf="!isBatchConfirmFlag" (click)="confirmBookingOrderHander(dataItem.id,rowIndex)"
+                                    [buttonBusy]="singleConfirmingArray[rowIndex]">
+                                    <i class="empty-ico"></i>
+                                    <span class="show-text">{{l('Confirm')}}</span>
+                                </button>
                                 <div class="md-checkbox-list" *ngIf="isBatchConfirmFlag" [ngClass]="{'k-button': false}">
                                     <div class="checkbox">
                                         <label>

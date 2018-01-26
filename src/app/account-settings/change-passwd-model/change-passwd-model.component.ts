@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ProfileServiceProxy, ChangePasswordInput, ChangePasswordByPhoneInput, CodeSendInput, SMSServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ProfileServiceProxy, ChangePasswordInput, ChangePasswordByPhoneInput, CodeSendInput, SMSServiceProxy, PasswordComplexitySetting } from '@shared/service-proxies/service-proxies';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { VerificationCodeType } from 'shared/AppEnums';
 import { AppSessionService } from '@shared/common/session/app-session.service';
@@ -22,18 +22,22 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
     byPhoneInput: ChangePasswordByPhoneInput = new ChangePasswordByPhoneInput();
     phoneNum: string;
     codeType: number = VerificationCodeType.ChangePassword;
+    passwordComplexitySetting: PasswordComplexitySetting = new PasswordComplexitySetting();
 
     @ViewChild('changePasswdModel') changePasswdModel: ModalDirective;
     constructor(
         private injector: Injector,
         private _SMSServiceProxy: SMSServiceProxy,
-        private _profileServiceProxy: ProfileServiceProxy,
+        private _profileService: ProfileServiceProxy,
         private _appSessionService: AppSessionService,
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this._profileService.getPasswordComplexitySetting().subscribe(result => {
+            this.passwordComplexitySetting = result.setting;
+        });
         this.phoneNum = this._appSessionService.user.phoneNumber;
     }
 
@@ -47,7 +51,7 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
     }
 
     changePasswd(): void {
-        this._profileServiceProxy
+        this._profileService
             .changePassword(this.input)
             .subscribe(result => {
                 this.notify.success('密码修改成功');
@@ -67,7 +71,7 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
 
     // 使用手机验证更改密码
     phoneChangeHandler(): void {
-        this._profileServiceProxy
+        this._profileService
             .changePasswordByPhone(this.byPhoneInput)
             .subscribe(result => {
                 this.hide();

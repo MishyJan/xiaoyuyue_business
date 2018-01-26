@@ -14,6 +14,7 @@ import { SettingService } from '@abp/settings/setting.service';
 export abstract class AppServiceBase {
 
     localizationSourceName = AppConsts.localization.defaultLocalizationSourceName;
+    commonlocalizationSourceName = AppConsts.localization.commonLocalizationSourceName;
     adminPermissions = AdminPermissions;
     localization: LocalizationService;
     permission: PermissionCheckerService;
@@ -36,6 +37,10 @@ export abstract class AppServiceBase {
 
     l(key: string, ...args: any[]): string {
         let localizedText = this.localization.localize(key, this.localizationSourceName);
+
+        if (localizedText === key) {
+            localizedText = this.localization.localize(key, this.commonlocalizationSourceName);
+        }
 
         if (!localizedText) {
             localizedText = key;

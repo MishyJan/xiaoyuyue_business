@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Injector, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ProfileServiceProxy, TokenAuthServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
-import { AppSessionService } from './../../../../shared/common/session/app-session.service';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { CookiesService } from 'shared/services/cookies.service';
 import { ModalDirective } from 'ngx-bootstrap';
 
@@ -11,7 +12,7 @@ import { ModalDirective } from 'ngx-bootstrap';
     templateUrl: './external-binding-model.component.html',
     styleUrls: ['./external-binding-model.component.scss']
 })
-export class ExternalBindingModelComponent extends AppComponentBase implements OnInit {
+export class ExternalBindingModelComponent extends AppComponentBase implements OnInit, OnChanges {
 
     title: string;
     slogen: string;
@@ -24,7 +25,9 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
     constructor(
         private injector: Injector,
         private _appSessionService: AppSessionService,
-        private _cookiesService: CookiesService
+        private _cookiesService: CookiesService,
+        private _tokenAuthService: TokenAuthServiceProxy,
+        private _profileServiceProxy: ProfileServiceProxy
     ) {
         super(injector);
     }
@@ -43,12 +46,28 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
     show(provideName): void {
         this.title = this.l('Binding') + this.l(provideName)
         this.slogen = this.l('BindingSlogen', this.l(provideName));
-        this.externalUrl = AppConsts.userCenterUrl + '/auth/external?authToken=' + this._cookiesService.getToken() + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href);
-        this.model.show();
+        this._tokenAuthService.getShortAuthToken().subscribe((result) => {
+            this.externalUrl = AppConsts.userCenterUrl + '/auth/external?shortAuthToken=' + result.shortAuthToken + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href + '/security');
+            this.model.show();
+            this.checkIsBind();
+        });
     }
 
     close(): void {
-        this.model.hide();
         clearInterval(this.checkTimer);
+        this.model.hide();
+    }
+
+    checkIsBind() {
+        this.checkTimer = setInterval(() => {
+            this._profileServiceProxy
+                .getCurrentUserSecurityInfo()
+                .subscribe(result => {
+                    if (result.weChat) {
+                        this.weChatBindRsult.emit(true);
+                        this.close();
+                    }
+                })
+        }, 1000);
     }
 }

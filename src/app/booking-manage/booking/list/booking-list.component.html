@@ -13,8 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6 text-right">
-            </div>
+            <div class="col-xs-6 text-right"></div>
         </div>
 
         <div class="row">
@@ -71,34 +70,45 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l("Booking.TenantField")}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'"
-                                                    [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                <div [hidden]="!spreadMoreService.spreadMoreStatus.active">
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l("Booking.TenantField")}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChangeHandler($event)" [textField]="'text'" [valueField]="'value'"
+                                                        [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="col-xs-6">
-                                    <div class="common-max-width">
-                                        <label class="col-md-3 label-on-left">{{l("Booking.State")}}</label>
-                                        <div class="col-md-9">
-                                            <div class="form-group label-floating is-empty">
-                                                <label class="control-label"></label>
-                                                <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'"
-                                                    [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+    
+                                    <div class="col-xs-6">
+                                        <div class="common-max-width">
+                                            <label class="col-md-3 label-on-left">{{l("Booking.State")}}</label>
+                                            <div class="col-md-9">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <kendo-dropdownlist [data]="bookingActiveSelectListData" (valueChange)="bookingActiveChangeHandler($event)" [textField]="'displayText'"
+                                                        [valueField]="'value'" [valuePrimitive]="true" [defaultItem]="bookingActiveSelectDefaultItem"></kendo-dropdownlist>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row search-btn-wrap">
-                                <div class="col-xs-6 col-md-2 col-md-offset-5 col-sm-3 col-sm-offset-3 common-min-width">
+                            <div class="row btn-wrap">
+                                <div class="col-xs-6 col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-3 common-min-width">
+                                    <div class="text-center spread-more">
+                                        <button class="btn btn-block primary-bgcolor" (click)="spreadMoreService.toggleStatus()">
+                                            <i class="fa " [ngClass]="{'fa-chevron-down': !spreadMoreService.spreadMoreStatus.active, 'fa-chevron-up': spreadMoreService.spreadMoreStatus.active}"></i>
+                                            <span>{{ spreadMoreService.spreadMoreStatus.text }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-md-2 col-sm-3 common-min-width">
                                     <div class="text-center">
                                         <button class="btn btn-block primary-bgcolor" (click)="searchData()" [buttonBusy]="searching" [busyText]="l('Searching')">
                                             <i class="fa fa-search"></i>
@@ -114,56 +124,58 @@
 
             <div class="col-lg-12 booking-list-wrap" *ngIf="organizationBookingResultData.length>0; else empty">
                 <!-- 翻转最外层，包含翻转前front-wrap / 翻转后back-wrap -->
-                <div *ngFor="let bookingResultItem of organizationBookingResultData | paginate: { itemsPerPage: listParam.MaxResultCount, currentPage: listParam.CurrentPage,totalItems: listParam.TotalItems };let index = index"
+                <div *ngFor="let bookingItem of organizationBookingResultData | paginate: { itemsPerPage: listParam.MaxResultCount, currentPage: listParam.CurrentPage,totalItems: listParam.TotalItems };let index = index"
                     class="col-lg-3 col-md-4 col-sm-4 booking-item flip" [ngClass]="{'active': flipIsToBackFlag[index]}">
                     <!--翻转前-->
-                    <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
+                    <div class="no-padding front-wrap box-shadow" #disabledAni [ngClass]="{'disabled-style': !bookingItem.isActive}">
                         <div class="top-banner-wrap">
-                            <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getBookingBgUrl(bookingResultItem.pictureUrl) + ')'}"></div>
+                            <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getBookingBgUrl(bookingItem.pictureUrl) + ')'}"></div>
                         </div>
                         <div class="booking-details">
-                            <div class="xiaoyuyue-title-box">{{bookingResultItem.name}}</div>
+                            <div class="xiaoyuyue-title-box">{{bookingItem.name}}</div>
                             <div class="content clearfix">
                                 <div class="pull-left">
-                                    <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)">
+                                    <div class="booking-overbrim" [ngClass]="countOverbrimState(bookingItem.subMaxBookingNum, bookingItem.subAvailBookingNum)">
                                         <div class="wave">
-                                            <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)+'px'}"></span>
-                                            <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)-2+'px'}"></span>
+                                            <span class="before" [ngStyle]="{'top': countOverbrimTop(bookingItem.subMaxBookingNum, bookingItem.subAvailBookingNum)+'px'}"></span>
+                                            <span class="after" [ngStyle]="{'top': countOverbrimTop(bookingItem.subMaxBookingNum, bookingItem.subAvailBookingNum)-2+'px'}"></span>
                                         </div>
                                     </div>
-                                    <div class="overbrim-value">{{ getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)}}%
+                                    <div class="overbrim-value">{{ getOverbrimValue(bookingItem.subMaxBookingNum, bookingItem.subAvailBookingNum)}}%
                                     </div>
                                 </div>
                                 <div class="booking-info pull-right">
                                     <div class="info-row-item">
                                         <span class="key">{{l('Booking.BookedNum')}}</span>
-                                        <span class="value">{{bookingResultItem.subBookedNum}}</span>
+                                        <span class="value">{{bookingItem.subBookedNum}}</span>
                                     </div>
                                     <div class="info-row-item">
                                         <span class="key">{{l('Booking.AvailBookingNum')}}</span>
-                                        <span class="value">{{bookingResultItem.subAvailBookingNum}}</span>
+                                        <span class="value">{{bookingItem.subAvailBookingNum}}</span>
                                     </div>
                                     <div class="info-row-item">
                                         <span class="key">{{l('Booking.QueueNum')}}</span>
-                                        <span class="value">{{bookingResultItem.subQueueNum}}</span>
+                                        <span class="value">{{bookingItem.subQueueNum}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- 蒙版遮罩 -->
-                        <div class="booking-item-cover unselectable clearfix" *ngIf="bookingResultItem.isActive">
+                        <div class="booking-item-cover unselectable clearfix" *ngIf="bookingItem.isActive">
                             <div class="qr-code-wrap">
-                                <qr-code [value]="shareBaseUrl+bookingResultItem.id" [size]="118"></qr-code>
+                                <qr-code [value]="shareBaseUrl+bookingItem.id" [size]="118"></qr-code>
                             </div>
                             <div class="handle-wrap">
                                 <div class="handle-item-1 row">
-                                    <span class="item col-md-6 col-sm-6 col-xs-6" *ngIf="isGranted(permissions.bookingManage_BookingDisable)" (click)="disabledBookingClass(index)">
+                                    <span class="item col-md-4 col-sm-4 col-xs-4" *ngIf="isGranted(permissions.bookingManage_BookingDisable)" (click)="disabledBookingClass(index)">
                                         <i class="vapps-icon-app-disabled"></i>{{l('Booking.Disabled')}}</span>
-                                    <span class="item col-md-6 col-sm-6 col-xs-6" (click)="shareHandler(bookingResultItem.id)">
+                                    <span class="item col-md-4 col-sm-4 col-xs-4" (click)="shareHandler(bookingItem.id)">
                                         <i class="vapps-icon-app-share"></i>{{l('Booking.Share')}}</span>
+                                    <span class="item col-md-4 col-sm-4 col-xs-4" (click)="showCheckInOrderHandle(bookingItem.id)">
+                                        <i class="vapps-icon-app-check-in"></i>{{ l('Booking.CheckIn') }}</span>
                                 </div>
                                 <div class="handle-item-2 pull-right">
-                                    <span class="btn item-wrap" (click)="editHandler(bookingResultItem.id)" title="{{l('Booking.Edit')}}">
+                                    <span class="btn item-wrap" (click)="editHandler(bookingItem.id)" title="{{l('Booking.Edit')}}">
                                         <span class="show-icon vapps-icon-app-edit"></span>
                                         <span class="show-text">{{l('Edit')}}</span>
                                     </span>
@@ -185,7 +197,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="booking-item-cover clearfix" *ngIf="!bookingResultItem.isActive">
+                        <div class="booking-item-cover clearfix" *ngIf="!bookingItem.isActive">
                             <div class="handle-wrap">
                                 <div class="handle-item-1 row">
                                     <span class="item col-md-6 active" (click)="beforeBookingClass(index)">
@@ -193,7 +205,7 @@
                                     </span>
                                 </div>
                                 <div class="handle-item-2 pull-right">
-                                    <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingResultItem.id)"
+                                    <span class="btn item-wrap" *ngIf="isGranted(permissions.bookingManage_BookingEdit)" (click)="editHandler(bookingItem.id)"
                                         title="{{l('Booking.Edit')}}">
                                         <span class="show-icon vapps-icon-app-edit"></span>
                                         <span class="show-text">{{l('Edit')}}</span>
@@ -214,7 +226,7 @@
                         </div>
 
                         <!-- 待确认人数  -->
-                        <div class="wait-confirm-num" *ngIf="bookingResultItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHandler(bookingResultItem.id)">{{ bookingResultItem.wait4ConfirmNum}}</div>
+                        <div class="wait-confirm-num" *ngIf="bookingItem.wait4ConfirmNum > 0" (click)="showConfirmOrderHandler(bookingItem.id)">{{ bookingItem.wait4ConfirmNum}}</div>
                     </div>
                     <!--翻转后-->
                     <div class="back-wrap box-shadow">
@@ -226,32 +238,32 @@
                             </div>
                             <div class="portlet-body content-wrap clearfix">
                                 <div class="content-item">
-                                    <div class="name orange-color">{{bookingResultItem.name}}</div>
-                                    <span class="vapps-icon-app-edit orange-color" (click)="editHandler(bookingResultItem.id)"></span>
+                                    <div class="name orange-color">{{bookingItem.name}}</div>
+                                    <span class="vapps-icon-app-edit orange-color" (click)="editHandler(bookingItem.id)"></span>
                                 </div>
                                 <div class="content-item">
                                     <div class="name">{{l("Booking.Outlet")}}</div>
-                                    <div class="desc text-overflow orange-color" [title]="bookingResultItem.outlet">{{bookingResultItem.outlet}}</div>
+                                    <div class="desc text-overflow orange-color" [title]="bookingItem.outlet">{{bookingItem.outlet}}</div>
                                 </div>
                                 <div class="content-item">
                                     <div class="name">{{l("Booking.Datetime")}}</div>
-                                    <div class="desc text-overflow" [title]="bookingResultItem.availableBookingTime">{{bookingResultItem.availableBookingTime}}</div>
+                                    <div class="desc text-overflow" [title]="bookingItem.availableBookingTime">{{bookingItem.availableBookingTime}}</div>
                                 </div>
                                 <div class="content-item">
                                     <div class="name">{{l("Booking.OutletAddress")}}</div>
-                                    <div class="desc text-overflow" [title]="bookingResultItem.outletAddress">{{bookingResultItem.outletAddress}}</div>
+                                    <div class="desc text-overflow" [title]="bookingItem.outletAddress">{{bookingItem.outletAddress}}</div>
                                 </div>
                                 <div class="content-item">
                                     <div class="name">{{l("Booking.Contactor")}}</div>
-                                    <div class="desc text-overflow">{{bookingResultItem.contactor}}</div>
+                                    <div class="desc text-overflow">{{bookingItem.contactor}}</div>
                                 </div>
                                 <div class="content-item">
                                     <div class="name">{{l("Booking.PhoneNumber")}}</div>
-                                    <div class="desc text-overflow">{{bookingResultItem.contactorPhoneNum}}</div>
+                                    <div class="desc text-overflow">{{bookingItem.contactorPhoneNum}}</div>
                                 </div>
                                 <div class="content-item">
                                     <div class="name">
-                                        <span class="booking-custom-btn light-bgcolor btn" (click)="showBookingCostomHandler(bookingResultItem)">{{l('BookingOrder.List')}}</span>
+                                        <span class="booking-custom-btn light-bgcolor btn" (click)="showBookingCostomHandler(bookingItem)">{{l('BookingOrder.List')}}</span>
                                     </div>
                                 </div>
                                 <div class="back clearfix" (click)="flipIsToBack(index, false)">
@@ -273,6 +285,7 @@
             </div>
         </div>
         <xiaoyuyue-share-booking-model #shareBookingModel [slogen]="l('Booking.ShareTitle')"></xiaoyuyue-share-booking-model>
+        <xiaoyuyue-check-in-order-model #checkInOrderModelComponent></xiaoyuyue-check-in-order-model>
         <xiaoyuyue-confirm-order-model #confirmOrderModelComponent (isShowModelHander)="isShowComfirmOrderModelHandler($event)"></xiaoyuyue-confirm-order-model>
         <xiaoyuyue-booking-custom-model #bookingCustomModelComponent></xiaoyuyue-booking-custom-model>
     </div>
@@ -283,20 +296,20 @@
                 (finishPullDownHandle)="pullDownRefresh()">
                 <div class="content">
                     <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
-                        <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
-                            <div class="booking-content" *ngFor="let bookingResultItem of organizationBookingResultData; let indexJ=index">
+                        <div class="booking-content-wrap" *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
+                            <div class="booking-content" *ngFor="let bookingItem of organizationBookingResultData; let indexJ=index">
                                 <div class="booking-item box-shadow" (click)="setActionFlag(indexJ)">
-                                    <div [ngClass]="{'disabled-style': !bookingResultItem.isActive}">
+                                    <div [ngClass]="{'disabled-style': !bookingItem.isActive}">
                                         <div class="top-wrap clearfix">
-                                            <div class="title pull-left">{{bookingResultItem.name}}</div>
+                                            <div class="title pull-left">{{bookingItem.name}}</div>
                                             <div class="icon pull-right" [ngClass]="{'rotate-180': actionFlag[indexJ], 'rotate-360': !actionFlag[indexJ]}">
                                                 <span class="vapps-icon-app-drop-down"></span>
                                             </div>
                                         </div>
                                         <div class="content">
                                             <div class="flex-left">
-                                                <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingResultItem.id" [criticalValue]="getOverbrimValue(bookingResultItem.subMaxBookingNum, bookingResultItem.subAvailBookingNum)"
-                                                    [class]="'booking-overbrim indicator-container-'+bookingResultItem.id">
+                                                <div class="booking-overbrim" xiaoyuyueIndicator [uuid]="bookingItem.id" [criticalValue]="getOverbrimValue(bookingItem.subMaxBookingNum, bookingItem.subAvailBookingNum)"
+                                                    [class]="'booking-overbrim indicator-container-'+bookingItem.id">
                                                 </div>
                                             </div>
                                             <div class="flex-right">
@@ -306,33 +319,33 @@
                                                 </div>
                                                 <div class="content-item">
                                                     <span class="name">{{ l('Dashboard.BookingRate') }} : </span>
-                                                    <span class="desc">{{bookingResultItem.subBookedNum}} / {{bookingResultItem.subMaxBookingNum}}</span>
+                                                    <span class="desc">{{bookingItem.subBookedNum}} / {{bookingItem.subMaxBookingNum}}</span>
                                                 </div>
                                                 <div class="content-item">
                                                     <span class="name">{{ l('Booking.ResponderNumber') }} : </span>
-                                                    <span class="desc">{{bookingResultItem.subBookedNum}}</span>
+                                                    <span class="desc">{{bookingItem.subBookedNum}}</span>
                                                 </div>
                                                 <div class="content-item">
                                                     <span class="name">{{ l('Dashboard.SubQueueNum') }} : </span>
-                                                    <span class="desc">{{bookingResultItem.subQueueNum}}</span>
+                                                    <span class="desc">{{bookingItem.subQueueNum}}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="bottom-action" *ngIf="actionFlag[indexJ]">
-                                        <button class="action-item" (click)="showDetail(bookingResultItem.id)">
+                                        <button class="action-item" (click)="showDetail(bookingItem.id)">
                                             <span class="icon vapps-icon-app-detail"></span>{{ l('BookingList.ViewEdit') }}</button>
                                         <span class="line">|</span>
-                                        <button class="action-item" *ngIf="bookingResultItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
+                                        <button class="action-item" *ngIf="bookingItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
                                             <span class="icon vapps-icon-app-cancel"></span>{{ l('BookingList.DisabledBooking') }}</button>
-                                        <button class="action-item" *ngIf="!bookingResultItem.isActive" (click)="beforeBookingClass(indexI, indexJ)">
+                                        <button class="action-item" *ngIf="!bookingItem.isActive" (click)="beforeBookingClass(indexI, indexJ)">
                                             <span class="icon vapps-icon-app-active"></span>{{ l('BookingList.ActivBooking') }}</button>
                                         <span class="line">|</span>
-                                        <button class="action-item" [ngClass]="{'disabled-style': bookingResultItem.wait4ConfirmNum == 0}" [disabled]="bookingResultItem.wait4ConfirmNum == 0"
-                                            (click)="showMobileConfirmOrderModel(bookingResultItem.id, indexI)">
+                                        <button class="action-item" [ngClass]="{'disabled-style': bookingItem.wait4ConfirmNum == 0}" [disabled]="bookingItem.wait4ConfirmNum == 0"
+                                            (click)="showMobileConfirmOrderModel(bookingItem.id, indexI)">
                                             <span class="icon vapps-icon-app-confirm-2"></span>
                                             {{ l('BookingList.WaitConfirm') }}
-                                            <span class="avail-num" *ngIf="bookingResultItem.wait4ConfirmNum !== 0">{{ bookingResultItem.wait4ConfirmNum }}</span>
+                                            <span class="avail-num" *ngIf="bookingItem.wait4ConfirmNum !== 0">{{ bookingItem.wait4ConfirmNum }}</span>
                                         </button>
                                     </div>
                                 </div>

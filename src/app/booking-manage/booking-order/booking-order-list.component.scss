@@ -1,5 +1,5 @@
 .custom-list {
-    .search-btn-wrap {
+    .btn-wrap {
         margin: 15px;
     }
     .avatar {
@@ -18,40 +18,13 @@
     .btn+.btn {
         margin: 0;
     }
-    .order-status {
-        color: #FFF;
-        border-radius: 2px;
-        padding: 4px;
-        font-size: 14px;
-        &.status1 {
-            background-color: #e32600;
-        }
-        &.status2 {
-            background-color: #2aad1c;
-        }
-        &.status3 {}
-        &.status4 {
-            background-color: #808080;
-        }
-        &.status5 {
-            background-color: #FF9641;
-        }
-    }
 }
 
-// 移动端样式
 .mobile-custom-list {
+    // 移动端样式
     width: 100%;
-    height: calc(100vh - 55px);
-    position: absolute;
-    top: 55px;
-    left: 0;
-    bottom: 50px;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
     .top-action-wrap {
         display: flex;
-        width: 100%;
         .flex-right {
             flex: 1;
             .item {
@@ -59,12 +32,13 @@
                 height: 34px;
                 line-height: 34px;
                 .select {
-                    width: calc(100% - 40px);
-                    display: inline-block; // padding: 0 4px;
+                    width: 100%;
+                    display: inline-block;
                     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
                     background-color: #FFF;
                     white-space: nowrap;
-                    border-radius: 3px;
+                    border-radius: 6px;
+                    overflow: hidden;
                 }
             }
             #bookingCustomerFlatpickr {
@@ -91,59 +65,66 @@
             }
         }
         .flex-left {
+            // TODO: 应约人导出按钮，暂时隐藏
+            display: none;
             width: 40px;
             flex: 0 0 40px;
         }
     }
-    .content-wrap {
+    .scroll-wrapper {
+        width: 100%;
+        height: calc(100vh - 110px);
         position: absolute;
-        top: 70px;
-        right: 0;
-        bottom: 20px;
+        top: 110px;
         left: 0;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 0 15px;
-        .card {
-            margin: 0;
-            .card-content {
-                padding: 0px 20px;
-            }
-        }
-        .flex-item+.flex-item {
-            border-top: 1px solid #DADADA;
-        }
-        .flex-item {
-            display: flex;
-            .flex-left {
-                width: 58px;
-                height: 58px;
-                flex: 0 0 38px;
-                margin-right: 20px;
-                .avatar {
-                    width: 38px;
-                    height: 38px;
-                    margin-top: 10px;
-                    background-size: cover;
-                    background-position: center;
-                }
-            }
-            .flex-right {
-                flex: 1;
-                .info {
-                    .name {
-                        padding: 4px 0;
-                        margin: 0;
+        .scroll-content {
+            padding: 0 10px;
+            .card {
+                margin: 0;
+                .card-content {
+                    padding: 0px 20px;
+                    .content-item+.content-item {
+                        border-top: 1px solid #DADADA;
                     }
-                    .state {
-                        padding: 4px 0;
-                        margin: 0;
-                        color: #B3B3B3;
+                    .content-item {
+                        .flex-item+.flex-item {
+                            border-top: 1px solid #DADADA;
+                        }
+                        .flex-item {
+                            display: flex;
+                            .flex-left {
+                                width: 58px;
+                                height: 58px;
+                                flex: 0 0 38px;
+                                margin-right: 20px;
+                                .avatar {
+                                    width: 38px;
+                                    height: 38px;
+                                    margin-top: 10px;
+                                    background-size: cover;
+                                    background-position: center;
+                                    border-radius: 100%;
+                                }
+                            }
+                            .flex-right {
+                                flex: 1;
+                                .info {
+                                    margin-top: 8px;
+                                    .name {
+                                        margin: 0;
+                                    }
+                                    .state {
+                                        margin: 0;
+                                        color: #B3B3B3;
+                                    }
+                                }
+                                .time-ago {
+                                    line-height: 58px;
+                                    color: #B3B3B3;
+                                }
+                            }
+                        }
                     }
-                }
-                .time-ago {
-                    line-height: 58px;
-                    color: #B3B3B3;
                 }
             }
         }

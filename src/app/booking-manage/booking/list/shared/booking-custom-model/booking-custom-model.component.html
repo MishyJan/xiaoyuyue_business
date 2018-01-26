@@ -12,43 +12,53 @@
                     <form class="form-horizontal">
                         <div class="row serach-wrap">
                             <div class="col-md-11">
-                                <div class="col-md-4">
-                                    <div class="col-md-8">
-                                        <div class="form-group label-floating is-empty">
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <input class="form-control common-max-width" [(ngModel)]="customerName" type="text" name="customerName" placeholder="{{l('BookingOrder.Name')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="{{l('BookingOrder.PhoneNumber')}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <kendo-dropdownlist [data]="checkInSelectListData" [(ngModel)]="checkIn" name="checkIn" [textField]="'displayText'" [valueField]="'value'"
+                                            [valuePrimitive]="true" [defaultItem]="selectCheckInDefaultItem"></kendo-dropdownlist>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating is-empty">
+                                        <div class="flatpickr-wrap">
                                             <label class="control-label"></label>
-                                            <input class="form-control common-max-width" [(ngModel)]="customerName" type="text" name="customerName" placeholder="{{l('BookingOrder.Name')}}">
+                                            <input class="form-control common-max-width booking-custom-creation-time" [(ngModel)]="creationStartDate" type="text" placeholder="{{l('BookingOrder.CreationTime')}}"
+                                                name="creationStartDate" data-input>
+                                            <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                                <i class="vapps-icon-dc-calendar"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="col-md-8">
-                                        <div class="form-group label-floating is-empty">
-                                            <label class="control-label"></label>
-                                            <input class="form-control common-max-width" [(ngModel)]="phoneNumber" type="text" name="phoneNumber" placeholder="{{l('BookingOrder.PhoneNumber')}}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="col-md-8">
-                                        <div class="form-group label-floating is-empty">
-                                            <div class="flatpickr-wrap">
-                                                <label class="control-label"></label>
-                                                <input class="form-control common-max-width creationTime" [(ngModel)]="creationStartDate" type="text" placeholder="{{l('BookingOrder.CreationTime')}}"
-                                                    name="creationStartDate" data-input>
-                                                <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                    <i class="vapps-icon-dc-calendar"></i>
-                                                </a>
-                                            </div>
-                                        </div>
+                                <div class="col-md-3">
+                                    <div class="form-group label-floating is-empty">
+                                        <label class="control-label"></label>
+                                        <kendo-dropdownlist [data]="orderStatusSelectList" [(ngModel)]="status" name="status" [textField]="'displayText'" [valueField]="'value'"
+                                            [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-1">
-                                <span class="btn vapps-icon-app-search" (click)="loadData()"></span>
+                                <span class="btn" (click)="loadData()" [buttonBusy]="searching">
+                                    <i class="vapps-icon-app-search"></i>
+                                    <span class="show-text"></span>
+                                </span>
                             </div>
                         </div>
                     </form>
-
                     <div class="grid-wrap">
                         <kendo-grid [data]="bookingCustomListData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting"
                             [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
@@ -56,6 +66,14 @@
                             <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
                                 pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
                                 pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
+
+                            <!-- 订单状态  -->
+                            <kendo-grid-column title="{{l('BookingOrder.Status')}}">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                    <span class="order-status" [ngClass]="'status-'+dataItem.status">{{ displayStatus[dataItem.status-1] }}</span>
+                                </ng-template>
+                            </kendo-grid-column>
+
                             <!-- 应约人 -->
                             <kendo-grid-column title="{{l('BookingOrder.Name')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
@@ -89,6 +107,13 @@
                             <kendo-grid-column title="{{l('BookingOrder.CreationTime')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <span>{{ t(dataItem.creationTime) }}</span>
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <!-- 签到状态  -->
+                            <kendo-grid-column title="{{l('Booking.CheckIn')}}">
+                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                    <span class="vapps-icon-app-check-in check-in-icon" [ngClass]="{'disabled-style': !dataItem.checkIn}"></span>
                                 </ng-template>
                             </kendo-grid-column>
                         </kendo-grid>

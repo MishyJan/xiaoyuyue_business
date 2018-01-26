@@ -2,11 +2,11 @@ import { BatchConfirmInput, Gender, OrgBookingOrderListDto, OrgBookingOrderServi
 import { Component, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { BookingOrderStatus } from 'shared/AppEnums';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
-import { OrgBookingOrderStatus } from 'shared/AppEnums';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-mobile-confirm-order-model',
@@ -29,7 +29,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
     gender: Gender;
     phoneNumber: string;
     startMinute: number;
-    status: Status[] = [OrgBookingOrderStatus.WaitConfirm];
+    status: Status[] = [BookingOrderStatus.WaitConfirm];
     gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
     currentPage: number = 0;
     maxResultCount: number;
@@ -65,6 +65,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             this.endMinute,
             this.phoneNumber,
             this.gender,
+            undefined,
             this.creationStartDate,
             this.creationEndDate,
             this.status,
@@ -102,7 +103,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
         this.confirming = true;
         this._orgBookingOrderServiceProxy
             .batchConfirmBookingOrder(input)
-            .finally( () => { this.confirming = false; })
+            .finally(() => { this.confirming = false; })
             .subscribe(result => {
                 this.notify.success('确认成功');
                 this.hide();

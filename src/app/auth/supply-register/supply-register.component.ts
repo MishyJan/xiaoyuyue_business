@@ -1,12 +1,13 @@
-import { Component, OnInit, Injector, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { SupplementAuthModel, SupplementAuthResultModel, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
+
+import { AppAuthService } from 'app/shared/common/auth/app-auth.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { TokenAuthServiceProxy, SupplementAuthModel, SupplementAuthResultModel } from '@shared/service-proxies/service-proxies';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { LoginService } from 'shared/services/login.service';
 import { ProtocolModelComponent } from 'app/auth/register/protocol-model/protocol-model.component';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 import { Router } from '@angular/router';
-import { AppAuthService } from 'app/shared/common/auth/app-auth.service';
+import { accountModuleAnimation } from '@shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-supply-register',
@@ -16,8 +17,8 @@ import { AppAuthService } from 'app/shared/common/auth/app-auth.service';
 })
 export class SupplyRegisterComponent extends AppComponentBase implements OnInit, OnDestroy {
     model: SupplementAuthModel = new SupplementAuthModel();
-    readAndAgree: boolean = true;
-    registering: boolean = false;
+    readAndAgree = true;
+    registering = false;
 
     @ViewChild('protocolModal') protocolModal: ProtocolModelComponent;
     constructor(
@@ -32,7 +33,7 @@ export class SupplyRegisterComponent extends AppComponentBase implements OnInit,
 
     ngOnInit() {
         if (this._sessionService.tenantId) {
-            this.message.warn('您不需要重复补充注册');
+            this.message.warn(this.l('SupplRregister.IsRegisted'));
             this._router.navigate(['/']);
         }
     }

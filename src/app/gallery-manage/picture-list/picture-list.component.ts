@@ -49,7 +49,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     currentPage = 0;
     picGroupItemData: SelectedPicListDto[] = [];
     totalItems: number;
-    maxResultCount = 12;
     selectedGroupId: number;
     picGalleryGroupData: PictureGroupListDto[];
     gridParam: BaseLsitDataInputDto = new BaseLsitDataInputDto(this._sessionService);
@@ -71,6 +70,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit() {
+        this.gridParam.MaxResultCount = 12;
         this.loadPicGalleryData();
         document.addEventListener('click', () => {
             this.hideMoveGroupTemplate();
@@ -96,8 +96,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 根据分组ID获取某分组下所有图片数据
     loadAllPicAsync(): void {
-        this.gridParam.MaxResultCount = this.maxResultCount;
-        let self = this;
         this._pictureServiceProxy
             .getPictureAsync(
             this.selectedGroupId,
@@ -110,7 +108,7 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
                 this.picGroupItemData = [];
 
                 result.items.forEach((pagesItem, inx) => {
-                    let picListItem = new SelectedPicListDto();
+                    const picListItem = new SelectedPicListDto();
                     picListItem.picId = pagesItem.id;
                     picListItem.picUrl = pagesItem.originalUrl;
                     picListItem.name = pagesItem.name;
@@ -299,10 +297,15 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
             this.allSelected = false;
             this.allPicCancelSelected();
         }
+        this.resetPageState();
         this.groupActiveIndex = groupActiveIndex;
         this.selectedGroupId = groupItem.id;
         this.selectedGroupName = groupItem.name;
         this.loadAllPicAsync();
+    }
+    private resetPageState(): void {
+        this.gridParam.CurrentPage = 0;
+        this.gridParam.SkipCount = 0;
     }
 
     picRename(name: string): string {
@@ -366,8 +369,8 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     // 分页
     public onPageChange(index: number): void {
-        this.currentPage = index;
-        this.gridParam.SkipCount = this.maxResultCount * (this.currentPage - 1);
+        this.gridParam.CurrentPage = index;
+        this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
         this.loadAllPicAsync()
     }
 

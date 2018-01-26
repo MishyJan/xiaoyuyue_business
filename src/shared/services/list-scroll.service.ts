@@ -4,6 +4,7 @@ import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 @Injectable()
 export class ListScrollService {
     listScrollFinished = new EventEmitter<ScrollStatusOutput>();
+    listScrollRefresh = new EventEmitter<null>();
 
     constructor() {
      }
