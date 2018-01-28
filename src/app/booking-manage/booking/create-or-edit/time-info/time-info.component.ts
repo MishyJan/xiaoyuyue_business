@@ -136,9 +136,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     // 点击创建按钮，显示创建时段面板
     createTimeField() {
         if (this.isTimeEditing) {
-            this.message.confirm('', '请先保存编辑中的时间!', (isDelete) => {
-                return; // 添加时间中再点击添加按钮，不做任何操作
-            });
+            this.message.confirm('', '有未保存的时间项!');
         } else {
             // 创建面板的内容置空
             this.editingBookingItem = new BookingItemEditDto();
@@ -159,9 +157,9 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
         this.isTimeEditing = false;
         this.timeInfoFormVaild = true;
         this.timeInfoFormDisabled.emit(this.timeInfoFormVaild);
-        if (!this.bookingId) {
-            return;
-        }
+        // if (!this.bookingId) {
+        //     return;
+        // }
 
         // 把对象重新插入数组
         this.editingBooking && this.timeInfo.push(this.editingBookingItem);
@@ -195,6 +193,10 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 编辑整个时段(单个)
     editBookingItem(index) {
+        if (this.isTimeEditing) {
+            this.message.warn('', '有未保存的时间项!');
+            return;
+        }
         const self = this;
         const defaultDate = this.timeInfo.length > 0 && this.timeInfo[index].availableDates;
         this.editIndex = index;

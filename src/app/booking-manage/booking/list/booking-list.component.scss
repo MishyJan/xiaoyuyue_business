@@ -378,80 +378,85 @@
             font-size: 18px;
         }
     }
-    .booking-content+.booking-content {
-        padding-top: 0;
+    .booking-content-wrap+.booking-content-wrap {
+        margin-top: -10px;
     }
-    .booking-content {
-        padding: 10px;
-        .booking-item {
-            padding: 10px 15px;
-            background-color: #FFF;
-            border-radius: 4px;
-            .content {
-                position: relative;
-                padding: 20px 0;
-                display: flex;
-                .stick-booking {
-                    width: 60px;
-                    position: absolute;
-                    right: -18px;
-                    bottom: 20px;
-                }
-                .flex-left {
-                    width: 80px;
-                    flex: 0 0 80px;
-                    .booking-progress {
-                        margin-top: 26px;
-                        margin-left: 24px;
+    .booking-content-wrap {
+        .booking-content+.booking-content {
+            padding-top: 0;
+        }
+        .booking-content {
+            padding: 10px;
+            .booking-item {
+                padding: 10px 15px;
+                background-color: #FFF;
+                border-radius: 4px;
+                .content {
+                    position: relative;
+                    padding: 20px 0;
+                    display: flex;
+                    .stick-booking {
+                        width: 60px;
+                        position: absolute;
+                        right: -18px;
+                        bottom: 20px;
                     }
-                    .booking-overbrim {
-                        position: relative;
-                        width: 64px;
-                        height: 64px;
-                        top: 20px;
-                        overflow: hidden;
-                    }
-                }
-                .flex-right {
-                    flex: 1;
-                    .content-item {
-                        padding: 4px 0;
-                        .name {
-                            margin-right: 10px;
+                    .flex-left {
+                        width: 80px;
+                        flex: 0 0 80px;
+                        .booking-progress {
+                            margin-top: 26px;
+                            margin-left: 24px;
                         }
-                        .desc {
-                            color: #FF9641;
+                        .booking-overbrim {
+                            position: relative;
+                            width: 64px;
+                            height: 64px;
+                            top: 20px;
+                            overflow: hidden;
                         }
                     }
-                }
-            }
-            .bottom-action {
-                height: 40px;
-                line-height: 40px;
-                display: flex;
-                border-top: 1px solid #E5E5E5;
-                .avail-num {
-                    padding: 1px 6px 1px 5px;
-                    color: #FFF;
-                    background-color: #FF0000;
-                    border-radius: 12px;
-                }
-                .action-item {
-                    flex: 1;
-                    text-align: center;
-                    color: #333;
-                    border: none;
-                    background-color: transparent;
-                    .icon {
-                        display: inline-block;
-                        margin-right: 6px;
-                        color: #FF9641; // transform: translateY(-1px);
+                    .flex-right {
+                        flex: 1;
+                        .content-item {
+                            padding: 4px 0;
+                            .name {
+                                margin-right: 10px;
+                            }
+                            .desc {
+                                color: #FF9641;
+                            }
+                        }
                     }
-                    a {
+                }
+                .bottom-action {
+                    height: 40px;
+                    line-height: 40px;
+                    display: flex;
+                    border-top: 1px solid #E5E5E5;
+                    .avail-num {
+                        padding: 1px 6px 1px 5px;
+                        color: #FFF;
+                        background-color: #FF0000;
+                        border-radius: 12px;
+                    }
+                    .action-item {
+                        flex: 1;
+                        text-align: center;
                         color: #333;
-                    }
-                    &.disabled-style {
-                        color: #AAA;
+                        border: none;
+                        background-color: transparent;
+                        .icon {
+                            display: inline-block;
+                            margin-right: 6px;
+                            color: #FF9641; // transform: translateY(-1px);
+                        }
+                        a {
+                            color: #333;
+                        }
+                        &.disabled-style {
+                            color: #AAA;
+                        }
                     }
                 }
             }

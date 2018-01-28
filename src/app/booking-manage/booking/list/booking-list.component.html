@@ -296,7 +296,7 @@
                 (finishPullDownHandle)="pullDownRefresh()">
                 <div class="content">
                     <div *ngIf="allOrganizationBookingResultData.length>0; else empty">
-                        <div *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
+                        <div class="booking-content-wrap" *ngFor="let organizationBookingResultData of allOrganizationBookingResultData; let indexI=index">
                             <div class="booking-content" *ngFor="let bookingItem of organizationBookingResultData; let indexJ=index">
                                 <div class="booking-item box-shadow" (click)="setActionFlag(indexJ)">
                                     <div [ngClass]="{'disabled-style': !bookingItem.isActive}">
