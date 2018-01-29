@@ -28,7 +28,9 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
                 this.scrollStatusOutput = result;
                 if (result.pulledUpActive !== null && !result.pulledUpActive) {
                     this.finishPullUp();
-                    this.refresh();
+                    const timer = setTimeout(() => {
+                        this.refresh();
+                    }, 60)
                 }
                 if (result.pulledDownActive !== null && !result.pulledDownActive) {
                     this.finishPullDown();

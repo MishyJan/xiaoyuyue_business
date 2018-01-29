@@ -500,3 +500,9 @@ br {
         transform: translate3d(0, -2px, 0);
     }
 }
+
+@media screen and (max-width: 992px) {
+    html, body { 
+        overflow: hidden;
+     }
+}

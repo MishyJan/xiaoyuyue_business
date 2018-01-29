@@ -154,291 +154,293 @@
     <xiaoyuyue-share-booking-model #shareBookingModel [slogen]="l('SavaSuccess')" [bookingId]="bookingId"></xiaoyuyue-share-booking-model>
 </div>
 
-<div class="mobile-create-booking common-container" [@routerTransition] *showItBootstrap="['xs','sm']">
-    <tabset class="side-bar" #staticTabs>
-        <tab heading="{{l('Booking.BaseInfo')}}" (select)="updateNextIndex(1)">
-            <div class="booking-info">
-                <div class="card">
-                    <form #bookingInfo="ngForm" [formGroup]="bookingBaseInfoForm" class="form-horizontal">
-                        <div class="card-content">
-                            <div class="row">
-                                <label class="col-sm-2 label-on-left"></label>
-                                <div class="col-sm-7">
-                                    <div class="form-group label-floating">
-                                        <label class="control-label"></label>
-                                        <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Name')}}" formControlName="bookingName" required>
-                                        <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
-                                            <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
-                                            <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',10)}}</small>
+<div class="mobile-create-booking" [@routerTransition] *showItBootstrap="['xs','sm']">
+    <div class="mobild-content common-container">
+        <tabset class="side-bar" #staticTabs>
+            <tab heading="{{l('Booking.BaseInfo')}}" (select)="updateNextIndex(1)">
+                <div class="booking-info">
+                    <div class="card">
+                        <form #bookingInfo="ngForm" [formGroup]="bookingBaseInfoForm" class="form-horizontal">
+                            <div class="card-content">
+                                <div class="row">
+                                    <label class="col-sm-2 label-on-left"></label>
+                                    <div class="col-sm-7">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label"></label>
+                                            <input class="form-control" type="text" name="text" placeholder="{{l('Booking.Name')}}" formControlName="bookingName" required>
+                                            <div *ngIf="bookingName.invalid && (bookingName.dirty || bookingName.touched)">
+                                                <small class="text-danger" *ngIf="bookingName.errors.required">{{l('Booking.Name.Required')}}</small>
+                                                <small class="text-danger" *ngIf=" bookingName.errors.maxlength">{{l('Booking.Name.MaxLenth',10)}}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <label class="col-sm-3 label-on-right">
+                                        <code>required</code>
+                                    </label> -->
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-sm-2 label-on-left"></label>
+                                    <div class="col-sm-7">
+                                        <div class="form-group label-floating">
+                                            <!-- <label class="control-label" style="top: 14px;left: 2px;font-size: 14px;"><span *ngIf="!baseInfo.description || baseInfo.description == '<p><br></p>'">预约简介</span></label> -->
+                                            <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="baseInfoDesc"></xiaoyuyue-wang-editor>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- <label class="col-sm-3 label-on-right">
-                                    <code>required</code>
-                                </label> -->
-                            </div>
 
-                            <div class="row">
-                                <label class="col-sm-2 label-on-left"></label>
-                                <div class="col-sm-7">
-                                    <div class="form-group label-floating">
-                                        <!-- <label class="control-label" style="top: 14px;left: 2px;font-size: 14px;"><span *ngIf="!baseInfo.description || baseInfo.description == '<p><br></p>'">预约简介</span></label> -->
-                                        <xiaoyuyue-wang-editor #wangEditorModel (sendEditorHTMLContent)="editorContentChangeHandler($event)" [baseInfoDesc]="baseInfoDesc"></xiaoyuyue-wang-editor>
+                                <div class="row">
+                                    <label class="label-on-left"></label>
+                                    <div class="col-sm-12">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label"></label>
+                                            <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'"
+                                                [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <label class="label-on-left"></label>
-                                <div class="col-sm-12">
-                                    <div class="form-group label-floating">
-                                        <label class="control-label"></label>
-                                        <kendo-dropdownlist [data]="outletSelectListData" (valueChange)="outletChange($event)" [textField]="'text'" [valueField]="'value'"
-                                            [valuePrimitive]="true" [value]="outletSelectDefaultItem"></kendo-dropdownlist>
+                                <div class="row">
+                                    <label class="label-on-left"></label>
+                                    <div class="col-sm-12">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label"></label>
+                                            <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'"
+                                                [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <label class="label-on-left"></label>
-                                <div class="col-sm-12">
-                                    <div class="form-group label-floating">
-                                        <label class="control-label"></label>
-                                        <kendo-dropdownlist [data]="contactorSelectListData" (valueChange)="contactorChange($event)" [textField]="'text'" [valueField]="'value'"
-                                            [valuePrimitive]="true" [value]="contactorSelectDefaultItem"> </kendo-dropdownlist>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="pic-upload-title">{{l('PictureUpload')}}</p>
+                                        <xiaoyuyue-mobile-upload-picture-list [cropScaleX]="4" [cropScaleY]="3" [allUploadPictureInfo]="input.bookingPictures" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-mobile-upload-picture-list>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <p class="pic-upload-title">{{l('PictureUpload')}}</p>
-                                    <xiaoyuyue-mobile-upload-picture-list [cropScaleX]="4" [cropScaleY]="3" [allUploadPictureInfo]="input.bookingPictures" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"></xiaoyuyue-mobile-upload-picture-list>
-                                </div>
                             </div>
-
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </tab>
-        <tab heading="{{l('Booking.TimeInfo')}}" (select)="updateNextIndex(2)">
-            <div class="time-create">
-                <div class="add-time-btn">
-                    <span class="icon vapps-icon-cb-add-time" (click)="createTimeField()"></span>
-                </div>
-                <div *ngIf="isNew">
-                    <form #timeCreate="ngForm" [formGroup]="timeBaseInfoForm">
-                        <!-- 创建时间段面板 -->
-                        <div class="create-time-pannel">
+            </tab>
+            <tab heading="{{l('Booking.TimeInfo')}}" (select)="updateNextIndex(2)">
+                <div class="time-create">
+                    <div class="add-time-btn">
+                        <span class="icon vapps-icon-cb-add-time" (click)="createTimeField()"></span>
+                    </div>
+                    <div *ngIf="isNew">
+                        <form #timeCreate="ngForm" [formGroup]="timeBaseInfoForm">
+                            <!-- 创建时间段面板 -->
+                            <div class="create-time-pannel">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.AvailBookingNum')}}</label>
+                                                    <input class="form-control" type="number" name="maxBookingNum" formControlName="maxBookingNum" required>
+                                                    <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
+                                                        <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxBookingNum.Required')}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.MaxQueueNum')}}</label>
+                                                    <input class="form-control" type="number" name="maxQueueNum" formControlName="maxQueueNum" required>
+                                                    <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
+                                                        <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.BookingStartTime')}}</label>
+                                                    <div class="time-point-wrap">
+                                                        <input class="form-control" type="time" name="startHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="startHourOfDay"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.BookingEndTime')}}</label>
+                                                    <div class="time-point-wrap">
+                                                        <input class="form-control" type="time" name="endHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="endHourOfDay"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.BookingDate')}}</label>
+                                                    <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
+                                                    <div id="createTimeFlatpickr" class="flatpickr-wrap">
+                                                        <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates"
+                                                            data-input required>
+
+                                                        <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
+                                                            <i class="icon-calendar"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <button type="button" class="btn btn-block primary-bgcolor view-btn" [disabled]="timeBaseInfoForm.invalid" (click)="savePanelTimeField()">{{l('Save')}}</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 创建时间段展示 -->
+                    <div class="time-view-wrap" *ngIf="input.items.length>0">
+                        <div class="time-item" *ngFor="let item of input.items; let index = index;">
                             <div class="card">
-                                <div class="card-content">
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.AvailBookingNum')}}</label>
-                                                <input class="form-control" type="number" name="maxBookingNum" formControlName="maxBookingNum" required>
-                                                <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
-                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxBookingNum.Required')}}</small>
+                                <form #timeViewForm="ngForm">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="booking-time">{{item.hourOfDay}}</div>
+                                                <!-- <div class="form-group label-floating"> -->
+                                                <!-- <label class="control-label">{{l('Booking.BookingTime')}}</label>
+                                                    <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required> -->
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.BookingDate')}}</label>
+                                                    <input class="form-control" type="text" name="availableDates" [(ngModel)]="item.availableDates" readonly disabled required>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-xs-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.MaxQueueNum')}}</label>
-                                                <input class="form-control" type="number" name="maxQueueNum" formControlName="maxQueueNum" required>
-                                                <div *ngIf="maxBookingNum.invalid && (maxBookingNum.dirty || maxBookingNum.touched)">
-                                                    <small class="text-danger" *ngIf="maxBookingNum.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.MaxBookingNum')}}</label>
+                                                    <input class="form-control" type="text" name="maxBookingNum1" #maxBookingNum1="ngModel" [(ngModel)]="item.maxBookingNum"
+                                                        [readonly]="!editingIndex[index]" [disabled]="!editingIndex[index]" required>
+                                                    <div *ngIf="maxBookingNum1.invalid && (maxBookingNum1.dirty || maxBookingNum1.touched)">
+                                                        <small class="text-danger" *ngIf="maxBookingNum1.errors.required">{{l('Booking.MaxBookingNum.Required')}}</small>
+                                                    </div>
                                                 </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">{{l('Booking.MaxQueueNum')}}</label>
+                                                    <input class="form-control" type="text" name="maxQueueNum1" #maxQueueNum1="ngModel" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
+                                                        [disabled]="!editingIndex[index]" required>
+                                                    <div *ngIf="maxQueueNum1.invalid && (maxQueueNum1.dirty || maxQueueNum1.touched)">
+                                                        <small class="text-danger" *ngIf="maxQueueNum1.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row command-wrap">
+                                            <!-- <div class="col-xs-4 command-item">
+                                            <span class="vapps-icon-app-copy-2 icon"></span>
+                                            <span class="text">复制</span>
+                                        </div> -->
+                                            <div class="col-xs-4 col-xs-offset-2" *ngIf="!editingIndex[index]">
+                                                <button class="btn primary-bgcolor command-item" (click)="editingTimeField(index)">
+                                                    <span class="vapps-icon-app-edit icon"></span>
+                                                    <span class="text">{{l('Edit')}}</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-xs-4 col-xs-offset-2" *ngIf="editingIndex[index]">
+                                                <button class="btn primary-bgcolor command-item" [disabled]="!timeViewForm.form.valid" (click)="saveTimeField(index)">
+                                                    <span class="vapps-icon-app-confirm icon"></span>
+                                                    <span class="text">{{l('Save')}}</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <button class="btn primary-bgcolor command-item" (click)="deleteTimeField(index)">
+                                                    <span class="vapps-icon-app-delete icon"></span>
+                                                    <span class="text">{{l('Delete')}}</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.BookingStartTime')}}</label>
-                                                <div class="time-point-wrap">
-                                                    <input class="form-control" type="time" name="startHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="startHourOfDay"
-                                                        required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.BookingEndTime')}}</label>
-                                                <div class="time-point-wrap">
-                                                    <input class="form-control" type="time" name="endHourOfDay" [ngModelOptions]="{standalone: true}" [(ngModel)]="endHourOfDay"
-                                                        required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-12">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.BookingDate')}}</label>
-                                                <!-- <input class="form-control" type="date" name="text" placeholder="时间" required> -->
-                                                <div id="createTimeFlatpickr" class="flatpickr-wrap">
-                                                    <input class="form-control" type="text" name="bookingDate" [ngModelOptions]="{standalone: true}" [(ngModel)]="editingBookingItem.availableDates"
-                                                        data-input required>
-
-                                                    <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                        <i class="icon-calendar"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <button type="button" class="btn btn-block primary-bgcolor view-btn" [disabled]="timeBaseInfoForm.invalid" (click)="savePanelTimeField()">{{l('Save')}}</button>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                </form>
                             </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- 创建时间段展示 -->
-                <div class="time-view-wrap" *ngIf="input.items.length>0">
-                    <div class="time-item" *ngFor="let item of input.items; let index = index;">
-                        <div class="card">
-                            <form #timeViewForm="ngForm">
-                                <div class="card-content">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="booking-time">{{item.hourOfDay}}</div>
-                                            <!-- <div class="form-group label-floating"> -->
-                                            <!-- <label class="control-label">{{l('Booking.BookingTime')}}</label>
-                                                <input class="form-control" type="text" name="hourOfDay" [(ngModel)]="item.hourOfDay" readonly disabled required> -->
-                                            <!-- </div> -->
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.BookingDate')}}</label>
-                                                <input class="form-control" type="text" name="availableDates" [(ngModel)]="item.availableDates" readonly disabled required>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.MaxBookingNum')}}</label>
-                                                <input class="form-control" type="text" name="maxBookingNum1" #maxBookingNum1="ngModel" [(ngModel)]="item.maxBookingNum"
-                                                    [readonly]="!editingIndex[index]" [disabled]="!editingIndex[index]" required>
-                                                <div *ngIf="maxBookingNum1.invalid && (maxBookingNum1.dirty || maxBookingNum1.touched)">
-                                                    <small class="text-danger" *ngIf="maxBookingNum1.errors.required">{{l('Booking.MaxBookingNum.Required')}}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">{{l('Booking.MaxQueueNum')}}</label>
-                                                <input class="form-control" type="text" name="maxQueueNum1" #maxQueueNum1="ngModel" [(ngModel)]="item.maxQueueNum" [readonly]="!editingIndex[index]"
-                                                    [disabled]="!editingIndex[index]" required>
-                                                <div *ngIf="maxQueueNum1.invalid && (maxQueueNum1.dirty || maxQueueNum1.touched)">
-                                                    <small class="text-danger" *ngIf="maxQueueNum1.errors.required">{{l('Booking.MaxQueueNum.Required')}}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row command-wrap">
-                                        <!-- <div class="col-xs-4 command-item">
-                                        <span class="vapps-icon-app-copy-2 icon"></span>
-                                        <span class="text">复制</span>
-                                    </div> -->
-                                        <div class="col-xs-4 col-xs-offset-2" *ngIf="!editingIndex[index]">
-                                            <button class="btn primary-bgcolor command-item" (click)="editingTimeField(index)">
-                                                <span class="vapps-icon-app-edit icon"></span>
-                                                <span class="text">{{l('Edit')}}</span>
-                                            </button>
-                                        </div>
-                                        <div class="col-xs-4 col-xs-offset-2" *ngIf="editingIndex[index]">
-                                            <button class="btn primary-bgcolor command-item" [disabled]="!timeViewForm.form.valid" (click)="saveTimeField(index)">
-                                                <span class="vapps-icon-app-confirm icon"></span>
-                                                <span class="text">{{l('Save')}}</span>
-                                            </button>
-                                        </div>
-                                        <div class="col-xs-4">
-                                            <button class="btn primary-bgcolor command-item" (click)="deleteTimeField(index)">
-                                                <span class="vapps-icon-app-delete icon"></span>
-                                                <span class="text">{{l('Delete')}}</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-        </tab>
-        <tab heading="{{l('Booking.CustomerInfo.Option')}}" (select)="updateNextIndex(3)">
-            <div class="customer-info-wrap">
-                <div class="card">
-                    <div class="card-content clearfix">
-                        <div class="col-xs-12 title-wrap">
-                            <p class="title">{{l('Booking.CustomerOptions')}}</p>
-                        </div>
-                        <div class="col-xs-4 item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="name" disabled checked> {{l('Booking.Info.Name')}}
-                                </label>
+            </tab>
+            <tab heading="{{l('Booking.CustomerInfo.Option')}}" (select)="updateNextIndex(3)">
+                <div class="customer-info-wrap">
+                    <div class="card">
+                        <div class="card-content clearfix">
+                            <div class="col-xs-12 title-wrap">
+                                <p class="title">{{l('Booking.CustomerOptions')}}</p>
                             </div>
-                        </div>
-
-                        <div class="col-xs-4 item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="phoneNumer" disabled checked> {{l('Booking.Info.PhoneNumer')}}
-                                </label>
+                            <div class="col-xs-4 item">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="name" disabled checked> {{l('Booking.Info.Name')}}
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-xs-4 item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="gender" [(ngModel)]="input.booking.needGender" [ngModelOptions]="{standalone: true}"> {{l('Booking.Info.Gender')}}
-                                </label>
+                            <div class="col-xs-4 item">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="phoneNumer" disabled checked> {{l('Booking.Info.PhoneNumer')}}
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-xs-4 item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="age" [(ngModel)]="input.booking.needAge" [ngModelOptions]="{standalone: true}"> {{l('Booking.Info.Age')}}
-                                </label>
+                            <div class="col-xs-4 item">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="gender" [(ngModel)]="input.booking.needGender" [ngModelOptions]="{standalone: true}"> {{l('Booking.Info.Gender')}}
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-xs-4 item">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="email" [(ngModel)]="input.booking.needEmail" [ngModelOptions]="{standalone: true}"> {{l('Booking.Info.Email')}}
-                                </label>
+                            <div class="col-xs-4 item">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="age" [(ngModel)]="input.booking.needAge" [ngModelOptions]="{standalone: true}"> {{l('Booking.Info.Age')}}
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
+                            <div class="col-xs-4 item">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="email" [(ngModel)]="input.booking.needEmail" [ngModelOptions]="{standalone: true}"> {{l('Booking.Info.Email')}}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-        </tab>
-    </tabset>
+            </tab>
+        </tabset>
+    </div>
     <button class="btn btn-block next-step primary-bgcolor" *ngIf="!isShowConfirm()" (click)="nextStep()">{{l('NextStep')}}</button>
-    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()" (click)="save()" [buttonBusy]="saving" [busyText]="l('Saving')">
+    <button class="btn btn-block next-step primary-bgcolor" *ngIf="isShowConfirm()&&!bookingId" (click)="save()" [buttonBusy]="saving" [busyText]="l('Saving')">
         <i></i>
         <span>{{l("Submit")}}</span>
     </button>
