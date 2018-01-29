@@ -3,9 +3,9 @@ import { GetOutletForEditDto, OutletEditDto, SelectListItemDto, StateServiceServ
 
 import { ActivatedRoute } from '@angular/router';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { AppConsts } from 'shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { SelectHelperService } from 'shared/services/select-helper.service';
 
 declare const qq: any;
@@ -52,7 +52,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     ngOnInit() {
         // this.getQQMapScript();
-            this.initSelectListData();
+        this.initSelectListData();
     }
 
     ngAfterViewInit() {
@@ -91,6 +91,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         this._localStorageService.getItem(abp.utils.formatString(AppConsts.provinceSelectListCache), () => {
             return this._stateServiceServiceProxy.getProvinceSelectList()
         }).then(provinceSelectListResult => {
+            debugger;
             this.provinceSelectListData = provinceSelectListResult;
             this.selectedProvinceId = provinceSelectListResult[0].value;
             this._localStorageService.getItem(abp.utils.formatString(AppConsts.citysSelectListCache, provinceSelectListResult[0].value), () => {
@@ -103,6 +104,10 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
                 }).then(districtsSelectListResult => {
                     this.districtSelectListData = districtsSelectListResult;
                     this.selectedDistrictId = districtsSelectListResult[0].value;
+                    this.outletInfo.provinceId = parseInt(this.selectedProvinceId, null);
+                    this.outletInfo.cityId = parseInt(this.selectedCityId, null);
+                    this.outletInfo.districtId = parseInt(this.selectedDistrictId, null);
+                    this.getOutletInfoHandler.emit(this.outletInfo);
                 });
             });
         });

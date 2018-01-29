@@ -9,6 +9,7 @@ import { Title } from '@angular/platform-browser';
 @Injectable()
 export class TitleService {
 
+
     localizationSourceName = AppConsts.localization.defaultLocalizationSourceName;
     commonlocalizationSourceName = AppConsts.localization.commonLocalizationSourceName;
 

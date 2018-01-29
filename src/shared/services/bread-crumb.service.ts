@@ -10,6 +10,7 @@ export declare class Breadcrumb {
     url: string;
 }
 
+
 @Injectable()
 export class BreadcrumbService {
     breadcrumbChanged = new EventEmitter<Breadcrumb[]>(false);
