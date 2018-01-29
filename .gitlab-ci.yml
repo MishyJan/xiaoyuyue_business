@@ -67,7 +67,7 @@ build_and_deploy_develop:
     - develop
   script:
     - yarn install
-    - ng build --prod --build-optimizer=false
+    - ng build --prod --aot
     - Stop-WebAppPool xiaoyuyue_business_center
     - Do{echo "waiting stop the iis process...";Start-Sleep -Seconds 1; $WAP=Get-WebAppPoolState -Name xiaoyuyue_business_center}While($WAP.Value -ne 'Stopped')
     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件
@@ -83,7 +83,7 @@ build_and_deploy_test:
     - test
   script:
     - yarn install
-    - ng build --prod --build-optimizer=false
+    - ng build --prod --aot
     - Stop-WebAppPool xiaoyuyue_business_center
     - Do{echo "waiting stop the iis process...";Start-Sleep -Seconds 1; $WAP=Get-WebAppPoolState -Name xiaoyuyue_business_center}While($WAP.Value -ne 'Stopped')
     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件
