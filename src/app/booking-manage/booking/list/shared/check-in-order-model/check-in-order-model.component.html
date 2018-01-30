@@ -39,7 +39,7 @@
                                         <div class="form-group label-floating is-empty">
                                             <div class="flatpickr-wrap">
                                                 <label class="control-label"></label>
-                                                <input class="form-control common-max-width creationTime" type="text" placeholder="{{l('BookingOrder.CreationTime')}}" name="creationStartDate"
+                                                <input class="form-control common-max-width" [(ngModel)]="bookingDate" id="checkInOrderBookingTime" type="text" placeholder="{{l('BookingOrder.Datetime')}}" name="creationStartDate"
                                                     data-input>
                                                 <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
                                                     <i class="vapps-icon-dc-calendar"></i>
