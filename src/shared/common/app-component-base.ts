@@ -83,6 +83,34 @@ export abstract class AppComponentBase {
         return localDatetimeString;
     }
 
+    d(momentTime: Moment, format: string = 'YYYY-MM-DD'): string {
+        if (momentTime === undefined) {
+            return '';
+        }
+
+        const localDatetimeString = momentTime.local().format(format);
+        return localDatetimeString;
+    }
+
+    transferUTCZone(momentTime: string): Moment {
+        if (!momentTime) {
+            return;
+        }
+
+        const utcOffsetValue = moment().local().utcOffset() / 60;
+        let tempZone = '';
+        if (utcOffsetValue >= 10) {
+            tempZone = '+' + utcOffsetValue + '00';
+        } else if (utcOffsetValue < 10 && utcOffsetValue >= 0) {
+            tempZone = '+' + '0' + utcOffsetValue + '00';
+        } else if (utcOffsetValue > -10 && utcOffsetValue < 0) {
+            tempZone = '-' + '0' + -utcOffsetValue + '00';
+        } else {
+            tempZone = '-' + -utcOffsetValue + '00';
+        }
+        return moment(momentTime + ' 00:00:00' + tempZone);
+    }
+
     omitString(str: string): string {
         return abp.utils.truncateStringWithPostfix(str, 20);
     }

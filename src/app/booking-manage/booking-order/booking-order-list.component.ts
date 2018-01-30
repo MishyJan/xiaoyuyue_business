@@ -65,7 +65,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     phoneNumber: string;
     endMinute: number;
     startMinute: number;
-    bookingDate: Moment;
+    bookingDate: any;
     customerName: string;
     bookingName: string;
     customerListData = new AppGridData();
@@ -163,7 +163,7 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
     }
 
     loadData(): void {
-        this.bookingDate = this.bookingDate ? moment(this.bookingDate) : undefined;
+        this.bookingDate = this.bookingDate ? this.transferUTCZone(this.bookingDate) : undefined;
         this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
         this.creationEndDate = this.creationEndDate ? moment(this.creationEndDate) : undefined;
         const loadOrgBookingOrderData = () => {
@@ -189,6 +189,9 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         this.customerListData.query(loadOrgBookingOrderData, false, () => {
             this.searching = false;
         });
+        if (typeof this.bookingDate === 'object') {
+            this.bookingDate = this.d(this.bookingDate);
+        }
         if (typeof this.creationStartDate === 'object') {
             this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
         }
