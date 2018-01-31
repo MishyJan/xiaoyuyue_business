@@ -3,7 +3,7 @@ stages:
   # - test
   # - build
   # - deploy_test
-  - build_and_deploy_develop
+  # - build_and_deploy_develop
   - build_and_deploy_test
   # - deploy_production
 
