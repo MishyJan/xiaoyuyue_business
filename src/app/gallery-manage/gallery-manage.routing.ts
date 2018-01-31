@@ -11,7 +11,7 @@ const routes: Routes = [
             {
                 path: 'list',
                 component: PictureListComponent,
-                data: { breadcrumb: '图片库' }
+                data: { breadcrumb: 'PictureGallery' }
             }
         ]
     },

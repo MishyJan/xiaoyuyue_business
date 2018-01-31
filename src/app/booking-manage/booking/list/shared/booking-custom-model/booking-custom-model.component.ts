@@ -22,12 +22,10 @@ import { SortDescriptor } from '@progress/kendo-data-query';
     styleUrls: ['./booking-custom-model.component.scss'],
     encapsulation: ViewEncapsulation.Emulated,
 })
-export class BookingCustomModelComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+export class BookingCustomModelComponent extends AppComponentBase implements OnInit {
     bookingId: number;
     customerName: string;
     phoneNumber: string;
-    creationStartDate: any;
-
     bookingCustomCreationTimePicker: any;
     bookingCustomListData = new AppGridData();
     bookingItem: BookingListDto = new BookingListDto();
@@ -60,16 +58,6 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         this.getSelectListData();
     }
 
-    ngAfterViewInit() {
-        this.initFlatpickr();
-    }
-
-    ngOnDestroy() {
-        if (this.bookingCustomCreationTimePicker) {
-            this.bookingCustomCreationTimePicker.destroy();
-        }
-    }
-
     // 获取预约状态下拉框数据源
     getSelectListData(): void {
         this.selectDefaultItem = this._selectHelper.defaultListWithText('Search.ChooseOrderStatus');
@@ -80,7 +68,6 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
 
 
     loadData(): void {
-        this.creationStartDate = this.creationStartDate ? moment(this.creationStartDate) : undefined;
         this.searching = true;
 
         this.bookingCustomListData.query(() => {
@@ -96,8 +83,8 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
                 this.phoneNumber,
                 undefined,
                 this.checkIn,
-                this.creationStartDate,
-                this.creationStartDate,
+                undefined,
+                undefined,
                 this.getSearchStatusArray(),
                 this.gridParam.GetSortingString(),
                 this.gridParam.MaxResultCount,
@@ -112,22 +99,6 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
         }, true, () => {
             this.searching = false;
         });
-
-        if (typeof this.creationStartDate === 'object') {
-            this.creationStartDate = this.creationStartDate.format('YYYY-MM-DD');
-        }
-    }
-
-    initFlatpickr() {
-        this.bookingCustomCreationTimePicker = $('.booking-custom-creation-time').flatpickr({
-            'locale': LocalizationHelper.getFlatpickrLocale(),
-            onClose: (element) => {
-                $(this.bookingCustomCreationTimePicker.input).blur();
-            },
-            onOpen: (dateObj, dateStr) => {
-                this.creationStartDate = null;
-            }
-        })
     }
 
     public showModel(bookingItem: BookingListDto): void {

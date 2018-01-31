@@ -136,7 +136,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
     // 点击创建按钮，显示创建时段面板
     createTimeField() {
         if (this.isTimeEditing) {
-            this.message.confirm('', '有未保存的时间项!');
+            this.message.confirm('', this.l('Outlet.Contactor.UnSaved'));
         } else {
             // 创建面板的内容置空
             this.editingBookingItem = new BookingItemEditDto();

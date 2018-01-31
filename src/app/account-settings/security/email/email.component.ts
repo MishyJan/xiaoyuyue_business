@@ -52,7 +52,7 @@ export class EmailComponent extends AppComponentBase implements OnInit {
             .unBindingEmailAddress(this.code)
             .subscribe(() => {
                 this.sessionService.init();
-                this.notify.success('解绑成功');
+                this.notify.success(this.l('Unbinding.Success.Hint'));
             })
     }
 }

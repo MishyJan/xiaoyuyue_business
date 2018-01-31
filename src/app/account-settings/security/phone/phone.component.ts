@@ -50,7 +50,7 @@ export class PhoneComponent extends AppComponentBase implements OnInit {
             .unBindingPhoneNum(this.code)
             .subscribe(() => {
                 this.sessionService.init();
-                this.notify.success('解绑成功');
+                this.notify.success(this.l('Unbinding.Success.Hint'));
             })
     }
 }

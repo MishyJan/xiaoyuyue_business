@@ -9,7 +9,7 @@
                         <span class="col-md-6 title-item local-upload" [ngClass]="{'active': !tabToggle}" (click)="isShowLocalUpload()">{{l("PictureGallery.LocalUpload")}}</span>
                     </h4>
                     <div class="close-wrap right-item">
-                        <span title="关闭" class="vapps-icon-app-close" (click)="close()"></span>
+                        <span [title]="l('Close')" class="vapps-icon-app-close" (click)="close()"></span>
                     </div>
                 </div>
 

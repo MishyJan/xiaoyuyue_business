@@ -7,7 +7,7 @@
                         <span class="col-md-12 title-item local-upload">{{l("PictureGallery.LocalUpload")}}</span>
                     </h4>
                     <div class="clearfix close-wrap right-item">
-                        <span title="关闭" class="vapps-icon-app-close" (click)="close()"></span>
+                        <span [title]="l('Close')" class="vapps-icon-app-close" (click)="close()"></span>
                     </div>
                 </div>
 
@@ -22,27 +22,27 @@
                         <div class="upload-tips-wrap">
                             <div class="tips-item">
                                 <span class="char"><span class="vapps-icon-app-tip tip-icon"></span></span>
-                                <span class="content">提个醒</span>
+                                <span class="content">{{ l('Reminder') }}</span>
                             </div>
                             <div class="tips-item">
                                 <span class="char">1、</span>
-                                <span class="content">支持jpg/gif/png格式，单张图片大小不超过2M， 最多上传4张图片；</span>
+                                <span class="content">{{ l('PictureGallery.ImageFormat.Hint') }}</span>
                             </div>
                             <div class="tips-item">
                                 <span class="char">2、</span>
-                                <span class="content">所有图片皆有自动添加水印；</span>
+                                <span class="content">{{ l('PictureGallery.ImageWatermark.Hint') }}</span>
                             </div>
                             <div class="tips-item">
                                 <span class="char">3、</span>
-                                <span class="content">上传图片不得违反国家相关法律法规，本站有权对争议图片进行删改。</span>
+                                <span class="content">{{ l('PictureGallery.LegalEffect.Hint') }}</span>
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn primary-bgcolor" [id]="'uploadArea'+uploadUid"><span class="vapps-icon vapps-icon-app-add-time-field"></span>选择文件</button>
-                    <button type="submit" class="btn primary-bgcolor" [disabled]="!addedFile" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="'上传中...'"><i class="vapps-icon vapps-icon-app-confirm"></i><span>确认上传</span></button>
+                    <button type="button" class="btn primary-bgcolor" [id]="'uploadArea'+uploadUid"><span class="vapps-icon vapps-icon-app-add-time-field"></span>{{ l('PictureGallery.SelectFile') }}</button>
+                    <button type="submit" class="btn primary-bgcolor" [disabled]="!addedFile" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="l('PictureGallery.LocalUploading')"><i class="vapps-icon vapps-icon-app-confirm"></i><span>{{ l('Confirm upload') }}</span></button>
                 </div>
             </div>
         </div>
