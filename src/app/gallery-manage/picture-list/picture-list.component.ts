@@ -310,7 +310,6 @@ export class PictureListComponent extends AppComponentBase implements OnInit {
 
     picRename(name: string): string {
         return name ? name : this.l('PictureGallery.Group.Default.UnName');
-        // return name ? name = name.substr(0,6)+'...' : '未命名';
     }
 
     //  双击编辑图片名称

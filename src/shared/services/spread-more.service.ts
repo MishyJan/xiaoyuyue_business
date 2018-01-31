@@ -41,12 +41,10 @@ export class SpreadMoreService {
     // 收起
     private spread(): void {
         this.spreadMoreStatus.active = true;
-        this.spreadMoreStatus.text = '收起'
     }
 
     // 展开
     private furl(): void {
         this.spreadMoreStatus.active = false;
-        this.spreadMoreStatus.text = '展开'
     }
 }

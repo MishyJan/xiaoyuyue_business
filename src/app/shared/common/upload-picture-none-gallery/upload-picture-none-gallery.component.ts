@@ -163,7 +163,7 @@ export class UploadPictureNoneGalleryComponent extends AppComponentBase implemen
                             }
                             self.loading = false;
                             self.close();
-                            self.notify.error('上传失败，请重新上传');
+                            self.notify.error(this.l('PictureGallery.LocalUploadFailed'));
                         },
                         'UploadComplete': function () {
                             // 队列文件处理完毕后,处理相关的事情

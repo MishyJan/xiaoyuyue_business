@@ -32,7 +32,6 @@ export class SendTwoFactorCodeComponent extends AppComponentBase implements CanA
             ) {
             return true;
         }
-        
         return false;
     }
 

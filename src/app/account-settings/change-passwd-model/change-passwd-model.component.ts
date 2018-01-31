@@ -54,7 +54,7 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
         this._profileService
             .changePassword(this.input)
             .subscribe(result => {
-                this.notify.success('密码修改成功');
+                this.notify.success(this.l('ChangePassword.Success.Hint'));
                 this.hide();
             });
         this.input = new RepeatPasswdDto();
@@ -75,7 +75,7 @@ export class ChangePasswdModelComponent extends AppComponentBase implements OnIn
             .changePasswordByPhone(this.byPhoneInput)
             .subscribe(result => {
                 this.hide();
-                this.notify.success('密码修改成功');
+                this.notify.success(this.l('ChangePassword.Success.Hint'));
             });
         this.byPhoneInput = new ChangePasswordByPhoneInput();
     }

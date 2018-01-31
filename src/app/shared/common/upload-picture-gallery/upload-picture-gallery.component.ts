@@ -197,7 +197,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
         if (this.setPicElectiveNum() < 0) {
             data.selected = false;
             this.selectedPicListArr.splice(this.selectedPicListArr.length - 1, 1);
-            this.message.warn('图片超过上限');
+            this.message.warn(this.l('PictureGallery.ExceedsTheLimit'));
         }
     }
 
@@ -355,7 +355,7 @@ export class UploadPictureGalleryComponent extends AppComponentBase implements O
                             if (err.code === -602) {
                                 return;
                             }
-                            self.notify.error('上传失败，请重新上传');
+                            self.notify.error(this.l('PictureGallery.LocalUploadFailed'));
                         },
                         'UploadComplete': () => {
                             // 队列文件处理完毕后,处理相关的事情

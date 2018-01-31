@@ -9,7 +9,7 @@ const routes: Routes = [
         canActivate: [AppRouteGuard],
         canActivateChild: [AppRouteGuard],
         component: FeedbackComponent,
-        data: { breadcrumb: '意见反馈' },
+        data: { breadcrumb: 'Menu.Account.Feedback' },
         children: [
         ]
     }

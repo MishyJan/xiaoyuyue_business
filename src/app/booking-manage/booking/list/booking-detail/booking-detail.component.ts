@@ -107,7 +107,7 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit, 
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
                 this.getBookingDetailData();
-                this.notify.success('已关闭预约!');
+                this.notify.success(this.l('Booking.CloseSuccess.Hint'));
             });
     }
 
@@ -119,19 +119,19 @@ export class BookingDetailComponent extends AppComponentBase implements OnInit, 
             .activedOrDisableBooking(this.activeOrDisable)
             .subscribe(result => {
                 this.getBookingDetailData();
-                this.notify.success('已开启预约!');
+                this.notify.success(this.l('Booking.OpenSuccess.Hint'));
             });
     }
 
     // 删除预约
     removeBooking(): void {
-        this.message.confirm('确认删除此预约', result => {
+        this.message.confirm(this.l('Booking.ConfirmDelete.Hint'), result => {
             if (result) {
                 this._orgBookingServiceProxy
                     .deleteBooking(+this.bookingId)
                     .subscribe(result => {
                         this._router.navigate(['/booking/list']);
-                        this.notify.success('删除成功');
+                        this.notify.success(this.l('DeleteSuccess'));
                     })
             }
         })

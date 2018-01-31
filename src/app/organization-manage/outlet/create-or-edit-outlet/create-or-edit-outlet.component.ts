@@ -26,6 +26,8 @@ import { SelectHelperService } from 'shared/services/select-helper.service';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    zdNum: string;
+    telephoneNum: string;
     isValidLandlinePhone: boolean;
     outletId: string;
     groupId: number = DefaultUploadPictureGroundId.OutletGroup;
@@ -85,7 +87,8 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     ngAfterViewInit() {
-        this.initValidLandlinePhone();
+        this.initValidZdNum();
+        this.initValidTelephoneNum();
         this.initStartBusinessHour();
         this.initEndBusinessHour();
     }
@@ -102,6 +105,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                 this.input.outlet = result.outlet;
                 this.input.contactors = result.contactors;
                 this.originalinput = _.cloneDeep(this.input);
+                this.splitLandlingPhone(this.input.outlet.phoneNum);
 
                 this.initDataToDisplay(result);
                 this.checkDataNeed2Reconvert(); // 检查数据是否需要恢复
@@ -121,9 +125,12 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     createOrUpdateOutlet(saveAndEdit: boolean = false) {
         this.input.outlet.businessHours = this.businessHour.GetBusinessHourString();
         this.input.outlet.isActive = true;
-
-        if (!this.isValidLandlingPhone(this.input.outlet.phoneNum)) {
+        // 移动端暂时未作inputmask初始化，如果zdNum或者telephoneNum有一个为undefined就赋空值
+        this.input.outlet.phoneNum = this.zdNum || this.telephoneNum ? this.zdNum + ' ' + this.telephoneNum : '';
+        // 仅在用户输入座机号，才去验证有效性（保证可空也能创建门店）
+        if ((this.zdNum || this.telephoneNum) && !this.isValidLandlingPhone(this.input.outlet.phoneNum)) {
             this.message.warn(this.l('Verify.Telephone.Invalid'));
+            this.input.outlet.phoneNum = '';
             return;
         }
 
@@ -338,15 +345,27 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         this.getProvinceSelectList();
     }
 
-    // 固话验证inputmask初始化
-    private initValidLandlinePhone(): void {
-        $('#landlinePhone').inputmask({
-            mask: '(9{1,4}) 9{4}-9{3,4}',
+    // 固话号码inputmask初始化
+    private initValidTelephoneNum(): void {
+        $('#telephoneNum').inputmask({
+            mask: '9{4}-9{3,4}',
             oncomplete: () => {
-                this.input.outlet.phoneNum = this.getLandlinePhoneInput();
+                this.telephoneNum = this.getTelephoneNumInput();
             },
             onincomplete: () => {
-                this.input.outlet.phoneNum = this.getLandlinePhoneInput();
+                this.telephoneNum = this.getTelephoneNumInput();
+            }
+        });
+    }
+    // 固话区号inputmask初始化
+    private initValidZdNum(): void {
+        $('#zdNum').inputmask({
+            mask: '(9{1,4})',
+            oncomplete: () => {
+                this.zdNum = this.getZdNumberInput();
+            },
+            onincomplete: () => {
+                this.zdNum = this.getZdNumberInput();
             }
         });
     }
@@ -423,14 +442,21 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
 
-
-    private getLandlinePhoneInput(): string {
-        let phoneNum = $('#landlinePhone').val() + '';
-        phoneNum = phoneNum.replace(/\(/, '');
-        phoneNum = phoneNum.replace(/\)/, '');
-        phoneNum = phoneNum.replace(/-/, '');
-        return phoneNum;
+    //  获取电话号码的input内容
+    private getTelephoneNumInput(): string {
+        let telephoneNum = $('#telephoneNum').val() + '';
+        telephoneNum = telephoneNum.replace(/-/, '');
+        return telephoneNum;
     }
+
+    //  获取电话号码的input内容
+    private getZdNumberInput(): string {
+        let zdNum = $('#zdNum').val() + '';
+        zdNum = zdNum.replace(/\(/, '');
+        zdNum = zdNum.replace(/\)/, '');
+        return zdNum;
+    }
+
     private getStartBusinessHour(): string {
         const startBusinessHour = $('#startBusinessHour').val() + '';
         return startBusinessHour;
@@ -443,6 +469,12 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     private isValidLandlingPhone(num: string): boolean {
         const reg = /^((0\d{2,3}) )(\d{7,8})$/;
         return reg.test(num);
+    }
+
+    private splitLandlingPhone(num: string): void {
+        if (!this.isValidLandlingPhone(num)) { return; }
+        this.zdNum = num.split(' ')[0];
+        this.telephoneNum = num.split(' ')[1];
     }
 
     private getCacheItemKey() {

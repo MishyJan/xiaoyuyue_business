@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { BatchCheckInInput, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
-import { Component, ElementRef, Injector, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Injector, OnInit, ViewChild, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
 import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -10,6 +10,7 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderStatus } from 'shared/AppEnums';
 import { ModalDirective } from 'ngx-bootstrap';
+import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 
 @Component({
     selector: 'xiaoyuyue-check-in-order-model',
@@ -17,7 +18,9 @@ import { ModalDirective } from 'ngx-bootstrap';
     styleUrls: ['./check-in-order-model.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class CheckInOrderModelComponent extends AppComponentBase implements OnInit {
+export class CheckInOrderModelComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    checkInOrderBookingTimePicker: any;
+    bookingDate: any;
     batchCheckInInput: BatchCheckInInput = new BatchCheckInInput();
     isFreshenData = false;
     checkInOrderText = this.l('Batch');
@@ -48,16 +51,26 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
         this.batchCheckInInput.ids = [];
     }
 
+    ngAfterViewInit() {
+        this.initFlatpickr();
+    }
+
+    ngOnDestroy(): void {
+        if (this.checkInOrderBookingTimePicker) {
+            this.checkInOrderBookingTimePicker.destroy();
+        }
+    }
+
     loadData(): void {
         this.searching = true;
-
+        this.bookingDate = this.bookingDate ? this.transferUTCZone(this.bookingDate) : undefined;
         const loadOrgCheckInOrderData = () => {
             return this._orgBookingOrderServiceProxy
                 .getOrders(
                 this.bookingId,
                 undefined,
                 undefined,
-                undefined,
+                this.bookingDate,
                 undefined,
                 undefined,
                 undefined,
@@ -76,7 +89,10 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
                         total: response.totalCount
                     });
                     this.initCheckInArray(response.items.length);
-                    this.singleCheckInArray = new Array
+                    this.singleCheckInArray = new Array();
+                    if (typeof this.bookingDate === 'object') {
+                        this.bookingDate = this.d(this.bookingDate);
+                    }
                     return gridData;
                 });
         }
@@ -85,6 +101,18 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
             this.batchCheckIning = false;
             this.searching = false;
         });
+    }
+
+    initFlatpickr() {
+        this.checkInOrderBookingTimePicker = $('#checkInOrderBookingTime').flatpickr({
+            'locale': LocalizationHelper.getFlatpickrLocale(),
+            onClose: (element) => {
+                $(this.checkInOrderBookingTimePicker.input).blur();
+            },
+            onOpen: (dateObj, dateStr) => {
+                this.bookingDate = null;
+            }
+        })
     }
 
     // 签到预约订单

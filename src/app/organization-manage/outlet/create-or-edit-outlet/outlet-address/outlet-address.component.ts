@@ -91,7 +91,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         this._localStorageService.getItem(abp.utils.formatString(AppConsts.provinceSelectListCache), () => {
             return this._stateServiceServiceProxy.getProvinceSelectList()
         }).then(provinceSelectListResult => {
-            debugger;
             this.provinceSelectListData = provinceSelectListResult;
             this.selectedProvinceId = provinceSelectListResult[0].value;
             this._localStorageService.getItem(abp.utils.formatString(AppConsts.citysSelectListCache, provinceSelectListResult[0].value), () => {

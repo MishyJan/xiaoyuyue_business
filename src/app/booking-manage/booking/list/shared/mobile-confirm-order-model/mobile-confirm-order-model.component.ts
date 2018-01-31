@@ -105,7 +105,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
             .batchConfirmBookingOrder(input)
             .finally(() => { this.confirming = false; })
             .subscribe(result => {
-                this.notify.success('确认成功');
+                this.notify.success(this.l('Booking.Confirm.Success'));
                 this.hide();
                 this.orderIds = [];
             })
@@ -113,7 +113,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
 
     prevPage(): void {
         if (this.currentPage <= 0) {
-            this.notify.warn('已经是第一页');
+            this.notify.warn(this.l('FirstPage'));
             return;
         }
         this.currentPage--;
@@ -123,7 +123,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
 
     nextPage(): void {
         if (this.currentPage >= (this.totalItems / this.maxResultCount - 1)) {
-            this.notify.warn('已经是最后一页');
+            this.notify.warn(this.l('LastPage'));
             return;
         }
         this.currentPage++;

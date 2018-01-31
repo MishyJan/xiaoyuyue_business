@@ -33,18 +33,6 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group label-floating is-empty">
-                                        <div class="flatpickr-wrap">
-                                            <label class="control-label"></label>
-                                            <input class="form-control common-max-width booking-custom-creation-time" [(ngModel)]="creationStartDate" type="text" placeholder="{{l('BookingOrder.CreationTime')}}"
-                                                name="creationStartDate" data-input>
-                                            <a class="input-button flatpickr-toggle" title="{{l('Switch')}}" data-toggle>
-                                                <i class="vapps-icon-dc-calendar"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group label-floating is-empty">
                                         <label class="control-label"></label>
                                         <kendo-dropdownlist [data]="orderStatusSelectList" [(ngModel)]="status" name="status" [textField]="'displayText'" [valueField]="'value'"
                                             [valuePrimitive]="true" [defaultItem]="selectDefaultItem"></kendo-dropdownlist>
@@ -100,13 +88,6 @@
                             <kendo-grid-column title="{{l('BookingOrder.PhoneNumber')}}">
                                 <ng-template kendoGridCellTemplate let-dataItem>
                                     <span>{{ dataItem.phoneNum }}</span>
-                                </ng-template>
-                            </kendo-grid-column>
-
-                            <!-- 预约时间 -->
-                            <kendo-grid-column title="{{l('BookingOrder.CreationTime')}}">
-                                <ng-template kendoGridCellTemplate let-dataItem>
-                                    <span>{{ t(dataItem.creationTime) }}</span>
                                 </ng-template>
                             </kendo-grid-column>
 

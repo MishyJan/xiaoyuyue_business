@@ -17,32 +17,32 @@ const routes: Routes = [
             {
                 path: '',
                 component: AccountSecurityComponent,
-                data: { breadcrumb: '账户设置' },
+                data: { breadcrumb: 'Menu.Settings' },
             },
             {
                 path: 'security',
                 component: SecurityComponent,
-                data: { breadcrumb: '账户安全' },
+                data: { breadcrumb: 'Menu.Security' },
             },
             {
                 path: 'passwd',
                 component: PasswdComponent,
-                data: { breadcrumb: '更换密码' },
+                data: { breadcrumb: 'Menu.ChangePassword' },
             },
             {
                 path: 'phone',
                 component: PhoneComponent,
-                data: { breadcrumb: '更绑手机' },
+                data: { breadcrumb: 'Menu.ChangeAndBindingPassword' },
             },
             {
                 path: 'email',
                 component: EmailComponent,
-                data: { breadcrumb: '更绑邮箱' },
+                data: { breadcrumb: 'Menu.ChangeAndBindingEmail' },
             },
             {
                 path: 'lang',
                 component: LangSwitchComponent,
-                data: { breadcrumb: '语言切换' },
+                data: { breadcrumb: 'Menu.SwitchLanguage' },
             }
         ]
     }

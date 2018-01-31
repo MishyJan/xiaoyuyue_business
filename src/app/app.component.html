@@ -2,11 +2,11 @@
     <div class="tip-old-browser" *ngIf="isOldBroFlag">
         <div class="content clearfix">
             <div class="text-tips pull-left">
-                小预约将不再支持您的浏览器，建议您升级浏览器以获取最好的体验
+                {{ l('NotSupportBrowser.Hint') }}
             </div>
             <div class="command pull-right">
-                <button type="button" class="btn" routerLink="/supported-browsers">了解更多</button>
-                <button type="button" class="btn" (click)="hideTipOldBrowser()">忽略</button>
+                <button type="button" class="btn" routerLink="/supported-browsers">{{ l('NotSupportBrowser.More.Hint') }}</button>
+                <button type="button" class="btn" (click)="hideTipOldBrowser()">{{ l('NotSupportBrowser.Ignore.Hint') }}</button>
             </div>
         </div>
     </div>
