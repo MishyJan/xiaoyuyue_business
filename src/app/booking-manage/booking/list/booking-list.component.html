@@ -83,7 +83,7 @@
                                             </div>
                                         </div>
                                     </div>
-    
+
                                     <div class="col-xs-6">
                                         <div class="common-max-width">
                                             <label class="col-md-3 label-on-left">{{l("Booking.State")}}</label>
@@ -163,7 +163,7 @@
                         <!-- 蒙版遮罩 -->
                         <div class="booking-item-cover unselectable clearfix" *ngIf="bookingItem.isActive">
                             <div class="qr-code-wrap">
-                                <qr-code [value]="shareBaseUrl+bookingItem.id" [size]="118"></qr-code>
+                                <qr-code [value]="shareBaseUrl+bookingItem.id" [size]="250" [iconUrl]="qrcodeIconUrl"></qr-code>
                             </div>
                             <div class="handle-wrap">
                                 <div class="handle-item-1 row">

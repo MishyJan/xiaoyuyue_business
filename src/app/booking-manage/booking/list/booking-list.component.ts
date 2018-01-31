@@ -8,6 +8,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingCustomModelComponent } from './shared/booking-custom-model/booking-custom-model.component';
+import { CheckInOrderModelComponent } from 'app/booking-manage/booking/list/shared/check-in-order-model/check-in-order-model.component';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { ConfirmOrderModelComponent } from './shared/confirm-order-model/confirm-order-model.component';
 import { ListScrollService } from 'shared/services/list-scroll.service';
@@ -22,10 +23,9 @@ import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 import { SelectHelperService } from 'shared/services/select-helper.service';
 import { ShareBookingModelComponent } from 'app/booking-manage/booking/create-or-edit/share-booking-model/share-booking-model.component';
 import { SortDescriptor } from '@progress/kendo-data-query/dist/es/sort-descriptor';
+import { SpreadMoreService } from 'shared/services/spread-more.service';
 import { Title } from '@angular/platform-browser';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { CheckInOrderModelComponent } from 'app/booking-manage/booking/list/shared/check-in-order-model/check-in-order-model.component';
-import { SpreadMoreService } from 'shared/services/spread-more.service';
 
 @Component({
     selector: 'app-manage-booking',
@@ -61,6 +61,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
     bookingActiveSelectListData: Object[] = this._selectHelper.boolList();
     bookingActiveSelectDefaultItem: object;
 
+    qrcodeIconUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
     // pictureDefaultBgUrl: string = "/assets/common/images/admin/booking-bg.jpg";
 
@@ -95,11 +96,10 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         private _localStorageService: LocalStorageService,
         private _title: Title,
         private _selectHelper: SelectHelperService,
-        private _sessionService: AppSessionService
     ) {
         super(injector);
-        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingListSpreadMoreCache, this._sessionService.tenantId);
-        this.listParam = new BaseLsitDataInputDto(this._sessionService);
+        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingListSpreadMoreCache, this.appSession.tenantId);
+        this.listParam = new BaseLsitDataInputDto(this.appSession);
         this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
     }
 
@@ -107,6 +107,8 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
         this.bookingActiveSelectDefaultItem = this._selectHelper.defaultList();
         this.outletSelectListData.unshift(this._selectHelper.defaultSelectList());
         this.loadSelectListData();
+
+        if (this.feature.isEnabled('App.RemoveLogo')) { this.qrcodeIconUrl = this.appSession.tenant.logoUrl; }
     }
 
     ngAfterViewInit() {
@@ -344,7 +346,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
 
     // 获取可用下拉框数据源
     private loadSelectListData(): void {
-        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId), () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this.appSession.tenantId), () => {
             return this._outletServiceServiceProxy.getOutletSelectList()
         }).then(result => {
             // 添加请选择数据源
@@ -410,7 +412,7 @@ export class BookingListComponent extends AppComponentBase implements OnInit, Af
                 .subscribe(() => {
                     this.deleting = false;
                     this.loadData();
-                    this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this._sessionService.tenantId));
+                    this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this.appSession.tenantId));
                     this.notify.success(this.l('DeleteSuccess'));
                 });
         });
