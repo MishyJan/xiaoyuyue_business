@@ -20,9 +20,7 @@
                 <!-- 免费版 -->
                 <div class="card">
                     <div class="form-horizontal">
-                        <div class="card-header card-header-text" data-background-color="orange">
-                            <h6 class="card-title">{{ accountEdition.freeEdition.name }}</h6>
-                        </div>
+                        <div class="xiaoyuyue-title-box">{{ accountEdition.freeEdition.name }}</div>
                         <div class="card-content">
                             <div class="edition-item" *ngFor="let editionContent of accountEdition.freeEdition.content">{{ editionContent }}</div>
                         </div>
@@ -33,9 +31,7 @@
                 <!-- 专业版 -->
                 <div class="card">
                     <div class="form-horizontal">
-                        <div class="card-header card-header-text" data-background-color="orange">
-                            <h6 class="card-title">{{ accountEdition.proEdition.name }}</h6>
-                        </div>
+                        <div class="xiaoyuyue-title-box">{{ accountEdition.proEdition.name }}</div>
                         <div class="card-content">
                             <div class="edition-item" *ngFor="let editionContent of accountEdition.proEdition.content">{{ editionContent }}</div>
                             <div class="btn-wrap" (click)="showToPayModel()">

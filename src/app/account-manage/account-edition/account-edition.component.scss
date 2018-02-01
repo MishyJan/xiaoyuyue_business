@@ -1,4 +1,7 @@
 .account-edition {
+    .card-content {
+        margin-top: 20px;
+    }
     .edition-item + .edition-item {
         border-top: 1px solid #EEE;
     }
@@ -11,5 +14,10 @@
     .btn-wrap {
         max-width: 110px;
         margin: 0 auto;
+    }
+
+    .xiaoyuyue-title-box {
+        width: 90%;
+        line-height: 60px;
     }
 }
