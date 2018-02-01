@@ -4,7 +4,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { ProfileServiceProxy, CodeSendInput, UserSecurityInfoDto } from '@shared/service-proxies/service-proxies';
 import { VerificationCodeType, SendCodeType } from 'shared/AppEnums';
 import { AppSessionService } from '@shared/common/session/app-session.service';
-import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
+import { BindingEmailModelComponent } from 'app/account-manage/account-settings/email-model/binding-email-model/binding-email-model.component';
 
 @Component({
     selector: 'xiaoyuyue-unbinding-email-model',

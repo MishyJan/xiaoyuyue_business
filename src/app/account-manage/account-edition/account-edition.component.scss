@@ -1,0 +1,15 @@
+.account-edition {
+    .edition-item + .edition-item {
+        border-top: 1px solid #EEE;
+    }
+    .edition-item {
+        line-height: 50px;
+        text-align: center;
+        color: #292939;
+    }
+    
+    .btn-wrap {
+        max-width: 110px;
+        margin: 0 auto;
+    }
+}

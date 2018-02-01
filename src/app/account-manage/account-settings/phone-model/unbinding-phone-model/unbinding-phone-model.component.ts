@@ -4,7 +4,7 @@ import { AppComponentBase } from '@shared/common/app-component-base';
 import { ProfileServiceProxy, CodeSendInput } from '@shared/service-proxies/service-proxies';
 import { VerificationCodeType } from 'shared/AppEnums';
 import { AppSessionService } from '@shared/common/session/app-session.service';
-import { BindingPhoneModelComponent } from 'app/account-settings/phone-model/binding-phone-model/binding-phone-model.component';
+import { BindingPhoneModelComponent } from 'app/account-manage/account-settings/phone-model/binding-phone-model/binding-phone-model.component';
 
 @Component({
     selector: 'xiaoyuyue-unbinding-phone-model',

@@ -25,8 +25,8 @@ import { CookiesService } from 'shared/services/cookies.service';
                         data: { preload: true }
                     },
                     {
-                        path: 'settings',
-                        loadChildren: 'app/account-settings/account-settings.module#AccountSecurityModule', // Lazy load main module
+                        path: 'account',
+                        loadChildren: 'app/account-manage/account-manage.module#AccountManageModule', // Lazy load main module
                         data: { preload: true }
                     },
                     {
