@@ -402,6 +402,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     checkDataNeed2Reconvert() {
         this._localStorageService.getItemOrNull<CreateOrUpdateOutletInput>(this.getCacheItemKey())
             .then((editCache) => {
+                debugger;
                 if (editCache && this.isDataNoEqual(editCache, this.input)) {
                     this.message.confirm(this.l('TemporaryData.Unsaved'), this.l('TemporaryData.Recover'), (confirm) => {
                         if (confirm) {

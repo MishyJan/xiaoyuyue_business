@@ -14,7 +14,7 @@
                     <label class="control-label"></label>
                     <div class="select-address-wrap col-md-8">
                         <div class="col-md-4 item no-left-padding">
-                            <kendo-dropdownlist [data]="provinceSelectListData" (open)="openProvinceSledct()" (valueChange)="provinceSelectHandler($event)"
+                            <kendo-dropdownlist [data]="provinceSelectListData" (valueChange)="provinceSelectHandler($event)"
                                 [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
                         </div>
                         <div class="col-md-4 item no-lr-padding">
