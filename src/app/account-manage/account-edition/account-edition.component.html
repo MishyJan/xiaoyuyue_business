@@ -16,25 +16,16 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4">
-                <!-- 免费版 -->
-                <div class="card">
-                    <div class="form-horizontal">
-                        <div class="xiaoyuyue-title-box">{{ accountEdition.freeEdition.name }}</div>
-                        <div class="card-content">
-                            <div class="edition-item" *ngFor="let editionContent of accountEdition.freeEdition.content">{{ editionContent }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4" *ngFor="let edition of editionsWithFeatures">
                 <!-- 专业版 -->
                 <div class="card">
                     <div class="form-horizontal">
-                        <div class="xiaoyuyue-title-box">{{ accountEdition.proEdition.name }}</div>
+                        <div class="xiaoyuyue-title-box">{{ edition.edition.displayName }}</div>
                         <div class="card-content">
-                            <div class="edition-item" *ngFor="let editionContent of accountEdition.proEdition.content">{{ editionContent }}</div>
-                            <div class="btn-wrap" (click)="showToPayModel()">
+                            <div class="edition-content" *ngFor="let editionContent of edition.featureValues">
+                                <div class="edition-item" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent.name) }}</div>
+                            </div>
+                            <div class="btn-wrap" (click)="showToPayModel(edition.edition.id)" *ngIf="edition.edition.id >= tenantEditionId">
                                 <button class="btn btn-block primary-bgcolor">办理</button>
                             </div>
                         </div>

@@ -72,9 +72,9 @@
                 <!-- 历史账单 -->
                 <div class="card">
                     <div class="form-horizontal">
-                        <!-- <div class="card-header card-header-text" data-background-color="orange">
+                        <div class="card-header card-header-text" style="margin-bottom: 20px;" data-background-color="orange">
                             <h6 class="card-title">历史账单</h6>
-                        </div> -->
+                        </div>
                         <div class="card-content no-padding">
                                 <kendo-grid [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
                                 [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
