@@ -1,0 +1,32 @@
+.account-condition {
+    .flex {
+        display: flex;
+    }
+    .account-info {
+        .left-flex {
+            width: 120px;
+            flex: 0 0 120px;
+        }
+        .right-flex {
+            flex: 1;
+            .to-pay {
+                border: 1px solid #FF9641;
+                color: #FF9641;
+                border-radius: 24px;
+                padding: 3px 8px;
+                margin: -2px 0;
+            }
+        }
+    }
+    .edition-info {
+        .flex {
+            display: flex;
+            flex-flow: row wrap;
+            align-content: flex-start;
+            .flex-item {
+                line-height: 36px;
+                flex: 0 0 33.333%;
+            }
+        }
+    }
+}

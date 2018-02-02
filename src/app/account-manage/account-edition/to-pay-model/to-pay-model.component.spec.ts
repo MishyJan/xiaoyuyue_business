@@ -2,21 +2,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { UnbindingEmailModelComponent } from 'app/account-settings/email-model/unbinding-email-model/unbinding-email-model.component';
+import { ToPayModelComponent } from 'app/account-manage/account-edition/to-pay-model/to-pay-model.component';
 
-describe('UnbindingEmailModelComponent', () => {
-  let component: UnbindingEmailModelComponent;
-  let fixture: ComponentFixture<UnbindingEmailModelComponent>;
+
+describe('ToPayModelComponent', () => {
+  let component: ToPayModelComponent;
+  let fixture: ComponentFixture<ToPayModelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UnbindingEmailModelComponent ]
+      declarations: [ ToPayModelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnbindingEmailModelComponent);
+    fixture = TestBed.createComponent(ToPayModelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -52,13 +52,13 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     ngOnInit() {
         // this.getQQMapScript();
-        this.initSelectListData();
     }
 
     ngAfterViewInit() {
         if (!this.outletId) {
-            this.mapsReady();
+            // this.initSelectListData();
         }
+        this.mapsReady();
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -112,15 +112,17 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         });
     }
 
+    // 获取省份下拉数据
     getProvinceSelectList(): void {
         this._localStorageService.getItem(abp.utils.formatString(AppConsts.provinceSelectListCache), () => {
             return this._stateServiceServiceProxy.getProvinceSelectList()
         }).then(result => {
             this.provinceSelectListData = result;
-            // this.outletInfo.provinceId = parseInt(this.selectedProvinceId, null);
+            this.outletInfo.provinceId = parseInt(this.selectedProvinceId, null);
         });
     }
 
+    // 获取市区下拉数据
     getCitysSelectList(provinceId: number, isDefaultVaule: boolean): void {
         if (!provinceId) {
             return;
@@ -136,6 +138,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         });
     }
 
+    // 获取区县下拉数据
     getDistrictsSelectList(cityId: number, isDefaultVaule: boolean): void {
         if (!cityId) {
             return;
@@ -144,7 +147,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
             return this._stateServiceServiceProxy.getDistrictSelectList(cityId)
         }).then(result => {
             this.districtSelectListData = result;
-            this.codeAddress();
             if (result.length <= 0) {
                 this.selectedDistrictId = '';
                 return;
@@ -152,6 +154,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
             if (isDefaultVaule) { this.selectedDistrictId = this.districtSelectListData[0].value; }
             this.outletInfo.districtId = parseInt(this.selectedDistrictId, null);
             this.getOutletInfoHandler.emit(this.outletInfo);
+            this.codeAddress();
         });
     }
 
@@ -163,7 +166,12 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
     // 用户详细地址来获取经纬度
     codeAddress() {
         const geocoder = new qq.maps.Geocoder();
-        const address = this.transformAddress() + this.outletInfo.detailAddress;
+        let address = '';
+        if (this.outletInfo.detailAddress) {
+            address = this.transformAddress() + this.outletInfo.detailAddress;
+        } else {
+            address = this.transformAddress().slice(0, -1);
+        }
 
         if (address === undefined) {
             return;
@@ -243,6 +251,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     public provinceSelectHandler(provinceId: any): void {
         this.outletInfo.provinceId = parseInt(provinceId, null);
+        this.selectedProvinceId = provinceId;
         this.getCitysSelectList(provinceId, true);
         this.getOutletInfoHandler.emit(this.outletInfo);
     }
@@ -258,10 +267,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         this.outletInfo.districtId = parseInt(districtId, null);
         this.codeAddress();
         this.getOutletInfoHandler.emit(this.outletInfo);
-    }
-
-    public openProvinceSledct(): void {
-        this.getProvinceSelectList();
     }
 
     getQQMapScript() {

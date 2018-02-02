@@ -2,21 +2,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { BindingEmailModelComponent } from 'app/account-settings/email-model/binding-email-model/binding-email-model.component';
 
-describe('BindingEmailModelComponent', () => {
-  let component: BindingEmailModelComponent;
-  let fixture: ComponentFixture<BindingEmailModelComponent>;
+import { AccountConditionComponent } from './account-condition.component';
+
+describe('AccountConditionComponent', () => {
+  let component: AccountConditionComponent;
+  let fixture: ComponentFixture<AccountConditionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BindingEmailModelComponent ]
+      declarations: [ AccountConditionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BindingEmailModelComponent);
+    fixture = TestBed.createComponent(AccountConditionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

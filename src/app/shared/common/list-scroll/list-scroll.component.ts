@@ -1,13 +1,14 @@
-import { Component, AfterViewInit, Input, ElementRef, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, AfterViewInit, Input, ElementRef, ViewChild, OnInit, EventEmitter, Output, Injector } from '@angular/core';
 import { ListScrollService } from 'shared/services/list-scroll.service';
 import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
+import { AppComponentBase } from 'shared/common/app-component-base';
 
 @Component({
     selector: 'xiaoyuyue-list-scroll',
     templateUrl: './list-scroll.component.html',
     styleUrls: ['./list-scroll.component.scss']
 })
-export class ListScrollComponent implements OnInit, AfterViewInit {
+export class ListScrollComponent extends AppComponentBase implements OnInit, AfterViewInit {
     isPullingUp: boolean;
     bscroll: BScroll;
     scrollStatusOutput: ScrollStatusOutput = new ScrollStatusOutput();
@@ -20,8 +21,10 @@ export class ListScrollComponent implements OnInit, AfterViewInit {
     @Output() finishPullUpHandle: EventEmitter<boolean> = new EventEmitter();
 
     constructor(
+        private injector: Injector,
         private _listScrollService: ListScrollService
     ) {
+        super(injector);
         this._listScrollService
             .listScrollFinished
             .subscribe((result: ScrollStatusOutput) => {
