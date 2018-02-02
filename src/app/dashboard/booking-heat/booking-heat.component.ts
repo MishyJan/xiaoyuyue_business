@@ -132,7 +132,10 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
                 this.orgBookingSelectListData = [];
                 this.showloading = false;
             }
-        });
+        })
+        // .catch(error => {
+        //     debugger;
+        // });
     }
 
     orgBookingSelectListDataChangeHandler(result): void {
