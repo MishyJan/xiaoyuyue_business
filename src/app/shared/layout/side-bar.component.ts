@@ -26,7 +26,7 @@ export class SideBarComponent extends AppComponentBase {
         new SideBarMenuItem('PictureGallery.ImageManagement', this.permissions.organization, 'vapps-icon-gm-menu menu-item', '', [
             new SideBarMenuItem('PictureGallery', this.permissions.organization_BaseInfo, '', '/gallery-manage/list'),
         ]),
-        new SideBarMenuItem('账户管理', this.permissions.organization, 'vapps-icon-gm-menu menu-item', '', [
+        new SideBarMenuItem('账户管理', this.permissions.organization, 'vapps-icon-app-account-manage-menu menu-item', '', [
             new SideBarMenuItem('账户安全', this.permissions.organization_BaseInfo, '', '/account/settings'),
             new SideBarMenuItem('账户概况', this.permissions.organization_BaseInfo, '', '/account/condition'),
             new SideBarMenuItem('账户版本', this.permissions.organization_BaseInfo, '', '/account/edition')

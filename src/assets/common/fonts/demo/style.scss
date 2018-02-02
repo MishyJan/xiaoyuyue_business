@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'xiaoyuyue-icon';
-  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?kbriln');
-  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?kbriln#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/xiaoyuyue-icon.ttf?kbriln') format('truetype'),
-    url('#{$icomoon-font-path}/xiaoyuyue-icon.woff?kbriln') format('woff'),
-    url('#{$icomoon-font-path}/xiaoyuyue-icon.svg?kbriln#xiaoyuyue-icon') format('svg');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?y01u9f');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?y01u9f#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/xiaoyuyue-icon.ttf?y01u9f') format('truetype'),
+    url('#{$icomoon-font-path}/xiaoyuyue-icon.woff?y01u9f') format('woff'),
+    url('#{$icomoon-font-path}/xiaoyuyue-icon.svg?y01u9f#xiaoyuyue-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -26,6 +26,26 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-account-manage-menu {
+  &:before {
+    content: $vapps-icon-app-account-manage-menu;
+  }
+}
+.vapps-icon-app-alipay {
+  &:before {
+    content: $vapps-icon-app-alipay;
+  }
+}
+.vapps-icon-app-vip {
+  &:before {
+    content: $vapps-icon-app-vip;
+  }
+}
+.vapps-icon-app-wechat-pay {
+  &:before {
+    content: $vapps-icon-app-wechat-pay;
+  }
+}
 .vapps-icon-app-check-in {
   &:before {
     content: $vapps-icon-app-check-in;
