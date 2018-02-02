@@ -1,20 +1,4 @@
-﻿import { BookingAccessRecordInputSource, BookingAccessRecordInputWeChatSource, BookingOrderListDtoStatus, ChatMessageDtoReadState, ChatMessageDtoSide, CodeSendInputCodeType, DefaultTimezoneScope, FriendDtoState, IsTenantAvailableOutputState, UserNotificationState } from '@shared/service-proxies/service-proxies';
-
-export class AppChatMessageReadState {
-    static Unread: number = ChatMessageDtoReadState._1;
-    static Read: number = ChatMessageDtoReadState._2;
-}
-
-export class AppChatSide {
-    static Sender: number = ChatMessageDtoSide._1;
-    static Receiver: number = ChatMessageDtoSide._2;
-}
-
-export class AppFriendshipState {
-    static Accepted: number = FriendDtoState._1;
-    static Blocked: number = FriendDtoState._2;
-}
-
+﻿import { BookingAccessRecordInputSource, BookingAccessRecordInputWeChatSource, BookingOrderListDtoStatus, CodeSendInputCodeType, DefaultTimezoneScope, IsTenantAvailableOutputState, UserNotificationState } from '@shared/service-proxies/service-proxies';
 
 export class AppTimezoneScope {
     static Application: number = DefaultTimezoneScope._1;
@@ -69,12 +53,12 @@ export class VerificationCodeType {
 
 // 默认图片上传分组ID
 export class DefaultUploadPictureGroundId {
-    static AllGroup: number = -1;
-    static NoGroup: number = 0;
-    static BookingGroup: number = 1;
-    static OutletGroup: number = 2;
-    static LinkmanGroup: number = 3;
-    static AvatarGroup: number = 4;
+    static AllGroup = -1;
+    static NoGroup = 0;
+    static BookingGroup = 1;
+    static OutletGroup = 2;
+    static LinkmanGroup = 3;
+    static AvatarGroup = 4;
 }
 
 export class BookingAccessSourceType {
@@ -124,6 +108,6 @@ export class WeChatAccessSourceType {
 
 // 验证的类型
 export class SendCodeType {
-    static ShortMessage: number = 1;
-    static Email: number = 2;
+    static ShortMessage = 1;
+    static Email = 2;
 }

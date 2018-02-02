@@ -46,7 +46,7 @@
                         </div>
                         <p class="share-url-text" title="{{l('Booking.Share.Copy')}}"> {{ shareUrl }}</p>
                         <div class="qr-code-wrap">
-                            <qr-code [value]="shareUrl" [size]="200"></qr-code>
+                            <qr-code [value]="shareUrl" [size]="250" [iconUrl]="qrcodeIconUrl"></qr-code>
                             <p>{{l('Booking.CreateSuccess.Tip3')}}</p>
                         </div>
                     </div>

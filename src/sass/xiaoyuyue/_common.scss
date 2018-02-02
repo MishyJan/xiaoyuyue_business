@@ -6,7 +6,7 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding-right: 0!important;
+    padding-right: 0 !important;
 }
 
 a,
@@ -26,13 +26,11 @@ textarea {
     resize: none;
 }
 
-
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
 
 ::-webkit-scrollbar {
     width: 4px;
 }
-
 
 /*定义滚动条轨道 内阴影+圆角*/
 
@@ -40,7 +38,6 @@ textarea {
     border-radius: 10px;
     background-color: #CCC;
 }
-
 
 /*定义滑块 内阴影+圆角*/
 
@@ -67,7 +64,6 @@ textarea {
 a:-webkit-any-link {
     cursor: pointer;
 }
-
 
 /***
 下拉菜单
@@ -213,7 +209,6 @@ a:-webkit-any-link {
     display: none;
 }
 
-
 /* 面包屑 */
 
 .breadcrumb {
@@ -243,7 +238,6 @@ a:-webkit-any-link {
     -webkit-font-smoothing: antialiased;
 }
 
-
 /* icon样式 */
 
 [class^="vapps-icon-"],
@@ -251,7 +245,6 @@ a:-webkit-any-link {
     transform: translateY(1px);
     display: inline-block;
 }
-
 
 /* 移除默认日期选择下拉箭头 */
 
@@ -287,4 +280,15 @@ a:-webkit-any-link {
     position: relative;
     user-select: none;
     padding: 8px 14px 7px 14px;
+}
+
+.share-booking {
+    .share-source-wrap {
+        .qr-code-wrap {
+            img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    }
 }

@@ -21,7 +21,7 @@ declare var Swiper: any;
     animations: [accountModuleAnimation()],
 })
 export class BookingDetailComponent extends AppComponentBase implements OnInit, AfterViewInit {
-    hasAvailableTime: boolean = false;
+    hasAvailableTime = false;
     shareUrl: string;
     bookingPictures: string[] = [];
     availableBookingTime: string[] = [];

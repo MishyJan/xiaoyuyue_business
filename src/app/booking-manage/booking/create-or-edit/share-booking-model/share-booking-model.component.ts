@@ -18,7 +18,9 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   shareUrl = '';
   sharePic = 'https://www.xiaoyuyue.com/assets/common/images/index/contact/logo.png';
   openWindowsOptions = 'toolbar=0,status=0,width=580,height=636';
+  qrcodeIconUrl = AppConsts.appBaseUrl + '/assets/common/images/logo.jpg';
   bookingDto: GetBookingDetailOutput;
+
   @ViewChild('shareBookingModel') model: ModalDirective;
   @Input() bookingId: number;
   @Input() slogen: string;
@@ -31,7 +33,7 @@ export class ShareBookingModelComponent extends AppComponentBase implements OnIn
   }
 
   ngOnInit() {
-
+    if (this.feature.isEnabled('App.RemoveLogo')) { this.qrcodeIconUrl = this.appSession.tenant.logoUrl; }
   }
 
   show(bookingId?: number): void {

@@ -18,7 +18,7 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response } from '@angular/http';
 
-import { Moment } from 'moment';
+import * as moment from 'moment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -649,7 +649,7 @@ export class AuditLogServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getAuditLogs(startDate: Moment, endDate: Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfAuditLogListDto> {
+    getAuditLogs(startDate: moment.Moment, endDate: moment.Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfAuditLogListDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAuditLogs?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -740,7 +740,7 @@ export class AuditLogServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getAuditLogsToExcel(startDate: Moment, endDate: Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<FileDto> {
+    getAuditLogsToExcel(startDate: moment.Moment, endDate: moment.Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAuditLogsToExcel?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -1736,224 +1736,6 @@ export class CachingServiceProxy {
 }
 
 @Injectable()
-export class ChatServiceProxy {
-    private http: Http;
-    private baseUrl: string;
-    protected jsonParseReviver: (key: string, value: any) => any = undefined;
-
-    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * 获取会话好友
-     * @return Success
-     */
-    getUserChatFriendsWithSettings(): Observable<GetUserChatFriendsWithSettingsOutput> {
-        let url_ = this.baseUrl + "/api/services/app/Chat/GetUserChatFriendsWithSettings";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            method: "get",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processGetUserChatFriendsWithSettings(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processGetUserChatFriendsWithSettings(<any>response_);
-                } catch (e) {
-                    return <Observable<GetUserChatFriendsWithSettingsOutput>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<GetUserChatFriendsWithSettingsOutput>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processGetUserChatFriendsWithSettings(response: Response): Observable<GetUserChatFriendsWithSettingsOutput> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetUserChatFriendsWithSettingsOutput.fromJS(resultData200) : new GetUserChatFriendsWithSettingsOutput();
-            return Observable.of(result200);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<GetUserChatFriendsWithSettingsOutput>(<any>null);
-    }
-
-    /**
-     * 获取会话消息
-     * @tenantId (optional) 租户Id(可空)
-     * @userId 用户Id
-     * @minMessageId (optional) 最小消息Id(可空)
-     * @return Success
-     */
-    getUserChatMessages(tenantId: number, userId: number, minMessageId: number): Observable<ListResultDtoOfChatMessageDto> {
-        let url_ = this.baseUrl + "/api/services/app/Chat/GetUserChatMessages?";
-        if (tenantId !== undefined)
-            url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&"; 
-        if (userId === undefined || userId === null)
-            throw new Error("The parameter 'userId' must be defined and cannot be null.");
-        else
-            url_ += "UserId=" + encodeURIComponent("" + userId) + "&"; 
-        if (minMessageId !== undefined)
-            url_ += "MinMessageId=" + encodeURIComponent("" + minMessageId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            method: "get",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processGetUserChatMessages(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processGetUserChatMessages(<any>response_);
-                } catch (e) {
-                    return <Observable<ListResultDtoOfChatMessageDto>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<ListResultDtoOfChatMessageDto>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processGetUserChatMessages(response: Response): Observable<ListResultDtoOfChatMessageDto> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfChatMessageDto.fromJS(resultData200) : new ListResultDtoOfChatMessageDto();
-            return Observable.of(result200);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<ListResultDtoOfChatMessageDto>(<any>null);
-    }
-
-    /**
-     * 设置所有未读消息为已读
-     * @input (optional) 
-     * @return Success
-     */
-    markAllUnreadMessagesOfUserAsRead(input: MarkAllUnreadMessagesOfUserAsReadInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Chat/MarkAllUnreadMessagesOfUserAsRead";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processMarkAllUnreadMessagesOfUserAsRead(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processMarkAllUnreadMessagesOfUserAsRead(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processMarkAllUnreadMessagesOfUserAsRead(response: Response): Observable<void> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            return Observable.of<void>(<any>null);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<void>(<any>null);
-    }
-
-    /**
-     * @return Success
-     */
-    findMessageAsync(id: number, userId: number): Observable<ChatMessage> {
-        let url_ = this.baseUrl + "/api/services/app/Chat/FindMessageAsync?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined and cannot be null.");
-        else
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        if (userId === undefined || userId === null)
-            throw new Error("The parameter 'userId' must be defined and cannot be null.");
-        else
-            url_ += "userId=" + encodeURIComponent("" + userId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processFindMessageAsync(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processFindMessageAsync(<any>response_);
-                } catch (e) {
-                    return <Observable<ChatMessage>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<ChatMessage>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processFindMessageAsync(response: Response): Observable<ChatMessage> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ChatMessage.fromJS(resultData200) : new ChatMessage();
-            return Observable.of(result200);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<ChatMessage>(<any>null);
-    }
-}
-
-@Injectable()
 export class CommonLookupServiceProxy {
     private http: Http;
     private baseUrl: string;
@@ -2666,261 +2448,6 @@ export class FileServiceProxy {
 }
 
 @Injectable()
-export class FriendshipServiceProxy {
-    private http: Http;
-    private baseUrl: string;
-    protected jsonParseReviver: (key: string, value: any) => any = undefined;
-
-    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * 创建(添加)好友请求
-     * @input (optional) 
-     * @return Success
-     */
-    createFriendshipRequest(input: CreateFriendshipRequestInput): Observable<FriendDto> {
-        let url_ = this.baseUrl + "/api/services/app/Friendship/CreateFriendshipRequest";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processCreateFriendshipRequest(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processCreateFriendshipRequest(<any>response_);
-                } catch (e) {
-                    return <Observable<FriendDto>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<FriendDto>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processCreateFriendshipRequest(response: Response): Observable<FriendDto> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? FriendDto.fromJS(resultData200) : new FriendDto();
-            return Observable.of(result200);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<FriendDto>(<any>null);
-    }
-
-    /**
-     * 根据用户名创建添加好友请求
-     * @input (optional) 
-     * @return Success
-     */
-    createFriendshipRequestByUserName(input: CreateFriendshipRequestByUserNameInput): Observable<FriendDto> {
-        let url_ = this.baseUrl + "/api/services/app/Friendship/CreateFriendshipRequestByUserName";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processCreateFriendshipRequestByUserName(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processCreateFriendshipRequestByUserName(<any>response_);
-                } catch (e) {
-                    return <Observable<FriendDto>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<FriendDto>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processCreateFriendshipRequestByUserName(response: Response): Observable<FriendDto> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? FriendDto.fromJS(resultData200) : new FriendDto();
-            return Observable.of(result200);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<FriendDto>(<any>null);
-    }
-
-    /**
-     * 添加黑名单
-     * @input (optional) 
-     * @return Success
-     */
-    blockUser(input: BlockUserInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Friendship/BlockUser";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processBlockUser(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processBlockUser(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processBlockUser(response: Response): Observable<void> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            return Observable.of<void>(<any>null);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<void>(<any>null);
-    }
-
-    /**
-     * 解除黑名单
-     * @input (optional) 
-     * @return Success
-     */
-    unblockUser(input: UnblockUserInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Friendship/UnblockUser";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processUnblockUser(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processUnblockUser(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processUnblockUser(response: Response): Observable<void> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            return Observable.of<void>(<any>null);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<void>(<any>null);
-    }
-
-    /**
-     * 接受好友请求
-     * @input (optional) 
-     * @return Success
-     */
-    acceptFriendshipRequest(input: AcceptFriendshipRequestInput): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Friendship/AcceptFriendshipRequest";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processAcceptFriendshipRequest(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processAcceptFriendshipRequest(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processAcceptFriendshipRequest(response: Response): Observable<void> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            return Observable.of<void>(<any>null);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<void>(<any>null);
-    }
-}
-
-@Injectable()
 export class HostDashboardServiceProxy {
     private http: Http;
     private baseUrl: string;
@@ -2934,7 +2461,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getDashboardStatisticsData(incomeStatisticsDateInterval: IncomeStatisticsDateInterval, startDate: Moment, endDate: Moment): Observable<HostDashboardData> {
+    getDashboardStatisticsData(incomeStatisticsDateInterval: IncomeStatisticsDateInterval, startDate: moment.Moment, endDate: moment.Moment): Observable<HostDashboardData> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetDashboardStatisticsData?";
         if (incomeStatisticsDateInterval === undefined || incomeStatisticsDateInterval === null)
             throw new Error("The parameter 'incomeStatisticsDateInterval' must be defined and cannot be null.");
@@ -2992,7 +2519,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getIncomeStatistics(incomeStatisticsDateInterval: IncomeStatisticsDateInterval2, startDate: Moment, endDate: Moment): Observable<GetIncomeStatisticsDataOutput> {
+    getIncomeStatistics(incomeStatisticsDateInterval: IncomeStatisticsDateInterval2, startDate: moment.Moment, endDate: moment.Moment): Observable<GetIncomeStatisticsDataOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetIncomeStatistics?";
         if (incomeStatisticsDateInterval === undefined || incomeStatisticsDateInterval === null)
             throw new Error("The parameter 'incomeStatisticsDateInterval' must be defined and cannot be null.");
@@ -3050,7 +2577,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getEditionTenantStatistics(startDate: Moment, endDate: Moment): Observable<GetEditionTenantStatisticsOutput> {
+    getEditionTenantStatistics(startDate: moment.Moment, endDate: moment.Moment): Observable<GetEditionTenantStatisticsOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetEditionTenantStatistics?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -3363,7 +2890,7 @@ export class IncomeStatisticsServiceServiceProxy {
     /**
      * @return Success
      */
-    getIncomeStatisticsData(startDate: Moment, endDate: Moment, dateInterval: DateInterval): Observable<IncomeStastistic[]> {
+    getIncomeStatisticsData(startDate: moment.Moment, endDate: moment.Moment, dateInterval: DateInterval): Observable<IncomeStastistic[]> {
         let url_ = this.baseUrl + "/api/services/app/IncomeStatisticsService/GetIncomeStatisticsData?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -4724,7 +4251,7 @@ export class OrgBookingServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getBookings(name: string, outletId: number, isActive: boolean, startCreationTime: Moment, endCreationTime: Moment, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingListDto> {
+    getBookings(name: string, outletId: number, isActive: boolean, startCreationTime: moment.Moment, endCreationTime: moment.Moment, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetBookings?";
         if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&"; 
@@ -5169,7 +4696,7 @@ export class OrgBookingServiceProxy {
      * @creatorUserId (optional) 
      * @return Success
      */
-    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNum: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_IsDeleted: boolean, contactor_DeleterUserId: number, contactor_DeletionTime: Moment, contactor_LastModificationTime: Moment, contactor_LastModifierUserId: number, contactor_CreationTime: Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: Moment, outlet_LastModificationTime: Moment, outlet_LastModifierUserId: number, outlet_CreationTime: Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: Moment, lastModificationTime: Moment, lastModifierUserId: number, creationTime: Moment, creatorUserId: number, id: number): Observable<string[]> {
+    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNum: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_IsDeleted: boolean, contactor_DeleterUserId: number, contactor_DeletionTime: moment.Moment, contactor_LastModificationTime: moment.Moment, contactor_LastModifierUserId: number, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
         let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetItemDatetime?";
         if (tenantId === undefined || tenantId === null)
             throw new Error("The parameter 'tenantId' must be defined and cannot be null.");
@@ -5443,7 +4970,7 @@ export class OrgBookingOrderServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getOrders(bookingId: number, bookingName: string, customerName: string, bookingDate: Moment, hourOfDay: string, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, checkIn: boolean, creationStartDate: Moment, creationEndDate: Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfOrgBookingOrderListDto> {
+    getOrders(bookingId: number, bookingName: string, customerName: string, bookingDate: moment.Moment, hourOfDay: string, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, checkIn: boolean, creationStartDate: moment.Moment, creationEndDate: moment.Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfOrgBookingOrderListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrgBookingOrder/GetOrders?";
         if (bookingId === undefined || bookingId === null)
             throw new Error("The parameter 'bookingId' must be defined and cannot be null.");
@@ -6432,7 +5959,8 @@ export class PaymentServiceProxy {
     }
 
     /**
-     * @upgradeEditionId (optional) 
+     * 获取支付信息
+     * @upgradeEditionId (optional) 升级版本Id
      * @return Success
      */
     getPaymentInfo(upgradeEditionId: number): Observable<PaymentInfoDto> {
@@ -6481,6 +6009,7 @@ export class PaymentServiceProxy {
     }
 
     /**
+     * 创建支付
      * @input (optional) 
      * @return Success
      */
@@ -6593,6 +6122,7 @@ export class PaymentServiceProxy {
     }
 
     /**
+     * 获取支付记录
      * @sorting (optional) 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
@@ -6669,7 +6199,7 @@ export class PerBookingOrderServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getBookingTimeline(startDataTime: Moment, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingTimelineDto> {
+    getBookingTimeline(startDataTime: moment.Moment, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingTimelineDto> {
         let url_ = this.baseUrl + "/api/services/app/PerBookingOrder/GetBookingTimeline?";
         if (startDataTime === undefined || startDataTime === null)
             throw new Error("The parameter 'startDataTime' must be defined and cannot be null.");
@@ -8029,66 +7559,6 @@ export class ProfileServiceProxy {
     }
 
     /**
-     * 根据Id获取好友头像
-     * @profilePictureId 图片Id
-     * @userId 用户Id
-     * @tenantId (optional) 租户Id
-     * @return Success
-     */
-    getFriendProfilePictureById(profilePictureId: number, userId: number, tenantId: number): Observable<GetProfilePictureOutput> {
-        let url_ = this.baseUrl + "/api/services/app/Profile/GetFriendProfilePictureById?";
-        if (profilePictureId === undefined || profilePictureId === null)
-            throw new Error("The parameter 'profilePictureId' must be defined and cannot be null.");
-        else
-            url_ += "ProfilePictureId=" + encodeURIComponent("" + profilePictureId) + "&"; 
-        if (userId === undefined || userId === null)
-            throw new Error("The parameter 'userId' must be defined and cannot be null.");
-        else
-            url_ += "UserId=" + encodeURIComponent("" + userId) + "&"; 
-        if (tenantId !== undefined)
-            url_ += "TenantId=" + encodeURIComponent("" + tenantId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            method: "get",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processGetFriendProfilePictureById(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processGetFriendProfilePictureById(<any>response_);
-                } catch (e) {
-                    return <Observable<GetProfilePictureOutput>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<GetProfilePictureOutput>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processGetFriendProfilePictureById(response: Response): Observable<GetProfilePictureOutput> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetProfilePictureOutput.fromJS(resultData200) : new GetProfilePictureOutput();
-            return Observable.of(result200);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<GetProfilePictureOutput>(<any>null);
-    }
-
-    /**
      * 根据 Id 获取头像
      * @profilePictureId 头像文件Id
      * @return Success
@@ -9257,15 +8727,13 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
-     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
+     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount === undefined || maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
         else
@@ -9274,6 +8742,8 @@ export class StateServiceServiceProxy {
             throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
         else
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9892,6 +9362,64 @@ export class StateServiceServiceProxy {
 }
 
 @Injectable()
+export class SubscriptionServiceProxy {
+    private http: Http;
+    private baseUrl: string;
+    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    upgradeTenantToEquivalentEdition(upgradeEditionId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Subscription/UpgradeTenantToEquivalentEdition?";
+        if (upgradeEditionId === undefined || upgradeEditionId === null)
+            throw new Error("The parameter 'upgradeEditionId' must be defined and cannot be null.");
+        else
+            url_ += "upgradeEditionId=" + encodeURIComponent("" + upgradeEditionId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processUpgradeTenantToEquivalentEdition(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processUpgradeTenantToEquivalentEdition(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processUpgradeTenantToEquivalentEdition(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class TenantServiceProxy {
     private http: Http;
     private baseUrl: string;
@@ -9918,7 +9446,7 @@ export class TenantServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getTenants(tenancyName: string, name: string, subscriptionEndDateStart: Moment, subscriptionEndDateEnd: Moment, creationDateStart: Moment, creationDateEnd: Moment, editionId: number, editionIdSpecified: boolean, isActive: boolean, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfTenantListDto> {
+    getTenants(tenancyName: string, name: string, subscriptionEndDateStart: moment.Moment, subscriptionEndDateEnd: moment.Moment, creationDateStart: moment.Moment, creationDateEnd: moment.Moment, editionId: number, editionIdSpecified: boolean, isActive: boolean, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfTenantListDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetTenants?";
         if (tenancyName !== undefined)
             url_ += "TenancyName=" + encodeURIComponent("" + tenancyName) + "&"; 
@@ -11500,7 +11028,7 @@ export class TokenAuthServiceProxy {
     }
 
     /**
-     * 获取短链凭证登陆
+     * 使用短链凭证登陆
      * @model (optional) 
      * @return Success
      */
@@ -13318,7 +12846,7 @@ export class AuditLogListDto implements IAuditLogListDto {
     /** 参数 */
     parameters: string;
     /** 执行时间 */
-    executionTime: Moment;
+    executionTime: moment.Moment;
     /** 执行时长 */
     executionDuration: number;
     /** 客户端地址 */
@@ -13405,7 +12933,7 @@ export interface IAuditLogListDto {
     /** 参数 */
     parameters: string;
     /** 执行时间 */
-    executionTime: Moment;
+    executionTime: moment.Moment;
     /** 执行时长 */
     executionDuration: number;
     /** 客户端地址 */
@@ -13730,7 +13258,7 @@ export interface IJoinBookingInfoDto {
 /** 日期信息 */
 export class JoinBookingDataInfo implements IJoinBookingDataInfo {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 可预约时间 */
     times: JoinBookingTimeInfo[];
 
@@ -13775,7 +13303,7 @@ export class JoinBookingDataInfo implements IJoinBookingDataInfo {
 /** 日期信息 */
 export interface IJoinBookingDataInfo {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 可预约时间 */
     times: JoinBookingTimeInfo[];
 }
@@ -13837,7 +13365,7 @@ export interface IJoinBookingTimeInfo {
 
 export class JoinBookingInput implements IJoinBookingInput {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 时间项Id */
     bookingItemId: number;
     /** 姓名 */
@@ -13901,7 +13429,7 @@ export class JoinBookingInput implements IJoinBookingInput {
 
 export interface IJoinBookingInput {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 时间项Id */
     bookingItemId: number;
     /** 姓名 */
@@ -13926,7 +13454,7 @@ export class JoinBookingResultDto implements IJoinBookingResultDto {
     /** 预约客户 */
     bookingCustomer: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
 
@@ -13970,7 +13498,7 @@ export interface IJoinBookingResultDto {
     /** 预约客户 */
     bookingCustomer: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
 }
@@ -14923,374 +14451,6 @@ export interface IEntityDtoOfString {
     id: string;
 }
 
-export class GetUserChatFriendsWithSettingsOutput implements IGetUserChatFriendsWithSettingsOutput {
-    /** 服务器时间 */
-    serverTime: Moment;
-    /** 好友集合 */
-    friends: FriendDto[];
-
-    constructor(data?: IGetUserChatFriendsWithSettingsOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.serverTime = data["serverTime"] ? moment(data["serverTime"].toString()) : <any>undefined;
-            if (data["friends"] && data["friends"].constructor === Array) {
-                this.friends = [];
-                for (let item of data["friends"])
-                    this.friends.push(FriendDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): GetUserChatFriendsWithSettingsOutput {
-        let result = new GetUserChatFriendsWithSettingsOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["serverTime"] = this.serverTime ? this.serverTime.toISOString() : <any>undefined;
-        if (this.friends && this.friends.constructor === Array) {
-            data["friends"] = [];
-            for (let item of this.friends)
-                data["friends"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IGetUserChatFriendsWithSettingsOutput {
-    /** 服务器时间 */
-    serverTime: Moment;
-    /** 好友集合 */
-    friends: FriendDto[];
-}
-
-export class FriendDto implements IFriendDto {
-    friendUserId: number;
-    friendTenantId: number;
-    friendUserName: string;
-    friendTenancyName: string;
-    friendProfilePictureId: number;
-    unreadMessageCount: number;
-    isOnline: boolean;
-    state: FriendDtoState;
-
-    constructor(data?: IFriendDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.friendUserId = data["friendUserId"];
-            this.friendTenantId = data["friendTenantId"];
-            this.friendUserName = data["friendUserName"];
-            this.friendTenancyName = data["friendTenancyName"];
-            this.friendProfilePictureId = data["friendProfilePictureId"];
-            this.unreadMessageCount = data["unreadMessageCount"];
-            this.isOnline = data["isOnline"];
-            this.state = data["state"];
-        }
-    }
-
-    static fromJS(data: any): FriendDto {
-        let result = new FriendDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["friendUserId"] = this.friendUserId;
-        data["friendTenantId"] = this.friendTenantId;
-        data["friendUserName"] = this.friendUserName;
-        data["friendTenancyName"] = this.friendTenancyName;
-        data["friendProfilePictureId"] = this.friendProfilePictureId;
-        data["unreadMessageCount"] = this.unreadMessageCount;
-        data["isOnline"] = this.isOnline;
-        data["state"] = this.state;
-        return data; 
-    }
-}
-
-export interface IFriendDto {
-    friendUserId: number;
-    friendTenantId: number;
-    friendUserName: string;
-    friendTenancyName: string;
-    friendProfilePictureId: number;
-    unreadMessageCount: number;
-    isOnline: boolean;
-    state: FriendDtoState;
-}
-
-export class ListResultDtoOfChatMessageDto implements IListResultDtoOfChatMessageDto {
-    items: ChatMessageDto[];
-
-    constructor(data?: IListResultDtoOfChatMessageDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(ChatMessageDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfChatMessageDto {
-        let result = new ListResultDtoOfChatMessageDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IListResultDtoOfChatMessageDto {
-    items: ChatMessageDto[];
-}
-
-/** 会话消息 */
-export class ChatMessageDto implements IChatMessageDto {
-    /** 用户Id */
-    userId: number;
-    /** 租户Id */
-    tenantId: number;
-    /** 目标用户(接收者Id) */
-    targetUserId: number;
-    /** 目标租户Id */
-    targetTenantId: number;
-    /** 会话来源 */
-    side: ChatMessageDtoSide;
-    /** 读取状态 */
-    readState: ChatMessageDtoReadState;
-    receiverReadState: ChatMessageDtoReceiverReadState;
-    /** 消息内容 */
-    message: string;
-    /** 创建时间 */
-    creationTime: Moment;
-    sharedMessageId: string;
-    id: number;
-
-    constructor(data?: IChatMessageDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userId = data["userId"];
-            this.tenantId = data["tenantId"];
-            this.targetUserId = data["targetUserId"];
-            this.targetTenantId = data["targetTenantId"];
-            this.side = data["side"];
-            this.readState = data["readState"];
-            this.receiverReadState = data["receiverReadState"];
-            this.message = data["message"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.sharedMessageId = data["sharedMessageId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): ChatMessageDto {
-        let result = new ChatMessageDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["tenantId"] = this.tenantId;
-        data["targetUserId"] = this.targetUserId;
-        data["targetTenantId"] = this.targetTenantId;
-        data["side"] = this.side;
-        data["readState"] = this.readState;
-        data["receiverReadState"] = this.receiverReadState;
-        data["message"] = this.message;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["sharedMessageId"] = this.sharedMessageId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-/** 会话消息 */
-export interface IChatMessageDto {
-    /** 用户Id */
-    userId: number;
-    /** 租户Id */
-    tenantId: number;
-    /** 目标用户(接收者Id) */
-    targetUserId: number;
-    /** 目标租户Id */
-    targetTenantId: number;
-    /** 会话来源 */
-    side: ChatMessageDtoSide;
-    /** 读取状态 */
-    readState: ChatMessageDtoReadState;
-    receiverReadState: ChatMessageDtoReceiverReadState;
-    /** 消息内容 */
-    message: string;
-    /** 创建时间 */
-    creationTime: Moment;
-    sharedMessageId: string;
-    id: number;
-}
-
-export class MarkAllUnreadMessagesOfUserAsReadInput implements IMarkAllUnreadMessagesOfUserAsReadInput {
-    /** 租户Id */
-    tenantId: number;
-    /** 用户Id */
-    userId: number;
-
-    constructor(data?: IMarkAllUnreadMessagesOfUserAsReadInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.tenantId = data["tenantId"];
-            this.userId = data["userId"];
-        }
-    }
-
-    static fromJS(data: any): MarkAllUnreadMessagesOfUserAsReadInput {
-        let result = new MarkAllUnreadMessagesOfUserAsReadInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["tenantId"] = this.tenantId;
-        data["userId"] = this.userId;
-        return data; 
-    }
-}
-
-export interface IMarkAllUnreadMessagesOfUserAsReadInput {
-    /** 租户Id */
-    tenantId: number;
-    /** 用户Id */
-    userId: number;
-}
-
-export class ChatMessage implements IChatMessage {
-    userId: number;
-    tenantId: number;
-    targetUserId: number;
-    targetTenantId: number;
-    message: string;
-    creationTime: Moment;
-    side: ChatMessageSide;
-    readState: ChatMessageReadState;
-    receiverReadState: ChatMessageReceiverReadState;
-    sharedMessageId: string;
-    id: number;
-
-    constructor(data?: IChatMessage) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userId = data["userId"];
-            this.tenantId = data["tenantId"];
-            this.targetUserId = data["targetUserId"];
-            this.targetTenantId = data["targetTenantId"];
-            this.message = data["message"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.side = data["side"];
-            this.readState = data["readState"];
-            this.receiverReadState = data["receiverReadState"];
-            this.sharedMessageId = data["sharedMessageId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): ChatMessage {
-        let result = new ChatMessage();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["tenantId"] = this.tenantId;
-        data["targetUserId"] = this.targetUserId;
-        data["targetTenantId"] = this.targetTenantId;
-        data["message"] = this.message;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["side"] = this.side;
-        data["readState"] = this.readState;
-        data["receiverReadState"] = this.receiverReadState;
-        data["sharedMessageId"] = this.sharedMessageId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IChatMessage {
-    userId: number;
-    tenantId: number;
-    targetUserId: number;
-    targetTenantId: number;
-    message: string;
-    creationTime: Moment;
-    side: ChatMessageSide;
-    readState: ChatMessageReadState;
-    receiverReadState: ChatMessageReceiverReadState;
-    sharedMessageId: string;
-    id: number;
-}
-
 export class ListResultDtoOfSubscribableEditionComboboxItemDto implements IListResultDtoOfSubscribableEditionComboboxItemDto {
     items: SubscribableEditionComboboxItemDto[];
 
@@ -15636,7 +14796,7 @@ export interface IListResultDtoOfEditionListDto {
 export class EditionListDto implements IEditionListDto {
     name: string;
     displayName: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IEditionListDto) {
@@ -15676,7 +14836,7 @@ export class EditionListDto implements IEditionListDto {
 export interface IEditionListDto {
     name: string;
     displayName: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -16527,201 +15687,6 @@ export interface IUploadPictureOutput {
     originalUrl: string;
 }
 
-export class CreateFriendshipRequestInput implements ICreateFriendshipRequestInput {
-    userId: number;
-    tenantId: number;
-
-    constructor(data?: ICreateFriendshipRequestInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userId = data["userId"];
-            this.tenantId = data["tenantId"];
-        }
-    }
-
-    static fromJS(data: any): CreateFriendshipRequestInput {
-        let result = new CreateFriendshipRequestInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["tenantId"] = this.tenantId;
-        return data; 
-    }
-}
-
-export interface ICreateFriendshipRequestInput {
-    userId: number;
-    tenantId: number;
-}
-
-export class CreateFriendshipRequestByUserNameInput implements ICreateFriendshipRequestByUserNameInput {
-    tenancyName: string;
-    userName: string;
-
-    constructor(data?: ICreateFriendshipRequestByUserNameInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.tenancyName = data["tenancyName"];
-            this.userName = data["userName"];
-        }
-    }
-
-    static fromJS(data: any): CreateFriendshipRequestByUserNameInput {
-        let result = new CreateFriendshipRequestByUserNameInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["tenancyName"] = this.tenancyName;
-        data["userName"] = this.userName;
-        return data; 
-    }
-}
-
-export interface ICreateFriendshipRequestByUserNameInput {
-    tenancyName: string;
-    userName: string;
-}
-
-export class BlockUserInput implements IBlockUserInput {
-    userId: number;
-    tenantId: number;
-
-    constructor(data?: IBlockUserInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userId = data["userId"];
-            this.tenantId = data["tenantId"];
-        }
-    }
-
-    static fromJS(data: any): BlockUserInput {
-        let result = new BlockUserInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["tenantId"] = this.tenantId;
-        return data; 
-    }
-}
-
-export interface IBlockUserInput {
-    userId: number;
-    tenantId: number;
-}
-
-export class UnblockUserInput implements IUnblockUserInput {
-    userId: number;
-    tenantId: number;
-
-    constructor(data?: IUnblockUserInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userId = data["userId"];
-            this.tenantId = data["tenantId"];
-        }
-    }
-
-    static fromJS(data: any): UnblockUserInput {
-        let result = new UnblockUserInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["tenantId"] = this.tenantId;
-        return data; 
-    }
-}
-
-export interface IUnblockUserInput {
-    userId: number;
-    tenantId: number;
-}
-
-export class AcceptFriendshipRequestInput implements IAcceptFriendshipRequestInput {
-    userId: number;
-    tenantId: number;
-
-    constructor(data?: IAcceptFriendshipRequestInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userId = data["userId"];
-            this.tenantId = data["tenantId"];
-        }
-    }
-
-    static fromJS(data: any): AcceptFriendshipRequestInput {
-        let result = new AcceptFriendshipRequestInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["tenantId"] = this.tenantId;
-        return data; 
-    }
-}
-
-export interface IAcceptFriendshipRequestInput {
-    userId: number;
-    tenantId: number;
-}
-
 export class HostDashboardData implements IHostDashboardData {
     newTenantsCount: number;
     newSubscriptionAmount: number;
@@ -16735,9 +15700,9 @@ export class HostDashboardData implements IHostDashboardData {
     maxRecentTenantsShownCount: number;
     subscriptionEndAlertDayCount: number;
     recentTenantsDayCount: number;
-    subscriptionEndDateStart: Moment;
-    subscriptionEndDateEnd: Moment;
-    tenantCreationStartDate: Moment;
+    subscriptionEndDateStart: moment.Moment;
+    subscriptionEndDateEnd: moment.Moment;
+    tenantCreationStartDate: moment.Moment;
 
     constructor(data?: IHostDashboardData) {
         if (data) {
@@ -16840,14 +15805,14 @@ export interface IHostDashboardData {
     maxRecentTenantsShownCount: number;
     subscriptionEndAlertDayCount: number;
     recentTenantsDayCount: number;
-    subscriptionEndDateStart: Moment;
-    subscriptionEndDateEnd: Moment;
-    tenantCreationStartDate: Moment;
+    subscriptionEndDateStart: moment.Moment;
+    subscriptionEndDateEnd: moment.Moment;
+    tenantCreationStartDate: moment.Moment;
 }
 
 export class IncomeStastistic implements IIncomeStastistic {
     label: string;
-    date: Moment;
+    date: moment.Moment;
     amount: number;
 
     constructor(data?: IIncomeStastistic) {
@@ -16884,7 +15849,7 @@ export class IncomeStastistic implements IIncomeStastistic {
 
 export interface IIncomeStastistic {
     label: string;
-    date: Moment;
+    date: moment.Moment;
     amount: number;
 }
 
@@ -16969,7 +15934,7 @@ export interface IExpiringTenant {
 export class RecentTenant implements IRecentTenant {
     id: number;
     name: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
 
     constructor(data?: IRecentTenant) {
         if (data) {
@@ -17006,7 +15971,7 @@ export class RecentTenant implements IRecentTenant {
 export interface IRecentTenant {
     id: number;
     name: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
 }
 
 export class GetIncomeStatisticsDataOutput implements IGetIncomeStatisticsDataOutput {
@@ -17958,7 +16923,7 @@ export class InvoiceDto implements IInvoiceDto {
     amount: number;
     editionDisplayName: string;
     invoiceNo: string;
-    invoiceDate: Moment;
+    invoiceDate: moment.Moment;
     tenantLegalName: string;
     tenantAddress: string[];
     tenantTaxNo: string;
@@ -18029,7 +16994,7 @@ export interface IInvoiceDto {
     amount: number;
     editionDisplayName: string;
     invoiceNo: string;
-    invoiceDate: Moment;
+    invoiceDate: moment.Moment;
     tenantLegalName: string;
     tenantAddress: string[];
     tenantTaxNo: string;
@@ -18127,10 +17092,10 @@ export class ApplicationLanguageListDto implements IApplicationLanguageListDto {
     isDisabled: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -18194,10 +17159,10 @@ export interface IApplicationLanguageListDto {
     isDisabled: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -18719,7 +17684,7 @@ export class TenantNotification implements ITenantNotification {
     entityTypeName: string;
     entityId: any;
     severity: TenantNotificationSeverity;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: string;
 
     constructor(data?: ITenantNotification) {
@@ -18786,7 +17751,7 @@ export interface ITenantNotification {
     entityTypeName: string;
     entityId: any;
     severity: TenantNotificationSeverity;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: string;
 }
 
@@ -19126,9 +18091,9 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
     code: string;
     displayName: string;
     memberCount: number;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -19181,9 +18146,9 @@ export interface IOrganizationUnitDto {
     code: string;
     displayName: string;
     memberCount: number;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -19241,7 +18206,7 @@ export class OrganizationUnitUserListDto implements IOrganizationUnitUserListDto
     userName: string;
     emailAddress: string;
     profilePictureId: number;
-    addedTime: Moment;
+    addedTime: moment.Moment;
     id: number;
 
     constructor(data?: IOrganizationUnitUserListDto) {
@@ -19290,7 +18255,7 @@ export interface IOrganizationUnitUserListDto {
     userName: string;
     emailAddress: string;
     profilePictureId: number;
-    addedTime: Moment;
+    addedTime: moment.Moment;
     id: number;
 }
 
@@ -20385,10 +19350,10 @@ export class Contactor implements IContactor {
     isDefault: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -20455,10 +19420,10 @@ export interface IContactor {
     isDefault: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -20476,7 +19441,7 @@ export class BookingItem implements IBookingItem {
     isActive: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
+    deletionTime: moment.Moment;
     booking: Booking;
     id: number;
 
@@ -20549,7 +19514,7 @@ export interface IBookingItem {
     isActive: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
+    deletionTime: moment.Moment;
     booking: Booking;
     id: number;
 }
@@ -20575,10 +19540,10 @@ export class Booking implements IBooking {
     pictures: BookingPicture[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -20697,10 +19662,10 @@ export interface IBooking {
     pictures: BookingPicture[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -20723,10 +19688,10 @@ export class Outlet implements IOutlet {
     contactors: Contactor[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -20828,10 +19793,10 @@ export interface IOutlet {
     contactors: Contactor[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -20945,7 +19910,7 @@ export class OrgBookingOrderListDto implements IOrgBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -20957,7 +19922,7 @@ export class OrgBookingOrderListDto implements IOrgBookingOrderListDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -21025,7 +19990,7 @@ export interface IOrgBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -21037,7 +20002,7 @@ export interface IOrgBookingOrderListDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -21051,7 +20016,7 @@ export class OrgBookingOrderInfolDto implements IOrgBookingOrderInfolDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -21077,11 +20042,11 @@ export class OrgBookingOrderInfolDto implements IOrgBookingOrderInfolDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -21162,7 +20127,7 @@ export interface IOrgBookingOrderInfolDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -21188,11 +20153,11 @@ export interface IOrgBookingOrderInfolDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -21999,9 +20964,9 @@ export class SubscriptionPaymentListDto implements ISubscriptionPaymentListDto {
     editionDisplayName: string;
     tenantId: number;
     invoiceNo: string;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -22075,9 +21040,9 @@ export interface ISubscriptionPaymentListDto {
     editionDisplayName: string;
     tenantId: number;
     invoiceNo: string;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -22242,7 +21207,7 @@ export class BookingOrderListDto implements IBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -22254,7 +21219,7 @@ export class BookingOrderListDto implements IBookingOrderListDto {
     /** 置顶 */
     sticked: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IBookingOrderListDto) {
@@ -22310,7 +21275,7 @@ export interface IBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -22322,7 +21287,7 @@ export interface IBookingOrderListDto {
     /** 置顶 */
     sticked: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -22451,7 +21416,7 @@ export interface IBookingInfoDto {
 /** 预约订单详情 */
 export class BookingOrderInfo implements IBookingOrderInfo {
     /** 预约日期 */
-    bookingData: Moment;
+    bookingData: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -22479,11 +21444,11 @@ export class BookingOrderInfo implements IBookingOrderInfo {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 预约状态 */
     status: BookingOrderInfoStatus;
     id: number;
@@ -22555,7 +21520,7 @@ export class BookingOrderInfo implements IBookingOrderInfo {
 /** 预约订单详情 */
 export interface IBookingOrderInfo {
     /** 预约日期 */
-    bookingData: Moment;
+    bookingData: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -22583,11 +21548,11 @@ export interface IBookingOrderInfo {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 预约状态 */
     status: BookingOrderInfoStatus;
     id: number;
@@ -22883,7 +21848,7 @@ export class PictureListDto implements IPictureListDto {
     /** 图片类型 */
     mimeType: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IPictureListDto) {
@@ -22934,13 +21899,13 @@ export interface IPictureListDto {
     /** 图片类型 */
     mimeType: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
 export class UploadTokenOutput implements IUploadTokenOutput {
     token: string;
-    expirationOnUtc: Moment;
+    expirationOnUtc: moment.Moment;
 
     constructor(data?: IUploadTokenOutput) {
         if (data) {
@@ -22974,7 +21939,7 @@ export class UploadTokenOutput implements IUploadTokenOutput {
 
 export interface IUploadTokenOutput {
     token: string;
-    expirationOnUtc: Moment;
+    expirationOnUtc: moment.Moment;
 }
 
 export class UpdatePictureInput implements IUpdatePictureInput {
@@ -23085,7 +22050,7 @@ export class PictureGroupListDto implements IPictureGroupListDto {
     /** 创建者Id */
     creatorUserId: number;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IPictureGroupListDto) {
@@ -23136,7 +22101,7 @@ export interface IPictureGroupListDto {
     /** 创建者Id */
     creatorUserId: number;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -23784,7 +22749,7 @@ export class RoleListDto implements IRoleListDto {
     /** 是否默认分配(给用户) */
     isDefault: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IRoleListDto) {
@@ -23835,7 +22800,7 @@ export interface IRoleListDto {
     /** 是否默认分配(给用户) */
     isDefault: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -24171,11 +23136,12 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
     tenancyName: string;
     name: string;
     logoId: number;
+    logoUrl: string;
     logoFileType: string;
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     isInTrialPeriod: boolean;
     edition: EditionInfoDto;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     paymentPeriodType: TenantLoginInfoDtoPaymentPeriodType;
     subscriptionDateString: string;
     creationTimeString: string;
@@ -24195,6 +23161,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
             this.tenancyName = data["tenancyName"];
             this.name = data["name"];
             this.logoId = data["logoId"];
+            this.logoUrl = data["logoUrl"];
             this.logoFileType = data["logoFileType"];
             this.subscriptionEndDateUtc = data["subscriptionEndDateUtc"] ? moment(data["subscriptionEndDateUtc"].toString()) : <any>undefined;
             this.isInTrialPeriod = data["isInTrialPeriod"];
@@ -24218,6 +23185,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
         data["tenancyName"] = this.tenancyName;
         data["name"] = this.name;
         data["logoId"] = this.logoId;
+        data["logoUrl"] = this.logoUrl;
         data["logoFileType"] = this.logoFileType;
         data["subscriptionEndDateUtc"] = this.subscriptionEndDateUtc ? this.subscriptionEndDateUtc.toISOString() : <any>undefined;
         data["isInTrialPeriod"] = this.isInTrialPeriod;
@@ -24235,11 +23203,12 @@ export interface ITenantLoginInfoDto {
     tenancyName: string;
     name: string;
     logoId: number;
+    logoUrl: string;
     logoFileType: string;
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     isInTrialPeriod: boolean;
     edition: EditionInfoDto;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     paymentPeriodType: TenantLoginInfoDtoPaymentPeriodType;
     subscriptionDateString: string;
     creationTimeString: string;
@@ -24248,7 +23217,7 @@ export interface ITenantLoginInfoDto {
 
 export class ApplicationInfoDto implements IApplicationInfoDto {
     version: string;
-    releaseDate: Moment;
+    releaseDate: moment.Moment;
     features: { [key: string] : boolean; };
 
     constructor(data?: IApplicationInfoDto) {
@@ -24297,7 +23266,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
 
 export interface IApplicationInfoDto {
     version: string;
-    releaseDate: Moment;
+    releaseDate: moment.Moment;
     features: { [key: string] : boolean; };
 }
 
@@ -24705,7 +23674,7 @@ export class SMSTemplateListDto implements ISMSTemplateListDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     id: number;
@@ -24756,7 +23725,7 @@ export interface ISMSTemplateListDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     id: number;
@@ -24770,9 +23739,9 @@ export class GetSMSTemplateForEditDto implements IGetSMSTemplateForEditDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 最后修改时间 */
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     /** 模板参数集合 */
@@ -24849,9 +23818,9 @@ export interface IGetSMSTemplateForEditDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 最后修改时间 */
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     /** 模板参数集合 */
@@ -24863,7 +23832,7 @@ export interface IGetSMSTemplateForEditDto {
 
 export class SMSTemplateItemDto implements ISMSTemplateItemDto {
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 模板参数Id，null时为创建,有值时为更新 */
     id: number;
     /** 模板消息字段名 */
@@ -24907,7 +23876,7 @@ export class SMSTemplateItemDto implements ISMSTemplateItemDto {
 
 export interface ISMSTemplateItemDto {
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 模板参数Id，null时为创建,有值时为更新 */
     id: number;
     /** 模板消息字段名 */
@@ -25613,7 +24582,7 @@ export class TenantListDto implements ITenantListDto {
     /** 是否激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: ITenantListDto) {
@@ -25668,7 +24637,7 @@ export interface ITenantListDto {
     /** 是否激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -25693,7 +24662,7 @@ export class CreateTenantInput implements ICreateTenantInput {
     editionId: number;
     /** 激活 */
     isActive: boolean;
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     isInTrialPeriod: boolean;
 
     constructor(data?: ICreateTenantInput) {
@@ -25767,7 +24736,7 @@ export interface ICreateTenantInput {
     editionId: number;
     /** 激活 */
     isActive: boolean;
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     isInTrialPeriod: boolean;
 }
 
@@ -26249,7 +25218,6 @@ export class TenantSettingsEditDto implements ITenantSettingsEditDto {
     general: GeneralSettingsEditDto;
     userManagement: TenantUserManagementSettingsEditDto = new TenantUserManagementSettingsEditDto();
     email: EmailSettingsEditDto;
-    ldap: LdapSettingsEditDto;
     /** 安全设置 */
     security: SecuritySettingsEditDto = new SecuritySettingsEditDto();
     /** 第三方登陆 */
@@ -26271,7 +25239,6 @@ export class TenantSettingsEditDto implements ITenantSettingsEditDto {
             this.general = data["general"] ? GeneralSettingsEditDto.fromJS(data["general"]) : <any>undefined;
             this.userManagement = data["userManagement"] ? TenantUserManagementSettingsEditDto.fromJS(data["userManagement"]) : new TenantUserManagementSettingsEditDto();
             this.email = data["email"] ? EmailSettingsEditDto.fromJS(data["email"]) : <any>undefined;
-            this.ldap = data["ldap"] ? LdapSettingsEditDto.fromJS(data["ldap"]) : <any>undefined;
             this.security = data["security"] ? SecuritySettingsEditDto.fromJS(data["security"]) : new SecuritySettingsEditDto();
             this.externalAuthentication = data["externalAuthentication"] ? ExternalAuthenticationEditDto.fromJS(data["externalAuthentication"]) : <any>undefined;
             this.billing = data["billing"] ? TenantBillingSettingsEditDto.fromJS(data["billing"]) : <any>undefined;
@@ -26289,7 +25256,6 @@ export class TenantSettingsEditDto implements ITenantSettingsEditDto {
         data["general"] = this.general ? this.general.toJSON() : <any>undefined;
         data["userManagement"] = this.userManagement ? this.userManagement.toJSON() : <any>undefined;
         data["email"] = this.email ? this.email.toJSON() : <any>undefined;
-        data["ldap"] = this.ldap ? this.ldap.toJSON() : <any>undefined;
         data["security"] = this.security ? this.security.toJSON() : <any>undefined;
         data["externalAuthentication"] = this.externalAuthentication ? this.externalAuthentication.toJSON() : <any>undefined;
         data["billing"] = this.billing ? this.billing.toJSON() : <any>undefined;
@@ -26301,7 +25267,6 @@ export interface ITenantSettingsEditDto {
     general: GeneralSettingsEditDto;
     userManagement: TenantUserManagementSettingsEditDto;
     email: EmailSettingsEditDto;
-    ldap: LdapSettingsEditDto;
     /** 安全设置 */
     security: SecuritySettingsEditDto;
     /** 第三方登陆 */
@@ -26355,69 +25320,6 @@ export interface ITenantUserManagementSettingsEditDto {
     isNewRegisteredUserActiveByDefault: boolean;
     isEmailConfirmationRequiredForLogin: boolean;
     useCaptchaOnRegistration: boolean;
-}
-
-/** LADP（活动目录）设置 */
-export class LdapSettingsEditDto implements ILdapSettingsEditDto {
-    /** 模块是否可用(.net core 1.1 不可用) */
-    isModuleEnabled: boolean;
-    /** 启用 */
-    isEnabled: boolean;
-    /** 域名 */
-    domain: string;
-    /** 用户名 */
-    userName: string;
-    /** 密码 */
-    password: string;
-
-    constructor(data?: ILdapSettingsEditDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.isModuleEnabled = data["isModuleEnabled"];
-            this.isEnabled = data["isEnabled"];
-            this.domain = data["domain"];
-            this.userName = data["userName"];
-            this.password = data["password"];
-        }
-    }
-
-    static fromJS(data: any): LdapSettingsEditDto {
-        let result = new LdapSettingsEditDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["isModuleEnabled"] = this.isModuleEnabled;
-        data["isEnabled"] = this.isEnabled;
-        data["domain"] = this.domain;
-        data["userName"] = this.userName;
-        data["password"] = this.password;
-        return data; 
-    }
-}
-
-/** LADP（活动目录）设置 */
-export interface ILdapSettingsEditDto {
-    /** 模块是否可用(.net core 1.1 不可用) */
-    isModuleEnabled: boolean;
-    /** 启用 */
-    isEnabled: boolean;
-    /** 域名 */
-    domain: string;
-    /** 用户名 */
-    userName: string;
-    /** 密码 */
-    password: string;
 }
 
 export class TenantBillingSettingsEditDto implements ITenantBillingSettingsEditDto {
@@ -27325,11 +26227,11 @@ export class UserListDto implements IUserListDto {
     /** 角色 */
     roles: UserListRoleDto[];
     /** 最后登陆时间 */
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     /** 是否已激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IUserListDto) {
@@ -27408,11 +26310,11 @@ export interface IUserListDto {
     /** 角色 */
     roles: UserListRoleDto[];
     /** 最后登陆时间 */
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     /** 是否已激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -27769,9 +26671,9 @@ export class ExternalUserLoginDto implements IExternalUserLoginDto {
     /** 刷新凭证 */
     refreshToken: string;
     /** 调用凭证过期时间 */
-    accessTokenOutDataTime: Moment;
+    accessTokenOutDataTime: moment.Moment;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 
     constructor(data?: IExternalUserLoginDto) {
         if (data) {
@@ -27829,9 +26731,9 @@ export interface IExternalUserLoginDto {
     /** 刷新凭证 */
     refreshToken: string;
     /** 调用凭证过期时间 */
-    accessTokenOutDataTime: Moment;
+    accessTokenOutDataTime: moment.Moment;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 }
 
 export class UpdateUserPermissionsInput implements IUpdateUserPermissionsInput {
@@ -28063,7 +26965,7 @@ export class LinkedUserDto implements ILinkedUserDto {
     tenantId: number;
     tenancyName: string;
     username: string;
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     id: number;
 
     constructor(data?: ILinkedUserDto) {
@@ -28107,7 +27009,7 @@ export interface ILinkedUserDto {
     tenantId: number;
     tenancyName: string;
     username: string;
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     id: number;
 }
 
@@ -28255,7 +27157,7 @@ export class UserLoginAttemptDto implements IUserLoginAttemptDto {
     /** 结果 */
     result: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 
     constructor(data?: IUserLoginAttemptDto) {
         if (data) {
@@ -28312,7 +27214,7 @@ export interface IUserLoginAttemptDto {
     /** 结果 */
     result: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 }
 
 export class GetLatestWebLogsOutput implements IGetLatestWebLogsOutput {
@@ -28526,41 +27428,6 @@ export enum BookingShareRecordInputTarget {
     _30 = 30, 
     _40 = 40, 
     _50 = 50, 
-}
-
-export enum FriendDtoState {
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum ChatMessageDtoSide {
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum ChatMessageDtoReadState {
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum ChatMessageDtoReceiverReadState {
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum ChatMessageSide {
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum ChatMessageReadState {
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum ChatMessageReceiverReadState {
-    _1 = 1, 
-    _2 = 2, 
 }
 
 export class AdditionalData implements IAdditionalData {

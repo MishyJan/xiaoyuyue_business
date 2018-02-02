@@ -20,21 +20,21 @@
                         <div class="choose-item time-limit-item" [ngClass]="{'active': selectTimeIndex === 1}" (click)="selectTimeHandle(1)">
                             <img src="/assets/common/images/choose.png" width="60px" alt="choose" class="choose-img">
                             <p class="time">1年</p>
-                            <span class="price">￥1999</span>
+                            <span class="price">￥{{edition.annualPrice}}</span>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="choose-item time-limit-item" [ngClass]="{'active': selectTimeIndex === 2}" (click)="selectTimeHandle(2)">
                             <img src="/assets/common/images/choose.png" width="60px" alt="choose" class="choose-img">
                             <p class="time">3个月</p>
-                            <span class="price">￥550</span>
+                            <span class="price">￥{{edition.seasonPrice}}</span>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="choose-item time-limit-item" [ngClass]="{'active': selectTimeIndex === 3}" (click)="selectTimeHandle(3)">
                             <img src="/assets/common/images/choose.png" width="60px" alt="choose" class="choose-img">
                             <p class="time">1个月</p>
-                            <span class="price">￥200</span>
+                            <span class="price">￥{{edition.monthlyPrice}}</span>
                         </div>
                     </div>
                 </div>
@@ -43,15 +43,21 @@
                 <div class="pay-ways content-item row">
                     <p class="col-lg-12">支付方式</p>
                     <div class="col-lg-4">
-                        <p><img src="/assets/common/images/qr-code.png" width="130px" alt=""></p>
-                        <p><span class="vapps-icon-app-wechat-pay"></span> 微信支付</p>
+                        <div class="qr-code-wrap" *ngIf="wechatQrcodeContent">
+                            <qr-code [value]="wechatQrcodeContent" [size]="130"></qr-code>
+                        </div>
+                        <p>微信支付</p>
                     </div>
                     <div class="col-lg-4">
-                            <p><img src="/assets/common/images/qr-code.png" width="130px" alt=""></p>
-                            <p><span class="vapps-icon-app-alipay"></span> 支付宝支付</p>
+                        <p>
+                            <img src="/assets/common/images/qr-code.png" width="130px" alt="">
+                        </p>
+                        <p>支付宝支付</p>
                     </div>
                     <div class="col-lg-4">
-                        <p>支付金额：<span>1999元</span></p>
+                        <p>支付金额：
+                            <span>1999元</span>
+                        </p>
                         <p>扫码支付，轻松快捷</p>
                     </div>
                 </div>
