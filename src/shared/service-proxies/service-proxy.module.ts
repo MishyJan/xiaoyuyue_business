@@ -26,7 +26,9 @@ import { NgModule } from '@angular/core';
         ApiServiceProxies.StateServiceServiceProxy,
         ApiServiceProxies.SMSServiceProxy,
         ApiServiceProxies.BookingRecordServiceProxy,
-        ApiServiceProxies.WeChatJSServiceProxy
+        ApiServiceProxies.WeChatJSServiceProxy,
+        ApiServiceProxies.EditionViewServiceProxy,
+        ApiServiceProxies.PaymentServiceProxy
     ]
 })
 export class ServiceProxyModule { }

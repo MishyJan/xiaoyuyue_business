@@ -9,9 +9,9 @@ import { AppConsts } from 'shared/AppConsts';
 import { AppGridData } from '@shared/grid-data-results/grid-data-results';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { BookingOrderStatus } from 'shared/AppEnums';
 import { ModalDirective } from 'ngx-bootstrap';
 import { Moment } from 'moment';
-import { BookingOrderStatus } from 'shared/AppEnums';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
@@ -39,7 +39,6 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     @Output() isShowModelHander: EventEmitter<boolean> = new EventEmitter();
     @ViewChild('confirmOrderModel') modal: ModalDirective;
     @ViewChild('buttonInnerSpan') _buttonInnerSpan: ElementRef;
-
 
     constructor(
         injector: Injector,

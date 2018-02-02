@@ -37,6 +37,7 @@ export class QrCodeComponent extends AppComponentBase implements OnInit, AfterVi
   }
 
   ngOnChanges(changes) {
+    debugger
     if ('value' in changes ||
       'size' in changes) {
       this.generate();
