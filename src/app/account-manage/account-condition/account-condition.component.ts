@@ -3,6 +3,9 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { accountModuleAnimation } from 'shared/animations/routerTransition';
+import { PaymentServiceProxy } from 'shared/service-proxies/service-proxies';
+import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 
 @Component({
     selector: 'xiaoyuyue-account-condition',
@@ -12,15 +15,44 @@ import { accountModuleAnimation } from 'shared/animations/routerTransition';
 })
 export class AccountConditionComponent extends AppComponentBase implements OnInit {
     gridParam: BaseGridDataInputDto
+    paymentHistoryData = new AppGridData();
     constructor(
         private injector: Injector,
         private _sessionService: AppSessionService,
+        private _paymentService: PaymentServiceProxy
     ) {
         super(injector);
         this.gridParam = new BaseGridDataInputDto(this._sessionService);
     }
 
     ngOnInit() {
+        this.loadPaymentHistoryData();
     }
 
+    // 获取历史账单
+    loadPaymentHistoryData(): void {
+        const loadData = () => {
+            return this._paymentService
+                .getPaymentHistory(
+                this.gridParam.GetSortingString(),
+                this.gridParam.MaxResultCount,
+                this.gridParam.SkipCount);
+        };
+
+        this.paymentHistoryData.query(loadData, false, () => {
+        });
+    }
+
+    // 切换页码
+    public pageChange(event: PageChangeEvent): void {
+        this.gridParam.CurrentPage = (this.gridParam.SkipCount + this.gridParam.MaxResultCount) / this.gridParam.MaxResultCount;
+        this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
+    }
+
+    public dataStateChange({ skip, take, sort }: DataStateChangeEvent): void {
+        this.gridParam.SkipCount = skip;
+        this.gridParam.MaxResultCount = take;
+        this.gridParam.Sorting = sort;
+        this.loadPaymentHistoryData();
+    }
 }

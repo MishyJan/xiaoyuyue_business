@@ -76,45 +76,45 @@
                             <h6 class="card-title">历史账单</h6>
                         </div>
                         <div class="card-content no-padding">
-                                <kendo-grid [data]="customerListData | async" [pageSize]="gridParam.MaxResultCount"
-                                [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting" [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
+                            <kendo-grid [data]="paymentHistoryData | async" [pageSize]="gridParam.MaxResultCount" [skip]="gridParam.SkipCount" [sort]="gridParam.Sorting"
+                                [pageable]=" { buttonCount: gridParam.ButtonCount, info: gridParam.Info, type: gridParam.Type, pageSizes: gridParam.PageSizes, previousNext: gridParam.PreviousNext }"
                                 [sortable]="false" (dataStateChange)="dataStateChange($event)" [scrollable]="'none'" (pageChange)="pageChange($event)">
                                 <kendo-grid-messages noRecords="{{l('NoDataAvailable')}}" pagerItemsPerPage="{{l('ItemsPerPage')}}" pagerOf="{{l('PagerOf')}}"
                                     pagerItems="{{l('Items')}}" pagerNextPage="{{l('NextPage')}}" pagerPreviousPage="{{l('PreviousPage')}}"
                                     pagerFirstPage="{{l('FirstPage')}}" pagerLastPage="{{l('LastPage')}}"></kendo-grid-messages>
-    
+
                                 <!-- 日期  -->
                                 <kendo-grid-column title="日期">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span></span>
+                                        <span>{{ d(dataItem.creationTime) }}</span>
                                     </ng-template>
                                 </kendo-grid-column>
-    
+
                                 <!-- 商品 -->
                                 <kendo-grid-column title="商品">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span></span>
+                                        <span>{{ dataItem.editionDisplayName }}</span>
                                     </ng-template>
                                 </kendo-grid-column>
-    
-                                <!-- 单号 -->
-                                <kendo-grid-column title="单号">
+
+                                <!-- 金额 -->
+                                <kendo-grid-column title="金额">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span></span>
+                                        <span>{{ dataItem.amount }}</span>
                                     </ng-template>
                                 </kendo-grid-column>
-    
-                                <!-- 统计 -->
-                                <kendo-grid-column title="统计">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span></span>
-                                    </ng-template>
-                                </kendo-grid-column>
-    
+
                                 <!-- 支付方式 -->
                                 <kendo-grid-column title="支付方式">
                                     <ng-template kendoGridCellTemplate let-dataItem>
-                                        <span></span>
+                                        <span>{{ dataItem.gateway }}</span>
+                                    </ng-template>
+                                </kendo-grid-column>
+
+                                <!-- 单号 -->
+                                <kendo-grid-column title="单号">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <span>{{ dataItem.paymentId }}</span>
                                     </ng-template>
                                 </kendo-grid-column>
                             </kendo-grid>
