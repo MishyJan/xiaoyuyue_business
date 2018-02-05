@@ -1,9 +1,9 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, AfterViewInit } from '@angular/core';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { accountModuleAnimation } from 'shared/animations/routerTransition';
-import { PaymentServiceProxy } from 'shared/service-proxies/service-proxies';
+import { PaymentServiceProxy, SubscriptionPaymentListDto } from 'shared/service-proxies/service-proxies';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 
@@ -13,7 +13,9 @@ import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-g
     styleUrls: ['./account-condition.component.scss'],
     animations: [accountModuleAnimation()]
 })
-export class AccountConditionComponent extends AppComponentBase implements OnInit {
+export class AccountConditionComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    mobilePaymentHistoryData: SubscriptionPaymentListDto[];
+    showConditionContent = false;
     gridParam: BaseGridDataInputDto
     paymentHistoryData = new AppGridData();
     constructor(
@@ -26,7 +28,10 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     }
 
     ngOnInit() {
-        this.loadPaymentHistoryData();
+    }
+
+    ngAfterViewInit() {
+        this.isMobile($('.mobile-account-condition')) ? this.mobileLoadPaymentHistoryData() : this.loadPaymentHistoryData();
     }
 
     // 获取历史账单
@@ -54,5 +59,21 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         this.gridParam.MaxResultCount = take;
         this.gridParam.Sorting = sort;
         this.loadPaymentHistoryData();
+    }
+
+    /* 移动端代码 */
+    mobileLoadPaymentHistoryData(): void {
+        this._paymentService
+            .getPaymentHistory(
+            this.gridParam.GetSortingString(),
+            this.gridParam.MaxResultCount,
+            this.gridParam.SkipCount)
+            .subscribe( result => {
+                this.mobilePaymentHistoryData = result.items;
+            })
+    }
+
+    isShowConditionContent(): void {
+        this.showConditionContent = !this.showConditionContent;
     }
 }

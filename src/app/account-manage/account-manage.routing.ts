@@ -18,14 +18,9 @@ import { AccountConditionComponent } from 'app/account-manage/account-condition/
                     },
                     {
                         path: 'condition',
-                        component: AccountConditionComponent,
-                        data: { breadcrumb: '账户概况' }
+                        loadChildren: 'app/account-manage/account-condition/account-condition.module#AccountConditionModule', // Lazy load main module
+                        data: { preload: true }
                     },
-                    // {
-                    //     path: 'edition',
-                    //     component: AccountEditionComponent,
-                    //     data: { breadcrumb: '账户版本' }
-                    // }
                 ]
             }
         ])

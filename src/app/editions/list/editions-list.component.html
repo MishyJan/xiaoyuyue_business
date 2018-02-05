@@ -1,4 +1,4 @@
-<div class="account-edition" [@routerTransition]>
+<div class="account-edition" [@routerTransition] *hideItBootstrap="[ 'xs', 'sm']">
     <form #createBookingForm="ngForm">
         <div class="row margin-bottom-5">
             <div class="col-xs-6">
@@ -36,4 +36,51 @@
     </form>
 </div>
 
+<div class="mobile-account-edition">
+    <div *showItBootstrap="[ 'xs', 'sm']">
+        <tabset class="tabset" #staticTabs>
+            <tab heading="免费版">
+                <div class="card">
+                    <div class="content-item">
+                        <div class="top-wrap clearfix">
+                            <div class="title pull-left">高级版</div>
+                            <div class="icon pull-right"></div>
+                        </div>
+                        <div class="content">
+                            <div class="content-row">￥0/年</div>
+                            <div class="content-row">单一账户，无子账户</div>
+                            <div class="content-row">可创建3家门店</div>
+                            <div class="content-row">4单预约/月</div>
+                            <div class="content-row">可导出应约人列表(仅图片)</div>
+                            <div class="content-row">首页呈现5项数据</div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+            <tab heading="高级版">
+                <div class="card">
+                    <div class="content-item">
+                        <div class="top-wrap clearfix">
+                            <div class="title pull-left">高级版</div>
+                            <div class="icon pull-right"><button class="btn btn-xs primary-bgcolor">开通</button></div>
+                        </div>
+                        <div class="content">
+                                <div class="content-row">￥1999/年</div>
+                                <div class="content-row">1主账号，5子账号</div>
+                                <div class="content-row">可创建10家门店</div>
+                                <div class="content-row">50单预约/月</div>
+                                <div class="content-row">可导出应约人列表(图片、PDF等)</div>
+                                <div class="content-row">首页呈现10项数据</div>
+                                <div class="content-row">应约界面免广告</div>
+                                <div class="content-row">短信服务9折优惠</div>
+                                <div class="content-row">专人服务</div>
+                                <div class="content-row">地图服务</div>
+                                <div class="content-row">签到页植入门店广告</div>
+                            </div>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>
 <xiaoyuyue-to-pay-model #toPayModel></xiaoyuyue-to-pay-model>

@@ -1,32 +1,117 @@
-.account-condition {
-    .flex {
-        display: flex;
-    }
-    .account-info {
-        .left-flex {
-            width: 120px;
-            flex: 0 0 120px;
-        }
-        .right-flex {
-            flex: 1;
-            .to-pay {
-                border: 1px solid #FF9641;
-                color: #FF9641;
-                border-radius: 24px;
-                padding: 3px 8px;
-                margin: -2px 0;
-            }
-        }
-    }
-    .edition-info {
+    .account-condition {
         .flex {
             display: flex;
-            flex-flow: row wrap;
-            align-content: flex-start;
-            .flex-item {
-                line-height: 36px;
-                flex: 0 0 33.333%;
+        }
+        .account-info {
+            .left-flex {
+                width: 120px;
+                flex: 0 0 120px;
+            }
+            .right-flex {
+                flex: 1;
+                .to-pay {
+                    border: 1px solid #FF9641;
+                    color: #FF9641;
+                    border-radius: 24px;
+                    padding: 3px 8px;
+                    margin: -2px 0;
+                }
+            }
+        }
+        .edition-info {
+            .flex {
+                display: flex;
+                flex-flow: row wrap;
+                align-content: flex-start;
+                .flex-item {
+                    line-height: 36px;
+                    flex: 0 0 33.333%;
+                }
             }
         }
     }
-}
+
+    .mobile-account-condition {
+        .account-condition-menu {
+            .card-wrap {
+                float: left;
+                position: relative;
+                padding: 10px;
+                .card {
+                    margin: 0;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    .item {
+                        display: inline-block;
+                        width: 100%;
+                        height: 100%;
+                        background: #FFF;
+                        font-size: 34px;
+                        &:before {
+                            content: "";
+                            display: inline-block;
+                            padding-bottom: 100%;
+                            width: .1px;
+                            vertical-align: middle;
+                        }
+                        .content {
+                            position: absolute;
+                            width: 100%;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            text-align: center;
+                            .icon {
+                                color: #FF9641;
+                            }
+                            .text {
+                                font-size: 14px;
+                                margin-top: 14px;
+                                margin-bottom: 0;
+                                color: #666;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .account-condition-content {
+            padding: 10px;
+            .card {
+                margin: 10px 0 0;
+                .content-item+.content-item {
+                    margin-top: 10px;
+                }
+                .content-item {
+                    padding: 10px;
+                    .top-wrap {
+                        padding-bottom: 10px;
+                        border-bottom: 1px solid #E5E5E5;
+                        .title {
+                            color: #FF9641;
+                            font-size: 16px;
+                        }
+                        .icon {
+                            .btn {
+                                margin: 0;
+                                padding: 2px 10px;
+                            }
+                        }
+                    }
+                    .content {
+                        position: relative;
+                        padding-top: 10px;
+                        .content-row {
+                            padding: 4px 0;
+                            .name {
+                                margin-right: 10px;
+                            }
+                            .desc {
+                                color: #FF9641;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }

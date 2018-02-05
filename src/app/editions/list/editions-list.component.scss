@@ -19,3 +19,43 @@
         line-height: 60px;
     }
 }
+
+.mobile-account-edition {
+    padding: 10px;
+    .card {
+        margin: 10px 0 0;
+        .content-item+.content-item {
+            margin-top: 10px;
+        }
+        .content-item {
+            padding: 10px;
+            .top-wrap {
+                padding-bottom: 10px;
+                border-bottom: 1px solid #E5E5E5;
+                .title {
+                    color: #FF9641;
+                    font-size: 16px;
+                }
+                .icon {
+                    .btn {
+                        margin: 0;
+                        padding: 2px 10px;
+                    }
+                }
+            }
+            .content {
+                position: relative;
+                padding-top: 10px;
+                .content-row {
+                    padding: 4px 0;
+                    .name {
+                        margin-right: 10px;
+                    }
+                    .desc {
+                        color: #FF9641;
+                    }
+                }
+            }
+        }
+    }
+}
