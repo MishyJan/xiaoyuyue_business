@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Injector, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -11,9 +11,11 @@ import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-g
     selector: 'xiaoyuyue-account-condition',
     templateUrl: './account-condition.component.html',
     styleUrls: ['./account-condition.component.scss'],
-    animations: [accountModuleAnimation()]
+    animations: [accountModuleAnimation()],
+    encapsulation: ViewEncapsulation.None
 })
 export class AccountConditionComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    isShowPaymentHistory = false;
     mobilePaymentHistoryData: SubscriptionPaymentListDto[];
     showConditionContent = false;
     gridParam: BaseGridDataInputDto
@@ -68,12 +70,17 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
             this.gridParam.GetSortingString(),
             this.gridParam.MaxResultCount,
             this.gridParam.SkipCount)
-            .subscribe( result => {
+            .subscribe(result => {
                 this.mobilePaymentHistoryData = result.items;
             })
     }
 
     isShowConditionContent(): void {
         this.showConditionContent = !this.showConditionContent;
+    }
+
+    // 由于tabset导致初始化better-scroll失效，尝试把历史账单DOM结构移除tabset，点击后显示DOM
+    selectPaymentHistory(toggle: boolean): void {
+        this.isShowPaymentHistory = toggle;
     }
 }

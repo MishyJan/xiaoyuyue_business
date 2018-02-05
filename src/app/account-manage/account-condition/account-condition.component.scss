@@ -77,6 +77,28 @@
         }
         .account-condition-content {
             padding: 10px;
+            .account-info-wrap {
+                width: 100%;
+                height: calc(100vh - 125px);
+                position: absolute;
+                top: 125px;
+                left: 0;
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+                .content {
+                    padding: 0 10px 10px;
+                }
+            }
+            .payment-history-wrap {
+                width: 100%;
+                height: calc(100vh - 125px);
+                position: absolute;
+                top: 125px;
+                left: 0;
+                .scroll-content {
+                    padding: 0 10px 10px;
+                }
+            }
             .card {
                 margin: 10px 0 0;
                 .content-item+.content-item {
