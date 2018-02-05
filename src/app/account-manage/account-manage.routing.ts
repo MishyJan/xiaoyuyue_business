@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
 import { AccountConditionComponent } from 'app/account-manage/account-condition/account-condition.component';
-import { AccountEditionComponent } from 'app/account-manage/account-edition/account-edition.component';
 
 
 @NgModule({
@@ -22,11 +21,11 @@ import { AccountEditionComponent } from 'app/account-manage/account-edition/acco
                         component: AccountConditionComponent,
                         data: { breadcrumb: '账户概况' }
                     },
-                    {
-                        path: 'edition',
-                        component: AccountEditionComponent,
-                        data: { breadcrumb: '账户版本' }
-                    }
+                    // {
+                    //     path: 'edition',
+                    //     component: AccountEditionComponent,
+                    //     data: { breadcrumb: '账户版本' }
+                    // }
                 ]
             }
         ])

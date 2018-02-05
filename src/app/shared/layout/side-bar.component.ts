@@ -29,7 +29,7 @@ export class SideBarComponent extends AppComponentBase {
         new SideBarMenuItem('账户管理', this.permissions.organization, 'vapps-icon-app-account-manage-menu menu-item', '', [
             new SideBarMenuItem('账户安全', this.permissions.organization_BaseInfo, '', '/account/settings'),
             new SideBarMenuItem('账户概况', this.permissions.organization_BaseInfo, '', '/account/condition'),
-            new SideBarMenuItem('账户版本', this.permissions.organization_BaseInfo, '', '/account/edition')
+            new SideBarMenuItem('账户版本', this.permissions.organization_BaseInfo, '', '/editions/list')
         ])
     ]);
 

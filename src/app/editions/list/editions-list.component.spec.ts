@@ -2,22 +2,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { EditionsListComponent } from 'app/editions/list/editions-list.component';
 
-import { AccountEditionComponent } from './account-edition.component';
 
-describe('AccountEditionComponent', () => {
-  let component: AccountEditionComponent;
-  let fixture: ComponentFixture<AccountEditionComponent>;
+describe('EditionsListComponent', () => {
+  let component: EditionsListComponent;
+  let fixture: ComponentFixture<EditionsListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountEditionComponent ]
+      declarations: [ EditionsListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccountEditionComponent);
+    fixture = TestBed.createComponent(EditionsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

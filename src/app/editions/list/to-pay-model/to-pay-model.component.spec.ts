@@ -2,7 +2,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { ToPayModelComponent } from 'app/account-manage/account-edition/to-pay-model/to-pay-model.component';
+import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
 
 
 describe('ToPayModelComponent', () => {

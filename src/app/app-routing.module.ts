@@ -30,6 +30,11 @@ import { CookiesService } from 'shared/services/cookies.service';
                         data: { preload: true }
                     },
                     {
+                        path: 'editions',
+                        loadChildren: 'app/editions/editions.module#EditionsModule', // Lazy load main module
+                        data: { preload: true }
+                    },
+                    {
                         path: 'notifications',
                         loadChildren: 'app/notifications/notifications.module#NotificationsModule', // Lazy load main module
                         data: { preload: true }

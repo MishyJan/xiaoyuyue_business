@@ -2,17 +2,17 @@ import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 
 import { AccountEditionBuild } from 'app/shared/utils/account-edition';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { ToPayModelComponent } from 'app/account-manage/account-edition/to-pay-model/to-pay-model.component';
 import { accountModuleAnimation } from 'shared/animations/routerTransition';
 import { EditionSubscriptionServiceProxy, EditionsSelectOutput, EditionWithFeaturesDto, FlatFeatureSelectDto } from 'shared/service-proxies/service-proxies';
+import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
 
 @Component({
-    selector: 'xiaoyuyue-account-edition',
-    templateUrl: './account-edition.component.html',
-    styleUrls: ['./account-edition.component.scss'],
+    selector: 'xiaoyuyue-editions-list',
+    templateUrl: './editions-list.component.html',
+    styleUrls: ['./editions-list.component.scss'],
     animations: [accountModuleAnimation()]
 })
-export class AccountEditionComponent extends AppComponentBase implements OnInit {
+export class EditionsListComponent extends AppComponentBase implements OnInit {
     allFeatures: FlatFeatureSelectDto[];
     tenantEditionId: number;
     editionsWithFeatures: EditionWithFeaturesDto[];
