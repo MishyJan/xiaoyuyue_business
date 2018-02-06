@@ -4,8 +4,12 @@
         }
         .account-info {
             .left-flex {
-                width: 120px;
-                flex: 0 0 120px;
+                width: 64px;
+                flex: 0 0 64px;
+                margin-right: 24px;
+                .item {
+                    text-align-last: justify;
+                }
             }
             .right-flex {
                 flex: 1;
@@ -125,7 +129,17 @@
                         padding-top: 10px;
                         .content-row {
                             padding: 4px 0;
+                            .to-pay {
+                                border: 1px solid #FF9641;
+                                color: #FF9641;
+                                border-radius: 24px;
+                                padding: 3px 8px;
+                                margin: -2px 0;
+                            }
                             .name {
+                                width: 64px;
+                                display: inline-block;
+                                text-align-last: justify;
                                 margin-right: 10px;
                             }
                             .desc {

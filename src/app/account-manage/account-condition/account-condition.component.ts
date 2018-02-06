@@ -19,6 +19,7 @@ import { GetCurrentFeatures } from 'shared/AppConsts';
     encapsulation: ViewEncapsulation.None
 })
 export class AccountConditionComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    isHighestEdition: boolean;
     currentEditions: EditionWithFeaturesDto;
     allFeatures: FlatFeatureSelectDto[];
     accountInfo: AccountInfo = new AccountInfo();
@@ -38,6 +39,7 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     }
 
     ngOnInit() {
+        this.isHighestEdition = this._sessionService.tenant.edition.isHighestEdition;
         this.getAccountInfo();
         this.getCurrentEditions();
     }
