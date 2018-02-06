@@ -39,8 +39,8 @@
                                         <p>{{ accountInfo.editionTimeLimit }}
                                             <button class="btn light-bgcolor to-pay pull-right">{{ accountInfo.paysTypeDisplayName }}</button>
                                         </p>
-                                        <p>1/3</p>
-                                        <p>4/4</p>
+                                        <p>{{ accountInfo.subCreatedBookingCount }} / {{ accountInfo.maxOutletCount }}</p>
+                                        <p>{{ accountInfo.subCreatedOutletCount }} / {{ accountInfo.maxBookingCount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -54,10 +54,12 @@
                             <div class="card-header card-header-text" data-background-color="orange">
                                 <h6 class="card-title">版本信息</h6>
                             </div>
-                            <div class="card-content edition-info">
+                            <div class="card-content edition-info" *ngIf="currentEditions">
                                 <div class="content-head"></div>
                                 <div class="flex">
-                                    <div class="flex-item" *ngFor="let edition of currentEditions.featureValues">{{  getEditionDisplayName(edition.name) }}</div>
+                                    <div class="flex-item"
+                                    [hidden] = "edition.name === 'App.MaxUserCount' || edition.value === 'false'"
+                                    *ngFor="let edition of currentEditions.featureValues">{{ getEditionDisplayName(edition.name) }}</div>
                                 </div>
                             </div>
                         </div>

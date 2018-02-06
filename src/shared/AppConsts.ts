@@ -80,3 +80,7 @@ export class SMSProviderDto {
 export class InitLanguage {
     static all = ['zh-CN', 'zh-HK'];
 }
+
+export class GetCurrentFeatures {
+    static AllFeatures: any;
+}

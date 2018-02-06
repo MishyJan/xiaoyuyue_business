@@ -9,6 +9,7 @@ import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-g
 import { AccountInfo } from 'app/shared/utils/account-info';
 import { Moment } from 'moment';
 import { PaysType } from 'shared/AppEnums';
+import { GetCurrentFeatures } from 'shared/AppConsts';
 
 @Component({
     selector: 'xiaoyuyue-account-condition',
@@ -64,7 +65,6 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         this._editionSubscriptionService
             .getCurrentEdition()
             .subscribe(result => {
-                console.log(result);
                 this.allFeatures = result.allFeatures;
                 this.currentEditions = result.editionWithFeatures;
             })
@@ -74,6 +74,14 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     getEditionDisplayName(name: string): string {
         let displayName = '';
         this.allFeatures.forEach((element: FlatFeatureSelectDto) => {
+            if (name === 'App.MaxBookingCount') {
+                displayName = element.displayName + GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value + '个';
+                return;
+            }
+            if (name === 'App.MaxOutletCount') {
+                displayName = element.displayName + GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value + '个';
+                return;
+            }
             if (element.name === name) {
                 displayName = element.displayName;
                 return;
@@ -88,6 +96,11 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         this.accountInfo.editionId = this._sessionService.tenant.edition.id;
         this.accountInfo.editionDisplayName = this._sessionService.tenant.edition.displayName;
         this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this._sessionService.tenant.subscriptionEndDateUtc)
+        this.accountInfo.subCreatedBookingCount = this._sessionService.tenant.bookingNum;
+        this.accountInfo.subCreatedOutletCount = this._sessionService.tenant.outletNum;
+        this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
+        this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
+        console.log(this.accountInfo);
     }
 
     /*

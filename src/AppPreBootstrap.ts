@@ -3,7 +3,7 @@
 import { CompilerOptions, NgModuleRef, Type } from '@angular/core';
 
 import { AppConfig } from 'shared/AppConfig';
-import { AppConsts } from '@shared/AppConsts';
+import { AppConsts, GetCurrentFeatures } from '@shared/AppConsts';
 import { CookiesService } from 'shared/services/cookies.service';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
@@ -120,6 +120,7 @@ export class AppPreBootstrap {
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
+            GetCurrentFeatures.AllFeatures = result.features.allFeatures;
             $.extend(true, abp, result);
 
             abp.clock.provider = this.getCurrentClockProvider(result.clock.provider);

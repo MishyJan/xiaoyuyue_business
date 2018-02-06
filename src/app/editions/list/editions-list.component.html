@@ -17,14 +17,13 @@
 
         <div class="row">
             <div class="col-lg-4" *ngFor="let edition of editionsWithFeatures">
-                <!-- 专业版 -->
                 <div class="card">
                     <div class="form-horizontal">
                         <div class="xiaoyuyue-title-box">{{ edition.edition.displayName }}</div>
                         <div class="card-content">
                             <div class="edition-content">
                                 <div class="edition-item" *ngFor="let editionContent of edition.featureValues">
-                                    <div class="content" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent.name) }}</div>
+                                    <div class="content" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent) }}</div>
                                 </div>
                             </div>
                             <div class="btn-wrap" (click)="showToPayModel(edition.edition.id)" *ngIf="edition.edition.id >= tenantEditionId">
@@ -46,7 +45,7 @@
                 <div class="card">
                     <div class="content-item">
                         <div class="top-wrap clearfix">
-                            <div class="title pull-left">高级版</div>
+                            <div class="title pull-left">免费版</div>
                             <div class="icon pull-right"></div>
                         </div>
                         <div class="content">
