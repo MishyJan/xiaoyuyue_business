@@ -8,6 +8,10 @@ import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelpe
 import { Moment } from 'moment';
 import { NavigationEnd } from '@angular/router';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
+import { AccountInfo } from 'app/shared/utils/account-info';
+import { PaysType } from 'shared/AppEnums';
+import { GetCurrentFeatures } from 'shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -15,6 +19,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleSlowAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    accountInfo: AccountInfo = new AccountInfo();
     defaultTenantBgUrl = 'assets/common/images/booking/center-bg.jpg';
     defaultTenantLogoUrl = 'assets/common/images/logo.jpg';
     currentlyBookingData: CurrentlyBookingDataDto[] = [];
@@ -30,14 +35,15 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     constructor(
         injector: Injector,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
+        private _sessionService: AppSessionService,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
         super(injector);
     }
 
     ngOnInit() {
+        this.getAccountInfo();
         this.getMapScript();
-
         this.dateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
         // 为移动端单独保存昨日的时间，和PC端不共用一个变量
         this.mobileDateSelected = moment().local().subtract(1, 'days').format('YYYY-MM-DD');
@@ -215,5 +221,36 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         bodyEle.append(echartScript);
         bodyEle.append(echartChinaScript);
         bodyEle.append(echartShineScript);
+    }
+
+    // 获取账户信息
+    getAccountInfo(): void {
+        this.accountInfo.tenantName = this._sessionService.tenant.tenancyName;
+        this.accountInfo.editionId = this._sessionService.tenant.edition.id;
+        this.accountInfo.editionDisplayName = this._sessionService.tenant.edition.displayName;
+        this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this._sessionService.tenant.subscriptionEndDateUtc)
+        this.accountInfo.subCreatedBookingCount = this._sessionService.tenant.bookingNum;
+        this.accountInfo.subCreatedOutletCount = this._sessionService.tenant.outletNum;
+        this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
+        this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
+    }
+
+    /*
+        判断版本到期时间是否有效
+        @return string
+        有效返回时间字符串，否则返回免费版的"永久有效"
+    */
+    private editionTimeLimitIsValid(editionTimeLimit: Moment): string {
+        let timeLimitName: string;
+        if (editionTimeLimit) {
+            timeLimitName = this.d(editionTimeLimit);
+            this.accountInfo.paysTypeDisplayName = '续费会员';
+            this.accountInfo.paysType = PaysType.RenewalsMembership;
+        } else {
+            timeLimitName = '永久有效';
+            this.accountInfo.paysTypeDisplayName = '开通会员';
+            this.accountInfo.paysType = PaysType.JoinMembership;
+        }
+        return timeLimitName;
     }
 }

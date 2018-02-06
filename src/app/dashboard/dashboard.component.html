@@ -22,24 +22,24 @@
             <div class="col-md-12 row no-right-padding">
                 <div class="left-content col-md-3">
                     <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
-                        <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getTenantLogoUrl() + ')'}">
-                            <!-- <img [src]="tenantBaseInfoData.logoUrl" width="100%" alt="logo"> -->
-                        </div>
+                        <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getTenantLogoUrl() + ')'}"></div>
                         <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
-                        <!-- <div class="edition-info clearfix">
-                        <span class="col-md-4 edition-name">专业版</span>
-                        <span class="col-md-8 edition-time">2018-01-01 <span>到期</span></span>
-                    </div>
-                    <div class="booking-amount row">
-                        <div class="booked-num col-md-6">
-                            <p>已用预约数</p>
-                            <p>20</p>
+                        <div class="edition-info clearfix">
+                            <span class="col-md-6 edition-name">{{ accountInfo.editionDisplayName }}</span>
+                            <span class="col-md-6 edition-time">{{ accountInfo.editionTimeLimit }}</span>
                         </div>
-                        <div class="not-booked-num col-md-6">
-                            <p>可用预约数</p>
-                            <p>20</p>
+                        <div class="booking-amount col-md-12">
+                            <div class="clearfix" style="border-top: 1px solid #CCC;padding: 10px 0;">
+                                <div class="col-md-6">
+                                    <p class="desc">已用预约数</p>
+                                    <p class="num" style="color:#E32600;">{{ accountInfo.subCreatedBookingCount }}</p>
+                                </div>
+                                <div class="col-md-6" style="border-left: 1px solid #CCC;">
+                                    <p class="desc">可用预约数</p>
+                                    <p class="num" style="color:#02AFF3;">{{ accountInfo.maxBookingCount - accountInfo.subCreatedBookingCount }}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
                     </div>
 
                     <div class="org-data box-shadow content-item clearfix" *ngIf="dataStatistics">

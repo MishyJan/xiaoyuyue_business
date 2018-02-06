@@ -24,10 +24,6 @@
             color: #fff;
         }
     }
-    p {
-        margin: 24px 0;
-        font-weight: 400px;
-    }
     .content {
         padding-top: 5px;
         .left-content {
@@ -66,8 +62,11 @@
                         color: #FF9641;
                     }
                 }
-                .booked-amount {
-                    border-top: 1px solid #CCC;
+                .booking-amount {
+                    margin-top: 30px;
+                    p {
+                        margin: 0;
+                    }
                 }
             }
             .org-data {
@@ -75,6 +74,10 @@
                 background-color: #FFF;
                 text-align: center;
                 padding: 15px;
+                p {
+                    margin: 24px 0;
+                    font-weight: 400;
+                }
                 .item:nth-of-type(odd) {
                     border-right: 1px solid #CCC;
                 }
