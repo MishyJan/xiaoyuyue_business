@@ -39,7 +39,6 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
         this._editionSubscriptionService
             .getEditionsForSelect()
             .subscribe((result: EditionsSelectOutput) => {
-                console.log(result);
                 this.allFeatures = result.allFeatures;
                 this.editionsWithFeatures = result.editionsWithFeatures;
                 this.tenantEditionId = result.tenantEditionId;

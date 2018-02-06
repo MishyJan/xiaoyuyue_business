@@ -2275,6 +2275,53 @@ export class EditionSubscriptionServiceProxy {
     }
 
     /**
+     * 获取当前账号版本信息
+     * @return Success
+     */
+    getCurrentEdition(): Observable<EditionsViewOutput> {
+        let url_ = this.baseUrl + "/api/services/app/EditionSubscription/GetCurrentEdition";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "get",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processGetCurrentEdition(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processGetCurrentEdition(<any>response_);
+                } catch (e) {
+                    return <Observable<EditionsViewOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<EditionsViewOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetCurrentEdition(response: Response): Observable<EditionsViewOutput> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? EditionsViewOutput.fromJS(resultData200) : new EditionsViewOutput();
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<EditionsViewOutput>(<any>null);
+    }
+
+    /**
      * 获取版本详情
      * @return Success
      */
@@ -6061,17 +6108,16 @@ export class PaymentServiceProxy {
 
     /**
      * 查询支付状态
-     * @input (optional) 
+     * @paymentId (optional) 
      * @return Success
      */
-    queryPayment(input: ExecutePaymentDto): Observable<any> {
-        let url_ = this.baseUrl + "/api/services/app/Payment/QueryPayment";
+    queryPayment(paymentId: string): Observable<QueryPaymentOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/QueryPayment?";
+        if (paymentId !== undefined)
+            url_ += "paymentId=" + encodeURIComponent("" + paymentId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
-
         let options_ : any = {
-            body: content_,
             method: "post",
             headers: new Headers({
                 "Content-Type": "application/json", 
@@ -6086,14 +6132,14 @@ export class PaymentServiceProxy {
                 try {
                     return this.processQueryPayment(<any>response_);
                 } catch (e) {
-                    return <Observable<any>><any>Observable.throw(e);
+                    return <Observable<QueryPaymentOutput>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<any>><any>Observable.throw(response_);
+                return <Observable<QueryPaymentOutput>><any>Observable.throw(response_);
         });
     }
 
-    protected processQueryPayment(response: Response): Observable<any> {
+    protected processQueryPayment(response: Response): Observable<QueryPaymentOutput> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -6101,19 +6147,13 @@ export class PaymentServiceProxy {
             const _responseText = response.text();
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200) {
-                result200 = {};
-                for (let key in resultData200) {
-                    if (resultData200.hasOwnProperty(key))
-                        result200[key] = resultData200[key];
-                }
-            }
+            result200 = resultData200 ? QueryPaymentOutput.fromJS(resultData200) : new QueryPaymentOutput();
             return Observable.of(result200);
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.text();
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Observable.of<any>(<any>null);
+        return Observable.of<QueryPaymentOutput>(<any>null);
     }
 
     /**
@@ -12115,6 +12155,65 @@ export class WeChatJSServiceProxy {
     }
 }
 
+@Injectable()
+export class WeChatPaymentServiceProxy {
+    private http: Http;
+    private baseUrl: string;
+    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * 支付支付异步通知
+     * @return Success
+     */
+    notify(): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/WeChatPayment/Notify";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processNotify(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processNotify(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<string>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processNotify(response: Response): Observable<string> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<string>(<any>null);
+    }
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     /** 租户系统名称 */
     tenancyName: string;
@@ -15586,6 +15685,57 @@ export interface IEditionSelectDto {
     /** 是否免费 */
     isFree: boolean;
     additionalData: AdditionalData;
+}
+
+export class EditionsViewOutput implements IEditionsViewOutput {
+    /** 所有功能（展示用） */
+    allFeatures: FlatFeatureSelectDto[];
+    /** 版本及版本的功能 */
+    editionWithFeatures: EditionWithFeaturesDto;
+
+    constructor(data?: IEditionsViewOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["allFeatures"] && data["allFeatures"].constructor === Array) {
+                this.allFeatures = [];
+                for (let item of data["allFeatures"])
+                    this.allFeatures.push(FlatFeatureSelectDto.fromJS(item));
+            }
+            this.editionWithFeatures = data["editionWithFeatures"] ? EditionWithFeaturesDto.fromJS(data["editionWithFeatures"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): EditionsViewOutput {
+        let result = new EditionsViewOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.allFeatures && this.allFeatures.constructor === Array) {
+            data["allFeatures"] = [];
+            for (let item of this.allFeatures)
+                data["allFeatures"].push(item.toJSON());
+        }
+        data["editionWithFeatures"] = this.editionWithFeatures ? this.editionWithFeatures.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IEditionsViewOutput {
+    /** 所有功能（展示用） */
+    allFeatures: FlatFeatureSelectDto[];
+    /** 版本及版本的功能 */
+    editionWithFeatures: EditionWithFeaturesDto;
 }
 
 /** 上传图片回调参数 */
@@ -20916,15 +21066,10 @@ export interface ICreatePaymentResponse {
     paymentId: string;
 }
 
-export class ExecutePaymentDto implements IExecutePaymentDto {
-    gateway: ExecutePaymentDtoGateway;
-    editionPaymentType: ExecutePaymentDtoEditionPaymentType;
-    editionId: number;
-    paymentId: string;
-    paymentPeriodType: ExecutePaymentDtoPaymentPeriodType;
-    additionalData: { [key: string] : string; };
+export class QueryPaymentOutput implements IQueryPaymentOutput {
+    paid: boolean;
 
-    constructor(data?: IExecutePaymentDto) {
+    constructor(data?: IQueryPaymentOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -20935,52 +21080,25 @@ export class ExecutePaymentDto implements IExecutePaymentDto {
 
     init(data?: any) {
         if (data) {
-            this.gateway = data["gateway"];
-            this.editionPaymentType = data["editionPaymentType"];
-            this.editionId = data["editionId"];
-            this.paymentId = data["paymentId"];
-            this.paymentPeriodType = data["paymentPeriodType"];
-            if (data["additionalData"]) {
-                this.additionalData = {};
-                for (let key in data["additionalData"]) {
-                    if (data["additionalData"].hasOwnProperty(key))
-                        this.additionalData[key] = data["additionalData"][key];
-                }
-            }
+            this.paid = data["paid"];
         }
     }
 
-    static fromJS(data: any): ExecutePaymentDto {
-        let result = new ExecutePaymentDto();
+    static fromJS(data: any): QueryPaymentOutput {
+        let result = new QueryPaymentOutput();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["gateway"] = this.gateway;
-        data["editionPaymentType"] = this.editionPaymentType;
-        data["editionId"] = this.editionId;
-        data["paymentId"] = this.paymentId;
-        data["paymentPeriodType"] = this.paymentPeriodType;
-        if (this.additionalData) {
-            data["additionalData"] = {};
-            for (let key in this.additionalData) {
-                if (this.additionalData.hasOwnProperty(key))
-                    data["additionalData"][key] = this.additionalData[key];
-            }
-        }
+        data["paid"] = this.paid;
         return data; 
     }
 }
 
-export interface IExecutePaymentDto {
-    gateway: ExecutePaymentDtoGateway;
-    editionPaymentType: ExecutePaymentDtoEditionPaymentType;
-    editionId: number;
-    paymentId: string;
-    paymentPeriodType: ExecutePaymentDtoPaymentPeriodType;
-    additionalData: { [key: string] : string; };
+export interface IQueryPaymentOutput {
+    paid: boolean;
 }
 
 export class PagedResultDtoOfSubscriptionPaymentListDto implements IPagedResultDtoOfSubscriptionPaymentListDto {
@@ -23233,18 +23351,34 @@ export interface IUserLoginInfoDto {
 }
 
 export class TenantLoginInfoDto implements ITenantLoginInfoDto {
+    /** 租户名称(系统名称) */
     tenancyName: string;
+    /** 租户名称(显示用) */
     name: string;
+    /** Logo Id */
     logoId: number;
+    /** Logo url */
     logoUrl: string;
+    /** Logo 文件类型 */
     logoFileType: string;
-    subscriptionEndDateUtc: Moment;
+    /** 是否试用 */
     isInTrialPeriod: boolean;
+    /** 版本信息 */
     edition: EditionInfoDto;
+    /** 创建时间(Utc) */
     creationTime: Moment;
+    /** 订阅时间类型 */
     paymentPeriodType: TenantLoginInfoDtoPaymentPeriodType;
-    subscriptionDateString: string;
+    /** 创建时间 */
     creationTimeString: string;
+    /** 预约数量 */
+    bookingNum: number;
+    /** 门店数量 */
+    outletNum: number;
+    /** 订阅结束时间 */
+    subscriptionEndDateUtc: Moment;
+    /** 订阅结束时间(字符串) */
+    subscriptionDateString: string;
     id: number;
 
     constructor(data?: ITenantLoginInfoDto) {
@@ -23263,13 +23397,15 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
             this.logoId = data["logoId"];
             this.logoUrl = data["logoUrl"];
             this.logoFileType = data["logoFileType"];
-            this.subscriptionEndDateUtc = data["subscriptionEndDateUtc"] ? moment(data["subscriptionEndDateUtc"].toString()) : <any>undefined;
             this.isInTrialPeriod = data["isInTrialPeriod"];
             this.edition = data["edition"] ? EditionInfoDto.fromJS(data["edition"]) : <any>undefined;
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.paymentPeriodType = data["paymentPeriodType"];
-            this.subscriptionDateString = data["subscriptionDateString"];
             this.creationTimeString = data["creationTimeString"];
+            this.bookingNum = data["bookingNum"];
+            this.outletNum = data["outletNum"];
+            this.subscriptionEndDateUtc = data["subscriptionEndDateUtc"] ? moment(data["subscriptionEndDateUtc"].toString()) : <any>undefined;
+            this.subscriptionDateString = data["subscriptionDateString"];
             this.id = data["id"];
         }
     }
@@ -23287,31 +23423,49 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
         data["logoId"] = this.logoId;
         data["logoUrl"] = this.logoUrl;
         data["logoFileType"] = this.logoFileType;
-        data["subscriptionEndDateUtc"] = this.subscriptionEndDateUtc ? this.subscriptionEndDateUtc.toISOString() : <any>undefined;
         data["isInTrialPeriod"] = this.isInTrialPeriod;
         data["edition"] = this.edition ? this.edition.toJSON() : <any>undefined;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["paymentPeriodType"] = this.paymentPeriodType;
-        data["subscriptionDateString"] = this.subscriptionDateString;
         data["creationTimeString"] = this.creationTimeString;
+        data["bookingNum"] = this.bookingNum;
+        data["outletNum"] = this.outletNum;
+        data["subscriptionEndDateUtc"] = this.subscriptionEndDateUtc ? this.subscriptionEndDateUtc.toISOString() : <any>undefined;
+        data["subscriptionDateString"] = this.subscriptionDateString;
         data["id"] = this.id;
         return data; 
     }
 }
 
 export interface ITenantLoginInfoDto {
+    /** 租户名称(系统名称) */
     tenancyName: string;
+    /** 租户名称(显示用) */
     name: string;
+    /** Logo Id */
     logoId: number;
+    /** Logo url */
     logoUrl: string;
+    /** Logo 文件类型 */
     logoFileType: string;
-    subscriptionEndDateUtc: Moment;
+    /** 是否试用 */
     isInTrialPeriod: boolean;
+    /** 版本信息 */
     edition: EditionInfoDto;
+    /** 创建时间(Utc) */
     creationTime: Moment;
+    /** 订阅时间类型 */
     paymentPeriodType: TenantLoginInfoDtoPaymentPeriodType;
-    subscriptionDateString: string;
+    /** 创建时间 */
     creationTimeString: string;
+    /** 预约数量 */
+    bookingNum: number;
+    /** 门店数量 */
+    outletNum: number;
+    /** 订阅结束时间 */
+    subscriptionEndDateUtc: Moment;
+    /** 订阅结束时间(字符串) */
+    subscriptionDateString: string;
     id: number;
 }
 
@@ -23371,11 +23525,19 @@ export interface IApplicationInfoDto {
 }
 
 export class EditionInfoDto implements IEditionInfoDto {
+    /** 显示名称 */
     displayName: string;
+    /** 试用时间 */
     trialDayCount: number;
+    /** 月价格 */
     monthlyPrice: number;
+    /** 季度价格 */
+    seasonPrice: number;
+    /** 年价格 */
     annualPrice: number;
+    /** 是否最高版本 */
     isHighestEdition: boolean;
+    /** 是否免费 */
     isFree: boolean;
     id: number;
 
@@ -23393,6 +23555,7 @@ export class EditionInfoDto implements IEditionInfoDto {
             this.displayName = data["displayName"];
             this.trialDayCount = data["trialDayCount"];
             this.monthlyPrice = data["monthlyPrice"];
+            this.seasonPrice = data["seasonPrice"];
             this.annualPrice = data["annualPrice"];
             this.isHighestEdition = data["isHighestEdition"];
             this.isFree = data["isFree"];
@@ -23411,6 +23574,7 @@ export class EditionInfoDto implements IEditionInfoDto {
         data["displayName"] = this.displayName;
         data["trialDayCount"] = this.trialDayCount;
         data["monthlyPrice"] = this.monthlyPrice;
+        data["seasonPrice"] = this.seasonPrice;
         data["annualPrice"] = this.annualPrice;
         data["isHighestEdition"] = this.isHighestEdition;
         data["isFree"] = this.isFree;
@@ -23420,11 +23584,19 @@ export class EditionInfoDto implements IEditionInfoDto {
 }
 
 export interface IEditionInfoDto {
+    /** 显示名称 */
     displayName: string;
+    /** 试用时间 */
     trialDayCount: number;
+    /** 月价格 */
     monthlyPrice: number;
+    /** 季度价格 */
+    seasonPrice: number;
+    /** 年价格 */
     annualPrice: number;
+    /** 是否最高版本 */
     isHighestEdition: boolean;
+    /** 是否免费 */
     isFree: boolean;
     id: number;
 }
@@ -27629,23 +27801,6 @@ export enum CreatePaymentDtoPaymentPeriodType {
 
 export enum CreatePaymentDtoSubscriptionPaymentGatewayType {
     _1 = 1, 
-}
-
-export enum ExecutePaymentDtoGateway {
-    _1 = 1, 
-}
-
-export enum ExecutePaymentDtoEditionPaymentType {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
-    _3 = 3, 
-}
-
-export enum ExecutePaymentDtoPaymentPeriodType {
-    _30 = 30, 
-    _90 = 90, 
-    _365 = 365, 
 }
 
 export enum BookingOrderListDtoStatus {

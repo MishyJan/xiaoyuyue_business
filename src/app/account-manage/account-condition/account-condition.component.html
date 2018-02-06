@@ -34,11 +34,10 @@
                                         <p>预约统计</p>
                                     </div>
                                     <div class="right-flex">
-                                        <p>admin@email.com</p>
-                                        <p>免费版</p>
-                                        <p>永久有效
-                                            <button class="btn light-bgcolor to-pay pull-right" *ngIf="true">开通会员</button>
-                                            <button class="btn light-bgcolor to-pay pull-right" *ngIf="false">续费会员</button>
+                                        <p>{{ accountInfo.tenantName }}</p>
+                                        <p>{{ accountInfo.editionDisplayName }}</p>
+                                        <p>{{ accountInfo.editionTimeLimit }}
+                                            <button class="btn light-bgcolor to-pay pull-right">{{ accountInfo.paysTypeDisplayName }}</button>
                                         </p>
                                         <p>1/3</p>
                                         <p>4/4</p>
@@ -58,12 +57,7 @@
                             <div class="card-content edition-info">
                                 <div class="content-head"></div>
                                 <div class="flex">
-                                    <div class="flex-item">￥0/年</div>
-                                    <div class="flex-item">单一账户，无子账户</div>
-                                    <div class="flex-item">可创建3家门店</div>
-                                    <div class="flex-item">4单预约/月</div>
-                                    <div class="flex-item">可导出应约人列表(图片)</div>
-                                    <div class="flex-item">首页呈现5项数据列表</div>
+                                    <div class="flex-item" *ngFor="let edition of currentEditions.featureValues">{{  getEditionDisplayName(edition.name) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -213,8 +207,7 @@
                     </div>
                 </div>
             </tab>
-            <tab heading="历史账单" (select)="selectPaymentHistory(true)">
-            </tab>
+            <tab heading="历史账单" (select)="selectPaymentHistory(true)"></tab>
         </tabset>
         <div class="payment-history-wrap" *ngIf="isShowPaymentHistory">
             <xiaoyuyue-list-scroll [height]="'calc(100vh - 125px)'">

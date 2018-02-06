@@ -22,11 +22,14 @@
                     <div class="form-horizontal">
                         <div class="xiaoyuyue-title-box">{{ edition.edition.displayName }}</div>
                         <div class="card-content">
-                            <div class="edition-content" *ngFor="let editionContent of edition.featureValues">
-                                <div class="edition-item" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent.name) }}</div>
+                            <div class="edition-content">
+                                <div class="edition-item" *ngFor="let editionContent of edition.featureValues">
+                                    <div class="content" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent.name) }}</div>
+                                </div>
                             </div>
                             <div class="btn-wrap" (click)="showToPayModel(edition.edition.id)" *ngIf="edition.edition.id >= tenantEditionId">
-                                <button class="btn btn-block primary-bgcolor">办理</button>
+                                <button class="btn btn-block primary-bgcolor" *ngIf="tenantEditionId < edition.edition.id">开通</button>
+                                <button class="btn btn-block primary-bgcolor" *ngIf="tenantEditionId === edition.edition.id">续费</button>
                             </div>
                         </div>
                     </div>

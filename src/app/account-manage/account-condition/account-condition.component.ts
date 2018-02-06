@@ -3,9 +3,12 @@ import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-In
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { accountModuleAnimation } from 'shared/animations/routerTransition';
-import { PaymentServiceProxy, SubscriptionPaymentListDto } from 'shared/service-proxies/service-proxies';
+import { PaymentServiceProxy, SubscriptionPaymentListDto, EditionSubscriptionServiceProxy, EditionsViewOutput, FlatFeatureSelectDto, EditionWithFeaturesDto } from 'shared/service-proxies/service-proxies';
 import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { AccountInfo } from 'app/shared/utils/account-info';
+import { Moment } from 'moment';
+import { PaysType } from 'shared/AppEnums';
 
 @Component({
     selector: 'xiaoyuyue-account-condition',
@@ -15,6 +18,9 @@ import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-g
     encapsulation: ViewEncapsulation.None
 })
 export class AccountConditionComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    currentEditions: EditionWithFeaturesDto;
+    allFeatures: FlatFeatureSelectDto[];
+    accountInfo: AccountInfo = new AccountInfo();
     isShowPaymentHistory = false;
     mobilePaymentHistoryData: SubscriptionPaymentListDto[];
     showConditionContent = false;
@@ -23,13 +29,16 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     constructor(
         private injector: Injector,
         private _sessionService: AppSessionService,
-        private _paymentService: PaymentServiceProxy
+        private _paymentService: PaymentServiceProxy,
+        private _editionSubscriptionService: EditionSubscriptionServiceProxy
     ) {
         super(injector);
         this.gridParam = new BaseGridDataInputDto(this._sessionService);
     }
 
     ngOnInit() {
+        this.getAccountInfo();
+        this.getCurrentEditions();
     }
 
     ngAfterViewInit() {
@@ -48,6 +57,56 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
 
         this.paymentHistoryData.query(loadData, false, () => {
         });
+    }
+
+    // 获取当前版本信息
+    getCurrentEditions(): void {
+        this._editionSubscriptionService
+            .getCurrentEdition()
+            .subscribe(result => {
+                console.log(result);
+                this.allFeatures = result.allFeatures;
+                this.currentEditions = result.editionWithFeatures;
+            })
+    }
+
+    // 获取指定版本的显示名称
+    getEditionDisplayName(name: string): string {
+        let displayName = '';
+        this.allFeatures.forEach((element: FlatFeatureSelectDto) => {
+            if (element.name === name) {
+                displayName = element.displayName;
+                return;
+            }
+        });
+        return displayName;
+    }
+
+    // 获取账户信息
+    getAccountInfo(): void {
+        this.accountInfo.tenantName = this._sessionService.tenant.tenancyName;
+        this.accountInfo.editionId = this._sessionService.tenant.edition.id;
+        this.accountInfo.editionDisplayName = this._sessionService.tenant.edition.displayName;
+        this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this._sessionService.tenant.subscriptionEndDateUtc)
+    }
+
+    /*
+        判断版本到期时间是否有效
+        @return string
+        有效返回时间字符串，否则返回免费版的"永久有效"
+     */
+    private editionTimeLimitIsValid(editionTimeLimit: Moment): string {
+        let timeLimitName: string;
+        if (editionTimeLimit) {
+            timeLimitName = this.t(editionTimeLimit);
+            this.accountInfo.paysTypeDisplayName = '续费会员';
+            this.accountInfo.paysType = PaysType.RenewalsMembership;
+        } else {
+            timeLimitName = '永久有效';
+            this.accountInfo.paysTypeDisplayName = '开通会员';
+            this.accountInfo.paysType = PaysType.JoinMembership;
+        }
+        return timeLimitName;
     }
 
     // 切换页码

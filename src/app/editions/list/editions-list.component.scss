@@ -1,13 +1,23 @@
 .account-edition {
     .card-content {
         margin-top: 20px;
+        padding-bottom: 0;
     }
     .edition-content {
         .edition-item {
-            border-bottom: 1px solid #EEE;
             line-height: 50px;
             text-align: center;
             color: #292939;
+            .content {
+                border-bottom: 1px solid #EEE;
+            }
+        }
+    }
+    .edition-content {
+        .edition-item:last-child {
+            .content {
+                border-bottom: 1px solid transparent;
+            }
         }
     }
     .btn-wrap {

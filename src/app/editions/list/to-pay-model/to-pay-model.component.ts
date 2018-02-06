@@ -13,6 +13,7 @@ import { EditionSelectDto, EditionSubscriptionServiceProxy, PaymentServiceProxy,
     animations: [accountModuleAnimation()]
 })
 export class ToPayModelComponent extends AppComponentBase implements OnInit {
+    paymentTimer: NodeJS.Timer;
     finalPrice: number;
     editionId: number;
     createPaymentDto: CreatePaymentDto;
@@ -63,6 +64,11 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
 
     hide(): void {
         this.modal.hide();
+        clearInterval(this.paymentTimer);
+    }
+
+    onHidden(): void {
+        clearInterval(this.paymentTimer);
     }
 
     // 进入此model组件默认初始化：时长类型、版本类型、支付方式等等
@@ -81,9 +87,27 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
         // this.createPaymentDto.editionPaymentType = CreatePaymentDtoEditionPaymentType._1;
         // this.createPaymentDto.paymentPeriodType = CreatePaymentDtoPaymentPeriodType._30;
         // this.createPaymentDto.subscriptionPaymentGatewayType = CreatePaymentDtoSubscriptionPaymentGatewayType._1;
+        clearInterval(this.paymentTimer);
+        this.paymentServiceProxy
+            .createPayment(this.createPaymentDto)
+            .subscribe((result) => {
+                this.wechatQrcodeContent = result.additionalData['CodeUrl'];
+                this.scanQRCodePaysStatus(result.paymentId);
+            });
+    }
 
-        this.paymentServiceProxy.createPayment(this.createPaymentDto).subscribe((result) => {
-            this.wechatQrcodeContent = result.additionalData['CodeUrl'];
-        });
+    // 定时查询订单状态
+    private scanQRCodePaysStatus(paymentId: string): void {
+        this.paymentTimer = setInterval(() => {
+            this.paymentServiceProxy
+                .queryPayment(paymentId)
+                .subscribe(result => {
+                    if (result.paid) {
+                        this.message.success('支付成功');
+                        clearInterval(this.paymentTimer);
+                        this.hide();
+                    }
+                })
+        }, 1000);
     }
 }
