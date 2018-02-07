@@ -83,10 +83,18 @@ export class QrCodeComponent extends AppComponentBase implements OnInit, AfterVi
                 // subTitleTop: 40, // draws y coordinates. default is 50
 
                 // ==== Logo
-                logo: this.iconUrl ? this.iconUrl : this.defaultIconUrl, // Relative address, relative to `easy.qrcode.min.js`
+                logo: this.logoUrl(), // Relative address, relative to `easy.qrcode.min.js`
                 // 	logoWidth:80, // widht. default is automatic width
                 // 	logoHeight:80 // height. default is automatic height
             });
+        }
+    }
+
+    private logoUrl(): string {
+        if (this.iconUrl === 'false') {
+            return '';
+        } else {
+            return this.iconUrl ? this.iconUrl : this.defaultIconUrl;
         }
     }
 }

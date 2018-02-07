@@ -26,9 +26,11 @@
                                     <div class="content" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent) }}</div>
                                 </div>
                             </div>
-                            <div class="btn-wrap" (click)="showToPayModel(edition.edition.id)" *ngIf="edition.edition.id >= tenantEditionId">
-                                <button class="btn btn-block primary-bgcolor" *ngIf="tenantEditionId < edition.edition.id">开通</button>
-                                <button class="btn btn-block primary-bgcolor" *ngIf="tenantEditionId === edition.edition.id">续费</button>
+                            <div class="btn-wrap">
+                                <button class="btn btn-block primary-bgcolor" *ngIf="edition.edition.id === 1">试用</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1)" *ngIf="tenantEditionId === 1 && edition.edition.id > 1">开通</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2)" *ngIf="tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1">升级</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3)" *ngIf="tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1">续费</button>
                             </div>
                         </div>
                     </div>

@@ -18,7 +18,7 @@ import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { Http, Headers, ResponseContentType, Response } from '@angular/http';
 
-import { Moment } from 'moment';
+import * as moment from 'moment';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -623,6 +623,65 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AlipayPaymentServiceProxy {
+    private http: Http;
+    private baseUrl: string;
+    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+
+    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * 支付宝支付异步通知
+     * @return Success
+     */
+    notify(): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/AlipayPayment/Notify";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processNotify(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processNotify(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<string>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processNotify(response: Response): Observable<string> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<string>(<any>null);
+    }
+}
+
+@Injectable()
 export class AuditLogServiceProxy {
     private http: Http;
     private baseUrl: string;
@@ -649,7 +708,7 @@ export class AuditLogServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getAuditLogs(startDate: Moment, endDate: Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfAuditLogListDto> {
+    getAuditLogs(startDate: moment.Moment, endDate: moment.Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfAuditLogListDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAuditLogs?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -740,7 +799,7 @@ export class AuditLogServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getAuditLogsToExcel(startDate: Moment, endDate: Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<FileDto> {
+    getAuditLogsToExcel(startDate: moment.Moment, endDate: moment.Moment, userName: string, serviceName: string, methodName: string, browserInfo: string, hasException: boolean, minExecutionDuration: number, maxExecutionDuration: number, sorting: string, maxResultCount: number, skipCount: number): Observable<FileDto> {
         let url_ = this.baseUrl + "/api/services/app/AuditLog/GetAuditLogsToExcel?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -2508,7 +2567,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getDashboardStatisticsData(incomeStatisticsDateInterval: IncomeStatisticsDateInterval, startDate: Moment, endDate: Moment): Observable<HostDashboardData> {
+    getDashboardStatisticsData(incomeStatisticsDateInterval: IncomeStatisticsDateInterval, startDate: moment.Moment, endDate: moment.Moment): Observable<HostDashboardData> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetDashboardStatisticsData?";
         if (incomeStatisticsDateInterval === undefined || incomeStatisticsDateInterval === null)
             throw new Error("The parameter 'incomeStatisticsDateInterval' must be defined and cannot be null.");
@@ -2566,7 +2625,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getIncomeStatistics(incomeStatisticsDateInterval: IncomeStatisticsDateInterval2, startDate: Moment, endDate: Moment): Observable<GetIncomeStatisticsDataOutput> {
+    getIncomeStatistics(incomeStatisticsDateInterval: IncomeStatisticsDateInterval2, startDate: moment.Moment, endDate: moment.Moment): Observable<GetIncomeStatisticsDataOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetIncomeStatistics?";
         if (incomeStatisticsDateInterval === undefined || incomeStatisticsDateInterval === null)
             throw new Error("The parameter 'incomeStatisticsDateInterval' must be defined and cannot be null.");
@@ -2624,7 +2683,7 @@ export class HostDashboardServiceProxy {
     /**
      * @return Success
      */
-    getEditionTenantStatistics(startDate: Moment, endDate: Moment): Observable<GetEditionTenantStatisticsOutput> {
+    getEditionTenantStatistics(startDate: moment.Moment, endDate: moment.Moment): Observable<GetEditionTenantStatisticsOutput> {
         let url_ = this.baseUrl + "/api/services/app/HostDashboard/GetEditionTenantStatistics?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -2937,7 +2996,7 @@ export class IncomeStatisticsServiceServiceProxy {
     /**
      * @return Success
      */
-    getIncomeStatisticsData(startDate: Moment, endDate: Moment, dateInterval: DateInterval): Observable<IncomeStastistic[]> {
+    getIncomeStatisticsData(startDate: moment.Moment, endDate: moment.Moment, dateInterval: DateInterval): Observable<IncomeStastistic[]> {
         let url_ = this.baseUrl + "/api/services/app/IncomeStatisticsService/GetIncomeStatisticsData?";
         if (startDate === undefined || startDate === null)
             throw new Error("The parameter 'startDate' must be defined and cannot be null.");
@@ -4298,7 +4357,7 @@ export class OrgBookingServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getBookings(name: string, outletId: number, isActive: boolean, startCreationTime: Moment, endCreationTime: Moment, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingListDto> {
+    getBookings(name: string, outletId: number, isActive: boolean, startCreationTime: moment.Moment, endCreationTime: moment.Moment, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetBookings?";
         if (name !== undefined)
             url_ += "Name=" + encodeURIComponent("" + name) + "&"; 
@@ -4743,7 +4802,7 @@ export class OrgBookingServiceProxy {
      * @creatorUserId (optional) 
      * @return Success
      */
-    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNum: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_IsDeleted: boolean, contactor_DeleterUserId: number, contactor_DeletionTime: Moment, contactor_LastModificationTime: Moment, contactor_LastModifierUserId: number, contactor_CreationTime: Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: Moment, outlet_LastModificationTime: Moment, outlet_LastModifierUserId: number, outlet_CreationTime: Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: Moment, lastModificationTime: Moment, lastModifierUserId: number, creationTime: Moment, creatorUserId: number, id: number): Observable<string[]> {
+    getItemDatetime(tenantId: number, name: string, description: string, hint: string, templateId: number, contactorId: number, contactor_Name: string, contactor_PhoneNum: string, contactor_WechatQrcodeUrl: string, contactor_TenantId: number, contactor_OutletId: number, contactor_IsDefault: boolean, contactor_IsDeleted: boolean, contactor_DeleterUserId: number, contactor_DeletionTime: moment.Moment, contactor_LastModificationTime: moment.Moment, contactor_LastModifierUserId: number, contactor_CreationTime: moment.Moment, contactor_CreatorUserId: number, contactor_Id: number, outletId: number, outlet_TenantId: number, outlet_Name: string, outlet_Longitude: string, outlet_PhoneNum: string, outlet_BusinessHours: string, outlet_Province: string, outlet_ProvinceId: number, outlet_City: string, outlet_CityId: number, outlet_District: string, outlet_DistrictId: number, outlet_DetailAddress: string, outlet_PictureId: number, outlet_IsActive: boolean, outlet_Contactors: any[], outlet_IsDeleted: boolean, outlet_DeleterUserId: number, outlet_DeletionTime: moment.Moment, outlet_LastModificationTime: moment.Moment, outlet_LastModifierUserId: number, outlet_CreationTime: moment.Moment, outlet_CreatorUserId: number, outlet_Id: number, needGender: boolean, needAge: boolean, needEmail: boolean, sticked: boolean, isActive: boolean, pV: number, uV: number, items: any[], pictures: any[], isDeleted: boolean, deleterUserId: number, deletionTime: moment.Moment, lastModificationTime: moment.Moment, lastModifierUserId: number, creationTime: moment.Moment, creatorUserId: number, id: number): Observable<string[]> {
         let url_ = this.baseUrl + "/api/services/app/OrgBooking/GetItemDatetime?";
         if (tenantId === undefined || tenantId === null)
             throw new Error("The parameter 'tenantId' must be defined and cannot be null.");
@@ -5017,7 +5076,7 @@ export class OrgBookingOrderServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getOrders(bookingId: number, bookingName: string, customerName: string, bookingDate: Moment, hourOfDay: string, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, checkIn: boolean, creationStartDate: Moment, creationEndDate: Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfOrgBookingOrderListDto> {
+    getOrders(bookingId: number, bookingName: string, customerName: string, bookingDate: moment.Moment, hourOfDay: string, startMinute: number, endMinute: number, phoneNumber: string, gender: Gender, checkIn: boolean, creationStartDate: moment.Moment, creationEndDate: moment.Moment, status: Status[], sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfOrgBookingOrderListDto> {
         let url_ = this.baseUrl + "/api/services/app/OrgBookingOrder/GetOrders?";
         if (bookingId === undefined || bookingId === null)
             throw new Error("The parameter 'bookingId' must be defined and cannot be null.");
@@ -6234,7 +6293,7 @@ export class PerBookingOrderServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getBookingTimeline(startDataTime: Moment, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingTimelineDto> {
+    getBookingTimeline(startDataTime: moment.Moment, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfBookingTimelineDto> {
         let url_ = this.baseUrl + "/api/services/app/PerBookingOrder/GetBookingTimeline?";
         if (startDataTime === undefined || startDataTime === null)
             throw new Error("The parameter 'startDataTime' must be defined and cannot be null.");
@@ -8762,15 +8821,13 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
-     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
+     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount === undefined || maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
         else
@@ -8779,6 +8836,8 @@ export class StateServiceServiceProxy {
             throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
         else
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9481,7 +9540,7 @@ export class TenantServiceProxy {
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
      * @return Success
      */
-    getTenants(tenancyName: string, name: string, subscriptionEndDateStart: Moment, subscriptionEndDateEnd: Moment, creationDateStart: Moment, creationDateEnd: Moment, editionId: number, editionIdSpecified: boolean, isActive: boolean, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfTenantListDto> {
+    getTenants(tenancyName: string, name: string, subscriptionEndDateStart: moment.Moment, subscriptionEndDateEnd: moment.Moment, creationDateStart: moment.Moment, creationDateEnd: moment.Moment, editionId: number, editionIdSpecified: boolean, isActive: boolean, sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfTenantListDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetTenants?";
         if (tenancyName !== undefined)
             url_ += "TenancyName=" + encodeURIComponent("" + tenancyName) + "&"; 
@@ -12167,7 +12226,7 @@ export class WeChatPaymentServiceProxy {
     }
 
     /**
-     * 支付支付异步通知
+     * 微信支付异步通知
      * @return Success
      */
     notify(): Observable<string> {
@@ -12940,7 +12999,7 @@ export class AuditLogListDto implements IAuditLogListDto {
     /** 参数 */
     parameters: string;
     /** 执行时间 */
-    executionTime: Moment;
+    executionTime: moment.Moment;
     /** 执行时长 */
     executionDuration: number;
     /** 客户端地址 */
@@ -13027,7 +13086,7 @@ export interface IAuditLogListDto {
     /** 参数 */
     parameters: string;
     /** 执行时间 */
-    executionTime: Moment;
+    executionTime: moment.Moment;
     /** 执行时长 */
     executionDuration: number;
     /** 客户端地址 */
@@ -13352,7 +13411,7 @@ export interface IJoinBookingInfoDto {
 /** 日期信息 */
 export class JoinBookingDataInfo implements IJoinBookingDataInfo {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 可预约时间 */
     times: JoinBookingTimeInfo[];
 
@@ -13397,7 +13456,7 @@ export class JoinBookingDataInfo implements IJoinBookingDataInfo {
 /** 日期信息 */
 export interface IJoinBookingDataInfo {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 可预约时间 */
     times: JoinBookingTimeInfo[];
 }
@@ -13459,7 +13518,7 @@ export interface IJoinBookingTimeInfo {
 
 export class JoinBookingInput implements IJoinBookingInput {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 时间项Id */
     bookingItemId: number;
     /** 姓名 */
@@ -13523,7 +13582,7 @@ export class JoinBookingInput implements IJoinBookingInput {
 
 export interface IJoinBookingInput {
     /** 日期 */
-    date: Moment;
+    date: moment.Moment;
     /** 时间项Id */
     bookingItemId: number;
     /** 姓名 */
@@ -13548,7 +13607,7 @@ export class JoinBookingResultDto implements IJoinBookingResultDto {
     /** 预约客户 */
     bookingCustomer: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
 
@@ -13592,7 +13651,7 @@ export interface IJoinBookingResultDto {
     /** 预约客户 */
     bookingCustomer: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
 }
@@ -14890,7 +14949,7 @@ export interface IListResultDtoOfEditionListDto {
 export class EditionListDto implements IEditionListDto {
     name: string;
     displayName: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IEditionListDto) {
@@ -14930,7 +14989,7 @@ export class EditionListDto implements IEditionListDto {
 export interface IEditionListDto {
     name: string;
     displayName: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -15865,9 +15924,9 @@ export class HostDashboardData implements IHostDashboardData {
     maxRecentTenantsShownCount: number;
     subscriptionEndAlertDayCount: number;
     recentTenantsDayCount: number;
-    subscriptionEndDateStart: Moment;
-    subscriptionEndDateEnd: Moment;
-    tenantCreationStartDate: Moment;
+    subscriptionEndDateStart: moment.Moment;
+    subscriptionEndDateEnd: moment.Moment;
+    tenantCreationStartDate: moment.Moment;
 
     constructor(data?: IHostDashboardData) {
         if (data) {
@@ -15970,14 +16029,14 @@ export interface IHostDashboardData {
     maxRecentTenantsShownCount: number;
     subscriptionEndAlertDayCount: number;
     recentTenantsDayCount: number;
-    subscriptionEndDateStart: Moment;
-    subscriptionEndDateEnd: Moment;
-    tenantCreationStartDate: Moment;
+    subscriptionEndDateStart: moment.Moment;
+    subscriptionEndDateEnd: moment.Moment;
+    tenantCreationStartDate: moment.Moment;
 }
 
 export class IncomeStastistic implements IIncomeStastistic {
     label: string;
-    date: Moment;
+    date: moment.Moment;
     amount: number;
 
     constructor(data?: IIncomeStastistic) {
@@ -16014,7 +16073,7 @@ export class IncomeStastistic implements IIncomeStastistic {
 
 export interface IIncomeStastistic {
     label: string;
-    date: Moment;
+    date: moment.Moment;
     amount: number;
 }
 
@@ -16099,7 +16158,7 @@ export interface IExpiringTenant {
 export class RecentTenant implements IRecentTenant {
     id: number;
     name: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
 
     constructor(data?: IRecentTenant) {
         if (data) {
@@ -16136,7 +16195,7 @@ export class RecentTenant implements IRecentTenant {
 export interface IRecentTenant {
     id: number;
     name: string;
-    creationTime: Moment;
+    creationTime: moment.Moment;
 }
 
 export class GetIncomeStatisticsDataOutput implements IGetIncomeStatisticsDataOutput {
@@ -17088,7 +17147,7 @@ export class InvoiceDto implements IInvoiceDto {
     amount: number;
     editionDisplayName: string;
     invoiceNo: string;
-    invoiceDate: Moment;
+    invoiceDate: moment.Moment;
     tenantLegalName: string;
     tenantAddress: string[];
     tenantTaxNo: string;
@@ -17159,7 +17218,7 @@ export interface IInvoiceDto {
     amount: number;
     editionDisplayName: string;
     invoiceNo: string;
-    invoiceDate: Moment;
+    invoiceDate: moment.Moment;
     tenantLegalName: string;
     tenantAddress: string[];
     tenantTaxNo: string;
@@ -17257,10 +17316,10 @@ export class ApplicationLanguageListDto implements IApplicationLanguageListDto {
     isDisabled: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -17324,10 +17383,10 @@ export interface IApplicationLanguageListDto {
     isDisabled: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -17849,7 +17908,7 @@ export class TenantNotification implements ITenantNotification {
     entityTypeName: string;
     entityId: any;
     severity: TenantNotificationSeverity;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: string;
 
     constructor(data?: ITenantNotification) {
@@ -17916,7 +17975,7 @@ export interface ITenantNotification {
     entityTypeName: string;
     entityId: any;
     severity: TenantNotificationSeverity;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: string;
 }
 
@@ -18256,9 +18315,9 @@ export class OrganizationUnitDto implements IOrganizationUnitDto {
     code: string;
     displayName: string;
     memberCount: number;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -18311,9 +18370,9 @@ export interface IOrganizationUnitDto {
     code: string;
     displayName: string;
     memberCount: number;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -18371,7 +18430,7 @@ export class OrganizationUnitUserListDto implements IOrganizationUnitUserListDto
     userName: string;
     emailAddress: string;
     profilePictureId: number;
-    addedTime: Moment;
+    addedTime: moment.Moment;
     id: number;
 
     constructor(data?: IOrganizationUnitUserListDto) {
@@ -18420,7 +18479,7 @@ export interface IOrganizationUnitUserListDto {
     userName: string;
     emailAddress: string;
     profilePictureId: number;
-    addedTime: Moment;
+    addedTime: moment.Moment;
     id: number;
 }
 
@@ -19515,10 +19574,10 @@ export class Contactor implements IContactor {
     isDefault: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -19585,10 +19644,10 @@ export interface IContactor {
     isDefault: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -19606,7 +19665,7 @@ export class BookingItem implements IBookingItem {
     isActive: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
+    deletionTime: moment.Moment;
     booking: Booking;
     id: number;
 
@@ -19679,7 +19738,7 @@ export interface IBookingItem {
     isActive: boolean;
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
+    deletionTime: moment.Moment;
     booking: Booking;
     id: number;
 }
@@ -19705,10 +19764,10 @@ export class Booking implements IBooking {
     pictures: BookingPicture[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -19827,10 +19886,10 @@ export interface IBooking {
     pictures: BookingPicture[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -19853,10 +19912,10 @@ export class Outlet implements IOutlet {
     contactors: Contactor[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -19958,10 +20017,10 @@ export interface IOutlet {
     contactors: Contactor[];
     isDeleted: boolean;
     deleterUserId: number;
-    deletionTime: Moment;
-    lastModificationTime: Moment;
+    deletionTime: moment.Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -20075,7 +20134,7 @@ export class OrgBookingOrderListDto implements IOrgBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -20087,7 +20146,7 @@ export class OrgBookingOrderListDto implements IOrgBookingOrderListDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -20155,7 +20214,7 @@ export interface IOrgBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -20167,7 +20226,7 @@ export interface IOrgBookingOrderListDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -20181,7 +20240,7 @@ export class OrgBookingOrderInfolDto implements IOrgBookingOrderInfolDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -20207,11 +20266,11 @@ export class OrgBookingOrderInfolDto implements IOrgBookingOrderInfolDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -20292,7 +20351,7 @@ export interface IOrgBookingOrderInfolDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -20318,11 +20377,11 @@ export interface IOrgBookingOrderInfolDto {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 头像Url */
     profilePictureUrl: string;
     id: number;
@@ -21162,7 +21221,7 @@ export class SubscriptionPaymentListDto implements ISubscriptionPaymentListDto {
     /** 支付订单号 */
     paymentId: string;
     /** 支付人Id(如果有) */
-    payerId: string;
+    payer: string;
     /** 支付状态 */
     status: string;
     /** 版本显示名称 */
@@ -21171,9 +21230,9 @@ export class SubscriptionPaymentListDto implements ISubscriptionPaymentListDto {
     tenantId: number;
     /** 第三方交易号 */
     invoiceNo: string;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 
@@ -21194,7 +21253,7 @@ export class SubscriptionPaymentListDto implements ISubscriptionPaymentListDto {
             this.dayCount = data["dayCount"];
             this.paymentPeriodType = data["paymentPeriodType"];
             this.paymentId = data["paymentId"];
-            this.payerId = data["payerId"];
+            this.payer = data["payer"];
             this.status = data["status"];
             this.editionDisplayName = data["editionDisplayName"];
             this.tenantId = data["tenantId"];
@@ -21221,7 +21280,7 @@ export class SubscriptionPaymentListDto implements ISubscriptionPaymentListDto {
         data["dayCount"] = this.dayCount;
         data["paymentPeriodType"] = this.paymentPeriodType;
         data["paymentId"] = this.paymentId;
-        data["payerId"] = this.payerId;
+        data["payer"] = this.payer;
         data["status"] = this.status;
         data["editionDisplayName"] = this.editionDisplayName;
         data["tenantId"] = this.tenantId;
@@ -21249,7 +21308,7 @@ export interface ISubscriptionPaymentListDto {
     /** 支付订单号 */
     paymentId: string;
     /** 支付人Id(如果有) */
-    payerId: string;
+    payer: string;
     /** 支付状态 */
     status: string;
     /** 版本显示名称 */
@@ -21258,9 +21317,9 @@ export interface ISubscriptionPaymentListDto {
     tenantId: number;
     /** 第三方交易号 */
     invoiceNo: string;
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     lastModifierUserId: number;
-    creationTime: Moment;
+    creationTime: moment.Moment;
     creatorUserId: number;
     id: number;
 }
@@ -21425,7 +21484,7 @@ export class BookingOrderListDto implements IBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -21437,7 +21496,7 @@ export class BookingOrderListDto implements IBookingOrderListDto {
     /** 置顶 */
     sticked: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IBookingOrderListDto) {
@@ -21493,7 +21552,7 @@ export interface IBookingOrderListDto {
     /** 门店名称 */
     outletName: string;
     /** 预约日期 */
-    bookingDate: Moment;
+    bookingDate: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -21505,7 +21564,7 @@ export interface IBookingOrderListDto {
     /** 置顶 */
     sticked: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -21634,7 +21693,7 @@ export interface IBookingInfoDto {
 /** 预约订单详情 */
 export class BookingOrderInfo implements IBookingOrderInfo {
     /** 预约日期 */
-    bookingData: Moment;
+    bookingData: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -21662,11 +21721,11 @@ export class BookingOrderInfo implements IBookingOrderInfo {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 预约状态 */
     status: BookingOrderInfoStatus;
     id: number;
@@ -21738,7 +21797,7 @@ export class BookingOrderInfo implements IBookingOrderInfo {
 /** 预约订单详情 */
 export interface IBookingOrderInfo {
     /** 预约日期 */
-    bookingData: Moment;
+    bookingData: moment.Moment;
     /** 预约时间 */
     hourOfDay: string;
     /** 预约人数 */
@@ -21766,11 +21825,11 @@ export interface IBookingOrderInfo {
     /** 签到状态 */
     checkIn: boolean;
     /** 签到时间 */
-    checkInDateTime: Moment;
+    checkInDateTime: moment.Moment;
     /** 签到位置 */
     checkInLocation: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 预约状态 */
     status: BookingOrderInfoStatus;
     id: number;
@@ -22066,7 +22125,7 @@ export class PictureListDto implements IPictureListDto {
     /** 图片类型 */
     mimeType: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IPictureListDto) {
@@ -22117,13 +22176,13 @@ export interface IPictureListDto {
     /** 图片类型 */
     mimeType: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
 export class UploadTokenOutput implements IUploadTokenOutput {
     token: string;
-    expirationOnUtc: Moment;
+    expirationOnUtc: moment.Moment;
 
     constructor(data?: IUploadTokenOutput) {
         if (data) {
@@ -22157,7 +22216,7 @@ export class UploadTokenOutput implements IUploadTokenOutput {
 
 export interface IUploadTokenOutput {
     token: string;
-    expirationOnUtc: Moment;
+    expirationOnUtc: moment.Moment;
 }
 
 export class UpdatePictureInput implements IUpdatePictureInput {
@@ -22268,7 +22327,7 @@ export class PictureGroupListDto implements IPictureGroupListDto {
     /** 创建者Id */
     creatorUserId: number;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IPictureGroupListDto) {
@@ -22319,7 +22378,7 @@ export interface IPictureGroupListDto {
     /** 创建者Id */
     creatorUserId: number;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -22967,7 +23026,7 @@ export class RoleListDto implements IRoleListDto {
     /** 是否默认分配(给用户) */
     isDefault: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IRoleListDto) {
@@ -23018,7 +23077,7 @@ export interface IRoleListDto {
     /** 是否默认分配(给用户) */
     isDefault: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -23366,9 +23425,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
     /** 版本信息 */
     edition: EditionInfoDto;
     /** 创建时间(Utc) */
-    creationTime: Moment;
-    /** 订阅时间类型 */
-    paymentPeriodType: TenantLoginInfoDtoPaymentPeriodType;
+    creationTime: moment.Moment;
     /** 创建时间 */
     creationTimeString: string;
     /** 预约数量 */
@@ -23376,7 +23433,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
     /** 门店数量 */
     outletNum: number;
     /** 订阅结束时间 */
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     /** 订阅结束时间(字符串) */
     subscriptionDateString: string;
     id: number;
@@ -23400,7 +23457,6 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
             this.isInTrialPeriod = data["isInTrialPeriod"];
             this.edition = data["edition"] ? EditionInfoDto.fromJS(data["edition"]) : <any>undefined;
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.paymentPeriodType = data["paymentPeriodType"];
             this.creationTimeString = data["creationTimeString"];
             this.bookingNum = data["bookingNum"];
             this.outletNum = data["outletNum"];
@@ -23426,7 +23482,6 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
         data["isInTrialPeriod"] = this.isInTrialPeriod;
         data["edition"] = this.edition ? this.edition.toJSON() : <any>undefined;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["paymentPeriodType"] = this.paymentPeriodType;
         data["creationTimeString"] = this.creationTimeString;
         data["bookingNum"] = this.bookingNum;
         data["outletNum"] = this.outletNum;
@@ -23453,9 +23508,7 @@ export interface ITenantLoginInfoDto {
     /** 版本信息 */
     edition: EditionInfoDto;
     /** 创建时间(Utc) */
-    creationTime: Moment;
-    /** 订阅时间类型 */
-    paymentPeriodType: TenantLoginInfoDtoPaymentPeriodType;
+    creationTime: moment.Moment;
     /** 创建时间 */
     creationTimeString: string;
     /** 预约数量 */
@@ -23463,7 +23516,7 @@ export interface ITenantLoginInfoDto {
     /** 门店数量 */
     outletNum: number;
     /** 订阅结束时间 */
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     /** 订阅结束时间(字符串) */
     subscriptionDateString: string;
     id: number;
@@ -23471,7 +23524,7 @@ export interface ITenantLoginInfoDto {
 
 export class ApplicationInfoDto implements IApplicationInfoDto {
     version: string;
-    releaseDate: Moment;
+    releaseDate: moment.Moment;
     features: { [key: string] : boolean; };
 
     constructor(data?: IApplicationInfoDto) {
@@ -23520,7 +23573,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
 
 export interface IApplicationInfoDto {
     version: string;
-    releaseDate: Moment;
+    releaseDate: moment.Moment;
     features: { [key: string] : boolean; };
 }
 
@@ -23946,7 +23999,7 @@ export class SMSTemplateListDto implements ISMSTemplateListDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     id: number;
@@ -23997,7 +24050,7 @@ export interface ISMSTemplateListDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     id: number;
@@ -24011,9 +24064,9 @@ export class GetSMSTemplateForEditDto implements IGetSMSTemplateForEditDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 最后修改时间 */
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     /** 模板参数集合 */
@@ -24090,9 +24143,9 @@ export interface IGetSMSTemplateForEditDto {
     /** 短信供应商名称 */
     smsProvider: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 最后修改时间 */
-    lastModificationTime: Moment;
+    lastModificationTime: moment.Moment;
     /** 是否激活 */
     isActive: boolean;
     /** 模板参数集合 */
@@ -24104,7 +24157,7 @@ export interface IGetSMSTemplateForEditDto {
 
 export class SMSTemplateItemDto implements ISMSTemplateItemDto {
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 模板参数Id，null时为创建,有值时为更新 */
     id: number;
     /** 模板消息字段名 */
@@ -24148,7 +24201,7 @@ export class SMSTemplateItemDto implements ISMSTemplateItemDto {
 
 export interface ISMSTemplateItemDto {
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     /** 模板参数Id，null时为创建,有值时为更新 */
     id: number;
     /** 模板消息字段名 */
@@ -24854,7 +24907,7 @@ export class TenantListDto implements ITenantListDto {
     /** 是否激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: ITenantListDto) {
@@ -24909,7 +24962,7 @@ export interface ITenantListDto {
     /** 是否激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -24934,7 +24987,7 @@ export class CreateTenantInput implements ICreateTenantInput {
     editionId: number;
     /** 激活 */
     isActive: boolean;
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     isInTrialPeriod: boolean;
 
     constructor(data?: ICreateTenantInput) {
@@ -25008,7 +25061,7 @@ export interface ICreateTenantInput {
     editionId: number;
     /** 激活 */
     isActive: boolean;
-    subscriptionEndDateUtc: Moment;
+    subscriptionEndDateUtc: moment.Moment;
     isInTrialPeriod: boolean;
 }
 
@@ -26499,11 +26552,11 @@ export class UserListDto implements IUserListDto {
     /** 角色 */
     roles: UserListRoleDto[];
     /** 最后登陆时间 */
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     /** 是否已激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 
     constructor(data?: IUserListDto) {
@@ -26582,11 +26635,11 @@ export interface IUserListDto {
     /** 角色 */
     roles: UserListRoleDto[];
     /** 最后登陆时间 */
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     /** 是否已激活 */
     isActive: boolean;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
     id: number;
 }
 
@@ -26943,9 +26996,9 @@ export class ExternalUserLoginDto implements IExternalUserLoginDto {
     /** 刷新凭证 */
     refreshToken: string;
     /** 调用凭证过期时间 */
-    accessTokenOutDataTime: Moment;
+    accessTokenOutDataTime: moment.Moment;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 
     constructor(data?: IExternalUserLoginDto) {
         if (data) {
@@ -27003,9 +27056,9 @@ export interface IExternalUserLoginDto {
     /** 刷新凭证 */
     refreshToken: string;
     /** 调用凭证过期时间 */
-    accessTokenOutDataTime: Moment;
+    accessTokenOutDataTime: moment.Moment;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 }
 
 export class UpdateUserPermissionsInput implements IUpdateUserPermissionsInput {
@@ -27237,7 +27290,7 @@ export class LinkedUserDto implements ILinkedUserDto {
     tenantId: number;
     tenancyName: string;
     username: string;
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     id: number;
 
     constructor(data?: ILinkedUserDto) {
@@ -27281,7 +27334,7 @@ export interface ILinkedUserDto {
     tenantId: number;
     tenancyName: string;
     username: string;
-    lastLoginTime: Moment;
+    lastLoginTime: moment.Moment;
     id: number;
 }
 
@@ -27429,7 +27482,7 @@ export class UserLoginAttemptDto implements IUserLoginAttemptDto {
     /** 结果 */
     result: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 
     constructor(data?: IUserLoginAttemptDto) {
         if (data) {
@@ -27486,7 +27539,7 @@ export interface IUserLoginAttemptDto {
     /** 结果 */
     result: string;
     /** 创建时间 */
-    creationTime: Moment;
+    creationTime: moment.Moment;
 }
 
 export class GetLatestWebLogsOutput implements IGetLatestWebLogsOutput {
@@ -27704,6 +27757,7 @@ export enum BookingShareRecordInputTarget {
 
 export class AdditionalData implements IAdditionalData {
     weChat: { [key: string] : string; };
+    alipay: { [key: string] : string; };
 
     constructor(data?: IAdditionalData) {
         if (data) {
@@ -27721,6 +27775,13 @@ export class AdditionalData implements IAdditionalData {
                 for (let key in data["WeChat"]) {
                     if (data["WeChat"].hasOwnProperty(key))
                         this.weChat[key] = data["WeChat"][key];
+                }
+            }
+            if (data["Alipay"]) {
+                this.alipay = {};
+                for (let key in data["Alipay"]) {
+                    if (data["Alipay"].hasOwnProperty(key))
+                        this.alipay[key] = data["Alipay"][key];
                 }
             }
         }
@@ -27741,12 +27802,20 @@ export class AdditionalData implements IAdditionalData {
                     data["WeChat"][key] = this.weChat[key];
             }
         }
+        if (this.alipay) {
+            data["Alipay"] = {};
+            for (let key in this.alipay) {
+                if (this.alipay.hasOwnProperty(key))
+                    data["Alipay"][key] = this.alipay[key];
+            }
+        }
         return data; 
     }
 }
 
 export interface IAdditionalData {
     weChat: { [key: string] : string; };
+    alipay: { [key: string] : string; };
 }
 
 export enum UserNotificationState {
@@ -27801,6 +27870,7 @@ export enum CreatePaymentDtoPaymentPeriodType {
 
 export enum CreatePaymentDtoSubscriptionPaymentGatewayType {
     _1 = 1, 
+    _2 = 2, 
 }
 
 export enum BookingOrderListDtoStatus {
@@ -27825,12 +27895,6 @@ export enum CurrentUserProfileEditDtoGender {
     _0 = 0, 
     _1 = 1, 
     _2 = 2, 
-}
-
-export enum TenantLoginInfoDtoPaymentPeriodType {
-    _30 = 30, 
-    _90 = 90, 
-    _365 = 365, 
 }
 
 export enum UserCodeSendInputCodeType {

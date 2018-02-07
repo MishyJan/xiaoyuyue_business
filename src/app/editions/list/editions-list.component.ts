@@ -3,9 +3,14 @@ import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AccountEditionBuild } from 'app/shared/utils/account-edition';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { accountModuleAnimation } from 'shared/animations/routerTransition';
-import { EditionSubscriptionServiceProxy, EditionsSelectOutput, EditionWithFeaturesDto, FlatFeatureSelectDto, NameValueDto } from 'shared/service-proxies/service-proxies';
+import { EditionSubscriptionServiceProxy, EditionsSelectOutput, EditionWithFeaturesDto, FlatFeatureSelectDto, NameValueDto, CreatePaymentDtoEditionPaymentType } from 'shared/service-proxies/service-proxies';
 import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
 import { GetCurrentFeatures } from 'shared/AppConsts';
+export class EditionOutput {
+    editionsInfo: EditionWithFeaturesDto[];
+    editionId: number;
+    editionPaymentType: CreatePaymentDtoEditionPaymentType;
+}
 
 @Component({
     selector: 'xiaoyuyue-editions-list',
@@ -14,6 +19,7 @@ import { GetCurrentFeatures } from 'shared/AppConsts';
     animations: [accountModuleAnimation()]
 })
 export class EditionsListComponent extends AppComponentBase implements OnInit {
+    editionOutput: EditionOutput = new EditionOutput();
     allFeatures: FlatFeatureSelectDto[];
     tenantEditionId: number;
     editionsWithFeatures: EditionWithFeaturesDto[];
@@ -32,8 +38,11 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
         this.loadData();
     }
 
-    showToPayModel(editionId: number): void {
-        this.toPayModel.show(editionId);
+    showToPayModel(editionId: number, editionPaymentType: CreatePaymentDtoEditionPaymentType): void {
+        this.editionOutput.editionId = editionId;
+        this.editionOutput.editionsInfo = this.editionsWithFeatures.slice(1); // 移除免费版的数据
+        this.editionOutput.editionPaymentType = editionPaymentType;
+        this.toPayModel.show(this.editionOutput);
     }
 
     loadData(): void {
