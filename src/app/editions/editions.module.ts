@@ -7,6 +7,7 @@ import { EditionsRoutingModule } from 'app/editions/editions.routing';
 import { EditionsListComponent } from 'app/editions/list/editions-list.component';
 import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
 import { ResponsiveModule } from 'ng2-responsive';
+import { ToPayMobileComponent } from 'app/editions/list/to-pay-mobile/to-pay-mobile.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ResponsiveModule } from 'ng2-responsive';
     ],
     declarations: [
         EditionsListComponent,
-        ToPayModelComponent
+        ToPayModelComponent,
+        ToPayMobileComponent
     ]
 })
 export class EditionsModule { }

@@ -1,0 +1,44 @@
+<div *showItBootstrap="[ 'xs', 'sm']">
+    <div class="mobile-to-pay">
+        <tabset class="tabset" #staticTabs>
+            <tab heading="{{ edition.displayName }}">
+                <div class="card">
+                    <div class="content-item">
+                        <div class="top-wrap clearfix">
+                            <div class="title pull-left">选择套餐</div>
+                        </div>
+                        <div class="content">
+                            <div class="flex">
+                                <div class="flex-item" [ngClass]="{'active': selectTimeIndex === 1}" (click)="selectTimeHandle(1, edition.annualPrice)">
+                                    <div class="flex-item-content">
+                                        <div class="time">1年</div>
+                                        <div class="price">￥{{edition.annualPrice}}</div>
+                                    </div>
+                                </div>
+                                <div class="flex-item" [ngClass]="{'active': selectTimeIndex === 2}" (click)="selectTimeHandle(2, edition.seasonPrice)">
+                                    <div class="flex-item-content">
+                                        <div class="time">3个月</div>
+                                        <div class="price">￥{{edition.seasonPrice}}</div>
+                                    </div>
+                                </div>
+                                <div class="flex-item" [ngClass]="{'active': selectTimeIndex === 3}">
+                                    <div class="flex-item-content">
+                                        <div class="time" (click)="selectTimeHandle(3, edition.monthlyPrice)">1个月</div>
+                                        <div class="price">￥{{edition.monthlyPrice}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer clearfix">
+                            <div class="pull-left">支付金额：{{ finalPrice }}元</div>
+                            <div class="pull-right">
+                                <button class="btn no-margin primary-bgcolor">立即支付</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+            <tab></tab>
+        </tabset>
+    </div>
+</div>

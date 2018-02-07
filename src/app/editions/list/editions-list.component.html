@@ -38,8 +38,8 @@
     </form>
 </div>
 
-<div class="mobile-account-edition">
-    <div *showItBootstrap="[ 'xs', 'sm']">
+<div *showItBootstrap="[ 'xs', 'sm']">
+    <div class="mobile-account-edition">
         <tabset class="tabset" #staticTabs>
             <tab [heading]="edition.edition.displayName" *ngFor="let edition of editionsWithFeatures">
                 <div class="card">
