@@ -1,12 +1,12 @@
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
 import { AccountSecurityComponent } from './account-settings.component';
-import { SecurityComponent } from './security/security.component';
+import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
+import { EmailComponent } from 'app/account-manage/account-settings/security/email/email.component';
+import { LangSwitchComponent } from './lang-switch/lang-switch.component';
 import { PasswdComponent } from './security/passwd/passwd.component';
 import { PhoneComponent } from './security/phone/phone.component';
-import { LangSwitchComponent } from './lang-switch/lang-switch.component';
-import { EmailComponent } from 'app/account-manage/account-settings/security/email/email.component';
+import { SecurityComponent } from './security/security.component';
 
 const routes: Routes = [
     {
@@ -27,22 +27,22 @@ const routes: Routes = [
             {
                 path: 'passwd',
                 component: PasswdComponent,
-                data: { breadcrumb: 'Menu.ChangePassword' },
+                data: { breadcrumb: 'Page.ChangePassword' },
             },
             {
                 path: 'phone',
                 component: PhoneComponent,
-                data: { breadcrumb: 'Menu.ChangeAndBindingPassword' },
+                data: { breadcrumb: 'Page.BindingPhone' },
             },
             {
                 path: 'email',
                 component: EmailComponent,
-                data: { breadcrumb: 'Menu.ChangeAndBindingEmail' },
+                data: { breadcrumb: 'Page.BindingEmail' },
             },
             {
                 path: 'lang',
                 component: LangSwitchComponent,
-                data: { breadcrumb: 'Menu.SwitchLanguage' },
+                data: { breadcrumb: 'Page.SwitchLanguage' },
             }
         ]
     }

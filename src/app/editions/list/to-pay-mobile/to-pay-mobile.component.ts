@@ -1,7 +1,8 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, EventEmitter, Injector, OnInit } from '@angular/core';
 import { CreatePaymentDto, CreatePaymentDtoEditionPaymentType, CreatePaymentDtoPaymentPeriodType, CreatePaymentDtoSubscriptionPaymentGatewayType, EditionSelectDto, EditionSubscriptionServiceProxy } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Router } from '@angular/router';
 import { WeChatPaymentService } from 'shared/services/wechat-payment.service';
 
@@ -10,7 +11,7 @@ import { WeChatPaymentService } from 'shared/services/wechat-payment.service';
     templateUrl: './to-pay-mobile.component.html',
     styleUrls: ['./to-pay-mobile.component.scss']
 })
-export class ToPayMobileComponent extends AppComponentBase implements OnInit {
+export class ToPayMobileComponent extends AppComponentBase implements OnInit, OnDestroy {
     selectTimeIndex = 3;
     edition: EditionSelectDto = new EditionSelectDto();
     editionId = 2;
@@ -33,6 +34,10 @@ export class ToPayMobileComponent extends AppComponentBase implements OnInit {
         this._wechatPaymentService.successAction.subscribe((result) => {
             this.processPaymentResult(result);
         });
+    }
+
+    ngOnDestroy() {
+        this._wechatPaymentService.successAction = new EventEmitter<boolean>();
     }
 
     loadData(): void {
