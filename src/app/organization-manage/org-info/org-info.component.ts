@@ -46,7 +46,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
         private _cookiesService: CookiesService,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _localStorageService: LocalStorageService,
-        private _sessionService: AppSessionService,
     ) {
         super(
             injector
@@ -140,7 +139,7 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
                 this.saving = false;
             })
             .subscribe(() => {
-                this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId));
+                this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this.appSession.tenantId));
                 callback();
                 this.removeEditCache(); // 清理缓存数据
                 this.notify.success(this.l('SavaSuccess'));
@@ -193,14 +192,14 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     startSaveEditInfoInBower() {
         this.interval = setInterval(() => {
             if (this.isDataNoSave()) {
-                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId), this.tenantInfo);
+                this._localStorageService.setItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this.appSession.tenantId), this.tenantInfo);
                 this.originalTenantInfo = _.cloneDeep(this.tenantInfo);
             }
         }, 3000)
     }
 
     removeEditCache() {
-        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId));
+        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this.appSession.tenantId));
     }
 
     isDataNoSave(): boolean {
@@ -217,6 +216,6 @@ export class OrgInfoComponent extends AppComponentBase implements OnInit, AfterV
     }
 
     private getCacheItemKey() {
-        return abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this._sessionService.tenantId);
+        return abp.utils.formatString(AppConsts.templateEditStore.orgInfo, this.appSession.tenantId);
     }
 }

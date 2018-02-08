@@ -73,11 +73,6 @@ interface JQuery {
 
 declare module 'rtl-detect';
 
-/**
- * Wechat Login
- */
-declare var WxLogin: any;
-
 declare var Push: any;
 
 declare var $: any;
@@ -133,3 +128,9 @@ interface JQuery {
 }
 
 declare var QRCode: any;
+
+/**
+ * Wechat 
+ */
+declare var WxLogin: any;
+declare var WeixinJSBridge: any;

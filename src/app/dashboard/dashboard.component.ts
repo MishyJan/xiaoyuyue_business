@@ -1,17 +1,17 @@
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, CurrentlyBookingDataDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 
+import { AccountInfo } from 'app/shared/utils/account-info';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
+import { GetCurrentFeatures } from 'shared/AppConsts';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
 import { NavigationEnd } from '@angular/router';
-import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
-import { AccountInfo } from 'app/shared/utils/account-info';
 import { PaysType } from 'shared/AppEnums';
-import { GetCurrentFeatures } from 'shared/AppConsts';
-import { AppSessionService } from 'shared/common/session/app-session.service';
+import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -35,7 +35,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     constructor(
         injector: Injector,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
-        private _sessionService: AppSessionService,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
     ) {
         super(injector);
@@ -225,12 +224,12 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
     // 获取账户信息
     getAccountInfo(): void {
-        this.accountInfo.tenantName = this._sessionService.tenant.tenancyName;
-        this.accountInfo.editionId = this._sessionService.tenant.edition.id;
-        this.accountInfo.editionDisplayName = this._sessionService.tenant.edition.displayName;
-        this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this._sessionService.tenant.subscriptionEndDateUtc)
-        this.accountInfo.subCreatedBookingCount = this._sessionService.tenant.bookingNum;
-        this.accountInfo.subCreatedOutletCount = this._sessionService.tenant.outletNum;
+        this.accountInfo.tenantName = this.appSession.tenant.tenancyName;
+        this.accountInfo.editionId = this.appSession.tenant.edition.id;
+        this.accountInfo.editionDisplayName = this.appSession.tenant.edition.displayName;
+        this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this.appSession.tenant.subscriptionEndDateUtc)
+        this.accountInfo.subCreatedBookingCount = this.appSession.tenant.bookingNum;
+        this.accountInfo.subCreatedOutletCount = this.appSession.tenant.outletNum;
         this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
         this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
     }

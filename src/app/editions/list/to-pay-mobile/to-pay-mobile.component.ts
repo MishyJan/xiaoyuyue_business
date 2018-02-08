@@ -1,6 +1,9 @@
-import { Component, OnInit, Injector } from '@angular/core';
-import { CreatePaymentDto, CreatePaymentDtoPaymentPeriodType, CreatePaymentDtoEditionPaymentType, CreatePaymentDtoSubscriptionPaymentGatewayType, EditionSubscriptionServiceProxy, EditionSelectDto } from 'shared/service-proxies/service-proxies';
+import { Component, Injector, OnInit } from '@angular/core';
+import { CreatePaymentDto, CreatePaymentDtoEditionPaymentType, CreatePaymentDtoPaymentPeriodType, CreatePaymentDtoSubscriptionPaymentGatewayType, EditionSelectDto, EditionSubscriptionServiceProxy } from 'shared/service-proxies/service-proxies';
+
 import { AppComponentBase } from 'shared/common/app-component-base';
+import { Router } from '@angular/router';
+import { WeChatPaymentService } from 'shared/services/wechat-payment.service';
 
 @Component({
     selector: 'xiaoyuyue-to-pay-mobile',
@@ -9,7 +12,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 })
 export class ToPayMobileComponent extends AppComponentBase implements OnInit {
     selectTimeIndex = 3;
-    edition: EditionSelectDto;
+    edition: EditionSelectDto = new EditionSelectDto();
     editionId = 2;
     finalPrice: number;
     createPaymentDto: CreatePaymentDto;
@@ -17,6 +20,8 @@ export class ToPayMobileComponent extends AppComponentBase implements OnInit {
     constructor(
         private injector: Injector,
         private _editionSubscriptionService: EditionSubscriptionServiceProxy,
+        private _wechatPaymentService: WeChatPaymentService,
+        private _router: Router,
     ) {
         super(injector);
     }
@@ -24,6 +29,8 @@ export class ToPayMobileComponent extends AppComponentBase implements OnInit {
     ngOnInit() {
         this.loadData();
         this.initCreatePayMent();
+
+        this._wechatPaymentService
     }
 
     loadData(): void {
@@ -57,4 +64,18 @@ export class ToPayMobileComponent extends AppComponentBase implements OnInit {
         // this.createPayment();
     }
 
+    createPayment(): void {
+        this._wechatPaymentService.invokeWeChatPayment(this.createPaymentDto)
+    }
+
+    processPaymentResult(result: boolean) {
+        if (result) {
+            this.notify.success('支付成功');
+            this.appSession.init();
+            this._router.navigate(['/account/condition']);
+        } else {
+            this.notify.success('支付失败，请重试');
+        }
+
+    }
 }

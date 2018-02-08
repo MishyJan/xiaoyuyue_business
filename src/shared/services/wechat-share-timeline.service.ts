@@ -7,12 +7,6 @@ import { RandomHelper } from 'shared/helpers/RandomHelper';
 import { TitleService } from 'shared/services/title.service';
 import { WeChatJSServiceProxy } from 'shared/service-proxies/service-proxies';
 
-export declare class Breadcrumb {
-    displayName: string;
-    terminal: boolean;
-    url: string;
-}
-
 @Injectable()
 export class WeChatShareTimelineService {
     successAction = new EventEmitter<WeChatShareResultDto>();
@@ -37,7 +31,7 @@ export class WeChatShareTimelineService {
                 timestamp: timestamp,
                 nonceStr: nonceStr,
                 signature: result.signature,
-                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'chooseWXPay']
             });
 
             wx.ready(function () {

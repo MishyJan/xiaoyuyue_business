@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
+import { AfterViewInit, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BatchCheckInInput, OrgBookingOrderServiceProxy, Status } from 'shared/service-proxies/service-proxies';
-import { Component, ElementRef, Injector, OnInit, ViewChild, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
 import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
@@ -9,8 +9,8 @@ import { AppGridData } from 'shared/grid-data-results/grid-data-results';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderStatus } from 'shared/AppEnums';
-import { ModalDirective } from 'ngx-bootstrap';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
     selector: 'xiaoyuyue-check-in-order-model',
@@ -27,7 +27,7 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
 
     batchCheckInCount = 0;
     bookingId: number;
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this.appSession);
     isBatchCheckInFlag = false;
     isShowModelFlag = false;
     status: Status[] = [BookingOrderStatus.ConfirmSuccess];
@@ -42,7 +42,6 @@ export class CheckInOrderModelComponent extends AppComponentBase implements OnIn
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _sessionService: AppSessionService
     ) {
         super(injector);
     }

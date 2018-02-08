@@ -2,8 +2,6 @@ import { AfterViewInit, Component, Injector, OnInit, ViewChild, ViewEncapsulatio
 import { ChangeUserLanguageDto, CurrentUserProfileEditDto, LinkedUserDto, ProfileServiceProxy, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { Params, Router } from '@angular/router';
 
-import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
-import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
@@ -47,8 +45,6 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     iswxjsEnvironment = false;
     constructor(
         injector: Injector,
-        private _sessionService: AbpSessionService,
-        private _abpMultiTenancyService: AbpMultiTenancyService,
         private _profileServiceProxy: ProfileServiceProxy,
         private _userServiceProxy: UserServiceProxy,
         private _authService: AppAuthService,
@@ -72,7 +68,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
 
         this.languages = this.localization.languages;
         this.currentLanguage = this.localization.currentLanguage;
-        this.isImpersonatedLogin = this._sessionService.impersonatorUserId > 0;
+        this.isImpersonatedLogin = this.appSession.impersonatorUserId > 0;
 
         this.shownLoginNameTitle = this.isImpersonatedLogin ? this.l('YouCanBackToYourAccount') : '';
 
@@ -102,14 +98,14 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
         });
 
         abp.event.on('outletListSelectChanged', () => {
-            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId));
+            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this.appSession.tenantId));
         });
         abp.event.on('contactorListSelectChanged', () => {
-            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId));
+            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this.appSession.tenantId));
         });
 
         abp.event.on('bookingListSelectChanged', () => {
-            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this._sessionService.tenantId));
+            this._localStorageService.removeItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this.appSession.tenantId));
         });
     }
 
@@ -140,7 +136,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     }
 
     getShownUserName(linkedUser: LinkedUserDto): string {
-        if (!this._abpMultiTenancyService.isEnabled) {
+        if (!this.multiTenancy.isEnabled) {
             return linkedUser.username;
         }
 
@@ -174,7 +170,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     }
 
     get chatEnabled(): boolean {
-        return (!this._sessionService.tenantId || this.feature.isEnabled('App.ChatFeature'));
+        return (!this.appSession.tenantId || this.feature.isEnabled('App.ChatFeature'));
     }
 
     createHearderTitle(routesCollection: Breadcrumb[]): string {

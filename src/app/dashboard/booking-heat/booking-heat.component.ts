@@ -27,7 +27,6 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy,
         private _localStorageService: LocalStorageService,
-        private _sessionService: AppSessionService
     ) {
         super(injector);
     }
@@ -119,7 +118,7 @@ export class BookingHeatComponent extends AppComponentBase implements OnInit, Af
     }
 
     getBookingSelectListData(): void {
-        this._localStorageService.getItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this._sessionService.tenantId), () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.bookingSelectListCache, this.appSession.tenantId), () => {
             return this._orgBookingServiceProxy.getBookingSelectList()
         }).then(result => {
             // 添加请选择数据源

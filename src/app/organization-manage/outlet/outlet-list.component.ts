@@ -5,13 +5,13 @@ import { ContactorEditDto, OutletListDto, OutletServiceServiceProxy, PagedResult
 
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
+import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseLsitDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { ListScrollService } from 'shared/services/list-scroll.service';
 import { Router } from '@angular/router';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 
 @Component({
     selector: 'xiaoyuyue-outlet-list',
@@ -30,7 +30,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     outletName: string;
     contactInfo: ContactorEditDto;
 
-    listParam = new BaseLsitDataInputDto(this._sessionService);
+    listParam = new BaseLsitDataInputDto(this.appSession);
     searching = false;
     pictureDefaultBgUrl = '/assets/common/images/login/bg1.jpg';
     slogan = this.l('Nothing.Need2Create');
@@ -40,7 +40,6 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
         private _router: Router,
         private _listScrollService: ListScrollService,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
-        private _sessionService: AppSessionService
 
     ) {
         super(injector);

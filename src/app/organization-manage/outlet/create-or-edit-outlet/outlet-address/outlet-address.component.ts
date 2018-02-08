@@ -41,7 +41,6 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
         private _selectHelper: SelectHelperService,
         private _stateServiceServiceProxy: StateServiceServiceProxy,
         private _localStorageService: LocalStorageService,
-        private _sessionService: AppSessionService,
         private _route: ActivatedRoute,
         private el: ElementRef,
         private zone: NgZone

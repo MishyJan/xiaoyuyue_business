@@ -27,7 +27,7 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     batchConfirmInput: BatchConfirmInput = new BatchConfirmInput();
     batchConfirmCount = 0;
     bookingId: number;
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this.appSession);
     isBatchConfirmFlag = false;
     isShowModelFlag = false;
     status: Status[] = [BookingOrderStatus.WaitConfirm];
@@ -43,7 +43,6 @@ export class ConfirmOrderModelComponent extends AppComponentBase implements OnIn
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _sessionService: AppSessionService
     ) {
         super(injector);
     }

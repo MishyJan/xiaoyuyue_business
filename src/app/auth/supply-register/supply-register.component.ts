@@ -25,14 +25,13 @@ export class SupplyRegisterComponent extends AppComponentBase implements OnInit,
         private injector: Injector,
         private _router: Router,
         private _authService: AppAuthService,
-        private _sessionService: AppSessionService,
         private _loginService: LoginService
     ) {
         super(injector);
     }
 
     ngOnInit() {
-        if (this._sessionService.tenantId) {
+        if (this.appSession.tenantId) {
             this.message.warn(this.l('SupplRregister.IsRegisted'));
             this._router.navigate(['/']);
         }

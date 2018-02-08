@@ -30,7 +30,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     bookingCustomListData = new AppGridData();
     bookingItem: BookingListDto = new BookingListDto();
 
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this.appSession);
     selectDefaultItem: { value: string, displayText: string; };
     status: Status;
     displayStatus: string[];
@@ -46,7 +46,6 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
     constructor(
         injector: Injector,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _sessionService: AppSessionService,
         private _selectHelper: SelectHelperService,
         private _orderStatusService: BookingOrderStatusService
 
@@ -107,7 +106,7 @@ export class BookingCustomModelComponent extends AppComponentBase implements OnI
             this.bookingId = bookingItem.id;
         }
         this.status = undefined;
-        this.gridParam = new BaseGridDataInputDto(this._sessionService);
+        this.gridParam = new BaseGridDataInputDto(this.appSession);
         this.loadData();
         this.modal.show();
     }

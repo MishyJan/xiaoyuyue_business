@@ -1,15 +1,16 @@
-import { Component, OnInit, Injector, AfterViewInit, ViewEncapsulation } from '@angular/core';
-import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
-import { AppSessionService } from 'shared/common/session/app-session.service';
-import { AppComponentBase } from 'shared/common/app-component-base';
-import { accountModuleAnimation } from 'shared/animations/routerTransition';
-import { PaymentServiceProxy, SubscriptionPaymentListDto, EditionSubscriptionServiceProxy, EditionsViewOutput, FlatFeatureSelectDto, EditionWithFeaturesDto } from 'shared/service-proxies/service-proxies';
-import { AppGridData } from 'shared/grid-data-results/grid-data-results';
-import { PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { AfterViewInit, Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
+import { DataStateChangeEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { EditionSubscriptionServiceProxy, EditionWithFeaturesDto, EditionsViewOutput, FlatFeatureSelectDto, PaymentServiceProxy, SubscriptionPaymentListDto } from 'shared/service-proxies/service-proxies';
+
 import { AccountInfo } from 'app/shared/utils/account-info';
+import { AppComponentBase } from 'shared/common/app-component-base';
+import { AppGridData } from 'shared/grid-data-results/grid-data-results';
+import { AppSessionService } from 'shared/common/session/app-session.service';
+import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
+import { GetCurrentFeatures } from 'shared/AppConsts';
 import { Moment } from 'moment';
 import { PaysType } from 'shared/AppEnums';
-import { GetCurrentFeatures } from 'shared/AppConsts';
+import { accountModuleAnimation } from 'shared/animations/routerTransition';
 
 @Component({
     selector: 'xiaoyuyue-account-condition',
@@ -30,16 +31,15 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     paymentHistoryData = new AppGridData();
     constructor(
         private injector: Injector,
-        private _sessionService: AppSessionService,
         private _paymentService: PaymentServiceProxy,
         private _editionSubscriptionService: EditionSubscriptionServiceProxy
     ) {
         super(injector);
-        this.gridParam = new BaseGridDataInputDto(this._sessionService);
+        this.gridParam = new BaseGridDataInputDto(this.appSession);
     }
 
     ngOnInit() {
-        this.isHighestEdition = this._sessionService.tenant.edition.isHighestEdition;
+        this.isHighestEdition = this.appSession.tenant.edition.isHighestEdition;
         this.getAccountInfo();
         this.getCurrentEditions();
     }
@@ -94,12 +94,12 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
 
     // 获取账户信息
     getAccountInfo(): void {
-        this.accountInfo.tenantName = this._sessionService.tenant.tenancyName;
-        this.accountInfo.editionId = this._sessionService.tenant.edition.id;
-        this.accountInfo.editionDisplayName = this._sessionService.tenant.edition.displayName;
-        this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this._sessionService.tenant.subscriptionEndDateUtc)
-        this.accountInfo.subCreatedBookingCount = this._sessionService.tenant.bookingNum;
-        this.accountInfo.subCreatedOutletCount = this._sessionService.tenant.outletNum;
+        this.accountInfo.tenantName = this.appSession.tenant.tenancyName;
+        this.accountInfo.editionId = this.appSession.tenant.edition.id;
+        this.accountInfo.editionDisplayName = this.appSession.tenant.edition.displayName;
+        this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this.appSession.tenant.subscriptionEndDateUtc)
+        this.accountInfo.subCreatedBookingCount = this.appSession.tenant.bookingNum;
+        this.accountInfo.subCreatedOutletCount = this.appSession.tenant.outletNum;
         this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
         this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
     }

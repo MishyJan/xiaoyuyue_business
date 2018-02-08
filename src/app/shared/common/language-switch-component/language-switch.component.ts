@@ -18,7 +18,6 @@ export class LanguageSwitchComponent extends AppComponentBase implements OnInit 
     languages: abp.localization.ILanguageInfo[] = [];
 
     constructor(injector: Injector,
-        private _sessionService: AppSessionService,
         private _cookiesService: CookiesService,
         private _profileServiceProxy: ProfileServiceProxy) {
         super(injector);
@@ -31,7 +30,7 @@ export class LanguageSwitchComponent extends AppComponentBase implements OnInit 
 
     changeLanguage(language: abp.localization.ILanguageInfo) {
         // 登陆状态下修改默认语言
-        if (this._sessionService.user) {
+        if (this.appSession.user) {
             const input = new ChangeUserLanguageDto();
             input.languageName = language.name;
 

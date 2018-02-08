@@ -1,11 +1,11 @@
-import { Component, ViewChild, Injector, Output, EventEmitter, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Injector, OnInit, Output, ViewChild } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
 import { AppConsts } from '@shared/AppConsts';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { AbpSessionService } from '@abp/session/abp-session.service';
 
 @Component({
-    selector: "xiaoyuyue-background-img",
+    selector: 'xiaoyuyue-background-img',
     templateUrl: './background-img.component.html',
     styleUrls: ['background-img.component.scss'],
     animations: [accountModuleAnimation()]
