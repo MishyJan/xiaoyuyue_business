@@ -37,10 +37,10 @@
                                         <p>{{ accountInfo.tenantName }}</p>
                                         <p>{{ accountInfo.editionDisplayName }}</p>
                                         <p>{{ accountInfo.editionTimeLimit }}
-                                            <button class="btn light-bgcolor to-pay pull-right">{{ accountInfo.paysTypeDisplayName }}</button>
+                                            <button class="btn light-bgcolor to-pay pull-right" routerLink="/editions/list">{{ accountInfo.paysTypeDisplayName }}</button>
                                         </p>
-                                        <p>{{ accountInfo.subCreatedOutletCount}} / {{ accountInfo.maxOutletCount }}</p>
-                                        <p>{{ accountInfo.subCreatedBookingCount }} / {{ accountInfo.maxBookingCount }}</p>
+                                        <p>{{ outletStatisticCountText}}</p>
+                                        <p>{{ bookingStatisticCountText }}</p>
                                     </div>
                                 </div>
                             </div>

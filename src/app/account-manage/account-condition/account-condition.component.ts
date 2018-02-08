@@ -19,6 +19,8 @@ import { GetCurrentFeatures } from 'shared/AppConsts';
     encapsulation: ViewEncapsulation.None
 })
 export class AccountConditionComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    bookingStatisticCountText: string;
+    outletStatisticCountText: string;
     isHighestEdition: boolean;
     currentEditions: EditionWithFeaturesDto;
     allFeatures: FlatFeatureSelectDto[];
@@ -77,11 +79,15 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         let displayName = '';
         this.allFeatures.forEach((element: FlatFeatureSelectDto) => {
             if (name === 'App.MaxBookingCount') {
-                displayName = element.displayName + GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value + '个';
+                displayName = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
+                    element.displayName + '不限制' :
+                    element.displayName + GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value + '个';
                 return;
             }
             if (name === 'App.MaxOutletCount') {
-                displayName = element.displayName + GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value + '个';
+                displayName = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value === '0' ?
+                    element.displayName + '不限制' :
+                    element.displayName + GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value + '个';
                 return;
             }
             if (element.name === name) {
@@ -96,12 +102,13 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     getAccountInfo(): void {
         this.accountInfo.tenantName = this._sessionService.tenant.tenancyName;
         this.accountInfo.editionId = this._sessionService.tenant.edition.id;
-        this.accountInfo.editionDisplayName = this._sessionService.tenant.edition.displayName;
+        this.accountInfo.editionDisplayName = this.isInTrialPeriod(this._sessionService.tenant.edition.displayName);
         this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this._sessionService.tenant.subscriptionEndDateUtc)
         this.accountInfo.subCreatedBookingCount = this._sessionService.tenant.bookingNum;
         this.accountInfo.subCreatedOutletCount = this._sessionService.tenant.outletNum;
         this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
         this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
+        this.transferOutletAndBookingContentText();
     }
 
     /*
@@ -122,6 +129,25 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         }
         return timeLimitName;
     }
+
+    // 是否正在试用中
+    private isInTrialPeriod(editionDisName: string): string {
+        return this._sessionService.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
+    }
+
+    // 转换门店统计文本内容 和 预约统计内容
+    private transferOutletAndBookingContentText(): void {
+        this.outletStatisticCountText = this.accountInfo.maxOutletCount === '0' ?
+            '不限制' : // 数量不限制
+            `${this.accountInfo.subCreatedOutletCount} / ${this.accountInfo.maxOutletCount}`;
+
+        this.bookingStatisticCountText = this.accountInfo.maxBookingCount === '0' ?
+            '不限制' : // 数量不限制
+            `${this.accountInfo.subCreatedBookingCount} / ${this.accountInfo.maxBookingCount}`;
+
+    }
+
+    // 转换预约统计文本内容
 
     // 切换页码
     public pageChange(event: PageChangeEvent): void {

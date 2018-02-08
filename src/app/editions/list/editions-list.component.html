@@ -27,10 +27,10 @@
                                 </div>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn btn-block primary-bgcolor" *ngIf="edition.edition.id === 1">试用</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1)" *ngIf="tenantEditionId === 1 && edition.edition.id > 1">开通</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2)" *ngIf="tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1">升级</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3)" *ngIf="tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1">续费</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="trialEditionService(edition.edition.id)" *ngIf="canTrialEdition() && edition.edition.id > 1">试用</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1, '开通会员')" *ngIf="tenantEditionId === 1 && edition.edition.id > 1">开通</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2, '升级会员')" *ngIf="tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1">升级</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3, '续费会员')" *ngIf="tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1">续费</button>
                             </div>
                         </div>
                     </div>

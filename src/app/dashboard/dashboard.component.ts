@@ -19,6 +19,7 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
     animations: [appModuleSlowAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    subBookingCountCountText: string | number;
     accountInfo: AccountInfo = new AccountInfo();
     defaultTenantBgUrl = 'assets/common/images/booking/center-bg.jpg';
     defaultTenantLogoUrl = 'assets/common/images/logo.jpg';
@@ -227,7 +228,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     getAccountInfo(): void {
         this.accountInfo.tenantName = this._sessionService.tenant.tenancyName;
         this.accountInfo.editionId = this._sessionService.tenant.edition.id;
-        this.accountInfo.editionDisplayName = this._sessionService.tenant.edition.displayName;
+        this.accountInfo.editionDisplayName = this.isInTrialPeriod(this._sessionService.tenant.edition.displayName);
         this.accountInfo.editionTimeLimit = this.editionTimeLimitIsValid(this._sessionService.tenant.subscriptionEndDateUtc)
         this.accountInfo.subCreatedBookingCount = this._sessionService.tenant.bookingNum;
         this.accountInfo.subCreatedOutletCount = this._sessionService.tenant.outletNum;
@@ -253,4 +254,16 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         }
         return timeLimitName;
     }
+
+        // 转换可用预约数显示文本
+        private transferSubBookingContentText(): void {
+            this.subBookingCountCountText = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
+                '不限制' : // 数量不限制
+                +this.accountInfo.maxBookingCount - this.accountInfo.subCreatedBookingCount;
+        }
+
+        // 是否正在试用中
+        private isInTrialPeriod(editionDisName: string): string {
+            return this._sessionService.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
+        }
 }

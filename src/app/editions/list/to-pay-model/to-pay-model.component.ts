@@ -5,16 +5,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 import { VerificationCodeType } from 'shared/AppEnums';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { EditionSelectDto, EditionSubscriptionServiceProxy, PaymentServiceProxy, CreatePaymentDto, CreatePaymentDtoEditionPaymentType, CreatePaymentDtoPaymentPeriodType, CreatePaymentDtoSubscriptionPaymentGatewayType, EditionWithFeaturesDto } from 'shared/service-proxies/service-proxies';
-export class EditionOutput {
-    /*
-        editionsInfo：获取所有版本信息
-        editionId：获取要开通的版本ID
-        editionPaymentType：购买来源，开通、升级、续费
-    */
-    editionsInfo: EditionWithFeaturesDto[];
-    editionId: number;
-    editionPaymentType: CreatePaymentDtoEditionPaymentType;
-}
+import { AccountEditionOutput } from 'app/shared/utils/account-edition';
 @Component({
     selector: 'xiaoyuyue-to-pay-model',
     templateUrl: './to-pay-model.component.html',
@@ -22,7 +13,7 @@ export class EditionOutput {
     animations: [accountModuleAnimation()]
 })
 export class ToPayModelComponent extends AppComponentBase implements OnInit {
-    editionOutput: EditionOutput;
+    editionOutput: AccountEditionOutput = new AccountEditionOutput();
     selectTypeIndex: number;
     edition: EditionSelectDto = new EditionSelectDto();
     editionsInfo: EditionWithFeaturesDto[];
@@ -51,21 +42,18 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
 
     selectTimeHandle(index: number): void {
         this.selectTimeIndex = index;
-        this.updateFinalPrice();
+        this.updatePaymentPeriodType();
         this.createWeChatPayment();
         this.createAlipayPayment();
         this.scanQRCodePaysStatus();
     }
 
-    private updateFinalPrice(): void {
+    private updatePaymentPeriodType(): void {
         if (this.selectTimeIndex === 1) {
-            this.finalPrice = this.edition.annualPrice;
             this.createPaymentDto.paymentPeriodType = CreatePaymentDtoPaymentPeriodType._365;
         } else if (this.selectTimeIndex === 2) {
-            this.finalPrice = this.edition.seasonPrice;
             this.createPaymentDto.paymentPeriodType = CreatePaymentDtoPaymentPeriodType._90;
         } else if (this.selectTimeIndex === 3) {
-            this.finalPrice = this.edition.monthlyPrice;
             this.createPaymentDto.paymentPeriodType = CreatePaymentDtoPaymentPeriodType._30;
         }
     }
@@ -74,13 +62,13 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
         this.edition = edition.edition;
         this.editionId = edition.edition.id;
         this.selectTypeIndex = index;
-        this.updateFinalPrice();
+        this.updatePaymentPeriodType();
         this.createWeChatPayment();
         this.createAlipayPayment();
         this.scanQRCodePaysStatus();
     }
 
-    show(editionOutput: EditionOutput): void {
+    show(editionOutput: AccountEditionOutput): void {
         this.editionOutput = editionOutput;
         this.initCreatePayMent();
         this.scanQRCodePaysStatus();
@@ -131,6 +119,7 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
             .subscribe((result) => {
                 this.wechatQrcodeContent = result.additionalData['CodeUrl'];
                 this.paymentId = result.paymentId;
+                this.finalPrice = result.amount;
             });
     }
 
@@ -144,6 +133,7 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
             .subscribe((result) => {
                 this.alipayQrcodeContent = result.additionalData['CodeUrl'];
                 this.paymentId = result.paymentId;
+                this.finalPrice = result.amount;
             });
     }
 

@@ -2430,6 +2430,100 @@ export class EditionSubscriptionServiceProxy {
         }
         return Observable.of<EditionSelectDto>(<any>null);
     }
+
+    /**
+     * 版本试用
+     * @return Success
+     */
+    trialEdition(editionId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EditionSubscription/TrialEdition?";
+        if (editionId === undefined || editionId === null)
+            throw new Error("The parameter 'editionId' must be defined and cannot be null.");
+        else
+            url_ += "editionId=" + encodeURIComponent("" + editionId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processTrialEdition(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processTrialEdition(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processTrialEdition(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * 升级到等价版本(价格相等)
+     * @return Success
+     */
+    upgradeTenantToEquivalentEdition(upgradeEditionId: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/EditionSubscription/UpgradeTenantToEquivalentEdition?";
+        if (upgradeEditionId === undefined || upgradeEditionId === null)
+            throw new Error("The parameter 'upgradeEditionId' must be defined and cannot be null.");
+        else
+            url_ += "upgradeEditionId=" + encodeURIComponent("" + upgradeEditionId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processUpgradeTenantToEquivalentEdition(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processUpgradeTenantToEquivalentEdition(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processUpgradeTenantToEquivalentEdition(response: Response): Observable<void> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            return Observable.of<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -6166,6 +6260,57 @@ export class PaymentServiceProxy {
     }
 
     /**
+     * 创建Js支付
+     * @input (optional) 
+     * @return Success
+     */
+    createJsPayment(input: CreatePaymentDto): Observable<CreatePaymentResponse> {
+        let url_ = this.baseUrl + "/api/services/app/Payment/CreateJsPayment";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            method: "post",
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request(url_, options_).flatMap((response_ : any) => {
+            return this.processCreateJsPayment(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof Response) {
+                try {
+                    return this.processCreateJsPayment(<any>response_);
+                } catch (e) {
+                    return <Observable<CreatePaymentResponse>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<CreatePaymentResponse>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processCreateJsPayment(response: Response): Observable<CreatePaymentResponse> {
+        const status = response.status;
+
+        let _headers: any = response.headers ? response.headers.toJSON() : {};
+        if (status === 200) {
+            const _responseText = response.text();
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CreatePaymentResponse.fromJS(resultData200) : new CreatePaymentResponse();
+            return Observable.of(result200);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.text();
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Observable.of<CreatePaymentResponse>(<any>null);
+    }
+
+    /**
      * 查询支付状态
      * @paymentId (optional) 
      * @return Success
@@ -8821,13 +8966,15 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
+     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
-     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount === undefined || maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
         else
@@ -8836,8 +8983,6 @@ export class StateServiceServiceProxy {
             throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
         else
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9441,64 +9586,6 @@ export class StateServiceServiceProxy {
     }
 
     protected processDeleteDistrict(response: Response): Observable<void> {
-        const status = response.status;
-
-        let _headers: any = response.headers ? response.headers.toJSON() : {};
-        if (status === 200) {
-            const _responseText = response.text();
-            return Observable.of<void>(<any>null);
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.text();
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Observable.of<void>(<any>null);
-    }
-}
-
-@Injectable()
-export class SubscriptionServiceProxy {
-    private http: Http;
-    private baseUrl: string;
-    protected jsonParseReviver: (key: string, value: any) => any = undefined;
-
-    constructor(@Inject(Http) http: Http, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * @return Success
-     */
-    upgradeTenantToEquivalentEdition(upgradeEditionId: number): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Subscription/UpgradeTenantToEquivalentEdition?";
-        if (upgradeEditionId === undefined || upgradeEditionId === null)
-            throw new Error("The parameter 'upgradeEditionId' must be defined and cannot be null.");
-        else
-            url_ += "upgradeEditionId=" + encodeURIComponent("" + upgradeEditionId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            method: "post",
-            headers: new Headers({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request(url_, options_).flatMap((response_ : any) => {
-            return this.processUpgradeTenantToEquivalentEdition(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof Response) {
-                try {
-                    return this.processUpgradeTenantToEquivalentEdition(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processUpgradeTenantToEquivalentEdition(response: Response): Observable<void> {
         const status = response.status;
 
         let _headers: any = response.headers ? response.headers.toJSON() : {};
@@ -21076,6 +21163,7 @@ export interface ICreatePaymentDto {
 
 export class CreatePaymentResponse implements ICreatePaymentResponse {
     additionalData: { [key: string] : string; };
+    amount: number;
     paymentId: string;
 
     constructor(data?: ICreatePaymentResponse) {
@@ -21096,6 +21184,7 @@ export class CreatePaymentResponse implements ICreatePaymentResponse {
                         this.additionalData[key] = data["additionalData"][key];
                 }
             }
+            this.amount = data["amount"];
             this.paymentId = data["paymentId"];
         }
     }
@@ -21115,6 +21204,7 @@ export class CreatePaymentResponse implements ICreatePaymentResponse {
                     data["additionalData"][key] = this.additionalData[key];
             }
         }
+        data["amount"] = this.amount;
         data["paymentId"] = this.paymentId;
         return data; 
     }
@@ -21122,6 +21212,7 @@ export class CreatePaymentResponse implements ICreatePaymentResponse {
 
 export interface ICreatePaymentResponse {
     additionalData: { [key: string] : string; };
+    amount: number;
     paymentId: string;
 }
 
@@ -23420,8 +23511,10 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
     logoUrl: string;
     /** Logo 文件类型 */
     logoFileType: string;
-    /** 是否试用 */
+    /** 是否试用中（在试用有效期内） */
     isInTrialPeriod: boolean;
+    /** 是否曾经试用过 */
+    hadTrialed: boolean;
     /** 版本信息 */
     edition: EditionInfoDto;
     /** 创建时间(Utc) */
@@ -23455,6 +23548,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
             this.logoUrl = data["logoUrl"];
             this.logoFileType = data["logoFileType"];
             this.isInTrialPeriod = data["isInTrialPeriod"];
+            this.hadTrialed = data["hadTrialed"];
             this.edition = data["edition"] ? EditionInfoDto.fromJS(data["edition"]) : <any>undefined;
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.creationTimeString = data["creationTimeString"];
@@ -23480,6 +23574,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
         data["logoUrl"] = this.logoUrl;
         data["logoFileType"] = this.logoFileType;
         data["isInTrialPeriod"] = this.isInTrialPeriod;
+        data["hadTrialed"] = this.hadTrialed;
         data["edition"] = this.edition ? this.edition.toJSON() : <any>undefined;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creationTimeString"] = this.creationTimeString;
@@ -23503,8 +23598,10 @@ export interface ITenantLoginInfoDto {
     logoUrl: string;
     /** Logo 文件类型 */
     logoFileType: string;
-    /** 是否试用 */
+    /** 是否试用中（在试用有效期内） */
     isInTrialPeriod: boolean;
+    /** 是否曾经试用过 */
+    hadTrialed: boolean;
     /** 版本信息 */
     edition: EditionInfoDto;
     /** 创建时间(Utc) */

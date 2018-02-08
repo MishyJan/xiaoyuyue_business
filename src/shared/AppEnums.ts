@@ -116,8 +116,8 @@ export class SendCodeType {
 export class PaysType {
     // 开通会员
     static JoinMembership = 1;
+    // 升级会员
+    static UpgradeMembership = 2;
     // 续费会员
-    static RenewalsMembership = 2;
-    // // 升级会员
-    // static UpgradeMembership = 2;
+    static RenewalsMembership = 3;
 }
