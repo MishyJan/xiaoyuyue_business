@@ -1,11 +1,13 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { CreatePaymentDtoEditionPaymentType, EditionSubscriptionServiceProxy, EditionWithFeaturesDto, EditionsSelectOutput, FlatFeatureSelectDto, NameValueDto } from 'shared/service-proxies/service-proxies';
 
 import { AccountEditionBuild } from 'app/shared/utils/account-edition';
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { accountModuleAnimation } from 'shared/animations/routerTransition';
-import { EditionSubscriptionServiceProxy, EditionsSelectOutput, EditionWithFeaturesDto, FlatFeatureSelectDto, NameValueDto, CreatePaymentDtoEditionPaymentType } from 'shared/service-proxies/service-proxies';
-import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
 import { GetCurrentFeatures } from 'shared/AppConsts';
+import { Router } from '@angular/router';
+import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
+import { accountModuleAnimation } from 'shared/animations/routerTransition';
+
 export class EditionOutput {
     editionsInfo: EditionWithFeaturesDto[];
     editionId: number;
@@ -27,7 +29,8 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
     @ViewChild('toPayModel') toPayModel: ToPayModelComponent;
     constructor(
         private injector: Injector,
-        private _editionSubscriptionService: EditionSubscriptionServiceProxy
+        private _editionSubscriptionService: EditionSubscriptionServiceProxy,
+        private _router: Router,
     ) {
         super(
             injector
@@ -71,4 +74,7 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
         return displayName;
     }
 
+    redirectToPay() {
+        this._router.navigate(['/editions/pays']);
+    }
 }

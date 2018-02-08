@@ -30,7 +30,9 @@ export class ToPayMobileComponent extends AppComponentBase implements OnInit {
         this.loadData();
         this.initCreatePayMent();
 
-        this._wechatPaymentService
+        this._wechatPaymentService.successAction.subscribe((result) => {
+            this.processPaymentResult(result);
+        });
     }
 
     loadData(): void {
