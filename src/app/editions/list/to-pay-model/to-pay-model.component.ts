@@ -141,8 +141,11 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
                 .queryPayment(this.paymentId)
                 .subscribe(result => {
                     if (result.paid) {
-                        this.message.success('支付成功');
                         this.hide();
+                        this.message.success('支付成功,为保证正常使用,将会自动刷新本页面');
+                        setTimeout( () => {
+                            window.location.reload();
+                        }, 1000);
                     }
                 })
         }, 5000);

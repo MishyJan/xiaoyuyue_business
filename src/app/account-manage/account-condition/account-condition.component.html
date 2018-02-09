@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="right-flex">
                                         <p>{{ accountInfo.tenantName }}</p>
-                                        <p>{{ accountInfo.editionDisplayName }}</p>
+                                        <p>{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</p>
                                         <p>{{ accountInfo.editionTimeLimit }}
                                             <button class="btn light-bgcolor to-pay pull-right" routerLink="/editions/list">{{ accountInfo.paysTypeDisplayName }}</button>
                                         </p>
@@ -51,7 +51,7 @@
                     <!-- 版本信息 -->
                     <div class="card">
                         <div class="form-horizontal">
-                                <button class="btn primary-bgcolor pull-right" style="margin-right: 20px;" routerLink="/editions/list">升级会员</button>
+                            <button class="btn primary-bgcolor pull-right" style="margin-right: 20px;" routerLink="/editions/list">升级会员</button>
                             <div class="card-header card-header-text" data-background-color="orange">
                                 <h6 class="card-title">版本信息</h6>
                             </div>
@@ -60,9 +60,7 @@
                                     {{ currentEditions.edition.displayName }}
                                 </div>
                                 <div class="flex">
-                                    <div class="flex-item"
-                                    [hidden] = "edition.name === 'App.MaxUserCount' || edition.value === 'false'"
-                                    *ngFor="let edition of currentEditions.featureValues">{{ getEditionDisplayName(edition.name) }}</div>
+                                    <div class="flex-item" [hidden]="edition.name === 'App.MaxUserCount' || edition.value === 'false'" *ngFor="let edition of currentEditions.featureValues">{{ getEditionDisplayName(edition.name) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -127,31 +125,8 @@
     </div>
 </div>
 
-<div *showItBootstrap="[ 'xs', 'sm']" class="mobile-account-condition">
-    <div class="account-condition-menu" *ngIf="!showConditionContent">
-        <div class="card-wrap col-xs-4 col-sm-3">
-            <div class="card" (click)="isShowConditionContent()">
-                <div class="item">
-                    <div class="content">
-                        <span class="icon vapps-icon-app-account-manage-menu"></span>
-                        <p class="text">账户概况</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-wrap col-xs-4 col-sm-3">
-            <div class="card" routerLink="/editions/list">
-                <div class="item">
-                    <div class="content">
-                        <span class="icon vapps-icon-app-vip"></span>
-                        <p class="text">账户版本</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="account-condition-content" *ngIf="showConditionContent">
+<div *showItBootstrap="[ 'xs', 'sm']">
+    <div class="account-condition-content">
         <tabset class="tabset" #staticTabs>
             <tab heading="账户信息" (select)="selectPaymentHistory(false)">
                 <div class="account-info-wrap">
@@ -169,12 +144,12 @@
                                     </div>
                                     <div class="content-row">
                                         <span class="name">用户版本: </span>
-                                        <span class="desc">{{ accountInfo.editionDisplayName }}</span>
+                                        <span class="desc">{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span>
                                     </div>
                                     <div class="content-row">
                                         <span class="name">VIP期限: </span>
                                         <span class="desc">{{ accountInfo.editionTimeLimit }}</span>
-                                        <button class="btn light-bgcolor to-pay pull-right">{{ accountInfo.paysTypeDisplayName }}</button>
+                                        <button class="btn light-bgcolor to-pay pull-right" routerLink="/editions/list">{{ accountInfo.paysTypeDisplayName }}</button>
                                     </div>
                                     <div class="content-row">
                                         <span class="name">门店统计: </span>
@@ -195,10 +170,8 @@
                                         <button class="btn btn-xs primary-bgcolor" *ngIf="isHighestEdition">升级</button>
                                     </div>
                                 </div>
-                                <div class="content">
-                                    <div class="content-row"
-                                    [hidden] = "edition.name === 'App.MaxUserCount' || edition.value === 'false'"
-                                    *ngFor="let edition of currentEditions.featureValues">{{ getEditionDisplayName(edition.name) }}</div>
+                                <div class="content" *ngIf="currentEditions">
+                                    <div class="content-row" [hidden]="edition.name === 'App.MaxUserCount' || edition.value === 'false'" *ngFor="let edition of currentEditions.featureValues">{{ getEditionDisplayName(edition.name) }}</div>
                                 </div>
                             </div>
                         </div>

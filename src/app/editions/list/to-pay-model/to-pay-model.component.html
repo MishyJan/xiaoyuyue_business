@@ -15,7 +15,7 @@
                 </div>
 
                 <!-- 开通时长 -->
-                <div class="time-limit-choose content-item row" *ngIf="this.editionOutput.editionPaymentType !== 2">
+                <div class="time-limit-choose content-item row" *ngIf="editionOutput.editionPaymentType !== 2">
                     <p class="col-lg-12">开通时长</p>
                     <div class="col-lg-4">
                         <div class="choose-item time-limit-item" [ngClass]="{'active': selectTimeIndex === 1}" (click)="selectTimeHandle(1)">

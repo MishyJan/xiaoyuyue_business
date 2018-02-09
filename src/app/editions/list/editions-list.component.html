@@ -28,9 +28,9 @@
                             </div>
                             <div class="btn-wrap">
                                 <button class="btn btn-block primary-bgcolor" (click)="trialEditionService(edition.edition.id)" *ngIf="canTrialEdition() && edition.edition.id > 1">试用</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1, '开通会员')" *ngIf="tenantEditionId === 1 && edition.edition.id > 1">开通</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2, '升级会员')" *ngIf="tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1">升级</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3, '续费会员')" *ngIf="tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1">续费</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1, '开通会员')" *ngIf="(appSession.tenant.isInTrialPeriod && edition.edition.id !== 1) || (tenantEditionId === 1 && edition.edition.id > 1)">开通</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2, '升级会员')" *ngIf="!appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1)">升级</button>
+                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3, '续费会员')" *ngIf="!appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1)">续费</button>
                             </div>
                         </div>
                     </div>
@@ -43,15 +43,58 @@
 <div *showItBootstrap="[ 'xs', 'sm']">
     <div class="mobile-account-edition">
         <tabset class="tabset" #staticTabs>
-            <tab [heading]="edition.edition.displayName" *ngFor="let edition of editionsWithFeatures">
+            <tab [heading]="edition.edition.displayName" (select)="getSelectEdition(edition)" *ngFor="let edition of editionsWithFeatures">
+                <ng-container *ngIf="!cannotPays; else elseTemplate">
+                    <div class="mobile-to-pay">
+                        <div class="card">
+                            <div class="content-item">
+                                <div class="top-wrap clearfix">
+                                    <div class="title pull-left">{{ editionOutput.editionPaymentDisplayName }}</div>
+                                </div>
+                                <div class="content" *ngIf="editionOutput.editionPaymentType !== 2">
+                                    <div class="flex">
+                                        <div class="flex-item" [ngClass]="{'active': selectTimeIndex === 1}" (click)="selectTimeHandle(1)">
+                                            <div class="flex-item-content">
+                                                <div class="time">1年</div>
+                                                <div class="price">￥{{edition.edition.annualPrice}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-item" [ngClass]="{'active': selectTimeIndex === 2}" (click)="selectTimeHandle(2)">
+                                            <div class="flex-item-content">
+                                                <div class="time">3个月</div>
+                                                <div class="price">￥{{edition.edition.seasonPrice}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-item" [ngClass]="{'active': selectTimeIndex === 3}" (click)="selectTimeHandle(3)">
+                                            <div class="flex-item-content">
+                                                <div class="time">1个月</div>
+                                                <div class="price">￥{{edition.edition.monthlyPrice}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer clearfix">
+                                    <div class="pull-left">支付金额：{{ finalPrice }}元</div>
+                                    <div class="pull-right">
+                                        <button class="btn no-margin primary-bgcolor" (click)="createPayment()">立即支付</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="mobile-to-pay-tip card" *ngIf="notWeChatPaysTips">{{ notWeChatPaysTips }}</div>
+                </ng-template>
+
+
                 <div class="card">
                     <div class="content-item">
                         <div class="top-wrap clearfix">
                             <div class="title pull-left">{{ edition.edition.displayName }}</div>
                             <div class="icon pull-right">
-                                <div *ngIf="edition.edition.id >= tenantEditionId">
-                                    <button class="btn btn-xs primary-bgcolor" (click)="redirectToPay()" *ngIf="tenantEditionId < edition.edition.id">开通</button>
-                                    <button class="btn btn-xs primary-bgcolor" (click)="redirectToPay()" *ngIf="tenantEditionId === edition.edition.id">续费</button>
+                                <div *ngIf="canTrialEdition() && edition.edition.id > 1">
+                                    <button class="btn btn-block primary-bgcolor" (click)="trialEditionService(edition.edition.id)">试用</button>
                                 </div>
                             </div>
                         </div>

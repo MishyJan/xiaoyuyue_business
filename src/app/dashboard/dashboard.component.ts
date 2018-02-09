@@ -255,15 +255,15 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         return timeLimitName;
     }
 
-        // 转换可用预约数显示文本
-        private transferSubBookingContentText(): void {
-            this.subBookingCountCountText = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
-                '不限制' : // 数量不限制
-                +this.accountInfo.maxBookingCount - this.accountInfo.subCreatedBookingCount;
-        }
+    // 转换可用预约数显示文本
+    private transferSubBookingContentText(): void {
+        this.subBookingCountCountText = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
+            '不限制' : // 数量不限制
+            +this.accountInfo.maxBookingCount - this.accountInfo.subCreatedBookingCount;
+    }
 
-        // 是否正在试用中
-        private isInTrialPeriod(editionDisName: string): string {
-            return this.appSession.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
-        }
+    // 根据是否正在试用中，添加 试用 文案
+    private inTrialPeriodTransText(editionDisName: string): string {
+        return this.appSession.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
+    }
 }

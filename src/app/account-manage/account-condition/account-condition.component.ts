@@ -23,11 +23,11 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     bookingStatisticCountText: string;
     outletStatisticCountText: string;
     isHighestEdition: boolean;
-    currentEditions: EditionWithFeaturesDto; 
+    currentEditions: EditionWithFeaturesDto;
     allFeatures: FlatFeatureSelectDto[];
     accountInfo: AccountInfo = new AccountInfo();
     isShowPaymentHistory = false;
-    mobilePaymentHistoryData: SubscriptionPaymentListDto[];
+    mobilePaymentHistoryData: SubscriptionPaymentListDto[] = [];
     showConditionContent = false;
     gridParam: BaseGridDataInputDto
     paymentHistoryData = new AppGridData();
@@ -130,8 +130,8 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         return timeLimitName;
     }
 
-    // 是否正在试用中
-    private isInTrialPeriod(editionDisName: string): string {
+    // 根据是否正在试用中，添加 试用 文案
+    private inTrialPeriodTransText(editionDisName: string): string {
         return this.appSession.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
     }
 
@@ -172,10 +172,6 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
             .subscribe(result => {
                 this.mobilePaymentHistoryData = result.items;
             })
-    }
-
-    isShowConditionContent(): void {
-        this.showConditionContent = !this.showConditionContent;
     }
 
     // 由于tabset导致初始化better-scroll失效，尝试把历史账单DOM结构移除tabset，点击后显示DOM

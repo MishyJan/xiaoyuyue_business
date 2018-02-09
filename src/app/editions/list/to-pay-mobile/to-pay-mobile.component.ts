@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Injector, OnInit } from '@angular/core';
-import { CreatePaymentDto, CreatePaymentDtoEditionPaymentType, CreatePaymentDtoPaymentPeriodType, CreatePaymentDtoSubscriptionPaymentGatewayType, EditionSelectDto, EditionSubscriptionServiceProxy } from 'shared/service-proxies/service-proxies';
+import { CreatePaymentDto, CreatePaymentDtoEditionPaymentType, CreatePaymentDtoPaymentPeriodType, CreatePaymentDtoSubscriptionPaymentGatewayType, EditionSelectDto, EditionSubscriptionServiceProxy, EditionWithFeaturesDto } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
@@ -12,6 +12,7 @@ import { WeChatPaymentService } from 'shared/services/wechat-payment.service';
     styleUrls: ['./to-pay-mobile.component.scss']
 })
 export class ToPayMobileComponent extends AppComponentBase implements OnInit, OnDestroy {
+    editionsWithFeatures: EditionWithFeaturesDto[];
     selectTimeIndex = 3;
     edition: EditionSelectDto = new EditionSelectDto();
     editionId = 2;
@@ -40,12 +41,13 @@ export class ToPayMobileComponent extends AppComponentBase implements OnInit, On
         this._wechatPaymentService.successAction = new EventEmitter<boolean>();
     }
 
+    // 获取所有版本
     loadData(): void {
         this._editionSubscriptionService
-            .getEdition(this.editionId)
+            .getEditionsForSelect()
             .subscribe((result) => {
-                this.edition = result;
-                this.finalPrice = result.monthlyPrice;
+                this.editionsWithFeatures = result.editionsWithFeatures;
+                console.log(this.editionsWithFeatures);
             });
     }
 
@@ -71,9 +73,9 @@ export class ToPayMobileComponent extends AppComponentBase implements OnInit, On
         // this.createPayment();
     }
 
-    createPayment(): void {
-        this._wechatPaymentService.invokeWeChatPayment(this.createPaymentDto)
-    }
+    // createPayment(): void {
+    //     this._wechatPaymentService.invokeWeChatPayment(this.createPaymentDto)
+    // }
 
     processPaymentResult(result: boolean) {
         if (result) {
