@@ -5,7 +5,6 @@ import { AfterViewInit, Component, ElementRef, Injector, Input, OnChanges, OnIni
 import { BookingEditDto, BookingItemEditDto, BookingPictureEditDto, CreateOrUpdateBookingInput, GetBookingForEditOutput, OrgBookingServiceProxy, OutletServiceServiceProxy, PagedResultDtoOfBookingListDto, PictureServiceProxy, SelectListItemDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
-import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
@@ -78,7 +77,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     constructor(
         injector: Injector,
         private _router: Router,
-        private _sessionService: AbpSessionService,
         private _pictureServiceProxy: PictureServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
@@ -172,7 +170,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 获取门店下拉框数据源
     loadOutletData() {
-        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId), () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this.appSession.tenantId), () => {
             return this._outletServiceServiceProxy.getOutletSelectList()
         }).then(outletResult => {
             if (outletResult.length <= 0) {
@@ -181,7 +179,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
                 this.outletSelectDefaultItem = this.input.booking.outletId ? this.input.booking.outletId.toString() : outletResult[0].value;
                 this.outletSelectListData = outletResult;
                 this.input.booking.outletId = this.selectOutletId = +this.outletSelectDefaultItem;
-                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId, this.selectOutletId), () => {
+                this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this.appSession.tenantId, this.selectOutletId), () => {
                     return this._outletServiceServiceProxy.getContactorSelectList(+this.outletSelectDefaultItem)
                 }).then(contactorResult => {
                     if (contactorResult.length <= 0) { return; }
@@ -260,7 +258,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     // 门店选择事件
     public outletChange(outlet: any): void {
         this.selectOutletId = parseInt(outlet, null);
-        this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this._sessionService.tenantId, this.selectOutletId), () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.contactorSelectListCache, this.appSession.tenantId, this.selectOutletId), () => {
             return this._outletServiceServiceProxy.getContactorSelectList(this.selectOutletId)
         }).then(result => {
             this.contactorSelectListData = result;
@@ -459,7 +457,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 获取临时数据key
     getTemCacheItemKey() {
-        return abp.utils.formatString(AppConsts.templateEditStore.booking, this._sessionService.tenantId);
+        return abp.utils.formatString(AppConsts.templateEditStore.booking, this.appSession.tenantId);
     }
 
     // 验证表单

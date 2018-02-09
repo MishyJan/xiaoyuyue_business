@@ -12,6 +12,7 @@ import { TenantService } from './tenant.service';
 import { TitleService } from 'shared/services/title.service';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
 import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
+import { WeChatPaymentService } from 'shared/services/wechat-payment.service';
 
 @NgModule({
     providers: [
@@ -23,6 +24,7 @@ import { WeChatShareTimelineService } from 'shared/services/wechat-share-timelin
         CookiesService,
         TitleService,
         SidebarService,
+        WeChatPaymentService,
         WeChatShareTimelineService,
         UploadPictureService,
         SelectHelperService,

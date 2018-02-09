@@ -30,7 +30,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
     phoneNumber: string;
     startMinute: number;
     status: Status[] = [BookingOrderStatus.WaitConfirm];
-    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this._sessionService);
+    gridParam: BaseGridDataInputDto = new BaseGridDataInputDto(this.appSession);
     currentPage: number = 0;
     maxResultCount: number;
 
@@ -38,8 +38,7 @@ export class MobileConfirmOrderModelComponent extends AppComponentBase implement
     @Output() batchConfirmStateHanlder: EventEmitter<boolean> = new EventEmitter();
     constructor(
         private injector: Injector,
-        private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
-        private _sessionService: AppSessionService
+        private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy
 
     ) {
         super(injector);

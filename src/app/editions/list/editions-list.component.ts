@@ -1,12 +1,12 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { CreatePaymentDtoEditionPaymentType, EditionSubscriptionServiceProxy, EditionWithFeaturesDto, EditionsSelectOutput, FlatFeatureSelectDto, NameValueDto } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
-import { accountModuleAnimation } from 'shared/animations/routerTransition';
-import { EditionSubscriptionServiceProxy, EditionsSelectOutput, EditionWithFeaturesDto, FlatFeatureSelectDto, NameValueDto, CreatePaymentDtoEditionPaymentType } from 'shared/service-proxies/service-proxies';
-import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
 import { GetCurrentFeatures } from 'shared/AppConsts';
-import { AppSessionService } from 'shared/common/session/app-session.service';
 import { Router } from '@angular/router';
+import { ToPayModelComponent } from 'app/editions/list/to-pay-model/to-pay-model.component';
+import { accountModuleAnimation } from 'shared/animations/routerTransition';
+
 import { AccountEditionOutput } from 'app/shared/utils/account-edition';
 import { PaysType } from 'shared/AppEnums';
 import * as _ from 'lodash';
@@ -25,9 +25,8 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
     @ViewChild('toPayModel') toPayModel: ToPayModelComponent;
     constructor(
         private injector: Injector,
+        private _editionSubscriptionService: EditionSubscriptionServiceProxy,
         private _router: Router,
-        private _sessionService: AppSessionService,
-        private _editionSubscriptionService: EditionSubscriptionServiceProxy
     ) {
         super(
             injector
@@ -77,7 +76,7 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
     }
 
     canTrialEdition(): boolean {
-        return this._sessionService.canTrialEdition();
+        return this.appSession.canTrialEdition();
     }
 
     // 试用会员功能
@@ -114,7 +113,7 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
     // 升级类型，递归遍历滤掉 低于且等于当前版本 的数据
     private recursionUpgradeQuery(data: EditionWithFeaturesDto[]): EditionWithFeaturesDto[] {
         for (let i = 0; i < data.length; i++) {
-            if (!data[i].edition.monthlyPrice || data[i].edition.monthlyPrice <= this._sessionService.tenant.edition.monthlyPrice) {
+            if (!data[i].edition.monthlyPrice || data[i].edition.monthlyPrice <= this.appSession.tenant.edition.monthlyPrice) {
                 data.splice(0, i + 1);
                 this.recursionUpgradeQuery(data);
             } else {
@@ -127,11 +126,14 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
     private recursionRenewalsQuery(data: EditionWithFeaturesDto[]): EditionWithFeaturesDto[] {
         let allEditions: EditionWithFeaturesDto[] = [];
         for (let i = 0; i < data.length; i++) {
-            if (data[i].edition.monthlyPrice === this._sessionService.tenant.edition.monthlyPrice) {
+            if (data[i].edition.monthlyPrice === this.appSession.tenant.edition.monthlyPrice) {
                 allEditions[0] = data[i];
             }
         }
         return allEditions;
     }
 
+    redirectToPay() {
+        this._router.navigate(['/editions/pays']);
+    }
 }

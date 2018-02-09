@@ -6,7 +6,6 @@
     RouterStateSnapshot
 } from '@angular/router';
 
-import { AbpSessionService } from '@abp/session/abp-session.service';
 import { AdminPermissions } from '@shared/AdminPermissions';
 import { AppAuthService } from '@app/shared/common/auth/app-auth.service';
 import { AppConsts } from 'shared/AppConsts';

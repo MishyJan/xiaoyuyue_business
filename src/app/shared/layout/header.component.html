@@ -26,7 +26,8 @@
                                 <i *ngIf="isImpersonatedLogin" class="icon-action-undo font-red-sunglo"></i>
                                 {{shownLoginName}}
                             </span>
-                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture" />
+                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture"
+                            />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default clearfix">
                             <li class="item" routerLink="/organization/info">
@@ -44,7 +45,7 @@
                             <li class="item" routerLink="/account/settings">
                                 <div class="content">
                                     <span class="icon vapps-icon-app-user-security"></span>
-                                    <div>{{l('Menu.Account.Security')}}</div>
+                                    <div>{{l('Menu.Security')}}</div>
                                 </div>
                             </li>
                             <li class="item" routerLink="/feedback">

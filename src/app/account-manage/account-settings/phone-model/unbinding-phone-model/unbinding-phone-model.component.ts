@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, Injector, ElementRef } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap';
+import { CodeSendInput, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { ProfileServiceProxy, CodeSendInput } from '@shared/service-proxies/service-proxies';
-import { VerificationCodeType } from 'shared/AppEnums';
 import { AppSessionService } from '@shared/common/session/app-session.service';
 import { BindingPhoneModelComponent } from 'app/account-manage/account-settings/phone-model/binding-phone-model/binding-phone-model.component';
+import { ModalDirective } from 'ngx-bootstrap';
+import { VerificationCodeType } from 'shared/AppEnums';
 
 @Component({
     selector: 'xiaoyuyue-unbinding-phone-model',
@@ -23,12 +24,11 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
 
     constructor(
         private injector: Injector,
-        private _profileServiceProxy: ProfileServiceProxy,
-        public _sessionService: AppSessionService
+        private _profileServiceProxy: ProfileServiceProxy
     ) {
         super(injector);
-        this.emailAddress = this._sessionService.user.emailAddress;
-        this.phoneNum = this._sessionService.user.phoneNumber;
+        this.emailAddress = this.appSession.user.emailAddress;
+        this.phoneNum = this.appSession.user.phoneNumber;
     }
 
     ngOnInit() {
@@ -46,7 +46,7 @@ export class UnbindingPhoneModelComponent extends AppComponentBase implements On
             .unBindingPhoneNum(this.code)
             .subscribe(result => {
                 this.notify.success(this.l('RebindingPhone.Success.Hint'));
-                this._sessionService.init();
+                this.appSession.init();
                 abp.event.trigger('getUserSecurityInfo');
                 this.hide();
                 this.bindingPhoneModel.show();

@@ -12,11 +12,11 @@ import { BusinessHour } from 'app/shared/utils/outlet-display.dto';
 import { DefaultUploadPictureGroundId } from 'shared/AppEnums';
 import { LocalStorageService } from '@shared/utils/local-storage.service';
 import { PictureUrlHelper } from '@shared/helpers/PictureUrlHelper';
+import { SelectHelperService } from 'shared/services/select-helper.service';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { UploadPictureDto } from 'app/shared/utils/upload-picture.dto';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { test } from '@shared/animations/gridToggleTransition';
-import { SelectHelperService } from 'shared/services/select-helper.service';
 
 @Component({
     selector: 'xiaoyuyue-create-or-edit-outlet',
@@ -66,8 +66,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
         private _stateServiceServiceProxy: StateServiceServiceProxy,
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _localStorageService: LocalStorageService,
-        private _sessionService: AppSessionService
-
     ) {
         super(
             injector
@@ -161,7 +159,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                     .subscribe(() => {
                         this.message.success(this.l('DeleteSuccess'));
                         // 清理缓存数据
-                        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId));
+                        this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this.appSession.tenantId));
                         this._router.navigate(['/outlet/list']);
                     })
             }
@@ -478,6 +476,6 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
     }
 
     private getCacheItemKey() {
-        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this._sessionService.tenantId);
+        return abp.utils.formatString(AppConsts.templateEditStore.outlet, this.appSession.tenantId);
     }
 }

@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import * as wangEditor from 'wangeditor/release/wangEditor.js'
 
-import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Directive, ElementRef, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
-import { AbpSessionService } from '@abp/session/abp-session.service';
+import { AppComponentBase } from 'shared/common/app-component-base';
 import { LanguageServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { PictureServiceProxy } from 'shared/service-proxies/service-proxies';
 import { UploadPictureService } from 'shared/services/upload-picture.service';
@@ -17,7 +17,7 @@ const Base64 = require('js-base64').Base64;
     encapsulation: ViewEncapsulation.None
 })
 
-export class WangEditorComponent implements OnInit, AfterViewInit, OnChanges {
+export class WangEditorComponent extends AppComponentBase implements OnInit, AfterViewInit, OnChanges {
 
     private editor: any;
     private transformHtml: string;
@@ -28,14 +28,19 @@ export class WangEditorComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() baseInfoDesc: string;
     @Output() sendEditorHTMLContent: EventEmitter<string> = new EventEmitter();
 
-    constructor(private _element: ElementRef,
-        private _sessionService: AbpSessionService,
+    constructor(
+        injector: Injector,
+        private _element: ElementRef,
         private _pictureServiceProxy: PictureServiceProxy,
         private _uploadPictureService: UploadPictureService) {
-
+        super(
+            injector
+        );
     }
+
     ngOnInit() {
     }
+
     ngAfterViewInit(): void {
 
         this.initEditor();
@@ -249,7 +254,7 @@ export class WangEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     getFileKey(): string {
-        const id = this._sessionService.tenantId;;
+        const id = this.appSession.tenantId;
         const groupId = 0;
         const date = new Date();
         const timeStamp = date.getTime().valueOf();

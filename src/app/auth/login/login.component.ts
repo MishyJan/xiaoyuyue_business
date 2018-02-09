@@ -38,7 +38,6 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
         private _router: Router,
         private _location: Location,
         private _activatedRoute: ActivatedRoute,
-        private _sessionService: AppSessionService,
         private _tokenAuthService: TokenAuthServiceProxy,
         private _SMSServiceProxy: SMSServiceProxy,
     ) {
@@ -47,7 +46,7 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
     }
 
     ngOnInit(): void {
-        if (this._sessionService.user) {
+        if (this.appSession.user) {
             this._router.navigate(['/dashboard']);
         }
 
@@ -65,11 +64,11 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
     }
 
     get multiTenancySideIsTeanant(): boolean {
-        return this._sessionService.tenantId > 0;
+        return this.appSession.tenantId > 0;
     }
 
     get isSelfRegistrationAllowed(): boolean {
-        if (!this._sessionService.tenantId) {
+        if (!this.appSession.tenantId) {
             return false;
         }
 

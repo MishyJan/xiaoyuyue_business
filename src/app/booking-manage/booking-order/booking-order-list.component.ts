@@ -10,14 +10,14 @@ import { AppSessionService } from 'shared/common/session/app-session.service';
 import { BaseGridDataInputDto } from 'shared/grid-data-results/base-grid-data-Input.dto';
 import { BookingOrderInfoModelComponent } from './info-model/booking-order-info-model.component';
 import { BookingOrderStatusService } from 'shared/services/booking-order-status.service';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { Moment } from 'moment';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
 import { SelectHelperService } from 'shared/services/select-helper.service';
+import { SpreadMoreService } from 'shared/services/spread-more.service';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import timeago from 'timeago.js';
-import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
-import { ListScrollService } from 'shared/services/list-scroll.service';
-import { SpreadMoreService } from 'shared/services/spread-more.service';
 
 export class SingleBookingStatus {
     value: any;
@@ -87,12 +87,11 @@ export class BookingOrderListComponent extends AppComponentBase implements OnIni
         private _orgBookingServiceProxy: OrgBookingServiceProxy,
         private _orgBookingOrderServiceProxy: OrgBookingOrderServiceProxy,
         private _listScrollService: ListScrollService,
-        private _sessionService: AppSessionService,
         private _orderStatusService: BookingOrderStatusService
     ) {
         super(injector);
-        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingOrderSpreadMoreCache, this._sessionService.tenantId);
-        this.gridParam = new BaseGridDataInputDto(this._sessionService);
+        this.spreadMoreService = new SpreadMoreService(AppConsts.bookingOrderSpreadMoreCache, this.appSession.tenantId);
+        this.gridParam = new BaseGridDataInputDto(this.appSession);
         this.gridParam.SkipCount = this.gridParam.MaxResultCount * (this.gridParam.CurrentPage - 1);
     }
 

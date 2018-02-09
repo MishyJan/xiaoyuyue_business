@@ -39,6 +39,18 @@ export class AppSessionService {
         return this.tenant ? this.tenant.id : null;
     }
 
+    get impersonatorUserId(): number | undefined {
+        return abp.session.impersonatorUserId;
+    }
+
+    get impersonatorTenantId(): number | undefined {
+        return abp.session.impersonatorTenantId;
+    }
+
+    get multiTenancySide(): abp.multiTenancy.sides {
+        return abp.session.multiTenancySide;
+    }
+
     getShownLoginName(): string {
         return this._user.userName;
     }

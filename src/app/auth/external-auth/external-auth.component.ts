@@ -25,8 +25,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
         private _loginService: LoginService,
         private _activatedRoute: ActivatedRoute,
         private _tokenAuthService: TokenAuthServiceProxy,
-        private _cookiesService: CookiesService,
-        private _sessionService: AppSessionService,
+        private _cookiesService: CookiesService
     ) {
         super(injector);
     }
@@ -93,7 +92,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
 
     // 如果已登录 直接跳转
     isLogin() {
-        if (!this._sessionService.user) { return; }
+        if (!this.appSession.user) { return; }
         UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
         this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
         const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';

@@ -29,7 +29,6 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
         private _outletServiceServiceProxy: OutletServiceServiceProxy,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy,
         private _localStorageService: LocalStorageService,
-        private _sessionService: AppSessionService
     ) {
         super(injector);
     }
@@ -60,7 +59,7 @@ export class BookingSaturationComponent extends AppComponentBase implements OnIn
     }
 
     getOutletSelectListData(): void {
-        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this._sessionService.tenantId), () => {
+        this._localStorageService.getItem(abp.utils.formatString(AppConsts.outletSelectListCache, this.appSession.tenantId), () => {
             return this._outletServiceServiceProxy.getOutletSelectList()
         }).then(result => {
             // 添加请选择数据源
