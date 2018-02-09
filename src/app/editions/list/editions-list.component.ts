@@ -231,7 +231,7 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
             this.cannotPays = false;
         } else if (this.appSession.tenant.edition.monthlyPrice > this.editionOutput.editionsInfo[0].edition.monthlyPrice) {
             this.cannotPays = true;
-        } else if (this.appSession.tenant.edition.monthlyPrice === null) {
+        } else if (this.appSession.tenant.isInTrialPeriod || this.appSession.tenant.edition.monthlyPrice === null) {
             this.editionOutput.editionPaymentType = this.createPaymentDto.editionPaymentType = PaysType.JoinMembership;
             this.editionOutput.editionPaymentDisplayName = '开通会员';
             this.cannotPays = false;
