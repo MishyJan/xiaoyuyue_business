@@ -22,7 +22,7 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     bookingStatisticCountText: string;
     outletStatisticCountText: string;
     isHighestEdition: boolean;
-    currentEditions: EditionWithFeaturesDto;
+    currentEditions: EditionWithFeaturesDto; 
     allFeatures: FlatFeatureSelectDto[];
     accountInfo: AccountInfo = new AccountInfo();
     isShowPaymentHistory = false;

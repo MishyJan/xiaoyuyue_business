@@ -234,6 +234,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         this.accountInfo.subCreatedOutletCount = this._sessionService.tenant.outletNum;
         this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
         this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
+        this.transferSubBookingContentText();
     }
 
     /*

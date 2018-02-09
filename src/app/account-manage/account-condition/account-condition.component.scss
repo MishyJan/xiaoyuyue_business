@@ -23,6 +23,10 @@
             }
         }
         .edition-info {
+            .content-head {
+                line-height: 36px;
+                border-bottom: 1px solid #E5E5E5;
+            }
             .flex {
                 display: flex;
                 flex-flow: row wrap;

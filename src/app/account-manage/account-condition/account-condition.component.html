@@ -51,11 +51,14 @@
                     <!-- 版本信息 -->
                     <div class="card">
                         <div class="form-horizontal">
+                                <button class="btn primary-bgcolor pull-right" style="margin-right: 20px;" routerLink="/editions/list">升级会员</button>
                             <div class="card-header card-header-text" data-background-color="orange">
                                 <h6 class="card-title">版本信息</h6>
                             </div>
                             <div class="card-content edition-info" *ngIf="currentEditions">
-                                <div class="content-head"></div>
+                                <div class="content-head">
+                                    {{ currentEditions.edition.displayName }}
+                                </div>
                                 <div class="flex">
                                     <div class="flex-item"
                                     [hidden] = "edition.name === 'App.MaxUserCount' || edition.value === 'false'"

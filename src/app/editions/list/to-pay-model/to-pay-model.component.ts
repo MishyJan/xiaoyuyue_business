@@ -94,11 +94,7 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
                 this.finalPrice = edition.edition.monthlyPrice;
             }
         });
-        if (this.editionId === 2) {
-            this.selectTypeIndex = 0;
-        } else if (this.editionId === 3) {
-            this.selectTypeIndex = 1;
-        }
+        this.selectTypeIndex = 0;
         this.selectTimeIndex = 3;
 
         this.createPaymentDto = new CreatePaymentDto();
@@ -146,7 +142,6 @@ export class ToPayModelComponent extends AppComponentBase implements OnInit {
                 .subscribe(result => {
                     if (result.paid) {
                         this.message.success('支付成功');
-                        clearInterval(this.paymentTimer);
                         this.hide();
                     }
                 })
