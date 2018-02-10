@@ -22923,6 +22923,8 @@ export class UserSecurityInfoDto implements IUserSecurityInfoDto {
     weChat: string;
     qq: string;
     weiBo: string;
+    faceBook: string;
+    google: string;
 
     constructor(data?: IUserSecurityInfoDto) {
         if (data) {
@@ -22940,6 +22942,8 @@ export class UserSecurityInfoDto implements IUserSecurityInfoDto {
             this.weChat = data["weChat"];
             this.qq = data["qq"];
             this.weiBo = data["weiBo"];
+            this.faceBook = data["faceBook"];
+            this.google = data["google"];
         }
     }
 
@@ -22956,6 +22960,8 @@ export class UserSecurityInfoDto implements IUserSecurityInfoDto {
         data["weChat"] = this.weChat;
         data["qq"] = this.qq;
         data["weiBo"] = this.weiBo;
+        data["faceBook"] = this.faceBook;
+        data["google"] = this.google;
         return data; 
     }
 }
@@ -22966,6 +22972,8 @@ export interface IUserSecurityInfoDto {
     weChat: string;
     qq: string;
     weiBo: string;
+    faceBook: string;
+    google: string;
 }
 
 export class BindingEmailInput implements IBindingEmailInput {
@@ -26250,6 +26258,8 @@ export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
     providerKey: string;
     /** 认证访问码 */
     providerAccessCode: string;
+    /** 是否已获AccessToken */
+    isAccessToken: boolean;
     /** 是否单步登陆 */
     singleSignIn: boolean;
 
@@ -26267,6 +26277,7 @@ export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
             this.authProvider = data["authProvider"];
             this.providerKey = data["providerKey"];
             this.providerAccessCode = data["providerAccessCode"];
+            this.isAccessToken = data["isAccessToken"];
             this.singleSignIn = data["singleSignIn"];
         }
     }
@@ -26282,6 +26293,7 @@ export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
         data["authProvider"] = this.authProvider;
         data["providerKey"] = this.providerKey;
         data["providerAccessCode"] = this.providerAccessCode;
+        data["isAccessToken"] = this.isAccessToken;
         data["singleSignIn"] = this.singleSignIn;
         return data; 
     }
@@ -26294,6 +26306,8 @@ export interface IExternalAuthenticateModel {
     providerKey: string;
     /** 认证访问码 */
     providerAccessCode: string;
+    /** 是否已获AccessToken */
+    isAccessToken: boolean;
     /** 是否单步登陆 */
     singleSignIn: boolean;
 }

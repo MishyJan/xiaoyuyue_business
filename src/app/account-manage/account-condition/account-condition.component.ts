@@ -40,11 +40,12 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
 
     ngOnInit() {
         this.isHighestEdition = this.appSession.tenant.edition.isHighestEdition;
-        this.getAccountInfo();
-        this.getCurrentEditions();
+
     }
 
     ngAfterViewInit() {
+        this.getAccountInfo();
+        this.getCurrentEditions();
         this.isMobile($('.mobile-account-condition')) ? this.mobileLoadPaymentHistoryData() : this.loadPaymentHistoryData();
     }
 
