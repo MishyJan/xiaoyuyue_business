@@ -66,7 +66,7 @@ export class QrCodeComponent extends AppComponentBase implements OnInit, AfterVi
                 height: this.size,
                 colorDark: '#000',
                 colorLight: '#fff',
-                correctLevel: QRCode.CorrectLevel.H,
+                correctLevel: QRCode.CorrectLevel.M,
 
                 // ==== Title
                 title: '', // value

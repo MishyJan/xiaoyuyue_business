@@ -5,6 +5,7 @@ import { AppComponentBase } from 'shared/common/app-component-base';
 import { AppConsts } from 'shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { CookiesService } from 'shared/services/cookies.service';
+import { ExternalLoginProvider } from 'shared/services/login.service';
 import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
@@ -12,7 +13,7 @@ import { ModalDirective } from 'ngx-bootstrap';
     templateUrl: './external-binding-model.component.html',
     styleUrls: ['./external-binding-model.component.scss']
 })
-export class ExternalBindingModelComponent extends AppComponentBase implements OnInit, OnChanges {
+export class ExternalBindingModelComponent extends AppComponentBase implements OnInit {
 
     title: string;
     slogen: string;
@@ -21,7 +22,6 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
 
     @ViewChild('externalBindingModel') model: ModalDirective;
     @Output() weChatBindRsult: EventEmitter<boolean> = new EventEmitter();
-    @Input() wechatName: string;
     constructor(
         private injector: Injector,
         private _appSessionService: AppSessionService,
@@ -36,18 +36,13 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
 
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (this.wechatName) {
-            this.weChatBindRsult.emit(true);
-            this.close();
-        }
-    }
-
     show(provideName): void {
         this.title = this.l('Binding') + this.l(provideName)
         this.slogen = this.l('BindingSlogen', this.l(provideName));
         this._tokenAuthService.getShortAuthToken().subscribe((result) => {
-            this.externalUrl = AppConsts.userCenterUrl + '/auth/external?shortAuthToken=' + result.shortAuthToken + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href + '/security');
+
+            this.externalUrl = AppConsts.userCenterUrl + '/auth/external?shortAuthToken=' + result.shortAuthToken + '&isAuthBind=true&providerName' + ExternalLoginProvider.WECHATMP + '&redirectUrl=' + encodeURIComponent(document.location.href + '/security');
+
             this.model.show();
             this.checkIsBind();
         });
