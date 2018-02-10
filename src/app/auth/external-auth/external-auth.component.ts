@@ -25,7 +25,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
         private _loginService: LoginService,
         private _activatedRoute: ActivatedRoute,
         private _tokenAuthService: TokenAuthServiceProxy,
-        private _cookiesService: CookiesService,
+        private _cookiesService: CookiesService
     ) {
         super(injector);
     }
@@ -41,7 +41,11 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
             input.shortAuthToken = params['shortAuthToken']
             this._tokenAuthService.authenticateByShortAuth(input).subscribe((result) => {
                 this._cookiesService.setToken(result.accessToken);
-                this.externalLogin(params);
+                this.saveRedirectUrl(params);
+
+                this._loginService.init(() => {
+                    this._loginService.externalAuthenticate(this._loginService.findExternalLoginProvider(params['providerName']), true)
+                });
             });
         } else {
             this.externalLogin(params);
@@ -49,9 +53,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
     }
 
     externalLogin(params): void {
-        if (params['redirectUrl'] !== undefined) {
-            this._cookiesService.setCookieValue('UrlHelper.redirectUrl', params['redirectUrl'], null, '/');
-        }
+        this.saveRedirectUrl(params);
 
         if (params['isAuthBind'] !== undefined) {
             this.isAuthBind = (params['isAuthBind'] === 'true');
@@ -75,6 +77,12 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
             return stateParam;
         } else {
             return param;
+        }
+    }
+
+    private saveRedirectUrl(params) {
+        if (params['redirectUrl'] !== undefined) {
+            this._cookiesService.setCookieValue('UrlHelper.redirectUrl', decodeURIComponent(params['redirectUrl']), null, '/');
         }
     }
 }

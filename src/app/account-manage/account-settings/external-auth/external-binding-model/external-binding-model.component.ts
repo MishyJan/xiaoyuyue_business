@@ -41,7 +41,7 @@ export class ExternalBindingModelComponent extends AppComponentBase implements O
         this.slogen = this.l('BindingSlogen', this.l(provideName));
         this._tokenAuthService.getShortAuthToken().subscribe((result) => {
 
-            this.externalUrl = AppConsts.userCenterUrl + '/auth/external?shortAuthToken=' + result.shortAuthToken + '&isAuthBind=true&providerName' + ExternalLoginProvider.WECHATMP + '&redirectUrl=' + encodeURIComponent(document.location.href + '/security');
+            this.externalUrl = AppConsts.userCenterUrl + '/auth/external?shortAuthToken=' + result.shortAuthToken + '&isAuthBind=true&providerName=' + ExternalLoginProvider.WECHATMP + '&redirectUrl=' + encodeURIComponent(document.location.href + '/security');
 
             this.model.show();
             this.checkIsBind();
