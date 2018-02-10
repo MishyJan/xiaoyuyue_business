@@ -10,6 +10,7 @@ import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { CookiesService } from 'shared/services/cookies.service';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
+import { locale } from 'moment-timezone';
 
 @Component({
     selector: 'xiaoyuyue-loading',
@@ -34,7 +35,6 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
     }
 
     ngAfterViewInit(): void {
-        debugger;
         const params = this.getQueryParams();
         if (params['shortAuthToken'] !== undefined) {
             const input = new ShortAuthTokenModel();
@@ -67,12 +67,11 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
     }
 
     private getQueryParams() {
-        const avaliableQuery = location.href.substring(location.href.indexOf('?') + 1).replace('#access_token', '&access_token');
+        const avaliableQuery = location.search + location.hash.replace('#', '&');
         const param = UrlHelper.getQueryParametersUsingParameters(avaliableQuery);
-
         if (param['state']) {
-            debugger;
-            const stateParam = UrlHelper.getQueryParametersUsingParameters(avaliableQuery.replace('state=', '').replace(param['state'], '') + '&' + decodeURIComponent(param['state']));
+            const stataParam = decodeURIComponent(decodeURIComponent(param['state']));
+            const stateParam = UrlHelper.getQueryParametersUsingParameters(avaliableQuery.replace('&state=' + param['state'], '') + '&' + stataParam);
             return stateParam;
         } else {
             return param;

@@ -126,9 +126,10 @@ export class LoginService {
                     const appid = provider.clientId;
                     const redirect_url = AppConsts.appBaseUrl + '/auth/external';
                     const state = 'providerName=' + ExternalLoginProvider.GOOGLE + '&isAuthBind=' + isAuthBind;
-                    const response_type = 'code';
+                    const response_type = 'token';
                     const scope = 'email%20profile';
-                    const authUrl = `${authBaseUrl}?client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&state=${encodeURIComponent(state)}&response_type=${response_type}&scope=${scope}`;
+                    const include_granted_scopes = true;
+                    const authUrl = `${authBaseUrl}?client_id=${appid}&redirect_uri=${encodeURIComponent(redirect_url)}&state=${encodeURIComponent(state)}&response_type=${response_type}&scope=${scope}&include_granted_scopes=${include_granted_scopes}`;
                     window.location.href = authUrl;
                 } else {
                     gapi.auth2.getAuthInstance().signIn();
@@ -374,21 +375,7 @@ export class LoginService {
     }
 
     public externalLoginCallback(params: Params): void {
-        const model = new ExternalAuthenticateModel();
-        model.authProvider = params['providerName'];
-
-        if (params['providerName'] === ExternalLoginProvider.FACEBOOK) {
-            model.providerAccessCode = params['access_token'];
-            model.providerKey = ExternalLoginProvider.FACEBOOK;
-        } else if (params['providerName'] === ExternalLoginProvider.GOOGLE) {
-            model.isAccessToken = false;
-            model.providerAccessCode = params['code'];
-            model.providerKey = params['code'];
-        } else {
-            model.providerAccessCode = params['code'];
-            model.providerKey = params['code'];
-        }
-
+        const model = this.initAccessCode(params);
         this._tokenAuthService.externalAuthenticate(model).subscribe((result: ExternalAuthenticateResultModel) => {
             if (result.waitingForActivation) {
                 this._messageService.info(this.l('NeedSupplementary'));
@@ -401,10 +388,7 @@ export class LoginService {
     }
 
     public externalBindingCallback(params: Params): void {
-        const model = new ExternalAuthenticateModel();
-        model.authProvider = params['providerName'];
-        model.providerAccessCode = params['code'];
-        model.providerKey = params['code'];
+        const model = this.initAccessCode(params);
         this._tokenAuthService.externalBinding(model)
             .subscribe(() => {
                 UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
@@ -417,6 +401,24 @@ export class LoginService {
                     this._router.navigate(['/auth/login']);
                 });
             });
+    }
+
+    private initAccessCode(params: Params): ExternalAuthenticateModel {
+        const model = new ExternalAuthenticateModel();
+        model.authProvider = params['providerName'];
+        if (params['providerName'] === ExternalLoginProvider.FACEBOOK) {
+            model.providerAccessCode = params['access_token'];
+            model.providerKey = ExternalLoginProvider.FACEBOOK;
+        } else if (params['providerName'] === ExternalLoginProvider.GOOGLE) {
+            model.isAccessToken = false;
+            model.providerAccessCode = params['access_token'];
+            model.providerKey = ExternalLoginProvider.GOOGLE;
+        } else {
+            model.providerAccessCode = params['code'];
+            model.providerKey = params['code'];
+        }
+
+        return model;
     }
 
     protected processExternalAuthenticate(response: Response): ExternalAuthenticateResultModel {
