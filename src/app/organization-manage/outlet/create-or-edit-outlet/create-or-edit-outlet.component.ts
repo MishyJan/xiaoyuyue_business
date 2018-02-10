@@ -145,6 +145,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
             .createOrUpdateOutlet(this.input)
             .finally(() => { this.savingAndEditing = false })
             .subscribe(() => {
+                this.appSession.init(); // 创建成功或者删除门店/预约等，应刷新用户登录信息，更新创建的门店数或者预约数等信息
                 abp.event.trigger('outletListSelectChanged');
                 abp.event.trigger('contactorListSelectChanged');
                 this.removeEditCache(); // 清理缓存数据
@@ -161,6 +162,7 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
                     .deleteOutlet(+this.outletId)
                     .finally(() => { this.deleting = false })
                     .subscribe(() => {
+                        this.appSession.init(); // 创建成功或者删除门店/预约等，应刷新用户登录信息，更新创建的门店数或者预约数等信息
                         this.message.success(this.l('DeleteSuccess'));
                         // 清理缓存数据
                         this._localStorageService.removeItem(abp.utils.formatString(AppConsts.outletSelectListCache, this.appSession.tenantId));

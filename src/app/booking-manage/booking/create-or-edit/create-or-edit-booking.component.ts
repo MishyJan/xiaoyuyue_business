@@ -30,6 +30,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditBookingComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    canLimitCreateBooking: boolean;
     groupId: number = DefaultUploadPictureGroundId.BookingGroup;
     bookingId: number;
     timeBaseInfoForm: FormGroup;
@@ -144,8 +145,11 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     loadData() {
         if (!this.bookingId) {
-            this.checkDataNeed2Reconvert();
             this.loadOutletData();
+            this.canLimitCreateBooking = this.appSession.canLimitCreateBooking('当前版本已无法创建预约');
+            // 无法创建预约会弹出sweetalert，会和检查数据是否需要恢复功能的alert冲突
+            if (!this.canLimitCreateBooking) { return; }
+            this.checkDataNeed2Reconvert();
             return;
         }
 
@@ -215,6 +219,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
             })
             .subscribe((result) => {
                 // this.bookingId = result.id;
+                this.appSession.init(); // 创建成功或者删除门店/预约等，应刷新用户登录信息，更新创建的门店数或者预约数等信息
                 abp.event.trigger('bookingListSelectChanged');
                 this.removeTempCache(); // 清理缓存数据
 
@@ -324,6 +329,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 显示添加时间面板
     createTimeField(): void {
+        if (!this.canLimitCreateBooking) { return; }
         this.isNew = true;
         this.editingBookingItem.availableDates = this.dafaultDate = moment().format('YYYY-MM-DD');
         this.initFormValidation();
@@ -334,6 +340,7 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
     // 保存时间到队列
     savePanelTimeField(): void {
+        if (!this.canLimitCreateBooking) { return; }
         this.isNew = false;
         this.timeInfoFormValid = true;
         this.editingBookingItem.isActive = true;

@@ -135,6 +135,7 @@ export class TimeInfoComponent extends AppComponentBase implements OnInit {
 
     // 点击创建按钮，显示创建时段面板
     createTimeField() {
+        if (!this.appSession.canLimitCreateBooking()) { return; }
         if (this.isTimeEditing) {
             this.message.confirm('', this.l('Outlet.Contactor.UnSaved'));
         } else {
