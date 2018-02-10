@@ -89,6 +89,18 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
         return displayName;
     }
 
+    // 根据指定版本获取描述信息
+    getEditionDescription(nameValue: NameValueDto): string {
+        let description = '';
+        this.allFeatures.forEach((element: FlatFeatureSelectDto) => {
+            if (element.name === nameValue.name) {
+                description = element.description;
+                return;
+            }
+        });
+        return description;
+    }
+
     canTrialEdition(): boolean {
         return this.appSession.canTrialEdition;
     }

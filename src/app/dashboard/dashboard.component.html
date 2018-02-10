@@ -144,7 +144,8 @@
                         <div class="info-wrap">
                             <div class="top">
                                 <img class="tenant-logo" [src]="getTenantLogoUrl()" width="60px" height="60px">
-                                <span class="tenant-name">{{ tenantBaseInfoData.tenancyName }}</span>
+                                <span class="tenant-name">{{ tenantBaseInfoData.tenancyName }}<br><span class="edition-name">{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span></span>
+                                
                             </div>
 
                             <div class="bottom" *ngIf="dataStatistics">

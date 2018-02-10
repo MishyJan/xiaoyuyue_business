@@ -22,15 +22,19 @@
                         <div class="xiaoyuyue-title-box">{{ edition.edition.displayName }}</div>
                         <div class="card-content">
                             <div class="edition-content">
-                                <div class="edition-item" *ngFor="let editionContent of edition.featureValues">
+                                <div class="edition-item" *ngIf="edition.edition.annualPrice" [title]="'3个月￥' + edition.edition.seasonPrice + '元 1个月￥' + edition.edition.monthlyPrice +'元'">
+                                    <div class="content">1年￥{{ edition.edition.annualPrice }}元</div>
+                                </div>
+                                <div class="edition-item" *ngFor="let editionContent of edition.featureValues" [title]="getEditionDescription(editionContent)">
                                     <div class="content" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent) }}</div>
                                 </div>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn btn-block primary-bgcolor" (click)="trialEditionService(edition.edition.id)" *ngIf="canTrialEdition() && edition.edition.id > 1">试用</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1, '开通会员')" *ngIf="(appSession.tenant.isInTrialPeriod && edition.edition.id !== 1) || (tenantEditionId === 1 && edition.edition.id > 1)">开通</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2, '升级会员')" *ngIf="!appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1)">升级</button>
-                                <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3, '续费会员')" *ngIf="!appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1)">续费</button>
+                                <div><button class="btn btn-block primary-bgcolor" (click)="trialEditionService(edition.edition.id)" *ngIf="canTrialEdition() && edition.edition.id > 1">试用</button></div>
+                                <div><button class="btn btn-block primary-bgcolor" disabled *ngIf="!edition.edition.isEnable && edition.edition.id > 1">敬请期待</button></div>
+                                <div><button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1, '开通会员')" *ngIf="edition.edition.isEnable && (appSession.tenant.isInTrialPeriod && edition.edition.id !== 1) || (tenantEditionId === 1 && edition.edition.id > 1)">开通</button></div>
+                                <div><button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2, '升级会员')" *ngIf="edition.edition.isEnable && !appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1)">升级</button></div>
+                                <div><button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3, '续费会员')" *ngIf="edition.edition.isEnable && !appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1)">续费</button></div>
                             </div>
                         </div>
                     </div>
