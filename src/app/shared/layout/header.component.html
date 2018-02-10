@@ -9,7 +9,7 @@
         </div>
         <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
         <div class="page-top clearfix">
-            <button class="create-bespeak btn" *ngIf="isGranted(permissions.bookingManage_BookingCreate)" routerLink="/booking/create">
+            <button class="create-bespeak btn" [disabled]="!canLimitCreateBooking" *ngIf="isGranted(permissions.bookingManage_BookingCreate)" routerLink="/booking/create">
                 <span class="vapps-icon-cb-menu"></span>
                 <span class="text">{{l('Booking.Create')}}</span>
             </button>

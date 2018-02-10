@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'xiaoyuyue-icon';
-  src:  url('../fonts/xiaoyuyue-icon.eot?bb15y4');
-  src:  url('../fonts/xiaoyuyue-icon.eot?bb15y4#iefix') format('embedded-opentype'),
-    url('../fonts/xiaoyuyue-icon.ttf?bb15y4') format('truetype'),
-    url('../fonts/xiaoyuyue-icon.woff?bb15y4') format('woff'),
-    url('../fonts/xiaoyuyue-icon.svg?bb15y4#xiaoyuyue-icon') format('svg');
+  src:  url('../fonts/xiaoyuyue-icon.eot?ue14fj');
+  src:  url('../fonts/xiaoyuyue-icon.eot?ue14fj#iefix') format('embedded-opentype'),
+    url('../fonts/xiaoyuyue-icon.ttf?ue14fj') format('truetype'),
+    url('../fonts/xiaoyuyue-icon.woff?ue14fj') format('woff'),
+    url('../fonts/xiaoyuyue-icon.svg?ue14fj#xiaoyuyue-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,11 +24,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-google:before {
+  content: "\e9ad";
+}
 .vapps-icon-app-facebook:before {
   content: "\e9ac";
-}
-.vapps-icon-app-gmail:before {
-  content: "\e9ad";
 }
 .vapps-icon-app-twitter:before {
   content: "\e9ae";

@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'xiaoyuyue-icon';
-  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?bb15y4');
-  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?bb15y4#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/xiaoyuyue-icon.ttf?bb15y4') format('truetype'),
-    url('#{$icomoon-font-path}/xiaoyuyue-icon.woff?bb15y4') format('woff'),
-    url('#{$icomoon-font-path}/xiaoyuyue-icon.svg?bb15y4#xiaoyuyue-icon') format('svg');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?ue14fj');
+  src:  url('#{$icomoon-font-path}/xiaoyuyue-icon.eot?ue14fj#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/xiaoyuyue-icon.ttf?ue14fj') format('truetype'),
+    url('#{$icomoon-font-path}/xiaoyuyue-icon.woff?ue14fj') format('woff'),
+    url('#{$icomoon-font-path}/xiaoyuyue-icon.svg?ue14fj#xiaoyuyue-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -26,14 +26,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-google {
+  &:before {
+    content: $vapps-icon-app-google; 
+  }
+}
 .vapps-icon-app-facebook {
   &:before {
     content: $vapps-icon-app-facebook; 
-  }
-}
-.vapps-icon-app-gmail {
-  &:before {
-    content: $vapps-icon-app-gmail; 
   }
 }
 .vapps-icon-app-twitter {
