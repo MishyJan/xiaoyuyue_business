@@ -62,6 +62,26 @@
                     }
                 }
             }
+
+            .upgrade-content {
+                .current-edition {
+                    display: inline-block;
+                    padding: 2px 6px;
+                    border-radius: 6px;
+                    background-color: #FF9641;
+                    color: #FFF;
+                }
+                .upgrade-edition {
+                    display: inline-block;
+                    padding: 2px 6px;
+                    border-radius: 6px;
+                    background-color: #F00;
+                    color: #FFF;
+                }
+                .time-limit{
+                    color: #FF9641;
+                }
+            }
         }
     }
 }

@@ -74,19 +74,8 @@
                                     </div>
                                 </div>
                                 <div class="upgrade-content row" *ngIf="editionOutput.editionPaymentType === 2">
-                                    <p class="col-lg-12">
-                                        <span>版本信息: </span>
-                                        <span>{{ appSession.tenant.edition.displayName }}</span> 升级为
-                                        <span>{{ edition.edition.displayName }}</span>
-                                    </p>
-                                    <p class="col-lg-12">
-                                        <span>有效期至: </span>
-                                        <span>{{ d(appSession.tenant.subscriptionEndDateUtc) }}</span>
-                                    </p>
-                                    <p class="col-lg-12">
-                                        <span>需补差价: </span>
-                                        <span>{{ finalPrice }}元</span>
-                                    </p>
+                                    <p class="col-lg-12"><span>版本信息:  </span><span class="current-edition">{{ appSession.tenant.edition.displayName }}</span> 升级为 <span class="upgrade-edition">{{ edition.displayName }}</span></p>
+                                    <p class="col-lg-12"><span>有效期至:  </span><span class="time-limit">{{ d(appSession.tenant.subscriptionEndDateUtc) }}</span></p>
                                 </div>
                                 <div class="footer clearfix">
                                     <div class="pull-left">支付金额：{{ finalPrice }}元</div>
