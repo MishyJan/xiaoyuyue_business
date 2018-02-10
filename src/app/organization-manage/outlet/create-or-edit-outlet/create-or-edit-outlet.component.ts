@@ -26,6 +26,7 @@ import { test } from '@shared/animations/gridToggleTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class CreateOrEditOutletComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    canLimitCreateOutlet: boolean;
     zdNum: string;
     telephoneNum: string;
     isValidLandlinePhone: boolean;
@@ -93,6 +94,9 @@ export class CreateOrEditOutletComponent extends AppComponentBase implements OnI
 
     loadData(): void {
         if (!this.isCreateOrEditFlag) {
+            this.canLimitCreateOutlet = this.appSession.canLimitCreateOutlet('当前版本已无法创建门店');
+            // 无法创建门店会弹出sweetalert，会和检查数据是否需要恢复功能的alert冲突
+            if (!this.canLimitCreateOutlet) { return; }
             this.checkDataNeed2Reconvert();
             return;
         }

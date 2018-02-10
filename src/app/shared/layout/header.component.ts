@@ -25,6 +25,7 @@ import { UserNotificationHelper } from '@app/shared/layout/notifications/UserNot
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    canLimitCreateBooking: boolean;
     isResetHeaderStyleFlag: any;
     isDashboardFlag: boolean;
 
@@ -58,6 +59,7 @@ export class HeaderComponent extends AppComponentBase implements OnInit, AfterVi
     }
 
     ngOnInit() {
+        this.canLimitCreateBooking = this.appSession.canLimitCreateBooking()
         this.iswxjsEnvironment = ClientTypeHelper.isWeChatMiniProgram;
         this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
             this.title = this.createHearderTitle(this.breadcrumbService.breadcrumbs);

@@ -55,7 +55,7 @@ export class OutletAddressComponent extends AppComponentBase implements OnInit, 
 
     ngAfterViewInit() {
         if (!this.outletId) {
-            // this.initSelectListData();
+            this.initSelectListData();
         }
         this.mapsReady();
     }

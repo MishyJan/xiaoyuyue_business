@@ -20,6 +20,7 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     animations: [accountModuleAnimation()],
 })
 export class OutletListComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    canLimitCreateOutlet: boolean;
     scrollStatusOutput: ScrollStatusOutput;
     updateDataIndex = -1;
     // 将单次获取到的数据，追加到数组，作用：上拉加载功能
@@ -46,7 +47,8 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
     }
 
     ngOnInit() {
-        this.loadData()
+        this.loadData();
+        this.canLimitCreateOutlet = this.appSession.canLimitCreateOutlet();
     }
 
     ngAfterViewInit() {
@@ -124,7 +126,7 @@ export class OutletListComponent extends AppComponentBase implements OnInit, Aft
 
     onPageChange(index: number): void {
         this.listParam.CurrentPage = index;
-        this.listParam.SkipCount = this.listParam.MaxResultCount * this.listParam.CurrentPage;
+        this.listParam.SkipCount = this.listParam.MaxResultCount * (this.listParam.CurrentPage - 1);
         this.loadData();
     }
 

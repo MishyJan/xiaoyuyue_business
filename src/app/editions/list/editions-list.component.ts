@@ -90,7 +90,7 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
     }
 
     canTrialEdition(): boolean {
-        return this.appSession.canTrialEdition();
+        return this.appSession.canTrialEdition;
     }
 
     // 试用会员功能
