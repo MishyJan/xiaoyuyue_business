@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
 import { AccountConditionComponent } from 'app/account-manage/account-condition/account-condition.component';
 import { AccountListComponent } from 'app/account-manage/mobile-account-list/account-list.component';
-
+import { AppRouteGuard } from 'app/shared/common/auth/auth-route-guard';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
@@ -24,7 +23,8 @@ import { AccountListComponent } from 'app/account-manage/mobile-account-list/acc
                     },
                     {
                         path: 'list',
-                        component: AccountListComponent
+                        component: AccountListComponent,
+                        data: { breadcrumb: 'Menu.Account.Manage' },
                     }
                 ]
             }

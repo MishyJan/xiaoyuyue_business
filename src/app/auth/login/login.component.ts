@@ -50,15 +50,15 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
             this._router.navigate(['/dashboard']);
         }
 
-        // if (this.isWeiXin()) {
-        //     if (this.isWeiXin()) {
-        //         this.loginService.init(() => {
-        //             this.loginService.externalAuthenticate(this.loginService.findExternalLoginProvider(ExternalLoginProvider.WECHATMP))
-        //         });
-        //     }
+        if (this.isWeiXin()) {
+            if (this.isWeiXin()) {
+                this.loginService.init(() => {
+                    this.loginService.externalAuthenticate(this.loginService.findExternalLoginProvider(ExternalLoginProvider.WECHATMP))
+                });
+            }
 
-        //     this._router.navigate(['/auth/external']);
-        // }
+            this._router.navigate(['/auth/external']);
+        }
     }
 
     ngAfterViewInit(): void {

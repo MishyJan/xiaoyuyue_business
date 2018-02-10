@@ -352,7 +352,6 @@ export class LoginService {
             model.authProvider = ExternalLoginProvider.GOOGLE;
             model.providerAccessCode = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
             model.providerKey = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getId();
-            model.isAccessToken = true;
             this.showLoading();
             if (this._appSessionService.user) {
                 this._tokenAuthService.externalBinding(model)
@@ -379,7 +378,6 @@ export class LoginService {
         this._tokenAuthService.externalAuthenticate(model).subscribe((result: ExternalAuthenticateResultModel) => {
             if (result.waitingForActivation) {
                 this._messageService.info(this.l('NeedSupplementary'));
-                // this._router.navigate(['/account/supplementary-external-register', result.userId]);
                 return;
             }
 
@@ -391,14 +389,10 @@ export class LoginService {
         const model = this.initAccessCode(params);
         this._tokenAuthService.externalBinding(model)
             .subscribe(() => {
-                UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
-                this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
-                const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
-                location.href = initialUrl;
+                this.redirectByCookie();
             }, (error: any) => {
-                this._cookiesService.clearToken();
                 this._messageService.confirm('', error.message, () => {
-                    this._router.navigate(['/auth/login']);
+                    this.redirectByCookie();
                 });
             });
     }
@@ -410,7 +404,6 @@ export class LoginService {
             model.providerAccessCode = params['access_token'];
             model.providerKey = ExternalLoginProvider.FACEBOOK;
         } else if (params['providerName'] === ExternalLoginProvider.GOOGLE) {
-            model.isAccessToken = false;
             model.providerAccessCode = params['access_token'];
             model.providerKey = ExternalLoginProvider.GOOGLE;
         } else {
@@ -419,6 +412,13 @@ export class LoginService {
         }
 
         return model;
+    }
+
+    private redirectByCookie() {
+        UrlHelper.redirectUrl = this._cookiesService.getCookieValue('UrlHelper.redirectUrl');
+        this._cookiesService.deleteCookie('UrlHelper.redirectUrl', '/');
+        const initialUrl = UrlHelper.redirectUrl ? UrlHelper.redirectUrl : UrlHelper.redirectUrl = AppConsts.appBaseUrl + '/dashboard';
+        location.href = initialUrl;
     }
 
     protected processExternalAuthenticate(response: Response): ExternalAuthenticateResultModel {
