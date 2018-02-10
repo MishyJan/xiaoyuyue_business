@@ -26,7 +26,7 @@
             z-index: 101;
             text-align: center;
             color: #FFF;
-            background-color: red;
+            background-color: #f44336;
             border-radius: 50%;
         }
         .booking-item.flip {
@@ -304,6 +304,11 @@
                                     background-color: #FF9641;
                                 }
                             }
+                            .delete:hover {
+                                & {
+                                    background-color: #f44336;
+                                }
+                            }
                         }
                     }
                 }
@@ -441,7 +446,7 @@
                     .avail-num {
                         padding: 1px 6px 1px 5px;
                         color: #FFF;
-                        background-color: #FF0000;
+                        background-color: #f44336;
                         border-radius: 12px;
                     }
                     .action-item {
@@ -461,6 +466,9 @@
                         &.disabled-style {
                             color: #AAA;
                         }
+                    }
+                    .btn-disable {
+                        background-color: #f44336;
                     }
                 }
             }

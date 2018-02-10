@@ -51,6 +51,10 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
         }
 
         if (this.isWeiXin()) {
+            this.loginService.init(() => {
+                this.loginService.externalAuthenticate(this.loginService.findExternalLoginProvider(ExternalLoginProvider.WECHATMP))
+            });
+
             this._router.navigate(['/auth/external']);
         }
     }
@@ -81,7 +85,6 @@ export class LoginComponent extends AppComponentBase implements OnInit, AfterVie
             return;
         }
 
-        // TODO: 手机验证登录，浏览器存储cookies
         this.saving = true;
         if (!this.ordinaryLogin) {
             this.loginService.phoneNumAuth(this.model, () => this.saving = false);

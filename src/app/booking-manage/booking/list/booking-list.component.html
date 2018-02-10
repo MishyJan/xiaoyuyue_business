@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="handle-item-2 pull-right">
                                     <span class="btn item-wrap" (click)="editHandler(bookingItem.id)" title="{{l('Booking.Edit')}}">
-                                        <span class="show-icon vapps-icon-app-edit"></span>
+                                        <i class="show-icon vapps-icon-app-edit"></i>
                                         <span class="show-text">{{l('Edit')}}</span>
                                     </span>
 
@@ -186,11 +186,12 @@
                                     </span>
 
                                     <span class="btn item-wrap" (click)="flipIsToBack(index, true)" title="{{l('Booking.Detail')}}">
-                                        <span class="show-icon vapps-icon-app-detail"></span>
+                                        <i class="show-icon vapps-icon-app-detail"></i>
                                         <span class="show-text">{{l('Detail')}}</span>
                                     </span>
 
-                                    <span class="btn item-wrap" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}" [buttonBusy]="deleting" [busyText]="l('Deleting')">
+                                    <span class="btn item-wrap delete" (click)="removeBooking(index)" title="{{l('Booking.Delete')}}" [buttonBusy]="deleting"
+                                        [busyText]="l('Deleting')">
                                         <i class="show-icon vapps-icon-app-delete"></i>
                                         <span class="show-text">{{l('Delete')}}</span>
                                     </span>
@@ -336,7 +337,7 @@
                                         <button class="action-item" (click)="showDetail(bookingItem.id)">
                                             <span class="icon vapps-icon-app-detail"></span>{{ l('BookingList.ViewEdit') }}</button>
                                         <span class="line">|</span>
-                                        <button class="action-item" *ngIf="bookingItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
+                                        <button class="action-item btn-disbale" *ngIf="bookingItem.isActive" (click)="disabledBookingClass(indexI, indexJ)">
                                             <span class="icon vapps-icon-app-cancel"></span>{{ l('BookingList.DisabledBooking') }}</button>
                                         <button class="action-item" *ngIf="!bookingItem.isActive" (click)="beforeBookingClass(indexI, indexJ)">
                                             <span class="icon vapps-icon-app-active"></span>{{ l('BookingList.ActivBooking') }}</button>

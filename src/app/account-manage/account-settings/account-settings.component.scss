@@ -20,9 +20,14 @@
         }
     }
     .account-linked {
-        .content-item {
-            .tip-icon {
-                margin-right: 24px;
+        .external-auth {
+            .content-item {
+                .tip-icon {
+                    margin-right: 24px;
+                }
+                img {
+                    width: 38px;
+                }
             }
         }
     }

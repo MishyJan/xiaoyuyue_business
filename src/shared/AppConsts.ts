@@ -11,6 +11,7 @@ export class AppConsts {
     static appBaseUrlFormat: string;
 
     static userCenterUrl: string;
+    static businessCenterUrl: string;
 
     static readonly externalLoginUrl = '/auth/external';
     static readonly userManagement = {

@@ -43,6 +43,7 @@ export class AppPreBootstrap {
 
         AppConsts.appBaseUrlFormat = AppConfig.AppBaseUrl;
         AppConsts.userCenterUrl = AppConfig.UserCenterUrl;
+        AppConsts.businessCenterUrl = AppConfig.BusinessCenterUrl;
         AppConsts.remoteServiceBaseUrlFormat = AppConfig.RemoteServiceBaseUrl;
 
         if (tenancyName == null) {

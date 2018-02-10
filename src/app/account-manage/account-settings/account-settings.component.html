@@ -67,18 +67,17 @@
                             <div class="card-header card-header-text" data-background-color="orange">
                                 <h6 class="card-title">{{ l('Security.AccountAssociation') }}</h6>
                             </div>
-                            <div class="card-content">
+                            <div class="card-content external-auth">
                                 <div class="login-passwd content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left">
-                                            <img src="assets/common/images/social/wechat-x2.png" style="width: 36px;" alt="wechat">
+                                            <img class="wechat" src="/assets/common/images/login/weChat-x2.png" alt="{{l('WeChat')}}">
                                         </span>
                                         <span class="pull-left not-set" *ngIf="!userSecurityInfo.weChat">{{ l('Security.Unbound') }}</span>
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.weChat">{{ userSecurityInfo.weChat }}</span>
-                                        <!-- <span class="pull-left already-set">微信名</span> -->
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBindingWechat"
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBindingWechat"
                                             [busyText]="l('Security.Unbinding')">
                                             <i></i>
                                             <span>{{ l('Security.Unbind') }}</span>
@@ -89,13 +88,13 @@
                                 <div class="verify-qq content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left">
-                                            <img src="assets/common/images/social/qq-x2.png" style="width: 28px;" alt="qq">
+                                            <img class="qq" src="/assets/common/images/login/qq-x2.png" alt="{{l('QQ')}}">
                                         </span>
                                         <span class="pull-left not-set" *ngIf="!userSecurityInfo.qq">{{ l('Security.Unbound') }}</span>
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.qq">{{ userSecurityInfo.qq }}</span>
                                     </p>
                                     <div class="right-item pull-right">
-                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()" [buttonBusy]="unBindingQQ"
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()" [buttonBusy]="unBindingQQ"
                                             [busyText]="l('Security.Unbinding')">
                                             <i></i>
                                             <span>{{ l('Security.Unbind') }}</span>
@@ -104,6 +103,41 @@
                                     </div>
                                 </div>
 
+                                <div class="verify-fb content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-icon pull-left">
+                                            <img class="faceBook" src="/assets/common/images/login/facebook-x2.png" alt="{{l('Facebook')}}">
+                                        </span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.faceBook">{{ l('Security.Unbound') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.faceBook">{{ userSecurityInfo.faceBook }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.faceBook" (click)="unBindFB()" [buttonBusy]="unBindingFB"
+                                            [busyText]="l('Security.Unbinding')">
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.faceBook" (click)="bingFb()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
+
+                                <div class="verify-google content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-icon pull-left">
+                                            <img class="google" src="/assets/common/images/login/google-x2.png" alt="{{l('google')}}">
+                                        </span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.google">{{ l('Security.Unbound') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.google">{{ userSecurityInfo.google }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.google" (click)="unBindGoogle()" [buttonBusy]="unBindingGoogle"
+                                            [busyText]="l('Security.Unbinding')">
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.google" (click)="bingGoogle()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
