@@ -15,10 +15,12 @@ import { accountModuleAnimation } from '@shared/animations/routerTransition';
     animations: [accountModuleAnimation()]
 })
 export class SecurityComponent extends AppComponentBase implements OnInit {
-    linkedQQText: string;
     userSecurityInfo: UserSecurityInfoDto = new UserSecurityInfoDto();
     externalWechatUrl: string;
     linkedWechatText: string;
+    linkedQQText: string;
+    linkedFaceBookText: string;
+    linkedGoogleText: string;
     isBindingQQ: boolean;
     constructor(
         private injector: Injector,
@@ -44,6 +46,8 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
                 this.userSecurityInfo = result;
                 this.linkedWechatText = result.weChat ? result.weChat : this.l('Unrelated');
                 this.linkedQQText = result.qq ? result.qq : this.l('Unrelated');
+                this.linkedFaceBookText = result.faceBook ? result.faceBook : this.l('Unrelated');
+                this.linkedGoogleText = result.google ? result.google : this.l('Unrelated');
             })
     }
 
@@ -52,9 +56,7 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
             this.unBindWeChat();
             return;
         }
-        const exdate = new Date();
-        exdate.setDate(exdate.getDate() + 1);
-        this._cookiesService.setCookieValue('UrlHelper.redirectUrl', location.href, exdate, '/');
+
         this.externalWechatUrl = AppConsts.userCenterUrl + '/auth/external?authToken=' + this._cookiesService.getToken() + '&isAuthBind=true&redirectUrl=' + encodeURIComponent(document.location.href);
         window.location.href = this.externalWechatUrl;
     }
@@ -64,10 +66,27 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
             this.unBindQQ();
             return;
         }
-        const exdate = new Date();
-        exdate.setDate(exdate.getDate() + 1);
-        this._cookiesService.setCookieValue('UrlHelper.redirectUrl', location.href, exdate, '/');
+        this.setRedirectUrl();
         this._loginService.externalAuthenticate(this._loginService.findExternalLoginProvider(ExternalLoginProvider.QQ), true);
+    }
+
+    linkFacebook(): void {
+        if (this.checkIsBindFacebook()) {
+            this.unBindFacebook();
+            return;
+        }
+        this.setRedirectUrl();
+        this._loginService.externalAuthenticate(this._loginService.findExternalLoginProvider(ExternalLoginProvider.FACEBOOK), true);
+    }
+
+
+    linkGoogle(): void {
+        if (this.checkIsBindGoogle()) {
+            this.unBindGoogle();
+            return;
+        }
+        this.setRedirectUrl();
+        this._loginService.externalAuthenticate(this._loginService.findExternalLoginProvider(ExternalLoginProvider.GOOGLE), true);
     }
 
     checkIsBindWechat(): boolean {
@@ -88,22 +107,63 @@ export class SecurityComponent extends AppComponentBase implements OnInit {
         return false;
     }
 
+
+    checkIsBindFacebook(): boolean {
+        if (this.userSecurityInfo.faceBook) {
+            this.linkedFaceBookText = this.userSecurityInfo.faceBook;
+            return true;
+        }
+        this.linkedFaceBookText = this.l('Unrelated');
+        return false;
+    }
+
+    checkIsBindGoogle(): boolean {
+        if (this.userSecurityInfo.google) {
+            this.linkedGoogleText = this.userSecurityInfo.google;
+            return true;
+        }
+        this.linkedGoogleText = this.l('Unrelated');
+        return false;
+    }
+
     unBindQQ(): void {
         const data = new ExternalUnBindingModel();
-        data.authProvider = 'QQ';
-        this._tokenAuthService.externalUnBinding(data).subscribe(result => {
-            this.getUserSecurityInfo();
-            this.notify.success(this.l('Unbinding.Success.Hint'));
-        });
+        data.authProvider = ExternalLoginProvider.QQ;
+        this.unBind(data);
     }
 
     // 解绑微信
     unBindWeChat() {
         const data = new ExternalUnBindingModel();
-        data.authProvider = 'WeChat'
-        this._tokenAuthService.externalUnBinding(data).subscribe(result => {
-            this.getUserSecurityInfo();
-            this.notify.success(this.l('Unbinding.Success.Hint'));
-        });
+        data.authProvider = ExternalLoginProvider.WECHAT;
+        this.unBind(data);
+    }
+
+    unBindGoogle() {
+        const data = new ExternalUnBindingModel();
+        data.authProvider = ExternalLoginProvider.GOOGLE;
+        this.unBind(data);
+    }
+
+    unBindFacebook() {
+        const data = new ExternalUnBindingModel();
+        data.authProvider = ExternalLoginProvider.FACEBOOK;
+        this.unBind(data);
+    }
+
+    private setRedirectUrl() {
+        const exdate = new Date();
+        exdate.setDate(exdate.getDate() + 1);
+        this._cookiesService.setCookieValue('UrlHelper.redirectUrl', location.href, exdate, '/');
+    }
+
+    private unBind(data: ExternalUnBindingModel) {
+        this.message.confirm(this.l('UnBinding.Sure'), this.l('UnBinding.Confirm.Message'), (result) => {
+            if (!result) { return; }
+            this._tokenAuthService.externalUnBinding(data).subscribe(result => {
+                this.getUserSecurityInfo();
+                this.notify.success(this.l('Unbinding.Success.Hint'));
+            });
+        })
     }
 }
