@@ -11,6 +11,7 @@ import { CookiesService } from 'shared/services/cookies.service';
 import { LocalizationService } from 'abp-ng2-module/src/localization/localization.service';
 import { LogService } from '@abp/log/log.service';
 import { MessageService } from '@abp/message/message.service';
+import { NotifyService } from 'abp-ng2-module/src/notify/notify.service';
 import { Observable } from 'rxjs/Observable';
 import { UrlHelper } from '@shared/helpers/UrlHelper';
 
@@ -65,7 +66,8 @@ export class LoginService {
         private _messageService: MessageService,
         private _logService: LogService,
         private _cookiesService: CookiesService,
-        private _appSessionService: AppSessionService
+        private _appSessionService: AppSessionService,
+        private _notify: NotifyService
     ) {
         this.clear();
     }
@@ -329,6 +331,7 @@ export class LoginService {
                 this._tokenAuthService.externalBinding(model)
                     .subscribe(() => {
                         this.hideLoading();
+                        this._notify.success(this.l('Binding.Success.Hint'));
                         abp.event.trigger('facebookBinding');
                     });
             } else {
@@ -357,6 +360,7 @@ export class LoginService {
                 this._tokenAuthService.externalBinding(model)
                     .subscribe(() => {
                         this.hideLoading();
+                        this._notify.success(this.l('Binding.Success.Hint'));
                         abp.event.trigger('googleBinding');
                     });
             } else {
@@ -389,6 +393,7 @@ export class LoginService {
         const model = this.initAccessCode(params);
         this._tokenAuthService.externalBinding(model)
             .subscribe(() => {
+                this._notify.success(this.l('Binding.Success.Hint'));
                 this.redirectByCookie();
             }, (error: any) => {
                 this._messageService.confirm('', error.message, () => {

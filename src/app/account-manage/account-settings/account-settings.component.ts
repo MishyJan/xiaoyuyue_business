@@ -151,7 +151,6 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     }
 
     private unBind(data) {
-
         this.message.confirm(this.l('UnBinding.Sure'), this.l('UnBinding.Confirm.Message'), (result) => {
             if (!result) { return; }
             this._tokenAuthService.externalUnBinding(data)
