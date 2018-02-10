@@ -101,7 +101,12 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     }
 
     bindWeChat() {
-        this.externalBindingModel.show('WeChat');
+        if (this.isWeiXin()) {
+            this.setRedirectUrl();
+            this._loginService.externalAuthenticate(this._loginService.findExternalLoginProvider(ExternalLoginProvider.WECHATMP), true);
+        } else {
+            this.externalBindingModel.show('WeChat');
+        }
     }
 
     bingQQ(): void {
