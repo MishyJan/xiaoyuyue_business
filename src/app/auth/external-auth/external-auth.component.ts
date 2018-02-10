@@ -25,7 +25,7 @@ export class ExternalAuthComponent extends AppComponentBase implements OnInit, A
         private _loginService: LoginService,
         private _activatedRoute: ActivatedRoute,
         private _tokenAuthService: TokenAuthServiceProxy,
-        private _cookiesService: CookiesService
+        private _cookiesService: CookiesService,
     ) {
         super(injector);
     }

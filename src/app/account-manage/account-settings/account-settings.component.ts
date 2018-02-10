@@ -151,17 +151,20 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     }
 
     private unBind(data) {
-        this._tokenAuthService.externalUnBinding(data)
-            .finally(() => {
-                this.unBindingWechat = false;
-                this.unBindingQQ = false;
-                this.unBindingFB = false;
-                this.unBindingGoogle = false;
-            })
-            .subscribe(result => {
-                this.getUserSecurityInfo();
-                this.notify.success(this.l('UnbindingSuccess'));
-            });
+        this.message.confirm(this.l('UnBinding.Sure'), this.l('UnBinding.Confirm.Message'), (result) => {
+            if (!result) { return; }
+            this._tokenAuthService.externalUnBinding(data)
+                .finally(() => {
+                    this.unBindingWechat = false;
+                    this.unBindingQQ = false;
+                    this.unBindingFB = false;
+                    this.unBindingGoogle = false;
+                })
+                .subscribe(() => {
+                    this.getUserSecurityInfo();
+                    this.notify.success(this.l('UnbindingSuccess'));
+                });
+        })
     }
 
     showChangePasswdModel(): void {

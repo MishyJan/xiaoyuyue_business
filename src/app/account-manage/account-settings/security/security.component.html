@@ -45,13 +45,13 @@
         {{ l('Security.AccountAssociation') }}
         <small>{{ l('Security.ExternalTitle') }}</small>
     </h5>
-    <div class="clearfix">
+    <div class="clearfix external-auth">
         <!-- 微信绑定 -->
         <div class="card-wrap col-xs-4 col-sm-3">
             <div class="card" (click)="linkWechat()">
                 <div class="item">
                     <div class="content">
-                        <span class="icon vapps-icon-linked-wechat" style="font-size: 40px;"></span>
+                        <span class="icon vapps-icon-linked-wechat"></span>
                         <p class="text">{{ linkedWechatText }}</p>
                     </div>
                 </div>
@@ -63,8 +63,32 @@
             <div class="card" (click)="linkQQ()">
                 <div class="item">
                     <div class="content">
-                        <span class="icon vapps-icon-linked-qq" style="font-size: 40px;"></span>
+                        <span class="icon vapps-icon-linked-qq"></span>
                         <p class="text">{{ linkedQQText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FaceBook绑定 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" (click)="linkFacebook()">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-facebook tip-icon-small"></span>
+                        <p class="text">{{ linkedFaceBookText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google绑定 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" (click)="linkGoogle()">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-google tip-icon-small"></span>
+                        <p class="text">{{ linkedGoogleText }}</p>
                     </div>
                 </div>
             </div>
