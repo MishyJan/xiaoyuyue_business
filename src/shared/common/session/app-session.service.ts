@@ -78,6 +78,11 @@ export class AppSessionService {
         return true;
     }
 
+    // 是否可以试用，仅免费版 且 非试用版 才可试用
+    canTrialEdition(): boolean {
+        return !this.tenant.hadTrialed && this.tenant.edition.isFree;
+    }
+
     private isCurrentTenant(tenantId?: number) {
         if (!tenantId && this.tenant) {
             return false;

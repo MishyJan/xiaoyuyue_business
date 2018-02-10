@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="xiaoyuyue-title-box">开通会员</div>
+                <div class="xiaoyuyue-title-box">{{ editionOutput.editionPaymentDisplayName }}</div>
             </div>
             <div class="modal-body">
                 <!-- 版本类型 -->
@@ -15,7 +15,7 @@
                 </div>
 
                 <!-- 开通时长 -->
-                <div class="time-limit-choose content-item row">
+                <div class="time-limit-choose content-item row" *ngIf="editionOutput.editionPaymentType !== 2">
                     <p class="col-lg-12">开通时长</p>
                     <div class="col-lg-4">
                         <div class="choose-item time-limit-item" [ngClass]="{'active': selectTimeIndex === 1}" (click)="selectTimeHandle(1)">
@@ -40,23 +40,30 @@
                     </div>
                 </div>
 
+                <!-- 升级提示 -->
+                <div class="upgrade-content content-item row" *ngIf="editionOutput.editionPaymentType === 2">
+                    <p class="col-lg-12"><span>版本信息:  </span><span>{{ appSession.tenant.edition.displayName }}</span> 升级为 <span>{{ edition.displayName }}</span></p>
+                    <p class="col-lg-12"><span>有效期至:  </span><span>{{ d(appSession.tenant.subscriptionEndDateUtc) }}</span></p>
+                    <p class="col-lg-12"><span>需补差价:  </span><span>{{ finalPrice }}元</span></p>
+                </div>
+
                 <!-- 支付方式 -->
                 <div class="pay-ways content-item row" *ngIf="edition.additionalData">
-                    <p class="col-lg-12">支付方式</p>
-                    <div class="col-lg-4" *ngIf="edition.additionalData.weChat">
-                        <div class="qr-code-wrap" *ngIf="wechatQrcodeContent">
-                            <qr-code [value]="wechatQrcodeContent" [iconUrl]="'false'" [size]="130"></qr-code>
+                        <p class="col-lg-12">支付方式</p>
+                        <div class="col-lg-4" *ngIf="edition.additionalData.weChat">
+                            <div class="qr-code-wrap" *ngIf="wechatQrcodeContent">
+                                <qr-code [value]="wechatQrcodeContent" [iconUrl]="'false'" [size]="130"></qr-code>
+                            </div>
+                            <p>
+                                <span class="vapps-icon-app-wechat-pay"></span> 微信支付</p>
                         </div>
-                        <p>
-                            <span class="vapps-icon-app-wechat-pay"></span> 微信支付</p>
-                    </div>
-                    <div class="col-lg-4" *ngIf="edition.additionalData.alipay">
-                        <div class="qr-code-wrap" *ngIf="wechatQrcodeContent">
-                            <qr-code [value]="alipayQrcodeContent" [iconUrl]="'false'" [size]="130"></qr-code>
+                        <div class="col-lg-4" *ngIf="edition.additionalData.alipay">
+                            <div class="qr-code-wrap" *ngIf="wechatQrcodeContent">
+                                <qr-code [value]="alipayQrcodeContent" [iconUrl]="'false'" [size]="130"></qr-code>
+                            </div>
+                            <p>
+                                <span class="vapps-icon-app-alipay"></span> 支付宝支付</p>
                         </div>
-                        <p>
-                            <span class="vapps-icon-app-alipay"></span> 支付宝支付</p>
-                    </div>
                     <div class="col-lg-4">
                         <p>支付金额：
                             <span>{{ finalPrice }}元</span>

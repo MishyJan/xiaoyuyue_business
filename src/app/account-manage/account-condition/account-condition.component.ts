@@ -20,12 +20,14 @@ import { accountModuleAnimation } from 'shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class AccountConditionComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    bookingStatisticCountText: string;
+    outletStatisticCountText: string;
     isHighestEdition: boolean;
     currentEditions: EditionWithFeaturesDto;
     allFeatures: FlatFeatureSelectDto[];
     accountInfo: AccountInfo = new AccountInfo();
     isShowPaymentHistory = false;
-    mobilePaymentHistoryData: SubscriptionPaymentListDto[];
+    mobilePaymentHistoryData: SubscriptionPaymentListDto[] = [];
     showConditionContent = false;
     gridParam: BaseGridDataInputDto
     paymentHistoryData = new AppGridData();
@@ -78,11 +80,15 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         let displayName = '';
         this.allFeatures.forEach((element: FlatFeatureSelectDto) => {
             if (name === 'App.MaxBookingCount') {
-                displayName = element.displayName + GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value + '个';
+                displayName = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
+                    element.displayName + '不限制' :
+                    element.displayName + GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value + '个';
                 return;
             }
             if (name === 'App.MaxOutletCount') {
-                displayName = element.displayName + GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value + '个';
+                displayName = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value === '0' ?
+                    element.displayName + '不限制' :
+                    element.displayName + GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value + '个';
                 return;
             }
             if (element.name === name) {
@@ -103,6 +109,7 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         this.accountInfo.subCreatedOutletCount = this.appSession.tenant.outletNum;
         this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
         this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
+        this.transferOutletAndBookingContentText();
     }
 
     /*
@@ -123,6 +130,25 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
         }
         return timeLimitName;
     }
+
+    // 根据是否正在试用中，添加 试用 文案
+    private inTrialPeriodTransText(editionDisName: string): string {
+        return this.appSession.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
+    }
+
+    // 转换门店统计文本内容 和 预约统计内容
+    private transferOutletAndBookingContentText(): void {
+        this.outletStatisticCountText = this.accountInfo.maxOutletCount === '0' ?
+            '不限制' : // 数量不限制
+            `${this.accountInfo.subCreatedOutletCount} / ${this.accountInfo.maxOutletCount}`;
+
+        this.bookingStatisticCountText = this.accountInfo.maxBookingCount === '0' ?
+            '不限制' : // 数量不限制
+            `${this.accountInfo.subCreatedBookingCount} / ${this.accountInfo.maxBookingCount}`;
+
+    }
+
+    // 转换预约统计文本内容
 
     // 切换页码
     public pageChange(event: PageChangeEvent): void {
@@ -147,10 +173,6 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
             .subscribe(result => {
                 this.mobilePaymentHistoryData = result.items;
             })
-    }
-
-    isShowConditionContent(): void {
-        this.showConditionContent = !this.showConditionContent;
     }
 
     // 由于tabset导致初始化better-scroll失效，尝试把历史账单DOM结构移除tabset，点击后显示DOM

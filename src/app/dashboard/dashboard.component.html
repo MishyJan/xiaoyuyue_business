@@ -25,7 +25,7 @@
                         <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getTenantLogoUrl() + ')'}"></div>
                         <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
                         <div class="edition-info clearfix">
-                            <span class="col-md-6 edition-name">{{ accountInfo.editionDisplayName }}</span>
+                            <span class="col-md-6 edition-name">{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span>
                             <span class="col-md-6 edition-time">{{ accountInfo.editionTimeLimit }}</span>
                         </div>
                         <div class="booking-amount col-md-12">
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-md-6" style="border-left: 1px solid #CCC;">
                                     <p class="desc">可用预约数</p>
-                                    <p class="num" style="color:#02AFF3;">{{ accountInfo.maxBookingCount - accountInfo.subCreatedBookingCount }}</p>
+                                    <p class="num" style="color:#02AFF3;">{{ subBookingCountCountText }}</p>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                                 </div>
                             </div>
                             <div class="card-wrap col-xs-4 col-sm-3">
-                                <div class="card" routerLink="/account/condition">
+                                <div class="card" routerLink="/account/list">
                                     <div class="item">
                                         <div class="content">
                                             <span class="icon vapps-icon-app-account-manage-menu"></span>

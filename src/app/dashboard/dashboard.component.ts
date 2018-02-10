@@ -19,6 +19,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleSlowAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    subBookingCountCountText: string | number;
     accountInfo: AccountInfo = new AccountInfo();
     defaultTenantBgUrl = 'assets/common/images/booking/center-bg.jpg';
     defaultTenantLogoUrl = 'assets/common/images/logo.jpg';
@@ -232,6 +233,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         this.accountInfo.subCreatedOutletCount = this.appSession.tenant.outletNum;
         this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
         this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
+        this.transferSubBookingContentText();
     }
 
     /*
@@ -251,5 +253,17 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             this.accountInfo.paysType = PaysType.JoinMembership;
         }
         return timeLimitName;
+    }
+
+    // 转换可用预约数显示文本
+    private transferSubBookingContentText(): void {
+        this.subBookingCountCountText = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
+            '不限制' : // 数量不限制
+            +this.accountInfo.maxBookingCount - this.accountInfo.subCreatedBookingCount;
+    }
+
+    // 根据是否正在试用中，添加 试用 文案
+    private inTrialPeriodTransText(editionDisName: string): string {
+        return this.appSession.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
     }
 }

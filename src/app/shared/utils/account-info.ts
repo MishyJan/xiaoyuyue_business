@@ -5,8 +5,8 @@ export class AccountInfo {
     editionId: number;
     editionDisplayName: string;
     editionTimeLimit: string;
-    maxBookingCount: number;
-    maxOutletCount: number;
+    maxBookingCount: string;
+    maxOutletCount: string;
     subCreatedBookingCount: number;
     subCreatedOutletCount: number;
     paysType: PaysType;
