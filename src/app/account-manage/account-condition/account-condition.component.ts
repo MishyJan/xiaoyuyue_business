@@ -11,6 +11,8 @@ import { GetCurrentFeatures } from 'shared/AppConsts';
 import { Moment } from 'moment';
 import { PaysType } from 'shared/AppEnums';
 import { accountModuleAnimation } from 'shared/animations/routerTransition';
+import { ScrollStatusOutput } from 'app/shared/utils/list-scroll.dto';
+import { ListScrollService } from 'shared/services/list-scroll.service';
 
 @Component({
     selector: 'xiaoyuyue-account-condition',
@@ -20,6 +22,10 @@ import { accountModuleAnimation } from 'shared/animations/routerTransition';
     encapsulation: ViewEncapsulation.None
 })
 export class AccountConditionComponent extends AppComponentBase implements OnInit, AfterViewInit {
+    allMobilePaymentHistoryData: any[] = [];
+    totalItems: number;
+    updateDataIndex = -1;
+    scrollStatusOutput: ScrollStatusOutput;
     bookingStatisticCountText: string;
     outletStatisticCountText: string;
     isHighestEdition: boolean;
@@ -33,6 +39,7 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     paymentHistoryData = new AppGridData();
     constructor(
         private injector: Injector,
+        private _listScrollService: ListScrollService,
         private _paymentService: PaymentServiceProxy,
         private _editionSubscriptionService: EditionSubscriptionServiceProxy
     ) {
@@ -164,19 +171,69 @@ export class AccountConditionComponent extends AppComponentBase implements OnIni
     }
 
     /* 移动端代码 */
-    mobileLoadPaymentHistoryData(): void {
+    // scrollHandleBack: 接收一个回调函数，控制下拉刷新，上拉加载的状态
+    mobileLoadPaymentHistoryData(scrollHandleBack?: any): void {
         this._paymentService
             .getPaymentHistory(
             this.gridParam.GetSortingString(),
             this.gridParam.MaxResultCount,
             this.gridParam.SkipCount)
+            .finally(() => {
+                scrollHandleBack && scrollHandleBack();
+            })
             .subscribe(result => {
                 this.mobilePaymentHistoryData = result.items;
+                this.totalItems = result.totalCount;
+                if (this.mobilePaymentHistoryData.length > 0 && this.updateDataIndex < 0) {
+                    this.allMobilePaymentHistoryData.push(this.mobilePaymentHistoryData);
+                } else {
+                    this.allMobilePaymentHistoryData[this.updateDataIndex] = this.mobilePaymentHistoryData;
+                }
             })
     }
 
     // 由于tabset导致初始化better-scroll失效，尝试把历史账单DOM结构移除tabset，点击后显示DOM
     selectPaymentHistory(toggle: boolean): void {
         this.isShowPaymentHistory = toggle;
+    }
+
+    // 下拉刷新
+    public pullDownRefresh(): void {
+        this.updateDataIndex = 0;
+        this.gridParam.SkipCount = 0;
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledDownActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.mobileLoadPaymentHistoryData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.pulledDownActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
+    }
+
+    // 上拉加载
+    public pullUpLoad(): void {
+        this.updateDataIndex = -1;
+        let totalCount = 0;
+        this.allMobilePaymentHistoryData.forEach(personBookingTotalCount => {
+            personBookingTotalCount.forEach(element => {
+                totalCount++;
+            });
+        });
+        this.gridParam.SkipCount = totalCount;
+        if (this.gridParam.SkipCount >= this.totalItems) {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.noMore = true;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+            return;
+        }
+        this.scrollStatusOutput = new ScrollStatusOutput();
+        this.scrollStatusOutput.pulledUpActive = true;
+        this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        this.mobileLoadPaymentHistoryData(() => {
+            this.scrollStatusOutput = new ScrollStatusOutput();
+            this.scrollStatusOutput.pulledUpActive = false;
+            this._listScrollService.listScrollFinished.emit(this.scrollStatusOutput);
+        });
     }
 }

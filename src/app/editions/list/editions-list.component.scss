@@ -33,10 +33,30 @@
 
 .mobile-account-edition {
     padding: 10px;
+    .hidden-dom {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        width: 0;
+        height: 0;
+        font-size: 0;
+    }
+
+    .button {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        user-select: none;
+        padding: 8px 14px 7px 14px;
+        border: none;
+        color: #FFF;
+    }
     .mobile-to-pay {
         .content-item {
             padding: 10px;
-                        .upgrade-content {
+            .upgrade-content {
                 .current-edition {
                     display: inline-block;
                     padding: 2px 6px;
@@ -51,7 +71,7 @@
                     background-color: #F00;
                     color: #FFF;
                 }
-                .time-limit{
+                .time-limit {
                     color: #FF9641;
                 }
             }

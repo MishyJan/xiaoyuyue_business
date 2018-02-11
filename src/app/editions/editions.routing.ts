@@ -10,6 +10,8 @@ import { EditionsListComponent } from 'app/editions/list/editions-list.component
         RouterModule.forChild([
             {
                 path: '',
+                canActivate: [AppRouteGuard],
+                canActivateChild: [AppRouteGuard],
                 children: [
                     { path: '', redirectTo: '/editions/list', pathMatch: 'full' },
                     {

@@ -22,21 +22,23 @@
             <div class="col-md-12 row no-right-padding">
                 <div class="left-content col-md-3">
                     <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
-                        <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getTenantLogoUrl() + ')'}"></div>
-                        <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
+                        <div routerLink="/organization/info">
+                            <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getTenantLogoUrl() + ')'}"></div>
+                            <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
+                        </div>
                         <div class="edition-info clearfix">
-                            <span class="col-md-6 edition-name">{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span>
+                            <span class="col-md-6 edition-name"><span class="vapps-icon-app-vip vip-icon"></span>{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span>
                             <span class="col-md-6 edition-time">{{ accountInfo.editionTimeLimit }}</span>
                         </div>
                         <div class="booking-amount col-md-12">
                             <div class="clearfix" style="border-top: 1px solid #CCC;padding: 10px 0;">
                                 <div class="col-md-6">
-                                    <p class="desc">已用预约数</p>
-                                    <p class="num" style="color:#E32600;">{{ accountInfo.subCreatedBookingCount }}</p>
+                                    <p class="desc">预约概况</p>
+                                    <p class="num" style="color:#E32600;">{{ accountInfo.subCreatedBookingCount }} / {{ subBookingCountCountText }}</p>
                                 </div>
                                 <div class="col-md-6" style="border-left: 1px solid #CCC;">
-                                    <p class="desc">可用预约数</p>
-                                    <p class="num" style="color:#02AFF3;">{{ subBookingCountCountText }}</p>
+                                    <p class="desc">门店概况</p>
+                                    <p class="num" style="color:#02AFF3;">{{ accountInfo.subCreatedBookingCount }} / {{ subBookingCountCountText }}</p>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +146,7 @@
                         <div class="info-wrap">
                             <div class="top">
                                 <img class="tenant-logo" [src]="getTenantLogoUrl()" width="60px" height="60px">
-                                <span class="tenant-name">{{ tenantBaseInfoData.tenancyName }}<br><span class="edition-name">{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span></span>
+                                <span class="tenant-name">{{ tenantBaseInfoData.tenancyName }}<br><span class="edition-name"><span class="vapps-icon-app-vip vip-icon"></span>{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span></span>
                                 
                             </div>
 

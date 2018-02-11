@@ -126,7 +126,7 @@
 </div>
 
 <div *showItBootstrap="[ 'xs', 'sm']">
-    <div class="account-condition-content">
+    <div class="mobile-account-condition">
         <tabset class="tabset" #staticTabs>
             <tab heading="账户信息" (select)="selectPaymentHistory(false)">
                 <div class="account-info-wrap">
@@ -181,31 +181,34 @@
             <tab heading="历史账单" (select)="selectPaymentHistory(true)"></tab>
         </tabset>
         <div class="payment-history-wrap" *ngIf="isShowPaymentHistory">
-            <xiaoyuyue-list-scroll [height]="'calc(100vh - 125px)'">
+            <xiaoyuyue-list-scroll [height]="'calc(100vh - 125px)'" [isNeedPullUpLoad]="'true'" [isNeedPullDownRefresh]="'true'" (finishPullUpHandle)="pullUpLoad()"
+                (finishPullDownHandle)="pullDownRefresh()">
                 <div class="scroll-content">
-                    <div *ngIf="mobilePaymentHistoryData.length>0; else empty">
-                        <div class="card" *ngFor="let item of mobilePaymentHistoryData">
-                            <div class="content-item">
-                                <div class="top-wrap clearfix">
-                                    <div class="title pull-left">{{ item.editionDisplayName }}</div>
-                                    <div class="icon pull-right"></div>
-                                </div>
-                                <div class="content">
-                                    <div class="content-row">
-                                        <span class="name">日期 : </span>
-                                        <span class="desc">{{ d(item.creationTime) }}</span>
+                    <div *ngIf="allMobilePaymentHistoryData.length>0; else empty">
+                        <div *ngFor="let historyDataItem of allMobilePaymentHistoryData">
+                            <div class="card" *ngFor="let item of historyDataItem">
+                                <div class="content-item">
+                                    <div class="top-wrap clearfix">
+                                        <div class="title pull-left">{{ item.editionDisplayName }}</div>
+                                        <div class="icon pull-right"></div>
                                     </div>
-                                    <div class="content-row">
-                                        <span class="name">单号 : </span>
-                                        <span class="desc">{{ item.paymentId }}</span>
-                                    </div>
-                                    <div class="content-row">
-                                        <span class="name">金额 : </span>
-                                        <span class="desc">{{ item.amount }}</span>
-                                    </div>
-                                    <div class="content-row">
-                                        <span class="name">支付方式 : </span>
-                                        <span class="desc">{{ item.gateway }}</span>
+                                    <div class="content">
+                                        <div class="content-row">
+                                            <span class="name">日期 : </span>
+                                            <span class="desc">{{ d(item.creationTime) }}</span>
+                                        </div>
+                                        <div class="content-row">
+                                            <span class="name">单号 : </span>
+                                            <span class="desc">{{ item.paymentId }}</span>
+                                        </div>
+                                        <div class="content-row">
+                                            <span class="name">金额 : </span>
+                                            <span class="desc">{{ item.amount }}</span>
+                                        </div>
+                                        <div class="content-row">
+                                            <span class="name">支付方式 : </span>
+                                            <span class="desc">{{ item.gateway }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

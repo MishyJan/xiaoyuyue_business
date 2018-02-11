@@ -82,7 +82,7 @@
         "moment": "^2.20.1",
         "moment-timezone": "^0.5.14",
         "ng2-responsive": "^0.8.4",
-        "ngx-bootstrap": "^2.0.2",
+        "ngx-bootstrap": "^2.0.1",
         "ngx-echarts": "^2.0.1",
         "ngx-infinite-scroll": "^0.8.2",
         "ngx-pagination": "^3.0.3",

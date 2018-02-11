@@ -29,7 +29,7 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
     editionOutput: AccountEditionOutput = new AccountEditionOutput();
     allFeatures: FlatFeatureSelectDto[];
     tenantEditionId: number;
-    editionsWithFeatures: EditionWithFeaturesDto[];
+    editionsWithFeatures: EditionWithFeaturesDto[] = [];
     @ViewChild('toPayModel') toPayModel: ToPayModelComponent;
     constructor(
         private injector: Injector,
@@ -269,7 +269,7 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
                 window.location.reload();
             }, 1000);
         } else {
-            this.notify.success('自动失败，请重试');
+            this.notify.success('支付失败，请重试');
         }
     }
 }

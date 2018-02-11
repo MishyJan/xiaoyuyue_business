@@ -261,9 +261,15 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             '不限制' : // 数量不限制
             +this.accountInfo.maxBookingCount - this.accountInfo.subCreatedBookingCount;
     }
+    // 转换可用预约数显示文本
+    private transferSubOutletContentText(): void {
+        this.subBookingCountCountText = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
+            '不限制' : // 数量不限制
+            +this.accountInfo.maxBookingCount - this.accountInfo.subCreatedBookingCount;
+    }
 
     // 根据是否正在试用中，添加 试用 文案
     private inTrialPeriodTransText(editionDisName: string): string {
-        return this.appSession.tenant.isInTrialPeriod ? editionDisName + '(试用中)' : editionDisName;
+        return this.appSession.tenant.isInTrialPeriod ? editionDisName + '(试用)' : editionDisName;
     }
 }
