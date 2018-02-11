@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
-import { CreatePaymentDtoEditionPaymentType, EditionSubscriptionServiceProxy, EditionWithFeaturesDto, EditionsSelectOutput, FlatFeatureSelectDto, NameValueDto, CreatePaymentDto, CreatePaymentDtoPaymentPeriodType, PaymentServiceProxy, CreatePaymentDtoSubscriptionPaymentGatewayType } from 'shared/service-proxies/service-proxies';
+import { CreatePaymentDtoEditionPaymentType, EditionSubscriptionServiceProxy, EditionWithFeaturesDto, EditionsSelectOutput, FlatFeatureSelectDto, NameValueDto, CreatePaymentDto, CreatePaymentDtoPaymentPeriodType, PaymentServiceProxy, CreatePaymentDtoSubscriptionPaymentGatewayType, FeatureValueDto } from 'shared/service-proxies/service-proxies';
 
 import { AppComponentBase } from 'shared/common/app-component-base';
 import { GetCurrentFeatures } from 'shared/AppConsts';
@@ -19,6 +19,9 @@ import { WeChatPaymentService } from 'shared/services/wechat-payment.service';
     animations: [accountModuleAnimation()]
 })
 export class EditionsListComponent extends AppComponentBase implements OnInit {
+    toggleMoreFlag: any;
+    selectFeature: FeatureValueDto = new FeatureValueDto();
+    allSelecFeature: FeatureValueDto[] = [];
     notWeChatPaysTips: string;
     cannotPays: boolean;
     selectEdition: EditionWithFeaturesDto;
@@ -112,6 +115,26 @@ export class EditionsListComponent extends AppComponentBase implements OnInit {
             .subscribe(result => {
                 window.location.reload();
             })
+    }
+
+    // 展开收缩更多特性数据
+    toggleMoreFeatures(editionContent: FeatureValueDto, index: number, event: Event): void {
+        $('.drop-down').css({
+            transform: 'rotate(0)'
+        })
+        if (!editionContent.childs) {
+            return;
+        }
+        if (this.selectFeature && this.selectFeature.name === editionContent.name) {
+            this.selectFeature = null;
+            this.allSelecFeature[index] = this.selectFeature;
+            return;
+        }
+        this.selectFeature = editionContent;
+        this.allSelecFeature[index] = this.selectFeature;
+        $(event.target).find('.drop-down').css({
+            transform: 'rotate(180deg)'
+        })
     }
 
     /*

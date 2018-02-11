@@ -16,7 +16,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-3 col-lg-4" *ngFor="let edition of editionsWithFeatures">
+            <div class="col-xl-3 col-lg-4" *ngFor="let edition of editionsWithFeatures; let index = index;">
                 <div class="card">
                     <div class="form-horizontal">
                         <div class="xiaoyuyue-title-box">{{ edition.edition.displayName }}</div>
@@ -25,16 +25,34 @@
                                 <div class="edition-item" *ngIf="edition.edition.annualPrice" [title]="'3个月￥' + edition.edition.seasonPrice + '元 1个月￥' + edition.edition.monthlyPrice +'元'">
                                     <div class="content">1年￥{{ edition.edition.annualPrice }}元</div>
                                 </div>
-                                <div class="edition-item" *ngFor="let editionContent of edition.featureValues" [title]="getEditionDescription(editionContent)">
-                                    <div class="content" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'">{{ getEditionDisplayName(editionContent) }}</div>
+                                <div class="edition-item" *ngFor="let editionContent of edition.featureValues;" [title]="getEditionDescription(editionContent)">
+                                    <div class="content" *ngIf="editionContent.name !== 'App.MaxUserCount' && editionContent.value !== 'false'" (click)="toggleMoreFeatures(editionContent, index, $event)">
+                                        {{ getEditionDisplayName(editionContent) }}
+                                        <span class="vapps-icon-app-drop-down2 pull-right drop-down"
+                                            style="line-height: 50px; font-size: 16px;" *ngIf="editionContent.childs"></span>
+                                        <div *ngIf="(editionContent.childs && allSelecFeature[index]) && (editionContent.childs[0].name === allSelecFeature[index].childs[0].name)"
+                                            (click)="$event.stopPropagation();">
+                                            <div *ngFor="let childsItem of editionContent.childs">{{ getEditionDisplayName(childsItem) }}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="btn-wrap">
-                                <div><button class="btn btn-block primary-bgcolor" (click)="trialEditionService(edition.edition.id)" *ngIf="canTrialEdition() && edition.edition.id > 1">试用</button></div>
-                                <div><button class="btn btn-block primary-bgcolor" disabled *ngIf="!edition.edition.isEnable && edition.edition.id > 1">敬请期待</button></div>
-                                <div><button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1, '开通会员')" *ngIf="edition.edition.isEnable && (appSession.tenant.isInTrialPeriod && edition.edition.id !== 1) || (tenantEditionId === 1 && edition.edition.id > 1)">开通</button></div>
-                                <div><button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2, '升级会员')" *ngIf="edition.edition.isEnable && !appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1)">升级</button></div>
-                                <div><button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3, '续费会员')" *ngIf="edition.edition.isEnable && !appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1)">续费</button></div>
+                                <div>
+                                    <button class="btn btn-block primary-bgcolor" (click)="trialEditionService(edition.edition.id)" *ngIf="canTrialEdition() && edition.edition.id > 1">试用</button>
+                                </div>
+                                <div>
+                                    <button class="btn btn-block primary-bgcolor" disabled *ngIf="!edition.edition.isEnable && edition.edition.id > 1">敬请期待</button>
+                                </div>
+                                <div>
+                                    <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 1, '开通会员')" *ngIf="edition.edition.isEnable && (appSession.tenant.isInTrialPeriod && edition.edition.id !== 1) || (tenantEditionId === 1 && edition.edition.id > 1)">开通</button>
+                                </div>
+                                <div>
+                                    <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 2, '升级会员')" *ngIf="edition.edition.isEnable && !appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId < edition.edition.id && edition.edition.id > 1)">升级</button>
+                                </div>
+                                <div>
+                                    <button class="btn btn-block primary-bgcolor" (click)="showToPayModel(edition.edition.id, 3, '续费会员')" *ngIf="edition.edition.isEnable && !appSession.tenant.isInTrialPeriod && (tenantEditionId !== 1 && tenantEditionId === edition.edition.id && edition.edition.id > 1)">续费</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,8 +96,15 @@
                                     </div>
                                 </div>
                                 <div class="upgrade-content content row" *ngIf="editionOutput.editionPaymentType === 2">
-                                    <p class="col-lg-12"><span>版本信息:  </span><span class="current-edition">{{ appSession.tenant.edition.displayName }}</span> 升级为 <span class="upgrade-edition">{{ editionOutput.editionsInfo[0].edition.displayName }}</span></p>
-                                    <p class="col-lg-12"><span>有效期至:  </span><span class="time-limit">{{ d(appSession.tenant.subscriptionEndDateUtc) }}</span></p>
+                                    <p class="col-lg-12">
+                                        <span>版本信息: </span>
+                                        <span class="current-edition">{{ appSession.tenant.edition.displayName }}</span> 升级为
+                                        <span class="upgrade-edition">{{ editionOutput.editionsInfo[0].edition.displayName }}</span>
+                                    </p>
+                                    <p class="col-lg-12">
+                                        <span>有效期至: </span>
+                                        <span class="time-limit">{{ d(appSession.tenant.subscriptionEndDateUtc) }}</span>
+                                    </p>
                                 </div>
                                 <div class="footer clearfix">
                                     <div class="pull-left">支付金额：{{ finalPrice }}元</div>
@@ -106,7 +131,12 @@
                             </div>
                         </div>
                         <div class="content">
-                            <div class="content-row" [hidden]="editionContent.name === 'App.MaxUserCount' || editionContent.value === 'false'" *ngFor="let editionContent of edition.featureValues">{{ getEditionDisplayName(editionContent) }}</div>
+                            <div class="content-row" [hidden]="editionContent.name === 'App.MaxUserCount' || editionContent.value === 'false'" *ngFor="let editionContent of edition.featureValues">
+                                {{ getEditionDisplayName(editionContent) }}
+                                <div *ngIf="editionContent.childs">
+                                    <div *ngFor="let childsItem of editionContent.childs">{{ getEditionDisplayName(childsItem) }}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

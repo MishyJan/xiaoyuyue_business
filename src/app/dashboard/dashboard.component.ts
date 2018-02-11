@@ -19,6 +19,7 @@ import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
     animations: [appModuleSlowAnimation()],
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit, OnDestroy {
+    subOutletCountCountText: string | number;
     subBookingCountCountText: string | number;
     accountInfo: AccountInfo = new AccountInfo();
     defaultTenantBgUrl = 'assets/common/images/booking/center-bg.jpg';
@@ -234,6 +235,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         this.accountInfo.maxBookingCount = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value;
         this.accountInfo.maxOutletCount = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value;
         this.transferSubBookingContentText();
+        this.transferSubOutletContentText();
     }
 
     /*
@@ -263,9 +265,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     }
     // 转换可用预约数显示文本
     private transferSubOutletContentText(): void {
-        this.subBookingCountCountText = GetCurrentFeatures.AllFeatures['App.MaxBookingCount'].value === '0' ?
+        this.subOutletCountCountText = GetCurrentFeatures.AllFeatures['App.MaxOutletCount'].value === '0' ?
             '不限制' : // 数量不限制
-            +this.accountInfo.maxBookingCount - this.accountInfo.subCreatedBookingCount;
+            +this.accountInfo.maxOutletCount - this.accountInfo.subCreatedOutletCount;
     }
 
     // 根据是否正在试用中，添加 试用 文案

@@ -8966,15 +8966,13 @@ export class StateServiceServiceProxy {
 
     /**
      * 获取所有省份
-     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @maxResultCount 最大结果数量(等同:PageSize)
      * @skipCount 列表跳过数量(等同: PageSize*PageIndex)
+     * @sorting (optional) 排序字段 (eg:Id DESC)
      * @return Success
      */
-    getProvinces(sorting: string, maxResultCount: number, skipCount: number): Observable<PagedResultDtoOfProvinceListDto> {
+    getProvinces(maxResultCount: number, skipCount: number, sorting: string): Observable<PagedResultDtoOfProvinceListDto> {
         let url_ = this.baseUrl + "/api/services/app/StateService/GetProvinces?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount === undefined || maxResultCount === null)
             throw new Error("The parameter 'maxResultCount' must be defined and cannot be null.");
         else
@@ -8983,6 +8981,8 @@ export class StateServiceServiceProxy {
             throw new Error("The parameter 'skipCount' must be defined and cannot be null.");
         else
             url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -15522,7 +15522,7 @@ export class EditionsSelectOutput implements IEditionsSelectOutput {
     /** 所有功能（展示用） */
     allFeatures: FlatFeatureSelectDto[];
     /** 版本及版本的功能 */
-    editionsWithFeatures: EditionWithFeaturesDto[];
+    editionsWithFeatures: EditionWithFeaturesForSelectDto[];
     tenantEditionId: number;
 
     constructor(data?: IEditionsSelectOutput) {
@@ -15544,7 +15544,7 @@ export class EditionsSelectOutput implements IEditionsSelectOutput {
             if (data["editionsWithFeatures"] && data["editionsWithFeatures"].constructor === Array) {
                 this.editionsWithFeatures = [];
                 for (let item of data["editionsWithFeatures"])
-                    this.editionsWithFeatures.push(EditionWithFeaturesDto.fromJS(item));
+                    this.editionsWithFeatures.push(EditionWithFeaturesForSelectDto.fromJS(item));
             }
             this.tenantEditionId = data["tenantEditionId"];
         }
@@ -15577,7 +15577,7 @@ export interface IEditionsSelectOutput {
     /** 所有功能（展示用） */
     allFeatures: FlatFeatureSelectDto[];
     /** 版本及版本的功能 */
-    editionsWithFeatures: EditionWithFeaturesDto[];
+    editionsWithFeatures: EditionWithFeaturesForSelectDto[];
     tenantEditionId: number;
 }
 
@@ -15640,13 +15640,13 @@ export interface IFlatFeatureSelectDto {
     textHtmlColor: string;
 }
 
-export class EditionWithFeaturesDto implements IEditionWithFeaturesDto {
+export class EditionWithFeaturesForSelectDto implements IEditionWithFeaturesForSelectDto {
     /** 版本信息 */
     edition: EditionSelectDto;
     /** 版本功能 */
-    featureValues: NameValueDto[];
+    featureValues: FeatureValueDto[];
 
-    constructor(data?: IEditionWithFeaturesDto) {
+    constructor(data?: IEditionWithFeaturesForSelectDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -15661,13 +15661,13 @@ export class EditionWithFeaturesDto implements IEditionWithFeaturesDto {
             if (data["featureValues"] && data["featureValues"].constructor === Array) {
                 this.featureValues = [];
                 for (let item of data["featureValues"])
-                    this.featureValues.push(NameValueDto.fromJS(item));
+                    this.featureValues.push(FeatureValueDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): EditionWithFeaturesDto {
-        let result = new EditionWithFeaturesDto();
+    static fromJS(data: any): EditionWithFeaturesForSelectDto {
+        let result = new EditionWithFeaturesForSelectDto();
         result.init(data);
         return result;
     }
@@ -15684,11 +15684,11 @@ export class EditionWithFeaturesDto implements IEditionWithFeaturesDto {
     }
 }
 
-export interface IEditionWithFeaturesDto {
+export interface IEditionWithFeaturesForSelectDto {
     /** 版本信息 */
     edition: EditionSelectDto;
     /** 版本功能 */
-    featureValues: NameValueDto[];
+    featureValues: FeatureValueDto[];
 }
 
 export class IInputType implements IIInputType {
@@ -15845,6 +15845,59 @@ export interface IEditionSelectDto {
     additionalData: AdditionalData;
 }
 
+export class FeatureValueDto implements IFeatureValueDto {
+    /** 版本功能 */
+    childs: NameValueDto[];
+    name: string;
+    value: string;
+
+    constructor(data?: IFeatureValueDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["childs"] && data["childs"].constructor === Array) {
+                this.childs = [];
+                for (let item of data["childs"])
+                    this.childs.push(NameValueDto.fromJS(item));
+            }
+            this.name = data["name"];
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): FeatureValueDto {
+        let result = new FeatureValueDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.childs && this.childs.constructor === Array) {
+            data["childs"] = [];
+            for (let item of this.childs)
+                data["childs"].push(item.toJSON());
+        }
+        data["name"] = this.name;
+        data["value"] = this.value;
+        return data; 
+    }
+}
+
+export interface IFeatureValueDto {
+    /** 版本功能 */
+    childs: NameValueDto[];
+    name: string;
+    value: string;
+}
+
 export class EditionsViewOutput implements IEditionsViewOutput {
     /** 所有功能（展示用） */
     allFeatures: FlatFeatureSelectDto[];
@@ -15894,6 +15947,57 @@ export interface IEditionsViewOutput {
     allFeatures: FlatFeatureSelectDto[];
     /** 版本及版本的功能 */
     editionWithFeatures: EditionWithFeaturesDto;
+}
+
+export class EditionWithFeaturesDto implements IEditionWithFeaturesDto {
+    /** 版本信息 */
+    edition: EditionSelectDto;
+    /** 版本功能 */
+    featureValues: NameValueDto[];
+
+    constructor(data?: IEditionWithFeaturesDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.edition = data["edition"] ? EditionSelectDto.fromJS(data["edition"]) : <any>undefined;
+            if (data["featureValues"] && data["featureValues"].constructor === Array) {
+                this.featureValues = [];
+                for (let item of data["featureValues"])
+                    this.featureValues.push(NameValueDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): EditionWithFeaturesDto {
+        let result = new EditionWithFeaturesDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["edition"] = this.edition ? this.edition.toJSON() : <any>undefined;
+        if (this.featureValues && this.featureValues.constructor === Array) {
+            data["featureValues"] = [];
+            for (let item of this.featureValues)
+                data["featureValues"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IEditionWithFeaturesDto {
+    /** 版本信息 */
+    edition: EditionSelectDto;
+    /** 版本功能 */
+    featureValues: NameValueDto[];
 }
 
 /** 上传图片回调参数 */
