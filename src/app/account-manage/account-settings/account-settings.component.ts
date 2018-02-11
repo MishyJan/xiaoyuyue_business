@@ -65,6 +65,7 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
         });
 
         abp.event.on('facebookBinding', () => {
+            this.notify.success(this.l('BingingSuccess'));
             this.getUserSecurityInfo();
         });
 
@@ -100,7 +101,12 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     }
 
     bindWeChat() {
-        this.externalBindingModel.show('WeChat');
+        if (this.isWeiXin()) {
+            this.setRedirectUrl();
+            this._loginService.externalAuthenticate(this._loginService.findExternalLoginProvider(ExternalLoginProvider.WECHATMP), true);
+        } else {
+            this.externalBindingModel.show('WeChat');
+        }
     }
 
     bingQQ(): void {
@@ -118,7 +124,9 @@ export class AccountSecurityComponent extends AppComponentBase implements OnInit
     }
 
     bindWeChatResult(result) {
-        if (result) { this.getUserSecurityInfo(); }
+        if (result) {
+            this.getUserSecurityInfo();
+        }
     }
 
     // 解绑微信

@@ -102,7 +102,7 @@
                                 <div class="verify-fb content-item clearfix">
                                     <p class="left-item pull-left">
                                         <span class="tip-icon pull-left vapps-icon-app-facebook tip-icon-small"></span>
-                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.facebook">{{ l('Security.Unbound') }}</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.faceBook">{{ l('Security.Unbound') }}</span>
                                         <span class="pull-left already-set" *ngIf="userSecurityInfo.faceBook">{{ userSecurityInfo.faceBook }}</span>
                                     </p>
                                     <div class="right-item pull-right">
@@ -141,7 +141,7 @@
         <xiaoyuyue-unbinding-phone-model #unbindingPhoneModel></xiaoyuyue-unbinding-phone-model>
         <xiaoyuyue-binding-email-model #bindingEmailModel></xiaoyuyue-binding-email-model>
         <xiaoyuyue-unbinding-email-model #unbindingEmailModel></xiaoyuyue-unbinding-email-model>
-        <xiaoyuyue-external-binding-model [wechatName]="userSecurityInfo.weChat" #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
+        <xiaoyuyue-external-binding-model #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
     </div>
 </div>
 
