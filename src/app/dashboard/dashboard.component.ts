@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, CurrentlyBookingDataDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
+import { NavigationEnd, Router } from '@angular/router';
 
 import { AccountInfo } from 'app/shared/utils/account-info';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -11,7 +12,6 @@ import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
-import { NavigationEnd } from '@angular/router';
 import { PaysType } from 'shared/AppEnums';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
@@ -39,7 +39,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         injector: Injector,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
         private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy,
-        private _localStorageService: LocalStorageService
+        private _localStorageService: LocalStorageService,
+        private _router: Router,
     ) {
         super(injector);
     }

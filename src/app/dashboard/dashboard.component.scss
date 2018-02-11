@@ -37,6 +37,7 @@
                 margin-top: 15px;
             }
             .org-profile {
+                cursor: pointer;
                 width: 100%;
                 background-color: #FFF;
                 text-align: center;
@@ -55,18 +56,29 @@
                     font-size: 18px;
                 }
                 .edition-info {
+                    cursor: pointer; // margin-top: 30px;
                     .edition-name {
                         // color: #E32600;
                         .vip-icon {
                             color: #FF9641;
+                            margin-right: 5px;
                         }
                     }
                     .edition-time {
                         color: #FF9641;
                     }
                 }
-                .booking-amount {
-                    margin-top: 30px;
+                .feature-info {
+                    margin-top: 10px;
+                    cursor: pointer;
+                    .feature-content {
+                        border-top: 1px solid #CCC;
+                        padding: 10px 0;
+                        overflow: hidden;
+                        .outlet-amount {
+                            border-left: 1px solid #CCC;
+                        }
+                    }
                     p {
                         margin: 0;
                     }
@@ -90,6 +102,9 @@
                 .item {
                     padding: 0 8px;
                 }
+            }
+            .data-statistics {
+                cursor: pointer;
             }
         }
         .right-content {
@@ -167,6 +182,8 @@
                         text-align: center;
                         padding-top: 60px;
                         .tenant-logo {
+                            width: 60px;
+                            height: 60px;
                             border-radius: 50%;
                         }
                         .tenant-name {

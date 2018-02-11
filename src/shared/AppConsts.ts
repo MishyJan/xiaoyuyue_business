@@ -37,6 +37,8 @@ export class AppConsts {
         bookings: 'access_bookings'
     };
 
+    static dashboardTabSelect = 'dashboardTabSelect';
+
     static outletSelectListCache = 'OutletSelectListCache-{0}';
 
     static contactorSelectListCache = 'ContactorSelectListCache-{0}-{1}';
