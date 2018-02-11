@@ -1,15 +1,17 @@
 import { AfterViewInit, Component, Injector, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { BookingDataStatisticsDto, BookingDataStatisticsServiceProxy, BusCenterDataStatisticsDto, CurrentlyBookingDataDto, TenantInfoEditDto, TenantInfoServiceProxy } from 'shared/service-proxies/service-proxies';
+import { NavigationEnd, Router } from '@angular/router';
 
 import { AccountInfo } from 'app/shared/utils/account-info';
 import { AppComponentBase } from '@shared/common/app-component-base';
+import { AppConsts } from './../../shared/AppConsts';
 import { AppSessionService } from 'shared/common/session/app-session.service';
 import { ClientTypeHelper } from 'shared/helpers/ClientTypeHelper';
 import { GetCurrentFeatures } from 'shared/AppConsts';
+import { LocalStorageService } from 'shared/utils/local-storage.service';
 import { LocalizationHelper } from 'shared/helpers/LocalizationHelper';
 import { LocalizedResourcesHelper } from 'shared/helpers/LocalizedResourcesHelper';
 import { Moment } from 'moment';
-import { NavigationEnd } from '@angular/router';
 import { PaysType } from 'shared/AppEnums';
 import { appModuleSlowAnimation } from 'shared/animations/routerTransition';
 
@@ -37,7 +39,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     constructor(
         injector: Injector,
         private _tenantInfoServiceProxy: TenantInfoServiceProxy,
-        private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy
+        private _bookingDataStatisticsServiceProxy: BookingDataStatisticsServiceProxy,
+        private _localStorageService: LocalStorageService,
+        private _router: Router,
     ) {
         super(injector);
     }
@@ -54,6 +58,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
     ngAfterViewInit(): void {
         if (this.isMobile($('.mobile-org-center'))) {
+            this._localStorageService.getItemOrNull<boolean>(AppConsts.dashboardTabSelect).then((result) => {
+                this.tabToggle = result;
+            });
             this.resetHeaderStyle();
             this.getCurrentlyBookingData();
             return;
@@ -121,6 +128,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     /* 移动端代码 */
     switchTabs(falg: boolean): void {
         this.tabToggle = falg;
+
+        this._localStorageService.setItem(AppConsts.dashboardTabSelect, this.tabToggle);
     }
 
     // 获取近七天应约人数统计数据
