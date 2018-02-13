@@ -198,7 +198,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
     }
 
     save() {
-        debugger;
         this.setLoadingStatus();
         this.createOrUpdateBooking();
     }
@@ -213,7 +212,6 @@ export class CreateOrEditBookingComponent extends AppComponentBase implements On
 
         this.getBookingBaseInfo();
         this.wangEditorModel.save(); // 保存编辑器图片到七牛
-        debugger;
         this._organizationBookingServiceProxy
             .createOrUpdateBooking(this.input)
             .finally(() => {
