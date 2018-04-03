@@ -1,0 +1,8 @@
+<!-- 访问来源 -->
+<div class="header clearfix">
+    <div class="card-header card-header-text pull-left" data-background-color="orange">
+        <h6 class="card-title">{{l('Dashboard.AccessSource')}}</h6>
+    </div>
+</div>
+<div id="bookingAccessSourceEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="dashboard-chart"
+    (chartInit)="onChartInit($event)"></div>

@@ -692,8 +692,8 @@
     }
     .page-header.navbar .page-top {
         padding: 0;
-        display: block;
-        clear: both;
+        /* display: block; */
+        /* clear: both; */
         width: 100%
     }
     .page-header.navbar .top-menu .navbar-nav>li.dropdown-language .dropdown-toggle .langname,
@@ -921,7 +921,8 @@
 .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a>i {
     font-size: 18px;
     text-shadow: none;
-    font-weight: 300
+    font-weight: 300;
+    vertical-align: text-top;
 }
 
 .page-sidebar .page-sidebar-menu>li>a>i.glyphicon,

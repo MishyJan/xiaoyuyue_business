@@ -1,0 +1,58 @@
+.create-outlet {
+    .page-head {
+        .back-btn {
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            display: inline-block;
+            border-radius: 26px;
+            color: #FFF;
+            background-color: #FF9641;
+            overflow: hidden;
+            transition: width .15s;
+            cursor: pointer;
+            vertical-align: text-top;
+            .text {
+                color: #FFF;
+                padding-right: 8px;
+            }
+            .vapps-icon-app-back {
+                font-size: 26px;
+                font-weight: 800;
+                vertical-align: middle;
+            }
+        }
+        .back-btn:hover {
+            width: 68px;
+        }
+    }
+    .outlet-image-wrap {
+        padding-top: 20px;
+        .outlet-image {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #d5d5d5;
+        }
+    }
+}
+
+
+/* 移动端样式 */
+
+.mobile-create-outlet {
+    overflow: hidden;
+    .next-step {
+        width: 100%;
+        height: 50px;
+        position: fixed !important;
+        left: 0;
+        bottom: 0;
+        text-align: center;
+        background-color: #FF9641;
+        color: #FFF;
+        font-size: 15px !important;
+        margin: 0;
+        border-radius: 0 !important;
+        z-index: 1000;
+    }
+}

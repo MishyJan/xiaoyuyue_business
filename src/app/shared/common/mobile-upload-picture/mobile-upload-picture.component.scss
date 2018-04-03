@@ -1,0 +1,111 @@
+.upload-wrap {
+    position: absolute;
+    z-index: 100;
+    overflow: hidden;
+    .upload-area-wrap {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 998;
+        .upload-area {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1000;
+            background-size: cover;
+            background-position: center;
+        }
+    }
+    .touch-area-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        .touch-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            .bg-cover {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+            .upload-tips {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                z-index: 1;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                .icon {
+                    color: #FFF;
+                    text-align: center;
+                    font-size: 24px;
+                }
+                .text {
+                    margin-top: 10px;
+                    color: #FFF;
+                }
+            }
+        }
+    }
+}
+
+.uploading-wrap {
+    position: absolute;
+    z-index: 101;
+    text-align: center;
+    color: #FFF;
+    background-color: #999;
+    font-size: 14px;
+}
+
+.crop-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10001;
+    transition: all .6s;
+    &.crop-opacity {
+        opacity: 0;
+        visibility: hidden;
+    }
+    .crop-content {
+        width: 96%;
+        max-height: calc(100vh - 77px);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #FFF;
+        padding: 10px 10px 0 10px;
+        z-index: 10002;
+        text-align: right;
+        .btn {
+            right: 10px;
+        }
+        .img-wrap {
+            width: 100%;
+            max-height: calc(100vh - 140px);
+        }
+    }
+    .bg-cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 10001;
+    }
+}

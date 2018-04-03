@@ -1,0 +1,74 @@
+@import '_colors';
+
+/* 覆盖metronicUI样式*/
+
+.form-group.form-md-line-input {
+    margin-bottom: 15px;
+}
+
+
+/* 覆盖 material-Pro样式 */
+
+.checkbox input[type=checkbox]:checked+.checkbox-material .check {
+    background: $main-color;
+}
+
+.form-control[disabled],
+fieldset[disabled] .form-control,
+.form-group .form-control[disabled],
+fieldset[disabled] .form-group .form-control {
+    border-bottom: 1px solid #D2D2D2;
+    // color: #D2D2D2;
+}
+
+.radio input[type=radio]:checked~.check {
+    background-color: $main-color;
+}
+
+.card .card-title {
+    margin-bottom: 0;
+}
+
+.card [data-background-color="orange"] {
+    background: $main-color;
+}
+
+.form-group {
+    padding-bottom: 0;
+}
+
+.form-group.is-focused .form-control {
+    outline: none;
+    background-image: linear-gradient($main-color, #EC8332), linear-gradient(#D2D2D2, #D2D2D2);
+    background-size: 100% 2px, 100% 1px;
+    box-shadow: none;
+    transition-duration: 0.3s;
+}
+
+a {
+    color: $main-color;
+}
+
+a:hover,
+a:focus {
+    color: $main-color;
+}
+
+.flatpickr-wrap,
+.time-point-wrap {
+    position: relative;
+}
+
+.flatpickr-wrap .flatpickr-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 767px) {
+    /* 767px */
+    .modal .modal-dialog {
+        margin-top: 100px;
+    }
+}

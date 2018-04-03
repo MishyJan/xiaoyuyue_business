@@ -1,0 +1,114 @@
+.time-info {
+    .xiaoyuyue-title-box {
+        width: calc(100% - 40px);
+        height: 64px;
+        line-height: 64px;
+        text-align: center;
+    }
+    .card {
+        margin-bottom: 0!important;
+        .add-time {
+            margin-right: 15px;
+            span {
+                color: #ff9742!important;
+            }
+        }
+        .card-content {
+            position: relative;
+            min-height: 200px;
+            padding-bottom: 0px;
+            .create-time-info {
+                margin: 0 15px;
+            }
+            .time-info-wrap {
+                position: relative;
+                margin-top: 24px;
+                margin-bottom: 36px;
+                .flatpickr-wrap {
+                    position: relative;
+                    .flatpickr-toggle {
+                        position: absolute;
+                        top: 50%;
+                        right: 10px;
+                        transform: translateY(-50%);
+                    }
+                }
+                .time-item {
+                    input.common-max-width {
+                        width: 240px;
+                        height: 34px;
+                    }
+                    .add-time-btn-wrap,
+                    .del-time-btn-wrap {
+                        font-size: 30px;
+                        color: #FF9641;
+                        margin-top: 2px;
+                        cursor: pointer;
+                    }
+                    .name,
+                    .view-box {
+                        line-height: 64px;
+                    }
+                }
+                .booking-date-item {
+                    .input-box {
+                        position: relative;
+                        .multiple-date-checkbox {
+                            margin-top: 20px;
+                        }
+                        .vapps-icon-dc-calendar {
+                            position: absolute;
+                            top: 50%;
+                            right: 142px;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .booking-time-item {
+                    .item {
+                        overflow: hidden;
+                        margin-bottom: 15px;
+                    }
+                }
+                .submit-item {
+                    text-align: center;
+                    >.primary-bgcolor,
+                    >.btn-cancel {
+                        margin-top: 15px;
+                    }
+                }
+                .btn-action-wrap {
+                    position: absolute;
+                    top: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    .icon+.icon {
+                        margin-left: 15px;
+                    }
+                    .icon {
+                        display: inline-block;
+                        vertical-align: middle;
+                        font-size: 18px;
+                        cursor: pointer;
+                        color: #FF9641;
+                    }
+                }
+            }
+            .time-info-wrap:hover .xiaoyuyue-title-box.hover {
+                transform: translate(-50%, -84%);
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.mobile-create-booking {
+    .create-time-pannel {
+        .flatpickr-wrap {
+            input[type=date]::-webkit-inner-spin-button {
+                visibility: hidden;
+            }
+        }
+    }
+}

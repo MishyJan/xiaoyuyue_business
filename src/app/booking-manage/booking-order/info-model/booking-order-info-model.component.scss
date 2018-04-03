@@ -1,0 +1,82 @@
+.btn-perfect {
+    border-color: #ff7241;
+    background-color: #ff7241;
+}
+
+.modal-dialog {
+    max-width: 460px;
+    .modal-content {
+        .modal-header {
+            position: relative;
+            height: 50px;
+            .avatar {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+        }
+        .modal-body {
+            .item {
+                font-size: 14px;
+                margin: 15px 0;
+                .name {
+                    color: #333;
+                }
+                .desc {
+                    color: #FF9641;
+                }
+            }
+            .remark-item {
+                .name,
+                .desc {
+                    height: 80px;
+                    line-height: 80px;
+                }
+                .desc {
+                    textarea {
+                        height: 100%;
+                    }
+                }
+            }
+        }
+        .modal-body {
+            &.mobile {
+                padding: 0;
+                [class^="col-xs-"] {
+                    padding: 4px;
+                    word-break: break-all;
+                }
+                .item {
+                    font-size: 14px;
+                    margin: 0;
+                    .name {
+                        color: #333;
+                    }
+                    .desc {
+                        color: #FF9641;
+                    }
+                }
+                .remark-item {
+                    .desc {
+                        height: 80px;
+                        line-height: 80px;
+                        margin-bottom: 15px;
+                        padding-bottom: 0px;
+                    }
+                    .desc {
+                        textarea {
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+        }
+        .modal-footer {
+            text-align: center;
+        }
+    }
+}

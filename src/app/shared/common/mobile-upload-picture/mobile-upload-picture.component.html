@@ -1,0 +1,31 @@
+<div class="upload-wrap" [style.width]="width" [style.height]="height" [style.border-radius]="borderRadius">
+    <div class="upload-area-wrap">
+        <div class="upload-area" [ngStyle]="{'background-image': 'url(' + tempUrl + ')'}"></div>
+    </div>
+    <div [id]="'uploadAreaWrap-'+uploadUid" class="touch-area-wrap" (click)="saveCurrentUrl()">
+        <div [id]="'uploadArea-'+uploadUid" class="touch-area">
+            <div class="upload-tips">
+                <span class="icon vapps-icon-cb-add-img"></span>
+                <p class="text" *ngIf="slogan">{{ slogan }}</p>
+            </div>
+            <div class="bg-cover"></div>
+        </div>
+    </div>
+</div>
+
+<div class="uploading-wrap" [style.width]="width" [style.height]="height" [style.line-height]="height" *ngIf="uploading">
+    <span class="fa fa-spin fa-spinner"></span>{{l('Loading')}}
+</div>
+
+<div class="crop-wrap" [ngClass]="{'crop-opacity': !isShowCropArea}">
+    <div class="crop-content">
+        <div class="img-wrap">
+            <img [id]="'cropImg'+uploadUid">
+        </div>
+        <button type="submit" class="btn primary-bgcolor" [id]="'confirmUpload'+uploadUid" [buttonBusy]="uploading" [busyText]="l('Loading')">
+            <i class="vapps-icon vapps-icon-app-confirm"></i>
+            <span>{{l('ConfirmUpload')}}</span>
+        </button>
+    </div>
+    <div class="bg-cover" (click)="hideCropArea()"></div>
+</div>

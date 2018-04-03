@@ -1395,6 +1395,7 @@ div.content-form-page .checkbox-list {
 	padding: 5px 15px 4px;
 }
 .tab-content {
+    top: 256px;
 	background: #FAFAFA;
 	padding: 20px 15px;
 }

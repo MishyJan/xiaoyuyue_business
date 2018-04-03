@@ -1,0 +1,132 @@
+.booking-detail {
+    width: 100%;
+    height: calc(100vh - 55px);
+    position: absolute;
+    top: 55px;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    .command-wrap {
+        display: flex;
+        padding: 10px 0;
+        .item+.item {
+            border-left: 1px solid #DAD9D9;
+        }
+        .item {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            height: 30px;
+            line-height: 30px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            .avail-num {
+                padding: 1px 6px 1px 5px;
+                color: #FFF;
+                background-color: #FF0000;
+                border-radius: 12px;
+            }
+        }
+        .disabled-style {
+            color: #AAA;
+        }
+    }
+    .tenant-wrap {
+        border-radius: 4px;
+        background-color: #FFF;
+        margin: 10px 0 0 0;
+        .tenant-bg-wrap {
+            margin-bottom: 15px;
+            width: 100%;
+            .img-item {
+                width: 100%;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                overflow: hidden;
+            }
+        }
+        .tenant-info {
+            padding: 15px;
+            .name {
+                color: #FF9641;
+                font-size: 15px;
+                margin-bottom: 15px;
+            }
+            .flex-item+.flex-item {
+                margin-top: 10px;
+            }
+            .flex-item {
+                display: flex;
+                color: #333;
+                .item-left {
+                    flex: 1;
+                    .left-wrap {
+                        display: flex;
+                        .item-left {
+                            width: 70px;
+                            flex: 0 0 70px;
+                            margin-right: 16px;
+                        }
+                        .item-right {
+                            flex: 1;
+                            color: #FF9641;
+                        }
+                    }
+                }
+                .item-right {
+                    width: 42px;
+                    flex: 0 0 42px;
+                    .rotate {
+                        display: inline-block;
+                    }
+                    span {
+                        font-size: 22px;
+                    }
+                }
+            }
+        }
+    }
+    .card-item {
+        padding: 0 15px 0;
+        background-color: #FFF;
+        border-radius: 4px;
+        .top-wrap {
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 1px solid #E5E5E5;
+        }
+        .content {
+            padding: 20px 0;
+            .content-item {
+                .name {
+                    margin-right: 10px;
+                }
+                .desc {
+                    color: #FF9641;
+                }
+            }
+            .content-item+.content-item {
+                margin-top: 10px;
+            }
+        }
+    }
+    .org-info-wrap {
+        margin: 10px 0 0 0;
+        .content {
+            width: 100%;
+            .content-item {
+                display: flex;
+                .name {
+                    width: 70px;
+                    flex: 0 0 70px;
+                }
+                .desc {
+                    flex: 1;
+                }
+            }
+        }
+    }
+}

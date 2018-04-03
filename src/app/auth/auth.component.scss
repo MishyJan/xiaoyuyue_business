@@ -1,0 +1,245 @@
+/***
+Login page
+***/
+
+html,
+body {
+    min-height: 100%;
+    overflow: hidden;
+}
+
+.user-login {
+    .bg-wrap {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -99999;
+    }
+    min-height: calc(100vh - 60px);
+    background-size: cover;
+    .bs-reset {
+        margin: 0;
+        padding: 0;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .login-bg {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+    .login-logo {
+        position: absolute;
+        top: 2.5em;
+        left: 2.5em;
+        &.login-6 {
+            top: 80px;
+            left: 80px;
+        }
+    } // .login-container {
+    //     position: relative;
+    //     min-height: 100vh;
+    // }
+    .login-container {
+        min-height: 100vh;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        overflow: auto;
+    }
+    .login-container>.login-content,
+    .login-container .login-social,
+    .login-container .login-copyright {
+        padding: 0 80px;
+    }
+    .login-container>.login-content {
+        margin-top: 15%;
+        &>h1 {
+            font-size: 30px;
+            font-weight: 300;
+            color: #4e5a64;
+        }
+        p {
+            color: #a0a9b4;
+            font-size: 15px;
+            line-height: 22px;
+            margin: 0;
+        }
+        .login-form {
+            margin-top: 20px;
+            color: #a4aab2;
+            font-size: 13px;
+            .login-label {
+                text-align: left !important;
+            }
+            .form-control {
+                width: 100%; // border: none;
+                // border-bottom: 1px solid;
+                // border-color: #a0a9b4;
+                color: #868e97;
+                font-size: 14px;
+                &:focus {
+                    outline: 0;
+                }
+                &:-webkit-autofill {
+                    -webkit-box-shadow: 0 0 0px 1000px rgb(243, 245, 249) inset !important;
+                    -moz-box-shadow: 0 0 0px 1000px rgb(243, 245, 249) inset !important;
+                }
+            }
+            .forgot-password,
+            .login-button {
+                display: inline-block;
+            }
+            .rem-password {
+                margin-top: 10px;
+                &>p {
+                    margin: 0;
+                }
+                &>.rem-checkbox {
+                    border-color: #a4aab2;
+                }
+            }
+            .forgot-password {
+                margin-right: 1em;
+                &>a {
+                    color: #a4aab2;
+                    &:hover {
+                        color: #337ab7;
+                        text-decoration: none;
+                    }
+                    &::focus {
+                        color: #a4aab2;
+                        text-decoration: none;
+                    }
+                }
+            }
+            .has-success .form-control {
+                border-bottom: 1px solid #27a4b0;
+            }
+        }
+        .login-options {
+            position: absolute;
+            bottom: 0;
+            padding-bottom: 10px;
+            left: 80px;
+            z-index: 888;
+        }
+    }
+    .form-group.valid {
+        border-bottom: 1px solid #a0a9b4 !important;
+    }
+    .login-container .login-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding-bottom: 10px;
+        left: 0;
+        .login-social {
+            padding-right: 0;
+            li {
+                display: inline-block;
+                list-style: none;
+                margin-right: 1em;
+            }
+            a {
+                color: #a9b5be;
+                font-size: 18px;
+                &:hover {
+                    color: #337ab7;
+                    text-decoration: none;
+                }
+                &:focus {
+                    color: #a9b5be;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1365px) {
+    .user-login {
+        .login-logo.login-6 {
+            top: 40px;
+            left: 40px;
+        }
+        .login-container .login-content,
+        .login-container .login-social,
+        .login-container .login-copyright {
+            padding: 0 20px;
+        }
+        .login-container .login-social {
+            padding-right: 0;
+        }
+        .login-container .login-copyright {
+            padding-left: 20px;
+        }
+    }
+}
+
+@media (max-width: 1023px) {
+    html,
+    body {
+        overflow: auto;
+    }
+    .user-login {
+        height: 100vh;
+        overflow: hidden;
+        min-height: calc(100vh - 60px);
+        background-size: cover;
+        max-width: 960px;
+        width: 100%;
+        margin: 0 auto;
+        .mt-login-5-bsfix {
+            width: 100%;
+        }
+        .login-bg {
+            min-height: 50vh;
+        }
+        .login-logo.login-6 {
+            position: relative;
+            margin: 0 0 40px 0;
+        }
+        .slide-img {
+            width: 100%;
+        }
+        .login-container {
+            width: 100%;
+            min-height: 50vh;
+            position: relative;
+            left: 0;
+            overflow: hidden;
+            .login-content {
+                margin-top: 60px;
+                .login-form {
+                    margin-top: 40px;
+                }
+            }
+            .rem-password {
+                margin-bottom: 1em;
+            }
+            .login-footer {
+                width: 100%;
+                position: relative;
+                margin-top: 40px;
+                padding-bottom: 0;
+                .login-social li {
+                    margin-right: 0.5em;
+                }
+            }
+        }
+        .alert {
+            margin-top: -20px;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .login-logo {
+        width: 120px;
+    }
+}

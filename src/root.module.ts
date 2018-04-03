@@ -1,50 +1,57 @@
-﻿import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, Injector, APP_INITIALIZER } from '@angular/core';
+﻿import { ABP_HTTP_PROVIDER, AbpModule } from '@abp/abp.module';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
+import { AbpHttpConfiguration, IErrorInfo } from 'abp-ng2-module/src/abpHttp';
 
-import { AbpModule, ABP_HTTP_PROVIDER } from '@abp/abp.module';
-
-import { CommonModule } from '@shared/common/common.module';
-import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
-import { RootRoutingModule } from './root-routing.module';
-
-import { AppConsts } from '@shared/AppConsts';
-import { AppSessionService } from '@shared/common/session/app-session.service';
 import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
-
-import { RootComponent } from './root.component';
+import { AppAuthService } from './app/shared/common/auth/app-auth.service';
+import { AppConsts } from '@shared/AppConsts';
+import { AppModule } from './app/app.module';
 import { AppPreBootstrap } from './AppPreBootstrap';
-import { AbpHttpConfiguration, IErrorInfo } from "abp-ng2-module/src/abpHttp";
-
-import { NgxAniModule } from 'ngxani';
-import { AppModule } from "app";
+import { AppSessionService } from '@shared/common/session/app-session.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@shared/common/common.module';
+import { CookiesService } from 'shared/services/cookies.service';
+import { ResponsiveModule } from 'ng2-responsive'
+import { RootComponent } from './root.component';
+import { RootRoutingModule } from './root-routing.module';
+import { Router } from '@angular/router';
+import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
+import { ServicesModule } from 'shared/services/services.module';
+import { UrlHelper } from './shared/helpers/UrlHelper';
+import { appLoadingBusy } from './shared/animations/loadingTransition';
 
 export function appInitializerFactory(injector: Injector) {
     return () => {
-        abp.ui.setBusy();
+        // abp.ui.setBusy();
+        appLoadingBusy.setBusy();
+        handleLogoutRequest(injector.get(AppAuthService));
         return new Promise<boolean>((resolve, reject) => {
             AppPreBootstrap.run(() => {
-                var appSessionService: AppSessionService = injector.get(AppSessionService);
+                const appSessionService: AppSessionService = injector.get(AppSessionService);
                 appSessionService.init().then(
                     (result) => {
 
-                        //Css classes based on the layout
+                        // Css classes based on the layout
                         if (abp.session.userId) {
                             $('body').attr('class', 'page-md page-header-fixed page-sidebar-closed-hide-logo page-footer-fixed theme-2');
                         } else {
                             $('body').attr('class', 'page-md login');
                         }
 
-                        //tenant specific custom css
-                        if (appSessionService.tenant && appSessionService.tenant.customCssId) {
-                            $('head').append('<link id="TenantCustomCss" href="' + AppConsts.remoteServiceBaseUrl + '/TenantCustomization/GetCustomCss?id=' + appSessionService.tenant.customCssId + '" rel="stylesheet"/>');
+                        // abp.ui.clearBusy();
+                        appLoadingBusy.clearBusy();
+                        const cookiesService: CookiesService = injector.get(CookiesService);
+                        const beforeRefreshRoute = cookiesService.getBeforeRefreshRoute();
+                        if (beforeRefreshRoute) {
+                            cookiesService.clearBeforeRefreshRoute();
+                            injector.get(Router).navigate([beforeRefreshRoute]);
                         }
-
-                        abp.ui.clearBusy();
                         resolve(result);
                     },
                     (err) => {
-                        abp.ui.clearBusy();
+                        // abp.ui.clearBusy();
+                        appLoadingBusy.clearBusy();
                         reject(err);
                     }
                 );
@@ -57,6 +64,14 @@ export function getRemoteServiceBaseUrl(): string {
     return AppConsts.remoteServiceBaseUrl;
 }
 
+function handleLogoutRequest(authService: AppAuthService) {
+    const currentUrl = UrlHelper.initialUrl;
+    const returnUrl = UrlHelper.getReturnUrl();
+    if (currentUrl.indexOf(('account/logout')) >= 0 && returnUrl) {
+        authService.logout(true, returnUrl);
+    }
+}
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -65,10 +80,10 @@ export function getRemoteServiceBaseUrl(): string {
         CommonModule.forRoot(),
         AbpModule,
         ServiceProxyModule,
-
+        ServicesModule,
         RootRoutingModule,
+        ResponsiveModule,
 
-        NgxAniModule
     ],
     declarations: [
         RootComponent

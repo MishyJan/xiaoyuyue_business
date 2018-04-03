@@ -1,0 +1,27 @@
+.card {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 20px;
+    .upload-btn {
+        margin-right: 15px;
+        color: #FF9641;
+    }
+    .card-content {
+        height: 100%;
+        min-height: 345px;
+        padding: 0;
+        .address-wrap {
+            padding-top: 24px;
+        }
+        .maps-wrap {
+            padding: 0 20px;
+        }
+        .search-wrap {
+            transform: translate(-20px, 20px);
+        }
+        .row {
+            height: 100%;
+            margin: 0;
+        }
+    }
+}

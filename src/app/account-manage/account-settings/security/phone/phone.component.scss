@@ -1,0 +1,22 @@
+.phone-wrap,
+.new-phone-wrap {
+    min-height: calc(100vh -20px);
+    padding: 0px 10px 10px;
+    .card {
+        padding: 0px 16px 20px;
+        .card-header.card-header-text {
+            display: inline-block;
+            .title-icon {
+                font-size: 30px;
+            }
+        }
+        .vaildate-code {
+            position: absolute;
+            right: 2px;
+            bottom: 0;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            font-size: 14px;
+        }
+    }
+}

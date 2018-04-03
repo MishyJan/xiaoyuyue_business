@@ -1,0 +1,171 @@
+<div *hideItBootstrap="['xs','sm']">
+    <div class="account-security" [@routerTransition]>
+        <form #accountSecurity="ngForm">
+            <div class="row margin-bottom-5">
+                <div class="col-xs-6">
+                    <div class="page-head">
+                        <div class="page-title">
+                            <h1>
+                                <span>{{ l('Menu.Security') }}</span>
+                            </h1>
+                            <div>
+                                <breadcrumb></breadcrumb>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="security-info col-lg-6">
+                    <div class="card">
+                        <div class="form-horizontal">
+                            <div class="card-header card-header-text" data-background-color="orange">
+                                <h6 class="card-title">{{ l('Security.InfoField') }}</h6>
+                            </div>
+                            <div class="card-content">
+                                <div class="login-passwd content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-title pull-left">{{ l('Security.PasswordField') }}</span>
+                                        <span class="pull-left already-set">{{ l('Security.Set') }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn primary-bgcolor" (click)="showChangePasswdModel()">{{ l('Setting') }}</button>
+                                    </div>
+                                </div>
+
+                                <div class="verify-phone content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-title pull-left">{{ l('Security.VerifyPhone') }}</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.phoneNumber">{{ l('Security.Unset') }}</span>
+                                        <span class=" pull-left already-set" *ngIf="userSecurityInfo.phoneNumber" appStringEncrypt>{{ userSecurityInfo.phoneNumber }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.phoneNumber" (click)="showChangePhoneModel()">{{ l('UnBinding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.phoneNumber" (click)="showBindingPhoneModel()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
+
+                                <div class="verify-email content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-title pull-left">{{ l('Security.VerifyEmail') }}</span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.emailAddress">{{ l('Security.Unset') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.emailAddress" appStringEncrypt>{{ userSecurityInfo.emailAddress }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="userSecurityInfo.emailAddress" (click)="showChangeEmailModel()">{{ l('UnBinding') }}</button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.emailAddress" (click)="showBindingEmailModel()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="account-linked col-lg-6">
+                    <div class="card">
+                        <div class="form-horizontal">
+                            <div class="card-header card-header-text" data-background-color="orange">
+                                <h6 class="card-title">{{ l('Security.AccountAssociation') }}</h6>
+                            </div>
+                            <div class="card-content external-auth">
+                                <div class="login-passwd content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-icon pull-left vapps-icon-linked-wechat"></span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.weChat">{{ l('Security.Unbound') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.weChat">{{ userSecurityInfo.weChat }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.weChat" (click)="unBindWeChat()" [buttonBusy]="unBindingWechat"
+                                            [busyText]="l('Security.Unbinding')">
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.weChat" (click)="bindWeChat()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
+                                <div class="verify-qq content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-icon pull-left vapps-icon-linked-qq"></span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.qq">{{ l('Security.Unbound') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.qq">{{ userSecurityInfo.qq }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.qq" (click)="unBindQQ()" [buttonBusy]="unBindingQQ"
+                                            [busyText]="l('Security.Unbinding')">
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.qq" (click)="bingQQ()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
+
+                                <div class="verify-fb content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-icon pull-left vapps-icon-app-facebook tip-icon-small"></span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.faceBook">{{ l('Security.Unbound') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.faceBook">{{ userSecurityInfo.faceBook }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.faceBook" (click)="unBindFB()" [buttonBusy]="unBindingFB"
+                                            [busyText]="l('Security.Unbinding')">
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.faceBook" (click)="bingFb()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
+
+                                <div class="verify-google content-item clearfix">
+                                    <p class="left-item pull-left">
+                                        <span class="tip-icon pull-left vapps-icon-app-google tip-icon-small"></span>
+                                        <span class="pull-left not-set" *ngIf="!userSecurityInfo.google">{{ l('Security.Unbound') }}</span>
+                                        <span class="pull-left already-set" *ngIf="userSecurityInfo.google">{{ userSecurityInfo.google }}</span>
+                                    </p>
+                                    <div class="right-item pull-right">
+                                        <button type="button" class="btn btn-danger" *ngIf="userSecurityInfo.google" (click)="unBindGoogle()" [buttonBusy]="unBindingGoogle"
+                                            [busyText]="l('Security.Unbinding')">
+                                            <i></i>
+                                            <span>{{ l('Security.Unbind') }}</span>
+                                        </button>
+                                        <button type="button" class="btn primary-bgcolor" *ngIf="!userSecurityInfo.google" (click)="bingGoogle()">{{ l('Binding') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <xiaoyuyue-change-passwd-model #changePasswdModel></xiaoyuyue-change-passwd-model>
+        <xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>
+        <xiaoyuyue-unbinding-phone-model #unbindingPhoneModel></xiaoyuyue-unbinding-phone-model>
+        <xiaoyuyue-binding-email-model #bindingEmailModel></xiaoyuyue-binding-email-model>
+        <xiaoyuyue-unbinding-email-model #unbindingEmailModel></xiaoyuyue-unbinding-email-model>
+        <xiaoyuyue-external-binding-model #externalBindingModel (weChatBindRsult)="bindWeChatResult($event)"></xiaoyuyue-external-binding-model>
+    </div>
+</div>
+
+<div *showItBootstrap="[ 'xs', 'sm']">
+    <div class="mobile-account-security" [@routerTransition]>
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" routerLink="/account/settings/security">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-user-security"></span>
+                        <p class="text">{{ l('Menu.Security') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" routerLink="/account/settings/lang">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-lang-switch-1"></span>
+                        <p class="text">{{ l('SwitchLanguage') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

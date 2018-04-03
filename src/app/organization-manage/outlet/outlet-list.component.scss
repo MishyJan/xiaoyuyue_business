@@ -1,0 +1,127 @@
+.manage-org {
+    position: relative;
+    .search-btn-wrap {
+        margin: 15px;
+    }
+    .orange-icon {
+        color: #FF9641;
+    }
+    .outlet-list-wrap {
+        margin-top: 30px;
+        padding: 0;
+        .outlet-item {
+            margin-top: 0px;
+            margin-bottom: 60px;
+            .item {
+                width: 100%;
+                float: left;
+                background-color: #FFF;
+                padding: 0 15px;
+            }
+            .top-wrap {
+                margin-top: -30px;
+                border-radius: 4px;
+                overflow: hidden;
+                padding-bottom: 54%;
+                background-size: cover;
+                background-position: center;
+            }
+            .content-wrap {
+                padding: 26px 0;
+                .content-item+.content-item {
+                    margin-top: 10px;
+                }
+                .content-item {
+                    width: 100%;
+                    >.flex-right {
+                        width: 90%;
+                        float: left;
+                        .flex-right {
+                            width: 10%;
+                            float: left;
+                            margin-right: 20px;
+                            font-size: 18px;
+                            color: #FF9641;
+                        }
+                        .flex-left {
+                            width: calc(80% - 10px);
+                            float: left;
+                        }
+                    }
+                    >.flex-left {
+                        width: 10%;
+                        float: left;
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+    /* 移动端样式 */
+    &.mobile {
+        width: 100%;
+        height: calc(100vh - 55px);
+        position: absolute;
+        top: 55px;
+        left: 0;
+        .add-outlet-btn { 
+            position: fixed;
+            right: 10px;
+            bottom: 60px;
+            z-index: 1;
+            .icon {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                display: inline-block;
+                border-radius: 50%;
+                background-color: #FF9641;
+                color: #FFF;
+                font-size: 18px;
+            }
+        }
+        .outlet-list-wrap {
+            margin-top: 0;
+            .outlet-content + .outlet-content { 
+                padding-top: 0;
+            }
+            .outlet-content {
+                padding: 10px;
+                .outlet-item {
+                    border-radius: 4px;
+                    margin-bottom: 0;
+                    padding: 0;
+                    .item {
+                        border-radius: 4px;
+                        padding: 0;
+                    }
+                    .top-wrap {
+                        margin-top: 0;
+                        border-radius: 0;
+                        border-top-left-radius: 4px;
+                        border-top-right-radius: 4px;
+                    }
+                    .content-wrap {
+                        padding: 15px;
+                        .content-item+.content-item {
+                            margin-top: 20px;
+                        }
+                        .content-item {
+                            .outlet-name {
+                                color: #FF9641;
+                                font-size: 16px;
+                            }
+                            >.flex-right {
+                                .flex-right {
+                                    color: #CCC;
+                                    margin-right: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

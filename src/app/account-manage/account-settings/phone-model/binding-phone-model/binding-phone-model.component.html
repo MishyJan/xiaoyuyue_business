@@ -1,0 +1,33 @@
+<div class="modal fade" bsModal #bindingPhoneModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="xiaoyuyue-title-box">{{ l('Security.VerifyPhone') }}</div>
+            </div>
+            <div class="modal-body">
+                <form #currentPhoneFrom="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="text" name="newPassword" [(ngModel)]="model.targetNumber">
+                                <label class="control-label">{{ l('PhoneNumField') }}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 validate-code-wrap">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="text" name="validateCode" [(ngModel)]="code">
+                                <label class="control-label">{{ l('VerifyCodeField') }}</label>
+                                <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="model.targetNumber"></xiaoyuyue-send-code>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn primary-bgcolor" (click)="bindingPhone()" [disabled]="!currentPhoneFrom.form.valid">{{ l('Confirm') }}</button>
+            </div>
+        </div>
+    </div>
+</div>

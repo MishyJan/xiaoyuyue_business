@@ -1,25 +1,29 @@
 ///<reference path="../node_modules/@types/jquery/index.d.ts"/>
-///<reference path="../node_modules/@types/jstree/index.d.ts"/>
 ///<reference path="../node_modules/abp-web-resources/Abp/Framework/scripts/abp.d.ts"/>
 ///<reference path="../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.d.ts"/>
-///<reference path="../node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.signalr.d.ts"/>
 ///<reference path="../node_modules/moment/moment.d.ts"/>
 ///<reference path="../node_modules/@types/moment-timezone/index.d.ts"/>
 ///<reference path="../node_modules/@types/bootstrap/index.d.ts"/>
 ///<reference path="../node_modules/@types/toastr/index.d.ts"/>
 ///<reference path="../node_modules/@types/jquery-backstretch/index.d.ts"/>
+///<reference path="../node_modules/better-scroll/types/index.d.ts"/>
 
 // Typings reference file, see links for more information
 // https://github.com/typings/typings
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
 declare var System: any;
-
+declare var echarts: any;
+declare var BScroll: any;
 declare var App: any; //Related to Metronic
 declare var Layout: any; //Related to Metronic
 
 interface JQuery {
     Jcrop(...any): any;
+}
+
+interface JQuery {
+    datepicker(...any): any;
 }
 
 interface JQuery {
@@ -29,11 +33,6 @@ interface JQuery {
 interface JQuery {
     slimScroll(...any): any;
 }
-
-interface JQuery {
-    timeago(...any): any;
-}
-
 
 /**
  * jQuery selectpicker
@@ -50,11 +49,6 @@ interface JQuery {
 interface JQuery {
     multiselect(...any): any;
 }
-
-
-// interface JQuery {
-//     backstretch(...any): any;
-// }
 
 
 /**
@@ -74,27 +68,10 @@ interface JQuery {
 }
 
 /**
- * Morris
- */
-
-declare namespace morris {
-    interface IAreaOptions {
-        gridEnabled?: boolean;
-        //gridLineColor?: string;
-        padding?: number;
-    }
-}
-
-/**
  * rtl-detect
  */
 
 declare module 'rtl-detect';
-
-/**
- * Wechat Login
- */
-declare var WxLogin: any;
 
 declare var Push: any;
 
@@ -104,10 +81,17 @@ declare var QiniuJsSDK: any;
 declare var plupload: any;
 declare var FileProgress: jQuery;
 
+declare var cropper: any;
+declare var Cropper: any;
+interface JQuery {
+    cropper(...any): any;
+}
 interface JQuery {
     LUOCAPTCHA(...any): any;
 }
 
+declare var flatpickr: any;
+declare var Flatpickr: any;
 interface JQuery {
     flatpickr(...any): any;
 }
@@ -118,6 +102,8 @@ interface Window {
     FileReader: any;
     webkitURL: any;
     mozURL: any;
+    clipboardData: any;
+    __wxjs_environment: any;
 }
 
 interface HTMLInputEvent extends Event {
@@ -130,3 +116,21 @@ interface String {
 //      if (arg === undefined) return undefined;
 //         return moment(arg);
 // }
+
+declare var moment: any;
+declare var timeago: any;
+declare var Push: any;
+declare var wx: any;
+
+declare var radialIndicator: any;
+interface JQuery {
+    radialIndicator(...any): any;
+}
+
+declare var QRCode: any;
+
+/**
+ * Wechat 
+ */
+declare var WxLogin: any;
+declare var WeixinJSBridge: any;

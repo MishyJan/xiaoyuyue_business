@@ -1,0 +1,21 @@
+<div class="header-wrap clearfix">
+    <div class="menu-wrap pull-left">
+        <div class="menu-item">
+            <div class="item">
+                <a (click)="goToHome()"><img class="logo" src="/assets/common/images/login/logo-x1.png" alt="">{{l('Xiaoyuyue')}}</a>
+            </div>
+            <div class="item"><a [href]="anchorsLinksData.aboutLink">{{l('AboutUs')}}</a></div>
+            <div class="item"><a [href]="anchorsLinksData.howUsed">{{l('HowToUse')}}</a></div>
+            <div class="item"><a [href]="anchorsLinksData.contactUs">{{l('ContactUs')}}</a></div>
+        </div>
+    </div>
+    <div class="login-or-register-wrap pull-right">
+        <div class="menu-item">
+            <div class="item">
+                    <languageSwitch></languageSwitch>
+            </div>
+            <div class="item"><a routerLink="/auth/login">{{l('LogIn')}}</a></div>
+            <div class="item"><a routerLink="/auth/register">{{l('Register')}}</a></div>
+        </div>
+    </div>
+</div>

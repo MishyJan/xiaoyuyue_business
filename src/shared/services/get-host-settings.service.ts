@@ -1,13 +1,23 @@
+import { ComboboxItemDto, CommonLookupServiceProxy, ExternalAuthenticationEditDto, HostSettingsEditDto, HostSettingsServiceProxy, SelectListItemDto, SendTestEmailInput } from "shared/service-proxies/service-proxies";
+import { Injectable, Injector, OnInit } from '@angular/core';
+
+import { AppEnumSelectItemSource } from '@shared/AppEnums';
+import { AppGridData } from "shared/grid-data-results/grid-data-results";
+import { AppServiceBase } from "shared/services/base.service";
+import { GridDataResult } from '@progress/kendo-angular-grid';
+import { Observable } from "rxjs/Observable";
+
 /**
  * 作用：获取host下的所有设置，封装成service
  */
-import { Injectable, Injector, OnInit } from '@angular/core';
-import { HostSettingsServiceProxy, HostSettingsEditDto, ExternalAuthenticationEditDto, CommonLookupServiceProxy, ComboboxItemDto, SendTestEmailInput, SelectListItemDto } from "shared/service-proxies/service-proxies";
-import { AppServiceBase } from "shared/services/base.service";
-import { AppEnumSelectItemSource } from '@shared/AppEnums';
-import { AppGridData } from "shared/grid-data-results/grid-data-results";
-import { GridDataResult } from "@progress/kendo-angular-grid/dist/es/data.collection";
-import { Observable } from "rxjs/Observable";
+
+
+
+
+
+
+
+
 
 @Injectable()
 export class HostSettingService extends AppServiceBase {
@@ -73,7 +83,7 @@ export class HostSettingService extends AppServiceBase {
 
     // 获取版本
     loadEditions(): void {
-        this._commonLookupService.getEditionsForCombobox()
+        this._commonLookupService.getEditionsForCombobox(true)
             .subscribe((result) => {
                 this.editions = result.items;
                 let notAssignedEdition = new ComboboxItemDto();
@@ -81,7 +91,7 @@ export class HostSettingService extends AppServiceBase {
                 notAssignedEdition.displayText = this.l("NotAssigned");
 
                 this.editions.unshift(notAssignedEdition);
-            }); 
+            });
     }
 
     sendTestEmail(testEmailAddress: string): void {

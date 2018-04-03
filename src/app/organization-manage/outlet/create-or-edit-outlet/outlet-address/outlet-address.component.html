@@ -1,0 +1,48 @@
+<div class="card">
+    <div class="clearfix">
+        <div class="card-header card-header-text pull-left" data-background-color="orange">
+            <h6 class="card-title">{{ l('Outlet.AddressFiled') }}</h6>
+        </div>
+    </div>
+
+    <div class="card-content form-horizontal">
+        <!-- 门店地址 -->
+        <div class="row address-wrap">
+            <label class="col-md-1 label-on-left">{{l('Outlet.Address')}}</label>
+            <div class="col-md-9">
+                <div class="form-group label-floating is-empty">
+                    <label class="control-label"></label>
+                    <div class="select-address-wrap col-md-8">
+                        <div class="col-md-4 item no-left-padding">
+                            <kendo-dropdownlist [data]="provinceSelectListData" (valueChange)="provinceSelectHandler($event)"
+                                [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true" [value]="selectedProvinceId"></kendo-dropdownlist>
+                        </div>
+                        <div class="col-md-4 item no-lr-padding">
+                            <kendo-dropdownlist [data]="citysSelectListData" [textField]="'text'" (valueChange)="citySelectHandler($event)" [valueField]="'value'"
+                                [valuePrimitive]="true" [value]="selectedCityId">
+                            </kendo-dropdownlist>
+                        </div>
+                        <div class="col-md-4 item no-right-padding">
+                            <kendo-dropdownlist [data]="districtSelectListData" [textField]="'text'" (valueChange)="districtSelectHandler($event)" [valueField]="'value'"
+                                [valuePrimitive]="true" [value]="selectedDistrictId">
+                            </kendo-dropdownlist>
+                        </div>
+                    </div>
+                    <div class="detailed-address-wrap col-md-4">
+                        <textarea class="form-control" rows="1" [(ngModel)]="outletInfo.detailAddress" name="detailAddress" placeholder="{{ l('Outlet.Address') }}"
+                            required></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 search-wrap" #searchWrap (click)="codeAddress()">
+                <button class="btn primary-bgcolor no-margin">
+                    <span class="vapps-icon-app-search"></span>
+                </button>
+            </div>
+        </div>
+        <div class="maps-wrap">
+            <div class="col-md-12" id="mapContainer" style="height:300px; margin-top: 24px;"></div>
+        </div>
+
+    </div>
+</div>

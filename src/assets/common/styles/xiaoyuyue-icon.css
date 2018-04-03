@@ -1,17 +1,17 @@
 @font-face {
-  font-family: 'xiaoyuyue';
-  src:  url('../fonts/xiaoyuyue.eot?kgi2qk');
-  src:  url('../fonts/xiaoyuyue.eot?kgi2qk#iefix') format('embedded-opentype'),
-    url('../fonts/xiaoyuyue.ttf?kgi2qk') format('truetype'),
-    url('../fonts/xiaoyuyue.woff?kgi2qk') format('woff'),
-    url('../fonts/xiaoyuyue.svg?kgi2qk#xiaoyuyue') format('svg');
+  font-family: 'xiaoyuyue-icon';
+  src:  url('../fonts/xiaoyuyue-icon.eot?ue14fj');
+  src:  url('../fonts/xiaoyuyue-icon.eot?ue14fj#iefix') format('embedded-opentype'),
+    url('../fonts/xiaoyuyue-icon.ttf?ue14fj') format('truetype'),
+    url('../fonts/xiaoyuyue-icon.woff?ue14fj') format('woff'),
+    url('../fonts/xiaoyuyue-icon.svg?ue14fj#xiaoyuyue-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 [class^="vapps-icon-"], [class*=" vapps-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'xiaoyuyue' !important;
+  font-family: 'xiaoyuyue-icon' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -24,166 +24,533 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vapps-icon-app-google:before {
+  content: "\e9ad";
+}
+.vapps-icon-app-facebook:before {
+  content: "\e9ac";
+}
+.vapps-icon-app-twitter:before {
+  content: "\e9ae";
+}
+.vapps-icon-app-account-manage-menu:before {
+  content: "\e9a8";
+}
+.vapps-icon-app-alipay:before {
+  content: "\e9a9";
+  color: #1cb5fc;
+}
+.vapps-icon-app-vip:before {
+  content: "\e9aa";
+}
+.vapps-icon-app-wechat-pay:before {
+  content: "\e9ab";
+  color: #00b700;
+}
+.vapps-icon-app-check-in2:before {
+  content: "\e9a7";
+}
+.vapps-icon-app-active2:before {
+  content: "\e949";
+}
+.vapps-icon-app-add-booking-item2:before {
+  content: "\e94a";
+}
+.vapps-icon-app-add-outlet:before {
+  content: "\e94b";
+}
+.vapps-icon-app-address:before {
+  content: "\e94c";
+}
+.vapps-icon-app-add-time-field2:before {
+  content: "\e94d";
+}
+.vapps-icon-app-back2:before {
+  content: "\e94e";
+}
+.vapps-icon-app-back-left2:before {
+  content: "\e94f";
+}
+.vapps-icon-app-booking-menu:before {
+  content: "\e950";
+}
+.vapps-icon-app-booking-new-join:before {
+  content: "\e951";
+}
+.vapps-icon-app-booking-total:before {
+  content: "\e952";
+}
+.vapps-icon-app-cancel2:before {
+  content: "\e953";
+}
+.vapps-icon-app-close2:before {
+  content: "\e954";
+}
+.vapps-icon-app-confirm2:before {
+  content: "\e955";
+}
+.vapps-icon-app-confirm-2:before {
+  content: "\e956";
+}
+.vapps-icon-app-contact2:before {
+  content: "\e957";
+}
+.vapps-icon-app-copy-1:before {
+  content: "\e958";
+}
+.vapps-icon-app-copy-22:before {
+  content: "\e959";
+}
+.vapps-icon-app-custom-menu:before {
+  content: "\e95a";
+}
+.vapps-icon-app-default:before {
+  content: "\e95b";
+}
+.vapps-icon-app-delete:before {
+  content: "\e95c";
+}
+.vapps-icon-app-delete-time-field2:before {
+  content: "\e95d";
+}
+.vapps-icon-app-detail2:before {
+  content: "\e95e";
+}
+.vapps-icon-app-detail-2:before {
+  content: "\e95f";
+}
+.vapps-icon-app-disable:before {
+  content: "\e960";
+}
+.vapps-icon-app-disabled:before {
+  content: "\e961";
+}
+.vapps-icon-app-drop-down2:before {
+  content: "\e962";
+}
+.vapps-icon-app-edit2:before {
+  content: "\e963";
+}
+.vapps-icon-app-edit-group:before {
+  content: "\e964";
+}
+.vapps-icon-app-email:before {
+  content: "\e965";
+}
+.vapps-icon-app-first-page2:before {
+  content: "\e966";
+}
+.vapps-icon-app-home-menu:before {
+  content: "\e967";
+}
+.vapps-icon-app-lang-switch-12:before {
+  content: "\e968";
+}
+.vapps-icon-app-lang-switch-22:before {
+  content: "\e969";
+}
+.vapps-icon-app-last-page2:before {
+  content: "\e96a";
+}
+.vapps-icon-app-location2:before {
+  content: "\e96b";
+}
+.vapps-icon-app-login-code:before {
+  content: "\e96c";
+}
+.vapps-icon-app-login-name:before {
+  content: "\e96d";
+}
+.vapps-icon-app-login-passwd:before {
+  content: "\e96e";
+}
+.vapps-icon-app-login-phone:before {
+  content: "\e96f";
+}
+.vapps-icon-app-logo2:before {
+  content: "\e970";
+}
+.vapps-icon-app-logo-text2:before {
+  content: "\e971";
+}
+.vapps-icon-app-logout-menu:before {
+  content: "\e972";
+}
+.vapps-icon-app-manage:before {
+  content: "\e973";
+}
+.vapps-icon-app-menu2:before {
+  content: "\e974";
+}
+.vapps-icon-app-message2:before {
+  content: "\e975";
+}
+.vapps-icon-app-mode-toggle-12:before {
+  content: "\e976";
+}
+.vapps-icon-app-mode-toggle-22:before {
+  content: "\e977";
+}
+.vapps-icon-app-move:before {
+  content: "\e978";
+}
+.vapps-icon-app-multitask2:before {
+  content: "\e979";
+}
+.vapps-icon-app-next-page2:before {
+  content: "\e97a";
+}
+.vapps-icon-app-no-defalut:before {
+  content: "\e97b";
+}
+.vapps-icon-app-org-center-menu:before {
+  content: "\e97c";
+}
+.vapps-icon-app-org-info-menu:before {
+  content: "\e97d";
+}
+.vapps-icon-app-outlet-image:before {
+  content: "\e97e";
+}
+.vapps-icon-app-outlet-menu:before {
+  content: "\e97f";
+}
+.vapps-icon-app-phone2:before {
+  content: "\e980";
+}
+.vapps-icon-app-preview2:before {
+  content: "\e981";
+}
+.vapps-icon-app-prev-page2:before {
+  content: "\e982";
+}
+.vapps-icon-app-qr-code2:before {
+  content: "\e983";
+}
+.vapps-icon-app-refurbish2:before {
+  content: "\e984";
+}
+.vapps-icon-app-remove-group:before {
+  content: "\e985";
+}
+.vapps-icon-app-search2:before {
+  content: "\e986";
+}
+.vapps-icon-app-settings-menu:before {
+  content: "\e987";
+}
+.vapps-icon-app-share:before {
+  content: "\e988";
+}
+.vapps-icon-app-share-2:before {
+  content: "\e989";
+}
+.vapps-icon-app-shop-hours:before {
+  content: "\e98a";
+}
+.vapps-icon-app-submit2:before {
+  content: "\e98b";
+}
+.vapps-icon-app-tip:before {
+  content: "\e98c";
+}
+.vapps-icon-app-upload2:before {
+  content: "\e98d";
+}
+.vapps-icon-app-user-auth2:before {
+  content: "\e98e";
+}
+.vapps-icon-app-user-center2:before {
+  content: "\e98f";
+}
+.vapps-icon-app-user-feedback2:before {
+  content: "\e990";
+}
+.vapps-icon-app-user-logout2:before {
+  content: "\e991";
+}
+.vapps-icon-app-user-profile2:before {
+  content: "\e992";
+}
+.vapps-icon-app-user-security2:before {
+  content: "\e993";
+}
+.vapps-icon-bm-menu:before {
+  content: "\e994";
+}
+.vapps-icon-cb-add-img:before {
+  content: "\e995";
+}
+.vapps-icon-cb-add-time:before {
+  content: "\e996";
+}
+.vapps-icon-cb-calendar:before {
+  content: "\e997";
+}
+.vapps-icon-cb-menu:before {
+  content: "\e998";
+}
+.vapps-icon-dc-calendar:before {
+  content: "\e999";
+}
+.vapps-icon-dc-customer-vip:before {
+  content: "\e99a";
+}
+.vapps-icon-dc-menu:before {
+  content: "\e99b";
+}
+.vapps-icon-download:before {
+  content: "\e99c";
+}
+.vapps-icon-female:before {
+  content: "\e99d";
+}
+.vapps-icon-gm-menu:before {
+  content: "\e99e";
+}
+.vapps-icon-leading-out:before {
+  content: "\e99f";
+}
+.vapps-icon-linked-qq2:before {
+  content: "\e9a0";
+}
+.vapps-icon-linked-wechat2:before {
+  content: "\e9a1";
+}
+.vapps-icon-linked-weibo2:before {
+  content: "\e9a2";
+}
+.vapps-icon-male:before {
+  content: "\e9a3";
+}
+.vapps-icon-oi-menu:before {
+  content: "\e9a4";
+}
+.vapps-icon-print:before {
+  content: "\e9a5";
+}
+.vapps-icon-save:before {
+  content: "\e9a6";
+}
+.vapps-icon-app-check-in:before {
+  content: "\e9af";
+}
 .vapps-icon-app-active:before {
   content: "\e900";
 }
-.vapps-icon-app-add-booking-item:before {
+.vapps-icon-app-add:before {
   content: "\e901";
 }
-.vapps-icon-app-address:before {
+.vapps-icon-app-add-booking-item:before {
   content: "\e902";
 }
 .vapps-icon-app-add-time-field:before {
   content: "\e903";
 }
-.vapps-icon-app-back:before {
+.vapps-icon-app-at-top-1:before {
   content: "\e904";
 }
-.vapps-icon-app-cancel:before {
+.vapps-icon-app-at-top-2:before {
   content: "\e905";
 }
-.vapps-icon-app-confirm:before {
+.vapps-icon-app-back:before {
   content: "\e906";
 }
-.vapps-icon-app-copy-1:before {
+.vapps-icon-app-back-left:before {
   content: "\e907";
 }
-.vapps-icon-app-copy-2:before {
+.vapps-icon-app-booked:before {
   content: "\e908";
 }
-.vapps-icon-app-delete:before {
+.vapps-icon-app-cancel:before {
   content: "\e909";
 }
-.vapps-icon-app-delete-time-field:before {
+.vapps-icon-app-cancel-booking:before {
   content: "\e90a";
 }
-.vapps-icon-app-detail:before {
+.vapps-icon-app-change-passwd:before {
   content: "\e90b";
 }
-.vapps-icon-app-disable:before {
+.vapps-icon-app-check:before {
   content: "\e90c";
 }
-.vapps-icon-app-drop-down:before {
+.vapps-icon-app-close:before {
   content: "\e90d";
 }
-.vapps-icon-app-edit:before {
+.vapps-icon-app-confirm:before {
   content: "\e90e";
 }
-.vapps-icon-app-first-page:before {
+.vapps-icon-app-contact:before {
   content: "\e90f";
 }
-.vapps-icon-app-last-page:before {
+.vapps-icon-app-copy-2:before {
   content: "\e910";
 }
-.vapps-icon-app-logo:before {
+.vapps-icon-app-delete-time-field:before {
   content: "\e911";
 }
-.vapps-icon-app-logo-text:before {
+.vapps-icon-app-detail:before {
   content: "\e912";
 }
-.vapps-icon-app-message:before {
+.vapps-icon-app-drop-down:before {
   content: "\e913";
 }
-.vapps-icon-app-mode-toggle-1:before {
+.vapps-icon-app-edit:before {
   content: "\e914";
 }
-.vapps-icon-app-mode-toggle-2:before {
+.vapps-icon-app-finished:before {
   content: "\e915";
 }
-.vapps-icon-app-multitask:before {
+.vapps-icon-app-first-page:before {
   content: "\e916";
 }
-.vapps-icon-app-next-page:before {
+.vapps-icon-app-lang-switch-1:before {
   content: "\e917";
 }
-.vapps-icon-app-phone:before {
+.vapps-icon-app-lang-switch-2:before {
   content: "\e918";
 }
-.vapps-icon-app-preview:before {
+.vapps-icon-app-last-page:before {
   content: "\e919";
 }
-.vapps-icon-app-prev-page:before {
+.vapps-icon-app-link-qq:before {
   content: "\e91a";
 }
-.vapps-icon-app-qr-code:before {
+.vapps-icon-app-link-wechat:before {
   content: "\e91b";
 }
-.vapps-icon-app-refurbish:before {
+.vapps-icon-app-link-weibo:before {
   content: "\e91c";
 }
-.vapps-icon-app-search:before {
+.vapps-icon-app-location:before {
   content: "\e91d";
 }
-.vapps-icon-app-share:before {
+.vapps-icon-app-logo:before {
   content: "\e91e";
 }
-.vapps-icon-app-submit:before {
+.vapps-icon-app-logo-text:before {
   content: "\e91f";
 }
-.vapps-icon-app-upload:before {
+.vapps-icon-app-menu:before {
   content: "\e920";
 }
-.vapps-icon-app-user-auth:before {
+.vapps-icon-app-menu-booked:before {
   content: "\e921";
 }
-.vapps-icon-app-user-center:before {
+.vapps-icon-app-menu-home:before {
   content: "\e922";
 }
-.vapps-icon-app-user-feedback:before {
+.vapps-icon-app-menu-logout:before {
   content: "\e923";
 }
-.vapps-icon-app-user-logout:before {
+.vapps-icon-app-menu-personal:before {
   content: "\e924";
 }
-.vapps-icon-app-user-profile:before {
+.vapps-icon-app-menu-setting:before {
   content: "\e925";
 }
-.vapps-icon-app-user-security:before {
+.vapps-icon-app-message:before {
   content: "\e926";
 }
-.vapps-icon-bm-menu:before {
+.vapps-icon-app-mode-toggle-1:before {
   content: "\e927";
 }
-.vapps-icon-cb-add-img:before {
+.vapps-icon-app-mode-toggle-2:before {
   content: "\e928";
 }
-.vapps-icon-cb-add-time:before {
+.vapps-icon-app-multitask:before {
   content: "\e929";
 }
-.vapps-icon-cb-calendar:before {
+.vapps-icon-app-next-page:before {
   content: "\e92a";
 }
-.vapps-icon-cb-menu:before {
+.vapps-icon-app-phone:before {
   content: "\e92b";
 }
-.vapps-icon-dc-calendar:before {
+.vapps-icon-app-preview:before {
   content: "\e92c";
 }
-.vapps-icon-dc-customer-vip:before {
+.vapps-icon-app-prev-page:before {
   content: "\e92d";
-  color: #000;
 }
-.vapps-icon-dc-menu:before {
+.vapps-icon-app-qr-code:before {
   content: "\e92e";
 }
-.vapps-icon-download:before {
+.vapps-icon-app-refurbish:before {
   content: "\e92f";
 }
-.vapps-icon-female:before {
+.vapps-icon-app-remove:before {
   content: "\e930";
 }
-.vapps-icon-leading-out:before {
+.vapps-icon-app-search:before {
   content: "\e931";
 }
-.vapps-icon-male:before {
+.vapps-icon-app-security:before {
   content: "\e932";
 }
-.vapps-icon-oi-menu:before {
+.vapps-icon-app-submit:before {
   content: "\e933";
 }
-.vapps-icon-print:before {
+.vapps-icon-app-suggest:before {
   content: "\e934";
 }
-.vapps-icon-save:before {
+.vapps-icon-app-time-line-item-name:before {
   content: "\e935";
+}
+.vapps-icon-app-time-line-outlet:before {
+  content: "\e936";
+}
+.vapps-icon-app-time-line-shophours:before {
+  content: "\e937";
+}
+.vapps-icon-app-to-bottom:before {
+  content: "\e938";
+}
+.vapps-icon-app-to-top:before {
+  content: "\e939";
+}
+.vapps-icon-app-upload:before {
+  content: "\e93a";
+}
+.vapps-icon-app-user-auth:before {
+  content: "\e93b";
+}
+.vapps-icon-app-user-center:before {
+  content: "\e93c";
+}
+.vapps-icon-app-user-feedback:before {
+  content: "\e93d";
+}
+.vapps-icon-app-user-info:before {
+  content: "\e93e";
+}
+.vapps-icon-app-user-logout:before {
+  content: "\e93f";
+}
+.vapps-icon-app-user-manage:before {
+  content: "\e940";
+}
+.vapps-icon-app-user-profile:before {
+  content: "\e941";
+}
+.vapps-icon-app-user-security:before {
+  content: "\e942";
+}
+.vapps-icon-app-user-setting:before {
+  content: "\e943";
+}
+.vapps-icon-app-validate-email:before {
+  content: "\e944";
+}
+.vapps-icon-app-validate-phone:before {
+  content: "\e945";
+}
+.vapps-icon-linked-qq:before {
+  content: "\e946";
+}
+.vapps-icon-linked-wechat:before {
+  content: "\e947";
+}
+.vapps-icon-linked-weibo:before {
+  content: "\e948";
 }

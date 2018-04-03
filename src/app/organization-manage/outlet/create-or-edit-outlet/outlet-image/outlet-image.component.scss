@@ -1,0 +1,49 @@
+    .upload-btn {
+        margin-right: 15px;
+        color: #FF9641;
+    }
+    
+    .card-content {
+        height: 100%;
+        padding: 0;
+        cursor: pointer;
+        .row {
+            height: 100%;
+            margin: 0;
+        }
+        .gallery-wrap {
+            height: 100%;
+            padding: 10px;
+            .img-wrap {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                text-align: center;
+                color: #b5b0b0;
+                .add-img-icon {
+                    line-height: 116px;
+                    font-size: 40px;
+                    font-weight: 100;
+                }
+            }
+        }
+        .gallery-action {
+            height: 100%;
+            position: relative;
+            margin: 10px 0;
+            color: #808080;
+            .tip-text {
+                .tips-item+.tips-item {
+                    margin-top: 12px;
+                }
+                .head {
+                    width: 28px;
+                    text-align: center;
+                }
+                .content {
+                    width: calc(100% - 28px);
+                    line-height: 24px;
+                }
+            }
+        }
+    }

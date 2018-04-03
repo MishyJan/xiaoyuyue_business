@@ -1,19 +1,28 @@
-﻿import { Injector } from '@angular/core';
-import { AppConsts } from '@shared/AppConsts';
-import { AdminPermissions } from '@shared/AdminPermissions';
-import { LocalizationService } from '@abp/localization/localization.service';
-import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
-import { FeatureCheckerService } from '@abp/features/feature-checker.service';
-import { NotifyService } from '@abp/notify/notify.service';
-import { SettingService } from '@abp/settings/setting.service';
-import { MessageService } from '@abp/message/message.service';
+﻿import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Breadcrumb, BreadcrumbService } from 'shared/services/bread-crumb.service';
+import { Injector, OnInit, ViewChild } from '@angular/core';
+import { WeChatShareInputDto, WeChatShareResultDto } from 'app/shared/utils/wechat-share-timeline.input.dto';
+
 import { AbpMultiTenancyService } from '@abp/multi-tenancy/abp-multi-tenancy.service';
+import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from '@shared/common/session/app-session.service';
-import * as moment from 'moment';
+import { FeatureCheckerService } from '@abp/features/feature-checker.service';
+import { LocalizationService } from '@abp/localization/localization.service';
+import { MessageService } from '@abp/message/message.service';
+import { Moment } from 'moment';
+import { NotifyService } from '@abp/notify/notify.service';
+import { PermissionCheckerService } from '@abp/auth/permission-checker.service';
+import { Permissions } from '@shared/Permissions';
+import { SettingService } from '@abp/settings/setting.service';
+import { Title } from '@angular/platform-browser';
+import { WeChatShareTimelineService } from 'shared/services/wechat-share-timeline.service';
+
 export abstract class AppComponentBase {
 
     localizationSourceName = AppConsts.localization.defaultLocalizationSourceName;
-    adminPermissions = AdminPermissions;
+    commonlocalizationSourceName = AppConsts.localization.commonLocalizationSourceName;
+    permissions = Permissions;
+
     localization: LocalizationService;
     permission: PermissionCheckerService;
     feature: FeatureCheckerService;
@@ -22,6 +31,11 @@ export abstract class AppComponentBase {
     message: MessageService;
     multiTenancy: AbpMultiTenancyService;
     appSession: AppSessionService;
+    router: Router;
+    activatedRoute: ActivatedRoute;
+    titleService: Title;
+    breadcrumbService: BreadcrumbService;
+
     constructor(injector: Injector) {
         this.localization = injector.get(LocalizationService);
         this.permission = injector.get(PermissionCheckerService);
@@ -31,10 +45,18 @@ export abstract class AppComponentBase {
         this.message = injector.get(MessageService);
         this.multiTenancy = injector.get(AbpMultiTenancyService);
         this.appSession = injector.get(AppSessionService);
+        this.router = injector.get(Router);
+        this.activatedRoute = injector.get(ActivatedRoute);
+        this.titleService = injector.get(Title);
+        this.breadcrumbService = injector.get(BreadcrumbService);
     }
 
     l(key: string, ...args: any[]): string {
         let localizedText = this.localization.localize(key, this.localizationSourceName);
+
+        if (localizedText === key) {
+            localizedText = this.localization.localize(key, this.commonlocalizationSourceName);
+        }
 
         if (!localizedText) {
             localizedText = key;
@@ -52,16 +74,70 @@ export abstract class AppComponentBase {
         return this.permission.isGranted(permissionName);
     }
 
-
-    t(momentTime: moment.Moment): string {
-        if(momentTime=== undefined)
+    t(momentTime: Moment, format: string = 'YYYY-MM-DD HH:mm'): string {
+        if (momentTime === undefined) {
             return '';
+        }
 
-        let localDatetimeString = momentTime.local().format("YYYY-MM-DD HH:mm:ss");
+        const localDatetimeString = momentTime.local().format(format);
         return localDatetimeString;
     }
 
-    omitString(str:string):string{
+    d(momentTime: Moment, format: string = 'YYYY-MM-DD'): string {
+        if (momentTime === undefined) {
+            return '';
+        }
+
+        const localDatetimeString = momentTime.local().format(format);
+        return localDatetimeString;
+    }
+
+    transferUTCZone(momentTime: string): Moment {
+        if (!momentTime) {
+            return;
+        }
+
+        const utcOffsetValue = moment().local().utcOffset() / 60;
+        let tempZone = '';
+        if (utcOffsetValue >= 10) {
+            tempZone = '+' + utcOffsetValue + '00';
+        } else if (utcOffsetValue < 10 && utcOffsetValue >= 0) {
+            tempZone = '+' + '0' + utcOffsetValue + '00';
+        } else if (utcOffsetValue > -10 && utcOffsetValue < 0) {
+            tempZone = '-' + '0' + -utcOffsetValue + '00';
+        } else {
+            tempZone = '-' + -utcOffsetValue + '00';
+        }
+        return moment(momentTime + ' 00:00:00' + tempZone);
+    }
+
+    omitString(str: string): string {
         return abp.utils.truncateStringWithPostfix(str, 20);
+    }
+
+    isWeiXin() {
+        const ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) + '' === 'micromessenger') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    isMobile(jqueryDom: JQuery<HTMLElement>): boolean {
+        if (jqueryDom.length > 0) {
+            return true;
+        };
+        return false;
+    }
+
+    isValidPhoneNum(phoneNum: string): boolean {
+        const reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+        return reg.test(phoneNum);
+    }
+
+    isValidEmailAddress(emailAddress: string): boolean {
+        const reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        return reg.test(emailAddress);
     }
 }

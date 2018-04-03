@@ -1,0 +1,98 @@
+<div class="security-wrap" [@routerTransition]>
+    <h5 class="title">
+        {{ l('Security.InfoField') }}
+        <small>{{ l('Security.Title') }}</small>
+    </h5>
+    <div class="clearfix">
+        <!-- 更改密码 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" routerLink="/account/settings/passwd">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-login-passwd"></span>
+                        <p class="text">{{ l('Security.Filed.RevisePasswd') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 更绑手机 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" routerLink="/account/settings/phone">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-login-phone"></span>
+                        <p class="text" *ngIf="userSecurityInfo.phoneNumber">{{ l('Security.RevisePhone') }}</p>
+                        <p class="text" *ngIf="!userSecurityInfo.phoneNumber">{{ l('Security.VerifyPhone') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 更绑邮箱 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" routerLink="/account/settings/email">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-message"></span>
+                        <p class="text" *ngIf="userSecurityInfo.emailAddress">{{ l('Security.ReviseEmail') }}</p>
+                        <p class="text" *ngIf="!userSecurityInfo.emailAddress">{{ l('Security.VerifyEmail') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="title">
+        {{ l('Security.AccountAssociation') }}
+        <small>{{ l('Security.ExternalTitle') }}</small>
+    </h5>
+    <div class="clearfix external-auth">
+        <!-- 微信绑定 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" (click)="linkWechat()">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-linked-wechat"></span>
+                        <p class="text">{{ linkedWechatText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QQ绑定 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" (click)="linkQQ()">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-linked-qq"></span>
+                        <p class="text">{{ linkedQQText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FaceBook绑定 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" (click)="linkFacebook()">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-facebook tip-icon-small"></span>
+                        <p class="text">{{ linkedFaceBookText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google绑定 -->
+        <div class="card-wrap col-xs-4 col-sm-3">
+            <div class="card" (click)="linkGoogle()">
+                <div class="item">
+                    <div class="content">
+                        <span class="icon vapps-icon-app-google tip-icon-small"></span>
+                        <p class="text">{{ linkedGoogleText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

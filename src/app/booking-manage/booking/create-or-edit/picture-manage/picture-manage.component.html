@@ -1,0 +1,37 @@
+<div class="picture-manage">
+    <div class="card">
+        <div class="clearfix">
+            <div class="card-header card-header-text pull-left" data-background-color="orange">
+                <h6 class="card-title">{{l('Booking.PictureManage')}}</h6>
+            </div>
+            <button class="btn btn-border-radius upload-btn pull-right light-bgcolor" (click)="uploadPicHandler() ">
+                <span class="vapps-icon vapps-icon-app-upload"></span>{{l('PictureGallery.LocalUpload')}}</button>
+        </div>
+
+        <div class="card-content">
+            <div class="row">
+                <div class="gallery-wrap clearfix">
+                    <div class="picture-item" *ngFor="let item of selectedPictures; let index = index;">
+                        <div class="content">
+                            <div class="bg-img" [ngStyle]="{'background-image': 'url(' + item.pictureUrl + ')'}">
+                                <!-- <img width="100%" [src]="item.pictureUrl"> -->
+                            </div>
+                            <div class="bg-cover"></div>
+                            <div class="bg-tools">
+                                <div class="wrap clearfix">
+                                    <div class="tool-item pull-left" (click)="deletePic(index)">
+                                        <span class="icon vapps-icon-app-delete"></span>
+                                    </div>
+                                    <div class="tool-item pull-right" (click)="changePic(index, item.displayOrder)">
+                                        <span class="icon vapps-icon-app-edit"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <xiaoyuyue-upload-picture-gallery #uploadPictureModel [cropScaleX]="4" [cropScaleY]="3" [groupId]="groupId" (sendPictureForEdit)="getPictureForEdit($event)" (sendPicGalleryForEdit)="getPicGalleryForEdit($event)"></xiaoyuyue-upload-picture-gallery>
+</div>

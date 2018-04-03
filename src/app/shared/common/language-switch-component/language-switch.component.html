@@ -1,0 +1,20 @@
+﻿<div class="lang-wrapper clearfix">
+    <ul>
+        <li *ngIf="languages.length" class="dropdown dropdown-user">
+            <a class="lang-content" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                <i [class]="currentLanguage.icon"></i>
+                <span class="langname">
+                    {{currentLanguage.displayName}}
+                </span>
+                <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li *ngFor="let language of languages" [hidden]="currentLanguage.displayName === language.displayName">
+                    <a href="javascript:;" (click)="changeLanguage(language)">
+                        <i [class]="language.icon"></i> {{language.displayName}}
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

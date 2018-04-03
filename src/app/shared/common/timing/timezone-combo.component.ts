@@ -3,6 +3,7 @@ import { TimingServiceProxy, NameValueDto, DefaultTimezoneScope } from '@shared/
 import { AppComponentBase } from '@shared/common/app-component-base';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'timezone-combo',
     template:
     `<select #TimeZoneCombobox
@@ -29,7 +30,7 @@ export class TimeZoneComboComponent extends AppComponentBase implements OnInit {
     }
 
     ngOnInit(): void {
-        var self = this;
+        const self = this;
         self._timingService.getTimezones(self.defaultTimezoneScope).subscribe(result => {
             self.timeZones = result.items;
         });

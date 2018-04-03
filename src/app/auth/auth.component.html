@@ -1,0 +1,16 @@
+<div *hideItBootstrap="['xs','sm']">
+    <div class="user-login" #loginBg>
+        <xiaoyuyue-auth-header></xiaoyuyue-auth-header>
+        <div class="bg-wrap">
+            <xiaoyuyue-background-img></xiaoyuyue-background-img>
+        </div>
+        <router-outlet></router-outlet>
+    </div>
+    <xiaoyuyue-footer></xiaoyuyue-footer>
+</div>
+
+<div *showItBootstrap="['xs','sm']">
+    <div class="user-login" #loginBg>
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -1,0 +1,117 @@
+<div [@routerTransition] class="booking-detail common-container" *ngIf="bookingForEditData">
+    <div class="command-wrap card no-margin">
+        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.wait4ConfirmNum == 0}" [disabled]="bookingForEditData.wait4ConfirmNum == 0" (click)="showMobileConfirmOrderModel(bookingForEditData.id)">
+            {{ l('BookingList.WaitConfirm') }}
+            <span class="avail-num" *ngIf="bookingForEditData.wait4ConfirmNum !== 0">{{ bookingForEditData.wait4ConfirmNum }}</span>
+        </button>
+        <button class="item" [ngClass]="{'disabled-style': bookingForEditData.subBookedNum == 0}" [disabled]="bookingForEditData.subBookedNum == 0" (click)="bookingCustomerList(bookingForEditData.id)">{{ l('BookingOrder.List') }}</button>
+        <button class="item" *ngIf="bookingForEditData.isActive" (click)="disabledBookingClass()">{{ l('BookingList.DisabledBooking') }}</button>
+        <button class="item" *ngIf="!bookingForEditData.isActive" (click)="beforeBookingClass()">{{ l('BookingList.ActivBooking') }}</button>
+        <button class="item" (click)="removeBooking()">{{ l('Booking.Delete') }}</button>
+    </div>
+
+    <div class="tenant-wrap card">
+        <div class="tenant-bg-wrap" *ngIf="bookingPictures.length > 0">
+            <div class="swiper-container" id="tenantBgSwiperContainer">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" *ngFor="let bookingPicturesItem of bookingPictures">
+                        <img [src]="bookingPicturesItem" class="img-item" alt="image">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <!-- <img [src]="bookingPictures[0]" width="100%" alt="tenant-bg"> -->
+        </div>
+        <div class="tenant-info">
+            <div class="name clearfix">
+                <span class="pull-left">{{ bookingForEditData.name }}</span>
+                <span class="pull-right vapps-icon-app-edit" [routerLink]="'/booking/edit/'+bookingForEditData.id"></span>
+            </div>
+
+            <div class="flex-item" *ngIf="availableBookingTime.length > 0">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">{{ l('Booking.BookingTime') }} : </span>
+                        <div class="item-right">
+                            <div> {{ availableBookingTime[0] }} <span *ngIf="hasAvailableTime">...</span> </div>
+                            <div *ngIf="!hasAvailableTime">
+                                <div *ngFor="let item of availableBookingTime; let index = index;"> {{ availableBookingTime[index+1] }} </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item-right text-center">
+                    <a class="rotate" *ngIf="!(availableBookingTime.length <= 1)" [ngClass]="{'rotate-180': hasAvailableTime, 'rotate-360': !hasAvailableTime}"><span class="vapps-icon-app-drop-down" (click)="toggleAvailableTime()"></span></a>
+                </div>
+            </div>
+
+            <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">{{ l('Dashboard.BookingRate') }} : </span>
+                        <span class="item-right">{{ bookingForEditData.subBookedNum }} / {{ bookingForEditData.subMaxBookingNum }}</span>
+                    </div>
+                </div>
+                <div class="item-right"></div>
+            </div>
+
+            <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">{{ l('Booking.ResponderNumber') }} : </span>
+                        <span class="item-right">{{ bookingForEditData.subBookedNum }}</span>
+                    </div>
+                </div>
+                <div class="item-right text-center"></div>
+            </div>
+
+            <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">{{ l('Dashboard.SubQueueNum') }} : </span>
+                        <span class="item-right">{{ bookingForEditData.wait4ConfirmNum }}</span>
+                    </div>
+                </div>
+                <div class="item-right text-center"></div>
+            </div>
+
+            <!-- <div class="flex-item">
+                <div class="item-left">
+                    <div class="left-wrap">
+                        <span class="item-left">温馨提示</span>
+                        <span class="item-right">嘻嘻嘻</span>
+                    </div>
+                </div>
+                <div class="item-right text-center"></div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="org-info-wrap card" *ngIf="outletData">
+        <div class="card-item org-info">
+            <div class="top-wrap">
+                <div class="title">{{ l('Outlet.Info') }}</div>
+            </div>
+            <div class="content">
+                <div class="content-item">
+                    <span class="name">{{ l('Outlet.Name') }} : </span>
+                    <span class="desc">{{ bookingForEditData.outlet }}</span>
+                </div>
+                <div class="content-item">
+                    <span class="name">{{ l('Outlet.BusinessHours') }} : </span>
+                    <span class="desc">{{ bookingForEditData.businessHours }}</span>
+                </div>
+                <div class="content-item">
+                    <span class="name">{{ l('Outlet.Contactor') }} : </span>
+                    <span class="desc">{{ bookingForEditData.contactor }}</span>
+                </div>
+                <div class="content-item">
+                    <span class="name">{{ l('Outlet.AddressFiled') }} : </span>
+                    <span class="desc">{{ bookingForEditData.outletAddress }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<xiaoyuyue-mobile-share-booking-model #mobileShareBookingModel></xiaoyuyue-mobile-share-booking-model>
+<xiaoyuyue-mobile-confirm-order-model #mobileConfirmOrderModel (batchConfirmStateHanlder)="batchConfirmStateHanlder($event)"></xiaoyuyue-mobile-confirm-order-model>

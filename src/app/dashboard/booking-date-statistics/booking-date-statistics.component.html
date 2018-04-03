@@ -1,0 +1,13 @@
+<!-- 转化率 -->
+<div class="header clearfix">
+    <div class="card-header card-header-text pull-left" data-background-color="orange">
+        <h6 class="card-title">{{l('Dashboard.BookingConver')}}</h6>
+    </div>
+</div>
+<ng-container *ngIf="bookingStatisticalData.length > 0; else elseTemplate">
+    <div id="bookingDateStatisticEcharts" echarts [initOpts]="initOptions" [options]="chartOption" [loading]="showloading" theme="shine"
+        class="dashboard-chart" (chartInit)="onChartInit($event)"></div>
+</ng-container>
+<ng-template #elseTemplate>
+    <xiaoyuyue-empty-page [text]="slogan" [height]="'380px'"></xiaoyuyue-empty-page>
+</ng-template>

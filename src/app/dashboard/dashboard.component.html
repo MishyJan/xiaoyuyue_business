@@ -1,0 +1,264 @@
+﻿<div *hideItBootstrap="['xs','sm']">
+    <div class="org-center" [@routerTransition]>
+        <div class="row margin-bottom-5">
+            <div class="col-md-6">
+                <div class="page-head">
+                    <div class="page-title">
+                        <h1>{{l('Menu.Dashboard')}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 text-right">
+                <div class="flatpickr btn primary-bgcolor">
+                    <a class="input-button" title="{{l('SwitchTime')}}" data-toggle>
+                        <i class="vapps-icon light-bgcolor vapps-icon-dc-calendar"></i>
+                        <input type="text" [(ngModel)]="dateSelected" readonly data-input>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content row">
+            <div class="col-md-12 row no-right-padding">
+                <div class="left-content col-md-3">
+                    <div class="org-profile box-shadow content-item" *ngIf="tenantBaseInfoData">
+                        <div routerLink="/organization/info">
+                            <div class="org-bg" [ngStyle]="{'background-image': 'url(' + getTenantLogoUrl() + ')'}"></div>
+                            <h4 class="org-name">{{ tenantBaseInfoData.tenancyName }}</h4>
+                        </div>
+                        <div class="edition-info clearfix" routerLink="/account/condition">
+                            <span class="col-md-7 edition-name">
+                                <span class="vapps-icon-app-vip vip-icon"></span>{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span>
+                            <span class="col-md-5 edition-time">{{ accountInfo.editionTimeLimit }}</span>
+                        </div>
+                        <div class="feature-info col-md-12">
+                            <div class="clearfix" class="feature-content">
+                                <div class="col-md-6 booking-amount" routerLink="/booking/list">
+                                    <p class="desc">预约概况</p>
+                                    <p class="num" style="color:#E32600;">{{ accountInfo.subCreatedBookingCount }} / {{ subBookingCountCountText }}</p>
+                                </div>
+                                <div class="col-md-6 outlet-amount" routerLink="/outlet/list">
+                                    <p class="desc">门店概况</p>
+                                    <p class="num" style="color:#02AFF3;">{{ accountInfo.subCreatedOutletCount }} / {{ subOutletCountCountText }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="org-data box-shadow content-item clearfix data-statistics" *ngIf="dataStatistics">
+                        <div class="col-md-6 item">
+                            <p style="color: #00B200;">{{ bookingData.today.pv }}</p>
+                            <p>{{l('Dashboard.TodayPv')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #00B200;">{{ bookingData.today.uv }}</p>
+                            <p>{{l('Dashboard.TodayUv')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #FF9641;">{{ bookingData.history.pv }}</p>
+                            <p>{{l('Dashboard.HistoryPv')}}</p>
+                        </div>
+                        <div class="col-md-6 item">
+                            <p style="color: #FF9641;">{{ bookingData.history.uv }}</p>
+                            <p>{{l('Dashboard.HistoryUv')}}</p>
+                        </div>
+                        <div class="col-md-6 item" routerLink="/bookingorder/list">
+                            <p style="color: #02AFF3;">{{ bookingData.history.bookingNum }}</p>
+                            <p>{{l('Dashboard.HistoryBookingNum')}}</p>
+                        </div>
+                        <div class="col-md-6 item" routerLink="/bookingorder/list">
+                            <p style="color: #E32600;">{{ bookingData.today.waitConfirmNum }}</p>
+                            <p>{{l('Dashboard.WaitConfirmNum')}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-content col-md-9 no-right-padding" *ngIf="dataStatistics">
+                    <div class="booking-order-data  data-item">
+                        <div class="top-bar box-shadow">
+                            <h5 class="top-title">{{l('Dashboard.BookingOrderData')}}</h5>
+                        </div>
+                        <div class="content row">
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-saturation></xiaoyuyue-booking-saturation>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-date-statistics [bookingStatisticalData]="dataStatistics.bookingConverRates"></xiaoyuyue-booking-date-statistics>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-time-data  data-item">
+                        <div class="top-bar box-shadow">
+                            <h5 class="top-title">{{l('Dashboard.BookingTimeData')}}</h5>
+                        </div>
+
+                        <div class="content row">
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-heat></xiaoyuyue-booking-heat>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-access-time [bookingAccessTimeData]="dataStatistics.bookingAccessTimes"></xiaoyuyue-booking-access-time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-customer-data  data-item">
+                        <div class="top-bar box-shadow">
+                            <h5 class="top-title">{{l('Dashboard.BookingCustomerData')}}</h5>
+                        </div>
+
+                        <div class="content row">
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-access-source [bookingAccessSourceData]="dataStatistics.bookingAccessSources"></xiaoyuyue-booking-access-source>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="content-item card">
+                                    <xiaoyuyue-booking-access-region [bookingAccessRegionData]="dataStatistics.bookingAccessRegions"></xiaoyuyue-booking-access-region>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *showItBootstrap="['xs','sm']">
+    <div class="mobile-org-center">
+        <div class="add-time-btn">
+            <span class="icon vapps-icon-cb-add-time" routerLink="/booking/create"></span>
+        </div>
+        <div class="scroll-content">
+            <xiaoyuyue-list-scroll>
+                <div class="header">
+                    <div class="tenant-base-info" [ngClass]="{'reset-style': !tenantBaseInfoData.backgroundPictureUrl}" [ngStyle]="{'background-image': 'url(' + getTenantBgurl() + ')'}">
+                        <div class="info-wrap">
+                            <div class="top">
+                                <img class="tenant-logo" routerLink="/organization/info" [src]="getTenantLogoUrl()">
+                                <span class="tenant-name" routerLink="/account/condition">{{ tenantBaseInfoData.tenancyName }}
+                                    <br>
+                                    <span class="edition-name">
+                                        <span class="vapps-icon-app-vip vip-icon"></span>{{ inTrialPeriodTransText(accountInfo.editionDisplayName) }}</span>
+                                </span>
+
+                            </div>
+
+                            <div class="bottom" *ngIf="dataStatistics">
+                                <div class="flex-item">
+                                    <p class="amount">{{ bookingData.history.pv }}</p>
+                                    <p>{{l('Dashboard.HistoryPv')}}</p>
+                                </div>
+                                <div class="flex-item">
+                                    <p class="amount">{{ bookingData.history.uv }}</p>
+                                    <p>{{l('Dashboard.HistoryUv')}}</p>
+                                </div>
+                                <div class="flex-item" routerLink="/bookingorder/list">
+                                    <p class="amount">{{ bookingData.history.bookingNum }}</p>
+                                    <p>{{l('Dashboard.HistoryBookingNum')}}</p>
+                                </div>
+                                <div class="flex-item">
+                                    <p class="amount">{{ bookingData.today.waitConfirmNum }}</p>
+                                    <p>{{l('Dashboard.WaitConfirmNum')}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-cover" *ngIf="tenantBaseInfoData.backgroundPictureUrl"></div>
+                    </div>
+                </div>
+                <div class="content-wrap">
+                    <div [@routerTransition] *ngIf="tabToggle">
+                        <div class="org-center-tab-content">
+                            <div class="wrap">
+                                <h4 class="title">{{ l('Last7Days') }}</h4>
+                                <div class="content">
+                                    <div class="echarts" echarts [options]="forSevenDaysOptions" [loading]="showloading" theme="shine"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div [@routerTransition] *ngIf="!tabToggle">
+
+
+                        <div class="manage-center-tab-content clearfix">
+                            <div class="card-wrap col-xs-4 col-sm-3">
+                                <div class="card" routerLink="/booking/list">
+                                    <div class="item">
+                                        <div class="content">
+                                            <span class="icon vapps-icon-app-booking-menu"></span>
+                                            <p class="text">{{ l('Menu.ManageBooking') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-wrap col-xs-4 col-sm-3">
+                                <div class="card" routerLink="/organization/info">
+                                    <div class="item">
+                                        <div class="content">
+                                            <span class="icon vapps-icon-app-org-info-menu"></span>
+                                            <p class="text">{{ l('Menu.Org') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-wrap col-xs-4 col-sm-3">
+                                <div class="card" routerLink="/outlet/list">
+                                    <div class="item">
+                                        <div class="content">
+                                            <span class="icon vapps-icon-app-outlet-menu"></span>
+                                            <p class="text">{{ l('Menu.Org.OutletManage') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-wrap col-xs-4 col-sm-3">
+                                <div class="card" routerLink="/account/list">
+                                    <div class="item">
+                                        <div class="content">
+                                            <span class="icon vapps-icon-app-account-manage-menu"></span>
+                                            <p class="text">{{l('Menu.Account.Manage')}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-wrap col-xs-4 col-sm-3">
+                                <div class="card" routerLink="/account/settings">
+                                    <div class="item">
+                                        <div class="content">
+                                            <span class="icon vapps-icon-app-settings-menu"></span>
+                                            <p class="text">{{ l('Menu.Org.SettingManage') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-tab">
+                    <div class="item active col-xs-6" [class.active]="tabToggle" (click)="switchTabs(true)">
+                        <span class="icon vapps-icon-app-home-menu"></span>
+                        <p class="text">{{ l('BusinessCenter') }}</p>
+                    </div>
+                    <div class="item col-xs-6" [class.active]="!tabToggle" (click)="switchTabs(false)">
+                        <span class="icon vapps-icon-app-manage"></span>
+                        <p class="text">{{ l('Menu.ManageCenter') }}</p>
+                    </div>
+                </div>
+            </xiaoyuyue-list-scroll>
+        </div>
+
+    </div>
+</div>

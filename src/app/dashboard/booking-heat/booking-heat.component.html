@@ -1,0 +1,15 @@
+<!-- 预约时间热度 -->
+<div class="header clearfix">
+    <div class="card-header card-header-text pull-left" data-background-color="orange">
+        <h6 class="card-title">{{l('Dashboard.BookingHeat')}}</h6>
+    </div>
+    <span class="dropdown-list pull-right">
+         <kendo-dropdownlist [data]="orgBookingSelectListData" (valueChange)="orgBookingSelectListDataChangeHandler($event)" [textField]="'text'" [valueField]="'value'" [valuePrimitive]="true"[value]="orgBookingDefaultListItem"></kendo-dropdownlist> 
+    </span>
+</div>
+<ng-container *ngIf="bookingHeatData.length > 0; else elseTemplate">
+    <div id="bookingAccessHeatEcharts" echarts [options]="chartOption" [loading]="showloading" theme="shine" class="dashboard-chart"></div>
+</ng-container>
+<ng-template #elseTemplate>
+    <xiaoyuyue-empty-page [text]="slogan" [height]="'380px'"></xiaoyuyue-empty-page>
+</ng-template>

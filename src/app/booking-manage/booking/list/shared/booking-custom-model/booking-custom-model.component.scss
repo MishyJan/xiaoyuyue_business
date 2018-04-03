@@ -1,0 +1,42 @@
+.booking-custom-wrap {
+    .btn-white {
+        color: #FF9641;
+        background-color: #FFF;
+    }
+    .modal-dialog .modal-body {
+        .serach-wrap {
+            padding: 0 24px;
+            margin: 0px;
+            .btn {
+                font-size: 18px;
+                background-color: #FF9641;
+                padding: 6px;
+                margin: 10px 0;
+                line-height: 18px;
+            }
+            .form-group {
+                margin-top: 6px;
+            }
+            .col-md-11 {
+                padding: 0;
+            }
+            .k-dropdown {
+                top: 1px;
+            }
+        }
+        .order-status {
+            color: #FFF;
+            border-radius: 2px;
+            padding: 4px;
+            font-size: 14px;
+        }
+    }
+}
+
+.modal .modal-dialog {
+    margin: 20px auto;
+    img.avatar {
+        border-radius: 100%;
+        width: 26px;
+    }
+}

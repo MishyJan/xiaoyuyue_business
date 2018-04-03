@@ -1,34 +1,34 @@
-﻿import { NgModule } from '@angular/core';
+﻿import * as ApiServiceProxies from './service-proxies';
 
-import * as ApiServiceProxies from './service-proxies';
+import { NgModule } from '@angular/core';
 
 @NgModule({
     providers: [
-        ApiServiceProxies.AuditLogServiceProxy,
-        ApiServiceProxies.CachingServiceProxy,
-        ApiServiceProxies.ChatServiceProxy,
-        ApiServiceProxies.CommonLookupServiceProxy,
-        ApiServiceProxies.EditionServiceProxy,
-        ApiServiceProxies.FriendshipServiceProxy,
-        ApiServiceProxies.HostSettingsServiceProxy,
         ApiServiceProxies.LanguageServiceProxy,
         ApiServiceProxies.NotificationServiceProxy,
-        ApiServiceProxies.OrganizationUnitServiceProxy,
         ApiServiceProxies.PermissionServiceProxy,
         ApiServiceProxies.ProfileServiceProxy,
-        ApiServiceProxies.RoleServiceProxy,
         ApiServiceProxies.SessionServiceProxy,
         ApiServiceProxies.TenantServiceProxy,
-        ApiServiceProxies.TenantDashboardServiceProxy,
         ApiServiceProxies.TenantSettingsServiceProxy,
         ApiServiceProxies.TimingServiceProxy,
         ApiServiceProxies.UserServiceProxy,
-        ApiServiceProxies.UserLinkServiceProxy,
         ApiServiceProxies.UserLoginServiceProxy,
-        ApiServiceProxies.WebLogServiceProxy,
         ApiServiceProxies.AccountServiceProxy,
         ApiServiceProxies.TokenAuthServiceProxy,
-        ApiServiceProxies.TenantRegistrationServiceProxy
+        ApiServiceProxies.TenantRegistrationServiceProxy,
+        ApiServiceProxies.OrgBookingOrderServiceProxy,
+        ApiServiceProxies.BookingDataStatisticsServiceProxy,
+        ApiServiceProxies.TenantInfoServiceProxy,
+        ApiServiceProxies.OutletServiceServiceProxy,
+        ApiServiceProxies.OrgBookingServiceProxy,
+        ApiServiceProxies.PictureServiceProxy,
+        ApiServiceProxies.StateServiceServiceProxy,
+        ApiServiceProxies.SMSServiceProxy,
+        ApiServiceProxies.BookingRecordServiceProxy,
+        ApiServiceProxies.WeChatJSServiceProxy,
+        ApiServiceProxies.EditionSubscriptionServiceProxy,
+        ApiServiceProxies.PaymentServiceProxy
     ]
 })
 export class ServiceProxyModule { }

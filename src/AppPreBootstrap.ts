@@ -1,16 +1,25 @@
-﻿import * as moment from 'moment';
-import { AppConsts } from '@shared/AppConsts';
-import { UrlHelper } from './shared/helpers/UrlHelper';
+﻿import * as _ from 'lodash';
+
+import { CompilerOptions, NgModuleRef, Type } from '@angular/core';
+
+import { AppConfig } from 'shared/AppConfig';
+import { AppConsts, GetCurrentFeatures } from '@shared/AppConsts';
+import { CookiesService } from 'shared/services/cookies.service';
 import { LocalizedResourcesHelper } from './shared/helpers/LocalizedResourcesHelper';
-import * as _ from 'lodash';
+import { Moment } from 'moment';
 import { SubdomainTenancyNameFinder } from '@shared/helpers/SubdomainTenancyNameFinder';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { Type, CompilerOptions, NgModuleRef } from '@angular/core';
+import { UrlHelper } from './shared/helpers/UrlHelper';
 import { UtilsService } from '@abp/utils/utils.service';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
+declare var $: any;
 export class AppPreBootstrap {
-
+    static cookiesService = new CookiesService();
     static run(callback: () => void): void {
+        $.material.init();
+        // $('select option:selected').css({
+        //     'background': '#FF9641'
+        // })
         AppPreBootstrap.getApplicationConfig(() => {
             const queryStringObj = UrlHelper.getQueryParameters();
 
@@ -29,38 +38,31 @@ export class AppPreBootstrap {
     }
 
     private static getApplicationConfig(callback: () => void) {
-        return abp.ajax({
-            url: '/assets/appconfig.json',
-            method: 'GET',
-            headers: {
-                'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
-            }
-        }).done(result => {
+        const subdomainTenancyNameFinder = new SubdomainTenancyNameFinder();
+        const tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(AppConfig.AppBaseUrl);
 
-            let subdomainTenancyNameFinder = new SubdomainTenancyNameFinder();
-            var tenancyName = subdomainTenancyNameFinder.getCurrentTenancyNameOrNull(result.appBaseUrl);
+        AppConsts.appBaseUrlFormat = AppConfig.AppBaseUrl;
+        AppConsts.userCenterUrl = AppConfig.UserCenterUrl;
+        AppConsts.businessCenterUrl = AppConfig.BusinessCenterUrl;
+        AppConsts.remoteServiceBaseUrlFormat = AppConfig.RemoteServiceBaseUrl;
 
-            AppConsts.appBaseUrlFormat = result.appBaseUrl;
-            AppConsts.remoteServiceBaseUrlFormat = result.remoteServiceBaseUrl;
-            
-            if (tenancyName == null) {
-                AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + ".", "");
-                AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + ".", "");
-            } else {
-                AppConsts.appBaseUrl = result.appBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
-                AppConsts.remoteServiceBaseUrl = result.remoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
-            }
+        if (tenancyName == null) {
+            AppConsts.appBaseUrl = AppConfig.AppBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
+            AppConsts.remoteServiceBaseUrl = AppConfig.RemoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl + '.', '');
+        } else {
+            AppConsts.appBaseUrl = AppConfig.AppBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
+            AppConsts.remoteServiceBaseUrl = AppConfig.RemoteServiceBaseUrl.replace(AppConsts.tenancyNamePlaceHolderInUrl, tenancyName);
+        }
 
-            callback();
-        });
+        callback();
     }
 
     private static getCurrentClockProvider(currentProviderName: string): abp.timing.IClockProvider {
-        if (currentProviderName === "unspecifiedClockProvider") {
+        if (currentProviderName === 'unspecifiedClockProvider') {
             return abp.timing.unspecifiedClockProvider;
         }
 
-        if (currentProviderName === "utcClockProvider") {
+        if (currentProviderName === 'utcClockProvider') {
             return abp.timing.utcClockProvider;
         }
 
@@ -68,17 +70,17 @@ export class AppPreBootstrap {
     }
 
     private static impersonatedAuthenticate(impersonationToken: string, tenantId: number, callback: () => void): JQueryPromise<any> {
-        abp.multiTenancy.setTenantIdCookie(tenantId);
-
+        this.cookiesService.setTenantIdCookie(tenantId);
+        const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
         return abp.ajax({
             url: AppConsts.remoteServiceBaseUrl + '/api/TokenAuth/ImpersonatedAuthenticate?impersonationToken=' + impersonationToken,
             method: 'POST',
             headers: {
-                'Accept-Language': abp.utils.getCookieValue("Abp.Localization.CultureName"),
+                '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
-            abp.auth.setToken(result.accessToken);
+            this.cookiesService.setToken(result.accessToken);
             AppPreBootstrap.setEncryptedTokenCookie(result.encryptedAccessToken);
             location.search = '';
             callback();
@@ -86,17 +88,17 @@ export class AppPreBootstrap {
     }
 
     private static linkedAccountAuthenticate(switchAccountToken: string, tenantId: number, callback: () => void): JQueryPromise<any> {
-        abp.multiTenancy.setTenantIdCookie(tenantId);
-
+        this.cookiesService.setTenantIdCookie(tenantId);
+        const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
         return abp.ajax({
             url: AppConsts.remoteServiceBaseUrl + '/api/TokenAuth/LinkedAccountAuthenticate?switchAccountToken=' + switchAccountToken,
             method: 'POST',
             headers: {
-                'Accept-Language': abp.utils.getCookieValue("Abp.Localization.CultureName"),
+                '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
-            abp.auth.setToken(result.accessToken);
+            this.cookiesService.setToken(result.accessToken);
             AppPreBootstrap.setEncryptedTokenCookie(result.encryptedAccessToken);
             location.search = '';
             callback();
@@ -104,23 +106,31 @@ export class AppPreBootstrap {
     }
 
     private static getUserConfiguration(callback: () => void): JQueryPromise<any> {
+        const cookieLangValue = abp.utils.getCookieValue('Abp.Localization.CultureName');
+        const data = {
+            sourcename: AppConsts.localization.defaultLocalizationSourceName
+        };
         return abp.ajax({
-            url: AppConsts.remoteServiceBaseUrl + '/AbpUserConfiguration/GetAll',
+            url: AppConsts.remoteServiceBaseUrl + '/api/UserConfiguration/GetAll',
             method: 'GET',
+            data: data,
             headers: {
                 Authorization: 'Bearer ' + abp.auth.getToken(),
-                'Accept-Language': abp.utils.getCookieValue("Abp.Localization.CultureName"),
+                'AspNetCoreCulture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue), // 处理nginx转发header丢失问题
+                '.AspNetCore.Culture': ('c=' + cookieLangValue + '|uic=' + cookieLangValue),
                 'Abp.TenantId': abp.multiTenancy.getTenantIdCookie()
             }
         }).done(result => {
+            GetCurrentFeatures.AllFeatures = result.features.allFeatures;
             $.extend(true, abp, result);
 
             abp.clock.provider = this.getCurrentClockProvider(result.clock.provider);
 
             moment.locale(abp.localization.currentLanguage.name);
-
+            (window as any).moment.locale(abp.localization.currentLanguage.name);
             if (abp.clock.provider.supportsMultipleTimezone) {
                 moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
+                // (window as any).moment.tz.setDefault(abp.timing.timeZoneInfo.iana.timeZoneId);
             }
             abp.event.trigger('abp.dynamicScriptsInitialized');
 
@@ -129,9 +139,9 @@ export class AppPreBootstrap {
     }
 
     private static setEncryptedTokenCookie(encryptedToken: string) {
-        new UtilsService().setCookieValue(AppConsts.authorization.encrptedAuthTokenName,
+        new CookiesService().setCookieValue(AppConsts.authorization.encrptedAuthTokenName,
             encryptedToken,
-            new Date(new Date().getTime() + 365 * 86400000), //1 year
+            new Date(new Date().getTime() + 365 * 86400000), // 1 year
             abp.appPath
         );
     }

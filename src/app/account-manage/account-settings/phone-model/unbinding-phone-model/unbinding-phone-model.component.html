@@ -1,0 +1,35 @@
+<div class="modal fade" bsModal #unbindingPhoneModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form #currentPhoneFrom="ngForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="xiaoyuyue-title-box">{{ l('Security.RevisePhone') }}</div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{ l('Security.Filed.OldPhoneNum') }}</label>
+                                <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 validate-code-wrap">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="text" name="newPassword" [(ngModel)]="code" required>
+                                <label class="control-label">{{ l('VerifyCodeField') }}</label>
+                                <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="phoneNum"></xiaoyuyue-send-code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn primary-bgcolor" (click)="unbindingPhone()" [disabled]="!currentPhoneFrom.form.valid">{{ l('Confirm') }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<xiaoyuyue-binding-phone-model #bindingPhoneModel></xiaoyuyue-binding-phone-model>

@@ -6,6 +6,7 @@ dist/
 
 # dependencies
 node_modules/
+node_modules.bak/
 /.vscode
 /bower_components
 
@@ -27,6 +28,7 @@ npm-debug.log.*
 /coverage/*
 /libpeerconnection.log
 npm-debug.log
+yarn-error.log
 testem.log
 /typings
 
@@ -48,3 +50,4 @@ aspnet-core/test/JMeter/AspNetZeroDotNetCoreSimpleTest.jmx
 /aspnet-core/build/outputs
 
 chromeDummyDir/*
+/yarn.lock

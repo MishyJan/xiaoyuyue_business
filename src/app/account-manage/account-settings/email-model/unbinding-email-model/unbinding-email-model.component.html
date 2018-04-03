@@ -1,0 +1,35 @@
+<div class="modal fade" bsModal #unbindingEmailModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form #currentEmailFrom="ngForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="xiaoyuyue-title-box">{{ l('Security.ReviseEmail') }}</div>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{ l('Security.Filed.OldEmailAddress') }}</label>
+                                <span class="form-control" appStringEncrypt>{{ sessionService.user.emailAddress }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 validate-code-wrap">
+                            <div class="form-group label-floating">
+                                <input class="form-control edited" type="text" name="code" [(ngModel)]="code" required>
+                                <label class="control-label">{{ l('VerifyCodeField') }}</label>
+                                <xiaoyuyue-send-code [codeType]="codeType" [sendCodeType]="sendCodeType" [emailAddress]="sessionService.user.emailAddress"></xiaoyuyue-send-code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn primary-bgcolor" (click)="unbindingEmail()" [disabled]="!currentEmailFrom.form.valid">{{ l('Confirm') }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<xiaoyuyue-binding-email-model #bindingEmailModel></xiaoyuyue-binding-email-model>

@@ -1,0 +1,74 @@
+<div class="email-wrap">
+    <!-- 解绑邮箱  -->
+        <div class="current-email-wrap" *ngIf="sessionService.user.emailAddress">
+            <div [@routerTransition]>
+                <form #currentEmailAddressFrom="ngForm">
+                    <div class="card">
+                        <div class="card-header card-header-text" data-background-color="orange">
+                            <span class="title-icon vapps-icon-app-email"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group label-floating" [class.is-empty]="!sessionService.user.emailAddress">
+                                    <label class="control-label">{{l('Security.Filed.OldEmailAddress')}}</label>
+                                    <span class="form-control" appStringEncrypt>{{ sessionService.user.emailAddress }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">{{l('VerifyCode')}}</label>
+                                    <input type="text" class="form-control" name="validateCode" [(ngModel)]="code" required>
+                                    <xiaoyuyue-send-code [codeType]="unbindingEmailCodeType" [sendCodeType]="sendCodeType" [emailAddress]="sessionService.user.emailAddress"></xiaoyuyue-send-code>
+    
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-block btn-warning" type="submit" (click)="unBindEmailAddress()" [disabled]="!currentEmailAddressFrom.form.valid">解绑</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+        <!-- 绑定邮箱 -->
+        <div class="new-email-wrap" *ngIf="!sessionService.user.emailAddress">
+            <form #newEmailAddressFrom="ngForm">
+                <div class="card">
+                    <div class="card-header card-header-text" data-background-color="orange">
+                        <span class="title-icon vapps-icon-app-email"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{l('Security.Filed.EmailAddress')}}</label>
+                                <input type="text" class="form-control" name="beforeEmail" [(ngModel)]="bindingEmailInput.emailAddress" required>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group label-floating">
+                                <label class="control-label">{{l('VerifyCode')}}</label>
+                                <input type="text" class="form-control" name="validateCode" [(ngModel)]="bindingEmailInput.code" required>
+                                <xiaoyuyue-send-code [codeType]="bindingEmailCodeType" [sendCodeType]="sendCodeType" [emailAddress]="bindingEmailInput.emailAddress"></xiaoyuyue-send-code>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-block btn-warning" type="submit" (click)="bindEmailAddress()" [disabled]="!newEmailAddressFrom.form.valid">{{l('Binding')}}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    

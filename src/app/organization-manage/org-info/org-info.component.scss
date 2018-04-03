@@ -1,0 +1,136 @@
+/* 移动端样式 */
+
+.user-profile {
+    width: 100%;
+    max-width: 480px;
+    .rotating {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+        .front {
+            .org-desc-wrap {
+                padding-top: 10px;
+                .w-e-text {
+                    padding: 0px 6px;
+                    p {
+                        margin: 4px 0;
+                    }
+                }
+            }
+        }
+        .back {
+            margin-top: 10px;
+            .org-desc-wrap {
+                max-height: 240px;
+                overflow-y: auto;
+                border-bottom: 2px #FF9641 solid;
+                padding: 4px 0;
+                p {
+                    margin: 0;
+                }
+            }
+        }
+        .w-e-toolbar {
+            display: none;
+        }
+        .wangedit-container {
+            border-top: 1px solid #ccc;
+        }
+    }
+    .avatar-wrap {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        top: -40px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px 5px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        font-size: 44px;
+        font-weight: 100;
+        background-color: #E5E5E5;
+        margin: 0 auto;
+        #orgLogoUploadAreaWrap {
+            position: relative;
+            z-index: 100;
+        }
+        .upload-tips {
+            height: 100%;
+        }
+        .img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #e5e5e5;
+            background-size: cover;
+            background-position: center;
+        }
+        .bg-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.51);
+            z-index: 1;
+        }
+        >.vapps-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #FFF;
+        }
+    }
+    .org-bg-wrap {
+        .img-wrap {
+            position: relative;
+            .img {
+                width: 100%;
+                height: 200px;
+                background-size: cover;
+                background-position: center;
+            }
+            .bg-cover {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.51);
+                z-index: 1;
+            }
+            .upload-tips {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                z-index: 100;
+                .vapps-icon {
+                    width: 70px;
+                    height: 70px;
+                    line-height: 70px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    color: #CCC;
+                    border: 1px dashed #CCC;
+                    text-align: center;
+                    font-size: 24px;
+                }
+                .text {
+                    margin-top: 10px;
+                    color: #CCC;
+                }
+            }
+        }
+    }
+    .op-btn {
+        margin-top: 10px;
+    }
+    .org-info-title {
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,553 @@
+﻿// 公共样式
+.margin-center {
+    margin: 0 auto;
+}
+
+.primary-bgcolor {
+    background-color: #ff9742!important;
+}
+
+.light-bgcolor {
+    background-color: #FFF!important;
+}
+
+.primary-color {
+    color: #FF9641;
+}
+
+.common-container {
+    padding: 20px;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.no-lr-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.no-left-padding {
+    padding-left: 0 !important;
+}
+
+.no-right-padding {
+    padding-right: 0 !important;
+}
+
+.no-top-margin {
+    margin-top: 0 !important;
+}
+
+.padding-left-46 {
+    padding-left: 46px !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.justify-center {
+    justify-content:center;
+}
+
+.box-shadow {
+    // box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .14);
+}
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.disabled-style {
+    filter: grayscale(100%);
+}
+
+.border-radius-14 {
+    border-radius: 14px;
+}
+
+.rotate-180 {
+    display: inline-block;
+    transform: rotate(180deg);
+}
+
+.rotate-360 {
+    display: inline-block;
+    transform: rotate(360deg);
+}
+
+.btn {
+    color: #fff;
+}
+
+.btn-cancel {
+    background-color: #808080!important;
+}
+
+.btn-view {
+    background-color: #ff7241;
+}
+
+.btn-border-radius {
+    height: 34px;
+    color: #ff9641;
+    border: 1px solid #ff9641;
+    text-align: center;
+    background-color: transparent;
+    outline: none;
+    border-radius: 4px;
+}
+
+.vapps-icon {
+    margin-right: 10px;
+}
+
+.paddingTop-32 {
+    padding-top: 32px;
+}
+
+.xiaoyuyue-title-box {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    color: #fff;
+    background-color: #ff9742;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.18);
+    transform: translate(-50%, -50%);
+    transition: all .15s cubic-bezier(0.34, 1.61, 0.7, 1);
+}
+
+.vapps-icon-app-edit {
+    cursor: pointer;
+}
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.get-sms-btn {
+    position: absolute;
+    top: -12px;
+    right: 0;
+    .btn {
+        background-color: #ff9742 !important;
+    }
+}
+
+
+/* General */
+
+.clickable-item {
+    cursor: pointer;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+
+/* Portlet */
+
+.portlet.light>.portlet-title .inputs.inputs-full-width {
+    display: block;
+    float: none;
+}
+
+
+/* Tree */
+
+.tree-item-icon-color {
+    color: #dfba49;
+}
+
+//Fix for font-awesome usage on menu (issue #17)
+.page-sidebar .page-sidebar-menu>li>a>i.fa,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a>i.fa {
+    margin-left: 1px;
+    margin-right: 4px;
+    top: 3px;
+}
+
+
+/* Forms */
+
+.form-group.form-md-line-input.no-hint {
+    margin-bottom: 15px;
+}
+
+.form-group.form-md-line-input.has-error .form-control {
+    border-bottom-color: red;
+}
+
+.form-group.form-md-line-input.has-error .help-block-info {
+    display: none;
+}
+
+
+/* DateRangePicker */
+
+.daterangepicker_input {
+    .input-mini {
+        width: 120px !important;
+    }
+}
+
+
+/* Portlets */
+
+.portlet.light>.portlet-title.portlet-title-filter {
+    border: none;
+    margin-bottom: 0;
+}
+
+
+/* Buttons */
+
+button {
+    i {
+        margin-right: 5px;
+    }
+    i.empty-ico {
+        margin-right: 0px;
+    }
+}
+
+.btn+.btn {
+    margin-left: 5px;
+}
+
+
+/* FamFamFam Flags */
+
+.famfamfam-flags {
+    display: inline-block;
+}
+
+
+/* Social Login Icons */
+
+.social-icons li .microsoft {
+    background: url(../../assets/common/images/social/microsoft.png) no-repeat;
+}
+
+
+/* Social Login Icons */
+
+.social-icons li .wechat {
+    border-radius: 8px;
+    background: url(../../assets/common/images/social/wechat.png) no-repeat;
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0 !important;
+}
+
+
+/* Material Design form input angular validation colors */
+
+.form-group.form-md-line-input .form-control.ng-touched.ng-invalid {
+    border-bottom-color: red;
+}
+
+.form-group.form-md-line-input .form-control.ng-touched.ng-invalid.edited:not([readonly])~label:after {
+    background-color: red;
+}
+
+.form-group .login-input .form-control.ng-touched.ng-invalid~i:before {
+    color: red;
+}
+
+.form-group .login-input .form-control:focus.ng-touched.ng-invalid~i:before {
+    color: #36c6d3;
+}
+
+.md-shadow-zero-light {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.18) !important;
+}
+
+
+/* even in RTL languages below types are LTR */
+
+.input-ltr,
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="tel"] {
+    direction: ltr;
+}
+
+.form-group.form-md-line-input .form-control.edited:not([readonly]):not(:focus)~.help-block {
+    opacity: 1;
+}
+
+.btn:hover,
+.btn:focus,
+.btn.focus {
+    background-image: none;
+}
+
+
+/* Make user menu wider */
+
+// .page-header.navbar .top-menu .navbar-nav > li.dropdown-dark .dropdown-menu {
+//     width: 250px;
+// }
+
+/* Fix for issue #407 */
+
+br {
+    font-family: Verdana;
+}
+
+.filter-action {
+    min-width: 135px;
+    background-color: #ff9742;
+}
+
+.k-link.k-state-selected {
+    color: #FFFFFF;
+    background-color: #3598dc;
+    border-color: #3598dc;
+}
+
+.k-pager-wrap .k-state-selected:hover {
+    background-color: #337ab7;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.26);
+    cursor: pointer;
+}
+
+.k-pager-numbers .k-link,
+.k-pager-numbers .k-link:link {
+    color: #656565;
+}
+
+.k-icon {
+    color: #FF9641;
+}
+
+.k-list-optionlabel.k-state-selected:hover,
+.k-list-optionlabel.k-state-selected {
+    background-color: #FF9641;
+}
+
+
+/* Change the white to any color ;) */
+
+// btn:hover时显示多个按钮
+.vapps-to-toggle {
+    position: relative;
+    overflow: visible!important;
+    .vapps-fixed {
+        width: 170px;
+        position: absolute;
+        left: 40px;
+        top: 50%;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-50%);
+        transition: opacity .4s, left .2s;
+    }
+}
+
+.vapps-to-toggle:hover .vapps-fixed {
+    left: 60px;
+    opacity: 1;
+    visibility: visible;
+}
+
+// app启动动画
+.app-loading-busy-wrap {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    background-color: #FFF;
+    cursor: wait;
+    img.logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -100%);
+    }
+    .effect-text-wrap {
+        width: 100%;
+        position: absolute;
+        bottom: 130px;
+        font-size: 16px;
+        color: #3C4858;
+        text-align: center;
+        letter-spacing: 8px;
+    }
+    .loading-wrap {
+        width: 100%;
+        position: absolute;
+        bottom: 60px; // loading动画
+        .spinner {
+            font-size: 20px;
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            margin: 0 auto;
+            text-align: left;
+            box-shadow: inset 0 0 0 .1em rgba(58, 168, 237, .2);
+            i {
+                position: absolute;
+                clip: rect(0, 2em, 2em, 1em);
+                width: 2em;
+                height: 2em;
+                animation: spinner-circle-clipper 1s ease-in-out infinite;
+                &::after {
+                    position: absolute;
+                    clip: rect(0, 2em, 2em, 1em);
+                    width: 2em;
+                    height: 2em;
+                    content: '';
+                    animation: spinner-circle 1s ease-in-out infinite;
+                    border-radius: 50%;
+                    box-shadow: inset 0 0 0 .1em #FF9641;
+                }
+            }
+        }
+    }
+}
+
+.swal-loading-spinner {
+    font-size: 40px;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    margin: 40px auto 0;
+    text-align: left;
+    box-shadow: inset 0 0 0 .1em rgba(58, 168, 237, .2);
+    i {
+        position: absolute;
+        clip: rect(0, 2em, 2em, 1em);
+        width: 2em;
+        height: 2em;
+        animation: spinner-circle-clipper 1s ease-in-out infinite;
+        &::after {
+            position: absolute;
+            clip: rect(0, 2em, 2em, 1em);
+            width: 2em;
+            height: 2em;
+            content: '';
+            animation: spinner-circle 1s ease-in-out infinite;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 .1em #FF9641;
+        }
+    }
+}
+
+@keyframes spinner-circle-clipper {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes spinner-circle {
+    0% {
+        transform: rotate(-180deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@media (max-width: 767px) {
+    .common-container {
+        padding: 10px;
+    }
+}
+
+@keyframes bounce {
+    from,
+    20%,
+    53%,
+    80%,
+    to {
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+        transform: translate3d(0, 0, 0);
+    }
+    40%,
+    43% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -10px, 0);
+    }
+    70% {
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+        transform: translate3d(0, -6px, 0);
+    }
+    90% {
+        transform: translate3d(0, -2px, 0);
+    }
+}
+
+@media screen and (max-width: 992px) {
+    html, body { 
+        overflow: hidden;
+     }
+}
+
+// bootstrap tabsettabset
+.tabset {
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, .6);
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .nav-tabs {
+        display: flex;
+        background-color: transparent;
+        .nav-item.active {
+            .nav-link {
+                color: #FFF!important;
+                background-color: #FF9641;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+        .nav-item {
+            flex: 1;
+            line-height: 50px;
+            text-align: center;
+            .nav-link {
+                display: inline-block;
+                width: 100%;
+                padding: 0;
+                color: #AAA!important;
+                font-size: 16px;
+                >span {
+                    display: block;
+                    line-height: 50px;
+                }
+            }
+        }
+    }
+}

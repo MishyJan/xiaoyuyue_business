@@ -1,0 +1,17 @@
+.confirm-order-wrap {
+    .modal-dialog {
+        margin: 40px auto;
+        .modal-content {
+            .modal-body {
+                padding: 0px;
+                img.avatar {
+                    border-radius: 100%;
+                    width: 26px;
+                }
+                .order-grid {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

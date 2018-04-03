@@ -1,0 +1,132 @@
+.custom-list {
+    .btn-wrap {
+        margin: 15px;
+    }
+    .avatar {
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    .btn.btn-primary {
+        background-color: #3598dc;
+    }
+    .btn.btn-success {
+        background-color: #e73d4a;
+    }
+    .btn.btn-danger {
+        background-color: #36c6d3;
+    }
+    .btn+.btn {
+        margin: 0;
+    }
+}
+
+.mobile-custom-list {
+    // 移动端样式
+    width: 100%;
+    .top-action-wrap {
+        display: flex;
+        .flex-right {
+            flex: 1;
+            .item {
+                width: 100%;
+                height: 34px;
+                line-height: 34px;
+                .select {
+                    width: 100%;
+                    display: inline-block;
+                    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+                    background-color: #FFF;
+                    white-space: nowrap;
+                    border-radius: 6px;
+                    overflow: hidden;
+                }
+            }
+            #bookingCustomerFlatpickr {
+                background-color: #FFF;
+                display: flex;
+                .input {
+                    width: 100%;
+                    flex: 1;
+                    border: 0;
+                    background: transparent;
+                    color: #000;
+                    cursor: pointer;
+                }
+                .icon {
+                    width: 14px;
+                    flex: 0 0 14px;
+                    margin-right: 14px;
+                    margin-top: 10px;
+                    &::before {
+                        color: #FF9641;
+                        background-color: #FFF;
+                    }
+                }
+            }
+        }
+        .flex-left {
+            // TODO: 应约人导出按钮，暂时隐藏
+            display: none;
+            width: 40px;
+            flex: 0 0 40px;
+        }
+    }
+    .scroll-wrapper {
+        width: 100%;
+        height: calc(100vh - 110px);
+        position: absolute;
+        top: 110px;
+        left: 0;
+        .scroll-content {
+            padding: 0 10px;
+            .card {
+                margin: 0;
+                .card-content {
+                    padding: 0px 20px;
+                    .content-item+.content-item {
+                        border-top: 1px solid #DADADA;
+                    }
+                    .content-item {
+                        .flex-item+.flex-item {
+                            border-top: 1px solid #DADADA;
+                        }
+                        .flex-item {
+                            display: flex;
+                            .flex-left {
+                                width: 58px;
+                                height: 58px;
+                                flex: 0 0 38px;
+                                margin-right: 20px;
+                                .avatar {
+                                    width: 38px;
+                                    height: 38px;
+                                    margin-top: 10px;
+                                    background-size: cover;
+                                    background-position: center;
+                                    border-radius: 100%;
+                                }
+                            }
+                            .flex-right {
+                                flex: 1;
+                                .info {
+                                    margin-top: 8px;
+                                    .name {
+                                        margin: 0;
+                                    }
+                                    .state {
+                                        margin: 0;
+                                        color: #B3B3B3;
+                                    }
+                                }
+                                .time-ago {
+                                    line-height: 58px;
+                                    color: #B3B3B3;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

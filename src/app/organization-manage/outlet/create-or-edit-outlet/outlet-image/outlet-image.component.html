@@ -1,0 +1,17 @@
+<div class="card-content" (click)="uploadPicModel()">
+    <div class="row">
+        <div class="gallery-wrap col-md-12">
+            <div class="img-wrap">
+                <ng-container *ngIf="pictureInfo.pictureUrl; else elseTemplate">
+                    <img alt="outletPicUrl" [src]="pictureInfo.pictureUrl" height="100%">
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <span class="add-img-icon vapps-icon-cb-add-img"></span>
+                    <p>{{ l('PlaceholderTips.UploadTenantImage') }}</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<xiaoyuyue-upload-picture-none-gallery #uploadPictureNoneGalleryModel [cropScaleX]="16" [cropScaleY]="9" (picUploadInfoHandler)="getPicUploadInfoHandler($event)"
+    [groupId]="groupId" [uploadUid]="uploadUid"></xiaoyuyue-upload-picture-none-gallery>

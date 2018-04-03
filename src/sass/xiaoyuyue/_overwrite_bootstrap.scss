@@ -1,0 +1,111 @@
+@import '_colors';
+.bootstrap-select .dropdown-toggle:focus {
+    outline: none !important;
+}
+
+
+/* Dropdown submenu support for Bootsrap 3 */
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 5px;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+}
+
+.dropdown-submenu>a:after {
+    position: absolute;
+    display: inline-block;
+    font-size: 14px;
+    right: 7px;
+    top: 7px;
+    font-family: FontAwesome;
+    height: auto;
+    content: "\f105";
+    font-weight: 300;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #ffffff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+}
+
+.dropup .dropdown-submenu>.dropdown-menu {
+    top: auto;
+    bottom: 0;
+    margin-top: 0;
+    margin-bottom: -2px;
+}
+
+.nav.pull-right>li>.dropdown-menu,
+.nav>li>.dropdown-menu.pull-right {
+    right: 0;
+    left: auto;
+}
+
+.nav.pull-right>li>.dropdown-menu:before,
+.nav>li>.dropdown-menu.pull-right:before {
+    right: 12px;
+    left: auto;
+}
+
+.nav.pull-right>li>.dropdown-menu:after,
+.nav>li>.dropdown-menu.pull-right:after {
+    right: 13px;
+    left: auto;
+}
+
+.nav.pull-right>li>.dropdown-menu .dropdown-menu,
+.nav>li>.dropdown-menu.pull-right .dropdown-menu {
+    right: 100%;
+    left: auto;
+    margin-right: -1px;
+    margin-left: 0;
+}
+
+.form-control[disabled],
+fieldset[disabled] .form-control,
+.form-group .form-control[disabled],
+fieldset[disabled] .form-group .form-control {
+    border-bottom: 1px solid #D2D2D2;
+}
+
+.empty-wrap {
+    /* margin-top: 40px; */
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
+
+.hidden {
+    display: none;
+}
+
+.modal .modal-dialog {
+    margin-top: 160px;
+}
+
+.modal-backdrop {
+    background: rgba(0, 0, 0, 0.8)
+}
+
+.modal-open {
+    overflow-y: auto;
+}

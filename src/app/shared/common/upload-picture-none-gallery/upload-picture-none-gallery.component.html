@@ -1,0 +1,50 @@
+<div class="upload-picture">
+    <div bsModal #uploadPictureNoneGalleryModel="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadPictureModel" aria-hidden="true" (onHidden)="onBSHide()">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header flex-item">
+                    <h4 class="modal-title left-item">
+                        <span class="col-md-12 title-item local-upload">{{l("PictureGallery.LocalUpload")}}</span>
+                    </h4>
+                    <div class="clearfix close-wrap right-item">
+                        <span [title]="l('Close')" class="vapps-icon-app-close" (click)="close()"></span>
+                    </div>
+                </div>
+
+                <div class="modal-body row">
+                    <div class="col-lg-8 col-md-8" [id]="'dropArea'+uploadUid">
+                        <div class="upload-area-wrap" [id]="'uploadAreaWrap'+uploadUid">
+                            <div class="img-area"><img [id]="'profilePicture'+uploadUid"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="upload-tips-wrap">
+                            <div class="tips-item">
+                                <span class="char"><span class="vapps-icon-app-tip tip-icon"></span></span>
+                                <span class="content">{{ l('Reminder') }}</span>
+                            </div>
+                            <div class="tips-item">
+                                <span class="char">1、</span>
+                                <span class="content">{{ l('PictureGallery.ImageFormat.Hint') }}</span>
+                            </div>
+                            <div class="tips-item">
+                                <span class="char">2、</span>
+                                <span class="content">{{ l('PictureGallery.ImageWatermark.Hint') }}</span>
+                            </div>
+                            <div class="tips-item">
+                                <span class="char">3、</span>
+                                <span class="content">{{ l('PictureGallery.LegalEffect.Hint') }}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary-bgcolor" [id]="'uploadArea'+uploadUid"><span class="vapps-icon vapps-icon-app-add-time-field"></span>{{ l('PictureGallery.SelectFile') }}</button>
+                    <button type="submit" class="btn primary-bgcolor" [disabled]="!addedFile" [id]="'confirmUpload'+uploadUid" [buttonBusy]="loading" [busyText]="l('PictureGallery.LocalUploading')"><i class="vapps-icon vapps-icon-app-confirm"></i><span>{{ l('ConfirmUpload') }}</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

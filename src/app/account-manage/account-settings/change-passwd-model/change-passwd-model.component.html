@@ -1,0 +1,123 @@
+<div class="modal fade" bsModal #changePasswdModel="bs-modal" tabindex="-1" role="dialog" aria-labelledby="changePasswdModel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="xiaoyuyue-title-box">
+                    <div class="flex-item" (click)="changePasswdModeHandler(true)">
+                        <span class="text active" [ngClass]="{'active': changePasswdMode}">{{ l('Security.ChangePasswd.ByOldPasswd') }}</span>
+                    </div>
+                    <div class="flex-item" (click)="changePasswdModeHandler(false)">
+                        <span class="text" [ngClass]="{'active': !changePasswdMode}">{{ l('Security.ChangePasswd.ByPhone') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="changePasswdMode" [@routerTransition]>
+                <form #changePasswordModalForm="ngForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group label-floating">
+                                    <input class="form-control edited" type="password" name="currentPassword" [(ngModel)]="input.currentPassword" #CurrentPassword="ngModel"
+                                        required>
+                                    <label class="control-label">{{ l('Security.Filed.OldPasswd') }}</label>
+                                </div>
+                                <div *ngIf="CurrentPassword.invalid && (CurrentPassword.dirty || CurrentPassword.touched)">
+                                    <small class="text-danger" *ngIf="PasswordRepeat.errors.required">{{ l('Security.Tips.OldPasswd') }}</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group label-floating">
+                                    <input class="form-control edited" type="password" name="Password" [(ngModel)]="input.newPassword" #Password="ngModel" validateEqual="PasswordRepeat"
+                                        reverse="true" [requireDigit]="passwordComplexitySetting.requireDigit" [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                                        [requireUppercase]="passwordComplexitySetting.requireUppercase" [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric"
+                                        [requiredLength]="passwordComplexitySetting.requiredLength" required>
+                                    <label class="control-label">{{ l('Security.Filed.NewPasswd') }}</label>
+                                </div>
+                                <div [hidden]="changePasswordModalForm.form.valid || changePasswordModalForm.form.pristine">
+                                    <ul class="help-block text-danger" *ngIf="Password.errors">
+                                        <li [hidden]="!Password.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                        <li [hidden]="!Password.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group label-floating">
+                                    <input class="form-control edited" type="password" name="PasswordRepeat" [(ngModel)]="input.repeatPasswd" #PasswordRepeat="ngModel"
+                                        validateEqual="Password" reverse="false" [requireDigit]="passwordComplexitySetting.requireDigit"
+                                        [requireLowercase]="passwordComplexitySetting.requireLowercase" [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                                        [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                        required>
+                                    <label class="control-label">{{ l('Security.Filed.ComfirmPasswd') }}</label>
+                                </div>
+                                <div [hidden]="changePasswordModalForm.form.valid || changePasswordModalForm.form.pristine">
+                                    <ul class="help-block text-danger" *ngIf="PasswordRepeat.errors">
+                                        <li [hidden]="!PasswordRepeat.errors.requireDigit">{{l("PasswordComplexity_RequireDigit_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requireLowercase">{{l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requireUppercase">{{l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requireNonAlphanumeric">{{l("PasswordComplexity_RequireNonAlphanumeric_Hint")}}</li>
+                                        <li [hidden]="!PasswordRepeat.errors.requiredLength">{{l("PasswordComplexity_RequiredLength_Hint", passwordComplexitySetting.requiredLength)}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn primary-bgcolor" (click)="changePasswd()" [disabled]="!changePasswordModalForm.form.valid">{{ l('Confirm') }}</button>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="!changePasswdMode" [@routerTransition]>
+                <form #changePwFrom="ngForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">{{ l('PhoneNumField') }}</label>
+                                    <span class="form-control" appStringEncrypt>{{ phoneNum }}</span>
+                                    <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 validate-code-wrap">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">{{ l('VerifyCodeField') }}</label>
+                                    <input type="number" class="form-control" name="repeatPasswd" [(ngModel)]="byPhoneInput.code">
+                                    <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                    <xiaoyuyue-send-code [codeType]="codeType" [phoneNumber]="phoneNum"></xiaoyuyue-send-code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group label-floating">
+                                    <label class="control-label">{{ l('Security.Filed.NewPasswd') }}</label>
+                                    <input type="password" class="form-control" name="repeatPasswd" [(ngModel)]="byPhoneInput.newPassword">
+                                    <!-- <span class="help-block">A block of help text that breaks onto a new line.</span> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- <div class="col-xs-6">
+                                <button class="btn btn-block btn-danger" type="button" (click)="cancel()">取消</button>
+                            </div> -->
+                            <div class="col-xs-12">
+                                <button class="btn btn-block btn-warning" type="submit" [disabled]="!changePwFrom.form.valid" (click)="phoneChangeHandler()">{{ l('Confirm') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

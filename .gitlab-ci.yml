@@ -3,6 +3,7 @@ stages:
   # - test
   # - build
   # - deploy_test
+  # - build_and_deploy_develop
   - build_and_deploy_test
   # - deploy_production
 
@@ -11,7 +12,6 @@ cache:
   untracked: true
   paths:
     - node_modules/
-    - dist/
 
 # 安装依赖
 # install_deps:
@@ -61,15 +61,34 @@ cache:
 #     - bash scripts/deploy/deploy.sh
 
 # 编译和部署(缓存node_modules IO很慢，写在一起提高速度)
+# build_and_deploy_develop:
+#   stage: build_and_deploy_develop
+#   only:
+#     - develop
+#   script:
+#     - yarn install
+#     - ng build --prod --aot
+#     - Stop-WebAppPool xiaoyuyue_business_center
+#     - Do{echo "waiting stop the iis process...";Start-Sleep -Seconds 1; $WAP=Get-WebAppPoolState -Name xiaoyuyue_business_center}While($WAP.Value -ne 'Stopped')
+#     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件
+#     - rm D:\wwwroot\xiaoyuyue_business_center\* -r # 清空目标目录
+#     - copy 'dist\*' -Destination 'D:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
+#     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程
+#   tags:
+#     - deloy_xiaoyuyue_business_center_23
+
 build_and_deploy_test:
   stage: build_and_deploy_test
   only:
-    - develop
+    - test
   script:
-    - npm install
-    - ng build
-    - Stop-WebAppPool 'xiaoyuyue_business_center' # 停止iis进程
+    - yarn install
+    - ng build --prod --aot
+    - Stop-WebAppPool xiaoyuyue_business_center
+    - Do{echo "waiting stop the iis process...";Start-Sleep -Seconds 1; $WAP=Get-WebAppPoolState -Name xiaoyuyue_business_center}While($WAP.Value -ne 'Stopped')
     - copy 'web.config' -Destination 'dist\' -Force #复制iis 配置文件
+    - rm D:\wwwroot\xiaoyuyue_business_center\* -r # 清空目标目录
     - copy 'dist\*' -Destination 'D:\wwwroot\xiaoyuyue_business_center' -Force -Recurse # 复制文件到iis目录
-    - Start-Sleep -Seconds 3
     - Start-WebAppPool 'xiaoyuyue_business_center' # 启动iis进程
+  tags:
+    - deploy_xiaoyuyue_business_center_113

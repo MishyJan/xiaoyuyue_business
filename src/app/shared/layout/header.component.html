@@ -1,0 +1,93 @@
+<div class="page-header navbar navbar-fixed-top md-shadow-zero-light" *hideItBootstrap="['xs','sm']">
+    <div class="page-header-inner">
+        <div class="page-logo" title="{{l('BusinessCenter')}}">
+            <a routerLink="/" target="_blank" class="logo-wrap">
+                <span class="vapps-icon-app-logo logo"></span>
+                <span class="vapps-icon-app-logo-text logo"></span>
+            </a>
+            <div class="menu-toggler sidebar-toggler"></div>
+        </div>
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"></a>
+        <div class="page-top clearfix">
+            <button class="create-bespeak btn" [disabled]="!canLimitCreateBooking" *ngIf="isGranted(permissions.bookingManage_BookingCreate)" routerLink="/booking/create">
+                <span class="vapps-icon-cb-menu"></span>
+                <span class="text">{{l('Booking.Create')}}</span>
+            </button>
+            <div class="top-menu">
+                <div class="pull-left" style="line-height: 78px;">
+                    <languageSwitch></languageSwitch>
+                </div>
+                <ul class="nav navbar-nav pull-right">
+                    <!-- <li headerNotifications class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar"></li> -->
+                    <li class="separator hide"> </li>
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <span class="username username-hide-on-mobile">
+                                <i *ngIf="isImpersonatedLogin" class="icon-action-undo font-red-sunglo"></i>
+                                {{shownLoginName}}
+                            </span>
+                            <img *ngIf="profilePicture" id="HeaderProfilePicture" alt="avatar" width="40px" class="img-circle" [src]="profilePicture"
+                            />
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default clearfix">
+                            <li class="item" routerLink="/organization/info">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-profile"></span>
+                                    <div>{{l('Menu.Account.BaseInfo')}}</div>
+                                </div>
+                            </li>
+                            <!-- <li class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-auth"></span>
+                                    <div>实名认证</div>
+                                </div>
+                            </li> -->
+                            <li class="item" routerLink="/account/settings">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-security"></span>
+                                    <div>{{l('Menu.Security')}}</div>
+                                </div>
+                            </li>
+                            <li class="item" routerLink="/feedback">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-feedback"></span>
+                                    <div>{{l('Menu.Account.Feedback')}}</div>
+                                </div>
+                            </li>
+                            <!-- <li class="item">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-center"></span>
+                                    <div>会员中心</div>
+                                </div>
+                            </li> -->
+                            <li class="item" (click)="logout()">
+                                <div class="content">
+                                    <span class="icon vapps-icon-app-user-logout"></span>
+                                    <div>{{l('Menu.Account.Logout')}}</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown dropdown-extended quick-sidebar-toggler" *ngIf="chatEnabled && chatConnected">
+                        <span class="sr-only">Toggle Quick Sidebar</span>
+                        <i class="icon-speech"></i>
+                        <span id="UnreadChatMessageCount" class="badge badge-danger" [ngClass]="{'hidden': !unreadChatMessageCount}">{{unreadChatMessageCount}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- <loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
+        <changePasswordModal #changePasswordModal></changePasswordModal>
+        <changeProfilePictureModal #changeProfilePictureModal></changeProfilePictureModal>
+        <mySettingsModal #mySettingsModal (modalSave)="onMySettingsModalSaved()"></mySettingsModal>
+        <notificationSettingsModal #notificationSettingsModal></notificationSettingsModal> -->
+    </div>
+</div>
+
+<div id="fixed-header" [hidden]="iswxjsEnvironment">
+    <div class="top-title clearfix mobile-header" *showItBootstrap="['xs','sm']">
+        <a href="javascript:;" class="vapps-icon-app-back-left back-icon flex-item" (click)="back()"></a>
+        <span class="title-text flex-item" [mobileheader]="title" id="headerTitle">{{ title }}</span>
+        <a href="javascript:;" class="vapps-icon-app-menu menu-icon flex-item" (click)="showSidebar()"></a>
+    </div>
+</div>

@@ -1,0 +1,153 @@
+.margin-top-14 {
+    margin-top: 14px;
+}
+
+.create-booking {
+    position: relative;
+    .page-head {
+        .back-btn {
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            display: inline-block;
+            border-radius: 26px;
+            color: #FFF;
+            background-color: #FF9641;
+            overflow: hidden;
+            transition: width .3s;
+            cursor: pointer;
+            vertical-align: middle;
+            .text {
+                color: #FFF;
+                padding-right: 8px;
+            }
+            .vapps-icon-app-back {
+                font-size: 26px;
+                vertical-align: middle;
+            }
+        }
+        .back-btn:hover {
+            width: 68px;
+        }
+    }
+    .base-info {
+        .card-content {
+            .choose-contact-row {
+                .input-box {
+                    padding-left: 2px;
+                    padding-right: 2px;
+                }
+            }
+        }
+    }
+}
+
+// 小屏幕样式
+.mobile-create-booking {
+    .mobild-content {
+        width: 100%;
+        height: calc(100vh - 105px);
+        position: absolute;
+        top: 55px;
+        left: 0;
+        bottom: 50px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-top: 10px !important; // 移动端不显示富文本编辑器头部
+        .card {
+            margin-bottom: 0;
+        }
+        .w-e-toolbar {
+            display: none;
+        }
+        .w-e-text-container {
+            border: 1px solid #ccc !important;
+        }
+        .view-btn.btn:not(.md-skip):not(.bs-select-all):not(.bs-deselect-all) {
+            line-height: 40px;
+            font-size: 15px;
+        }
+        .pic-upload-title {
+            margin-top: 20px;
+        }
+        .time-create {
+            .add-time-btn {
+                position: fixed;
+                right: 10px;
+                bottom: 60px;
+                z-index: 1000;
+                .icon {
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    text-align: center;
+                    display: inline-block;
+                    border-radius: 50%;
+                    background-color: #FF9641;
+                    color: #FFF;
+                    font-size: 18px;
+                }
+            }
+            .create-time-pannel {
+                .flatpickr-wrap,
+                .time-point-wrap {
+                    position: relative;
+                    .flatpickr-toggle,
+                    .add-time-point {
+                        position: absolute;
+                        top: 50%;
+                        right: 10px;
+                        transform: translateY(-50%);
+                    }
+                }
+            }
+            .time-view-wrap {
+                .time-item {
+                    .booking-time {
+                        line-height: 40px;
+                        color: #FFF;
+                        text-align: center;
+                        background-color: #FF9641;
+                        border-radius: 4px;
+                        margin-bottom: 10px;
+                    }
+                    .command-wrap {
+                        text-align: center;
+                        margin-top: 20px;
+                        .command-item+.command-item {
+                            border-left: 1px solid #CCC;
+                        }
+                        .command-item {
+                            // border: none !important;
+                            // background-color: transparent !important;
+                            .icon {
+                                display: inline-block;
+                                color: #FFF;
+                                transform: translateY(1px);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .customer-info-wrap {
+            padding-bottom: 24px;
+            .title-wrap {
+                border-bottom: 1px solid #CCC;
+            }
+        }
+    }
+    .next-step {
+        width: 100%;
+        height: 50px;
+        position: relative;
+        top: calc(100vh - 105px);
+        text-align: center;
+        background-color: #FF9641;
+        color: #FFF;
+        font-size: 15px !important;
+        margin: 0;
+        border-radius: 0 !important;
+        z-index: 100;
+    }
+}

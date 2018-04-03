@@ -1,0 +1,56 @@
+.succeed-wrap {
+    text-align: center;
+    padding: 20px;
+    .card-content {
+        .success-tip {
+            font-size: 24px;
+            margin: 0 0 20px;
+            color: #FF9641;
+        }
+        .finshed-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background-color: #FFF;
+            box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.1);
+            img {
+                margin-top: 18px;
+            }
+        }
+        .booked-footer {
+            position: relative;
+            .xiaoyuyue-tip+.xiaoyuyue-tip {
+                padding-top: 0;
+            }
+            .xiaoyuyue-tip {
+                padding: 10px 0;
+                margin: 0;
+                color: #999;
+                font-size: 15px;
+            }
+            .qr-code-wrap {
+                text-align: center;
+                img {
+                    width: 150px;
+                }
+            }
+            .btn-submit {
+                line-height: 36px;
+                border-radius: 26px;
+                font-size: 16px;
+                a {
+                    display: block;
+                    color: #FFF;
+                    letter-spacing: 2px;
+                }
+                &.btn-yellow {
+                    background-color: #FFCC33 !important;
+                }
+                &.btn-orange {
+                    background-color: #FF9641 !important;
+                }
+            }
+        }
+    }
+}
